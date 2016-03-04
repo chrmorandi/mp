@@ -76,7 +76,8 @@ class Participant extends \yii\db\ActiveRecord
           $mt = new MeetingTime;          
           $mt->addChoices($this->meeting_id,$this->participant_id);
           $mp = new MeetingPlace;          
-          $mp->addChoices($this->meeting_id,$this->participant_id);
+          $mp->addChoices($this->meeting_id,$this->participant_id);        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_INVITE_PARTICIPANT,$this->invited_by,$this->participant_id);
+          // above - add meeting log entry                            
         } 
     }
     

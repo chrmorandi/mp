@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "meeting_log".
@@ -96,7 +97,7 @@ class MeetingLog extends \yii\db\ActiveRecord
     }
 
     // add to log
-    public function add($meeting_id,$action,$actor_id,$item_id,$extra_id=0) {
+    public static function add($meeting_id,$action,$actor_id,$item_id,$extra_id=0) {
          $log = new MeetingLog;
          $log->meeting_id=$meeting_id;
          $log->action =$action;
@@ -105,6 +106,5 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->extra_id =$extra_id;
          $log->save();  
     }
-    
-
+  
 }

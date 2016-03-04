@@ -53,21 +53,21 @@ $this->title = 'Meeting Planner';
 
                 <p><?= Yii::t('frontend','Using Yii\'s built in localization capability we create the infrastructure for multiple languages') ?></p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-localization-with-i18n--cms-23102"><?= Yii::t('frontend','Episode 4 (coming soon)' ) ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-localization-with-i18n--cms-23102"><?= Yii::t('frontend','Episode 4' ) ?> &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2><?= Yii::t('frontend','Access Controls, Ownership &amp; Polish') ?> </h2>
 
                 <p><?= Yii::t('frontend','We circle back to polish some of what we\'ve built to date leveraging more of the Yii Framework.') ?> </p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-access-control-active-record-relations-and-slugs--cms-23109"><?= Yii::t('frontend','Episode 5 (coming soon)') ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-access-control-active-record-relations-and-slugs--cms-23109"><?= Yii::t('frontend','Episode 5') ?> &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2><?= Yii::t('frontend','User Settings, Profile Images &amp; Contact Details') ?></h2>
 
                 <p><?= Yii::t('frontend','Building support for infrastructure to support users.') ?> </p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-user-settings-profile-images-and-contact-details--cms-23196"><?= Yii::t('frontend','Episode 6 (coming soon)') ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-user-settings-profile-images-and-contact-details--cms-23196"><?= Yii::t('frontend','Episode 6') ?> &raquo;</a></p>
             </div>
         </div>
 
@@ -80,24 +80,49 @@ $this->title = 'Meeting Planner';
 
                 <p><?= Yii::t('frontend','Beginning to build the schedule meeting functionality.') ?></p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-a-meeting--cms-23252"><?= Yii::t('frontend','Episode 7 (coming soon)' ) ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-a-meeting--cms-23252"><?= Yii::t('frontend','Episode 7' ) ?> &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2><?= Yii::t('frontend','Scheduling Availability &amp; Choices') ?> </h2>
 
                 <p><?= Yii::t('frontend','Building AJAX to simplify meeting availability and selections.') ?> </p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-availability-and-choices--cms-23268"><?= Yii::t('frontend','Episode 8 (coming soon)') ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-availability-and-choices--cms-23268"><?= Yii::t('frontend','Episode 8') ?> &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2><?= Yii::t('frontend','Delivering the Meeting Announcement') ?></h2>
+                <h2><?= Yii::t('frontend','Viewing the Meeting') ?></h2>
 
-                <p><?= Yii::t('frontend','Building the support required to send a meeting request and handle responses from the participant.') ?> </p>
+                <p><?= Yii::t('frontend','Extending the default view to provide appropriate commands for specific users.') ?> </p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-delivering-the-meeting-announcement--cms-23428"><?= Yii::t('frontend','Episode 9 (coming soon)') ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-viewing-the-meeting--cms-23288"><?= Yii::t('frontend','Episode 9 (coming soon)') ?> &raquo;</a></p>
             </div>
         </div>
-
-    </div>
 	<!--- end row three --->	
+		<!--- begin row four --->
+        <div class="row">
+          <div class="col-lg-4">
+              <h2><?= Yii::t('frontend','Delivering the Meeting Announcement') ?></h2>
+
+              <p><?= Yii::t('frontend','Building the support required to send a meeting request and handle responses from the participant.') ?> </p>
+
+              <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-delivering-the-meeting-announcement--cms-23428"><?= Yii::t('frontend','Episode 10 (coming soon)') ?> &raquo;</a></p>
+          </div>
+              <div class="col-lg-4">
+                  <h2><?= Yii::t('frontend','Simplifying Onramp') ?></h2>
+
+                  <p><?= Yii::t('frontend','Integrating OAuth authentication to optimize user registration.') ?></p>
+
+                  <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-a-meeting--cms-23252"><?= Yii::t('frontend','Episode 11 (coming soon)' ) ?> &raquo;</a></p>
+              </div>
+              <div class="col-lg-4">
+                  <h2><?= Yii::t('frontend','Generating Calendar Files') ?> </h2>
+
+                  <p><?= Yii::t('frontend','Exporting .cal files for third party calendar integration.') ?> </p>
+
+                  <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-availability-and-choices--cms-23268"><?= Yii::t('frontend','Episode 12 (coming soon)') ?> &raquo;</a></p>
+              </div>
+          </div>
+          
+          </div>
+      	<!--- end row four --->	
 </div>

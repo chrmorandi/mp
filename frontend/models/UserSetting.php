@@ -63,6 +63,10 @@ class UserSetting extends \yii\db\ActiveRecord
             [['image'], 'safe'],
             [['image'], 'file', 'extensions'=>'jpg, gif, png'],
             [['image'], 'file', 'maxSize'=>'100000'],
+            ['image', 'image', 'extensions' => 'png, jpg, gif',
+                    'minWidth' => 100, 'maxWidth' => 400,
+                    'minHeight' => 100, 'maxHeight' => 400,
+                ],
              [['filename', 'avatar'], 'string', 'max' => 255],
             [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at'], 'integer'],
         ];

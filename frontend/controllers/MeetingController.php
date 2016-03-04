@@ -28,13 +28,14 @@ class MeetingController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-            'access' => [
+/*            'access' => [
                         'class' => \yii\filters\AccessControl::className(),
                         'only' => ['index','view','create','update','delete', 'cancel'],
                         'rules' => [
                             // everything else is denied
                         ],
                     ],
+                    */
         ];
     }
 

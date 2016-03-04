@@ -67,6 +67,9 @@ class MeetingPlace extends \yii\db\ActiveRecord
           // add MeetingPlaceChoice for owner and participants
           $mpc = new MeetingPlaceChoice;
           $mpc->addForNewMeetingPlace($this->meeting_id,$this->suggested_by,$this->id);
+          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_SUGGEST_PLACE,$this->suggested_by,$this->place_id);
+          // above - add meeting log entry                            
+          
         } 
     }
 

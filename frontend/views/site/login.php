@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\authclient\widgets\AuthChoice;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -27,6 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
-        </div>
-    </div>
+        </div> <!-- end col-lg-5 -->
+    </div> <!-- end row -->
+    <div class="row">
+        <div class="col-lg-5">
+          <p>Or, login with one of the following services:</p>
+          <?= yii\authclient\widgets\AuthChoice::widget([
+               'baseAuthUrl' => ['site/auth'],
+               'popupMode' => false,
+          ]) ?>
+        </div> <!-- end col-lg-5 -->
+      </div> <!-- end row -->
 </div>
+
+

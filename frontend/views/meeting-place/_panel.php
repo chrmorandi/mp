@@ -24,7 +24,8 @@ use yii\widgets\ListView;
         <td >
           <?php
            if ($placeProvider->count>1) echo Yii::t('frontend','Choose');
-          ?>    </tr>
+          ?></td>
+    </tr>
     </thead>
     <?= ListView::widget([ 
            'dataProvider' => $placeProvider, 

@@ -1,4 +1,6 @@
 <?php
+$config = parse_ini_file('/var/secure/mp.ini', true);
+
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
@@ -12,6 +14,24 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [    
+      'authClientCollection' => [
+              'class' => 'yii\authclient\Collection',
+              'clients' => [
+                  'google' => [
+                      'class' => 'yii\authclient\clients\GoogleOpenId'
+                  ],
+                  'facebook' => [
+                      'class' => 'yii\authclient\clients\Facebook',
+                      'clientId' => $config['oauth_fb_id'],
+                      'clientSecret' => $config['oauth_fb_secret'],
+                  ],
+                  'twitter' => [
+                      'class' => 'yii\authclient\clients\Twitter',
+                      'consumerKey' => $config['oauth_twitter_key'],
+                      'consumerSecret' => $config['oauth_twitter_secret'],
+                              ],                              
+              ],
+          ],
       'urlManager' => [
                   'class' => 'yii\web\UrlManager',
                   'enablePrettyUrl' => true,
