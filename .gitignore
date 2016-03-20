@@ -32,6 +32,10 @@ phpunit.phar
 #upload files
 /frontend/web/uploads
 
+#runtime dirs
+/frontend/runtime/logs
+/frontend/runtime/cache
+
 #local environment files
 /environments/prod/common/config/main-local.php
 /environments/prod/frontend/config/main-local.php
