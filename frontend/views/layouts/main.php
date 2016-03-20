@@ -95,7 +95,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left"><? echo Html::a('&copy; Lookahead Consulting '.date('Y'),'http://lookahead.io'); ?></p>
+        <p class="pull-left"><?php echo Html::a('&copy; Lookahead Consulting '.date('Y'),'http://lookahead.io'); ?></p>
         <p class="pull-right"><?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?></p>
         </div>
     </footer>
