@@ -28,9 +28,9 @@ use yii\widgets\ActiveForm;
     <p></p>
     <!-- todo - offer drop down of friends -->
 
-    <? // $form->field($model, 'meeting_id')->textInput() ?>
+    <?php // $form->field($model, 'meeting_id')->textInput() ?>
 
-    <? // $form->field($model, 'participant_id')->textInput() ?>
+    <?php // $form->field($model, 'participant_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Invite') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
