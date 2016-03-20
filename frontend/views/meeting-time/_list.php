@@ -9,7 +9,7 @@ use \kartik\switchinput\SwitchInput;
         <?= Meeting::friendlyDateFromTimestamp($model->start) ?>
   </td>
   <td style>
-      <?
+      <?php
       foreach ($model->meetingTimeChoices as $mtc) {
         if ($mtc->user_id == $model->meeting->owner_id) {
             if ($mtc->status == $mtc::STATUS_YES)
@@ -28,7 +28,7 @@ use \kartik\switchinput\SwitchInput;
       ?>
   </td>
   <td style>
-    <?
+    <?php
     foreach ($model->meetingTimeChoices as $mtc) {
       if (count($model->meeting->participants)==0) break;
       if ($mtc->user_id == $model->meeting->participants[0]->participant_id) {
@@ -54,7 +54,7 @@ use \kartik\switchinput\SwitchInput;
     ?>
   </td>
   <td style>
-      <?
+      <?php
       if ($timeCount>1) {
         if ($model->status == $model::STATUS_SELECTED) {
             $value = $model->id;
