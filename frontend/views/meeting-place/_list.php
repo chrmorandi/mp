@@ -10,7 +10,7 @@ use \kartik\switchinput\SwitchInput;
         <?= Html::a($model->place->name,BaseUrl::home().'/place/'.$model->place->slug) ?>
   </td>
   <td style>
-      <?
+      <?php
       foreach ($model->meetingPlaceChoices as $mpc) {
         if ($mpc->user_id == $model->meeting->owner_id) {
             if ($mpc->status == $mpc::STATUS_YES)
@@ -29,7 +29,7 @@ use \kartik\switchinput\SwitchInput;
       ?>
   </td>
   <td style>
-    <?
+    <?php
   foreach ($model->meetingPlaceChoices as $mpc) {
     if (count($model->meeting->participants)==0) break;    
     if ($mpc->user_id == $model->meeting->participants[0]->participant_id) {
@@ -55,7 +55,7 @@ use \kartik\switchinput\SwitchInput;
     ?>
   </td>
   <td style>    
-      <?
+      <?php
       if ($placeCount>1) {
         if ($model->status == $model::STATUS_SELECTED) {
             $value = $model->id;
