@@ -43,7 +43,7 @@ MapAsset::register($this);
 </div>
 </div> <!-- end col1 -->
 <div class="col-md-6">
-<div id="map-canvas">
+<div id="map-canvas" style="width:300px;height:300px;">
   <article></article>
 </div>
 </div> <!-- end col2 -->

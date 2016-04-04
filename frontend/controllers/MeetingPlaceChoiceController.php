@@ -25,9 +25,10 @@ class MeetingPlaceChoiceController extends \yii\web\Controller
           ],
       ];
   }
-  
+
     public function actionSet($id,$state)
     {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       // caution - incoming AJAX type issues with val
       $id=str_replace('mpc-','',$id);      
       $mpc = $this->findModel($id);      

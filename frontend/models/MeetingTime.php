@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property MeetingTimeChoice[] $meetingTimeChoices
  *
  * @property Meeting $meeting
  * @property User $suggestedBy

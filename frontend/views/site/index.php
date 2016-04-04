@@ -94,7 +94,7 @@ $this->title = 'Meeting Planner';
 
                 <p><?= Yii::t('frontend','Extending the default view to provide appropriate commands for specific users.') ?> </p>
 
-                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-viewing-the-meeting--cms-23288"><?= Yii::t('frontend','Episode 9 (coming soon)') ?> &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-customizing-the-meeting-view--cms-25138"><?= Yii::t('frontend','Episode 9 (coming soon)') ?> &raquo;</a></p>
             </div>
         </div>
 	<!--- end row three --->	
@@ -105,21 +105,21 @@ $this->title = 'Meeting Planner';
 
               <p><?= Yii::t('frontend','Building the support required to send a meeting request and handle responses from the participant.') ?> </p>
 
-              <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-delivering-the-meeting-announcement--cms-23428"><?= Yii::t('frontend','Episode 10 (coming soon)') ?> &raquo;</a></p>
+              <p><a class="btn btn-default" href="/"><?= Yii::t('frontend','Episode 10 (coming soon)') ?> &raquo;</a></p>
           </div>
               <div class="col-lg-4">
                   <h2><?= Yii::t('frontend','Simplifying Onramp') ?></h2>
 
                   <p><?= Yii::t('frontend','Integrating OAuth authentication to optimize user registration.') ?></p>
 
-                  <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-a-meeting--cms-23252"><?= Yii::t('frontend','Episode 11 (coming soon)' ) ?> &raquo;</a></p>
+                  <p><a class="btn btn-default" href="/"><?= Yii::t('frontend','Episode 11 (coming soon)' ) ?> &raquo;</a></p>
               </div>
               <div class="col-lg-4">
                   <h2><?= Yii::t('frontend','Generating Calendar Files') ?> </h2>
 
                   <p><?= Yii::t('frontend','Exporting .cal files for third party calendar integration.') ?> </p>
 
-                  <p><a class="btn btn-default" href="http://code.tutsplus.com/tutorials/building-your-startup-with-php-scheduling-availability-and-choices--cms-23268"><?= Yii::t('frontend','Episode 12 (coming soon)') ?> &raquo;</a></p>
+                  <p><a class="btn btn-default" href="/"><?= Yii::t('frontend','Episode 12 (coming soon)') ?> &raquo;</a></p>
               </div>
           </div>
           

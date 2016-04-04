@@ -22,8 +22,10 @@ use yii\i18n\Formatter;
  * @property MeetingNote[] $meetingNotes
  * @property MeetingPlace[] $meetingPlaces
  * @property MeetingTime[] $meetingTimes
+ * @property MeetingSetting[] $meetingSettings 
  * @property Participant[] $participants
  */
+ 
 class Meeting extends \yii\db\ActiveRecord
 {
   const TYPE_OTHER = 0;
@@ -39,8 +41,9 @@ class Meeting extends \yii\db\ActiveRecord
   const TYPE_OFFICE = 100;
 
   const STATUS_PLANNING =0;
-  const STATUS_CONFIRMED = 20;
-  const STATUS_COMPLETED = 40;
+  const STATUS_SENT = 20;
+  const STATUS_CONFIRMED = 40;
+  const STATUS_COMPLETED = 50;
   const STATUS_CANCELED = 60;
   
   const VIEWER_ORGANIZER = 0;
@@ -48,6 +51,7 @@ class Meeting extends \yii\db\ActiveRecord
   
   public $title;
   public $viewer;
+  public $viewer_id;
   public $isReadyToSend = false;
   public $isReadyToFinalize = false;
   
@@ -100,6 +104,26 @@ class Meeting extends \yii\db\ActiveRecord
         ];
     }
 
+    public function isOwner($viewer_id) {
+      if ($viewer_id==$this->owner_id) 
+        return true;
+      else
+        return false;
+    }
+    
+    public function initializeMeetingSetting($meeting_id,$owner_id) {
+      // load meeting creator (owner) user settings to initialize meeting_settings
+      $user_setting = UserSetting::find()->where(['user_id' => $owner_id])->one();
+      $meeting_setting = new MeetingSetting();
+      $meeting_setting->meeting_id = $meeting_id;
+      $meeting_setting->participant_add_place=$user_setting->participant_add_place;
+      $meeting_setting->participant_add_date_time=$user_setting->participant_add_date_time;
+      $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
+    $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
+      $meeting_setting->participant_finalize=$user_setting->participant_finalize; 
+      $meeting_setting->save();
+    }
+        
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -108,6 +132,23 @@ class Meeting extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 
+    public function setViewer() {
+      $this->viewer_id = Yii::$app->user->getId();
+      if ($this->owner_id == $this->viewer_id) {
+        $this->viewer = Meeting::VIEWER_ORGANIZER;
+      } else {
+        $this->viewer = Meeting::VIEWER_PARTICIPANT;
+      }
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMeetingSettings()
+    {
+        return $this->hasOne(MeetingSetting::className(), ['meeting_id' => 'id']);
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -175,9 +216,15 @@ class Meeting extends \yii\db\ActiveRecord
      
      public function getMeetingHeader() {
        $str = $this->getMeetingType($this->meeting_type);
-       if (count($this->participants)>0) {
+       if ($this->isOwner(Yii::$app->user->getId())) {
+         if (count($this->participants)>0) {
+           $str.=Yii::t('frontend',' with ');
+           $str.=$this->participants[0]->participant->email;
+         }         
+       } else {
+         $owner = \common\models\User::findIdentity($this->owner_id);
          $str.=Yii::t('frontend',' with ');
-         $str.=$this->participants[0]->participant->email;
+         $str.=$owner->email;
        }
        return $str;
      }
@@ -192,19 +239,12 @@ class Meeting extends \yii\db\ActiveRecord
      public function reschedule($meeting_id) {
        
      }
-
-     public function setViewer() {
-       if ($this->owner_id == Yii::$app->user->getId()) {
-         $this->viewer = Meeting::VIEWER_ORGANIZER;
-       } else {
-         $this->viewer = Meeting::VIEWER_PARTICIPANT;
-       }
-     }
      
-     public function canSend() {
+     public function canSend($sender_id) {
        // check if an invite can be sent
        // req: a participant, at least one place, at least one time
-       if (count($this->participants)>0
+       if ($this->owner_id == $sender_id       
+        && count($this->participants)>0
         && count($this->meetingPlaces)>0
         && count($this->meetingTimes)>0
         ) {
@@ -215,22 +255,49 @@ class Meeting extends \yii\db\ActiveRecord
        return $this->isReadyToSend;
       }
 
-      public function canFinalize() {
+      public function canFinalize($user_id) {
+        $this->isReadyToFinalize = false;
         // check if meeting can be finalized by viewer
-        if ($this->canSend()) {
-          // organizer can always finalize
-          if ($this->viewer == Meeting::VIEWER_ORGANIZER) {
-            $this->isReadyToFinalize = true;
+        // check if overall meeting state can be sent by owner
+         if (!$this->canSend($this->owner_id)) return false;
+          $chosenPlace = false;
+          if (count($this->meetingPlaces)==1) {
+            $chosenPlace = true;
           } else {
-            // viewer is a participant
-            // has participant responded to one time or is there only one time
-            // has participant responded to one place or is there only one place
-            
-          }          
-        }          
-        
+            foreach ($this->meetingPlaces as $mp) {
+              if ($mp->status == MeetingPlace::STATUS_SELECTED) {
+                $chosenPlace = true;
+                break;
+              }
+            }
+          }
+          $chosenTime = false;
+          if (count($this->meetingTimes)==1) {
+            $chosenTime = true;
+          } else {
+            foreach ($this->meetingTimes as $mt) {
+              if ($mt->status == MeetingTime::STATUS_SELECTED) {
+                  $chosenTime = true;
+                  break;
+              }                
+            }
+          }
+          if ($this->owner_id == $user_id || 
+          $this->meetingSettings->participant_finalize) {
+            if ($chosenPlace && $chosenTime) {
+              $this->isReadyToFinalize = true;              
+            }
+          }                    
         return $this->isReadyToFinalize;
       }     
+      
+      public function send($user_id) {
+        
+      }
+
+      public function finalize($user_id) {
+        
+      }
       
       public function cancel() {
         $this->status = self::STATUS_CANCELED;
@@ -239,10 +306,10 @@ class Meeting extends \yii\db\ActiveRecord
           
       public function prepareView() {
         $this->setViewer();
-        $this->canSend();
-        $this->canFinalize();
+        $canSend = $this->canSend($this->viewer_id);
+        $this->canFinalize($this->viewer_id);
         // has invitation been sent
-         if ($this->canSend()) {
+         if ($canSend) {
            Yii::$app->session->setFlash('warning', Yii::t('frontend','This invitation has not yet been sent.'));
       }
         // to do - if sent, has invitation been opened
@@ -258,7 +325,7 @@ class Meeting extends \yii\db\ActiveRecord
        public static function friendlyDateFromTimestamp($tstamp) {
          $margin=$tstamp-time();
          // less than a day ahead
-         if ($margin>(24*3600)) {
+         if ($margin<(24*3600)) {
            $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
          }   else {
            $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d,\' '.Yii::t('frontend','at').'\' h:mm a');         

@@ -51,13 +51,15 @@ function loadMap(gps,name) {
   }
   var latlng = new google.maps.LatLng(gps['k'], gps['D']);
   var myOptions = {
-    zoom: 16,
+    zoom: 8,
     center: latlng,
     mapTypeControl: false,
     navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+  //google.maps.event.trigger(map, 'resize');
+  //map.setZoom( map.getZoom() );
   
   var marker = new google.maps.Marker({
       position: latlng, 

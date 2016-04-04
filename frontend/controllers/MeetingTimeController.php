@@ -133,10 +133,11 @@ class MeetingTimeController extends Controller
     public function actionChoose($id,$val) {
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = intval($id);
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
-      if (Yii::$app->user->getId()!=$mtg->owner_id) return false;
-      // to do - also check participant id if participants allowed to choose      
+      if (Yii::$app->user->getId()!=$mtg->owner_id &&
+        !$mtg->meetingSettings['participant_choose_date_time']) return false;
       foreach ($mtg->meetingTimes as $mt) {
         if ($mt->id == intval($val))
           $mt->status = MeetingTime::STATUS_SELECTED;

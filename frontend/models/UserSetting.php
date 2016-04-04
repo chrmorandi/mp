@@ -17,6 +17,11 @@ use yii\db\ActiveRecord;
  * @property integer $reminder_hours
  * @property integer $contact_share
  * @property integer $no_email
+ * @property integer $participant_add_place 
+ * @property integer $participant_add_date_time 
+ * @property integer $participant_choose_place 
+ * @property integer $participant_choose_date_time 
+ * @property integer $participant_finalize
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -68,7 +73,7 @@ class UserSetting extends \yii\db\ActiveRecord
                     'minHeight' => 100, 'maxHeight' => 400,
                 ],
              [['filename', 'avatar'], 'string', 'max' => 255],
-            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize'], 'integer'],
         ];
     }
 
@@ -86,6 +91,11 @@ class UserSetting extends \yii\db\ActiveRecord
            'reminder_hours' => Yii::t('frontend', 'Reminder Hours'),
            'contact_share' => Yii::t('frontend', 'Contact Share'),
             'no_email' => Yii::t('frontend', 'No Email'),
+            'participant_add_place' => Yii::t('frontend', 'Allow invitees to add place options'),
+             'participant_add_date_time' => Yii::t('frontend', 'Allow invitees to add date & time options'),
+             'participant_choose_place' => Yii::t('frontend', 'Allow invitees to choose the place'),
+             'participant_choose_date_time' => Yii::t('frontend', 'Allow invitees to choose the date & time'),
+             'participant_finalize' => Yii::t('frontend', 'Allow invitees to finalize meetings'),            
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];

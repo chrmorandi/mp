@@ -21,7 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="tab-content">
   <div class="tab-pane active" id="upcoming">
     <div class="meeting-index">
-      
+      <?php
+//        var_dump ($upcomingProvider);
+  //      exit;
+      ?>
       <?= $this->render('_grid', [
           'dataProvider' => $upcomingProvider,
       ]) ?>

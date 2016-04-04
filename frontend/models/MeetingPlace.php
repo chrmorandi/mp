@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property MeetingPlaceChoice[] $meetingPlaceChoices
  *
  * @property Meeting $meeting
  * @property Place $place
@@ -24,7 +25,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
 {
     const STATUS_SUGGESTED =0;
     const STATUS_SELECTED =10;
-    
+
     public $searchbox; // for google place search
     public $name;
     public $google_place_id;
@@ -53,12 +54,12 @@ class MeetingPlace extends \yii\db\ActiveRecord
         ];
     }
 
-/*    function validate_chosen_place($attribute, $param) {      
+/*    function validate_chosen_place($attribute, $param) {
         if($this->$attribute<>'' && $this->place_id>0)
             $this->addError($attribute, Yii::t('frontend','Please choose one or the other'));
         }
         */
-    
+
     public function afterSave($insert,$changedAttributes)
     {
         parent::afterSave($insert,$changedAttributes);
@@ -68,9 +69,9 @@ class MeetingPlace extends \yii\db\ActiveRecord
           $mpc = new MeetingPlaceChoice;
           $mpc->addForNewMeetingPlace($this->meeting_id,$this->suggested_by,$this->id);
           MeetingLog::add($this->meeting_id,MeetingLog::ACTION_SUGGEST_PLACE,$this->suggested_by,$this->place_id);
-          // above - add meeting log entry                            
-          
-        } 
+          // above - add meeting log entry
+
+        }
     }
 
     public static function addChoices($meeting_id,$participant_id) {
@@ -132,7 +133,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'suggested_by']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

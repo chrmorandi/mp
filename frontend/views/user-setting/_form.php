@@ -19,6 +19,7 @@ use kartik\file\FileInput;
          <!-- Nav tabs -->
          <ul class="nav nav-tabs" role="tablist">
            <li class="active"><a href="#general" role="tab" data-toggle="tab"><?= Yii::t('frontend','General Settings') ?></a></li>
+           <li><a href="#preferences" role="tab" data-toggle="tab"><?= Yii::t('frontend','Meeting Preferences') ?></a></li>
            <li><a href="#photo" role="tab" data-toggle="tab"><?= Yii::t('frontend','Upload Photo') ?></a></li>
          </ul>
          <!-- Tab panes -->
@@ -36,13 +37,21 @@ use kartik\file\FileInput;
 
                   <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
                 </div>
-           <div class="tab-pane vertical-pad" id="photo">
+           <div class="tab-pane vertical-pad" id="preferences">
+             <?= $form->field($model, 'participant_add_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+             <?= $form->field($model, 'participant_add_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+             <?= $form->field($model, 'participant_choose_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+             <?= $form->field($model, 'participant_choose_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+             <?= $form->field($model, 'participant_finalize')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
 
-             <?=$form->field($model, 'image')->widget(FileInput::classname(), [
-                 'options' => ['accept' => 'image/*'],
-                  'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']],
-             ]);   ?>
-           </div> <!-- end of upload photo tab -->
+            </div> <!-- end of upload meeting-settings tab -->
+            <div class="tab-pane vertical-pad" id="photo">
+
+              <?=$form->field($model, 'image')->widget(FileInput::classname(), [
+                  'options' => ['accept' => 'image/*'],
+                   'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']],
+              ]);   ?>
+            </div> <!-- end of upload photo tab -->
            <div class="form-group">
                <?= Html::submitButton(Yii::t('frontend', 'Save Settings'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
            </div>

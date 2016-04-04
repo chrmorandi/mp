@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 $this->registerJsFile('js/locate.js');
 $this->registerJsFile('/js/geoPosition.js');
-$this->registerJsFile('http://maps.google.com/maps/api/js?sensor=false');
+$this->registerJsFile('http://maps.google.com/maps/api/js');
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Place */

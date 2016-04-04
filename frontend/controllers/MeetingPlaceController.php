@@ -139,10 +139,11 @@ class MeetingPlaceController extends Controller
     public function actionChoose($id,$val) {
       // meeting_place_id needs to be set active
       // other meeting_place_id for this meeting need to be set inactive
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = intval($id);
-      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
-      if (Yii::$app->user->getId()!=$mtg->owner_id) return false;
-      // to do - also check participant id if participants allowed to choose
+      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();      
+      if (Yii::$app->user->getId()!=$mtg->owner_id &&
+        !$mtg->meetingSettings['participant_choose_place']) return false;
       foreach ($mtg->meetingPlaces as $mp) {
         if ($mp->id == intval($val)) {
           $mp->status = MeetingPlace::STATUS_SELECTED;          

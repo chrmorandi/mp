@@ -10,6 +10,7 @@ use frontend\models\Participant;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingTime;
+use frontend\models\MeetingSetting;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -28,7 +29,7 @@ class MeetingController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-/*            'access' => [
+/*           'access' => [
                         'class' => \yii\filters\AccessControl::className(),
                         'only' => ['index','view','create','update','delete', 'cancel'],
                         'rules' => [
@@ -46,9 +47,10 @@ class MeetingController extends Controller
     public function actionIndex()
     {
       // add filter for upcoming or past
-        $upcomingProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_CONFIRMED]]),
+      $upcomingProvider = new ActiveDataProvider([
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]]),
         ]);
+
         $pastProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_COMPLETED]),
         ]);
@@ -93,6 +95,8 @@ class MeetingController extends Controller
             'timeProvider' => $timeProvider,
             'noteProvider' => $noteProvider,
             'placeProvider' => $placeProvider,
+            'viewer' => Yii::$app->user->getId(),
+            'isOwner' => $model->isOwner(Yii::$app->user->getId()),
         ]);
     }
 
@@ -110,6 +114,7 @@ class MeetingController extends Controller
           if ($model->validate()) {
               // all inputs are valid
               $model->save();
+              $model->initializeMeetingSetting($model->id,$model->owner_id);
               return $this->redirect(['view', 'id' => $model->id]);
           } else {
               // validation failed
@@ -162,6 +167,44 @@ class MeetingController extends Controller
       return $this->redirect(['index']);
     }
 
+    public function actionCansend($id,$viewer_id) {
+      // ajax checks if viewer can send this meeting
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $this->findModel($id)->canSend($viewer_id);
+    }
+
+    public function actionCanfinalize($id,$viewer_id) {
+      // ajax checks if viewer can send this meeting
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $this->findModel($id)->canFinalize($viewer_id);
+    }
+    
+    public function actionSend($id) {
+      $meeting = $this->findModel($id);
+      if ($meeting->canSend(Yii::$app->user->getId())) {
+        $meeting->send(Yii::$app->user->getId());
+        Yii::$app->getSession()->setFlash('success', 'Your meeting invitation has been sent.');
+        return $this->redirect(['index']);        
+      } else {
+        // failed
+        Yii::$app->getSession()->setFlash('error', 'Sorry, your meeting invitation is not ready to send.');
+        return $this->redirect(['view', 'id' => $id]);
+      }
+    }
+
+    public function actionFinalize($id) {
+      $meeting = $this->findModel($id);
+      if ($meeting->canFinalize(Yii::$app->user->getId())) {
+        $meeting->finalize(Yii::$app->user->getId());
+        Yii::$app->getSession()->setFlash('success', 'Your meeting has been finalized.');
+        return $this->redirect(['index']);        
+      } else {
+        // failed
+        Yii::$app->getSession()->setFlash('error', 'Sorry, your meeting invitation cannot be finalized yet.');
+        return $this->redirect(['view', 'id' => $id]);
+      }
+    }
+    
     /**
      * Finds the Meeting model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -10,49 +10,25 @@ use \kartik\switchinput\SwitchInput;
         <?= Html::a($model->place->name,BaseUrl::home().'/place/'.$model->place->slug) ?>
   </td>
   <td style>
-      <?php
-      foreach ($model->meetingPlaceChoices as $mpc) {
-        if ($mpc->user_id == $model->meeting->owner_id) {
-            if ($mpc->status == $mpc::STATUS_YES)
-              $value = 1;
-            else
-              $value =0;              
-            echo SwitchInput::widget([
-            'type'=>SwitchInput::CHECKBOX,
-            'name' => 'meeting-place-choice',
-            'id'=>'mpc-'.$mpc->id,          
-            'value' => $value,
-            'pluginOptions' => ['size' => 'mini','onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>','onColor' => 'success','offColor' => 'danger',],
-            ]);          
-        }
-      }      
-      ?>
+    <?php
+    // show meeting owner in first column
+       if ($isOwner) {
+         showOwnerStatus($model,$isOwner);
+       } else {
+         showParticipantStatus($model,$isOwner);
+       }
+    ?>
+
   </td>
   <td style>
-    <?php
-  foreach ($model->meetingPlaceChoices as $mpc) {
-    if (count($model->meeting->participants)==0) break;    
-    if ($mpc->user_id == $model->meeting->participants[0]->participant_id) {
-        if ($mpc->status == $mpc::STATUS_YES)
-          $value = 1;
-        else if ($mpc->status == $mpc::STATUS_NO)
-          $value =0;
-        else if ($mpc->status == $mpc::STATUS_UNKNOWN)
-          $value =-1;
-        echo SwitchInput::widget([
-          'type'=>SwitchInput::CHECKBOX,         
-          'name' => 'meeting-place-choice',
-          'id'=>'mpc-'.$mpc->id,          
-          'tristate'=>true,
-          'indeterminateValue'=>-1,
-          'indeterminateToggle'=>false,
-          'disabled'=>true,
-          'value' => $value,
-          'pluginOptions' => ['size' => 'mini','onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>','onColor' => 'success','offColor' => 'danger'],
-      ]);          
-    }
-  }
-    ?>
+      <?php
+    // show meeting participants in next column(s)
+        if (!$isOwner) {
+           showOwnerStatus($model,$isOwner);
+         } else {
+           showParticipantStatus($model,$isOwner);
+         }
+      ?>
   </td>
   <td style>    
       <?php
@@ -62,16 +38,19 @@ use \kartik\switchinput\SwitchInput;
         }    else {
           $value = 0;        
         } 
-        echo SwitchInput::widget([
-          'type' => SwitchInput::RADIO,
-          'name' => 'place-chooser',
-            'items' => [
-                [ 'value' => $model->id],
-            ],
-            'value' => $value,
-            'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
-            'labelOptions' => ['style' => 'font-size: 12px'],
-        ]);              
+        if ($isOwner || $participant_choose_place) {        
+          // value has to match for switch to be on          
+          echo SwitchInput::widget([
+            'type' => SwitchInput::RADIO,
+            'name' => 'place-chooser',
+              'items' => [
+                  [ 'value' => $model->id],
+              ],            
+              'value' => $value,
+              'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
+              'labelOptions' => ['style' => 'font-size: 12px'],
+          ]);              
+        }
       }
       ?>
   </td>
