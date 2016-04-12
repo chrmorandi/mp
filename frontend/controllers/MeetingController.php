@@ -29,14 +29,18 @@ class MeetingController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-/*           'access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','view','create','update','delete', 'cancel'],
+          'access' => [
+                        'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
+                        'only' => ['index','view','create','update','delete', 'cancel','command'],
                         'rules' => [
-                            // everything else is denied
+                          // allow authenticated users
+                           [
+                               'allow' => true,
+                               'roles' => ['@'],
+                           ],
+                          // everything else is denied
                         ],
                     ],
-                    */
         ];
     }
 
@@ -121,11 +125,11 @@ class MeetingController extends Controller
               return $this->render('create', [
                   'model' => $model,
               ]);
-          }          
+          }
         } else {
           return $this->render('create', [
               'model' => $model,
-          ]);          
+          ]);
         }
     }
 
@@ -161,7 +165,7 @@ class MeetingController extends Controller
 
         return $this->redirect(['index']);
     }
-    
+
     public function actionCancel($id) {
       $this->findModel($id)->cancel();
       return $this->redirect(['index']);
@@ -178,13 +182,13 @@ class MeetingController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return $this->findModel($id)->canFinalize($viewer_id);
     }
-    
+
     public function actionSend($id) {
       $meeting = $this->findModel($id);
       if ($meeting->canSend(Yii::$app->user->getId())) {
         $meeting->send(Yii::$app->user->getId());
         Yii::$app->getSession()->setFlash('success', 'Your meeting invitation has been sent.');
-        return $this->redirect(['index']);        
+        return $this->redirect(['index']);
       } else {
         // failed
         Yii::$app->getSession()->setFlash('error', 'Sorry, your meeting invitation is not ready to send.');
@@ -197,14 +201,55 @@ class MeetingController extends Controller
       if ($meeting->canFinalize(Yii::$app->user->getId())) {
         $meeting->finalize(Yii::$app->user->getId());
         Yii::$app->getSession()->setFlash('success', 'Your meeting has been finalized.');
-        return $this->redirect(['index']);        
+        return $this->redirect(['index']);
       } else {
         // failed
         Yii::$app->getSession()->setFlash('error', 'Sorry, your meeting invitation cannot be finalized yet.');
         return $this->redirect(['view', 'id' => $id]);
       }
     }
-    
+
+    public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$val1=0) {
+      // Manage the incoming session
+      // check logged in user against incoming user_id
+        // if so, log them out and log new user in
+      // check if user is PASSIVE
+      // if active, set SESSION to indicate log in through command
+      // begin redirection based on commands
+      $meeting = $this->findModel($id);
+      switch ($cmd) {
+        case Meeting::COMMAND_ACCEPT_PLACE:
+          # code...
+          // run the ajax
+          // load the page
+          break;
+        case Meeting::COMMAND_REJECT_PLACE:
+
+        break;
+        case Meeting::COMMAND_CHOOSE_PLACE:
+
+        break;
+        case Meeting::COMMAND_ACCEPT_TIME:
+          # code...
+          // run the ajax
+          // load the page
+          break;
+        case Meeting::COMMAND_REJECT_TIME:
+
+        break;
+        case Meeting::COMMAND_CHOOSE_TIME:
+
+        break;
+        default:
+          # code...
+          break;
+      }
+      echo $meeting->subject;
+      echo 'val='.$val;
+      echo 'cmd='.$cmd;
+      echo 'participant_id='.$p;
+    }
+
     /**
      * Finds the Meeting model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -220,5 +265,5 @@ class MeetingController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
+
 }

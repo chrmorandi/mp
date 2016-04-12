@@ -175,7 +175,12 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-    
+
+    public function actionUnavailable()
+    {
+        return $this->render('unavailable');
+    }
+
     public function onAuthSuccess($client)
         {
            $attributes = $client->getUserAttributes();

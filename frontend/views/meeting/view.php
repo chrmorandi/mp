@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading">
       <div class="row">
         <div class="col-lg-12"><h1><?= Html::encode($this->title) ?></h1></div>
-      </div>  
+      </div>
     </div>
     <div class="panel-body">
     <?= $model->message ?>
@@ -30,23 +30,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-6" >
           <div style="float:right;">
             <!--  to do - check meeting settings if participant can send/finalize -->
-          
-          <?php 
-          if ($isOwner)           
+          <?php
+          if ($isOwner && $model->status < $model::STATUS_SENT)
            {
           echo Html::a(Yii::t('frontend', 'Send'), ['send', 'id' => $model->id], ['id'=>'actionSend','class' => 'btn btn-primary '.(!$model->isReadyToSend?'disabled':'')]);
           }
         ?>
           <?php
-          if ($isOwner  || $model->meetingSettings->participant_finalize) {
-            echo Html::a(Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);            
+          if (($isOwner  || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
+            echo Html::a(Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
           }
            ?>
           <?= Html::a('', ['cancel', 'id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-remove btn-danger','title'=>Yii::t('frontend','Cancel')]) ?>
 
-          <?php 
+          <?php
             if ($isOwner) {
-                echo Html::a('', ['update', 'id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil','title'=>'Edit']); 
+                echo Html::a('', ['update', 'id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil','title'=>'Edit']);
               }
             ?>
           </div>
@@ -59,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
           echo $this->render('../participant/_panel', [
               'model'=>$model,
               'participantProvider' => $participantProvider,
-          ]);          
+          ]);
         }
          ?>
 
@@ -68,8 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'placeProvider' => $placeProvider,
             'isOwner' => $isOwner,
             'viewer' => $viewer,
-        ]) ?>       
-                
+        ]) ?>
+
         <?= $this->render('../meeting-time/_panel', [
             'model'=>$model,
             'timeProvider' => $timeProvider,
@@ -84,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <?php
-if (isset(Yii::$app->params['urlPrefix'])) { 
+if (isset(Yii::$app->params['urlPrefix'])) {
   $urlPrefix = Yii::$app->params['urlPrefix'];
   } else {
     $urlPrefix ='';
@@ -92,12 +91,12 @@ if (isset(Yii::$app->params['urlPrefix'])) {
 $script = <<< JS
 function refreshSend() {
   $.ajax({
-     url: '$urlPrefix/meeting/cansend',   
+     url: '$urlPrefix/meeting/cansend',
      data: {id: $model->id, 'viewer_id': $viewer},
      success: function(data) {
        if (data)
          $('#actionSend').removeClass("disabled");
-        else 
+        else
         $('#actionSend').addClass("disabled");
        return true;
      }
@@ -106,12 +105,12 @@ function refreshSend() {
 
 function refreshFinalize() {
   $.ajax({
-     url: '$urlPrefix/meeting/canfinalize',   
+     url: '$urlPrefix/meeting/canfinalize',
      data: {id: $model->id, 'viewer_id': $viewer},
      success: function(data) {
        if (data)
          $('#actionFinalize').removeClass("disabled");
-        else 
+        else
         $('#actionFinalize').addClass("disabled");
        return true;
      }

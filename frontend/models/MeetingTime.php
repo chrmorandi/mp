@@ -24,7 +24,7 @@ class MeetingTime extends \yii\db\ActiveRecord
 {
   const STATUS_SUGGESTED =0;
   const STATUS_SELECTED =10;
-  
+
     /**
      * @inheritdoc
      */
@@ -42,10 +42,10 @@ class MeetingTime extends \yii\db\ActiveRecord
             [['meeting_id', 'start', 'suggested_by'], 'required'],
             [['meeting_id', 'start', 'suggested_by', 'status', 'created_at', 'updated_at'], 'integer'],
             [['start'], 'unique', 'targetAttribute' => ['start','meeting_id'], 'message'=>Yii::t('frontend','This date and time has already been suggested.')],
-            
+
         ];
     }
-    
+
     public function behaviors()
     {
         return [
@@ -83,16 +83,17 @@ class MeetingTime extends \yii\db\ActiveRecord
           // add MeetingTimeChoice for owner and participants
           $mtc = new MeetingTimeChoice;
           $mtc->addForNewMeetingTime($this->meeting_id,$this->suggested_by,$this->id);
-        } 
+          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_SUGGEST_TIME,$this->suggested_by,$this->id);
+        }
     }
-    
+
     public function addChoices($meeting_id,$participant_id) {
       $all_times = MeetingTime::find()->where(['meeting_id'=>$meeting_id])->all();
       foreach ($all_times as $mt) {
-        MeetingTimeChoice::add($mt->id,$participant_id,0);        
+        MeetingTimeChoice::add($mt->id,$participant_id,0);
       }
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -108,14 +109,14 @@ class MeetingTime extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'suggested_by']);
     }
-    
+
     public function getFormattedStartTime()
     {
         // use yii\i18n\Formatter;
-      
+
         //return asDatetime($this->start);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -123,5 +124,5 @@ class MeetingTime extends \yii\db\ActiveRecord
     {
         return $this->hasMany(MeetingTimeChoice::className(), [ 'meeting_time_id'=>'id']);
     }
-    
+
 }

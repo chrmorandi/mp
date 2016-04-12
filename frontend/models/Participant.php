@@ -22,11 +22,11 @@ use common\models\User;
  */
 class Participant extends \yii\db\ActiveRecord
 {
-  
+
     public $email;
     public $username;
     public $password;
-    
+
     /**
      * @inheritdoc
      */
@@ -47,7 +47,7 @@ class Participant extends \yii\db\ActiveRecord
             ],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -56,31 +56,32 @@ class Participant extends \yii\db\ActiveRecord
         return [
             [['meeting_id'], 'required'],
           // the email attribute should be a valid email address
-            ['email', 'email'],            
+            ['email', 'email'],
             [['meeting_id', 'participant_id', 'invited_by', 'status', 'created_at', 'updated_at'], 'integer'],
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
               ['email', 'email'],
 //              ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],
-            
+
         ];
     }
-    
+
     public function afterSave($insert,$changedAttributes)
     {
         parent::afterSave($insert,$changedAttributes);
         if ($insert) {
           // if Participant is added
           // add MeetingPlaceChoice & MeetingTimeChoice this participant
-          $mt = new MeetingTime;          
+          $mt = new MeetingTime;
           $mt->addChoices($this->meeting_id,$this->participant_id);
-          $mp = new MeetingPlace;          
-          $mp->addChoices($this->meeting_id,$this->participant_id);        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_INVITE_PARTICIPANT,$this->invited_by,$this->participant_id);
-          // above - add meeting log entry                            
-        } 
+          $mp = new MeetingPlace;
+          $mp->addChoices($this->meeting_id,$this->participant_id);
+          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_INVITE_PARTICIPANT,$this->invited_by,$this->participant_id);
+          // above - add meeting log entry
+        }
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -120,7 +121,7 @@ class Participant extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'participant_id']);
     }
-    
+
     public function addUser() {
       // new participant from meeting invite
       // lookup email as existing user
@@ -129,6 +130,7 @@ class Participant extends \yii\db\ActiveRecord
           $user = new User();
           $user->username = $this->username;
           $user->email = $this->email;
+          $user->status = User::STATUS_PASSIVE;
           $user->setPassword($this->password);
           $user->generateAuthKey();
           $user->save();

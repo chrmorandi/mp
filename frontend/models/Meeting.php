@@ -3,8 +3,10 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use yii\i18n\Formatter;
+use common\models\Yiigun;
 
 /**
  * This is the model class for table "meeting".
@@ -12,6 +14,7 @@ use yii\i18n\Formatter;
  * @property integer $id
  * @property integer $owner_id
  * @property integer $meeting_type
+ * @property string $subject
  * @property string $message
  * @property integer $status
  * @property integer $created_at
@@ -22,10 +25,10 @@ use yii\i18n\Formatter;
  * @property MeetingNote[] $meetingNotes
  * @property MeetingPlace[] $meetingPlaces
  * @property MeetingTime[] $meetingTimes
- * @property MeetingSetting[] $meetingSettings 
+ * @property MeetingSetting[] $meetingSettings
  * @property Participant[] $participants
  */
- 
+
 class Meeting extends \yii\db\ActiveRecord
 {
   const TYPE_OTHER = 0;
@@ -45,16 +48,24 @@ class Meeting extends \yii\db\ActiveRecord
   const STATUS_CONFIRMED = 40;
   const STATUS_COMPLETED = 50;
   const STATUS_CANCELED = 60;
-  
+
   const VIEWER_ORGANIZER = 0;
   const VIEWER_PARTICIPANT = 10;
-  
+
+  const COMMAND_ACCEPT_PLACE = 100;
+  const COMMAND_REJECT_PLACE = 110;
+  const COMMAND_CHOOSE_PLACE = 120;
+
+  const COMMAND_ACCEPT_TIME = 150;
+  const COMMAND_REJECT_TIME = 160;
+  const COMMAND_CHOOSE_TIME = 170;
+
   public $title;
   public $viewer;
   public $viewer_id;
   public $isReadyToSend = false;
   public $isReadyToFinalize = false;
-  
+
     /**
      * @inheritdoc
      */
@@ -74,7 +85,7 @@ class Meeting extends \yii\db\ActiveRecord
                 ],
             ],
         ];
-    }    
+    }
 
     /**
      * @inheritdoc
@@ -82,9 +93,9 @@ class Meeting extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['owner_id', 'message'], 'required'],
+            [['owner_id', 'subject'], 'required'],
             [['owner_id', 'meeting_type', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['message'], 'string']
+            [['message','subject'], 'string']
         ];
     }
 
@@ -97,6 +108,7 @@ class Meeting extends \yii\db\ActiveRecord
             'id' => Yii::t('frontend', 'ID'),
             'owner_id' => Yii::t('frontend', 'Owner ID'),
             'meeting_type' => Yii::t('frontend', 'Meeting Type'),
+            'subject' => Yii::t('frontend', 'Subject'),
             'message' => Yii::t('frontend', 'Message'),
             'status' => Yii::t('frontend', 'Status'),
             'created_at' => Yii::t('frontend', 'Created At'),
@@ -105,14 +117,15 @@ class Meeting extends \yii\db\ActiveRecord
     }
 
     public function isOwner($viewer_id) {
-      if ($viewer_id==$this->owner_id) 
+      if ($viewer_id==$this->owner_id)
         return true;
       else
         return false;
     }
-    
+
     public function initializeMeetingSetting($meeting_id,$owner_id) {
       // load meeting creator (owner) user settings to initialize meeting_settings
+      UserSetting::initialize($owner_id); // if not initialized
       $user_setting = UserSetting::find()->where(['user_id' => $owner_id])->one();
       $meeting_setting = new MeetingSetting();
       $meeting_setting->meeting_id = $meeting_id;
@@ -120,16 +133,16 @@ class Meeting extends \yii\db\ActiveRecord
       $meeting_setting->participant_add_date_time=$user_setting->participant_add_date_time;
       $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
     $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
-      $meeting_setting->participant_finalize=$user_setting->participant_finalize; 
+      $meeting_setting->participant_finalize=$user_setting->participant_finalize;
       $meeting_setting->save();
     }
-        
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getOwner()
     {
-        return $this->hasOne(User::className(), ['id' => 'owner_id']);
+        return $this->hasOne(\common\models\User::className(), ['id' => 'owner_id']);
     }
 
     public function setViewer() {
@@ -148,7 +161,7 @@ class Meeting extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MeetingSetting::className(), ['meeting_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -188,7 +201,7 @@ class Meeting extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Participant::className(), ['meeting_id' => 'id']);
     }
-    
+
     public function getMeetingType($data) {
       $options = $this->getMeetingTypeOptions();
 	  if (!isset($options[$data])) {
@@ -196,7 +209,7 @@ class Meeting extends \yii\db\ActiveRecord
 		}
       return $options[$data];
     }
-    
+
     public function getMeetingTypeOptions()
     {
       return array(
@@ -212,15 +225,15 @@ class Meeting extends \yii\db\ActiveRecord
         self::TYPE_BRUNCH => 'Brunch',
         self::TYPE_OTHER => 'Other',
          );
-     }		
-     
+     }
+
      public function getMeetingHeader() {
        $str = $this->getMeetingType($this->meeting_type);
        if ($this->isOwner(Yii::$app->user->getId())) {
          if (count($this->participants)>0) {
            $str.=Yii::t('frontend',' with ');
            $str.=$this->participants[0]->participant->email;
-         }         
+         }
        } else {
          $owner = \common\models\User::findIdentity($this->owner_id);
          $str.=Yii::t('frontend',' with ');
@@ -228,22 +241,22 @@ class Meeting extends \yii\db\ActiveRecord
        }
        return $str;
      }
-     
+
      public function getMeetingTitle($meeting_id) {
         $meeting = Meeting::find()->where(['id' => $meeting_id])->one();
         $title = $this->getMeetingType($meeting->meeting_type);
         $title.=' Meeting';
         return $title;
      }
-     
+
      public function reschedule($meeting_id) {
-       
+
      }
-     
+
      public function canSend($sender_id) {
        // check if an invite can be sent
        // req: a participant, at least one place, at least one time
-       if ($this->owner_id == $sender_id       
+       if ($this->owner_id == $sender_id
         && count($this->participants)>0
         && count($this->meetingPlaces)>0
         && count($this->meetingTimes)>0
@@ -279,43 +292,88 @@ class Meeting extends \yii\db\ActiveRecord
               if ($mt->status == MeetingTime::STATUS_SELECTED) {
                   $chosenTime = true;
                   break;
-              }                
+              }
             }
           }
-          if ($this->owner_id == $user_id || 
+          if ($this->owner_id == $user_id ||
           $this->meetingSettings->participant_finalize) {
             if ($chosenPlace && $chosenTime) {
-              $this->isReadyToFinalize = true;              
+              $this->isReadyToFinalize = true;
             }
-          }                    
+          }
         return $this->isReadyToFinalize;
-      }     
-      
-      public function send($user_id) {
-        
+      }
+
+  public function send($user_id) {
+    // has the meeting already been sent
+    if ($this->status != Meeting::STATUS_PLANNING) return false;
+    $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
+    $places = MeetingPlace::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
+    $times = MeetingTime::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
+    // Get message header
+    $header = $this->getMeetingHeader();
+    // Build the absolute links to the meeting and commands
+    $links=[
+      'view'=>Url::to(['view','id'=>$this->id], true),
+      'finalize'=>Url::to(['finalize','id'=>$this->id], true),
+      'cancel'=>Url::to(['cancel','id'=>$this->id], true),
+      'acceptall'=>Url::to(['acceptall','id'=>$this->id], true),
+      'acceptplaces'=>Url::to(['acceptplaces','id'=>$this->id], true),
+      'accepttimes'=>Url::to(['accepttimes','id'=>$this->id], true),
+      'addplace'=>Url::to(['meeting-place/create','meeting_id'=>$this->id], true),
+      'addtime'=>Url::to(['meeting-time/create','meeting_id'=>$this->id], true),
+      'addnote'=>Url::to(['meeting-note/create','meeting_id'=>$this->id], true),
+    ];
+// to do - loop through participants
+    // to do - append auth key to links
+  // send the message
+  $message = Yii::$app->mailer->compose([
+    'html' => 'invitation-html',
+    'text' => 'invitation-text'
+  ],
+  [
+    'meeting_id' => $this->id,
+    'participant_id' => 0,
+    'owner' => $this->owner->username,
+    'intro' => $this->message,
+    'links' => $links,
+    'header' => $header,
+    'places' => $places,
+    'times' => $times,
+    'notes' => $notes,
+    'meetingSettings' => $this->meetingSettings,
+]);
+        $message->setFrom(array('support@meetingplanner.com'=>$this->owner->username));
+        $message->setTo('newscloud@gmail.com')
+            ->setSubject('Meeting Request: '.$this->subject)
+            ->send();
+        // send the meeting
+        $this->status = Meeting::STATUS_SENT;
+        // to do - uncomment this
+        //$this->update();
       }
 
       public function finalize($user_id) {
-        
+
       }
-      
+
       public function cancel() {
         $this->status = self::STATUS_CANCELED;
         $this->save();
       }
-          
+
       public function prepareView() {
         $this->setViewer();
         $canSend = $this->canSend($this->viewer_id);
         $this->canFinalize($this->viewer_id);
         // has invitation been sent
-         if ($canSend) {
+         if ($canSend && $this->status < Meeting::STATUS_SENT) {
            Yii::$app->session->setFlash('warning', Yii::t('frontend','This invitation has not yet been sent.'));
       }
         // to do - if sent, has invitation been opened
-        // to do - if not finalized, is it within 72 hrs, 48 hrs        
+        // to do - if not finalized, is it within 72 hrs, 48 hrs
       }
-      
+
       public static function friendlyDateFromTimeString($time_str) {
         $tstamp = strtotime($time_str);
         return $this->friendlyDateFromTimeString($tstamp);
@@ -323,14 +381,21 @@ class Meeting extends \yii\db\ActiveRecord
 
        // formatting helpers
        public static function friendlyDateFromTimestamp($tstamp) {
-         $margin=$tstamp-time();
-         // less than a day ahead
-         if ($margin<(24*3600)) {
-           $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
+         // same day as today?
+         if (date('z')==date('z',$tstamp)) {
+           $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
          }   else {
-           $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d,\' '.Yii::t('frontend','at').'\' h:mm a');         
+           $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d,\' '.Yii::t('frontend','at').'\' h:mm a');
          }
          return $date_str;
        }
-      
+
+       public function afterSave($insert,$changedAttributes)
+       {
+           parent::afterSave($insert,$changedAttributes);
+           if ($insert) {
+             // if Meeting is added
+             MeetingLog::add($this->id,MeetingLog::ACTION_CREATE_MEETING,$this->owner_id);
+           }
+       }
 }

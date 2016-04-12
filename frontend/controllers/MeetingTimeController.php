@@ -147,6 +147,7 @@ class MeetingTimeController extends Controller
       }
       return true;
     }
+    
     /**
      * Finds the MeetingTime model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

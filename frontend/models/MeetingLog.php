@@ -23,14 +23,16 @@ use yii\db\ActiveRecord;
 class MeetingLog extends \yii\db\ActiveRecord
 {
 	const ACTION_CREATE_MEETING = 0;
-	const ACTION_CANCEL_MEETING = 7;
 	const ACTION_SUGGEST_PLACE = 10;
 	const ACTION_SUGGEST_TIME = 20;
 	const ACTION_INVITE_PARTICIPANT = 30;
-	const ACTION_ADD_NOTE = 40;
-//	const ACTION_ = 50;
-//	const ACTION_ = 60;
-	    
+		// not yet implemented
+		const ACTION_CANCEL_MEETING = 7;
+		const ACTION_ADD_NOTE = 40;
+		const ACTION_SEND_INVITE = 50;
+		//	const ACTION_ = ;
+		//	const ACTION_ = ;
+
     /**
      * @inheritdoc
      */
@@ -97,14 +99,14 @@ class MeetingLog extends \yii\db\ActiveRecord
     }
 
     // add to log
-    public static function add($meeting_id,$action,$actor_id,$item_id,$extra_id=0) {
+    public static function add($meeting_id,$action,$actor_id,$item_id=0,$extra_id=0) {
          $log = new MeetingLog;
          $log->meeting_id=$meeting_id;
          $log->action =$action;
          $log->actor_id =$actor_id;
          $log->item_id =$item_id;
          $log->extra_id =$extra_id;
-         $log->save();  
+         $log->save();
     }
-  
+
 }

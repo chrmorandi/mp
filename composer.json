@@ -28,7 +28,10 @@
         "kartik-v/yii2-widget-switchinput": "*",
         "yiisoft/yii2-imagine": "*",
         "2amigos/yii2-resource-manager-component": "0.1.*",
-        "yiisoft/yii2-authclient": "~2.0.0"
+        "yiisoft/yii2-authclient": "~2.0.0",
+        "mailgun/mailgun-php": "~2.0",
+        "guzzlehttp/guzzle":"6.2.0 as 4.2.3",
+        "php-http/guzzle6-adapter":"1.0.0"
             },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

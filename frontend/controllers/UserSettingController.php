@@ -16,7 +16,7 @@ use yii\imagine\Image;
  */
 class UserSettingController extends Controller
 {
-  
+
     public function behaviors()
     {
         return [
@@ -38,22 +38,6 @@ class UserSettingController extends Controller
       // returns record id not user_id
       $id = UserSetting::initialize(Yii::$app->user->getId());
       return $this->redirect(['update', 'id' => $id]);
-    }
-
-    public function actionTest()
-    {
-      // returns record id not user_id
-      $id = UserSetting::initialize(Yii::$app->user->getId());
-      echo $id;
-      $model = new UserSetting;
-      $model = $this->findModel($id);        
-      if ($model->load(Yii::$app->request->post())) {
-        echo ' nope';
-      }
-      return $this->render('test', [
-          'model' => $model,
-      ]);
-      
     }
 
     /**
@@ -92,7 +76,7 @@ class UserSettingController extends Controller
     public function actionUpdate($id)
     {
         $model = new UserSetting;
-        $model = $this->findModel($id);        
+        $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
           // the path to save file, you can set an uploadPath
           // in Yii::$app->params (as used in example below)
@@ -110,7 +94,7 @@ class UserSettingController extends Controller
              $model->user_id = Yii::$app->user->getId();
              if($model->save()){
                $path = Yii::$app->params['uploadPath'] . $model->avatar;
-               $image->saveAs($path);            
+               $image->saveAs($path);
                Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
                    ->save(Yii::$app->params['uploadPath'].'sqr_'.$model->avatar, ['quality' => 50]);
                Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 30, 30)
@@ -119,7 +103,7 @@ class UserSettingController extends Controller
              } else {
                // error in saving model
                // pass thru to form
-             }             
+             }
            } else {
              // simple save
              $model->save();

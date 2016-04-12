@@ -11,16 +11,16 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $filename 
- * @property string $avatar 
+ * @property string $filename
+ * @property string $avatar
  * @property integer $reminder_eve
  * @property integer $reminder_hours
  * @property integer $contact_share
  * @property integer $no_email
- * @property integer $participant_add_place 
- * @property integer $participant_add_date_time 
- * @property integer $participant_choose_place 
- * @property integer $participant_choose_date_time 
+ * @property integer $participant_add_place
+ * @property integer $participant_add_date_time
+ * @property integer $participant_choose_place
+ * @property integer $participant_choose_date_time
  * @property integer $participant_finalize
  * @property integer $created_at
  * @property integer $updated_at
@@ -31,10 +31,10 @@ class UserSetting extends \yii\db\ActiveRecord
 {
     const SETTING_NO = 0;
     const SETTING_OFF = 0;
-    const SETTING_YES = 10;    
+    const SETTING_YES = 10;
     const SETTING_24_HOUR = 24;
-    const SETTING_48_HOUR = 48;    
-    const SETTING_72_HOUR = 72;    
+    const SETTING_48_HOUR = 48;
+    const SETTING_72_HOUR = 72;
 
     public $image;
     /**
@@ -44,7 +44,7 @@ class UserSetting extends \yii\db\ActiveRecord
     {
         return 'user_setting';
     }
-    
+
     public function behaviors()
     {
         return [
@@ -57,6 +57,7 @@ class UserSetting extends \yii\db\ActiveRecord
             ],
         ];
     }
+
     /**
      * @inheritdoc
      */
@@ -85,8 +86,8 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('frontend', 'ID'),
             'user_id' => Yii::t('frontend', 'User ID'),
-            'filename' => Yii::t('frontend', 'Filename'), 
-            'avatar' => Yii::t('frontend', 'Avatar'), 
+            'filename' => Yii::t('frontend', 'Filename'),
+            'avatar' => Yii::t('frontend', 'Avatar'),
             'reminder_eve' => Yii::t('frontend', 'Reminder Eve'),
            'reminder_hours' => Yii::t('frontend', 'Reminder Hours'),
            'contact_share' => Yii::t('frontend', 'Contact Share'),
@@ -95,7 +96,7 @@ class UserSetting extends \yii\db\ActiveRecord
              'participant_add_date_time' => Yii::t('frontend', 'Allow invitees to add date & time options'),
              'participant_choose_place' => Yii::t('frontend', 'Allow invitees to choose the place'),
              'participant_choose_date_time' => Yii::t('frontend', 'Allow invitees to choose the date & time'),
-             'participant_finalize' => Yii::t('frontend', 'Allow invitees to finalize meetings'),            
+             'participant_finalize' => Yii::t('frontend', 'Allow invitees to finalize meetings'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
@@ -108,7 +109,7 @@ class UserSetting extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    
+
     public static function initialize($user_id) {
       $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
       if (is_null($us)) {
@@ -124,7 +125,7 @@ class UserSetting extends \yii\db\ActiveRecord
       }
       return $us->id;
     }
-    
+
     public function getEarlyReminderType($data) {
         $options = $this->getEarlyReminderOptions();
         return $options[$data];
@@ -139,9 +140,9 @@ class UserSetting extends \yii\db\ActiveRecord
             self::SETTING_OFF => 'Do not send an early reminder',
            );
        }
-       
+
        public function deleteImage($path,$filename) {
-           $file =array();           
+           $file =array();
            $file[] = $path.$filename;
            $file[] = $path.'sqr_'.$filename;
            $file[] = $path.'sm_'.$filename;
@@ -150,8 +151,8 @@ class UserSetting extends \yii\db\ActiveRecord
              if (!empty($f) && file_exists($f)) {
                // delete file
                unlink($f);
-             }             
+             }
            }
        }
-       
+
 }

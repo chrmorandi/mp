@@ -13,7 +13,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'components' => [    
+    'components' => [
       'authClientCollection' => [
               'class' => 'yii\authclient\Collection',
               'clients' => [
@@ -29,7 +29,7 @@ return [
                       'class' => 'yii\authclient\clients\Twitter',
                       'consumerKey' => $config['oauth_twitter_key'],
                       'consumerSecret' => $config['oauth_twitter_secret'],
-                              ],                              
+                              ],
               ],
           ],
       'urlManager' => [
@@ -43,8 +43,8 @@ return [
                       'place/create' => 'place/create',
                       'place/create_geo' => 'place/create_geo',
                       'place/create_place_google' => 'place/create_place_google',
-                      'place/view/<id:\d+>' => 'place/view',  
-                      'place/update/<id:\d+>' => 'place/update',  
+                      'place/view/<id:\d+>' => 'place/view',
+                      'place/update/<id:\d+>' => 'place/update',
                       'place/<slug>' => 'place/slug',
 					            'defaultRoute' => '/site/index',
                   ],

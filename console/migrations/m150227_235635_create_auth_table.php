@@ -18,12 +18,12 @@ class m150227_235635_create_auth_table extends Migration
            'source' => Schema::TYPE_STRING.' NOT NULL',
            'source_id' => Schema::TYPE_STRING.' NOT NULL',
        ], $tableOptions);
-       $this->addForeignKey('fk-auth-user_id-user-id', '{{%auth}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');      
+       $this->addForeignKey('fk-auth-user_id-user-id', '{{%auth}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
    }
 
    public function down()
    {
-     $this->dropForeignKey('fk_mpc_meeting_place', '{{%auth}}');
+     $this->dropForeignKey('fk-auth-user_id-user-id', '{{%auth}}');
      $this->dropTable('{{%auth}}');
    }
 }
