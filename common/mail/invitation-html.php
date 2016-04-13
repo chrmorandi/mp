@@ -46,7 +46,8 @@ use frontend\models\MeetingTime;
         <p>
         <?= $p->place->name ?>
         <br/ >
-        <span style="font-size:75%;"><?= $p->place->vicinity ?> <?= HTML::a(Yii::t('frontend','view map'),'http://www.google.com/maps/search/'.$p->place->name.','.$p->place->full_address) ?></span>
+        <span style="font-size:75%;"><?= $p->place->vicinity ?> <?= HTML::a(Yii::t('frontend','view map'),
+        MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_MAP,$p->place->id,$user_id,$auth_key)) ?></span>
       </p>
     </td>
     <td width="300" >

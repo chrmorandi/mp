@@ -209,45 +209,97 @@ class MeetingController extends Controller
       }
     }
 
-    public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$val1=0) {
+    public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$k=0) {
       // Manage the incoming session
-      // check logged in user against incoming user_id
-        // if so, log them out and log new user in
+      if (!Yii::$app->user->isGuest) {
+          if (Yii::$app->user->getId()!=$actor_id) {
+            // to do: give user a choice of not logging out
+            Yii::$app->user->logout();
+          }
+      }
+      // validate the authKey
+      // authenticate/login the user
       // check if user is PASSIVE
       // if active, set SESSION to indicate log in through command
-      // begin redirection based on commands
+      // if PASSIVE login
+      // - if no password, setflash to link to create password
+      // - meeting page - flash to security limitation of that meeting view
+      // - meeting index - redirect to view only that meeting (do this on other index pages too)      
       $meeting = $this->findModel($id);
       switch ($cmd) {
+        case Meeting::COMMAND_VIEW:
+          $this->redirect(['meeting/view','id'=>$id]);
+        break;
+        case Meeting::COMMAND_VIEW_MAP:
+        // to do - build a map place page with navigation back to meeting
+        // 'http://www.google.com/maps/search/'.$p->place->name.','.$p->place->full_address)
+        break;
+        case Meeting::COMMAND_FINALIZE:
+          $this->redirect(['meeting/finalize','id'=>$id]);
+        break;
+        case Meeting::COMMAND_CANCEL:
+          $this->redirect(['meeting/cancel','id'=>$id]);
+        break;
+        case Meeting::COMMAND_ACCEPT_ALL:
+          //Meeting::acceptall','id'=>$id]);
+          $this->redirect(['meeting/view','id'=>$id]);
+        break;
+        case Meeting::COMMAND_ACCEPT_ALL_PLACES:
+          //(['meeting-place/acceptall','id'=>$id]);
+          $this->redirect(['meeting/view','id'=>$id]);
+          break;
+          case Meeting::COMMAND_ACCEPT_ALL_TIMES:
+          //(['meeting-time/acceptall','id'=>$id]);
+          $this->redirect(['meeting/view','id'=>$id]);
+          break;
+        case Meeting::COMMAND_ADD_PLACE:
+          $this->redirect(['meeting-place/create','meeting_id'=>$id]);
+        break;
+        case Meeting::COMMAND_ADD_TIME:
+          $this->redirect(['meeting-time/create','meeting_id'=>$id]);
+        break;
+        case Meeting::COMMAND_ADD_NOTE:
+          $this->redirect(['meeting-note/create','meeting_id'=>$id]);
+        break;
         case Meeting::COMMAND_ACCEPT_PLACE:
-          # code...
+          //MeetingPlace::accept
+          $this->redirect(['meeting/view','id'=>$id]);
           // run the ajax
           // load the page
+          $this->redirect(['meeting/view','id'=>$id]);
           break;
         case Meeting::COMMAND_REJECT_PLACE:
-
+          //MeetingPlace::reject
+          $this->redirect(['meeting/view','id'=>$id]);
         break;
         case Meeting::COMMAND_CHOOSE_PLACE:
+          //MeetingPlace::choose
+          $this->redirect(['meeting/view','id'=>$id]);
 
         break;
         case Meeting::COMMAND_ACCEPT_TIME:
-          # code...
+        //MeetingTime::accept
+          $this->redirect(['meeting/view','id'=>$id]);
           // run the ajax
           // load the page
           break;
         case Meeting::COMMAND_REJECT_TIME:
-
+          //MeetingTime::reject
+          $this->redirect(['meeting/view','id'=>$id]);
         break;
         case Meeting::COMMAND_CHOOSE_TIME:
-
+        //MeetingTime::choose
+          $this->redirect(['meeting/view','id'=>$id]);
+        break;
+        case Meeting::COMMAND_FOOTER_EMAIL:
+        case Meeting::COMMAND_FOOTER_BLOCK:
+        case Meeting::COMMAND_FOOTER_BLOCK_ALL:
+          $this->redirect(['site\unavailable','meeting_id'=>$id]);
         break;
         default:
-          # code...
+          $this->redirect(['site\error','meeting_id'=>$id]);
           break;
       }
-      echo $meeting->subject;
-      echo 'val='.$val;
-      echo 'cmd='.$cmd;
-      echo 'participant_id='.$p;
     }
 
     /**

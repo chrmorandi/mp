@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use yii\i18n\Formatter;
 use common\models\Yiigun;
+use common\components\MiscHelpers;
 
 /**
  * This is the model class for table "meeting".
@@ -52,13 +53,25 @@ class Meeting extends \yii\db\ActiveRecord
   const VIEWER_ORGANIZER = 0;
   const VIEWER_PARTICIPANT = 10;
 
+  const COMMAND_VIEW = 10;
+  const COMMAND_VIEW_MAP = 20;
+  const COMMAND_FINALIZE = 50;
+  const COMMAND_CANCEL = 60;
+  const COMMAND_ACCEPT_ALL = 70;
   const COMMAND_ACCEPT_PLACE = 100;
   const COMMAND_REJECT_PLACE = 110;
-  const COMMAND_CHOOSE_PLACE = 120;
-
-  const COMMAND_ACCEPT_TIME = 150;
-  const COMMAND_REJECT_TIME = 160;
-  const COMMAND_CHOOSE_TIME = 170;
+  const COMMAND_ACCEPT_ALL_PLACES = 120;
+  const COMMAND_CHOOSE_PLACE = 150;
+  const COMMAND_ACCEPT_TIME = 200;
+  const COMMAND_REJECT_TIME = 210;
+  const COMMAND_ACCEPT_ALL_TIMES = 220;
+  const COMMAND_CHOOSE_TIME = 250;
+  const COMMAND_ADD_PLACE = 300;
+  const COMMAND_ADD_TIME = 310;
+  const COMMAND_ADD_NOTE = 320;
+  const COMMAND_FOOTER_EMAIL = 400;
+  const COMMAND_FOOTER_BLOCK = 410;
+  const COMMAND_FOOTER_BLOCK_ALL = 420;
 
   public $title;
   public $viewer;
@@ -310,22 +323,25 @@ class Meeting extends \yii\db\ActiveRecord
     $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
     $places = MeetingPlace::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
     $times = MeetingTime::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
+    $auth_key=User::find()->where(['id'=>$actor_id])->one()->auth_key;
     // Get message header
     $header = $this->getMeetingHeader();
     // Build the absolute links to the meeting and commands
     $links=[
-      'view'=>Url::to(['view','id'=>$this->id], true),
-      'finalize'=>Url::to(['finalize','id'=>$this->id], true),
-      'cancel'=>Url::to(['cancel','id'=>$this->id], true),
-      'acceptall'=>Url::to(['acceptall','id'=>$this->id], true),
-      'acceptplaces'=>Url::to(['acceptplaces','id'=>$this->id], true),
-      'accepttimes'=>Url::to(['accepttimes','id'=>$this->id], true),
-      'addplace'=>Url::to(['meeting-place/create','meeting_id'=>$this->id], true),
-      'addtime'=>Url::to(['meeting-time/create','meeting_id'=>$this->id], true),
-      'addnote'=>Url::to(['meeting-note/create','meeting_id'=>$this->id], true),
+      'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$user_id,$auth_key),
+      'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$user_id,$auth_key),
+      'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$user_id,$auth_key),
+      'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$user_id,$auth_key),
+      'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$user_id,$auth_key),
+      'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$user_id,$auth_key),
+      'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$user_id,$auth_key),
+      'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$user_id,$auth_key),
+      'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$user_id,$auth_key),
+      'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$user_id,$auth_key),
+      'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,0,$user_id,$auth_key),
+      'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$user_id,$auth_key),
     ];
-// to do - loop through participants
-    // to do - append auth key to links
+  // to do - loop through participants    
   // send the message
   $message = Yii::$app->mailer->compose([
     'html' => 'invitation-html',
@@ -335,6 +351,8 @@ class Meeting extends \yii\db\ActiveRecord
     'meeting_id' => $this->id,
     'participant_id' => 0,
     'owner' => $this->owner->username,
+    'user_id' => $user_id,
+    'auth_key' => $auth_key,
     'intro' => $this->message,
     'links' => $links,
     'header' => $header,

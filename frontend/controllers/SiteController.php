@@ -75,12 +75,19 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+      if (Yii::$app->user->isGuest) {
+          return $this->render('index');
+      } else {
+        // user is logged in
+        $this->redirect('meeting/index');
+      }
+
+
     }
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -179,6 +186,11 @@ class SiteController extends Controller
     public function actionUnavailable()
     {
         return $this->render('unavailable');
+    }
+
+    public function actionError()
+    {
+        return $this->render('error');
     }
 
     public function onAuthSuccess($client)
