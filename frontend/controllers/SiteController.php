@@ -33,12 +33,12 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup','error','authfailure'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','error','authfailure'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -181,6 +181,11 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionAuthfailure()
+    {
+        return $this->render('authfailure');
     }
 
     public function actionUnavailable()

@@ -36,8 +36,14 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
+                               'actions'=>['index','view','create','update','delete', 'cancel','command'],
                                'roles' => ['@'],
                            ],
+                          [
+                              'allow' => true,
+                              'actions'=>['command'],
+                              'roles' => ['?'],
+                          ],
                           // everything else is denied
                         ],
                     ],
@@ -101,6 +107,20 @@ class MeetingController extends Controller
             'placeProvider' => $placeProvider,
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+        ]);
+    }
+
+    public function actionViewplace($id,$meeting_place_id)
+    {
+      $meetingPlace= MeetingPlace::findOne($meeting_place_id);
+      $model = $this->findModel($id);
+      $model->prepareView();
+        return $this->render('viewplace', [
+            'model' => $model,
+            'viewer' => Yii::$app->user->getId(),
+            'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+            'place' => $meetingPlace->place,
+            'gps'=>$meetingPlace->place->getLocation($meetingPlace->place->id),
         ]);
     }
 
@@ -210,96 +230,124 @@ class MeetingController extends Controller
     }
 
     public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$k=0) {
+      $performAuth = true;
+      $authResult = false;
       // Manage the incoming session
       if (!Yii::$app->user->isGuest) {
-          if (Yii::$app->user->getId()!=$actor_id) {
-            // to do: give user a choice of not logging out
-            Yii::$app->user->logout();
+        if (Yii::$app->user->getId()!=$actor_id) {
+          // to do: give user a choice of not logging out
+          Yii::$app->user->logout();
+          // to do - check that this logs out in single call
+        } else {
+          // user actor_id is already logged in
+          $authResult = true;
+          $performAuth = false;
+        }
+      }
+      if ($performAuth) {
+         //echo 'guest';
+          $person = new \common\models\User;
+          $identity = $person->findIdentity($actor_id);
+          if ($identity->validateAuthKey($k)) {
+            Yii::$app->user->login($identity);
+            // echo 'authenticated';
+            $authResult=true;
+          } else {
+            // echo 'fail';
+            $authResult=false;
           }
       }
-      // validate the authKey
-      // authenticate/login the user
-      // check if user is PASSIVE
-      // if active, set SESSION to indicate log in through command
-      // if PASSIVE login
-      // - if no password, setflash to link to create password
-      // - meeting page - flash to security limitation of that meeting view
-      // - meeting index - redirect to view only that meeting (do this on other index pages too)      
-      $meeting = $this->findModel($id);
-      switch ($cmd) {
-        case Meeting::COMMAND_VIEW:
-          $this->redirect(['meeting/view','id'=>$id]);
-        break;
-        case Meeting::COMMAND_VIEW_MAP:
-        // to do - build a map place page with navigation back to meeting
-        // 'http://www.google.com/maps/search/'.$p->place->name.','.$p->place->full_address)
-        break;
-        case Meeting::COMMAND_FINALIZE:
-          $this->redirect(['meeting/finalize','id'=>$id]);
-        break;
-        case Meeting::COMMAND_CANCEL:
-          $this->redirect(['meeting/cancel','id'=>$id]);
-        break;
-        case Meeting::COMMAND_ACCEPT_ALL:
-          //Meeting::acceptall','id'=>$id]);
-          $this->redirect(['meeting/view','id'=>$id]);
-        break;
-        case Meeting::COMMAND_ACCEPT_ALL_PLACES:
-          //(['meeting-place/acceptall','id'=>$id]);
-          $this->redirect(['meeting/view','id'=>$id]);
+      if (!$authResult) {
+        $this->redirect(['site/authfailure']);
+      } else {
+        // TO DO check if user is PASSIVE
+        // if active, set SESSION to indicate log in through command
+        // if PASSIVE login
+        // - if no password, setflash to link to create password
+        // - meeting page - flash to security limitation of that meeting view
+        // - meeting index - redirect to view only that meeting (do this on other index pages too)
+        $meeting = $this->findModel($id);
+        switch ($cmd) {
+          case Meeting::COMMAND_HOME:
+            $this->goHome();
           break;
-          case Meeting::COMMAND_ACCEPT_ALL_TIMES:
-          //(['meeting-time/acceptall','id'=>$id]);
-          $this->redirect(['meeting/view','id'=>$id]);
+          case Meeting::COMMAND_VIEW:
+            $this->redirect(['meeting/view','id'=>$id]);
           break;
-        case Meeting::COMMAND_ADD_PLACE:
-          $this->redirect(['meeting-place/create','meeting_id'=>$id]);
-        break;
-        case Meeting::COMMAND_ADD_TIME:
-          $this->redirect(['meeting-time/create','meeting_id'=>$id]);
-        break;
-        case Meeting::COMMAND_ADD_NOTE:
-          $this->redirect(['meeting-note/create','meeting_id'=>$id]);
-        break;
-        case Meeting::COMMAND_ACCEPT_PLACE:
-          //MeetingPlace::accept
-          $this->redirect(['meeting/view','id'=>$id]);
-          // run the ajax
-          // load the page
-          $this->redirect(['meeting/view','id'=>$id]);
+          case Meeting::COMMAND_VIEW_MAP:
+            $this->redirect(['meeting/viewplace','id'=>$id,'meeting_place_id'=>$obj_id]);
+          // to do - build a map place page with navigation back to meeting
+          // 'http://www.google.com/maps/search/'.$p->place->name.','.$p->place->full_address)
           break;
-        case Meeting::COMMAND_REJECT_PLACE:
-          //MeetingPlace::reject
-          $this->redirect(['meeting/view','id'=>$id]);
-        break;
-        case Meeting::COMMAND_CHOOSE_PLACE:
-          //MeetingPlace::choose
-          $this->redirect(['meeting/view','id'=>$id]);
+          case Meeting::COMMAND_FINALIZE:
+            $this->redirect(['meeting/finalize','id'=>$id]);
+          break;
+          case Meeting::COMMAND_CANCEL:
+            $this->redirect(['meeting/cancel','id'=>$id]);
+          break;
+          case Meeting::COMMAND_ACCEPT_ALL:
+            //Meeting::acceptall','id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id]);
+          break;
+          case Meeting::COMMAND_ACCEPT_ALL_PLACES:
+            //(['meeting-place/acceptall','id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id]);
+            break;
+            case Meeting::COMMAND_ACCEPT_ALL_TIMES:
+            //(['meeting-time/acceptall','id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id]);
+            break;
+          case Meeting::COMMAND_ADD_PLACE:
+            $this->redirect(['meeting-place/create','meeting_id'=>$id]);
+          break;
+          case Meeting::COMMAND_ADD_TIME:
+            $this->redirect(['meeting-time/create','meeting_id'=>$id]);
+          break;
+          case Meeting::COMMAND_ADD_NOTE:
+            $this->redirect(['meeting-note/create','meeting_id'=>$id]);
+          break;
+          case Meeting::COMMAND_ACCEPT_PLACE:
+            //MeetingPlace::accept
+            $this->redirect(['meeting/view','id'=>$id]);
+            // run the ajax
+            // load the page
+            $this->redirect(['meeting/view','id'=>$id]);
+            break;
+          case Meeting::COMMAND_REJECT_PLACE:
+            //MeetingPlace::reject
+            $this->redirect(['meeting/view','id'=>$id]);
+          break;
+          case Meeting::COMMAND_CHOOSE_PLACE:
+            //MeetingPlace::choose
+            $this->redirect(['meeting/view','id'=>$id]);
 
-        break;
-        case Meeting::COMMAND_ACCEPT_TIME:
-        //MeetingTime::accept
-          $this->redirect(['meeting/view','id'=>$id]);
-          // run the ajax
-          // load the page
           break;
-        case Meeting::COMMAND_REJECT_TIME:
-          //MeetingTime::reject
-          $this->redirect(['meeting/view','id'=>$id]);
-        break;
-        case Meeting::COMMAND_CHOOSE_TIME:
-        //MeetingTime::choose
-          $this->redirect(['meeting/view','id'=>$id]);
-        break;
-        case Meeting::COMMAND_FOOTER_EMAIL:
-        case Meeting::COMMAND_FOOTER_BLOCK:
-        case Meeting::COMMAND_FOOTER_BLOCK_ALL:
-          $this->redirect(['site\unavailable','meeting_id'=>$id]);
-        break;
-        default:
-          $this->redirect(['site\error','meeting_id'=>$id]);
+          case Meeting::COMMAND_ACCEPT_TIME:
+          //MeetingTime::accept
+            $this->redirect(['meeting/view','id'=>$id]);
+            // run the ajax
+            // load the page
+            break;
+          case Meeting::COMMAND_REJECT_TIME:
+            //MeetingTime::reject
+            $this->redirect(['meeting/view','id'=>$id]);
           break;
+          case Meeting::COMMAND_CHOOSE_TIME:
+          //MeetingTime::choose
+            $this->redirect(['meeting/view','id'=>$id]);
+          break;
+          case Meeting::COMMAND_FOOTER_EMAIL:
+          case Meeting::COMMAND_FOOTER_BLOCK:
+          case Meeting::COMMAND_FOOTER_BLOCK_ALL:
+            $this->redirect(['site\unavailable','meeting_id'=>$id]);
+          break;
+          default:
+            $this->redirect(['site\error','meeting_id'=>$id]);
+            break;
+        }
       }
+
+
     }
 
     /**

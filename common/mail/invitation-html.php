@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
@@ -13,7 +14,7 @@ use frontend\models\MeetingTime;
 <table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
   <tr>
     <td colspan="2">
-      <p><em>Hi, <?= $owner ?> is inviting you to an event using a new service called <?= HTML::a(Yii::t('frontend','Meeting Planner'),Url::home(true)) ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails. Please try it out below.</em></p>
+      <p><em>Hi, <?= $owner ?> is inviting you to an event using a new service called <?= HTML::a(Yii::t('frontend','Meeting Planner'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)) ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails. Please try it out below.</em></p>
       <p><?= $intro ?></p>
       <p> <?= HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']) ?></a>
       | <?= HTML::a(Yii::t('frontend','Accept all places and times'),$links['acceptall']) ?>
@@ -47,14 +48,14 @@ use frontend\models\MeetingTime;
         <?= $p->place->name ?>
         <br/ >
         <span style="font-size:75%;"><?= $p->place->vicinity ?> <?= HTML::a(Yii::t('frontend','view map'),
-        MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_MAP,$p->place->id,$user_id,$auth_key)) ?></span>
+        MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->id,$user_id,$auth_key)) ?></span>
       </p>
     </td>
     <td width="300" >
-      <?= HTML::a(Yii::t('frontend','accept'),Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>Meeting::COMMAND_ACCEPT_PLACE,'obj_id'=>$p->id,'actor_id'=>$participant_id],true)) ?> | <?= HTML::a(Yii::t('frontend','reject'),Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>Meeting::COMMAND_REJECT_PLACE,'obj_id'=>$p->id,'actor_id'=>$participant_id],true)) ?>
+      <?= HTML::a(Yii::t('frontend','accept'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_PLACE,$p->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_PLACE,$p->id,$user_id,$auth_key)) ?>
       <?php
         if ($meetingSettings->participant_choose_place) { ?>
-        | <?= HTML::a(Yii::t('frontend','choose'),Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>Meeting::COMMAND_CHOOSE_PLACE,'obj_id'=>$p->id,'actor_id'=>$participant_id],true)) ?>
+        | <?= HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_PLACE,$p->id,$user_id,$auth_key)) ?>
         <?php
         }
         ?>
@@ -88,10 +89,10 @@ use frontend\models\MeetingTime;
         <p><?= Meeting::friendlyDateFromTimestamp($t->start) ?></p>
       </td>
       <td width="300">
-        <?= HTML::a(Yii::t('frontend','accept'),Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>'accepttime','val'=>$p->id,'p'=>$participant_id],true)) ?> | <?= HTML::a(Yii::t('frontend','reject'),Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>'rejecttime','val'=>$p->id,'p'=>$participant_id],true)) ?>
+        <?= HTML::a(Yii::t('frontend','accept'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_TIME,$t->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_TIME,$t->id,$user_id,$auth_key)) ?>
         <?php
           if ($meetingSettings->participant_choose_date_time) { ?>
-          | <?= HTML::a(Yii::t('frontend','choose'),Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>'choosetime','val'=>$p->id,'p'=>$participant_id],true)) ?>
+          | <?= HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_TIME,$t->id,$user_id,$auth_key)) ?>
           <?php
           }
           ?>
@@ -132,7 +133,7 @@ use frontend\models\MeetingTime;
 <table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
   <tr><td width="300" style="text-align:center;margin:10px;">
 <p>
-  <?= Html::a(Yii::t('frontend','Visit Meeting Planner'), Url::home(true)) ?>
+  <?= Html::a(Yii::t('frontend','Visit Meeting Planner'), MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)) ?>
 </p>
 </td></tr>
 <tr><td width="300" style="text-align:center;font-size:75%;margin:10px;">
