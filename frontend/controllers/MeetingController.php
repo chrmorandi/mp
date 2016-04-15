@@ -250,6 +250,8 @@ class MeetingController extends Controller
          //echo 'guest';
           $person = new \common\models\User;
           $identity = $person->findIdentity($actor_id);
+          var_dump($identity);
+          exit;
           if ($identity->validateAuthKey($k)) {
             Yii::$app->user->login($identity);
             // echo 'authenticated';
