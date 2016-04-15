@@ -14,26 +14,26 @@ use frontend\models\MeetingTime;
 <table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
   <tr>
     <td colspan="2">
-      <p><em>Hi, <?= $owner ?> is inviting you to an event using a new service called <?= HTML::a(Yii::t('frontend','Meeting Planner'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)) ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails. Please try it out below.</em></p>
-      <p><?= $intro ?></p>
-      <p> <?= HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']) ?></a>
-      | <?= HTML::a(Yii::t('frontend','Accept all places and times'),$links['acceptall']) ?>
+      <p><em>Hi, <?php echo $owner ?> is inviting you to an event using a new service called <?php echo HTML::a(Yii::t('frontend','Meeting Planner'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)) ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails. Please try it out below.</em></p>
+      <p><?php echo $intro ?></p>
+      <p> <?php echo HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']) ?></a>
+      | <?php echo HTML::a(Yii::t('frontend','Accept all places and times'),$links['acceptall']) ?>
          <?php
          if ($meetingSettings->participant_finalize && count($places)==1 && count($times)==1) { ?>
-         | <?= HTML::a(Yii::t('frontend','Finalize meeting'),$links['finalize']) ?>
+         | <?php echo HTML::a(Yii::t('frontend','Finalize meeting'),$links['finalize']) ?>
          <?php
          }
          ?>
-         | <?= HTML::a(Yii::t('frontend','Decline invitation'),$links['cancel']) ?></p>
+         | <?php echo HTML::a(Yii::t('frontend','Decline invitation'),$links['cancel']) ?></p>
     </td>
   </tr>
   <tr style="border-bottom:1px solid #ccc;">
     <td width="300"><strong>Where</strong></td>
     <td width="300" >
-      <?= HTML::a(Yii::t('frontend','accept all places'),$links['acceptplaces']) ?>
+      <?php echo HTML::a(Yii::t('frontend','accept all places'),$links['acceptplaces']) ?>
       <?php
       if ($meetingSettings->participant_add_place) { ?>
-      | <?= HTML::a(Yii::t('frontend','suggest a place'),$links['addplace']) ?>
+      | <?php echo HTML::a(Yii::t('frontend','suggest a place'),$links['addplace']) ?>
       <?php
       }
       ?>
@@ -45,17 +45,17 @@ use frontend\models\MeetingTime;
     <tr>
       <td width="300">
         <p>
-        <?= $p->place->name ?>
+        <?php echo $p->place->name ?>
         <br/ >
-        <span style="font-size:75%;"><?= $p->place->vicinity ?> <?= HTML::a(Yii::t('frontend','view map'),
+        <span style="font-size:75%;"><?php echo $p->place->vicinity ?> <?php echo HTML::a(Yii::t('frontend','view map'),
         MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->id,$user_id,$auth_key)) ?></span>
       </p>
     </td>
     <td width="300" >
-      <?= HTML::a(Yii::t('frontend','acceptable'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_PLACE,$p->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_PLACE,$p->id,$user_id,$auth_key)) ?>
+      <?php echo HTML::a(Yii::t('frontend','acceptable'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_PLACE,$p->id,$user_id,$auth_key)) ?> | <?php echo HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_PLACE,$p->id,$user_id,$auth_key)) ?>
       <?php
         if ($meetingSettings->participant_choose_place) { ?>
-        | <?= HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_PLACE,$p->id,$user_id,$auth_key)) ?>
+        | <?php echo HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_PLACE,$p->id,$user_id,$auth_key)) ?>
         <?php
         }
         ?>
@@ -72,10 +72,10 @@ use frontend\models\MeetingTime;
       <strong>When</strong><br />
     </td>
       <td width="300" >
-        <?= HTML::a(Yii::t('frontend','accept all times'),$links['accepttimes']) ?>
+        <?php echo HTML::a(Yii::t('frontend','accept all times'),$links['accepttimes']) ?>
         <?php
         if ($meetingSettings->participant_add_date_time) { ?>
-        | <?= HTML::a(Yii::t('frontend','suggest a time'),$links['addtime']) ?>
+        | <?php echo HTML::a(Yii::t('frontend','suggest a time'),$links['addtime']) ?>
         <?php
         }
         ?>
@@ -86,13 +86,13 @@ use frontend\models\MeetingTime;
     ?>
     <tr>
       <td width="300">
-        <p><?= Meeting::friendlyDateFromTimestamp($t->start) ?></p>
+        <p><?php echo Meeting::friendlyDateFromTimestamp($t->start) ?></p>
       </td>
       <td width="300">
-        <?= HTML::a(Yii::t('frontend','acceptable'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_TIME,$t->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_TIME,$t->id,$user_id,$auth_key)) ?>
+        <?php echo HTML::a(Yii::t('frontend','acceptable'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_TIME,$t->id,$user_id,$auth_key)) ?> | <?php echo HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_TIME,$t->id,$user_id,$auth_key)) ?>
         <?php
           if ($meetingSettings->participant_choose_date_time) { ?>
-          | <?= HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_TIME,$t->id,$user_id,$auth_key)) ?>
+          | <?php echo HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_TIME,$t->id,$user_id,$auth_key)) ?>
           <?php
           }
           ?>
@@ -110,7 +110,7 @@ use frontend\models\MeetingTime;
       <tr style="border-bottom:1px solid #ccc;">
         <td width="300" ><strong>Notes</strong></td>
         <td width="300" >
-            <?= HTML::a(Yii::t('frontend','add a note'),$links['addnote']) ?>
+            <?php echo HTML::a(Yii::t('frontend','add a note'),$links['addnote']) ?>
         </td>
       </tr>
 <?php
@@ -118,8 +118,8 @@ use frontend\models\MeetingTime;
     ?>
     <tr>
       <td colspan="2">
-        <p><em><?= $n->postedBy->email ?> says: </em>
-        "<?= $n->note ?>"
+        <p><em><?php echo $n->postedBy->email ?> says: </em>
+        "<?php echo $n->note ?>"
       </p><br/ >
       </td>
     </tr>
@@ -133,15 +133,14 @@ use frontend\models\MeetingTime;
 <table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
   <tr><td width="300" style="text-align:center;margin:10px;">
 <p>
-  <?= Html::a(Yii::t('frontend','Visit Meeting Planner'), MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)) ?>
+  <?php echo Html::a(Yii::t('frontend','Visit Meeting Planner'), MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)) ?>
 </p>
 </td></tr>
 <tr><td width="300" style="text-align:center;font-size:75%;margin:10px;">
 <em>
-  <?= HTML::a(Yii::t('frontend','Review your email settings'),Url::to(['/site/unavailable'],true)) ?>
-  | <?= HTML::a(Yii::t('frontend','Block this person'),Url::to(['/site/unavailable'],true)) ?>
-  | <?= HTML::a(Yii::t('frontend','Block all emails'),Url::to(['/site/unavailable'],true)) ?>
+  <?php echo HTML::a(Yii::t('frontend','Review your email settings'),Url::to(['/site/unavailable'],true)) ?>
+  | <?php echo HTML::a(Yii::t('frontend','Block this person'),Url::to(['/site/unavailable'],true)) ?>
+  | <?php echo HTML::a(Yii::t('frontend','Block all emails'),Url::to(['/site/unavailable'],true)) ?>
 </em>
 </td></tr>
 </table>
-?>
