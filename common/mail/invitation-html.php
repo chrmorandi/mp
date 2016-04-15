@@ -121,11 +121,11 @@ use frontend\models\MeetingTime;
       </p><br/ >
       </td>
     </tr>
-        <?
+        <?php
       }
   ?>
 </table>
-  <?
+  <?php
   }
   ?>
 <table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
