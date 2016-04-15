@@ -197,7 +197,7 @@ use yii\helpers\Html;
 	<tr>
 		<td width="600">
     <?php $this->beginBody() ?>
-    <?php echo $content ?>
+    <?php //echo $content ?>
     <?php $this->endBody() ?>
     <br />
     <br />
