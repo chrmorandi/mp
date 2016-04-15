@@ -6,10 +6,8 @@ use frontend\models\Meeting;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingTime;
-
 /* @var $this \yii\web\View view component instance */
 /* @var $message \yii\mail\BaseMessage instance of newly created mail message */
-
 ?>
 <table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
   <tr>
@@ -61,7 +59,7 @@ use frontend\models\MeetingTime;
         ?>
     </td>
     </tr>
-        <?
+        <?php
       }
   ?>
   <tr>
