@@ -23,7 +23,7 @@ MapAsset::register($this);
     <div class="row">
       <div class="col-md-6">
     <?= Html::activeDropDownList($model, 'place_id',
-          ArrayHelper::map(UserPlace::find()->all(), 'place.id', 'place.name'),['prompt'=>Yii::t('frontend','-- select one of your places below --')] ) ?>                    
+          ArrayHelper::map(UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all(), 'place.id', 'place.name'),['prompt'=>Yii::t('frontend','-- select one of your places below --')] ) ?>                    
     <h3>- or -</h3>
     <h3>Choose from Google Places</h3>
       <p>Type in a place or business known to Google Places:</p>
@@ -43,7 +43,7 @@ MapAsset::register($this);
         <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
     <div class="clearfix"></div>
     <div class="row vertical-pad">
-      <div class="form-group">      
+      <div class="form-group">
           <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Add Place') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
       </div>
     </div>
