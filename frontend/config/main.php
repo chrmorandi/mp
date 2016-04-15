@@ -20,6 +20,7 @@ return [
                   'google' => [
                       'class' => 'yii\authclient\clients\GoogleOpenId'
                   ],
+                  /*
                   'facebook' => [
                       'class' => 'yii\authclient\clients\Facebook',
                       'clientId' => $config['oauth_fb_id'],
@@ -30,6 +31,7 @@ return [
                       'consumerKey' => $config['oauth_twitter_key'],
                       'consumerSecret' => $config['oauth_twitter_secret'],
                               ],
+                              */
               ],
           ],
       'urlManager' => [

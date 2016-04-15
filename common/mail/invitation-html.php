@@ -16,7 +16,7 @@ use frontend\models\MeetingTime;
       <p><?php echo $intro; ?></p>
       <p> <?php echo HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']); ?></a>
       <?php
-          if (!($meeting_type==Meeting::TYPE_PHONE || $meeting_type==Meeting::TYPE_VIDEO)) {
+          if (!$noPlaces) {
               echo '| '.HTML::a(Yii::t('frontend','Accept all places and times'),$links['acceptall']);
           }
        ?>
@@ -30,8 +30,8 @@ use frontend\models\MeetingTime;
     </td>
   </tr>
   <?php
-  if (!($meeting_type==Meeting::TYPE_PHONE || $meeting_type==Meeting::TYPE_VIDEO))
-  { ?>
+  if (!$noPlaces) {
+  ?>
     <tr style="border-bottom:1px solid #ccc;">
       <td width="300"><strong>Where</strong></td>
       <td width="300" >
@@ -66,7 +66,7 @@ use frontend\models\MeetingTime;
           ?>
       </td>
       </tr>
-          <?php
+    <?php
         }
     ?>
     <tr>
@@ -74,8 +74,7 @@ use frontend\models\MeetingTime;
     </tr>
     <?php
       }
-    ?>
-  ?>
+      ?>
   <tr style="border-bottom:1px solid #ccc;">
     <td width="300">
       <strong>When</strong><br />

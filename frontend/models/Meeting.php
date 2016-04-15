@@ -349,6 +349,11 @@ class Meeting extends \yii\db\ActiveRecord
       'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,0,$p->participant_id,$auth_key),
       'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$p->participant_id,$auth_key),
     ];
+    if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO) {
+      $noPlaces = true;
+    } else {
+      $noPlaces = false;
+    }
     // send the message
     $message = Yii::$app->mailer->compose([
       'html' => 'invitation-html',
@@ -356,7 +361,7 @@ class Meeting extends \yii\db\ActiveRecord
     ],
     [
       'meeting_id' => $this->id,
-      'meeting_type' => $this->meeting_type,
+      'noPlaces' => $noPlaces,
       'participant_id' => 0,
       'owner' => $this->owner->username,
       'user_id' => $p->participant_id,
