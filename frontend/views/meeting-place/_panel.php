@@ -6,7 +6,12 @@ use yii\widgets\ListView;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-9"><h4><?= Yii::t('frontend','Places') ?></h4><p><em>Use the switches below to indicate which places are acceptable options for you.&nbsp;
+      <div class="col-lg-9"><h4><?= Yii::t('frontend','Places') ?></h4><p><em>
+        <?php if ($placeProvider->count>1) { ?>
+          Use the switches below to indicate which places are acceptable options for you.&nbsp;
+        <?php
+          }
+        ?>
         <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
           You are also allowed to choose the meeting place.
         <?php }?>
