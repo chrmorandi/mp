@@ -196,7 +196,7 @@ use yii\helpers\Html;
 	<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" align="center" width="600">
 	<tr>
 		<td width="600">
-    <?php //echo $content; ?>
+    <?php echo $content; ?>
     <br />
     <br />
   </td>
