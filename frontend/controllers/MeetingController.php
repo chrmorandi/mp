@@ -10,6 +10,8 @@ use frontend\models\Participant;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingTime;
+use frontend\models\MeetingPlaceChoice;
+use frontend\models\MeetingTimeChoice;
 use frontend\models\MeetingSetting;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -276,8 +278,6 @@ class MeetingController extends Controller
           break;
           case Meeting::COMMAND_VIEW_MAP:
             $this->redirect(['meeting/viewplace','id'=>$id,'meeting_place_id'=>$obj_id]);
-          // to do - build a map place page with navigation back to meeting
-          // 'http://www.google.com/maps/search/'.$p->place->name.','.$p->place->full_address)
           break;
           case Meeting::COMMAND_FINALIZE:
             $this->redirect(['meeting/finalize','id'=>$id]);
@@ -286,15 +286,16 @@ class MeetingController extends Controller
             $this->redirect(['meeting/cancel','id'=>$id]);
           break;
           case Meeting::COMMAND_ACCEPT_ALL:
-            //Meeting::acceptall','id'=>$id]);
+            MeetingTimeChoice::setAll($id,$actor_id);
+            MeetingPlaceChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_ACCEPT_ALL_PLACES:
-            //(['meeting-place/acceptall','id'=>$id]);
+            MeetingPlaceChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
-            case Meeting::COMMAND_ACCEPT_ALL_TIMES:
-            //(['meeting-time/acceptall','id'=>$id]);
+          case Meeting::COMMAND_ACCEPT_ALL_TIMES:
+            MeetingTimeChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
           case Meeting::COMMAND_ADD_PLACE:
@@ -307,33 +308,31 @@ class MeetingController extends Controller
             $this->redirect(['meeting-note/create','meeting_id'=>$id]);
           break;
           case Meeting::COMMAND_ACCEPT_PLACE:
-            //MeetingPlace::accept
-            $this->redirect(['meeting/view','id'=>$id]);
-            // run the ajax
-            // load the page
+            $mpc = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$obj_id,'user_id'=>$actor_id])->one();
+            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
           case Meeting::COMMAND_REJECT_PLACE:
-            //MeetingPlace::reject
+            $mpc = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$obj_id,'user_id'=>$actor_id])->one();
+            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_NO);
             $this->redirect(['meeting/view','id'=>$id]);
-          break;
+            break;
           case Meeting::COMMAND_CHOOSE_PLACE:
-            //MeetingPlace::choose
+            MeetingPlace::setChoice($id,$obj_id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
-
           break;
           case Meeting::COMMAND_ACCEPT_TIME:
-          //MeetingTime::accept
+            $mtc = MeetingTimeChoice::find()->where(['meeting_time_id'=>$obj_id,'user_id'=>$actor_id])->one();
+            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES);
             $this->redirect(['meeting/view','id'=>$id]);
-            // run the ajax
-            // load the page
             break;
           case Meeting::COMMAND_REJECT_TIME:
-            //MeetingTime::reject
+            $mtc = MeetingTimeChoice::find()->where(['meeting_time_id'=>$obj_id,'user_id'=>$actor_id])->one();
+            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_NO);
             $this->redirect(['meeting/view','id'=>$id]);
-          break;
+            break;
           case Meeting::COMMAND_CHOOSE_TIME:
-          //MeetingTime::choose
+            MeetingTime::setChoice($id,$obj_id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_FOOTER_EMAIL:

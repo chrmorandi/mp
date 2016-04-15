@@ -55,7 +55,7 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
     }
-    
+
     public function behaviors()
     {
         return [
@@ -84,29 +84,50 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MeetingPlace::className(), ['id' => 'meeting_place_id']);
     }
-    
+
     public function addForNewMeetingPlace($meeting_id,$suggested_by,$meeting_place_id) {
       // create new MeetingPlaceChoice for organizer and participant(s)
       // for this meeting_id and this meeting_place_id
-      // first, let's add for organizer      
+      // first, let's add for organizer
       $mtg = Meeting::find()->where(['id'=>$meeting_id])->one();
       $this->add($meeting_place_id,$mtg->owner_id,$suggested_by);
       // then add for participants
       foreach ($mtg->participants as $p) {
         $this->add($meeting_place_id,$p->participant_id,$suggested_by);
-      }      
+      }
     }
-    
+
     public static function add($meeting_place_id,$user_id,$suggested_by) {
       $model = new MeetingPlaceChoice();
       $model->meeting_place_id = $meeting_place_id;
       $model->user_id = $user_id;
       // set initial choice status based if they suggested it themselves
        if ($suggested_by == $user_id) {
-          $model->status = self::STATUS_YES;        
+          $model->status = self::STATUS_YES;
         } else {
-          $model->status = self::STATUS_UNKNOWN;        
+          $model->status = self::STATUS_UNKNOWN;
         }
       $model->save();
+    }
+
+    public static function set($id,$status)
+    {
+      $mpc = MeetingPlaceChoice::find()->where(['id'=>$id])->one();
+      $mpc->status = $status;
+      $mpc->save();
+      return $mpc->id;
+    }
+
+    public static function setAll($meeting_id,$user_id)
+    {
+      // fetch all meetingPlaces for this meeting
+      $meetingPlaces = MeetingPlace::find()->where(['meeting_id'=>$meeting_id])->all();
+      foreach ($meetingPlaces as $mp) {
+        // find mpc for this meetingPlace and user_id
+        $mpchoices = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$mp->id,'user_id'=>$user_id])->all();
+        foreach ($mpchoices as $mpc) {
+          MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES);
+        }
+      }
     }
 }

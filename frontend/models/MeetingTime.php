@@ -125,4 +125,19 @@ class MeetingTime extends \yii\db\ActiveRecord
         return $this->hasMany(MeetingTimeChoice::className(), [ 'meeting_time_id'=>'id']);
     }
 
+    public static function setChoice($meeting_id,$meeting_time_id,$user_id) {
+      // $meeting_time_id needs to be set active
+      // other $meeting_time_id for this meeting need to be set inactive
+      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
+      foreach ($mtg->meetingTimes as $mt) {
+        if ($mt->id == $meeting_time_id) {
+          $mt->status = MeetingTime::STATUS_SELECTED;
+        }
+        else {
+          $mt->status = MeetingTime::STATUS_SUGGESTED;
+        }
+        $mt->save();
+      }
+      return true;
+    }
 }

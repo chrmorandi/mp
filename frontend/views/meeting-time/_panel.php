@@ -4,7 +4,11 @@ use yii\widgets\ListView;
 ?>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-6"><h4><?= Yii::t('frontend','Dates &amp; Times') ?></h4></div><div class="col-lg-6" ><div style="float:right;">
+  <div class="panel-heading"><div class="row"><div class="col-lg-9"><h4><?= Yii::t('frontend','Dates &amp; Times') ?></h4><p><em>Use the switches below to indicate which are acceptable options.&nbsp;
+    <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
+      You are also allowed to choose the date and time.
+    <?php }?>
+  </em></p></div><div class="col-lg-3" ><div style="float:right;">
     <?php
       if ($isOwner || $model->meetingSettings->participant_add_date_time) {
         echo Html::a(Yii::t('frontend', ''), ['meeting-time/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus']);
@@ -13,7 +17,7 @@ use yii\widgets\ListView;
   </div></div></div></div>
 
   <?php
-   if ($timeProvider->count>0): 
+   if ($timeProvider->count>0):
   ?>
   <!-- Table -->
   <table class="table">
@@ -29,12 +33,12 @@ use yii\widgets\ListView;
         </td>
     </tr>
     </thead>
-    <?= ListView::widget([ 
-           'dataProvider' => $timeProvider, 
-           'itemOptions' => ['class' => 'item'], 
+    <?= ListView::widget([
+           'dataProvider' => $timeProvider,
+           'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
-           'itemView' => '_list', 
-           'viewParams' => ['timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time']],           
+           'itemView' => '_list',
+           'viewParams' => ['timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time']],
        ]) ?>
   </table>
   <?php else: ?>
@@ -52,13 +56,13 @@ use \kartik\switchinput\SwitchInput;
           else
             $value =0;
             echo SwitchInput::widget([
-            'type' => SwitchInput::CHECKBOX,              
+            'type' => SwitchInput::CHECKBOX,
             'name' => 'meeting-time-choice',
             'id'=>'mtc-'.$mtc->id,
             'value' => $value,
             'disabled' => !$isOwner,
             'pluginOptions' => ['size' => 'mini','onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>','onColor' => 'success','offColor' => 'danger',],
-            ]);          
+            ]);
       }
     }
   }
@@ -74,7 +78,7 @@ use \kartik\switchinput\SwitchInput;
           else if ($mtc->status == $mtc::STATUS_UNKNOWN)
             $value =-1;
           echo SwitchInput::widget([
-            'type' => SwitchInput::CHECKBOX,          
+            'type' => SwitchInput::CHECKBOX,
             'name' => 'meeting-time-choice',
             'id'=>'mtc-'.$mtc->id,
             'tristate'=>true,
@@ -83,26 +87,26 @@ use \kartik\switchinput\SwitchInput;
             'disabled'=>$isOwner,
             'value' => $value,
             'pluginOptions' => ['size' => 'mini','onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>','onColor' => 'success','offColor' => 'danger',],
-        ]);          
+        ]);
       }
-    }  
+    }
   }
 ?>
 
   <?php
-  if (isset(Yii::$app->params['urlPrefix'])) { 
+  if (isset(Yii::$app->params['urlPrefix'])) {
     $urlPrefix = Yii::$app->params['urlPrefix'];
     } else {
       $urlPrefix ='';
-    }  
+    }
 $script = <<< JS
-timeCount = $timeProvider->count;  
+timeCount = $timeProvider->count;
 $('input[name="time-chooser"]').on('switchChange.bootstrapSwitch', function(e, s) {
   //console.log(e.target.value); // true | false
   $.ajax({
-     url: '$urlPrefix/meeting-time/choose',   
+     url: '$urlPrefix/meeting-time/choose',
      data: {id: $model->id, 'val': e.target.value},
-     // e.target.value is selected MeetingTimeChoice model 
+     // e.target.value is selected MeetingTimeChoice model
      success: function(data) {
        refreshSend();
        refreshFinalize();
@@ -118,19 +122,18 @@ $('input[name="meeting-time-choice"]').on('switchChange.bootstrapSwitch', functi
   if (s)
     state = 1;
   else
-    state =0;  
+    state =0;
   $.ajax({
-     url: '$urlPrefix/meeting-time-choice/set',   
+     url: '$urlPrefix/meeting-time-choice/set',
      data: {id: e.target.id, 'state': state},
      success: function(data) {
        refreshSend();
-       refreshFinalize();    
+       refreshFinalize();
        return true;
      }
-  });  
+  });
 });
 JS;
 $position = \yii\web\View::POS_READY;
 $this->registerJs($script, $position);
 ?>
-

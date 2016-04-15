@@ -138,17 +138,20 @@ class Meeting extends \yii\db\ActiveRecord
     }
 
     public function initializeMeetingSetting($meeting_id,$owner_id) {
-      // load meeting creator (owner) user settings to initialize meeting_settings
-      UserSetting::initialize($owner_id); // if not initialized
-      $user_setting = UserSetting::find()->where(['user_id' => $owner_id])->one();
-      $meeting_setting = new MeetingSetting();
-      $meeting_setting->meeting_id = $meeting_id;
-      $meeting_setting->participant_add_place=$user_setting->participant_add_place;
-      $meeting_setting->participant_add_date_time=$user_setting->participant_add_date_time;
-      $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
-    $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
-      $meeting_setting->participant_finalize=$user_setting->participant_finalize;
-      $meeting_setting->save();
+      $checkMtgStg = MeetingSetting::find()->where(['meeting_id' => $meeting_id])->one();
+      if (is_null($checkMtgStg)) {
+        // load meeting creator (owner) user settings to initialize meeting_settings
+        UserSetting::initialize($owner_id); // if not initialized
+        $user_setting = UserSetting::find()->where(['user_id' => $owner_id])->one();
+        $meeting_setting = new MeetingSetting();
+        $meeting_setting->meeting_id = $meeting_id;
+        $meeting_setting->participant_add_place=$user_setting->participant_add_place;
+        $meeting_setting->participant_add_date_time=$user_setting->participant_add_date_time;
+        $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
+        $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
+        $meeting_setting->participant_finalize=$user_setting->participant_finalize;
+        $meeting_setting->save();
+      }
     }
 
     /**
@@ -388,6 +391,8 @@ class Meeting extends \yii\db\ActiveRecord
 
       public function prepareView() {
         $this->setViewer();
+        // check for meeting_settings
+        $this->initializeMeetingSetting($this->id,$this->owner_id);
         $canSend = $this->canSend($this->viewer_id);
         $this->canFinalize($this->viewer_id);
         // has invitation been sent

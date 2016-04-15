@@ -12,7 +12,7 @@
       'label'=>'Description',
         'attribute' => 'meeting_type',
         'format' => 'raw',
-        'value' => function ($model) {                      
+        'value' => function ($model) {
                     return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a></div>';
             },
     ],
@@ -20,24 +20,25 @@
       'label'=>'Last updated',
         'attribute' => 'updated_at',
         'format' => 'raw',
-        'value' => function ($model) {                      
+        'value' => function ($model) {
                     return '<div>'.Yii::$app->formatter->asDatetime($model->updated_at,"MMM d").'</div>';
             },
     ],
     // to do: make this conditional for tabs, show delete on cancel tab, no cancel on past tab
         ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {cancel}',
         'buttons'=>[
-            'view' => function ($url, $model) {     
+            'view' => function ($url, $model) {
               return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
-                      'title' => Yii::t('yii', 'view'),
-              ]);                                
+                      'title' => Yii::t('frontend', 'view'),
+              ]);
             },
-            'cancel' => function ($url, $model) {     
+            'cancel' => function ($url, $model) {
               return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
-                      'title' => Yii::t('yii', 'cancel'),
-              ]);                                
+                      'title' => Yii::t('frontend', 'cancel'),
+                      'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
+              ]);
             }
-                                      
+
           ]
         ],
     ],

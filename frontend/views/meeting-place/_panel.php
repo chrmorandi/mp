@@ -6,14 +6,18 @@ use yii\widgets\ListView;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-6"><h4><?= Yii::t('frontend','Places') ?></h4></div>      
-      
+      <div class="col-lg-9"><h4><?= Yii::t('frontend','Places') ?></h4><p><em>Use the switches below to indicate which places are acceptable options for you.&nbsp;
+        <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
+          You are also allowed to choose the meeting place.
+        <?php }?>
+      </em></p></div>
+
 <?php
   if (!$isOwner) {
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
-      <div class="col-lg-6" ><div style="float:right;">
+      <div class="col-lg-3" ><div style="float:right;">
         <?php
           if ($isOwner || $model->meetingSettings->participant_add_place) {
             echo Html::a('', ['meeting-place/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-plus']);
@@ -25,7 +29,7 @@ use yii\widgets\ListView;
   </div>
 
   <?php
-   if ($placeProvider->count>0): 
+   if ($placeProvider->count>0):
   ?>
   <table class="table">
      <thead>
@@ -39,12 +43,12 @@ use yii\widgets\ListView;
           ?></td>
     </tr>
     </thead>
-    <?= ListView::widget([ 
-           'dataProvider' => $placeProvider, 
-           'itemOptions' => ['class' => 'item'], 
+    <?= ListView::widget([
+           'dataProvider' => $placeProvider,
+           'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
            'itemView' => '_list',
-           'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place']],           
+           'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place']],
        ]) ?>
   </table>
   <?php else: ?>
@@ -52,46 +56,46 @@ use yii\widgets\ListView;
 
 </div>
 <?php
-if (isset(Yii::$app->params['urlPrefix'])) { 
+if (isset(Yii::$app->params['urlPrefix'])) {
   $urlPrefix = Yii::$app->params['urlPrefix'];
   } else {
     $urlPrefix ='';
   }
 $script = <<< JS
-placeCount = $placeProvider->count;  
+placeCount = $placeProvider->count;
 // allows user to set the final place
 $('input[name="place-chooser"]').on('switchChange.bootstrapSwitch', function(e, s) {
   // console.log(e.target.value); // true | false
   // turn on mpc for user
   $.ajax({
-     url: '$urlPrefix/meeting-place/choose',   
+     url: '$urlPrefix/meeting-place/choose',
      data: {id: $model->id, 'val': e.target.value},
-     // e.target.value is selected MeetingPlaceChoice model 
+     // e.target.value is selected MeetingPlaceChoice model
      success: function(data) {
        refreshSend();
        refreshFinalize();
        return true;
      }
-  });  
-});  
+  });
+});
 
 // users can say if a place is an option for them
 $('input[name="meeting-place-choice"]').on('switchChange.bootstrapSwitch', function(e, s) {
-  //console.log(e.target.id,s); // true | false  
+  //console.log(e.target.id,s); // true | false
   // set intval to pass via AJAX from boolean state
   if (s)
     state = 1;
   else
     state =0;
   $.ajax({
-     url: '$urlPrefix/meeting-place-choice/set',   
+     url: '$urlPrefix/meeting-place-choice/set',
      data: {id: e.target.id, 'state': state},
      success: function(data) {
        refreshSend();
        refreshFinalize();
        return true;
      }
-  });  
+  });
 });
 
 JS;
@@ -108,22 +112,22 @@ use \kartik\switchinput\SwitchInput;
           if ($mpc->status == $mpc::STATUS_YES)
             $value = 1;
           else
-            $value =0;              
+            $value =0;
           echo SwitchInput::widget([
           'type'=>SwitchInput::CHECKBOX,
           'name' => 'meeting-place-choice',
-          'id'=>'mpc-'.$mpc->id,          
+          'id'=>'mpc-'.$mpc->id,
           'value' => $value,
           'disabled' => !$isOwner,
           'pluginOptions' => ['size' => 'mini','onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>','onColor' => 'success','offColor' => 'danger',],
-          ]);          
+          ]);
       }
     }
   }
 
   function showParticipantStatus($model,$isOwner) {
     foreach ($model->meetingPlaceChoices as $mpc) {
-      if (count($model->meeting->participants)==0) break;  
+      if (count($model->meeting->participants)==0) break;
       if ($mpc->user_id == $model->meeting->participants[0]->participant_id) {
           if ($mpc->status == $mpc::STATUS_YES)
             $value = 1;
@@ -132,17 +136,17 @@ use \kartik\switchinput\SwitchInput;
           else if ($mpc->status == $mpc::STATUS_UNKNOWN)
             $value =-1;
           echo SwitchInput::widget([
-            'type'=>SwitchInput::CHECKBOX,         
+            'type'=>SwitchInput::CHECKBOX,
             'name' => 'meeting-place-choice',
-            'id'=>'mpc-'.$mpc->id,          
+            'id'=>'mpc-'.$mpc->id,
             'tristate'=>true,
             'indeterminateValue'=>-1,
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
             'pluginOptions' => ['size' => 'mini','onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>','onColor' => 'success','offColor' => 'danger'],
-        ]);          
+        ]);
       }
-    }   
+    }
   }
 ?>

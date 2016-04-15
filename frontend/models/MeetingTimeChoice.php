@@ -23,7 +23,7 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
   const STATUS_NO = 0;
   const STATUS_YES = 10;
   const STATUS_UNKNOWN = 20;
-  
+
     /**
      * @inheritdoc
      */
@@ -57,7 +57,7 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
     }
-    
+
     public function behaviors()
     {
         return [
@@ -86,29 +86,50 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MeetingTime::className(), ['id' => 'meeting_time_id']);
     }
-    
+
     public function addForNewMeetingTime($meeting_id,$suggested_by,$meeting_time_id) {
       // create new MeetingTimeChoice for organizer and participant(s)
       // for this meeting_id and this meeting_time_id
-      // first, let's add for organizer      
+      // first, let's add for organizer
       $mtg = Meeting::find()->where(['id'=>$meeting_id])->one();
       $this->add($meeting_time_id,$mtg->owner_id,$suggested_by);
       // then add for participants
       foreach ($mtg->participants as $p) {
         $this->add($meeting_time_id,$p->participant_id,$suggested_by);
-      }      
+      }
     }
-    
+
     public static function add($meeting_time_id,$user_id,$suggested_by) {
       $model = new MeetingTimeChoice();
       $model->meeting_time_id = $meeting_time_id;
       $model->user_id = $user_id;
       // set initial choice status based if they suggested it themselves
        if ($suggested_by == $user_id) {
-          $model->status = self::STATUS_YES;        
+          $model->status = self::STATUS_YES;
         } else {
-          $model->status = self::STATUS_UNKNOWN;        
+          $model->status = self::STATUS_UNKNOWN;
         }
       $model->save();
+    }
+
+    public static function set($id,$status)
+    {
+      $mtc = MeetingTimeChoice::find()->where(['id'=>$id])->one();
+      $mtc->status = $status;
+      $mtc->save();
+      return $mtc->id;
+    }
+
+    public static function setAll($meeting_id,$user_id)
+    {
+      // fetch all meetingTimes for this meeting
+      $meetingTimes = MeetingTime::find()->where(['meeting_id'=>$meeting_id])->all();
+      foreach ($meetingTimes as $mt) {
+        // find mpc for this meetingTime and user_id
+        $mtchoices = MeetingTimeChoice::find()->where(['meeting_time_id'=>$mt->id,'user_id'=>$user_id])->all();
+        foreach ($mtchoices as $mtc) {
+          MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES);
+        }
+      }
     }
 }

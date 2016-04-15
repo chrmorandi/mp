@@ -37,12 +37,12 @@ class Place extends \yii\db\ActiveRecord
     const TYPE_RESIDENCE = 30;
     const TYPE_OFFICE = 40;
     const TYPE_BAR = 50;
-    
+
     public $searchbox;
     public $location;
     public $lat;
     public $lng;
-    
+
     /**
      * @inheritdoc
      */
@@ -50,7 +50,7 @@ class Place extends \yii\db\ActiveRecord
     {
         return '{{%place}}';
     }
-    
+
     /**
      * @inheritdoc
      * @return PlaceQuery
@@ -59,16 +59,16 @@ class Place extends \yii\db\ActiveRecord
     {
         return new PlaceQuery(get_called_class());
     }
-    
+
     public function afterSave($insert,$changedAttributes)
     {
         parent::afterSave($insert,$changedAttributes);
         if ($insert) {
           $up = new UserPlace;
           $up->add($this->created_by,$this->id);
-        } 
+        }
     }
-     
+
     public function behaviors()
     {
         return [
@@ -86,7 +86,7 @@ class Place extends \yii\db\ActiveRecord
                 ],
             ],
         ];
-    }    
+    }
 
     /**
      * @inheritdoc
@@ -99,11 +99,11 @@ class Place extends \yii\db\ActiveRecord
              [['name', 'google_place_id', 'slug', 'website', 'full_address', 'vicinity'], 'string', 'max' => 255],
              [['website'], 'url'],
              [['slug'], 'unique'],
-             [['searchbox'], 'unique','targetAttribute' => 'google_place_id'],             
+             [['searchbox'], 'unique','targetAttribute' => 'google_place_id'],
              [['name', 'full_address'], 'unique', 'targetAttribute' => ['name', 'full_address']],
          ];
      }
-    
+
     /**
      * @inheritdoc
      */
@@ -125,7 +125,7 @@ class Place extends \yii\db\ActiveRecord
            'notes' => Yii::t('frontend', 'Notes'),
         ];
     }
-    
+
     public static function googlePlaceSuggested($form) {
       // check if this google place already exists
       if (Place::find()->where(['google_place_id'=>$form['google_place_id']])->exists()) {
@@ -149,8 +149,8 @@ class Place extends \yii\db\ActiveRecord
              return $model->id;
         } else {
           return false;
-        } 
-      }        
+        }
+      }
     }
 
     /**
@@ -189,7 +189,7 @@ class Place extends \yii\db\ActiveRecord
       $options = $this->getPlaceTypeOptions();
       return $options[$data];
     }
-    
+
     public function getPlaceTypeOptions()
     {
       return array(
@@ -200,7 +200,7 @@ class Place extends \yii\db\ActiveRecord
           self::TYPE_BAR => 'Bar',
             self::TYPE_OTHER => 'Other'
          );
-     }		
+     }
 
      public function addLocationFromAddress($model,$full_address='') {
        // finds gps coordinates from full_address field if available
@@ -212,7 +212,7 @@ class Place extends \yii\db\ActiveRecord
    				$lat = $location['lat'];
    				$lng = $location['lng'];
           // add GPS entry in PlaceGeometry
-          $this->addGeometryByPoint($model,$lat,$lng);       
+          $this->addGeometryByPoint($model,$lat,$lng);
         }
       }
 
@@ -220,9 +220,9 @@ class Place extends \yii\db\ActiveRecord
          $pg = new PlaceGPS;
          $pg->place_id=$model->id;
          $pg->gps = new \yii\db\Expression("GeomFromText('Point(".$lat." ".$lon.")')");
-         $pg->save();    
+         $pg->save();
      }
-    
+
     public function addGeometry($model,$location) {
     		$x = json_decode($location,true);
     		reset($x);
@@ -231,9 +231,9 @@ class Place extends \yii\db\ActiveRecord
         $pg = new PlaceGPS;
         $pg->place_id=$model->id;
         $pg->gps = new \yii\db\Expression("GeomFromText('Point(".$lat." ".$lon.")')");
-        $pg->save();    
+        $pg->save();
     }
-    
+
     public function getLocation($place_id) {
       $sql = 'Select AsText(gps) as gps from {{%place_gps}} where place_id = '.$place_id;
       $model = PlaceGPS::findBySql($sql)->one();
@@ -241,11 +241,11 @@ class Place extends \yii\db\ActiveRecord
       if (is_null($model)) {
         return false;
       } else {
-        list($gps->lat, $gps->lng) = $this->string_to_lat_lon($model->gps);        
+        list($gps->lat, $gps->lng) = $this->string_to_lat_lon($model->gps);
       }
       return $gps;
     }
-    
+
     public function getMap($gps) {
       $coord = new LatLng(['lat' => $gps->lat, 'lng' => $gps->lng]);
 /*      $map = new Map([
@@ -254,10 +254,10 @@ class Place extends \yii\db\ActiveRecord
       ]);
       return $map;*/
     }
-    
+
     public function prepareMap($id, $size='medium') {
       if ($pg===false) {
-        // missing place_geometry 
+        // missing place_geometry
         // TO DO: Fix this later
         return false;
       }
@@ -268,29 +268,29 @@ class Place extends \yii\db\ActiveRecord
       switch ($size) {
         case 'small':
           $gMap->width = '200';
-          $gMap->height = '200';      
+          $gMap->height = '200';
           $gMap->zoom = 13;
           $gMap->mapTypeControl= false;
         break;
         default:
           $gMap->width = '300';
           $gMap->height = '300';
-          $gMap->zoom = 13;      
+          $gMap->zoom = 13;
       }
       $gMap->setCenter($center->lat, $center->lon);
       $coords = PlaceGeometry::model()->string_to_coords($pg['region']);
 
       if (count($coords)>1) {
         $polygon = new EGMapPolygon($coords);
-        $gMap->addPolygon($polygon);	            
+        $gMap->addPolygon($polygon);
       } else {
         // Create marker with label
         $marker = new EGMapMarkerWithLabel($center->lat,$center->lon, array('title' => 'Here!'));
-        $gMap->addMarker($marker);          
+        $gMap->addMarker($marker);
       }
       return $gMap;
-    }    
-    
+    }
+
     // Geometry Helper Functions
 
     // takes text POINT(x,y) returns array with x and y
@@ -300,5 +300,5 @@ class Place extends \yii\db\ActiveRecord
         $string = str_replace(')', '', $string); // remove trailing bracket
         return explode(' ', $string);
     }
-  
+
 }

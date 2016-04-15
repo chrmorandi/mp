@@ -141,4 +141,20 @@ class MeetingPlace extends \yii\db\ActiveRecord
     {
         return $this->hasMany(MeetingPlaceChoice::className(), [ 'meeting_place_id'=>'id']);
     }
+
+    public static function setChoice($meeting_id,$meeting_place_id,$user_id) {
+      // meeting_place_id needs to be set active
+      // other meeting_place_id for this meeting need to be set inactive
+      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
+      foreach ($mtg->meetingPlaces as $mp) {
+        if ($mp->id == $meeting_place_id) {
+          $mp->status = MeetingPlace::STATUS_SELECTED;
+        }
+        else {
+          $mp->status = MeetingPlace::STATUS_SUGGESTED;
+        }
+        $mp->save();
+      }
+      return true;
+    }
 }

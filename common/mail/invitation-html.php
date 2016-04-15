@@ -52,7 +52,7 @@ use frontend\models\MeetingTime;
       </p>
     </td>
     <td width="300" >
-      <?= HTML::a(Yii::t('frontend','accept'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_PLACE,$p->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_PLACE,$p->id,$user_id,$auth_key)) ?>
+      <?= HTML::a(Yii::t('frontend','acceptable'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_PLACE,$p->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_PLACE,$p->id,$user_id,$auth_key)) ?>
       <?php
         if ($meetingSettings->participant_choose_place) { ?>
         | <?= HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_PLACE,$p->id,$user_id,$auth_key)) ?>
@@ -89,7 +89,7 @@ use frontend\models\MeetingTime;
         <p><?= Meeting::friendlyDateFromTimestamp($t->start) ?></p>
       </td>
       <td width="300">
-        <?= HTML::a(Yii::t('frontend','accept'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_TIME,$t->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_TIME,$t->id,$user_id,$auth_key)) ?>
+        <?= HTML::a(Yii::t('frontend','acceptable'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_ACCEPT_TIME,$t->id,$user_id,$auth_key)) ?> | <?= HTML::a(Yii::t('frontend','reject'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_REJECT_TIME,$t->id,$user_id,$auth_key)) ?>
         <?php
           if ($meetingSettings->participant_choose_date_time) { ?>
           | <?= HTML::a(Yii::t('frontend','choose'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_CHOOSE_TIME,$t->id,$user_id,$auth_key)) ?>
