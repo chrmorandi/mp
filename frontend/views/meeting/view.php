@@ -18,11 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Default panel contents -->
     <div class="panel-heading">
       <div class="row">
-        <div class="col-lg-12"><h1><?= Html::encode($this->title) ?></h1></div>
+        <div class="col-lg-12"><h1><?php echo Html::encode($this->title) ?></h1></div>
       </div>
     </div>
     <div class="panel-body">
-    <?= $model->message ?>
+    <?php echo $model->message.'&nbsp;';
+    echo Html::a(Yii::t('frontend','Download to Calendar'), ['download', 'id' => $model->id]);
+    ?>
     </div>
     <div class="panel-footer">
       <div class="row">
@@ -41,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo Html::a(Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
           }
            ?>
-          <?= Html::a('', ['cancel', 'id' => $model->id],
+          <?php echo Html::a('', ['cancel', 'id' => $model->id],
            ['class' => 'btn btn-primary glyphicon glyphicon-remove btn-danger',
            'title'=>Yii::t('frontend','Cancel'),
            'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
@@ -66,21 +68,25 @@ $this->params['breadcrumbs'][] = $this->title;
         }
          ?>
 
-        <?= $this->render('../meeting-place/_panel', [
-            'model'=>$model,
-            'placeProvider' => $placeProvider,
-            'isOwner' => $isOwner,
-            'viewer' => $viewer,
-        ]) ?>
+        <?php
+          if (!($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO)) {
+            echo $this->render('../meeting-place/_panel', [
+              'model'=>$model,
+              'placeProvider' => $placeProvider,
+              'isOwner' => $isOwner,
+              'viewer' => $viewer,
+          ]);
+          }
+           ?>
 
-        <?= $this->render('../meeting-time/_panel', [
+        <?php echo $this->render('../meeting-time/_panel', [
             'model'=>$model,
             'timeProvider' => $timeProvider,
             'isOwner' => $isOwner,
             'viewer' => $viewer,
         ]) ?>
 
-        <?= $this->render('../meeting-note/_panel', [
+        <?php echo $this->render('../meeting-note/_panel', [
             'model'=>$model,
             'noteProvider' => $noteProvider,
         ]) ?>

@@ -275,7 +275,7 @@ class Meeting extends \yii\db\ActiveRecord
        // req: a participant, at least one place, at least one time
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
-        && count($this->meetingPlaces)>0
+        && (count($this->meetingPlaces)>0 || $this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO)
         && count($this->meetingTimes)>0
         ) {
          $this->isReadyToSend = true;
@@ -291,7 +291,7 @@ class Meeting extends \yii\db\ActiveRecord
         // check if overall meeting state can be sent by owner
          if (!$this->canSend($this->owner_id)) return false;
           $chosenPlace = false;
-          if (count($this->meetingPlaces)==1) {
+          if (count($this->meetingPlaces)==1 || $this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO) {
             $chosenPlace = true;
           } else {
             foreach ($this->meetingPlaces as $mp) {
@@ -356,6 +356,7 @@ class Meeting extends \yii\db\ActiveRecord
     ],
     [
       'meeting_id' => $this->id,
+      'meeting_type' => $this->meeting_type,
       'participant_id' => 0,
       'owner' => $this->owner->username,
       'user_id' => $p->participant_id,
@@ -368,8 +369,11 @@ class Meeting extends \yii\db\ActiveRecord
       'notes' => $notes,
       'meetingSettings' => $this->meetingSettings,
   ]);
+  $icsPath = Meeting::buildCalendar($this->id);
+
     // to do - add full name
           $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+          $message->attachContent(file_get_contents($icsPath), ['fileName' => 'event.ics', 'contentType' => 'text/plain']);
           $message->setTo($p->participant->email)
               ->setSubject('Meeting Request: '.$this->subject)
               ->send();
@@ -426,5 +430,25 @@ class Meeting extends \yii\db\ActiveRecord
              // if Meeting is added
              MeetingLog::add($this->id,MeetingLog::ACTION_CREATE_MEETING,$this->owner_id);
            }
+       }
+
+       public static function buildCalendar($id) {
+         $meeting = Meeting::find()->where(['id'=>$id])->one();
+         $invite = new \common\models\Calendar();
+         $sdate = new \DateTime('2016-04-16 12:00PM', new \DateTimeZone('PST'));
+         $edate = new \DateTime('2016-04-16 02:00PM', new \DateTimeZone('PST'));
+        $invite
+         	->setSubject($meeting->subject)
+         	->setDescription($meeting->message)
+           ->setStart($sdate)
+         	->setEnd($edate)
+           ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,0,0)) //$user_id,$auth_key
+         	->setLocation("Green Lake 700 North 67th Street Seattle Washington 98103")
+         	->setOrganizer($meeting->owner->email, "John Doe")
+         	->addAttendee("other@other.com", "Ahmad Amin")
+          ->generate() // generate the invite
+	         ->save(); // save it to a file;
+           $downloadLink = $invite->getSavedPath();
+           return $downloadLink;
        }
 }

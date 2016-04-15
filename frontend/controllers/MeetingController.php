@@ -33,12 +33,12 @@ class MeetingController extends Controller
             ],
           'access' => [
                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
-                        'only' => ['index','view','create','update','delete', 'cancel','command'],
+                        'only' => ['index','view','create','update','delete', 'cancel','command','download'],
                         'rules' => [
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['index','view','create','update','delete', 'cancel','command'],
+                               'actions'=>['index','view','create','update','delete', 'cancel','command','download'],
                                'roles' => ['@'],
                            ],
                           [
@@ -186,6 +186,11 @@ class MeetingController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDownload($id) {
+      echo Meeting::buildCalendar($id);
+
     }
 
     public function actionCancel($id) {
