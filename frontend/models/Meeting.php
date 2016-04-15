@@ -374,11 +374,11 @@ class Meeting extends \yii\db\ActiveRecord
       'notes' => $notes,
       'meetingSettings' => $this->meetingSettings,
   ]);
-  $icsPath = Meeting::buildCalendar($this->id);
+  //$icsPath = Meeting::buildCalendar($this->id);
 
     // to do - add full name
           $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-          $message->attachContent(file_get_contents($icsPath), ['fileName' => 'event.ics', 'contentType' => 'text/plain']);
+          //$message->attachContent(file_get_contents($icsPath), ['fileName' => 'event.ics', 'contentType' => 'text/plain']);
           $message->setTo($p->participant->email)
               ->setSubject('Meeting Request: '.$this->subject)
               ->send();
