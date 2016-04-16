@@ -415,7 +415,6 @@ class Meeting extends \yii\db\ActiveRecord
           'username'=>$this->owner->username];
       // use this code to send
       foreach ($attendees as $cnt=>$a) {
-        if ($cnt==0) continue;
         // Build the absolute links to the meeting and commands
         $links=[
           'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
