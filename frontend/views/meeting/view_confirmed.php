@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
+use dosamigos\google\maps\Map;
+use dosamigos\google\maps\LatLng;
+use dosamigos\google\maps\overlays\Marker;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
@@ -19,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading">
       <div class="row">
         <div class="col-lg-12"><h1><?php echo Html::encode($this->title) ?></h1>
-          <p style="font-size:9px;"><em>All of this finalized meeting view is preliminary.</em></p>
+          <p style="font-size:10px;"><em>All of this finalized meeting view is preliminary.</em></p>
         </div>
       </div>
     </div>
@@ -34,7 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-6" >
           <div style="float:right;">
             <!--  to do - check meeting settings if participant can send/finalize -->
-          <?php echo Html::a('', ['cancel', 'id' => $model->id],
+            <?php
+            echo Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule', 'id' => $model->id], ['id'=>'actionReschedule','class' => 'btn btn-default',
+            'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+            ?>
+            <?php
+            echo Html::a(Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
+          'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+            ?>
+            <?php echo Html::a('', ['cancel', 'id' => $model->id],
            ['class' => 'btn btn-primary glyphicon glyphicon-remove btn-danger',
            'title'=>Yii::t('frontend','Cancel'),
            'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
@@ -44,14 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </div> <!-- end row -->
     </div>
    </div>
-    <?php if ($isOwner) {
-      // show participant
-      echo '<p>you are the meeting participant</p>';
-    } else {
-      // show owner
-      echo '<p>you are the meeting organizer</p>';
-    }
-     ?>
+   <?php if ($isOwner) {
+     echo $this->render('../participant/_panel', [
+         'model'=>$model,
+         'participantProvider' => $participantProvider,
+     ]);
+   }
+    ?>
+
     <?php
       if (($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO)) {
         // show conference contact info
@@ -59,23 +70,68 @@ $this->params['breadcrumbs'][] = $this->title;
       } else {
         // show place
         // show map
-        echo '<p>the chosen place and a map will appear here</p>';
+?>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-lg-12"><h4>Where</h4></div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-lg-6">
+    <div class="place-view">
+
+        <p><?php echo $place->name; ?></p>
+        <p><?php echo Html::a($place->website, $place->website); ?></p>
+        <p><?php echo $place->full_address; ?></p>
+
+    </div>
+    </div> <!-- end first col -->
+    <div class="col-lg-6">
+      <?php
+      if ($gps!==false) {
+        $coord = new LatLng(['lat' => $gps->lat, 'lng' => $gps->lng]);
+        $map = new Map([
+            'center' => $coord,
+            'zoom' => 14,
+            'width'=>300,
+            'height'=>300,
+        ]);
+        $marker = new Marker([
+            'position' => $coord,
+            'title' => $place->name,
+        ]);
+        // Add marker to the map
+        $map->addOverlay($marker);
+        echo $map->display();
+      } else {
+        echo 'No location coordinates for this place could be found.';
+      }
+      ?>
+
+    </div> <!-- end second col -->
+  </div>
+
+</div>
+<?php
+
       }
        ?>
-
-    <?php
-      // show the date and time
-      echo '<p>the chosen date and time will appear here</p>';
-     ?>
-
-     <?php
-     echo '<p>command options such as cancel, reschedule etc will appear here</p>';
-     // show the command bar header_remove
-     // cancel
-     // reschedule
-     // pick a new place
-     // pick a new time
-     ?>
+       <div class="panel panel-default">
+         <!-- Default panel contents -->
+         <div class="panel-heading">
+           <div class="row">
+             <div class="col-lg-9"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
+             </div>
+           </div>
+         </div>
+           <div class="panel-body">
+             <p><?php echo $time; ?></p>
+             
+           </div>
+         </div>
+       </div>
 
     <?php echo $this->render('../meeting-note/_panel', [
             'model'=>$model,

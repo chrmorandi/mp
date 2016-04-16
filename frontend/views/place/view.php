@@ -33,8 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'place_type',
-            'website',
+            //'place_type',
+            ['label' => 'website',
+     'value' => Html::a($model->website, $model->website),
+     'format' => 'raw'],
             'full_address',
         ],
     ]) ?>
@@ -50,14 +52,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'zoom' => 14,
         'width'=>300,
         'height'=>300,
-    ]);    
+    ]);
     $marker = new Marker([
         'position' => $coord,
         'title' => $model->name,
     ]);
     // Add marker to the map
-    $map->addOverlay($marker);    
-    echo $map->display();    
+    $map->addOverlay($marker);
+    echo $map->display();
   } else {
     echo 'No location coordinates for this place could be found.';
   }

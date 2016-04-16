@@ -26,8 +26,10 @@ $this->params['breadcrumbs'][] = $place->name;
         'model' => $place,
         'attributes' => [
             'name',
-            'place_type',
-            'website',
+            ['label' => 'website',
+     'value' => Html::a($place->website, $place->website),
+     'format' => 'raw'],
+            //'place_type',
             'full_address',
         ],
     ]) ?>

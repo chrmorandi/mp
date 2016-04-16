@@ -90,15 +90,15 @@ class MeetingController extends Controller
       $noteProvider = new ActiveDataProvider([
           'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
       ]);
+      $participantProvider = new ActiveDataProvider([
+          'query' => Participant::find()->where(['meeting_id'=>$id]),
+      ]);
       if ($model->status <= Meeting::STATUS_SENT) {
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
         ]);
         $placeProvider = new ActiveDataProvider([
             'query' => MeetingPlace::find()->where(['meeting_id'=>$id]),
-        ]);
-        $participantProvider = new ActiveDataProvider([
-            'query' => Participant::find()->where(['meeting_id'=>$id]),
         ]);
           return $this->render('view', [
               'model' => $model,
@@ -111,15 +111,17 @@ class MeetingController extends Controller
           ]);
       } else {
         // meeting is finalized or past
-        // owner
-        // participant
-        // chosen place
-        // chosen time
+        $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
+        $chosenTime = MeetingTime::find()->where(['meeting_id' => $id,'status'=>MeetingTime::STATUS_SELECTED])->one();
         return $this->render('view_confirmed', [
             'model' => $model,
+            'participantProvider' => $participantProvider,
             'noteProvider' => $noteProvider,
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+            'place' => $chosenPlace->place,
+            'time'=>$model->friendlyDateFromTimestamp($chosenTime->start),
+            'gps'=>$chosenPlace->place->getLocation($chosenPlace->place->id),
         ]);
       }
     }
