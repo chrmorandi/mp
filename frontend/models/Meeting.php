@@ -506,10 +506,10 @@ class Meeting extends \yii\db\ActiveRecord
        public static function buildCalendar($id,$chosenPlace,$chosenTime) {
          $meeting = Meeting::find()->where(['id'=>$id])->one();
          $invite = new \common\models\Calendar();
-         $start_time = $chosenTime->start;
+         $start_time = $chosenTime->start+(3600*4); // temp timezone adjust
          $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
-         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('EST'));
-         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('EST')); // '2016-04-16 02:00PM'
+         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('GMT'));
+         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('GMT')); // '2016-04-16 02:00PM'
          $description = $meeting->message;
          if ($chosenPlace->place->website<>'') {
            $description.=' Location website: '.$chosenPlace->place->website;
