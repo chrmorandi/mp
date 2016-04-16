@@ -518,12 +518,13 @@ class Meeting extends \yii\db\ActiveRecord
          if ($chosenPlace->place->website<>'') {
            $description.=' Location website: '.$chosenPlace->place->website;
          }
+         $location = str_ireplace(',',' ',$chosenPlace->place->name.' '.str_ireplace(', United States','',$chosenPlace->place->full_address));
         $invite
          	->setSubject($meeting->subject)
          	->setDescription($description)
            ->setStart($sdate)
          	->setEnd($edate)
-         	->setLocation($chosenPlace->place->name.', '.str_ireplace(', United States','',$chosenPlace->place->full_address))
+         	->setLocation($location)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username);
           foreach ($attendees as $a) {
             $invite
