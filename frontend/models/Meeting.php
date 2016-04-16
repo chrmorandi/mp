@@ -523,7 +523,7 @@ class Meeting extends \yii\db\ActiveRecord
          	->setDescription($description)
            ->setStart($sdate)
          	->setEnd($edate)
-         	->setLocation($chosenPlace->place->name.', '.$chosenPlace->place->full_address)
+         	->setLocation($chosenPlace->place->name.', '.strireplace(', United States','',$chosenPlace->place->full_address))
          	->setOrganizer($meeting->owner->email, $meeting->owner->username);
           foreach ($attendees as $a) {
             $invite
