@@ -391,6 +391,7 @@ class Meeting extends \yii\db\ActiveRecord
         // chosen place
         if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO) {
           $noPlaces = true;
+          $chosenPlace=false;
         } else {
           $noPlaces = false;
           $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $this->id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
@@ -459,7 +460,7 @@ class Meeting extends \yii\db\ActiveRecord
           ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
           ->send();
       }
-          $this->status = self::STATUS_COMPLETED;
+          $this->status = self::STATUS_CONFIRMED;
           $this->update();
       }
 
@@ -515,10 +516,13 @@ class Meeting extends \yii\db\ActiveRecord
          $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
          $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST')); // '2016-04-16 02:00PM'
          $description = $meeting->message;
-         if ($chosenPlace->place->website<>'') {
-           $description.=' Location website: '.$chosenPlace->place->website;
+         // check if its a confernce with no location
+         if ($chosenPlace!==false) {
+           if ($chosenPlace->place->website<>'') {
+             $description.=' Website: '.$chosenPlace->place->website;
+           }
+           $location = str_ireplace(',',' ',$chosenPlace->place->name.' '.str_ireplace(', United States','',$chosenPlace->place->full_address));
          }
-         $location = str_ireplace(',',' ',$chosenPlace->place->name.' '.str_ireplace(', United States','',$chosenPlace->place->full_address));
         $invite
          	->setSubject($meeting->subject)
          	->setDescription($description)

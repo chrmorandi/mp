@@ -115,8 +115,9 @@ class MeetingController extends Controller
         // participant
         // chosen place
         // chosen time
-        return $this->render('view_completed', [
+        return $this->render('view_confirmed', [
             'model' => $model,
+            'noteProvider' => $noteProvider,
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
         ]);
