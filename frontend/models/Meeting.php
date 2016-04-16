@@ -508,8 +508,8 @@ class Meeting extends \yii\db\ActiveRecord
          $invite = new \common\models\Calendar();
          $start_time = $chosenTime->start;
          $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
-         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('ET'));
-         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('ET')); // '2016-04-16 02:00PM'
+         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('EST'));
+         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('EST')); // '2016-04-16 02:00PM'
          $description = $meeting->message;
          if ($chosenPlace->place->website<>'') {
            $description.=' Location website: '.$chosenPlace->place->website;
