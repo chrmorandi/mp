@@ -638,8 +638,8 @@ class Calendar {
 	if ($this->isValid()) {
 	    $content = "BEGIN:VCALENDAR\n";
 	    $content .= "VERSION:2.0\n";
-	    $content .= "CALSCALE:GREGORIAN\n";
-	    $content .= "METHOD:REQUEST\n";
+	    //$content .= "CALSCALE:GREGORIAN\n";
+	    //$content .= "METHOD:REQUEST\n";
 	    $content .= "BEGIN:VEVENT\n";
 	    $content .= "UID:{$this->getUID()}\n";
 	    $content .= "DTSTART:{$this->getStart(true)}\n";
@@ -658,9 +658,9 @@ class Calendar {
 	    $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
 	    $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "SUMMARY:{$this->getName()}\n";
-	    $content .= "SEQUENCE:0\n";
-	    $content .= "STATUS:NEEDS-ACTION\n";
-	    $content .= "TRANSP:OPAQUE\n";
+	    //$content .= "SEQUENCE:0\n";
+	    //$content .= "STATUS:NEEDS-ACTION\n";
+	    //$content .= "TRANSP:OPAQUE\n";
 	    $content .= "END:VEVENT\n";
 	    $content .= "END:VCALENDAR";
 
