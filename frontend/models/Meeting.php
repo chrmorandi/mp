@@ -528,7 +528,7 @@ class Meeting extends \yii\db\ActiveRecord
           foreach ($attendees as $a) {
             $invite
             ->addAttendee($a['email'], $a['username'])
-            ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,$a['user_id'],$a['auth_key']));
+            ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,$a['user_id'],$a['auth_key'],0));
           }
           $invite->generate() // generate the invite
 	         ->save(); // save it to a file;
