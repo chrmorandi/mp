@@ -78,7 +78,7 @@ class Calendar {
      * @var array
      */
     private $_guests = array();
-    private $_savePath = "./invite/";
+    private $_savePath = "./invites/";
 
     /**
      *
