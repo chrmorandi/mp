@@ -402,19 +402,20 @@ class Meeting extends \yii\db\ActiveRecord
         // build an attendees array of both the organizer and the participants
         $cnt =0;
         $attendees = array();
-      /*  foreach ($this->participants as $p) {
+        foreach ($this->participants as $p) {
           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
           'email'=>$p->participant->email,
           'username'=>$p->participant->username];
           $cnt+=1;
-        }*/
+        }
         $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
         $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
           'email'=>$this->owner->email,
           'username'=>$this->owner->username];
       // use this code to send
-      foreach ($attendees as $a) {
+      foreach ($attendees as $cnt=>$a) {
+        if ($cnt==0) continue;
         // Build the absolute links to the meeting and commands
         $links=[
           'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
