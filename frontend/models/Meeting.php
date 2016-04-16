@@ -404,11 +404,13 @@ class Meeting extends \yii\db\ActiveRecord
         $attendees = array();
       /*  foreach ($this->participants as $p) {
           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,'email'=>$p->participant->email,''];
+          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,'email'=>$p->participant->email,
+          ,'username'=>$p->participant->username];
           $cnt+=1;
         }*/
         $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
-        $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,'email'=>$this->owner->email];
+        $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,'email'=>$this->owner->email
+          ,'username'=>$this->owner->username];
       // use this code to send
       foreach ($attendees as $a) {
         // Build the absolute links to the meeting and commands
@@ -448,7 +450,7 @@ class Meeting extends \yii\db\ActiveRecord
           'meetingSettings' => $this->meetingSettings,
       ]);
         // to do - add full name
-      $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime);
+      $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$attendees);
       $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
       $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
       $message->setTo($a['email'])
@@ -503,13 +505,13 @@ class Meeting extends \yii\db\ActiveRecord
            }
        }
 
-       public static function buildCalendar($id,$chosenPlace,$chosenTime) {
+       public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendees) {
          $meeting = Meeting::find()->where(['id'=>$id])->one();
          $invite = new \common\models\Calendar();
-         $start_time = $chosenTime->start+(3600*4); // temp timezone adjust
+         $start_time = $chosenTime->start+(3600*7); // temp timezone adjust
          $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
-         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('GMT'));
-         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('GMT')); // '2016-04-16 02:00PM'
+         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
+         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST')); // '2016-04-16 02:00PM'
          $description = $meeting->message;
          if ($chosenPlace->place->website<>'') {
            $description.=' Location website: '.$chosenPlace->place->website;
@@ -519,11 +521,11 @@ class Meeting extends \yii\db\ActiveRecord
          	->setDescription($description)
            ->setStart($sdate)
          	->setEnd($edate)
-           ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,0,0)) //$user_id,$auth_key
          	->setLocation($chosenPlace->place->name.', '.$chosenPlace->place->full_address)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username);
-          foreach ($meeting->participants as $p) {
-            $invite->addAttendee($p->participant->email, $p->participant->username);
+          foreach ($attendees as $a) {
+            $invite->addAttendee($a->email, $a->username)
+            ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,$a->user_id,$a->authkey));
           }
           $invite->generate() // generate the invite
 	         ->save(); // save it to a file;
