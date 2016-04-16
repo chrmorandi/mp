@@ -404,13 +404,15 @@ class Meeting extends \yii\db\ActiveRecord
         $attendees = array();
       /*  foreach ($this->participants as $p) {
           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,'email'=>$p->participant->email,
-          ,'username'=>$p->participant->username];
+          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+          'email'=>$p->participant->email,
+          'username'=>$p->participant->username];
           $cnt+=1;
         }*/
         $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
-        $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,'email'=>$this->owner->email
-          ,'username'=>$this->owner->username];
+        $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
+          'email'=>$this->owner->email,
+          'username'=>$this->owner->username];
       // use this code to send
       foreach ($attendees as $a) {
         // Build the absolute links to the meeting and commands
@@ -524,8 +526,9 @@ class Meeting extends \yii\db\ActiveRecord
          	->setLocation($chosenPlace->place->name.', '.$chosenPlace->place->full_address)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username);
           foreach ($attendees as $a) {
-            $invite->addAttendee($a->email, $a->username)
-            ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,$a->user_id,$a->authkey));
+            $invite
+            ->addAttendee($a['email'], $a['username'])
+            ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,$a['user_id'],$a['auth_key']));
           }
           $invite->generate() // generate the invite
 	         ->save(); // save it to a file;
