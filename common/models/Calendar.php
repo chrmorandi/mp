@@ -101,7 +101,7 @@ class Calendar {
     public function __construct($uid = null)
     {
 	if (null === $uid) {
-	    $this->_uid = uniqid(rand(0, getmypid())) . "@ahmadamin.com";
+	    $this->_uid = uniqid(rand(0, getmypid())) . "@meetingplanner.io";
 	} else {
 	    $this->_uid = $uid . "@ahmadamin.com";
 	}
