@@ -31,6 +31,7 @@ phpunit.phar
 
 #upload files
 /frontend/web/uploads
+/frontend/web/invites
 
 #local environment files
 /environments/prod/common/config/main-local.php

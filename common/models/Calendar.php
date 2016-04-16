@@ -78,7 +78,7 @@ class Calendar {
      * @var array
      */
     private $_guests = array();
-    private $_savePath = "./invite/";
+    private $_savePath = "./invites/";
 
     /**
      *
@@ -504,7 +504,7 @@ class Calendar {
 	header("Cache-Control: public");
 	header("Content-Description: File Transfer");
 	header("Content-type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=\"invite.ics\"");
+	header("Content-Disposition: attachment; filename=\"meeting.ics\"");
 	header("Content-Transfer-Encoding: binary");
 	header("Content-Length: " . strlen($generate));
 	print $generate;
