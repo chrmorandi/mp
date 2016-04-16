@@ -460,7 +460,7 @@ class Meeting extends \yii\db\ActiveRecord
           ->send();
       }
           $this->status = self::STATUS_COMPLETED;
-          //$this->update();
+          $this->update();
       }
 
       public function cancel() {
