@@ -525,8 +525,8 @@ class Meeting extends \yii\db\ActiveRecord
           foreach ($meeting->participants as $p) {
             $invite->addAttendee($p->participant->email, $p->participant->username);
           }
-          //$invite->generate() // generate the invite
-	        // ->save(); // save it to a file;
+          $invite->generate() // generate the invite
+	         ->save(); // save it to a file;
           // $downloadLink = $invite->getSavedPath();
           $downloadLink='';
            return $downloadLink;
