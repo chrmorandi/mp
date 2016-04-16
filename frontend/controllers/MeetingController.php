@@ -84,32 +84,43 @@ class MeetingController extends Controller
      */
     public function actionView($id)
     {
-      $timeProvider = new ActiveDataProvider([
-          'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
-      ]);
-
+      $model = $this->findModel($id);
+      $model->prepareView();
+      // notes always used on view panel
       $noteProvider = new ActiveDataProvider([
           'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
       ]);
-
-      $placeProvider = new ActiveDataProvider([
-          'query' => MeetingPlace::find()->where(['meeting_id'=>$id]),
-      ]);
-
-      $participantProvider = new ActiveDataProvider([
-          'query' => Participant::find()->where(['meeting_id'=>$id]),
-      ]);
-      $model = $this->findModel($id);
-      $model->prepareView();
-        return $this->render('view', [
+      if ($model->status <= Meeting::STATUS_SENT) {
+        $timeProvider = new ActiveDataProvider([
+            'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
+        ]);
+        $placeProvider = new ActiveDataProvider([
+            'query' => MeetingPlace::find()->where(['meeting_id'=>$id]),
+        ]);
+        $participantProvider = new ActiveDataProvider([
+            'query' => Participant::find()->where(['meeting_id'=>$id]),
+        ]);
+          return $this->render('view', [
+              'model' => $model,
+              'participantProvider' => $participantProvider,
+              'timeProvider' => $timeProvider,
+              'noteProvider' => $noteProvider,
+              'placeProvider' => $placeProvider,
+              'viewer' => Yii::$app->user->getId(),
+              'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+          ]);
+      } else {
+        // meeting is finalized or past
+        // owner
+        // participant
+        // chosen place
+        // chosen time
+        return $this->render('view_completed', [
             'model' => $model,
-            'participantProvider' => $participantProvider,
-            'timeProvider' => $timeProvider,
-            'noteProvider' => $noteProvider,
-            'placeProvider' => $placeProvider,
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
         ]);
+      }
     }
 
     public function actionViewplace($id,$meeting_place_id)

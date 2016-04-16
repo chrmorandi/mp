@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:MEETINGPLANNER
+BEGIN:VEVENT
+UID:136255711868c341aa@ahmadamin.com
+DTSTART:20160411T090000Z
+DTEND:20160411T100000Z
+DTSTAMP:20160411T090000Z
+ORGANIZER;CN=admin:mailto:jeff@lookahead.io
+ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=robsmith;X-NUM-GUESTS=0:mailto:robsmith@lookahead.me
+DESCRIPTION:This is a detailed message about our meeting that I'd like to have with you. Location website: 
+LOCATION:Batdorf & Bronson Coffee Roasters, 516 Capitol Way S, Olympia, WA 98501, United States
+LAST-MODIFIED:20160411T090000Z
+SUMMARY:Catch up on startup idea
+URL;VALUE=URI:http://localhost:8888/mp/index.php/meeting/command?id=29&cmd=10&actor_id=0&k=0&obj_id=0
+END:VEVENT
+END:VCALENDAR

@@ -638,26 +638,25 @@ class Calendar {
 	if ($this->isValid()) {
 	    $content = "BEGIN:VCALENDAR\n";
 	    $content .= "VERSION:2.0\n";
-	    $content .= "CALSCALE:GREGORIAN\n";
-	    $content .= "METHOD:REQUEST\n";
+	    //$content .= "CALSCALE:GREGORIAN\n";
+      $content .= "PRODID:MEETINGPLANNER\n";
+	    //$content .= "METHOD:REQUEST\n";
 	    $content .= "BEGIN:VEVENT\n";
 	    $content .= "UID:{$this->getUID()}\n";
 	    $content .= "DTSTART:{$this->getStart(true)}\n";
 	    $content .= "DTEND:{$this->getEnd(true)}\n";
 	    $content .= "DTSTAMP:{$this->getStart(true)}\n";
 	    $content .= "ORGANIZER;CN={$this->getFromName()}:mailto:{$this->getFromEmail()}\n";
-      $content .= "URL;VALUE=URI:{$this->getUrl()}\n";
-
 	    foreach ($this->getAttendees() as $email => $name)
 	    {
 		$content .= "ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN={$name};X-NUM-GUESTS=0:mailto:{$email}\n";
 	    }
-
 	    //$content .= "CREATED:\n";
 	    $content .= "DESCRIPTION:{$this->getDescription()}\n";
+      $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
-	    $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "SUMMARY:{$this->getName()}\n";
+      $content .= "URL;VALUE=URI:{$this->getUrl()}\n";
 	    //$content .= "SEQUENCE:0\n";
 	    //$content .= "STATUS:NEEDS-ACTION\n";
 	    //$content .= "TRANSP:OPAQUE\n";

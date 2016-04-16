@@ -23,7 +23,7 @@ use yii\db\ActiveRecord;
 class MeetingTime extends \yii\db\ActiveRecord
 {
   const STATUS_SUGGESTED =0;
-  const STATUS_SELECTED =10;
+  const STATUS_SELECTED =10; // the chosen date time
 
     /**
      * @inheritdoc

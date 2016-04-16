@@ -24,7 +24,7 @@ use yii\db\ActiveRecord;
 class MeetingPlace extends \yii\db\ActiveRecord
 {
     const STATUS_SUGGESTED =0;
-    const STATUS_SELECTED =10;
+    const STATUS_SELECTED =10;  // the chosen place
 
     public $searchbox; // for google place search
     public $name;

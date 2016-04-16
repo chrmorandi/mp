@@ -22,9 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
       </div>
     </div>
     <div class="panel-body">
-    <?php echo $model->message.'&nbsp;';
-    //echo Html::a(Yii::t('frontend','Download to Calendar'), ['download', 'id' => $model->id]);
-    ?>
+    <?php echo $model->message.'&nbsp;'; ?>
     </div>
     <div class="panel-footer">
       <div class="row">
