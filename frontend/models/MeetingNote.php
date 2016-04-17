@@ -54,7 +54,7 @@ class MeetingNote extends \yii\db\ActiveRecord
                 ],
             ],
         ];
-    }    
+    }
 
     /**
      * @inheritdoc
@@ -86,5 +86,14 @@ class MeetingNote extends \yii\db\ActiveRecord
     public function getPostedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'posted_by']);
+    }
+
+    public function afterSave($insert,$changedAttributes)
+    {
+        parent::afterSave($insert,$changedAttributes);
+        if ($insert) {
+          // if MeetingNote
+          MeetingLog::add($this->id,MeetingLog::ACTION_ADD_NOTE,$this->posted_by);
+        }
     }
 }

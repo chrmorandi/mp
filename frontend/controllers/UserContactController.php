@@ -34,7 +34,7 @@ class UserContactController extends Controller
                             ],
                             // everything else is denied
                         ],
-                    ],            
+                    ],
 
         ];
     }
@@ -91,7 +91,7 @@ class UserContactController extends Controller
                 return $this->render('create', [
                     'model' => $model,
                 ]);
-            }            
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

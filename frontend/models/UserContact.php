@@ -36,7 +36,7 @@ class UserContact extends \yii\db\ActiveRecord
 
 	const STATUS_ACTIVE = 0;
 	const STATUS_INACTIVE = 10;
-    
+
     /**
      * @inheritdoc
      */
@@ -101,7 +101,7 @@ class UserContact extends \yii\db\ActiveRecord
       return $options[$data];
     }
 
-    public function getUserContactTypeOptions()
+    public static function getUserContactTypeOptions()
     {
       return array(
           self::TYPE_PHONE => 'Phone',
@@ -118,4 +118,10 @@ class UserContact extends \yii\db\ActiveRecord
           self::TYPE_GADU => 'Gadu-Gadu',
          );
      }
+
+  public static function get($user_id) {
+    $contacts = UserContact::find()->where(['user_id'=>$user_id])->all();
+    return $contacts;
+  }
+
 }

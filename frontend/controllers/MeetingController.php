@@ -13,6 +13,7 @@ use frontend\models\MeetingTime;
 use frontend\models\MeetingPlaceChoice;
 use frontend\models\MeetingTimeChoice;
 use frontend\models\MeetingSetting;
+use frontend\models\UserContact;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -111,17 +112,42 @@ class MeetingController extends Controller
           ]);
       } else {
         // meeting is finalized or past
-        $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
-        $chosenTime = MeetingTime::find()->where(['meeting_id' => $id,'status'=>MeetingTime::STATUS_SELECTED])->one();
+        $isOwner = $model->isOwner(Yii::$app->user->getId());
+        if (($model->meeting_type == Meeting::TYPE_PHONE || $model->meeting_type == Meeting::TYPE_VIDEO)) {
+          $noPlace = true;
+          if ($isOwner) {
+            // display participants contact info
+            $participant = Participant::find()->where(['meeting_id'=>$id])->one();
+            $contacts = UserContact::get($participant->participant_id);
+          } else {
+            // display organizers contact info
+            $contacts = UserContact::get($model->owner_id);
+          }
+        } else {
+          $noPlace=false;
+          $contacts=[];
+        }
+        $chosenPlace = Meeting::getChosenPlace($id);
+        if ($chosenPlace!==false) {
+          $place = $chosenPlace->place;
+          $gps = $chosenPlace->place->getLocation($chosenPlace->place->id);
+        } else {
+          $place = false;
+          $gps = false;
+        }
+        $chosenTime = Meeting::getChosenTime($id);
         return $this->render('view_confirmed', [
             'model' => $model,
             'participantProvider' => $participantProvider,
             'noteProvider' => $noteProvider,
             'viewer' => Yii::$app->user->getId(),
-            'isOwner' => $model->isOwner(Yii::$app->user->getId()),
-            'place' => $chosenPlace->place,
+            'isOwner' => $isOwner,
+            'place' => $place,
             'time'=>$model->friendlyDateFromTimestamp($chosenTime->start),
-            'gps'=>$chosenPlace->place->getLocation($chosenPlace->place->id),
+            'gps'=>$gps,
+            'noPlace'=>$noPlace,
+            'contacts' => $contacts,
+            'contactTypes'=>UserContact::getUserContactTypeOptions(),
         ]);
       }
     }
@@ -204,11 +230,11 @@ class MeetingController extends Controller
 
     public function actionDownload($id) {
       echo Meeting::buildCalendar($id);
-
     }
 
     public function actionCancel($id) {
-      $this->findModel($id)->cancel();
+      $user_id = Yii::$app->user->getId();
+      $this->findModel($id)->cancel($user_id);
       return $this->redirect(['index']);
     }
 

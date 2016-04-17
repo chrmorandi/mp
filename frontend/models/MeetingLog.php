@@ -23,15 +23,16 @@ use yii\db\ActiveRecord;
 class MeetingLog extends \yii\db\ActiveRecord
 {
 	const ACTION_CREATE_MEETING = 0;
+	const ACTION_CANCEL_MEETING = 7;
 	const ACTION_SUGGEST_PLACE = 10;
 	const ACTION_SUGGEST_TIME = 20;
+	const ACTION_ADD_NOTE = 40;
 	const ACTION_INVITE_PARTICIPANT = 30;
-		// not yet implemented
-		const ACTION_CANCEL_MEETING = 7;
-		const ACTION_ADD_NOTE = 40;
-		const ACTION_SEND_INVITE = 50;
-		//	const ACTION_ = ;
-		//	const ACTION_ = ;
+	const ACTION_SEND_INVITE = 50;
+	const ACTION_FINALIZE_INVITE = 60;
+	// not yet implemented
+	//	const ACTION_ = ;
+	//	const ACTION_ = ;
 
     /**
      * @inheritdoc
@@ -107,6 +108,9 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->item_id =$item_id;
          $log->extra_id =$extra_id;
          $log->save();
+				 // to do - add meeting field - for last log event and last log touched
+				 // lastLog = now();
+				 //  update();
     }
 
 }

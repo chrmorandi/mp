@@ -374,99 +374,138 @@ class Meeting extends \yii\db\ActiveRecord
       'notes' => $notes,
       'meetingSettings' => $this->meetingSettings,
   ]);
-
     // to do - add full name
-          $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-          $message->setTo($p->participant->email)
-              ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
-              ->send();
+    $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+    $message->setTo($p->participant->email)
+        ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
+        ->send();
   }
   // send the meeting
   $this->status = Meeting::STATUS_SENT;
   $this->update();
+  // add to log
+  MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id);
   }
 
-      public function finalize($user_id) {
-        $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
-        // chosen place
-        if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO) {
-          $noPlaces = true;
-          $chosenPlace=false;
-        } else {
-          $noPlaces = false;
-          $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $this->id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
-          }
-        // chosen time
-        $chosenTime = MeetingTime::find()->where(['meeting_id' => $this->id,'status'=>MeetingTime::STATUS_SELECTED])->one();
-        // Get message header
-        $header = $this->getMeetingHeader();
-        // build an attendees array of both the organizer and the participants
-        $cnt =0;
-        $attendees = array();
-        foreach ($this->participants as $p) {
-          $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
-          'email'=>$p->participant->email,
-          'username'=>$p->participant->username];
-          $cnt+=1;
-        }
-        $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
-        $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
-          'email'=>$this->owner->email,
-          'username'=>$this->owner->username];
-      // use this code to send
-      foreach ($attendees as $cnt=>$a) {
-        // Build the absolute links to the meeting and commands
-        $links=[
-          'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-          'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-          'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key']),
-          'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key']),
-          'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key']),
-          'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$a['user_id'],$a['auth_key']),
-          'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key']),
-          'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key']),
-          'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key']),
-          'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key']),
-          'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-          'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
-          'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
-        ];
-        // send the message
-        $message = Yii::$app->mailer->compose([
-          'html' => 'finalize-html',
-          'text' => 'finalize-text'
-        ],
-        [
-          'meeting_id' => $this->id,
-          'noPlaces' => $noPlaces,
-          'participant_id' => 0,
-          'owner' => $this->owner->username,
-          'user_id' => $a['user_id'],
-          'auth_key' => $a['auth_key'],
-          'intro' => $this->message,
-          'links' => $links,
-          'header' => $header,
-          'chosenPlace' => $chosenPlace,
-          'chosenTime' => $chosenTime,
-          'notes' => $notes,
-          'meetingSettings' => $this->meetingSettings,
-      ]);
-        // to do - add full name
-      $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$attendees);
-      $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-      $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
-      $message->setTo($a['email'])
-          ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
-          ->send();
+    public function finalize($user_id) {
+      $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
+      // chosen place
+      if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO) {
+        $noPlaces = true;
+        $chosenPlace=false;
+      } else {
+        $noPlaces = false;
+        $chosenPlace = $this->getChosenPlace($this->id);
       }
-          $this->status = self::STATUS_CONFIRMED;
+      // chosen time
+      $chosenTime=$this->getChosenTime($this->id);
+      // Get message header
+      $header = $this->getMeetingHeader();
+      // build an attendees array of both the organizer and the participants
+      $cnt =0;
+      $attendees = array();
+      foreach ($this->participants as $p) {
+        $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+        $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+        'email'=>$p->participant->email,
+        'username'=>$p->participant->username];
+        $cnt+=1;
+      }
+      $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
+      $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
+        'email'=>$this->owner->email,
+        'username'=>$this->owner->username];
+    // use this code to send
+    foreach ($attendees as $cnt=>$a) {
+      // Build the absolute links to the meeting and commands
+      $links=[
+        'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+        'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+        'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key']),
+        'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key']),
+        'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key']),
+        'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$a['user_id'],$a['auth_key']),
+        'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key']),
+        'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key']),
+        'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key']),
+        'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key']),
+        'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+        'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
+        'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+      ];
+      // send the message
+      $message = Yii::$app->mailer->compose([
+        'html' => 'finalize-html',
+        'text' => 'finalize-text'
+      ],
+      [
+        'meeting_id' => $this->id,
+        'noPlaces' => $noPlaces,
+        'participant_id' => 0,
+        'owner' => $this->owner->username,
+        'user_id' => $a['user_id'],
+        'auth_key' => $a['auth_key'],
+        'intro' => $this->message,
+        'links' => $links,
+        'header' => $header,
+        'chosenPlace' => $chosenPlace,
+        'chosenTime' => $chosenTime,
+        'notes' => $notes,
+        'meetingSettings' => $this->meetingSettings,
+    ]);
+      // to do - add full name
+    $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$attendees);
+    $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+    $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
+    $message->setTo($a['email'])
+        ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
+        ->send();
+    }
+        $this->status = self::STATUS_CONFIRMED;
+        $this->update();
+        // add to log
+        MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id);
+    }
+
+      public function cancel($user_id) {
+        // to do - check if user can Cancel
+        // either the owner or a participant
+        if (1==1) {
+          $this->status = self::STATUS_CANCELED;
           $this->update();
+          MeetingLog::add($this->id,MeetingLog::ACTION_CANCEL_MEETING,$user_id);
+        } else {
+          return false;
+        }
       }
 
-      public function cancel() {
-        $this->status = self::STATUS_CANCELED;
-        $this->update();
+      // these next two functions are for when only a single place and time exist
+      // but none is officially chosen to finalize
+      public static function getChosenPlace($meeting_id) {
+          $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
+          if (($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO)) {
+            return false;
+          }
+          $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
+          if (is_null($chosenPlace)) {
+            // no chosen place, set it as chosen
+            $place = MeetingPlace::find()->where(['meeting_id' => $meeting_id])->one();
+            $place->status = MeetingPlace::STATUS_SELECTED;
+            $place->update();
+            $chosenPlace = $place;
+          }
+          return $chosenPlace;
+      }
+
+      public static function getChosenTime($meeting_id) {
+          $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingTime::STATUS_SELECTED])->one();
+          if (is_null($chosenTime)) {
+            // no chosen Time, set it as chosen
+            $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id])->one();
+            $chosenTime->status = MeetingTime::STATUS_SELECTED;
+            $chosenTime->update();
+          }
+          return $chosenTime;
       }
 
       public function prepareView() {
@@ -522,6 +561,8 @@ class Meeting extends \yii\db\ActiveRecord
              $description.=' Website: '.$chosenPlace->place->website;
            }
            $location = str_ireplace(',',' ',$chosenPlace->place->name.' '.str_ireplace(', United States','',$chosenPlace->place->full_address));
+         } else {
+           $location ='';
          }
         $invite
          	->setSubject($meeting->subject)

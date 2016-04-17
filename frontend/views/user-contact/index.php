@@ -24,13 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 		        [
 		            'attribute' => 'contact_type',
 		            'format' => 'raw',
-		            'value' => function ($model) {                      
+		            'value' => function ($model) {
 		                        return '<div>'.$model->getUserContactType($model->contact_type).'</div>';
 		                },
 		        ],

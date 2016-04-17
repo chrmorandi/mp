@@ -62,26 +62,40 @@ $this->params['breadcrumbs'][] = $this->title;
      ]);
    }
     ?>
-
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-lg-12"><h4>Where</h4></div>
+        </div>
+      </div>
+      <div class="panel-body">
     <?php
-      if (($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO)) {
+      if ($noPlace) { ?>
+        <div class="col-lg-12">
+      <?php
         // show conference contact info
-        echo '<p>skype or phone contact info will appear here for your video or phone conference</p>';
-      } else {
-        // show place
-        // show map
-?>
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">
-    <div class="row">
-      <div class="col-lg-12"><h4>Where</h4></div>
-    </div>
-  </div>
-  <div class="panel-body">
-    <div class="col-lg-6">
-    <div class="place-view">
+        if (count($contacts)>0) {
+          foreach ($contacts as $c) {
 
+          ?>
+          <p>
+          <?php
+            echo $contactTypes[$c['contact_type']].': '.$c['info'];
+          ?>
+        </p>
+        <?php
+          }
+        } else {
+          echo '<p>'.Yii::t('frontend','No contact information available for your meeting partner yet.').'</p>';
+        }
+        ?>
+  </div>
+  <?php
+      } else {
+        // show place and map
+?>
+  <div class="col-lg-6">
+    <div class="place-view">
         <p><?php echo $place->name; ?></p>
         <p><?php echo Html::a($place->website, $place->website); ?></p>
         <p><?php echo $place->full_address; ?></p>
@@ -109,15 +123,12 @@ $this->params['breadcrumbs'][] = $this->title;
         echo 'No location coordinates for this place could be found.';
       }
       ?>
-
     </div> <!-- end second col -->
-  </div>
-
-</div>
-<?php
-
-      }
-       ?>
+    <?php
+  }
+   ?>
+  </div> <!-- end panel body -->
+</div> <!-- end panel -->
        <div class="panel panel-default">
          <!-- Default panel contents -->
          <div class="panel-heading">
@@ -128,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
          </div>
            <div class="panel-body">
              <p><?php echo $time; ?></p>
-             
+
            </div>
          </div>
        </div>
@@ -137,5 +148,4 @@ $this->params['breadcrumbs'][] = $this->title;
             'model'=>$model,
             'noteProvider' => $noteProvider,
         ]) ?>
-
 </div>
