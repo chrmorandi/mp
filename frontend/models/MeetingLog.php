@@ -30,6 +30,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_INVITE_PARTICIPANT = 30;
 	const ACTION_SEND_INVITE = 50;
 	const ACTION_FINALIZE_INVITE = 60;
+	const ACTION_COMPLETE_MEETING = 100;
 	// not yet implemented
 	//	const ACTION_ = ;
 	//	const ACTION_ = ;
@@ -100,7 +101,7 @@ class MeetingLog extends \yii\db\ActiveRecord
     }
 
     // add to log
-    public static function add($meeting_id,$action,$actor_id,$item_id=0,$extra_id=0) {
+    public static function add($meeting_id,$action,$actor_id=0,$item_id=0,$extra_id=0) {
          $log = new MeetingLog;
          $log->meeting_id=$meeting_id;
          $log->action =$action;

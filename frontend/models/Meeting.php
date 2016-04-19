@@ -330,7 +330,6 @@ class Meeting extends \yii\db\ActiveRecord
     $times = MeetingTime::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
     // Get message header
     $header = $this->getMeetingHeader();
-  // to do - loop through participants
   foreach ($this->participants as $p) {
     // Build the absolute links to the meeting and commands
     $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
@@ -502,8 +501,18 @@ class Meeting extends \yii\db\ActiveRecord
           if (is_null($chosenTime)) {
             // no chosen Time, set it as chosen
             $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id])->one();
-            $chosenTime->status = MeetingTime::STATUS_SELECTED;
-            $chosenTime->update();
+            if (is_null($chosenTime)) {
+              $chosenTime = new MeetingTime;
+              $chosenTime->meeting_id = $meeting_id;
+              $chosenTime->status = MeetingTime::STATUS_SELECTED;
+              $chosenTime->suggested_by = Yii::$app->user->getId();
+              $chosenTime->save();
+              // need to create entry
+            } else {
+              $chosenTime->status = MeetingTime::STATUS_SELECTED;
+              $chosenTime->update();
+            }
+
           }
           return $chosenTime;
       }
@@ -580,5 +589,29 @@ class Meeting extends \yii\db\ActiveRecord
 	         ->save(); // save it to a file;
            $downloadLink = $invite->getSavedPath();
            return $downloadLink;
+       }
+
+       public static function checkPast() {
+         // review meetings in sent or confirmed STATUS_SENT
+         // if the chosen datetime has passed, move to STATUS_COMPLETED
+         $meetings = Meeting::find()->where(['status'=>Meeting::STATUS_SENT])->orWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]])->all();
+         foreach ($meetings as $m) {
+           echo $m->owner_id.' - '.$m->subject.' <br />';
+           $chosenTime=Meeting::getChosenTime($m->id);
+           echo time().' -- '.$chosenTime->start.' ==>';
+           if (time()>$chosenTime->start) {
+             echo 'PAST';
+             echo '<br />';
+             // chosent meeting time has password_needs_rehash
+             $m->status = Meeting::STATUS_COMPLETED;
+             $m->update();
+             MeetingLog::add($m->id,MeetingLog::ACTION_COMPLETE_MEETING,$m->owner_id);
+           } else {
+             echo 'CURRENT';
+             echo '<br />';
+
+           }
+
+         }
        }
 }
