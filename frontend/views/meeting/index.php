@@ -12,18 +12,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-  <li class="active"><a href="#upcoming" role="tab" data-toggle="tab">Upcoming</a></li>
+  <li class="active"><a href="#planning" role="tab" data-toggle="tab">Planning</a></li>
+  <li ><a href="#upcoming" role="tab" data-toggle="tab">Confirmed</a></li>
   <li><a href="#past" role="tab" data-toggle="tab">Past</a></li>
   <li><a href="#canceled" role="tab" data-toggle="tab">Canceled</a></li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="upcoming">
+  <div class="tab-pane active" id="planning">
     <div class="meeting-index">
       <?php
-//        var_dump ($upcomingProvider);
-  //      exit;
+      ?>
+      <?= $this->render('_grid', [
+          'dataProvider' => $planningProvider,
+      ]) ?>
+
+    </div> <!-- end of planning meetings tab -->
+  </div>
+  <div class="tab-pane" id="upcoming">
+    <div class="meeting-index">
+      <?php
       ?>
       <?= $this->render('_grid', [
           'dataProvider' => $upcomingProvider,
@@ -35,13 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_grid', [
         'dataProvider' => $pastProvider,
-    ]) ?>    
+    ]) ?>
   </div> <!-- end of past meetings tab -->
   <div class="tab-pane" id="canceled">
     <?= $this->render('_grid', [
         'dataProvider' => $canceledProvider,
     ]) ?>
-    
+
   </div> <!-- end of canceled meetings tab -->
-  
+
 </div>

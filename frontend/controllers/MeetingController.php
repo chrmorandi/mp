@@ -59,9 +59,13 @@ class MeetingController extends Controller
      */
     public function actionIndex()
     {
-      // add filter for upcoming or past
+      $planningProvider = new ActiveDataProvider([
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]]),
+            'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+        ]);
+
       $upcomingProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]]),
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_CONFIRMED]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
         ]);
 
@@ -75,6 +79,7 @@ class MeetingController extends Controller
         ]);
 
         return $this->render('index', [
+            'planningProvider' => $planningProvider,
             'upcomingProvider' => $upcomingProvider,
             'pastProvider' => $pastProvider,
             'canceledProvider' => $canceledProvider,
