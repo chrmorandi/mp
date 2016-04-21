@@ -54,19 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
         ],
         [
-          'label'=>'Action',
-            'attribute' => 'action',
+          'label'=>'Created',
+            'attribute' => 'created_at',
             'format' => 'raw',
             'value' => function ($model) {
-                  return '<div>'.$model->getMeetingLogCommand().'</div>';
-                },
-        ],
-        [
-          'label'=>'Item',
-            'attribute' => 'item_id',
-            'format' => 'raw',
-            'value' => function ($model) {
-                        return '<div>'.$model->getMeetingLogItem().'</div>';
+                        return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"hh:ss MMM d").'</div>';
                 },
         ],
         // 'updated_at',
