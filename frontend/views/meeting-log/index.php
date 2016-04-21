@@ -24,4 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="meeting-log-index">
     <h1><?php echo  Html::encode($this->title) ?></h1>
 
+    <?php echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    //'filterModel' => $searchModel,
+    'columns' => [
+        //['class' => 'yii\grid\SerialColumn'],
+        [
+          'label'=>'MtgId',
+            'attribute' => 'meeting_id',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return '<div>'.$model->meeting_id.'</div>';
+                },
+        ],
+            ],
+]);
+?>
+
 <?php Pjax::end(); ?></div>
