@@ -239,7 +239,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_ACCEPT_TIME:
 				case MeetingLog::ACTION_REJECT_TIME:
 					// get the start time
-					$label = Meeting::friendlyDateFromTimestamp(MeetingTime::find()->where(['id'=>$this->item_id])->one()->start);
+					$mt = MeetingTime::find()->where(['id'=>$this->item_id])->one();
+					if (is_null($mt)) {
+						$label = 'err mtime of 4';
+					} else {
+						$label = Meeting::friendlyDateFromTimestamp($mt->start);
+					}
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
 					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
