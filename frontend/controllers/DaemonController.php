@@ -17,22 +17,22 @@ class DaemonController extends Controller
     {
         return [
           'access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','hourly','frequent'],
-                        'rules' => [
-                          // allow authenticated users
-                           [
-                               'allow' => true,
-                               'actions'=>['index'],
-                               'roles' => ['@'],
-                           ],
-                          [
-                              'allow' => true,
-                              'actions'=>['hourly','quarter','frequent'],
-                              'roles' => ['?'],
-                          ],
-                          // everything else is denied
-                        ],
+              'class' => \yii\filters\AccessControl::className(),
+              'only' => ['index','hourly'],
+              'rules' => [
+                // allow authenticated users
+                 [
+                     'allow' => true,
+                     'actions'=>['index'],
+                     'roles' => ['@'],
+                 ],
+                [
+                    'allow' => true,
+                    'actions'=>['quarter','frequent'],
+                    'roles' => ['?'],
+                ],
+                // everything else is denied
+              ],
                     ],
         ];
     }

@@ -20,6 +20,8 @@ use common\components\MiscHelpers;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $logged_at
+ * @property integer $cleared_at
  *
  * @property User $owner
  * @property MeetingLog[] $meetingLogs
@@ -622,10 +624,11 @@ class Meeting extends \yii\db\ActiveRecord
 
        public static function findFresh() {
          // identify all meetings with log entries not yet cleared
-         $meetings = Meeting::find()->where(['>','touched_at','cleared_at'])->all();
+         $meetings = Meeting::find()->where(['>','logged_at','cleared_at'])->all();
          foreach ($meetings as $m) {
-           if (($m->touched_at-$m->cleared_at)>MeetingLog::TIMELAPSE) {
-             echo $m->id.' - '.$m->subject.'<br/>';
+           if (($m->logged_at-$m->cleared_at)>MeetingLog::TIMELAPSE) {
+             echo $m->id.' - '.$m->subject.' - ';
+             echo '<a href="'.Url::to(['/meeting-log/view','id'=>$m->id],true).'">view log</a>.<br />';
              // review the meeting log of the organizer's actions
              // result: send update to the participant
              // review th meeting log for the participants' actions
@@ -655,9 +658,7 @@ class Meeting extends \yii\db\ActiveRecord
            } else {
              echo 'CURRENT';
              echo '<br />';
-
            }
-
          }
        }
 }
