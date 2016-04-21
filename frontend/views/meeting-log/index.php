@@ -54,6 +54,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
         ],
         [
+          'label'=>'Action',
+            'attribute' => 'action',
+            'format' => 'raw',
+            'value' => function ($model) {
+                  return '<div>'.$model->getMeetingLogCommand().'</div>';
+                },
+        ],
+        [
+          'label'=>'Item',
+            'attribute' => 'item_id',
+            'format' => 'raw',
+            'value' => function ($model) {
+                        return '<div>'.$model->getMeetingLogItem().'</div>';
+                },
+        ],
+        [
           'label'=>'Created',
             'attribute' => 'created_at',
             'format' => 'raw',
