@@ -262,7 +262,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
 					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one();
-					$label = 'temporary note string for now';
+					$label = 'temporary note string for now'.$this->item_id;
 					/*if (!property_exists($label->note)) {
 						$label.= 'noprop';
 					} else {
