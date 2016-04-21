@@ -206,24 +206,33 @@ class MeetingLog extends \yii\db\ActiveRecord
 					$label = 'error - sp';
 				} else {
 					$label = $label->place->name;
+					if (is_null($label)) {
+						$label = 'error - sugg label pl name';
+					}
 				}
 				break;
 				case MeetingLog::ACTION_ACCEPT_PLACE:
 				case MeetingLog::ACTION_REJECT_PLACE:
 				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
 				if (is_null($label)) {
-					$label = 'error - ar-pl';
+					$label = 'error - accrej-pl';
 				} else {
 					$label = $label->place->name;
+					if (is_null($label)) {
+						$label = 'error - accrej label pl name';
+					}
 				}
 				break;
 				case MeetingLog::ACTION_CHOOSE_PLACE:
-					$label = Place::find()->where(['id'=>$this->item_id])->one();
+				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
+				if (is_null($label)) {
+					$label = 'error - choose -pl';
+				} else {
+					$label = $label->place->name;
 					if (is_null($label)) {
-						$label='error - place!';
-					} else {
-						$label = $label->name;
+						$label = 'error - choose  pl name';
 					}
+				}
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
 				case MeetingLog::ACTION_SUGGEST_TIME:

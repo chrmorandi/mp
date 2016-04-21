@@ -138,17 +138,15 @@ class MeetingTimeController extends Controller
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_date_time']) return false;
-      $chosenTimeId=0;
       foreach ($mtg->meetingTimes as $mt) {
         if ($mt->id == intval($val)) {
           $mt->status = MeetingTime::STATUS_SELECTED;
-          $chosenTimeId=$mt->id;
         }
         else
           $mt->status = MeetingTime::STATUS_SUGGESTED;
         $mt->save();
       }
-      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),$chosenTimeId);
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),intval($mt));
       return true;
     }
 

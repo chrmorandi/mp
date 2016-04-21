@@ -145,18 +145,16 @@ class MeetingPlaceController extends Controller
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_place']) return false;
-      $chosenPlaceId=0;
       foreach ($mtg->meetingPlaces as $mp) {
         if ($mp->id == intval($val)) {
           $mp->status = MeetingPlace::STATUS_SELECTED;
-          $chosenPlaceId = $mp->place_id;
         }
         else {
           $mp->status = MeetingPlace::STATUS_SUGGESTED;
         }
         $mp->save();
       }
-      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),$chosenPlaceId);
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),intval($val));
       return true;
     }
 
