@@ -112,11 +112,21 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
       $model->save();
     }
 
-    public static function set($id,$status)
+    public static function set($id,$status,$bulkMode=false)
     {
       $mtc = MeetingTimeChoice::find()->where(['id'=>$id])->one();
       $mtc->status = $status;
       $mtc->save();
+      if (!$bulkMode) {
+        // log only when not in bulk mode i.e. accept all
+        // see setAll for more details
+        if ($status==MeetingTimeChoice::STATUS_YES) {
+          $command = MeetingLog::ACTION_ACCEPT_TIME;
+        } else {
+          $command = MeetingLog::ACTION_REJECT_TIME;
+        }
+        MeetingLog::add($meeting_id,$command,$user_id);
+      }
       return $mtc->id;
     }
 
@@ -130,6 +140,8 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
         foreach ($mtchoices as $mtc) {
           MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES);
         }
+        // add one log entry in bulk mode
+        MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_TIMES,$user_id);
       }
     }
 }

@@ -31,6 +31,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_PASSIVE = 20;
 
     const ROLE_USER = 10;
+    const ROLE_ADMIN = 100;
 
     /**
      * @inheritdoc
@@ -195,5 +196,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function isAdmin() {
+      if ($this->role == User::ROLE_ADMIN) {
+        return true;
+      } else {
+        return false;
+      }
+
     }
 }

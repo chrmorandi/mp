@@ -1,4 +1,7 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'jeff@lookahead.io',
+    'maximumParticipants' => 7,
+    'maximumPlaces' => 7,
+    'maximumTimes' => 12,
 ];

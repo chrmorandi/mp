@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\User;
 use frontend\models\MeetingLog;
 use frontend\models\MeetingLogSearch;
 use yii\web\Controller;
@@ -14,44 +15,69 @@ use yii\filters\VerbFilter;
  */
 class MeetingLogController extends Controller
 {
-
-	public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-            'access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['view'],
-                        'rules' => [
-                            // allow authenticated users
+    /**
+     * @inheritdoc
+     */
+		 public function behaviors()
+     {
+         return [
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'delete' => ['POST'],
+                 ],
+             ],
+           'access' => [
+                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
+                         'only' => ['index'],
+                         'rules' => [
+                           // allow authenticated users
                             [
                                 'allow' => true,
+                                'actions'=>['index'],
                                 'roles' => ['@'],
                             ],
-                            // everything else is denied
-                        ],
-                    ],            
-        ];
-    }
+                           [
+                               'allow' => true,
+                               'actions'=>[],
+                               'roles' => ['?'],
+                           ],
+                           // everything else is denied
+                         ],
+                     ],
+         ];
+     }
 
     /**
-     * Lists all MeetingLog models for a specific meeting_id
+     * Lists all MeetingLog models.
      * @return mixed
      */
-    public function actionView($meeting_id)
+    public function actionIndex()
     {
+				// only administrators can view the meeting log
+				if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
+					$this->redirect(['site/authfailure']);
+				}
         $searchModel = new MeetingLogSearch();
-		$searchModel->meeting_id = $meeting_id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Displays a single MeetingLog model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+			if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
+				$this->redirect(['site/authfailure']);
+			}
+        return $this->render('view', [
+            'model' => $this->findModel($id),
         ]);
     }
 

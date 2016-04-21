@@ -34,12 +34,12 @@ class MeetingController extends Controller
             ],
           'access' => [
                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
-                        'only' => ['index','view','create','update','delete', 'cancel','command','download'],
+                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download'],
                         'rules' => [
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['index','view','create','update','delete', 'cancel','command','download'],
+                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download'],
                                'roles' => ['@'],
                            ],
                           [
@@ -238,6 +238,13 @@ class MeetingController extends Controller
 
     public function actionDownload($id) {
       echo Meeting::buildCalendar($id);
+    }
+
+    public function actionDecline($id) {
+      $user_id = Yii::$app->user->getId();
+      $this->findModel($id)->decline($user_id);
+      Yii::$app->getSession()->setFlash('success', 'Your participation in this meeting has been declined and the organizer will be notified.');
+      return $this->redirect(['index']);
     }
 
     public function actionCancel($id) {

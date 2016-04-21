@@ -18,7 +18,7 @@ class DaemonController extends Controller
         return [
           'access' => [
                         'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','hourly'],
+                        'only' => ['index','hourly','frequent'],
                         'rules' => [
                           // allow authenticated users
                            [
@@ -28,7 +28,7 @@ class DaemonController extends Controller
                            ],
                           [
                               'allow' => true,
-                              'actions'=>['hourly','quarter'],
+                              'actions'=>['hourly','quarter','frequent'],
                               'roles' => ['?'],
                           ],
                           // everything else is denied
@@ -43,10 +43,18 @@ class DaemonController extends Controller
 
   }
 
-  public function actionQuarter() {
+
+public function actionFrequent() {
+  // called every five minutes
+  Meeting::findFresh();
+  // to do - turn off output
+}
+
+public function actionQuarter() {
     // called every fifteen minutes
     $m = new Meeting;
     $past = $m->checkPast();
+    // to do - turn off output
   }
 
   public function actionHourly() {

@@ -22,6 +22,8 @@ use common\models\User;
  */
 class Participant extends \yii\db\ActiveRecord
 {
+    const STATUS_DEFAULT = 0;
+    const STATUS_DECLINED = 100;
 
     public $email;
     public $username;

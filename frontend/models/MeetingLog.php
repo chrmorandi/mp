@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use frontend\models\Meeting;
 
 /**
  * This is the model class for table "meeting_log".
@@ -22,15 +23,27 @@ use yii\db\ActiveRecord;
  */
 class MeetingLog extends \yii\db\ActiveRecord
 {
+	const TIMELAPSE = 300; // five minutes
+
 	const ACTION_CREATE_MEETING = 0;
 	const ACTION_CANCEL_MEETING = 7;
+	const ACTION_DECLINE_MEETING = 9;
 	const ACTION_SUGGEST_PLACE = 10;
+	const ACTION_ACCEPT_ALL_PLACES = 11;
+	const ACTION_ACCEPT_PLACE = 12;
+	const ACTION_REJECT_PLACE = 15;
 	const ACTION_SUGGEST_TIME = 20;
-	const ACTION_ADD_NOTE = 40;
+	const ACTION_ACCEPT_ALL_TIMES = 21;
+	const ACTION_ACCEPT_TIME = 22;
+	const ACTION_REJECT_TIME = 25;
 	const ACTION_INVITE_PARTICIPANT = 30;
+	const ACTION_ADD_NOTE = 40;
 	const ACTION_SEND_INVITE = 50;
 	const ACTION_FINALIZE_INVITE = 60;
 	const ACTION_COMPLETE_MEETING = 100;
+	const ACTION_CHOOSE_PLACE = 110;
+	const ACTION_CHOOSE_TIME = 120;
+
 	// not yet implemented
 	//	const ACTION_ = ;
 	//	const ACTION_ = ;
@@ -109,9 +122,70 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->item_id =$item_id;
          $log->extra_id =$extra_id;
          $log->save();
-				 // to do - add meeting field - for last log event and last log touched
-				 // lastLog = now();
-				 //  update();
+				 // sets the touched_at field for the Meeting
+				 Meeting::touchLog($meeting_id);
     }
 
+		public function getMeetingLogCommand() {
+			switch ($this->action) {
+				case MeetingLog::ACTION_CREATE_MEETING:
+					$actionLabel = Yii::t('frontend','create meeting');
+				break;
+				case MeetingLog::ACTION_CANCEL_MEETING:
+					$actionLabel = Yii::t('frontend','cancel meeting');
+				break;
+				case MeetingLog::ACTION_DECLINE_MEETING:
+					$actionLabel = Yii::t('frontend','decline meeting');
+				break;
+				case MeetingLog::ACTION_SUGGEST_PLACE:
+				$actionLabel = Yii::t('frontend','add place');
+				break;
+				case MeetingLog::ACTION_SUGGEST_TIME:
+				$actionLabel = Yii::t('frontend','add time');
+				break;
+				case MeetingLog::ACTION_ADD_NOTE:
+				$actionLabel = Yii::t('frontend','add note');
+				break;
+				case MeetingLog::ACTION_INVITE_PARTICIPANT:
+				$actionLabel = Yii::t('frontend','Invite participant');
+				break;
+				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
+					$actionLabel = Yii::t('frontend','accept all places');
+				break;
+				case MeetingLog::ACTION_ACCEPT_PLACE:
+					$actionLabel = Yii::t('frontend','accept place');
+				break;
+				case MeetingLog::ACTION_REJECT_PLACE:
+					$actionLabel = Yii::t('frontend','reject place');
+				break;
+				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
+					$actionLabel = Yii::t('frontend','accept all times');
+				break;
+				case MeetingLog::ACTION_ACCEPT_TIME:
+					$actionLabel = Yii::t('frontend','accept time');
+				break;
+				case MeetingLog::ACTION_REJECT_TIME:
+					$actionLabel = Yii::t('frontend','reject time');
+				break;
+				case MeetingLog::ACTION_CHOOSE_PLACE:
+					$actionLabel = Yii::t('frontend','choose place');
+				break;
+				case MeetingLog::ACTION_CHOOSE_TIME:
+					$actionLabel = Yii::t('frontend','choose time');
+				break;
+				case MeetingLog::ACTION_SEND_INVITE:
+				$actionLabel = Yii::t('frontend','Send');
+				break;
+				case MeetingLog::ACTION_FINALIZE_INVITE:
+				$actionLabel = Yii::t('frontend','Finalize');
+				break;
+				case MeetingLog::ACTION_COMPLETE_MEETING:
+				$actionLabel = Yii::t('frontend','Complete meeting');
+				break;
+				default:
+					$actionLabel = Yii::t('frontend','Unknown');
+				break;
+			}
+			return $actionLabel;
+		}
 }

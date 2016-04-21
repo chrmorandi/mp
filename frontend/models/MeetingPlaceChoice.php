@@ -110,11 +110,21 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
       $model->save();
     }
 
-    public static function set($id,$status)
+    public static function set($id,$status,$bulkMode=false)
     {
       $mpc = MeetingPlaceChoice::find()->where(['id'=>$id])->one();
       $mpc->status = $status;
       $mpc->save();
+      if (!$bulkMode) {
+        // log only when not in bulk mode i.e. accept all
+        // see setAll for more details
+        if ($status==MeetingPlaceChoice::STATUS_YES) {
+          $command = MeetingLog::ACTION_ACCEPT_PLACE;
+        } else {
+          $command = MeetingLog::ACTION_REJECT_PLACE;
+        }
+        MeetingLog::add($meeting_id,$command,$user_id);
+      }
       return $mpc->id;
     }
 
@@ -126,8 +136,10 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
         // find mpc for this meetingPlace and user_id
         $mpchoices = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$mp->id,'user_id'=>$user_id])->all();
         foreach ($mpchoices as $mpc) {
-          MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES);
+          MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,true);
         }
+        // add one log entry in bulk mode
+        MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_PLACES,$user_id);
       }
     }
 }

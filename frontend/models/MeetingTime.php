@@ -138,6 +138,7 @@ class MeetingTime extends \yii\db\ActiveRecord
         }
         $mt->save();
       }
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,$user_id);
       return true;
     }
 }

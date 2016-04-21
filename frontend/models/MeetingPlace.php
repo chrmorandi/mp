@@ -153,6 +153,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
         }
         $mp->save();
       }
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,$user_id);
       return true;
     }
 }

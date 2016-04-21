@@ -58,6 +58,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_VIEW_MAP = 20;
   const COMMAND_FINALIZE = 50;
   const COMMAND_CANCEL = 60;
+  const COMMAND_DECLINE = 65;
   const COMMAND_ACCEPT_ALL = 70;
   const COMMAND_ACCEPT_PLACE = 100;
   const COMMAND_REJECT_PLACE = 110;
@@ -259,6 +260,11 @@ class Meeting extends \yii\db\ActiveRecord
        return $str;
      }
 
+     public static function getSubject($id) {
+       $meeting = Meeting::find()->where(['id' => $id])->one();
+       return $meeting->subject;
+     }
+
      public function getMeetingTitle($meeting_id) {
         $meeting = Meeting::find()->where(['id' => $meeting_id])->one();
         $title = $this->getMeetingType($meeting->meeting_type);
@@ -338,6 +344,7 @@ class Meeting extends \yii\db\ActiveRecord
       'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$p->participant_id,$auth_key),
       'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$p->participant_id,$auth_key),
       'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$p->participant_id,$auth_key),
+      'decline'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_DECLINE,0,$p->participant_id,$auth_key),
       'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$p->participant_id,$auth_key),
       'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$p->participant_id,$auth_key),
       'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$p->participant_id,$auth_key),
@@ -387,6 +394,7 @@ class Meeting extends \yii\db\ActiveRecord
   }
 
     public function finalize($user_id) {
+      // to do - not all those links are needed in the view of a finalized meeting
       $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
       // chosen place
       if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO) {
@@ -476,6 +484,15 @@ class Meeting extends \yii\db\ActiveRecord
         } else {
           return false;
         }
+      }
+
+      public function decline($user_id) {
+        // user is declining participation
+        // get participant_id and set status
+        $p = $this->participants->where(['participant_id'=>$user_id])->one();
+        $p->status = Participant::STATUS_DECLINED;
+        $p->update();
+        MeetingLog::add($this->id,MeetingLog::ACTION_DECLINE_MEETING,$user_id);
       }
 
       // these next two functions are for when only a single place and time exist
@@ -589,6 +606,35 @@ class Meeting extends \yii\db\ActiveRecord
 	         ->save(); // save it to a file;
            $downloadLink = $invite->getSavedPath();
            return $downloadLink;
+       }
+
+       public static function clearLog($id) {
+         $mtg = Meeting::find()->where(['id'=>$id])->one();
+         $mtg->cleared_at = time();
+         $mtg->update();
+       }
+
+       public static function touchLog($id) {
+         $mtg = Meeting::find()->where(['id'=>$id])->one();
+         $mtg->logged_at = time();
+         $mtg->update();
+       }
+
+       public static function findFresh() {
+         // identify all meetings with log entries not yet cleared
+         $meetings = Meeting::find()->where(['>','touched_at','cleared_at'])->all();
+         foreach ($meetings as $m) {
+           if (($m->touched_at-$m->cleared_at)>MeetingLog::TIMELAPSE) {
+             echo $m->id.' - '.$m->subject.'<br/>';
+             // review the meeting log of the organizer's actions
+             // result: send update to the participant
+             // review th meeting log for the participants' actions
+             // result: send update to the organizer
+             // clear the log for this meeting
+             // todo - reactive clearlog
+             //$this->clearLog($m->id);
+           }
+         }
        }
 
        public static function checkPast() {

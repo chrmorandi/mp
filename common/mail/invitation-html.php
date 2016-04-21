@@ -26,7 +26,7 @@ use frontend\models\MeetingTime;
          <?php
          }
          ?>
-         | <?php echo HTML::a(Yii::t('frontend','Decline invitation'),$links['cancel']); ?></p>
+         | <?php echo HTML::a(Yii::t('frontend','Decline invitation'),$links['decline']); ?></p>
     </td>
   </tr>
   <?php
