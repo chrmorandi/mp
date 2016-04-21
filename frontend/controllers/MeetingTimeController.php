@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Meeting;
 use frontend\models\MeetingTime;
+use frontend\models\MeetingLog;
 use frontend\models\MeetingTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -147,7 +148,6 @@ class MeetingTimeController extends Controller
           $mt->status = MeetingTime::STATUS_SUGGESTED;
         $mt->save();
       }
-
       return true;
     }
 
