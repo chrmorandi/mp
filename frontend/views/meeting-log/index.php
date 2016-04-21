@@ -22,10 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
-            'meeting_id',
+            [
+              'label'=>'MtgId',
+                'attribute' => 'meeting_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return '<div>'.$model->meeting_id.'</div>';
+                    },
+            ],
+
             [
               'label'=>'Subject',
                 'attribute' => 'subject',
@@ -50,7 +58,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             return '<div>'.$model->getMeetingLogCommand().'</div>';
                     },
             ],
-            'item_id',
+            [
+              'label'=>'Item',
+                'attribute' => 'item_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                            return '<div>'.$model->getMeetingLogItem().'</div>';
+                    },
+            ],
             // 'extra_id',
             [
               'label'=>'Created',
@@ -62,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

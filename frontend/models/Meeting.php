@@ -262,6 +262,20 @@ class Meeting extends \yii\db\ActiveRecord
        return $str;
      }
 
+     public function getMeetingParticipants() {
+       // get a string of the participants other than the viewer
+       $str='';
+       if ($this->isOwner(Yii::$app->user->getId())) {
+         if (count($this->participants)>0) {
+           $str=$this->participants[0]->participant->email;
+         }
+       } else {
+         $owner = \common\models\User::findIdentity($this->owner_id);
+         $str=$owner->email;
+       }
+       return $str;
+     }
+
      public static function getSubject($id) {
        $meeting = Meeting::find()->where(['id' => $id])->one();
        return $meeting->subject;

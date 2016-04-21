@@ -112,22 +112,26 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
       $model->save();
     }
 
-    public static function set($id,$status,$bulkMode=false)
+    public static function set($id,$status,$user_id,$bulkMode=false)
     {
       $mtc = MeetingTimeChoice::find()->where(['id'=>$id])->one();
-      $mtc->status = $status;
-      $mtc->save();
-      if (!$bulkMode) {
-        // log only when not in bulk mode i.e. accept all
-        // see setAll for more details
-        if ($status==MeetingTimeChoice::STATUS_YES) {
-          $command = MeetingLog::ACTION_ACCEPT_TIME;
-        } else {
-          $command = MeetingLog::ACTION_REJECT_TIME;
+      if ($mtc->user_id==$user_id) {
+        $mtc->status = $status;
+        $mtc->save();
+        if (!$bulkMode) {
+          // log only when not in bulk mode i.e. accept all
+          // see setAll for more details
+          if ($status==MeetingTimeChoice::STATUS_YES) {
+            $command = MeetingLog::ACTION_ACCEPT_TIME;
+          } else {
+            $command = MeetingLog::ACTION_REJECT_TIME;
+          }
+          MeetingLog::add($mtc->meetingTime->meeting_id,$command,$mtc->user_id,$mtc->meeting_time_id);
         }
-        MeetingLog::add($meeting_id,$command,$user_id);
+      } else {
+        return false;
       }
-      return $mtc->id;
+      return   $mtc->id;
     }
 
     public static function setAll($meeting_id,$user_id)
@@ -138,7 +142,7 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
         // find mpc for this meetingTime and user_id
         $mtchoices = MeetingTimeChoice::find()->where(['meeting_time_id'=>$mt->id,'user_id'=>$user_id])->all();
         foreach ($mtchoices as $mtc) {
-          MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES);
+          MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES,$user_id,true);
         }
         // add one log entry in bulk mode
         MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_TIMES,$user_id);

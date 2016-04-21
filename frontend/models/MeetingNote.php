@@ -93,7 +93,7 @@ class MeetingNote extends \yii\db\ActiveRecord
         parent::afterSave($insert,$changedAttributes);
         if ($insert) {
           // if MeetingNote
-          MeetingLog::add($this->id,MeetingLog::ACTION_ADD_NOTE,$this->posted_by);
+          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_ADD_NOTE,$this->posted_by,$this->id);
         }
     }
 }

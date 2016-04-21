@@ -369,12 +369,12 @@ class MeetingController extends Controller
           break;
           case Meeting::COMMAND_ACCEPT_PLACE:
             $mpc = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$obj_id,'user_id'=>$actor_id])->one();
-            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES);
+            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
           case Meeting::COMMAND_REJECT_PLACE:
             $mpc = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$obj_id,'user_id'=>$actor_id])->one();
-            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_NO);
+            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_NO,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
           case Meeting::COMMAND_CHOOSE_PLACE:
@@ -383,12 +383,12 @@ class MeetingController extends Controller
           break;
           case Meeting::COMMAND_ACCEPT_TIME:
             $mtc = MeetingTimeChoice::find()->where(['meeting_time_id'=>$obj_id,'user_id'=>$actor_id])->one();
-            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES);
+            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
           case Meeting::COMMAND_REJECT_TIME:
             $mtc = MeetingTimeChoice::find()->where(['meeting_time_id'=>$obj_id,'user_id'=>$actor_id])->one();
-            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_NO);
+            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_NO,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
           case Meeting::COMMAND_CHOOSE_TIME:

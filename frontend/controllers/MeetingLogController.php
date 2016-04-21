@@ -78,7 +78,6 @@ class MeetingLogController extends Controller
 			}
       $searchModel = new MeetingLogSearch();
       $dataProvider = $searchModel->search(['MeetingLogSearch'=>['meeting_id'=>$id]]);
-      //andFilterWhere(['meeting_id', $id])->search($searchModel);
       return $this->render('index', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,

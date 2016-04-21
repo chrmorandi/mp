@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 
 class MeetingPlaceChoiceController extends \yii\web\Controller
 {
-  
+
   public function behaviors()
   {
       return [
@@ -30,17 +30,17 @@ class MeetingPlaceChoiceController extends \yii\web\Controller
     {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       // caution - incoming AJAX type issues with val
-      $id=str_replace('mpc-','',$id);      
-      $mpc = $this->findModel($id);      
-      if (Yii::$app->user->getId()!=$mpc->user_id) return false;        
+      $id=str_replace('mpc-','',$id);
+      //if (Yii::$app->user->getId()!=$mpc->user_id) return false;
       if (intval($state) == 0 or $state=='false')
-        $mpc->status = MeetingPlaceChoice::STATUS_NO;
+        $status = MeetingPlaceChoice::STATUS_NO;
       else
-        $mpc->status = MeetingPlaceChoice::STATUS_YES;
-      $mpc->save();
+        $status = MeetingPlaceChoice::STATUS_YES;
+      //$mpc->save();
+      MeetingPlaceChoice::set($id,$status,Yii::$app->user->getId());
       return $mpc->id;
     }
-    
+
     /**
      * Finds the MeetingPlaceChoice model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

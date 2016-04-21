@@ -129,63 +129,103 @@ class MeetingLog extends \yii\db\ActiveRecord
 		public function getMeetingLogCommand() {
 			switch ($this->action) {
 				case MeetingLog::ACTION_CREATE_MEETING:
-					$actionLabel = Yii::t('frontend','create meeting');
+					$label = Yii::t('frontend','create meeting');
 				break;
 				case MeetingLog::ACTION_CANCEL_MEETING:
-					$actionLabel = Yii::t('frontend','cancel meeting');
+					$label = Yii::t('frontend','cancel meeting');
 				break;
 				case MeetingLog::ACTION_DECLINE_MEETING:
-					$actionLabel = Yii::t('frontend','decline meeting');
+					$label = Yii::t('frontend','decline meeting');
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
-				$actionLabel = Yii::t('frontend','add place');
+				$label = Yii::t('frontend','add place');
 				break;
 				case MeetingLog::ACTION_SUGGEST_TIME:
-				$actionLabel = Yii::t('frontend','add time');
+				$label = Yii::t('frontend','add time');
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
-				$actionLabel = Yii::t('frontend','add note');
+				$label = Yii::t('frontend','add note');
 				break;
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-				$actionLabel = Yii::t('frontend','Invite participant');
+				$label = Yii::t('frontend','Invite participant');
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
-					$actionLabel = Yii::t('frontend','accept all places');
+					$label = Yii::t('frontend','accept all places');
 				break;
 				case MeetingLog::ACTION_ACCEPT_PLACE:
-					$actionLabel = Yii::t('frontend','accept place');
+					$label = Yii::t('frontend','accept place');
 				break;
 				case MeetingLog::ACTION_REJECT_PLACE:
-					$actionLabel = Yii::t('frontend','reject place');
+					$label = Yii::t('frontend','reject place');
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
-					$actionLabel = Yii::t('frontend','accept all times');
+					$label = Yii::t('frontend','accept all times');
 				break;
 				case MeetingLog::ACTION_ACCEPT_TIME:
-					$actionLabel = Yii::t('frontend','accept time');
+					$label = Yii::t('frontend','accept time');
 				break;
 				case MeetingLog::ACTION_REJECT_TIME:
-					$actionLabel = Yii::t('frontend','reject time');
+					$label = Yii::t('frontend','reject time');
 				break;
 				case MeetingLog::ACTION_CHOOSE_PLACE:
-					$actionLabel = Yii::t('frontend','choose place');
+					$label = Yii::t('frontend','choose place');
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
-					$actionLabel = Yii::t('frontend','choose time');
+					$label = Yii::t('frontend','choose time');
 				break;
 				case MeetingLog::ACTION_SEND_INVITE:
-				$actionLabel = Yii::t('frontend','Send');
+				$label = Yii::t('frontend','Send');
 				break;
 				case MeetingLog::ACTION_FINALIZE_INVITE:
-				$actionLabel = Yii::t('frontend','Finalize');
+				$label = Yii::t('frontend','Finalize');
 				break;
 				case MeetingLog::ACTION_COMPLETE_MEETING:
-				$actionLabel = Yii::t('frontend','Complete meeting');
+				$label = Yii::t('frontend','Complete meeting');
 				break;
 				default:
-					$actionLabel = Yii::t('frontend','Unknown');
+					$label = Yii::t('frontend','Unknown');
 				break;
 			}
-			return $actionLabel;
+			return $label;
+		}
+
+		public function getMeetingLogItem() {
+			switch ($this->action) {
+				case MeetingLog::ACTION_CREATE_MEETING:
+				case MeetingLog::ACTION_CANCEL_MEETING:
+				case MeetingLog::ACTION_DECLINE_MEETING:
+					$label = Yii::t('frontend','-');
+				break;
+				case MeetingLog::ACTION_INVITE_PARTICIPANT:
+					$label = Yii::t('frontend','Invite participant');
+				break;
+				case MeetingLog::ACTION_SUGGEST_PLACE:
+				case MeetingLog::ACTION_ACCEPT_PLACE:
+				case MeetingLog::ACTION_REJECT_PLACE:
+				case MeetingLog::ACTION_CHOOSE_PLACE:
+					$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one()->place->name;
+				break;
+				case MeetingLog::ACTION_CHOOSE_TIME:
+				case MeetingLog::ACTION_SUGGEST_TIME:
+				case MeetingLog::ACTION_ACCEPT_TIME:
+				case MeetingLog::ACTION_REJECT_TIME:
+					// get the start time
+					$label = Meeting::friendlyDateFromTimestamp(MeetingTime::find()->where(['id'=>$this->item_id])->one()->start);
+				break;
+				case MeetingLog::ACTION_ADD_NOTE:
+					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
+				break;
+				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
+				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
+				case MeetingLog::ACTION_SEND_INVITE:
+				case MeetingLog::ACTION_FINALIZE_INVITE:
+				case MeetingLog::ACTION_COMPLETE_MEETING:
+				$label = Yii::t('frontend','-');
+				break;
+				default:
+					$label = Yii::t('frontend','n/a');
+				break;
+			}
+			return $label;
 		}
 }

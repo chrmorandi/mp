@@ -26,16 +26,17 @@ class MeetingTimeChoiceController extends \yii\web\Controller
 
       public function actionSet($id,$state)
       {
-        $id=str_replace('mtc-','',$id);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         // caution - incoming AJAX type issues with val
-        $mtc = $this->findModel($id);
-        if (Yii::$app->user->getId()!=$mtc->user_id) return false;        
+        $id=str_replace('mtc-','',$id);
         if (intval($state) == 0 or $state=='false')
-          $mtc->status = MeetingTimeChoice::STATUS_NO;
-        else
-          $mtc->status = MeetingTimeChoice::STATUS_YES;
-        $mtc->save();
-        return $mtc->id;
+        {
+          $status = MeetingTimeChoice::STATUS_NO;
+        } else {
+          $status = MeetingTimeChoice::STATUS_YES;
+        }
+        MeetingTimeChoice::set($id,$status,Yii::$app->user->getId());
+        return $id;
       }
 
       /**

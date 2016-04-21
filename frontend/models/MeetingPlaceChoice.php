@@ -110,22 +110,27 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
       $model->save();
     }
 
-    public static function set($id,$status,$bulkMode=false)
+    public static function set($id,$status,$user_id = 0,$bulkMode=false)
     {
       $mpc = MeetingPlaceChoice::find()->where(['id'=>$id])->one();
-      $mpc->status = $status;
-      $mpc->save();
-      if (!$bulkMode) {
-        // log only when not in bulk mode i.e. accept all
-        // see setAll for more details
-        if ($status==MeetingPlaceChoice::STATUS_YES) {
-          $command = MeetingLog::ACTION_ACCEPT_PLACE;
-        } else {
-          $command = MeetingLog::ACTION_REJECT_PLACE;
+      if ($mpc->user_id==$user_id) {
+        $mpc->status = $status;
+        $mpc->save();
+        if (!$bulkMode) {
+          // log only when not in bulk mode i.e. accept all
+          // see setAll for more details
+          if ($status==MeetingPlaceChoice::STATUS_YES) {
+            $command = MeetingLog::ACTION_ACCEPT_PLACE;
+          } else {
+            $command = MeetingLog::ACTION_REJECT_PLACE;
+          }
+          MeetingLog::add($mpc->meetingPlace->meeting_id,$command,$mpc->user_id,$mpc->meeting_place_id);
         }
-        MeetingLog::add($meeting_id,$command,$user_id);
+        return $mpc->id;
+      } else {
+        return false;
       }
-      return $mpc->id;
+
     }
 
     public static function setAll($meeting_id,$user_id)
@@ -136,7 +141,7 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
         // find mpc for this meetingPlace and user_id
         $mpchoices = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$mp->id,'user_id'=>$user_id])->all();
         foreach ($mpchoices as $mpc) {
-          MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,true);
+          MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,$user_id,true);
         }
         // add one log entry in bulk mode
         MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_PLACES,$user_id);
