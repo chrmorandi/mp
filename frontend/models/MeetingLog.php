@@ -190,6 +190,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 		}
 
 		public function getMeetingLogItem() {
+			$label='';
 			switch ($this->action) {
 				case MeetingLog::ACTION_CREATE_MEETING:
 				case MeetingLog::ACTION_CANCEL_MEETING:
@@ -203,17 +204,17 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_ACCEPT_PLACE:
 				case MeetingLog::ACTION_REJECT_PLACE:
 				case MeetingLog::ACTION_CHOOSE_PLACE:
-					$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one()->place->name;
+				//	$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one()->place->name;
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
 				case MeetingLog::ACTION_SUGGEST_TIME:
 				case MeetingLog::ACTION_ACCEPT_TIME:
 				case MeetingLog::ACTION_REJECT_TIME:
 					// get the start time
-					$label = Meeting::friendlyDateFromTimestamp(MeetingTime::find()->where(['id'=>$this->item_id])->one()->start);
+					// $label = Meeting::friendlyDateFromTimestamp(MeetingTime::find()->where(['id'=>$this->item_id])->one()->start);
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
-					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
+					// $label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
 				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
