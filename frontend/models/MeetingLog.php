@@ -261,20 +261,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 					}
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
-					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one();
-					$label = 'temporary note string for now'.$this->item_id;
-					/*if (!property_exists($label->note)) {
-						$label.= 'noprop';
+					if ($this->item_id ==0) {
+						$label = ' note not logged ';
 					} else {
-						$label.= 'exists';
-					}*/
+						$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
 
-/*
-						$label = $label->note;
-						if (is_null($label)) {
-							$label = 'error - no note text 2';
-						}
-*/
+					}
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
 				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
