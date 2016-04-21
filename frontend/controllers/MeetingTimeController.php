@@ -141,12 +141,13 @@ class MeetingTimeController extends Controller
       foreach ($mtg->meetingTimes as $mt) {
         if ($mt->id == intval($val)) {
           $mt->status = MeetingTime::STATUS_SELECTED;
+          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),intval($val));
         }
         else
           $mt->status = MeetingTime::STATUS_SUGGESTED;
         $mt->save();
       }
-      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),intval($mt));
+
       return true;
     }
 

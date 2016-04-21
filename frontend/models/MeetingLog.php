@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use frontend\models\Meeting;
+use common\models\User;
 
 /**
  * This is the model class for table "meeting_log".
@@ -198,16 +199,16 @@ class MeetingLog extends \yii\db\ActiveRecord
 					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-					$label = Yii::t('frontend','Invite participant');
+					$label = User::find()->where(['id'=>$this->item_id])->one()->email;
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
-				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
+				$label = Place::find()->where(['id'=>$this->item_id])->one();
 				if (is_null($label)) {
-					$label = 'error - sp';
+					$label = 'error - sugg pl';
 				} else {
 					$label = $label->place->name;
 					if (is_null($label)) {
-						$label = 'error - sugg label pl name';
+						$label = 'error - sugg pl - name';
 					}
 				}
 				break;
