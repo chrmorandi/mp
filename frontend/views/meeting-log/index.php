@@ -37,7 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 return '<div>'.$model->meeting_id.'</div>';
                 },
         ],
-            ],
+        [
+          'label'=>'Subject',
+            'attribute' => 'subject',
+            'format' => 'raw',
+            'value' => function ($model) {
+                return '<div>'.Meeting::getSubject($model->meeting_id).'</div>';
+                },
+        ],
+                // 'updated_at',
+        // 'extra_id',
+        //['class' => 'yii\grid\ActionColumn'],
+    ],
 ]);
 ?>
 
