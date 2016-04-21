@@ -206,7 +206,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_CHOOSE_PLACE:
 					$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
 					if (is_null($label)) {
-						$label ='ack!';
+						$label='ack!';
 					} else {
 						$label = $label->place->name;
 					}
