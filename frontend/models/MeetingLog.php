@@ -206,7 +206,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				if (is_null($label)) {
 					$label = 'error - sugg pl';
 				} else {
-					$label = $label->place->name;
+					$label = $label->name;
 					if (is_null($label)) {
 						$label = 'error - sugg pl - name';
 					}
