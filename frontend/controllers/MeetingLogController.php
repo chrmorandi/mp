@@ -58,15 +58,13 @@ class MeetingLogController extends Controller
 				if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
 					$this->redirect(['site/authfailure']);
 				}
-        /*
+
         $searchModel = new MeetingLogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-        */
-        echo 'here';
+        ]);                
     }
 
     /**

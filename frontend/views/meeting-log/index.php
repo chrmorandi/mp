@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+//use yii\widgets\Pjax;
 use frontend\models\Meeting;
 use common\models\User;
 /* @var $this yii\web\View */
@@ -20,7 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php // = Html::a(Yii::t('frontend', 'Create Meeting Log'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?php echo  GridView::widget([
+<?php //Pjax::begin(); ?>
+<?php echo  GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
@@ -76,8 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
             ],
             // 'updated_at',
-
             //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php //Pjax::end(); ?></div>
