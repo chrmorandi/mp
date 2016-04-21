@@ -204,7 +204,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_ACCEPT_PLACE:
 				case MeetingLog::ACTION_REJECT_PLACE:
 				case MeetingLog::ACTION_CHOOSE_PLACE:
-					$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one()->place_id;
+					$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
+					if (is_null($label)) {
+						$label ='ack!';
+					} else {
+						$label = $label->place->name;
+					}
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
 				case MeetingLog::ACTION_SUGGEST_TIME:
