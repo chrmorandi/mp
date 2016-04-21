@@ -201,14 +201,28 @@ class MeetingLog extends \yii\db\ActiveRecord
 					$label = Yii::t('frontend','Invite participant');
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
+				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
+				if (is_null($label)) {
+					$label = 'error - sp';
+				} else {
+					$label = $label->place->name;
+				}
+				break;
 				case MeetingLog::ACTION_ACCEPT_PLACE:
 				case MeetingLog::ACTION_REJECT_PLACE:
+				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
+				if (is_null($label)) {
+					$label = 'error - ar-pl';
+				} else {
+					$label = $label->place->name;
+				}
+				break;
 				case MeetingLog::ACTION_CHOOSE_PLACE:
-					$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
+					$label = Place::find()->where(['id'=>$this->item_id])->one();
 					if (is_null($label)) {
-						$label='ack!';
+						$label='error - place!';
 					} else {
-						$label = $label->place->name;
+						$label = $label->name;
 					}
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:

@@ -6,6 +6,7 @@ use Yii;
 use frontend\models\Meeting;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingPlaceSearch;
+use frontend\models\MeetingLog;
 use frontend\models\Place;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -68,15 +69,15 @@ class MeetingPlaceController extends Controller
          $model->meeting_id= $meeting_id;
          $model->suggested_by= Yii::$app->user->getId();
          $model->status = MeetingPlace::STATUS_SUGGESTED;
-         $posted_form = Yii::$app->request->post(); 
+         $posted_form = Yii::$app->request->post();
          if ($model->load($posted_form)) {
           // check if both are chosen and return an error
-           if ($model->place_id<>'' and $posted_form['MeetingPlace']['google_place_id']<>'') {    
+           if ($model->place_id<>'' and $posted_form['MeetingPlace']['google_place_id']<>'') {
              $model->addErrors(['place_id'=>Yii::t('frontend','Please choose one or the other')]);
              return $this->render('create', [
                   'model' => $model,
                    'title' => $title,
-              ]);             
+              ]);
            }
            if ($posted_form['MeetingPlace']['google_place_id']<>'') {
              // a google place is selected
@@ -87,7 +88,7 @@ class MeetingPlaceController extends Controller
            // validate the form against model rules
            if ($model->validate()) {
                // all inputs are valid
-               $model->save();              
+               $model->save();
                return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
            } else {
                // validation failed
@@ -95,12 +96,12 @@ class MeetingPlaceController extends Controller
                    'model' => $model,
                     'title' => $title,
                ]);
-           }          
+           }
          } else {
            return $this->render('create', [
                'model' => $model,
              'title' => $title,
-           ]);          
+           ]);
          }
      }
 
@@ -141,18 +142,21 @@ class MeetingPlaceController extends Controller
       // other meeting_place_id for this meeting need to be set inactive
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = intval($id);
-      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();      
+      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_place']) return false;
+      $chosenPlaceId=0;
       foreach ($mtg->meetingPlaces as $mp) {
         if ($mp->id == intval($val)) {
-          $mp->status = MeetingPlace::STATUS_SELECTED;          
+          $mp->status = MeetingPlace::STATUS_SELECTED;
+          $chosenPlaceId = $mp->place_id;
         }
         else {
-          $mp->status = MeetingPlace::STATUS_SUGGESTED;          
+          $mp->status = MeetingPlace::STATUS_SUGGESTED;
         }
         $mp->save();
       }
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),$chosenPlaceId);
       return true;
     }
 

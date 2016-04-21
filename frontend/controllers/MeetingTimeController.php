@@ -38,7 +38,7 @@ class MeetingTimeController extends Controller
                             ],
                             // everything else is denied
                         ],
-                    ],            
+                    ],
         ];
     }
     /**
@@ -81,7 +81,7 @@ class MeetingTimeController extends Controller
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid
-              $model->save();              
+              $model->save();
               return $this->redirect(['/meeting/view', 'id' => $model->meeting_id]);
           } else {
               // validation failed
@@ -89,12 +89,12 @@ class MeetingTimeController extends Controller
                   'model' => $model,
                 'title' => $title,
               ]);
-          }          
+          }
         } else {
           return $this->render('create', [
               'model' => $model,
             'title' => $title,
-          ]);          
+          ]);
         }
     }
 
@@ -129,7 +129,7 @@ class MeetingTimeController extends Controller
 
         return $this->redirect(['index']);
     }
-    
+
     public function actionChoose($id,$val) {
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
@@ -138,16 +138,20 @@ class MeetingTimeController extends Controller
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_date_time']) return false;
+      $chosenTimeId=0;
       foreach ($mtg->meetingTimes as $mt) {
-        if ($mt->id == intval($val))
+        if ($mt->id == intval($val)) {
           $mt->status = MeetingTime::STATUS_SELECTED;
+          $chosenTimeId=$mt->id;
+        }
         else
           $mt->status = MeetingTime::STATUS_SUGGESTED;
         $mt->save();
       }
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),$chosenTimeId);
       return true;
     }
-    
+
     /**
      * Finds the MeetingTime model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
