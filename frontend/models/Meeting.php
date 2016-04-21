@@ -406,7 +406,7 @@ class Meeting extends \yii\db\ActiveRecord
   $this->status = Meeting::STATUS_SENT;
   $this->update();
   // add to log
-  MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id);
+  MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id,0);
   }
 
     public function finalize($user_id) {
@@ -486,8 +486,8 @@ class Meeting extends \yii\db\ActiveRecord
     }
         $this->status = self::STATUS_CONFIRMED;
         $this->update();
-        // add to log
-        MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id);
+      // add to log
+      MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
     }
 
       public function cancel($user_id) {

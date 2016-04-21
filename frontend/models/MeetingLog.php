@@ -199,7 +199,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-					$label = User::find()->where(['id'=>$this->item_id])->one()->email;
+					$label = User::find()->where(['id'=>$this->item_id])->one();
+					if (is_null($label)) {
+						$label = 'error - user';
+					} else {
+						$label = $label->email;
+					}
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
 				$label = Place::find()->where(['id'=>$this->item_id])->one();
@@ -218,9 +223,13 @@ class MeetingLog extends \yii\db\ActiveRecord
 				if (is_null($label)) {
 					$label = 'error - accrej-pl';
 				} else {
-					$label = $label->place->name;
-					if (is_null($label)) {
-						$label = 'error - accrej label pl name';
+					if (is_null($label->place))
+						$label = 'err no acc rej place 1';
+					else {
+						$label = $label->place->name;
+						if (is_null($label)) {
+							$label = 'error - accrej label pl name';
+						}
 					}
 				}
 				break;
@@ -229,9 +238,13 @@ class MeetingLog extends \yii\db\ActiveRecord
 				if (is_null($label)) {
 					$label = 'error - choose -pl';
 				} else {
-					$label = $label->place->name;
-					if (is_null($label)) {
-						$label = 'error - choose  pl name';
+					if (is_null($label->place))
+						$label = 'err no choose place 1';
+					else {
+						$label = $label->place->name;
+						if (is_null($label)) {
+							$label = 'error - choose pl name';
+						}
 					}
 				}
 				break;
@@ -248,7 +261,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 					}
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
-					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
+					$label = MeetingNote::find()->where(['id'=>$this->item_id])->one();
+					$label = 'temp note';
+					//->note;
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
 				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
