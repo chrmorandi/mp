@@ -10,9 +10,9 @@ use common\models\User;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('frontend', 'Meeting Logs');
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php Pjax::begin(); ?>
 <div class="meeting-log-index">
-
-  <h1><?php //echo  Html::encode($this->title) ?></h1>
+    <h1><?php echo  Html::encode($this->title) ?></h1>
 <?php Pjax::end(); ?></div>
