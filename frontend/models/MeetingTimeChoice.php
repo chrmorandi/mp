@@ -114,7 +114,7 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
 
     public static function set($id,$status,$user_id,$bulkMode=false)
     {
-      $mtc = MeetingTimeChoice::find()->where(['id'=>$id])->one();
+      $mtc = MeetingTimeChoice::findOne($id);
       if ($mtc->user_id==$user_id) {
         $mtc->status = $status;
         $mtc->save();

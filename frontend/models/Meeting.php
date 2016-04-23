@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use yii\i18n\Formatter;
 use common\models\Yiigun;
+use common\models\User;
 use common\components\MiscHelpers;
 
 /**
@@ -267,11 +268,11 @@ class Meeting extends \yii\db\ActiveRecord
        $str='';
        if ($this->isOwner(Yii::$app->user->getId())) {
          if (count($this->participants)>0) {
-           $str=$this->participants[0]->participant->email;
+           $str=MiscHelpers::getDisplayName($this->participants[0]->participant->id);
          }
        } else {
-         $owner = \common\models\User::findIdentity($this->owner_id);
-         $str=$owner->email;
+         //$owner = \common\models\User::findIdentity($this->owner_id);
+         $str=MiscHelpers::getDisplayName($this->owner_id);
        }
        return $str;
      }
@@ -590,7 +591,7 @@ class Meeting extends \yii\db\ActiveRecord
        }
 
        public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendees) {
-         $meeting = Meeting::find()->where(['id'=>$id])->one();
+         $meeting = Meeting::findOne($id);
          $invite = new \common\models\Calendar();
          $start_time = $chosenTime->start+(3600*7); // temp timezone adjust
          $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
@@ -625,13 +626,13 @@ class Meeting extends \yii\db\ActiveRecord
        }
 
        public static function clearLog($id) {
-         $mtg = Meeting::find()->where(['id'=>$id])->one();
+         $mtg = Meeting::findOne($id);
          $mtg->cleared_at = time();
          $mtg->update();
        }
 
        public static function touchLog($id) {
-         $mtg = Meeting::find()->where(['id'=>$id])->one();
+         $mtg = Meeting::findOne($id);
          $mtg->logged_at = time();
          $mtg->update();
        }
@@ -673,6 +674,26 @@ class Meeting extends \yii\db\ActiveRecord
              echo 'CURRENT';
              echo '<br />';
            }
+         }
+       }
+
+       public static function displayProfileHints() {
+         $user_id = Yii::$app->user->getId();
+         $user=User::findOne($user_id);
+         if ($user->status==User::STATUS_PASSIVE) {
+           if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
+               $user->generatePasswordResetToken();
+               $user->update();
+           }
+           $t=$user->password_reset_token;
+            Yii::$app->getSession()->setFlash('info', '<a href="'.Url::to(['/site/reset-password','token'=>$t],true).'">'.Yii::t('frontend','Please create a password so you can login with us directly.').'</a>');
+         } else {
+            $up_id = MiscHelpers::isProfileEmpty($user_id);
+            // returns UserProfile->id if available
+            if ($up_id!==false) {
+              Yii::$app->getSession()->setFlash('info', '<a href="' .Url::to(['/user-profile/update','id'=>$up_id],true).'">'.Yii::t('frontend','Please fill in your name so we can tell people what to call you.').'</a>');
+            }
+
          }
        }
 }

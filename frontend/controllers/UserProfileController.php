@@ -51,10 +51,15 @@ class UserProfileController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {            
             Yii::$app->getSession()->setFlash('success', 'Your profile has been updated.');
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            if (is_null($model)) {
+              // create the user profile for this User if it doesn't exist
+              $up_id = UserProfile::initialize(Yii::$app->user->getId());
+              $model=$this->findOne($up_id);
+            }
             return $this->render('update', [
                 'model' => $model,
             ]);

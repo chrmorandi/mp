@@ -34,12 +34,12 @@ class MeetingController extends Controller
             ],
           'access' => [
                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
-                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download'],
+                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard'],
                         'rules' => [
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download'],
+                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download','wizard'],
                                'roles' => ['@'],
                            ],
                           [
@@ -77,13 +77,19 @@ class MeetingController extends Controller
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_CANCELED]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
         ]);
-
+        Meeting::displayProfileHints();
         return $this->render('index', [
             'planningProvider' => $planningProvider,
             'upcomingProvider' => $upcomingProvider,
             'pastProvider' => $pastProvider,
             'canceledProvider' => $canceledProvider,
         ]);
+    }
+
+    public function actionWizard() {
+      return $this->render('wizard', [
+          
+      ]);
     }
 
     /**
@@ -405,9 +411,8 @@ class MeetingController extends Controller
             break;
         }
       }
-
-
     }
+
 
     /**
      * Finds the Meeting model based on its primary key value.

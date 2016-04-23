@@ -61,7 +61,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [ self::STATUS_DELETED,self::STATUS_ACTIVE,self::STATUS_PASSIVE]],
 
             ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => [self::ROLE_USER]],
+            ['role', 'in', 'range' => [self::ROLE_USER,self::ROLE_ADMIN]],
 
         ];
     }
@@ -105,10 +105,9 @@ class User extends ActiveRecord implements IdentityInterface
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status' => [self::STATUS_ACTIVE,self::STATUS_PASSIVE],
         ]);
     }
 
@@ -190,6 +189,14 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
+    public function fetchPasswordResetToken() {
+        if (is_null($this->password_reset_token)) {
+          $this->generatePasswordResetToken();
+          $this->save();
+        }
+        return $this->password_reset_token;
+    }
+
     /**
      * Removes password reset token
      */
@@ -199,11 +206,12 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function isAdmin() {
+      echo 'a'.$this->id.'here';exit;
+
       if ($this->role == User::ROLE_ADMIN) {
         return true;
       } else {
         return false;
       }
-
     }
 }

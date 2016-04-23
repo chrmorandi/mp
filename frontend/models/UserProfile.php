@@ -86,4 +86,16 @@ class UserProfile extends \yii\db\ActiveRecord
       }
       return $up->id;
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (empty($this->fullname) || ($this->fullname == ' ')) {
+              $this->fullname = $this->firstname.' '.$this->lastname;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

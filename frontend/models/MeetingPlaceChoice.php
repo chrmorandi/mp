@@ -112,7 +112,7 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
 
     public static function set($id,$status,$user_id = 0,$bulkMode=false)
     {
-      $mpc = MeetingPlaceChoice::find()->where(['id'=>$id])->one();
+      $mpc = MeetingPlaceChoice::findOne($id);
       if ($mpc->user_id==$user_id) {
         $mpc->status = $status;
         $mpc->save();
