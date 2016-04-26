@@ -1,13 +1,17 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+$model = new \frontend\models\Meeting;
 $wizard_config = [
     'id' => 'stepwizard',
     'steps' => [
         1 => [
             'title' => 'Subject',
             'icon' => 'glyphicon glyphicon-envelope',
-            'content' => '<h3>'.Yii::t('frontend','Subject').'</h3><p>'.Yii::t('frontend','What\'s the purpose of the meeting?').'</p>',
+            'content' =>
+              $this->render('_wizard_form', [
+                  'model' => $model,
+              ]),
             'skippable' => false,
 
         ],

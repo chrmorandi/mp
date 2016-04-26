@@ -88,7 +88,7 @@ class MeetingController extends Controller
 
     public function actionWizard() {
       return $this->render('wizard', [
-          
+
       ]);
     }
 
@@ -312,8 +312,7 @@ class MeetingController extends Controller
           $performAuth = false;
         }
       }
-      if ($performAuth) {
-         //echo 'guest';
+      if ($performAuth) {         
           $person = new \common\models\User;
           $identity = $person->findIdentity($actor_id);
           if ($identity->validateAuthKey($k)) {

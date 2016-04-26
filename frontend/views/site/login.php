@@ -34,11 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
           <p>Or, login with one of the following services:</p>
           <?= yii\authclient\widgets\AuthChoice::widget([
-               'baseAuthUrl' => ['site/auth'],
+               'baseAuthUrl' => ['site/auth','mode'=>'login'],
                'popupMode' => false,
           ]) ?>
         </div> <!-- end col-lg-5 -->
       </div> <!-- end row -->
 </div>
-
-

@@ -26,4 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-5">
+          <p>Or, login with one of the following services:</p>
+          <?= yii\authclient\widgets\AuthChoice::widget([
+               'baseAuthUrl' => ['site/auth','mode'=>'signup'],
+               'popupMode' => false,
+          ]) ?>
+        </div> <!-- end col-lg-5 -->
+      </div> <!-- end row -->
 </div>

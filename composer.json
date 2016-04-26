@@ -32,7 +32,7 @@
         "mailgun/mailgun-php": "~2.0",
         "guzzlehttp/guzzle":"6.2.0 as 4.2.3",
         "php-http/guzzle6-adapter":"1.0.0",
-        "drsdre/yii2-wizardwidget": "*"
+        "drsdre/yii2-wizardwidget": "*"        
             },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
