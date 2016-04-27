@@ -217,7 +217,7 @@ class SiteController extends Controller
           $serviceTitle = $client->getTitle();
           $firstname ='';
           $lastname='';
-          $fullname ='';          
+          $fullname ='';
           switch ($serviceProvider) {
             case 'facebook':
               $username = $email = $attributes['email'];
@@ -253,6 +253,7 @@ class SiteController extends Controller
                 'source' => $serviceProvider,
                 'source_id' => $serviceId,
             ])->one();
+            echo ' made it';exit;
             if (Yii::$app->user->isGuest) {
                 if ($auth) { // login
                   $user_id = $auth->user_id;
