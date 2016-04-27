@@ -215,26 +215,34 @@ class SiteController extends Controller
           $serviceId = $attributes['id'];
           $serviceProvider = $client->getId();
           $serviceTitle = $client->getTitle();
+          $firstname ='';
+          $lastname='';
+          $fullname ='';
           switch ($serviceProvider) {
             case 'facebook':
-              $email = $attributes['email'];
-              $username = $email;
+              $username = $email = $attributes['email'];
+              $fullname = $attributes['name'];
               break;
             case 'google':
               $email = $attributes['emails'][0]['value'];
-              $username = $attributes['displayName'];
+              if (isset($attributes['displayName'])) {
+                  $fullname = $username = $attributes['displayName'];
+              }
+              if (isset($attributes['name']['familyName']) and isset($attributes['name']['givenName'])) {
+                $lastname = $attributes['name']['familyName'];
+                $firstname = $attributes['name']['givenName'];
+              }
             break;
             case 'twitter':
               // temp placeholder for email
               // to do : do not allow meeting creation without email
-              //$email = $serviceId.'@twitter.com';
-var_dump($attributes);exit;
-              $email = $attributes['email'];
+              $email = $serviceId.'@twitter.com';
+              //$email = $attributes['email'];
               $username = $attributes['screen_name'];
-              //echo $email;
-
+              $fullname = $attributes['name'];
             break;
           }
+          // to do - split names into first and last with parser
             $auth = Auth::find()->where([
                 'source' => $serviceProvider,
                 'source_id' => $serviceId,
