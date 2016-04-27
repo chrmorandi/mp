@@ -218,6 +218,8 @@ class SiteController extends Controller
           $firstname ='';
           $lastname='';
           $fullname ='';
+          var_dump($attributes);
+          exit;
           switch ($serviceProvider) {
             case 'facebook':
               $username = $email = $attributes['email'];
