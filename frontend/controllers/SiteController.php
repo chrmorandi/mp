@@ -252,26 +252,36 @@ class SiteController extends Controller
             $auth = Auth::find()->where([
                 'source' => (string)$serviceProvider,
                 'source_id' => (string)$serviceId,
-            ])->one();            
+            ])->one();
             if (Yii::$app->user->isGuest) {
-                if ($auth) { // login
+                if ($auth) {
+                  // if the user_id associated with this oauth login is registered, try to log them in
                   $user_id = $auth->user_id;
                   $person = new \common\models\User;
                   $identity = $person->findIdentity($user_id);
                   Yii::$app->user->login($identity);
-                } else { // signup
-                  if ($mode == 'login') {
+                } else {
+                  // it's a new oauth id
+                  // first check if we know the email address
+                  if (isset($email) && User::find()->where(['email' => $email])->exists()) {
+                    // the email is already registered, ask person to link accounts after loggin in
                     Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
+                        Yii::t('frontend', "The email in this {client} account is already registered. Please login using your username and password first, then link to this account in your profile settings.", ['client' => $serviceTitle]),
                     ]);
-                    $this->redirect(['signup']);
-                  } else if (isset($email) && isset($username) && User::find()->where(['email' => $email])->exists()) {
-                        Yii::$app->getSession()->setFlash('error', [
-                            Yii::t('frontend', "User with the same email as in {client} account already exists but isn't linked to it. Login using your username and password first, then link to it in your profile settings.", ['client' => $serviceTitle]),
-                        ]);
-                    } else {
-                      // important to do - look for username that exists already
-                        $password = Yii::$app->security->generateRandomString(12);
+                    $this->redirect(['login']);
+                  } else {
+                    if ($mode == 'login') {
+                      // they were trying to login with an unconnected account - ask them to login normally and link after
+                      Yii::$app->getSession()->setFlash('error', [
+                          Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
+                      ]);
+                    } else if ($mode == 'signup') {
+                      // sign up a new account using oauth
+                      // look for username that exists already and differentiate it
+                      if (isset($username) && User::find()->where(['username' => $username])->exists()) {
+                        $username.=Yii::$app->security->generateRandomString(6);
+                      }
+                      $password = Yii::$app->security->generateRandomString(12);
                         $user = new User([
                             'username' => $username, // $attributes['login'],
                             'email' => $email,
@@ -296,9 +306,11 @@ class SiteController extends Controller
                         } else {
                             print_r($user->getErrors());
                         }
-                    }
+                      } // end signup
+                  }
                 }
-            } else { // user already logged in
+            } else {
+              // user already logged in, link the accounts
                 if (!$auth) { // add auth provider
                     $auth = new Auth([
                         'user_id' => Yii::$app->user->id,
