@@ -227,9 +227,12 @@ class SiteController extends Controller
             case 'twitter':
               // temp placeholder for email
               // to do : do not allow meeting creation without email
-              $email = $serviceId.'@twitter.com';
-              //$email = $attributes['email'];
+              //$email = $serviceId.'@twitter.com';
+var_dump($attributes);exit;
+              $email = $attributes['email'];
               $username = $attributes['screen_name'];
+              //echo $email;
+
             break;
           }
             $auth = Auth::find()->where([

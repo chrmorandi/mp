@@ -592,11 +592,11 @@ class Meeting extends \yii\db\ActiveRecord
 
        public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendees) {
          $meeting = Meeting::findOne($id);
-         $invite = new \common\models\Calendar();
+         $invite = new \common\models\Calendar($id);
          $start_time = $chosenTime->start+(3600*7); // temp timezone adjust
          $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
          $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
-         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST')); // '2016-04-16 02:00PM'
+         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST')); 
          $description = $meeting->message;
          // check if its a confernce with no location
          if ($chosenPlace!==false) {
