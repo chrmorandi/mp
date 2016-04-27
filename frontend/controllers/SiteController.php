@@ -217,9 +217,7 @@ class SiteController extends Controller
           $serviceTitle = $client->getTitle();
           $firstname ='';
           $lastname='';
-          $fullname ='';
-          var_dump($attributes);
-          exit;
+          $fullname ='';          
           switch ($serviceProvider) {
             case 'facebook':
               $username = $email = $attributes['email'];
