@@ -233,6 +233,12 @@ class SiteController extends Controller
                 $firstname = $attributes['name']['givenName'];
               }
             break;
+            case 'linkedin':
+              $username = $email = $attributes['email-address'];
+              $lastname = $attributes['first-name'];
+              $firstname = $attributes['last-name'];
+              $fullname = $firstname.' '.$lastname;
+            break;
             case 'twitter':
               // temp placeholder for email
               // to do : do not allow meeting creation without email
@@ -256,12 +262,12 @@ class SiteController extends Controller
                 } else { // signup
                   if ($mode == 'login') {
                     Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('frontend', "We don't recognize the user with this email from {client}. You can sign up with this account by trying again from the signup page below. ", ['client' => $serviceTitle]),
+                        Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
                     ]);
                     $this->redirect(['signup']);
                   } else if (isset($email) && isset($username) && User::find()->where(['email' => $email])->exists()) {
                         Yii::$app->getSession()->setFlash('error', [
-                            Yii::t('frontend', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $serviceTitle]),
+                            Yii::t('frontend', "User with the same email as in {client} account already exists but isn't linked to it. Login using your username and password first, then link to it in your profile settings.", ['client' => $serviceTitle]),
                         ]);
                     } else {
                       // important to do - look for username that exists already
