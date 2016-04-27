@@ -249,6 +249,9 @@ class SiteController extends Controller
             break;
           }
           // to do - split names into first and last with parser
+            echo ' made it';
+            echo $serviceProvider.'-'.$serviceId;
+            exit;
             $auth = Auth::find()->where([
                 'source' => $serviceProvider,
                 'source_id' => $serviceId,
