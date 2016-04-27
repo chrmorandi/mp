@@ -249,14 +249,10 @@ class SiteController extends Controller
             break;
           }
           // to do - split names into first and last with parser
-            echo ' made it';
-            echo $serviceProvider.'-'.$serviceId;
-            exit;
             $auth = Auth::find()->where([
-                'source' => $serviceProvider,
-                'source_id' => $serviceId,
-            ])->one();
-            echo ' made it';exit;
+                'source' => (string)$serviceProvider,
+                'source_id' => (string)$serviceId,
+            ])->one();            
             if (Yii::$app->user->isGuest) {
                 if ($auth) { // login
                   $user_id = $auth->user_id;
