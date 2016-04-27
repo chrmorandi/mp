@@ -131,6 +131,16 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+    public function actionPrivacy()
+    {
+        return $this->render('privacy');
+    }
+
+    public function actionTos()
+    {
+        return $this->render('tos');
+    }
+
     public function actionSignup()
     {
         $model = new SignupForm();
@@ -218,6 +228,7 @@ class SiteController extends Controller
               // temp placeholder for email
               // to do : do not allow meeting creation without email
               $email = $serviceId.'@twitter.com';
+              //$email = $attributes['email'];
               $username = $attributes['screen_name'];
             break;
           }

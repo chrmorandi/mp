@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -41,14 +42,14 @@ AppAsset::register($this);
 	                ['label' => Yii::t('frontend','Places'), 'url' => ['/place/yours']],
 	            ];
             }
-      			$menuItems[]=['label' => Yii::t('frontend','About'),
-      				'items' => [
-      					['label' => Yii::t('frontend','Learn more'), 'url' => ['/site/about']],
-      					['label' => Yii::t('frontend','Contact us'), 'url' => ['/site/contact']],
-      				],
-      			];
       			if (Yii::$app->user->isGuest) {
-      			  echo Nav::widget([
+              $menuItems[]=['label' => Yii::t('frontend','About'),
+                'items' => [
+                  ['label' => Yii::t('frontend','Learn more'), 'url' => ['/site/about']],
+                  ['label' => Yii::t('frontend','Contact us'), 'url' => ['/site/contact']],
+                ],
+              ];
+              echo Nav::widget([
                   'options' => ['class' => 'navbar-nav navbar-right'],
                   'items' => $menuItems,
               ]);
@@ -99,8 +100,21 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left"><?php echo Html::a('&copy; Lookahead Consulting '.date('Y'),'http://lookahead.io'); ?></p>
-        <p class="pull-right"><?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?></p>
+          <p class="pull-left">
+          <?php
+          if (!Yii::$app->user->isGuest) {
+            echo Html::a(Yii::t('frontend','Contact'),Url::to(['/site/contact'])).' | ';
+            echo Html::a(Yii::t('frontend','About'),Url::to(['/site/about']));
+          }
+           ?>
+        <p class="pull-right">
+        <?php
+        if (!Yii::$app->user->isGuest) {
+          echo Html::a('&copy; Lookahead Consulting '.date('Y'),'http://lookahead.io').'&nbsp;|&nbsp';
+        }
+        ?>
+        <?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
+        </p>
         </div>
     </footer>
 

@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="row">
         <div class="col-lg-5">
-          <p>Or, login with one of the following services:</p>
+          <p><?php echo Yii::t('frontend','Or, sign up with your existing account at one of these services:'); ?></p>
           <?= yii\authclient\widgets\AuthChoice::widget([
                'baseAuthUrl' => ['site/auth','mode'=>'signup'],
                'popupMode' => false,
