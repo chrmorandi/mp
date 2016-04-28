@@ -248,6 +248,8 @@ class SiteController extends Controller
                 // temp placeholder for email - to do - address this in user profile
                 $email = $serviceId.'@twitter.com';
               }
+              // to do - fix social helpers
+              $email = $serviceId.'@twitter.com';
             break;
           }
           // to do - split names into first and last with parser
