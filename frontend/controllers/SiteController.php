@@ -16,7 +16,7 @@ use frontend\models\Auth;
 use yii\authclient\ClientInterface;
 use yii\helpers\ArrayHelper;
 use common\models\User;
-
+use common\components\SocialHelpers;
 /**
  * Site controller
  */
@@ -240,12 +240,14 @@ class SiteController extends Controller
               $fullname = $firstname.' '.$lastname;
             break;
             case 'twitter':
-              // temp placeholder for email
-              // to do : do not allow meeting creation without email
-              $email = $serviceId.'@twitter.com';
-              //$email = $attributes['email'];
               $username = $attributes['screen_name'];
               $fullname = $attributes['name'];
+              // twitter's not as friendly - let's get the email
+              $email = SocialHelpers::fetchEmail();
+              if ($email=='') {
+                // temp placeholder for email - to do - address this in user profile
+                $email = $serviceId.'@twitter.com';
+              }
             break;
           }
           // to do - split names into first and last with parser
@@ -275,6 +277,7 @@ class SiteController extends Controller
                       Yii::$app->getSession()->setFlash('error', [
                           Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
                       ]);
+                      $this->redirect(['signup']);
                     } else if ($mode == 'signup') {
                       // sign up a new account using oauth
                       // look for username that exists already and differentiate it
