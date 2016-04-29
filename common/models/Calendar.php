@@ -659,7 +659,7 @@ class Calendar {
 	    $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "SUMMARY:{$this->getName()}\n";
 	    $content .= "SEQUENCE:0\n";
-	    $content .= "STATUS:NEEDS-ACTION\n";
+	    $content .= "STATUS:CONFIRMED\n";
 	    $content .= "TRANSP:OPAQUE\n";
 	    $content .= "END:VEVENT\n";
 	    $content .= "END:VCALENDAR";

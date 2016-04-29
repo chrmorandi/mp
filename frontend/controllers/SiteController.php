@@ -242,12 +242,6 @@ class SiteController extends Controller
             case 'twitter':
               $username = $attributes['screen_name'];
               $fullname = $attributes['name'];
-              // twitter's not as friendly - let's get the email
-              $email = SocialHelpers::fetchEmail();
-              if ($email=='') {
-                // temp placeholder for email - to do - address this in user profile
-                $email = $serviceId.'@twitter.com';
-              }
               // to do - fix social helpers
               $email = $serviceId.'@twitter.com';
             break;

@@ -33,12 +33,12 @@ return [
                       'clientId' => $config['linkedin_client_id'],
                       'clientSecret' => $config['linkedin_client_secret'],
                   ],
-                  'twitter' => [
+                  /*'twitter' => [
                       'class' => 'yii\authclient\clients\Twitter',
                       'consumerKey' => $config['oauth_twitter_key'],
                       'consumerSecret' => $config['oauth_twitter_secret'],
                               ],
-
+                              */
               ],
           ],
       'urlManager' => [
