@@ -37,6 +37,9 @@ class UserSetting extends \yii\db\ActiveRecord
     const SETTING_48_HOUR = 48;
     const SETTING_72_HOUR = 72;
 
+    const EMAIL_OK = 0;
+    const EMAIL_NONE = 1;
+
     public $image;
 
     /**
@@ -113,6 +116,14 @@ class UserSetting extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public static function safeGet($user_id) {
+      // initialize first, then get
+      UserSetting::initialize($user_id);
+      // return the UserSetting
+      $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+      return $us;
+    }
+
     public static function initialize($user_id) {
       $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
       if (is_null($us)) {
@@ -157,5 +168,5 @@ class UserSetting extends \yii\db\ActiveRecord
                unlink($f);
              }
            }
-       }       
+       }
 }

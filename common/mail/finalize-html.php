@@ -90,10 +90,10 @@ use frontend\models\MeetingTime;
 </p>
 </td></tr>
 <tr><td width="300" style="text-align:center;font-size:75%;margin:10px;">
-<em>
-  <?php echo HTML::a(Yii::t('frontend','Review your email settings'),Url::to(['/site/unavailable'],true)); ?>
-  | <?php echo HTML::a(Yii::t('frontend','Block this person'),Url::to(['/site/unavailable'],true)); ?>
-  | <?php echo HTML::a(Yii::t('frontend','Block all emails'),Url::to(['/site/unavailable'],true)); ?>
-</em>
+  <em>
+    <?php echo HTML::a(Yii::t('frontend','Review your email settings'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_EMAIL,0,$user_id,$auth_key)); ?>
+    | <?php echo HTML::a(Yii::t('frontend','Block this person'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_BLOCK,$sender_id,$user_id,$auth_key)); ?>
+    | <?php echo HTML::a(Yii::t('frontend','Block all emails'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$user_id,$auth_key)); ?>
+  </em>
 </td></tr>
 </table>

@@ -6,6 +6,8 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use frontend\models\UserBlock;
+use frontend\models\UserSetting;
 
 /**
  * User model
@@ -33,8 +35,6 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_USER = 10;
     const ROLE_ADMIN = 100;
 
-    const BLOCK_OFF = 0;
-    const BLOCK_ON = 10;
 
     /**
      * @inheritdoc
@@ -208,11 +208,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    public function setBlockAll($user_id) {
-      $this->block_all = User::BLOCK_ON;
-      $this->update();
-    }
-
     public function isAdmin() {
       echo 'a'.$this->id.'here';exit;
 
@@ -222,4 +217,20 @@ class User extends ActiveRecord implements IdentityInterface
         return false;
       }
     }
+
+    public static function checkEmailDelivery($user_id,$sender_id) {
+      // check if this user_id receives email and if sender_id not blocked
+      // check if all email is turned off
+      $us = UserSetting::safeGet($user_id);
+      if ($us->no_email != UserSetting::EMAIL_OK) {
+        return false;
+      }
+      // check if sender is blocked
+      $ub = UserBlock::find()->where(['user_id'=>$user_id,'blocked_user_id'=>$sender_id])->one();
+      if (!is_null($ub)) {
+        return false;
+      }
+      return true;
+    }
+
 }

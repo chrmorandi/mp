@@ -406,9 +406,25 @@ class MeetingController extends Controller
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_FOOTER_EMAIL:
+            // change email settings
+            // find the correct usersetting record by actor_id
+            $id= UserSetting::initialize($actor_id);
+            $this->redirect(['user-setting/update','id'=>$id]);
+          break;
           case Meeting::COMMAND_FOOTER_BLOCK:
+            // block this $obj_id (is sender_id)
+            \frontend\models\UserBlock::add($actor_id,$obj_id);
+            Yii::$app->getSession()->setFlash('success', 'We have blocked this user from contacting you again.');
+            $this->redirect(['user-block/index']);
+          break;
           case Meeting::COMMAND_FOOTER_BLOCK_ALL:
-            $this->redirect(['site\unavailable','meeting_id'=>$id]);
+            // change setting to block all email
+            UserSetting::initialize($actor_id);
+            $us = UserSetting::find()->where(['user_id'=>$actor_id])->one();
+            $us->no_email = UserSetting::EMAIL_NONE;
+            $us->update();
+            Yii::$app->getSession()->setFlash('success', 'You will no longer receive email from us. You can reverse this below.');
+            $this->redirect(['user-setting/update','id'=>$us->id]);
           break;
           default:
             $this->redirect(['site\error','meeting_id'=>$id]);

@@ -378,36 +378,42 @@ class Meeting extends \yii\db\ActiveRecord
       $noPlaces = false;
     }
     // send the message
-    $message = Yii::$app->mailer->compose([
-      'html' => 'invitation-html',
-      'text' => 'invitation-text'
-    ],
-    [
-      'meeting_id' => $this->id,
-      'noPlaces' => $noPlaces,
-      'participant_id' => 0,
-      'owner' => $this->owner->username,
-      'user_id' => $p->participant_id,
-      'auth_key' => $auth_key,
-      'intro' => $this->message,
-      'links' => $links,
-      'header' => $header,
-      'places' => $places,
-      'times' => $times,
-      'notes' => $notes,
-      'meetingSettings' => $this->meetingSettings,
-  ]);
-    // to do - add full name
-    $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-    $message->setTo($p->participant->email)
-        ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
-        ->send();
-  }
-  // send the meeting
-  $this->status = Meeting::STATUS_SENT;
-  $this->update();
-  // add to log
-  MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id,0);
+    // check if email is okay and okay from this sender_id
+    if (User::checkEmailDelivery($p->participant_id,$this->owner_id)) {
+      $message = Yii::$app->mailer->compose([
+        'html' => 'invitation-html',
+        'text' => 'invitation-text'
+      ],
+      [
+        'meeting_id' => $this->id,
+        'noPlaces' => $noPlaces,
+        'participant_id' => 0,
+        'owner' => $this->owner->username,
+        'sender_id'=> $this->owner_id,
+        'user_id' => $p->participant_id,
+        'auth_key' => $auth_key,
+        'intro' => $this->message,
+        'links' => $links,
+        'header' => $header,
+        'places' => $places,
+        'times' => $times,
+        'notes' => $notes,
+        'meetingSettings' => $this->meetingSettings,
+      ]);
+      // to do - add full name
+      $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+      $message->setTo($p->participant->email)
+          ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
+          ->send();
+          // send the meeting
+          $this->status = Meeting::STATUS_SENT;
+          $this->update();
+          // add to log
+          MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id,0);
+        } else {
+          // to do - post an error that user doesn't accept email or blocked them
+        }
+    }
   }
 
     public function finalize($user_id) {
@@ -441,54 +447,58 @@ class Meeting extends \yii\db\ActiveRecord
         'username'=>$this->owner->username];
     // use this code to send
     foreach ($attendees as $cnt=>$a) {
-      // Build the absolute links to the meeting and commands
-      $links=[
-        'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-        'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-        'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key']),
-        'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key']),
-        'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key']),
-        'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$a['user_id'],$a['auth_key']),
-        'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key']),
-        'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key']),
-        'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key']),
-        'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key']),
-        'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-        'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
-        'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
-      ];
-      // send the message
-      $message = Yii::$app->mailer->compose([
-        'html' => 'finalize-html',
-        'text' => 'finalize-text'
-      ],
-      [
-        'meeting_id' => $this->id,
-        'noPlaces' => $noPlaces,
-        'participant_id' => 0,
-        'owner' => $this->owner->username,
-        'user_id' => $a['user_id'],
-        'auth_key' => $a['auth_key'],
-        'intro' => $this->message,
-        'links' => $links,
-        'header' => $header,
-        'chosenPlace' => $chosenPlace,
-        'chosenTime' => $chosenTime,
-        'notes' => $notes,
-        'meetingSettings' => $this->meetingSettings,
-    ]);
-      // to do - add full name
-    $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$attendees);
-    $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-    $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
-    $message->setTo($a['email'])
-        ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
-        ->send();
-    }
-        $this->status = self::STATUS_CONFIRMED;
-        $this->update();
-      // add to log
-      MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+      // check if email is okay and okay from this sender_id
+      if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+        // Build the absolute links to the meeting and commands
+        $links=[
+          'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+          'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+          'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key']),
+          'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key']),
+          'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key']),
+          'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$a['user_id'],$a['auth_key']),
+          'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key']),
+          'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key']),
+          'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key']),
+          'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key']),
+          'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+          'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
+          'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+        ];
+        // send the message
+        $message = Yii::$app->mailer->compose([
+          'html' => 'finalize-html',
+          'text' => 'finalize-text'
+        ],
+        [
+          'meeting_id' => $this->id,
+          'noPlaces' => $noPlaces,
+          'participant_id' => 0,
+          'owner' => $this->owner->username,
+          'sender_id'=> $user_id,
+          'user_id' => $a['user_id'],
+          'auth_key' => $a['auth_key'],
+          'intro' => $this->message,
+          'links' => $links,
+          'header' => $header,
+          'chosenPlace' => $chosenPlace,
+          'chosenTime' => $chosenTime,
+          'notes' => $notes,
+          'meetingSettings' => $this->meetingSettings,
+      ]);
+        // to do - add full name
+      $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$attendees);
+      $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+      $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
+      $message->setTo($a['email'])
+          ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
+          ->send();
+      }
+          $this->status = self::STATUS_CONFIRMED;
+          $this->update();
+        // add to log
+        MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+      }
     }
 
       public function cancel($user_id) {
@@ -571,8 +581,11 @@ class Meeting extends \yii\db\ActiveRecord
       }
 
        // formatting helpers
-       public static function friendlyDateFromTimestamp($tstamp,$timezone) {
+       public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles') {
          // adjust for timezone
+         if (empty($timezone)) {
+           $timezone = 'America/Los_Angeles';
+         }
          Yii::$app->formatter->timeZone=$timezone;
          // same day as today?
          if (date('z')==date('z',$tstamp)) {
