@@ -61,5 +61,17 @@ public static function getTimezoneList() {
   }
   return $zones_array;
 }
+
+public static function fetchUserTimezone($user_id) {
+  // fetch user timezone
+  $user_setting = \frontend\models\UserSetting::find()->where(['user_id'=>$user_id])->one();
+  if (!is_null($user_setting)) {
+    $timezone = $user_setting->timezone;
+  } else {
+    $timezone = 'America/Los_Angeles';
+  }
+  return $timezone;
+}
+
  }
 ?>

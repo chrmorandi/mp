@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\MeetingSearch;
 use frontend\models\Participant;
@@ -110,12 +111,7 @@ class MeetingController extends Controller
           'query' => Participant::find()->where(['meeting_id'=>$id]),
       ]);
       // fetch user timezone
-      $user_setting = UserSetting::find()->where(['user_id'=>Yii::$app->user->getId()])->one();
-      if (!is_null($user_setting)) {
-        $timezone = $user_setting->timezone;
-      } else {
-        $timezone = 'America/Los_Angeles';
-      }
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id]),

@@ -157,6 +157,5 @@ class UserSetting extends \yii\db\ActiveRecord
                unlink($f);
              }
            }
-       }
-
+       }       
 }

@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\MeetingTime;
 use frontend\models\MeetingLog;
@@ -70,6 +71,8 @@ class MeetingTimeController extends Controller
      */
     public function actionCreate($meeting_id)
     {
+        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+        date_default_timezone_set($timezone);
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
         $model = new MeetingTime();
