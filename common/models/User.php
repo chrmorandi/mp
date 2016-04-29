@@ -33,6 +33,9 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_USER = 10;
     const ROLE_ADMIN = 100;
 
+    const BLOCK_OFF = 0;
+    const BLOCK_ON = 10;
+
     /**
      * @inheritdoc
      */
@@ -203,6 +206,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function setBlockAll($user_id) {
+      $this->block_all = User::BLOCK_ON;
+      $this->update();
     }
 
     public function isAdmin() {

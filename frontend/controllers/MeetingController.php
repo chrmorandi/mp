@@ -14,6 +14,7 @@ use frontend\models\MeetingPlaceChoice;
 use frontend\models\MeetingTimeChoice;
 use frontend\models\MeetingSetting;
 use frontend\models\UserContact;
+use frontend\models\UserSetting;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -108,6 +109,13 @@ class MeetingController extends Controller
       $participantProvider = new ActiveDataProvider([
           'query' => Participant::find()->where(['meeting_id'=>$id]),
       ]);
+      // fetch user timezone
+      $user_setting = UserSetting::find()->where(['user_id'=>Yii::$app->user->getId()])->one();
+      if (!is_null($user_setting)) {
+        $timezone = $user_setting->timezone;
+      } else {
+        $timezone = 'America/Los_Angeles';
+      }
       if ($model->status <= Meeting::STATUS_SENT) {
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
@@ -123,6 +131,7 @@ class MeetingController extends Controller
               'placeProvider' => $placeProvider,
               'viewer' => Yii::$app->user->getId(),
               'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+              'timezone' => $timezone,
           ]);
       } else {
         // meeting is finalized or past
@@ -157,7 +166,7 @@ class MeetingController extends Controller
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $isOwner,
             'place' => $place,
-            'time'=>$model->friendlyDateFromTimestamp($chosenTime->start),
+            'time'=>$model->friendlyDateFromTimestamp($chosenTime->start,$timezone),
             'gps'=>$gps,
             'noPlace'=>$noPlace,
             'contacts' => $contacts,
@@ -312,7 +321,7 @@ class MeetingController extends Controller
           $performAuth = false;
         }
       }
-      if ($performAuth) {         
+      if ($performAuth) {
           $person = new \common\models\User;
           $identity = $person->findIdentity($actor_id);
           if ($identity->validateAuthKey($k)) {

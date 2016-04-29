@@ -571,7 +571,9 @@ class Meeting extends \yii\db\ActiveRecord
       }
 
        // formatting helpers
-       public static function friendlyDateFromTimestamp($tstamp) {
+       public static function friendlyDateFromTimestamp($tstamp,$timezone) {
+         // adjust for timezone
+         Yii::$app->formatter->timeZone=$timezone;
          // same day as today?
          if (date('z')==date('z',$tstamp)) {
            $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
@@ -596,7 +598,7 @@ class Meeting extends \yii\db\ActiveRecord
          $start_time = $chosenTime->start+(3600*7); // temp timezone adjust
          $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
          $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
-         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST')); 
+         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST'));
          $description = $meeting->message;
          // check if its a confernce with no location
          if ($chosenPlace!==false) {

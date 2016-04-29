@@ -4,9 +4,9 @@ use frontend\models\Meeting;
 use \kartik\switchinput\SwitchInput;
 ?>
 
-<tr > 
+<tr >
   <td style >
-        <?= Meeting::friendlyDateFromTimestamp($model->start) ?>
+        <?= Meeting::friendlyDateFromTimestamp($model->start,$timezone) ?>
   </td>
   <td style>
     <?php
@@ -32,8 +32,8 @@ use \kartik\switchinput\SwitchInput;
         if ($model->status == $model::STATUS_SELECTED) {
             $value = $model->id;
         }    else {
-          $value = 0;        
-        }      
+          $value = 0;
+        }
         if ($isOwner || $participant_choose_date_time) {
           // value has to match for switch to be on
           echo SwitchInput::widget([
@@ -45,10 +45,9 @@ use \kartik\switchinput\SwitchInput;
               'value' => $value,
               'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
               'labelOptions' => ['style' => 'font-size: 12px'],
-          ]);            
+          ]);
         }
       }
       ?>
   </td>
 </tr>
-

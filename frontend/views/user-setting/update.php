@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = Yii::t('frontend', 'User Settings');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'timezoneList' => $timezoneList,
     ]) ?>
 
 </div>

@@ -10,9 +10,9 @@ use kartik\file\FileInput;
 ?>
 
 <div class="user-setting-form">
-    <?php 
+    <?php
     $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data']]); // important         
+        'options'=>['enctype'=>'multipart/form-data']]); // important
          ?>
 
         <div class="col-md-8">
@@ -25,24 +25,32 @@ use kartik\file\FileInput;
          <!-- Tab panes -->
          <div class="tab-content">
            <div class="tab-pane active vertical-pad" id="general">
-               <?= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
 
-               <?= $form->field($model, 'reminder_hours')
+               <?/*= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); */?>
+
+               <?/*= $form->field($model, 'reminder_hours')
                        ->dropDownList(
-                           $model->getEarlyReminderOptions(),   
-           	                ['prompt'=>Yii::t('frontend','When would you like your early reminder?')] 
-           	            )->label(Yii::t('frontend','Early reminders')) ?>
-
-                  <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+                           $model->getEarlyReminderOptions(),
+           	                ['prompt'=>Yii::t('frontend','When would you like your early reminder?')]
+           	            )->label(Yii::t('frontend','Early reminders')) */?>
+                        <?php
+                        echo $form->field($model, 'timezone')
+                                ->dropDownList(
+                                    $timezoneList,           // Flat array ('id'=>'label')
+                                    ['options' => [$model->timezone => ['Selected'=>'selected']],
+                                      'prompt'=>'Please select your local timezone below']
+                                );
+                                ?>
+                  <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
                   <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
                 </div>
            <div class="tab-pane vertical-pad" id="preferences">
-             <?= $form->field($model, 'participant_add_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
-             <?= $form->field($model, 'participant_add_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
-             <?= $form->field($model, 'participant_choose_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
-             <?= $form->field($model, 'participant_choose_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
-             <?= $form->field($model, 'participant_finalize')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+             <?= $form->field($model, 'participant_add_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+             <?= $form->field($model, 'participant_add_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+             <?= $form->field($model, 'participant_choose_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+             <?= $form->field($model, 'participant_choose_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+             <?= $form->field($model, 'participant_finalize')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
             </div> <!-- end of upload meeting-settings tab -->
             <div class="tab-pane vertical-pad" id="photo">
@@ -69,10 +77,10 @@ use kartik\file\FileInput;
                        'alt' => common\models\User::find()->where(['id'=>Yii::$app->user->getId()])->one()->username,
                    ],
                    'size' => 128,
-               ]);              
+               ]);
             }
-           ?>           
-           
+           ?>
+
          </div> <!--end rt col -->
     <?php ActiveForm::end(); ?>
 

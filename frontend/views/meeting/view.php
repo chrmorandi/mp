@@ -82,6 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'timeProvider' => $timeProvider,
             'isOwner' => $isOwner,
             'viewer' => $viewer,
+            'timezone'=> $timezone,
         ]) ?>
 
         <?php echo $this->render('../meeting-note/_panel', [

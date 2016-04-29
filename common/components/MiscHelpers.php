@@ -45,5 +45,21 @@ class MiscHelpers  {
      }
      return $displayName;
    }
+
+   /**
+ * Timezones list with GMT offset
+ *
+ * @return array
+ * @link customized from http://stackoverflow.com/a/9328760
+ */
+public static function getTimezoneList() {
+  $zones_array = array();
+  $timestamp = time();
+  foreach(timezone_identifiers_list() as $key => $zone) {
+    date_default_timezone_set($zone);
+    $zones_array[$zone] = $zone.' UTC/GMT ' . date('P', $timestamp);
+  }
+  return $zones_array;
+}
  }
 ?>

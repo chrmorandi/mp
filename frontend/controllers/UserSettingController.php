@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\components\MiscHelpers;
 use frontend\models\UserSetting;
 use frontend\models\UserSettingSearch;
 use yii\web\Controller;
@@ -77,6 +78,10 @@ class UserSettingController extends Controller
     {
         $model = new UserSetting;
         $model = $this->findModel($id);
+        // set default timezone if not initialized in earlier users
+        if (empty($model->timezone)) {
+            $model->timezone = 'America/Los_Angeles';
+        }
         if ($model->load(Yii::$app->request->post())) {
           // the path to save file, you can set an uploadPath
           // in Yii::$app->params (as used in example below)
@@ -106,12 +111,14 @@ class UserSettingController extends Controller
              }
            } else {
              // simple save
-             $model->save();
+             $model->update();
              // pass thru to form
            }
         }
+        $timezoneList=MiscHelpers::getTimezoneList();
         return $this->render('update', [
             'model' => $model,
+            'timezoneList' => $timezoneList,
         ]);
     }
 

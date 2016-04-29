@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property integer $user_id
  * @property string $filename
  * @property string $avatar
+ * @property string $timezone
  * @property integer $reminder_eve
  * @property integer $reminder_hours
  * @property integer $contact_share
@@ -37,6 +38,7 @@ class UserSetting extends \yii\db\ActiveRecord
     const SETTING_72_HOUR = 72;
 
     public $image;
+
     /**
      * @inheritdoc
      */
@@ -73,7 +75,7 @@ class UserSetting extends \yii\db\ActiveRecord
                     'minWidth' => 100, 'maxWidth' => 400,
                     'minHeight' => 100, 'maxHeight' => 400,
                 ],
-             [['filename', 'avatar'], 'string', 'max' => 255],
+             [['filename', 'avatar','timezone'], 'string', 'max' => 255],
             [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize'], 'integer'],
         ];
     }
@@ -88,6 +90,7 @@ class UserSetting extends \yii\db\ActiveRecord
             'user_id' => Yii::t('frontend', 'User ID'),
             'filename' => Yii::t('frontend', 'Filename'),
             'avatar' => Yii::t('frontend', 'Avatar'),
+            'timezone' => Yii::t('frontend', 'Local Timezone'),
             'reminder_eve' => Yii::t('frontend', 'Reminder Eve'),
            'reminder_hours' => Yii::t('frontend', 'Reminder Hours'),
            'contact_share' => Yii::t('frontend', 'Contact Share'),
@@ -116,6 +119,7 @@ class UserSetting extends \yii\db\ActiveRecord
         $us=new UserSetting;
         $us->user_id = $user_id;
         $us->filename='';
+        $us->timezone='America/Los_Angeles';
         $us->avatar='';
         $us->reminder_eve = self::SETTING_YES;
         $us->no_email = self::SETTING_NO;
