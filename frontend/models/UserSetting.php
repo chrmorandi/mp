@@ -121,6 +121,10 @@ class UserSetting extends \yii\db\ActiveRecord
       UserSetting::initialize($user_id);
       // return the UserSetting
       $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+      if (empty($us->timezone)) {
+        $us->timezone='America/Los_Angeles';
+        $us->update();
+      }
       return $us;
     }
 

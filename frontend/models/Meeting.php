@@ -591,7 +591,7 @@ class Meeting extends \yii\db\ActiveRecord
          if (date('z')==date('z',$tstamp)) {
            $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
          }   else {
-           $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d,\' '.Yii::t('frontend','at').'\' h:mm a');
+           $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
          }
          return $date_str;
        }
@@ -709,6 +709,13 @@ class Meeting extends \yii\db\ActiveRecord
               Yii::$app->getSession()->setFlash('info', '<a href="' .Url::to(['/user-profile/update','id'=>$up_id],true).'">'.Yii::t('frontend','Please fill in your name so we can tell people what to call you.').'</a>');
             }
 
+         }
+       }
+
+       public static function displayNotificationHint($meeting_id) {
+         $mtg = Meeting::findOne($meeting_id);
+         if ($mtg->status >= Meeting::STATUS_SENT) {
+           Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.'));
          }
        }
 }

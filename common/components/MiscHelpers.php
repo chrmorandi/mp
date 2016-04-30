@@ -64,7 +64,7 @@ public static function getTimezoneList() {
 
 public static function fetchUserTimezone($user_id) {
   // fetch user timezone
-  $user_setting = \frontend\models\UserSetting::find()->where(['user_id'=>$user_id])->one();
+  $user_setting = \frontend\models\UserSetting::safeGet($user_id);
   if (!is_null($user_setting)) {
     $timezone = $user_setting->timezone;
   } else {

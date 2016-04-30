@@ -88,7 +88,8 @@ class ParticipantController extends Controller
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid
-              $model->save();              
+              $model->save();
+              Meeting::displayNotificationHint($meeting_id);
               return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
           } else {
               // validation failed
@@ -97,13 +98,13 @@ class ParticipantController extends Controller
                 'title' => $title,
                 'friends'=>$friends,
               ]);
-          }          
+          }
         } else {
           return $this->render('create', [
               'model' => $model,
             'title' => $title,
             'friends'=>$friends,
-          ]);          
+          ]);
         }
     }
 

@@ -86,6 +86,7 @@ class MeetingTimeController extends Controller
           if ($model->validate()) {
               // all inputs are valid
               $model->save();
+              Meeting::displayNotificationHint($meeting_id);
               return $this->redirect(['/meeting/view', 'id' => $model->meeting_id]);
           } else {
               // validation failed

@@ -38,7 +38,7 @@ class MeetingPlaceChoiceController extends \yii\web\Controller
         $status = MeetingPlaceChoice::STATUS_YES;
       //$mpc->save();
       MeetingPlaceChoice::set($id,$status,Yii::$app->user->getId());
-      return $mpc->id;
+      return $id;
     }
 
     /**

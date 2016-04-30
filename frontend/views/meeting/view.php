@@ -10,10 +10,8 @@ use yii\widgets\ListView;
 $this->title = $model->getMeetingHeader();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="meeting-view">
-
   <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">
@@ -97,8 +95,18 @@ if (isset(Yii::$app->params['urlPrefix'])) {
   } else {
     $urlPrefix ='';
   }
+
 $script = <<< JS
+var notifierUp = false;
+function displayNotifier() {
+  if (!notifierUp) {
+    alert("We\'ll automatically notify the organizer when you're done making changes.");
+    notifierUp=true;
+  }
+
+}
 function refreshSend() {
+  displayNotifier();
   $.ajax({
      url: '$urlPrefix/meeting/cansend',
      data: {id: $model->id, 'viewer_id': $viewer},

@@ -22,17 +22,18 @@ use dosamigos\datetimepicker\DateTimePicker;
         'size' => 'ms',
         'clientOptions' => [
             'autoclose' => true,
-            'format' => 'MM dd, yyyy HH:ii P',
-            'todayBtn' => true,
-            'minuteStep'=> 15, 
-            'pickerPosition' => 'bottom-left',
+            'format' => 'MM d, yyyy H:ii p',
+            'todayBtn' => false,
+            'minuteStep'=> 15,
+            'showMeridian'=>true,
+            //'pickerPosition' => 'bottom-left',
+            //'startView'=>2,
             // to do - format one day ahead
-            //'startDate'=> "2013-02-14 10:00",
-            //'initialDate'=> time(),            
+            'initialDate'=> Date('Y-m-d',time()+3600*72),
         ]
-    ]);?>   
+    ]);?>
     </div>
-  </div>  
+  </div>
   <div class="clearfix"><p></div>
   <div class="row">
       <div class="col-md-4">

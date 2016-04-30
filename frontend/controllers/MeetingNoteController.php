@@ -16,7 +16,7 @@ use yii\filters\VerbFilter;
 class MeetingNoteController extends Controller
 {
     const STATUS_POSTED = 0;
-    
+
     public function behaviors()
     {
         return [
@@ -37,7 +37,7 @@ class MeetingNoteController extends Controller
                             ],
                             // everything else is denied
                         ],
-                    ],                        
+                    ],
         ];
     }
 
@@ -48,7 +48,7 @@ class MeetingNoteController extends Controller
     public function actionIndex()
     {
 //      $this->redirect(Yii::getAlias('@web').'/meeting');
-      
+
         $searchModel = new MeetingNoteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -87,7 +87,8 @@ class MeetingNoteController extends Controller
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid
-              $model->save();              
+              $model->save();
+              Meeting::displayNotificationHint($meeting_id);  
               return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
           } else {
               // validation failed
@@ -95,12 +96,12 @@ class MeetingNoteController extends Controller
                   'model' => $model,
                   'title' => $title,
               ]);
-          }          
+          }
         } else {
           return $this->render('create', [
               'model' => $model,
               'title' => $title,
-          ]);          
+          ]);
         }
     }
 
