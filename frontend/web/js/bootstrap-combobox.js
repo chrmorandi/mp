@@ -35,7 +35,6 @@
     this.matcher = this.options.matcher || this.matcher;
     this.sorter = this.options.sorter || this.sorter;
     this.highlighter = this.options.highlighter || this.highlighter;
-    this.newOptionsAllowed = this.options.newOptionsAllowed;
     this.shown = false;
     this.selected = false;
     this.refresh();
@@ -414,21 +413,10 @@
       var that = this;
       this.focused = false;
       var val = this.$element.val();
-  //    if (!this.selected && val !== '' ) {
-//        this.$element.val('');
-//        this.$source.val('').trigger('change');
-//        this.$target.val('').trigger('change');
-        if (this.newOptionsAllowed) {
-//    	  this.$target.val(val);
-if (this.length === 0) {
-     	      this.$target.val(val);
-      	  }
-       } else {
- 	      if (!this.selected && val !== '' ) {
- 	        this.$element.val('');
- 	        this.$source.val('').trigger('change');
- 	        this.$target.val('').trigger('change');
- 	      }
+      if (!this.selected && val !== '' ) {
+        this.$element.val('');
+        this.$source.val('').trigger('change');
+        this.$target.val('').trigger('change');
       }
       if (!this.mousedover && this.shown) {setTimeout(function () { that.hide(); }, 200);}
     }
@@ -467,7 +455,6 @@ if (this.length === 0) {
     bsVersion: '3'
   , menu: '<ul class="typeahead typeahead-long dropdown-menu"></ul>'
   , item: '<li><a href="#"></a></li>'
-  , newOptionsAllowed: true
   };
 
   $.fn.combobox.Constructor = Combobox;
