@@ -7,6 +7,10 @@ use frontend\models\UserPlace;
 use \kartik\typeahead\Typeahead;
 use frontend\assets\MapAsset;
 MapAsset::register($this);
+use frontend\assets\ComboAsset;
+ComboAsset::register($this);
+//use frontend\assets\ComboboxAsset;
+//Combobox::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\MeetingPlace */
@@ -22,28 +26,21 @@ MapAsset::register($this);
     <h3>Choose one of your places</h3>
     <div class="row">
       <div class="col-md-6">
+
+<select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
+  <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
     <?php
-    /*$ups=[];
+    $ups=[];
     $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     foreach ($up as $p) {
       $ups[]=$p->place->name;
+      ?>
+      <option value="<?= $p->id;?>"><?= $p->place->name;?></option>
+      <?php
     }
-
-    echo $form->field($model, 'place_name')->widget(Typeahead::classname(), [
-        'options' => ['placeholder' => '-- select or type your place --'],
-        'scrollable'=>true,
-        'pluginOptions' => ['highlight'=>true],
-        'dataset' => [
-            [
-                'local' => $ups,
-                'limit' => 10
-            ]
-        ]
-    ]);
-*/
-    echo  Html::activeDropDownList($model, 'place_id',
-          ArrayHelper::map(UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all(), 'place.id', 'place.name'),['prompt'=>Yii::t('frontend','-- select one of your places below --')] )
     ?>
+</select>
+
     <h3>- or -</h3>
     <h3>Choose from Google Places</h3>
       <p>Type in a place or business known to Google Places:</p>

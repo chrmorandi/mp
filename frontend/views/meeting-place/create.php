@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+    <?= $this->registerJs("$(document).ready(function(){ $('.combobox').combobox() });"); ?>
 
 </div>
 <?php
@@ -35,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
   $options = '{"types":["establishment"],"componentRestrictions":{"country":"us"}}';
   echo $this->registerJs("(function(){
         var input = document.getElementById('meetingplace-searchbox');
-        var options = $options;        
+        var options = $options;
         searchbox = new google.maps.places.Autocomplete(input, options);
         setupListeners('meetingplace');
 })();" , \yii\web\View::POS_END );

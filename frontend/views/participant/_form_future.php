@@ -17,24 +17,28 @@ ComboAsset::register($this);
 
     <?= $form->errorSummary($model); ?>
 
+    <h3>Choose one of your places</h3>
     <div class="row">
       <div class="col-md-6">
 
+    <select class="combobox input-large form-control" id="participant-email" name="Participant[email]">
+    <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
     <?php
     $friends=['1'=>'jeff@lookahead.me'];
     //$up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     //foreach ($up as $p) {
       //$ups[]=$p->place->name;
-      //foreach ($friends as $id=>$email) {
+      foreach ($friends as $id=>$email) {
       ?>
-      <!-- <option value="< ?= $id;?>">< ?= $email;?></option>-->
+      <option value="<?= $id;?>"><?= $email;?></option>
       <?php
-      //}
+      }
     ?>
-    <!--</select>-->
+    </select>
 
+    <p>Email address:</p>
     <?php
-    $friends=['jeff@lookahead.me'];
+
     /*$friendId=[];
     $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     foreach ($fq as $f) {
@@ -43,7 +47,7 @@ ComboAsset::register($this);
     }
     $friends[]='Jeff Reifman <jeff@lookahead.me>';
     $friendId[]=1;
-    */
+
     echo $form->field($model, 'email')->widget(Typeahead::classname(), [
         'options' => ['placeholder' => '-- type in an email address --'],
         'scrollable'=>true,
@@ -55,7 +59,7 @@ ComboAsset::register($this);
             ]
         ]
     ]);
-/*
+
       // preload friends into array
       echo yii\jui\AutoComplete::widget([
           'model' => $model,

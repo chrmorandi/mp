@@ -186,6 +186,13 @@ class MeetingController extends Controller
         ]);
     }
 
+    public function actionTest() {
+      $model = new Meeting();
+      return $this->render('test', [
+          'model' => $model,
+      ]);
+    }
+
     /**
      * Creates a new Meeting model.
      * If creation is successful, the browser will be redirected to the 'view' page.

@@ -33,7 +33,7 @@
         "guzzlehttp/guzzle":"6.2.0 as 4.2.3",
         "php-http/guzzle6-adapter":"1.0.0",
         "drsdre/yii2-wizardwidget": "*",
-        "kartik-v/yii2-widget-typeahead": "^1.0"
+        "kartik-v/yii2-widget-typeahead": "^1.0"        
             },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

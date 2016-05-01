@@ -73,6 +73,7 @@ class ParticipantController extends Controller
         // load friends for auto complete field
         $friends = Friend::getFriendList(Yii::$app->user->getId());
         if ($model->load(Yii::$app->request->post())) {
+          //var_dump(Yii::$app->request->post());exit;
           if (!User::find()->where( [ 'email' => $model->email ] )->exists()) {
             // if email not already registered
             //  create new user with temporary username & password
