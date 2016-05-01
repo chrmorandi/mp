@@ -4,7 +4,7 @@ use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\models\UserPlace;
-
+use \kartik\typeahead\Typeahead;
 use frontend\assets\MapAsset;
 MapAsset::register($this);
 
@@ -22,8 +22,28 @@ MapAsset::register($this);
     <h3>Choose one of your places</h3>
     <div class="row">
       <div class="col-md-6">
-    <?= Html::activeDropDownList($model, 'place_id',
-          ArrayHelper::map(UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all(), 'place.id', 'place.name'),['prompt'=>Yii::t('frontend','-- select one of your places below --')] ) ?>                    
+    <?php
+    /*$ups=[];
+    $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
+    foreach ($up as $p) {
+      $ups[]=$p->place->name;
+    }
+
+    echo $form->field($model, 'place_name')->widget(Typeahead::classname(), [
+        'options' => ['placeholder' => '-- select or type your place --'],
+        'scrollable'=>true,
+        'pluginOptions' => ['highlight'=>true],
+        'dataset' => [
+            [
+                'local' => $ups,
+                'limit' => 10
+            ]
+        ]
+    ]);
+*/
+    echo  Html::activeDropDownList($model, 'place_id',
+          ArrayHelper::map(UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all(), 'place.id', 'place.name'),['prompt'=>Yii::t('frontend','-- select one of your places below --')] )
+    ?>
     <h3>- or -</h3>
     <h3>Choose from Google Places</h3>
       <p>Type in a place or business known to Google Places:</p>

@@ -96,17 +96,40 @@ if (isset(Yii::$app->params['urlPrefix'])) {
     $urlPrefix ='';
   }
 
+$session = Yii::$app->session;
+if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING ) {
+  $notifierOkay='off';
+  $session->remove('displayHint');
+} else {
+  $notifierOkay='on';
+}
+
+?>
+<input id="notifierOkay" value="<?= $notifierOkay ?>" type="hidden">
+<?php
 $script = <<< JS
-var notifierUp = false;
-function displayNotifier() {
-  if (!notifierUp) {
-    alert("We\'ll automatically notify the organizer when you're done making changes.");
-    notifierUp=true;
+var notifierOkay; // meeting sent already and no page change session flash
+if  ($('#notifierOkay').val() == 'on') {
+  notifierOkay = true;
+} else {
+  notifierOkay = false;
+}
+
+function displayNotifier(mode='') {
+  if (notifierOkay) {
+    if (mode == 'time') {
+      $('#notifierTime').show();
+    } else if (mode == 'place') {
+       $('#notifierPlace').show();
+    } else {
+      alert("We\'ll automatically notify the organizer when you're done making changes.");
+    }
+    notifierOkay=false;
   }
 
 }
+
 function refreshSend() {
-  displayNotifier();
   $.ajax({
      url: '$urlPrefix/meeting/cansend',
      data: {id: $model->id, 'viewer_id': $viewer},

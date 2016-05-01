@@ -112,7 +112,7 @@ class Meeting extends \yii\db\ActiveRecord
     {
         return [
             [['owner_id', 'subject'], 'required'],
-            [['owner_id', 'meeting_type', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['owner_id', 'meeting_type', 'status', 'created_at', 'updated_at','sequence_id'], 'integer'],
             [['message','subject'], 'string']
         ];
     }
@@ -516,9 +516,15 @@ class Meeting extends \yii\db\ActiveRecord
       public function decline($user_id) {
         // user is declining participation
         // get participant_id and set status
-        $p = $this->participants->where(['participant_id'=>$user_id])->one();
-        $p->status = Participant::STATUS_DECLINED;
-        $p->update();
+        foreach ($this->participants as $p) {
+          if ($p->participant_id == $user_id) {
+            $p->status = Participant::STATUS_DECLINED;
+            // to do - clean up, necessary because participant accepts public email right now and requires address
+            $p->email = User::findOne($user_id)->email;
+            $p->update();
+            break;
+          }
+        }
         MeetingLog::add($this->id,MeetingLog::ACTION_DECLINE_MEETING,$user_id);
       }
 
@@ -714,6 +720,7 @@ class Meeting extends \yii\db\ActiveRecord
 
        public static function displayNotificationHint($meeting_id) {
          $mtg = Meeting::findOne($meeting_id);
+         Yii::$app->session['displayHint']='on';
          if ($mtg->status >= Meeting::STATUS_SENT) {
            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.'));
          }

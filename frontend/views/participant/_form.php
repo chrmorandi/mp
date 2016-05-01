@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use frontend\models\Friend;
 use yii\widgets\ActiveForm;
+use \kartik\typeahead\Typeahead;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Participant */
@@ -10,11 +12,33 @@ use yii\widgets\ActiveForm;
 
 <div class="participant-form">
     <?php $form = ActiveForm::begin(); ?>
-    
+
     <?= $form->errorSummary($model); ?>
-    
+
     <p>Email address:</p>
-    <?php 
+    <?php
+    $friends=['jeff@lookahead.me'];
+    /*$friendId=[];
+    $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
+    foreach ($fq as $f) {
+      $friends[]=$f->user->email; // get constructed name fields
+      $friendId[]=$f->id;
+    }
+    $friends[]='Jeff Reifman <jeff@lookahead.me>';
+    $friendId[]=1;
+
+    echo $form->field($model, 'email')->widget(Typeahead::classname(), [
+        'options' => ['placeholder' => '-- type in an email address --'],
+        'scrollable'=>true,
+        'pluginOptions' => ['highlight'=>true],
+        'dataset' => [
+            [
+                'local' => $friends,
+                'limit' => 10
+            ]
+        ]
+    ]);
+    */
       // preload friends into array
       echo yii\jui\AutoComplete::widget([
           'model' => $model,
@@ -22,9 +46,10 @@ use yii\widgets\ActiveForm;
           'clientOptions' => [
           'source' => $friends,
            ],
-          ]);        
+          ]);
+
     ?>
-    
+
     <p></p>
     <!-- todo - offer drop down of friends -->
 

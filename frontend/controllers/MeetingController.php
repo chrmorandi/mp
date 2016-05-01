@@ -14,6 +14,7 @@ use frontend\models\MeetingTime;
 use frontend\models\MeetingPlaceChoice;
 use frontend\models\MeetingTimeChoice;
 use frontend\models\MeetingSetting;
+use frontend\models\MeetingLog;
 use frontend\models\UserContact;
 use frontend\models\UserSetting;
 use yii\web\Controller;
@@ -195,6 +196,7 @@ class MeetingController extends Controller
         $model = new Meeting();
         if ($model->load(Yii::$app->request->post())) {
           $model->owner_id= Yii::$app->user->getId();
+          $model->sequence_id = 0;
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid
@@ -224,8 +226,8 @@ class MeetingController extends Controller
     {
         $model = $this->findModel($id);
         $model->title = $model->getMeetingTitle($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            MeetingLog::add($id,MeetingLog::ACTION_EDIT_MEETING,Yii::$app->user->getId(),0);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -258,9 +260,20 @@ class MeetingController extends Controller
       return $this->redirect(['index']);
     }
 
+    public function actionCancelask($id) {
+      $user_id = Yii::$app->user->getId();
+      $model = $this->findModel($id);
+      return $this->render('cancelask', [
+          'meeting_id' => $id,
+          'model' => $model,
+          'viewer_id' => $user_id,
+      ]);
+    }
+
     public function actionCancel($id) {
       $user_id = Yii::$app->user->getId();
       $this->findModel($id)->cancel($user_id);
+      Yii::$app->getSession()->setFlash('success', Yii::t('This meeting has been canceled and everyone will be notified shortly.'));
       return $this->redirect(['index']);
     }
 
@@ -353,7 +366,10 @@ class MeetingController extends Controller
             $this->redirect(['meeting/finalize','id'=>$id]);
           break;
           case Meeting::COMMAND_CANCEL:
-            $this->redirect(['meeting/cancel','id'=>$id]);
+            $this->redirect(['meeting/cancelask','id'=>$id]);
+          break;
+          case Meeting::COMMAND_DECLINE:
+            $this->redirect(['meeting/decline','id'=>$id]);
           break;
           case Meeting::COMMAND_ACCEPT_ALL:
             MeetingTimeChoice::setAll($id,$actor_id);

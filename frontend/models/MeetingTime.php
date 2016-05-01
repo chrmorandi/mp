@@ -11,6 +11,8 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $meeting_id
  * @property integer $start
+ * @property integer $duration
+ * @property integer $end
  * @property integer $suggested_by
  * @property integer $status
  * @property integer $created_at
@@ -39,8 +41,8 @@ class MeetingTime extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['meeting_id', 'start', 'suggested_by'], 'required'],
-            [['meeting_id', 'start', 'suggested_by', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['meeting_id', 'start', 'duration','suggested_by'], 'required'],
+            [['meeting_id', 'start','duration','end', 'suggested_by', 'status', 'created_at', 'updated_at'], 'integer'],
             [['start'], 'unique', 'targetAttribute' => ['start','meeting_id'], 'message'=>Yii::t('frontend','This date and time has already been suggested.')],
 
         ];

@@ -33,6 +33,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     public $website;
     public $vicinity;
     public $full_address;
+    public $place_name;
     /**
      * @inheritdoc
      */
@@ -68,7 +69,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
           // add MeetingPlaceChoice for owner and participants
           $mpc = new MeetingPlaceChoice;
           $mpc->addForNewMeetingPlace($this->meeting_id,$this->suggested_by,$this->id);
-          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_SUGGEST_PLACE,$this->suggested_by,$this->place_id);          
+          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_SUGGEST_PLACE,$this->suggested_by,$this->place_id);
         }
     }
 

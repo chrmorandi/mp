@@ -27,6 +27,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const TIMELAPSE = 300; // five minutes
 
 	const ACTION_CREATE_MEETING = 0;
+	const ACTION_EDIT_MEETING = 3;
 	const ACTION_CANCEL_MEETING = 7;
 	const ACTION_DECLINE_MEETING = 9;
 	const ACTION_SUGGEST_PLACE = 10;
@@ -132,6 +133,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_CREATE_MEETING:
 					$label = Yii::t('frontend','create meeting');
 				break;
+				case MeetingLog::ACTION_EDIT_MEETING:
+					$label = Yii::t('frontend','edit meeting');
+				break;
 				case MeetingLog::ACTION_CANCEL_MEETING:
 					$label = Yii::t('frontend','cancel meeting');
 				break;
@@ -194,6 +198,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 			$label='';
 			switch ($this->action) {
 				case MeetingLog::ACTION_CREATE_MEETING:
+				case MeetingLog::ACTION_EDIT_MEETING:
 				case MeetingLog::ACTION_CANCEL_MEETING:
 				case MeetingLog::ACTION_DECLINE_MEETING:
 					$label = Yii::t('frontend','-');

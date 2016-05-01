@@ -76,12 +76,14 @@ class MeetingTimeController extends Controller
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
         $model = new MeetingTime();
+        $model->duration = 1;
         $model->meeting_id= $meeting_id;
         $model->suggested_by= Yii::$app->user->getId();
         $model->status = self::STATUS_PROPOSED;
         if ($model->load(Yii::$app->request->post())) {
           // convert date time to timestamp
           $model->start = strtotime($model->start);
+          $model->end = $model->start + (3600*$model->duration);
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid

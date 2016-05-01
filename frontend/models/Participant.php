@@ -138,4 +138,5 @@ class Participant extends \yii\db\ActiveRecord
           $user->save();
       return $user->id;
     }
+
 }

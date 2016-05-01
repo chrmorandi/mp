@@ -2,6 +2,10 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 ?>
+<div id="notifierPlace" class="alert-info alert fade in" style="display:none;">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+<?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
+</div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
@@ -77,6 +81,7 @@ $('input[name="place-chooser"]').on('switchChange.bootstrapSwitch', function(e, 
      data: {id: $model->id, 'val': e.target.value},
      // e.target.value is selected MeetingPlaceChoice model
      success: function(data) {
+       displayNotifier('place');
        refreshSend();
        refreshFinalize();
        return true;
@@ -96,6 +101,7 @@ $('input[name="meeting-place-choice"]').on('switchChange.bootstrapSwitch', funct
      url: '$urlPrefix/meeting-place-choice/set',
      data: {id: e.target.id, 'state': state},
      success: function(data) {
+       displayNotifier('place');
        refreshSend();
        refreshFinalize();
        return true;
