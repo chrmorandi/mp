@@ -30,6 +30,7 @@ class Participant extends \yii\db\ActiveRecord
     public $email;
     public $username;
     public $password;
+    public $new_email;
 
     /**
      * @inheritdoc

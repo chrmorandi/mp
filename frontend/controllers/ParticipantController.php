@@ -73,32 +73,44 @@ class ParticipantController extends Controller
         // load friends for auto complete field
         $friends = Friend::getFriendList(Yii::$app->user->getId());
         if ($model->load(Yii::$app->request->post())) {
-          //var_dump(Yii::$app->request->post());exit;
-          if (!User::find()->where( [ 'email' => $model->email ] )->exists()) {
-            // if email not already registered
-            //  create new user with temporary username & password
-            $temp_email_arr[] = $model->email;
-            $model->username = Inflector::slug(implode('-', $temp_email_arr));
-            $model->password = Yii::$app->security->generateRandomString(12);
-            $model->participant_id = $model->addUser();
+          $postedVars = Yii::$app->request->post();
+          if (!empty($postedVars['Participant']['new_email']) && !empty($model->email)) {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Please only select either an existing participant or a friend but not both.'));
+            return $this->render('create', [
+                'model' => $model,
+              'title' => $title,
+              'friends'=>$friends,
+            ]);
           } else {
-            // add participant from user record
-            $usr = User::find()->where( [ 'email' => $model->email ] )->one();
-            $model->participant_id = $usr->id;
-          }
-          // validate the form against model rules
-          if ($model->validate()) {
-              // all inputs are valid
-              $model->save();
-              Meeting::displayNotificationHint($meeting_id);
-              return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
-          } else {
-              // validation failed
-              return $this->render('create', [
-                  'model' => $model,
-                'title' => $title,
-                'friends'=>$friends,
-              ]);
+            if (!empty($postedVars['Participant']['new_email'])) {
+                $model->email = $postedVars['Participant']['new_email'];
+            }
+            if (!User::find()->where( [ 'email' => $model->email ] )->exists()) {
+              // if email not already registered
+              //  create new user with temporary username & password
+              $temp_email_arr[] = $model->email;
+              $model->username = Inflector::slug(implode('-', $temp_email_arr));
+              $model->password = Yii::$app->security->generateRandomString(12);
+              $model->participant_id = $model->addUser();
+            } else {
+              // add participant from user record
+              $usr = User::find()->where( [ 'email' => $model->email ] )->one();
+              $model->participant_id = $usr->id;
+            }
+            // validate the form against model rules
+            if ($model->validate()) {
+                // all inputs are valid
+                $model->save();
+                Meeting::displayNotificationHint($meeting_id);
+                return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
+            } else {
+                // validation failed
+                return $this->render('create', [
+                    'model' => $model,
+                  'title' => $title,
+                  'friends'=>$friends,
+                ]);
+            }
           }
         } else {
           return $this->render('create', [

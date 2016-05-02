@@ -19,20 +19,9 @@ ComboAsset::register($this);
 
     <div class="row">
       <div class="col-md-6">
-
-    <?php
-    //$friends=['1'=>'jeff@lookahead.me'];
-    //$up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
-    //foreach ($up as $p) {
-      //$ups[]=$p->place->name;
-      //foreach ($friends as $id=>$email) {
-      ?>
-      <!-- <option value="< ?= $id;?>">< ?= $email;?></option>-->
-      <?php
-      //}
-    ?>
-    <!--</select>-->
-
+        <?php
+        echo $form->field($model, 'new_email')->textInput(['placeholder' => "enter an email address to invite someone new"])->label(Yii::t('frontend','Invite Someone New'))
+        ?>
     <?php
     $friendsEmail=[];
     $friendsId=[];
@@ -41,41 +30,30 @@ ComboAsset::register($this);
       $friendsEmail[]=$f->friend->email; // get constructed name fields
       $friendsId[]=$f->id;
     }
-    //var_dump($friendsEmail);exit;
-    //$friendsEmail[]='Jeff Reifman <jeff@lookahead.me>';
-    //$friendId[]=1;
-    echo $form->field($model, 'email')->widget(Typeahead::classname(), [
-        'options' => ['placeholder' => '-- type in an email address --'],
-        'scrollable'=>true,
-        'pluginOptions' => ['highlight'=>true],
-        'dataset' => [
-            [
-                'local' => $friendsEmail,
-                'limit' => 10
-            ]
-        ]
-    ]);
-/*
-      // preload friends into array
-      echo yii\jui\AutoComplete::widget([
-          'model' => $model,
-          'attribute' => 'email',
-          'clientOptions' => [
-          'source' => $friends,
-           ],
-          ]);
-*/
+    if (count($friendsEmail)>0) {
+      ?>
+      <p><strong>Choose From Your Friends</strong></p>
+      <select class="combobox input-large form-control" id="participant-email" name="Participant[email]">
+      <option value="" selected="selected"><?= Yii::t('frontend','type or click to choose friends')?></option>
+      <?php
+      foreach ($friendsEmail as $email) {
+      ?>
+        <option value="<?= $email;?>"><?= $email;?></option>
+      <?php
+        }
+      ?>
+      <?php
+    }
     ?>
 
-    <p></p>
-    <!-- todo - offer drop down of friends -->
-
+  </select>
+  <p></p>
     <?php // $form->field($model, 'meeting_id')->textInput() ?>
 
     <?php // $form->field($model, 'participant_id')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Invite') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Invite') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
