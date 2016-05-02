@@ -75,14 +75,17 @@ class UserProfileController extends Controller
            $model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
            if($model->save()){
              $path = Yii::$app->params['uploadPath'] . $model->avatar;
-             $image->saveAs($path);
+             echo $path;
+             $results = $image->saveAs($path);
+             var_dump($results);
+             exit;
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
                  ->save(Yii::$app->params['uploadPath'].'sqr_'.$model->avatar, ['quality' => 50]);
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 30, 30)
                      ->save(Yii::$app->params['uploadPath'].'sm_'.$model->avatar, ['quality' => 50]);
               if (file_exists(Yii::$app->params['uploadPath'].$image_delete)) {
                 $model->deleteImage(Yii::$app->params['uploadPath'],$image_delete);
-              }            
+              }
            } else {
              // error in saving model
              // pass thru to form
