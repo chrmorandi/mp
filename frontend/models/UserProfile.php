@@ -20,6 +20,9 @@ use yii\db\ActiveRecord;
  */
 class UserProfile extends \yii\db\ActiveRecord
 {
+
+  public $image;
+
     /**
      * @inheritdoc
      */
@@ -51,6 +54,14 @@ class UserProfile extends \yii\db\ActiveRecord
             [['user_id'], 'integer'],
             [['firstname', 'lastname', 'fullname', 'filename', 'avatar'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['image'], 'safe'],
+            [['image'], 'file', 'extensions'=>'jpg, gif, png'],
+            [['image'], 'file', 'maxSize'=>'100000'],
+            ['image', 'image', 'extensions' => 'png, jpg, gif',
+                    'minWidth' => 100, 'maxWidth' => 400,
+                    'minHeight' => 100, 'maxHeight' => 400,
+                ],
+             [['filename', 'avatar'], 'string', 'max' => 255],
         ];
     }
 
@@ -96,6 +107,20 @@ class UserProfile extends \yii\db\ActiveRecord
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function deleteImage($path,$filename) {
+        $file =array();
+        $file[] = $path.$filename;
+        $file[] = $path.'sqr_'.$filename;
+        $file[] = $path.'sm_'.$filename;
+        foreach ($file as $f) {
+          // check if file exists on server
+          if (!empty($f) && file_exists($f)) {
+            // delete file
+            unlink($f);
+          }
         }
     }
 }

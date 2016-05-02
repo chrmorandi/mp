@@ -9,8 +9,6 @@ use frontend\models\UserSettingSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
-use yii\imagine\Image;
 
 /**
  * UserSettingController implements the CRUD actions for UserSetting model.
@@ -76,44 +74,15 @@ class UserSettingController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = new UserSetting;
         $model = $this->findModel($id);
+        $model->user_id = Yii::$app->user->getId();
         // set default timezone if not initialized in earlier users
         if (empty($model->timezone)) {
             $model->timezone = 'America/Los_Angeles';
         }
         if ($model->load(Yii::$app->request->post())) {
-          // the path to save file, you can set an uploadPath
-          // in Yii::$app->params (as used in example below)
-          Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/avatar/';
-           $image = UploadedFile::getInstance($model, 'image');
-           if (!is_null($image)) {
-             // path to existing image for post-delete
-             $image_delete = $model->avatar;
-             // save new image
-              // store the source file name
-             $model->filename = $image->name;
-             $ext = end((explode(".", $image->name)));
-             // generate a unique file name to prevent duplicate filenames
-             $model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
-             $model->user_id = Yii::$app->user->getId();
-             if($model->save()){
-               $path = Yii::$app->params['uploadPath'] . $model->avatar;
-               $image->saveAs($path);
-               Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
-                   ->save(Yii::$app->params['uploadPath'].'sqr_'.$model->avatar, ['quality' => 50]);
-               Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 30, 30)
-                       ->save(Yii::$app->params['uploadPath'].'sm_'.$model->avatar, ['quality' => 50]);
-                $model->deleteImage(Yii::$app->params['uploadPath'],$image_delete);
-             } else {
-               // error in saving model
-               // pass thru to form
-             }
-           } else {
-             // simple save
-             $model->update();
-             // pass thru to form
-           }
+          $model->save();
+          Yii::$app->getSession()->setFlash('success', 'Your settings have been updated.');
         }
         $timezoneList=MiscHelpers::getTimezoneList();
         return $this->render('update', [

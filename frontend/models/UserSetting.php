@@ -40,8 +40,6 @@ class UserSetting extends \yii\db\ActiveRecord
     const EMAIL_OK = 0;
     const EMAIL_NONE = 1;
 
-    public $image;
-
     /**
      * @inheritdoc
      */
@@ -71,14 +69,6 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             [['user_id', ], 'required'],
             [['user_id', ], 'unique'],
-            [['image'], 'safe'],
-            [['image'], 'file', 'extensions'=>'jpg, gif, png'],
-            [['image'], 'file', 'maxSize'=>'100000'],
-            ['image', 'image', 'extensions' => 'png, jpg, gif',
-                    'minWidth' => 100, 'maxWidth' => 400,
-                    'minHeight' => 100, 'maxHeight' => 400,
-                ],
-             [['filename', 'avatar','timezone'], 'string', 'max' => 255],
             [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize'], 'integer'],
         ];
     }
@@ -160,17 +150,4 @@ class UserSetting extends \yii\db\ActiveRecord
            );
        }
 
-       public function deleteImage($path,$filename) {
-           $file =array();
-           $file[] = $path.$filename;
-           $file[] = $path.'sqr_'.$filename;
-           $file[] = $path.'sm_'.$filename;
-           foreach ($file as $f) {
-             // check if file exists on server
-             if (!empty($f) && file_exists($f)) {
-               // delete file
-               unlink($f);
-             }
-           }
-       }
 }
