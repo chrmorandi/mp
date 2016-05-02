@@ -7,7 +7,7 @@ use frontend\models\Friend;
 use frontend\models\FriendSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\Data\ActiveDataProvider;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 
 /**
