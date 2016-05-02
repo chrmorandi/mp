@@ -75,10 +75,7 @@ class UserProfileController extends Controller
            $model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
            if($model->save()){
              $path = Yii::$app->params['uploadPath'] . $model->avatar;
-             echo $path;exit;
              $results = $image->saveAs($path);
-             var_dump($results);
-             exit;
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
                  ->save(Yii::$app->params['uploadPath'].'sqr_'.$model->avatar, ['quality' => 50]);
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 30, 30)
