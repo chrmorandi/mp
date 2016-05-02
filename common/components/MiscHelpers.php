@@ -24,13 +24,18 @@ class MiscHelpers  {
      return $profileEmpty;
    }
 
-   public static function getDisplayName($user_id) {
+   public static function getDisplayName($user_id,$no_email=false) {
      // returns best display name
      $displayName ='';
      $u = User::findOne($user_id);
      $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
      if (is_null($profile)) {
-       $displayName = $u->email;
+       if (!$no_email)
+       {
+         $displayName = $u->email;
+       } else {
+         $displayName = 'N/A';
+       }
      } else {
        $calcName = $profile->firstname.' '.$profile->lastname;
        if ($profile->fullname<>'') {
@@ -40,7 +45,12 @@ class MiscHelpers  {
          $displayName = $calcName;
        } else {
          // profile names are Empty
-         $displayName = $u->email;
+         if (!$no_email)
+         {
+           $displayName = $u->email;
+         } else {
+           $displayName = 'N/A';
+         }
        }
      }
      return $displayName;

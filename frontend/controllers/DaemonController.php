@@ -40,7 +40,7 @@ class DaemonController extends Controller
 
   public function actionIndex()
   {
-
+    \frontend\models\Friend::fixPreFriends();
   }
 
 

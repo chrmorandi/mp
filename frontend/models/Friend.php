@@ -23,8 +23,14 @@ use common\models\User;
  */
 class Friend extends \yii\db\ActiveRecord
 {
+    const STATUS_CONNECTED = 0;
+    const STATUS_DISCONNECTED = 10;
+
+    const FAVORITE_NO = 0;
+    const FAVORITE_YES = 10;
+
     public $email;
-    
+
     /**
      * @inheritdoc
      */
@@ -44,7 +50,7 @@ class Friend extends \yii\db\ActiveRecord
                 ],
             ],
         ];
-    }    
+    }
 
     /**
      * @inheritdoc
@@ -55,7 +61,7 @@ class Friend extends \yii\db\ActiveRecord
             [['email'], 'email'],
             [['user_id', 'friend_id'], 'required'],
             ['user_id', 'compare','compareAttribute' => 'friend_id', 'operator'=>'!=','message'=>Yii::t('frontend','You can\'t add yourself as a friend')],
-            ['email', 'unique', 'targetAttribute' => ['user_id', 'friend_id'],'message' => Yii::t('frontend','You\'ve already added this friend')],            
+            ['email', 'unique', 'targetAttribute' => ['user_id', 'friend_id'],'message' => Yii::t('frontend','You\'ve already added this friend')],
             [['user_id', 'friend_id', 'status', 'number_meetings', 'is_favorite', 'created_at', 'updated_at'], 'integer']
         ];
     }
@@ -102,7 +108,7 @@ class Friend extends \yii\db\ActiveRecord
         return false;
       }
     }
-    
+
     public function addUser($email) {
       // register a user based on email
       $user = new User();
@@ -114,7 +120,7 @@ class Friend extends \yii\db\ActiveRecord
       $user->save();
       return $user->id;
     }
-    
+
     public function generatePassword($length = 8) {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $count = mb_strlen($chars);
@@ -125,7 +131,7 @@ class Friend extends \yii\db\ActiveRecord
         }
         return $result;
     }
-    
+
     public static function getFriendList($user_id) {
       // load user's friends into email list array for autocomplete
       $friend_list = \frontend\models\Friend::find()->where(['user_id' => $user_id])->all();
@@ -133,6 +139,38 @@ class Friend extends \yii\db\ActiveRecord
       foreach ($friend_list as $x) {
         $email_list[] = $x->friend->email;
       }
-      return $email_list;      
+      return $email_list;
     }
+
+    public static function add($user_id,$user_friend_id) {
+      // add user_friend_id to user_id list
+      // note: user_friend_id is an id from user table
+      // check if it is a duplicate
+      if (!Friend::find()->where(['user_id'=>$user_id,'friend_id'=>$user_friend_id])->exists()) {
+        $f = new Friend();
+        $f->user_id = $user_id;
+        $f->friend_id = $user_friend_id;
+        $f->status=Friend::STATUS_CONNECTED;
+        $f->number_meetings =0;
+        $f->is_favorite =Friend::FAVORITE_NO;
+        $f->save();
+      }
+    }
+
+    public static function fixPreFriends() {
+      // before the friend feature worked
+      // need to patch relationships
+      $meetings = \frontend\models\Meeting::find()->all();
+      foreach ($meetings as $m) {
+        foreach ($m->participants as $p) {
+          // add as friend - anyone people invited
+          Friend::add($p->invited_by,$p->participant_id);
+          if ($m->status >= \frontend\models\Meeting::STATUS_CONFIRMED) {
+            // if meeting confirmed, add the converse
+            Friend::add($p->participant_id,$p->invited_by);
+          }
+        }
+      }
+    }
+
 }

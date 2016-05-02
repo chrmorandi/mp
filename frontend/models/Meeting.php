@@ -435,11 +435,16 @@ class Meeting extends \yii\db\ActiveRecord
       $cnt =0;
       $attendees = array();
       foreach ($this->participants as $p) {
-        $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-        $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
-        'email'=>$p->participant->email,
-        'username'=>$p->participant->username];
-        $cnt+=1;
+        if ($p->status ==Participant::STATUS_DEFAULT) {
+          $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+          'email'=>$p->participant->email,
+          'username'=>$p->participant->username];
+          $cnt+=1;
+          // reciprocate friendship to organizer
+          \frontend\models\Friend::add($p->participant_id,$p->invited_by);
+          // to do - reciprocate friendship in multi participant meetings
+        }
       }
       $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
       $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
@@ -487,7 +492,7 @@ class Meeting extends \yii\db\ActiveRecord
           'meetingSettings' => $this->meetingSettings,
       ]);
         // to do - add full name
-      $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$attendees);
+      $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$a,$attendees);
       $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
       $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
       $message->setTo($a['email'])
@@ -611,7 +616,7 @@ class Meeting extends \yii\db\ActiveRecord
            }
        }
 
-       public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendees) {
+       public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendee,$attendeeList) {
          $meeting = Meeting::findOne($id);
          $invite = new \common\models\Calendar($id);
          $start_time = $chosenTime->start+(3600*7); // temp timezone adjust
@@ -635,11 +640,11 @@ class Meeting extends \yii\db\ActiveRecord
          	->setEnd($edate)
          	->setLocation($location)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username);
-          foreach ($attendees as $a) {
+          foreach ($attendeeList as $a) {
             $invite
-            ->addAttendee($a['email'], $a['username'])
-            ->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']));
+            ->addAttendee($a['email'], $a['username']);
           }
+          $invite->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
           $invite->generate() // generate the invite
 	         ->save(); // save it to a file;
            $downloadLink = $invite->getSavedPath();

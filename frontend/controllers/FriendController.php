@@ -7,6 +7,7 @@ use frontend\models\Friend;
 use frontend\models\FriendSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\Data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 
 /**
@@ -32,12 +33,17 @@ class FriendController extends Controller
      */
     public function actionIndex()
     {
+      $friendProvider = new ActiveDataProvider([
+            'query' => Friend::find()->joinWith('user')->where(['user_id'=>Yii::$app->user->getId()]),
+            //'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
+        ]);
+
         $searchModel = new FriendSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $friendProvider,
         ]);
     }
 
@@ -66,9 +72,9 @@ class FriendController extends Controller
           // get user_id of email
           $user_id = $model->lookupEmail($model->email);
           if ($user_id===false) {
-            $user_id = $model->addUser($model->email);            
-          } 
-          $model->friend_id = $user_id;          
+            $user_id = $model->addUser($model->email);
+          }
+          $model->friend_id = $user_id;
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid
@@ -79,12 +85,12 @@ class FriendController extends Controller
               return $this->render('create', [
                   'model' => $model,
               ]);
-          }          
+          }
         } else {
           return $this->render('create', [
               'model' => $model,
-          ]);          
-        }               
+          ]);
+        }
     }
 
     /**

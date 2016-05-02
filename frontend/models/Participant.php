@@ -5,6 +5,8 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
+use frontend\models\Friend;
+
 /**
  * This is the model class for table "participant".
  *
@@ -80,7 +82,8 @@ class Participant extends \yii\db\ActiveRecord
           $mp = new MeetingPlace;
           $mp->addChoices($this->meeting_id,$this->participant_id);
           MeetingLog::add($this->meeting_id,MeetingLog::ACTION_INVITE_PARTICIPANT,$this->invited_by,$this->participant_id);
-          // above - add meeting log entry
+          // add participant as a friend of the person who invited them
+          Friend::add($this->invited_by,$this->participant_id);
         }
     }
 

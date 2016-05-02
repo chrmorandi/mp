@@ -26,17 +26,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
           [
+            'label'=>'Name',
+              'attribute' => 'friend_id',
+              'format' => 'raw',
+              'value' => function ($model) {
+                          return '<div>'.\common\components\MiscHelpers::getDisplayName($model->friend_id,true).'</div>';
+                  },
+          ],
+          [
             'label'=>'Email',
               'attribute' => 'friend_id',
               'format' => 'raw',
-              'value' => function ($model) {                      
+                'value' => function ($model) {
                           return '<div>'.\common\models\User::find()->where(['id'=>$model->friend_id])->one()->email.'</div>';
                   },
           ],
-            'number_meetings',
+            //'number_meetings',
             // 'is_favorite',
             //'status',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+				      'template'=>'{delete}',
+					    'buttons'=>[
+                /*'delete' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-trash"></span>', $model->id, ['title' => Yii::t('yii', 'Delete'),]);
+                }*/
+							],
+			      ],
         ],
     ]); ?>
 

@@ -21,7 +21,7 @@ ComboAsset::register($this);
       <div class="col-md-6">
 
     <?php
-    $friends=['1'=>'jeff@lookahead.me'];
+    //$friends=['1'=>'jeff@lookahead.me'];
     //$up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     //foreach ($up as $p) {
       //$ups[]=$p->place->name;
@@ -34,23 +34,23 @@ ComboAsset::register($this);
     <!--</select>-->
 
     <?php
-    $friends=['jeff@lookahead.me'];
-    /*$friendId=[];
+    $friendsEmail=[];
+    $friendsId=[];
     $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     foreach ($fq as $f) {
-      $friends[]=$f->user->email; // get constructed name fields
-      $friendId[]=$f->id;
+      $friendsEmail[]=$f->friend->email; // get constructed name fields
+      $friendsId[]=$f->id;
     }
-    $friends[]='Jeff Reifman <jeff@lookahead.me>';
-    $friendId[]=1;
-    */
+    //var_dump($friendsEmail);exit;
+    //$friendsEmail[]='Jeff Reifman <jeff@lookahead.me>';
+    //$friendId[]=1;
     echo $form->field($model, 'email')->widget(Typeahead::classname(), [
         'options' => ['placeholder' => '-- type in an email address --'],
         'scrollable'=>true,
         'pluginOptions' => ['highlight'=>true],
         'dataset' => [
             [
-                'local' => $friends,
+                'local' => $friendsEmail,
                 'limit' => 10
             ]
         ]
