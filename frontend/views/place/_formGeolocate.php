@@ -21,10 +21,10 @@ LocateAsset::register($this);
 
     <?= $form->field($model, 'place_type')
             ->dropDownList(
-                $model->getPlaceTypeOptions(),   
-                ['prompt'=>'What type of place is this?'] 
+                $model->getPlaceTypeOptions(),
+                ['prompt'=>'What type of place is this?']
             )->label('Type of Place') ?>
-            
+
     <?= $form->field($model, 'notes')->textArea() ?>
 
     <?= BaseHtml::activeHiddenInput($model, 'lat'); ?>
@@ -36,20 +36,19 @@ LocateAsset::register($this);
 
 </div> <!-- end col 1 --><div class="col-md-6">
 <div id="preSearch" class="center">
-<p><br /></p>    <?= Html::a('Lookup Location', ['lookup'], ['class' => 'btn btn-success', 'onclick' => "javascript:beginSearch();return false;"]) ?> 
+<p><br /></p>    <?= Html::a('Lookup Location', ['lookup'], ['class' => 'btn btn-success', 'onclick' => "javascript:beginSearch();return false;"]) ?>
 </div>
 
   <div id="searchArea" class="hidden">
     <div id="autolocateAlert">
     </div> <!-- end autolocateAlert -->
-    <p>Searching for your current location...<span id="status"></span></p>    
+    <p>Searching for your current location...<span id="status"></span></p>
     <article>
     </article>
-    <div class="form-actions hidden" id="actionBar">      
+    <div class="form-actions hidden" id="actionBar">
   	</div> <!-- end action Bar-->
   </div>   <!-- end searchArea -->
   </div> <!-- end col 2 -->
       <?php ActiveForm::end(); ?>
 
   </div>
-  
