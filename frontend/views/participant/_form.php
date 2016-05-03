@@ -23,6 +23,7 @@ ComboAsset::register($this);
         echo $form->field($model, 'new_email')->textInput(['placeholder' => "enter an email address to invite someone new"])->label(Yii::t('frontend','Invite Someone New'))
         ?>
     <?php
+    // to do - replace with Friend::getFriendList
     $friendsEmail=[];
     $friendsId=[];
     $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->all();

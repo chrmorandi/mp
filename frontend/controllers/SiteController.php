@@ -8,6 +8,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
+use frontend\models\UserProfile;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -256,6 +257,7 @@ class SiteController extends Controller
                   $user_id = $auth->user_id;
                   $person = new \common\models\User;
                   $identity = $person->findIdentity($user_id);
+                  UserProfile::applySocialNames($user_id,$firstname,$lastname,$fullname);
                   Yii::$app->user->login($identity);
                 } else {
                   // it's a new oauth id
@@ -297,6 +299,7 @@ class SiteController extends Controller
                             ]);
                             if ($auth->save()) {
                                 $transaction->commit();
+                                UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
                                 Yii::$app->user->login($user);
                             } else {
                                 print_r($auth->getErrors());
@@ -308,6 +311,7 @@ class SiteController extends Controller
                   }
                 }
             } else {
+              UserProfile::applySocialNames(Yii::$app->user->id,$firstname,$lastname,$fullname);
               // user already logged in, link the accounts
                 if (!$auth) { // add auth provider
                     $auth = new Auth([

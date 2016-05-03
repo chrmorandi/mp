@@ -123,4 +123,23 @@ class UserProfile extends \yii\db\ActiveRecord
           }
         }
     }
+
+    public static function applySocialNames($user_id,$firstname='',$lastname='',$fullname='') {
+      $up = UserProfile::find()->where(['user_id'=>$user_id])->one();
+      if (is_null($up)) {
+        // initialize profile if not yet exist
+        $up_id = UserProfile::initialize($user_id);
+        $up=UserProfile::findOne($up_id);
+      }
+      if (empty($up->firstname)) {
+          $up->firstname = $firstname;
+      }
+      if (empty($up->lastname)) {
+          $up->lastname = $lastname;
+      }
+      if (empty($up->fullname)) {
+          $up->fullname = $fullname;
+      }
+      $up->update();    
+    }
 }
