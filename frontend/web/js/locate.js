@@ -52,8 +52,8 @@ function success(position) {
 
 function errorHandler(err) {
   var s = document.querySelector('#status');
-  s.innerHTML = typeof msg == 'string' ? msg : "failed";
+  s.innerHTML = typeof msg == 'string' ? msg : "failed, sorry";
   s.className = 'fail';
   //if (err.code == 1) {} // user said no!
-  document.location.href='/place/index?errorLocate';
+  //document.location.href='/place/index?errorLocate';
 }
