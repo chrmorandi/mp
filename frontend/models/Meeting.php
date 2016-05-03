@@ -22,6 +22,7 @@ use common\components\MiscHelpers;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $logged_at
+ * @property integer $sequence_id
  * @property integer $cleared_at
  *
  * @property User $owner
@@ -567,7 +568,6 @@ class Meeting extends \yii\db\ActiveRecord
               $chosenTime->status = MeetingTime::STATUS_SELECTED;
               $chosenTime->update();
             }
-
           }
           return $chosenTime;
       }
@@ -619,8 +619,9 @@ class Meeting extends \yii\db\ActiveRecord
        public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendee,$attendeeList) {
          $meeting = Meeting::findOne($id);
          $invite = new \common\models\Calendar($id);
-         $start_time = $chosenTime->start+(3600*7); // temp timezone adjust
-         $end_time = $start_time+3600; // to do - allow length on meetings for end time calculation
+         $start_time = $chosenTime->start+(3600*7); // adjust timezone to PST
+         $end_time = $chosenTime->end;
+         // note below, we send PST time zone with these times
          $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
          $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST'));
          $description = $meeting->message;
@@ -639,7 +640,8 @@ class Meeting extends \yii\db\ActiveRecord
            ->setStart($sdate)
          	->setEnd($edate)
          	->setLocation($location)
-         	->setOrganizer($meeting->owner->email, $meeting->owner->username);
+         	->setOrganizer($meeting->owner->email, $meeting->owner->username)
+          ->setSequence($meeting->sequence_id);
           foreach ($attendeeList as $a) {
             $invite
             ->addAttendee($a['email'], $a['username']);

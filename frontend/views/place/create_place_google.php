@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
   $options = '{"types":["establishment"],"componentRestrictions":{"country":"us"}}';
   echo $this->registerJs("(function(){
         var input = document.getElementById('place-searchbox');
-        var options = $options;        
+        var options = $options;
         searchbox = new google.maps.places.Autocomplete(input, options);
         setupListeners('place');
 })();" , \yii\web\View::POS_END );
-// 'setupBounds('.$bound_bl.','.$bound_tr.');
+//setupBounds('.$bound_bl.','.$bound_tr.');
 ?>

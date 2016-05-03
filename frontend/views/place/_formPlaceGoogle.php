@@ -17,10 +17,10 @@ MapAsset::register($this);
   <p>Type in a place or business known to Google Places:</p>
 
     <?php $form = ActiveForm::begin(); ?>
-    <?php echo $form->errorSummary($model);?> 
-    
+    <?php echo $form->errorSummary($model);?>
+
     <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Place') ?>
-    
+
     <?= BaseHtml::activeHiddenInput($model, 'name'); ?>
     <?= BaseHtml::activeHiddenInput($model, 'google_place_id'); ?>
     <?= BaseHtml::activeHiddenInput($model, 'location'); ?>
@@ -30,8 +30,8 @@ MapAsset::register($this);
 
     <?= $form->field($model, 'place_type')
             ->dropDownList(
-                $model->getPlaceTypeOptions(),   
-                ['prompt'=>'What type of place is this?'] 
+                $model->getPlaceTypeOptions(),
+                ['prompt'=>'What type of place is this?']
             )->label('Type of Place') ?>
 
     <div class="form-group">
@@ -43,7 +43,5 @@ MapAsset::register($this);
 </div>
 </div> <!-- end col1 -->
 <div class="col-md-6">
-<div id="map-canvas" style="width:300px;height:300px;">
   <article></article>
-</div>
 </div> <!-- end col2 -->

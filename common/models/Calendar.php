@@ -21,6 +21,9 @@ use common\models\User;
  */
 class Calendar {
 
+    // sequence id
+    private $_sequence_id;
+
     /**
      * The event start date
      * @var DateTime
@@ -142,6 +145,12 @@ class Calendar {
     {
 	$this->_start = $start;
 	return $this;
+    }
+
+    public function setSequence($sequence_id)
+    {
+    $this->_sequence_id = $sequence_id;
+    return $this;
     }
 
     /**
@@ -447,6 +456,11 @@ class Calendar {
 	return $this;
     }
 
+    public function getSequence()
+    {
+    return $this->_sequence_id;
+    }
+
     /**
      * Get the name of the invite sender
      * @return string
@@ -658,7 +672,7 @@ class Calendar {
 	    $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
 	    $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "SUMMARY:{$this->getName()}\n";
-	    $content .= "SEQUENCE:0\n";
+	    $content .= "SEQUENCE:{$this->getSequence()}\n";
 	    $content .= "STATUS:CONFIRMED\n";
 	    $content .= "TRANSP:OPAQUE\n";
 	    $content .= "END:VEVENT\n";
