@@ -36,7 +36,7 @@ LocateAsset::register($this);
 
 </div> <!-- end col 1 --><div class="col-md-6">
 <div id="preSearch" class="center">
-<p><br /></p>    <?= Html::a('Lookup Location', ['lookup'], ['class' => 'btn btn-success', 'onclick' => "javascript:beginSearch();return false;"]) ?>
+<p><br /></p>    <?php echo Html::a('Lookup Location', ['lookup'], ['class' => 'btn btn-success', 'onclick' => "javascript:beginSearch();return false;"]) ?>
 </div>
 
   <div id="searchArea" class="hidden">
@@ -50,5 +50,4 @@ LocateAsset::register($this);
   </div>   <!-- end searchArea -->
   </div> <!-- end col 2 -->
       <?php ActiveForm::end(); ?>
-
   </div>
