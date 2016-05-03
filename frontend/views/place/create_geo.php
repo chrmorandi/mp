@@ -19,3 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+
+
+<?php
+$gpJsLink= 'http://maps.googleapis.com/maps/api/js?' . http_build_query(array(
+                        'key' => Yii::$app->params['google_maps_key'],                        
+                ));
+echo $this->registerJsFile($gpJsLink);
+ ?>

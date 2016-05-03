@@ -12,8 +12,7 @@ class LocateAsset extends AssetBundle
     ];
     public $js = [
       'js/locate.js',
-      'js/geoPosition.js',
-      'http://maps.google.com/maps/api/js',
+      'js/geoPosition.js',      
     ];
     public $depends = [
     ];
