@@ -14,7 +14,7 @@ use frontend\models\MeetingTime;
     <td colspan="2">
       <p><em>Hi, <?php echo $owner; ?> is inviting you to an event using a new service called <?php echo HTML::a(Yii::t('frontend','Meeting Planner'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)); ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails. Please try it out below.</em></p>
       <p><?php echo $intro; ?></p>
-      <p> <?php echo HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']); ?></a></p>
+      <p> <?php echo HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']); ?></p>
     </td>
   </tr>
   <?php

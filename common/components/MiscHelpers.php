@@ -34,7 +34,7 @@ class MiscHelpers  {
        {
          $displayName = $u->email;
        } else {
-         $displayName = 'N/A';
+         $displayName = 'n/a';
        }
      } else {
        $calcName = $profile->firstname.' '.$profile->lastname;
@@ -49,7 +49,7 @@ class MiscHelpers  {
          {
            $displayName = $u->email;
          } else {
-           $displayName = 'N/A';
+           $displayName = 'n/a';
          }
        }
      }

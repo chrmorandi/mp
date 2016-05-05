@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use frontend\models\Meeting;
 use common\models\User;
+use common\components\MiscHelpers;
 
 /**
  * This is the model class for table "meeting_log".
@@ -45,6 +46,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_COMPLETE_MEETING = 100;
 	const ACTION_CHOOSE_PLACE = 110;
 	const ACTION_CHOOSE_TIME = 120;
+	const ACTION_SENT_CONTACT_REQUEST = 150;
 
 	// not yet implemented
 	//	const ACTION_ = ;
@@ -187,6 +189,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_COMPLETE_MEETING:
 				$label = Yii::t('frontend','Complete meeting');
 				break;
+				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
+				$label = Yii::t('frontend','Send request for contact information');
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -204,9 +208,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-					$label = User::find()->where(['id'=>$this->item_id])->one();
+					$label = MiscHelper::getDisplayName($this->item_id);
 					if (is_null($label)) {
-						$label = 'error - user';
+						$label = 'error - unknown user';
 					} else {
 						$label = $label->email;
 					}
@@ -278,7 +282,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SEND_INVITE:
 				case MeetingLog::ACTION_FINALIZE_INVITE:
 				case MeetingLog::ACTION_COMPLETE_MEETING:
-				$label = Yii::t('frontend','-');
+				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
+					$label = Yii::t('frontend','-');
 				break;
 				default:
 					$label = Yii::t('frontend','n/a');

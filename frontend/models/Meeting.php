@@ -9,6 +9,7 @@ use yii\i18n\Formatter;
 use common\models\Yiigun;
 use common\models\User;
 use common\components\MiscHelpers;
+use frontend\models\UserContact;
 
 /**
  * This is the model class for table "meeting".
@@ -503,8 +504,11 @@ class Meeting extends \yii\db\ActiveRecord
       }
           $this->status = self::STATUS_CONFIRMED;
           $this->update();
-        // add to log
-        MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+      }
+      // add to log
+      MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+      if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO) {
+        Meeting::checkContactInformation($this->id);
       }
     }
 
@@ -733,4 +737,64 @@ class Meeting extends \yii\db\ActiveRecord
            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.'));
          }
        }
+
+     public static function checkContactInformation($meeting_id) {
+       $mtg = Meeting::findOne($meeting_id);
+       $user_id = $mtg->owner_id;
+       // build an attendees array for all participants without contact information
+       $cnt =0;
+       $attendees = array();
+       foreach ($mtg->participants as $p) {
+         if ($p->status ==Participant::STATUS_DEFAULT &&
+          UserContact::countContacts($p->participant_id)==0) {
+           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+           'email'=>$p->participant->email,
+           'username'=>$p->participant->username];
+           $cnt+=1;
+         }
+       }
+       if (UserContact::countContacts($user_id)==0) {
+         // add organizer
+         $auth_key=\common\models\User::find()->where(['id'=>$mtg->owner_id])->one()->auth_key;
+         $attendees[$cnt]=['user_id'=>$mtg->owner_id,'auth_key'=>$auth_key,
+           'email'=>$mtg->owner->email,
+           'username'=>$mtg->owner->username];
+       }
+     // use this code to send
+     foreach ($attendees as $cnt=>$a) {
+       // check if email is okay and okay from this sender_id
+       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+           // Build the absolute links to the meeting and commands
+           $links=[
+             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+             'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
+             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+             'add_contact'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_ADD_CONTACT,0,$a['user_id'],$auth_key)
+           ];
+           // send the message
+           $message = Yii::$app->mailer->compose([
+             'html' => 'contact-html',
+             'text' => 'contact-text'
+           ],
+           [
+             'meeting_id' => $mtg->id,
+             'sender_id'=> $user_id,
+             'user_id' => $a['user_id'],
+             'auth_key' => $a['auth_key'],
+             'links' => $links,
+             'meetingSettings' => $mtg->meetingSettings,
+         ]);
+           // to do - add full name
+         $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+         $message->setTo($a['email'])
+             ->setSubject(Yii::t('frontend','Meeting Request: Please provide your contact information.'))
+             ->send();
+             // add to log
+             MeetingLog::add($mtg->id,MeetingLog::ACTION_SENT_CONTACT_REQUEST,$a['user_id'],0);
+         }
+       }
+     }
 }

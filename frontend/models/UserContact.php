@@ -124,7 +124,7 @@ class UserContact extends \yii\db\ActiveRecord
     return $contacts;
   }
 
-  public static function userCount($user_id) {
+  public static function countContacts($user_id) {
     $cnt = UserContact::find()->where(['user_id'=>$user_id])->count();
     return $cnt;
   }
