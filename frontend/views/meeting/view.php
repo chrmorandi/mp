@@ -56,6 +56,24 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
    </div>
 
+        <?php if ($isOwner) {
+          echo $this->render('../participant/_panel', [
+              'model'=>$model,
+              'participantProvider' => $participantProvider,
+          ]);
+        }
+         ?>
+
+        <?php
+          if (!($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO)) {
+            echo $this->render('../meeting-place/_panel', [
+              'model'=>$model,
+              'placeProvider' => $placeProvider,
+              'isOwner' => $isOwner,
+              'viewer' => $viewer,
+          ]);
+          }
+           ?>
 
         <?php echo $this->render('../meeting-time/_panel', [
             'model'=>$model,
@@ -63,6 +81,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'isOwner' => $isOwner,
             'viewer' => $viewer,
             'timezone'=> $timezone,
+        ]) ?>
+
+        <?php echo $this->render('../meeting-note/_panel', [
+            'model'=>$model,
+            'noteProvider' => $noteProvider,
         ]) ?>
 
 </div>
