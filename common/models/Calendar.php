@@ -24,6 +24,9 @@ class Calendar {
     // sequence id
     private $_sequence_id;
 
+    // comment
+    private $_comment;
+
     /**
      * The event start date
      * @var DateTime
@@ -153,6 +156,11 @@ class Calendar {
     return $this;
     }
 
+    public function setComment($comment)
+    {
+      $this->_comment = $comment;
+      return $this;
+    }
     /**
      * Set the end datetime
      * @param DateTime $end
@@ -461,6 +469,11 @@ class Calendar {
     return $this->_sequence_id;
     }
 
+    public function getComment()
+    {
+    return $this->_comment;
+    }
+
     /**
      * Get the name of the invite sender
      * @return string
@@ -666,12 +679,14 @@ class Calendar {
 	    {
 		$content .= "ATTENDEE;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN={$name};X-NUM-GUESTS=0:mailto:{$email}\n";
 	    }
-
 	    $content .= "CREATED:\n";
+      $content .= "SUMMARY:{$this->getName()}\n";
 	    $content .= "DESCRIPTION:{$this->getDescription()}\n";
-	    $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
+      if (!empty($this->getComment())) {
+        $content .= "COMMENT:{$this->getComment()}\n";
+      }
+      $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
 	    $content .= "LOCATION:{$this->getLocation()}\n";
-	    $content .= "SUMMARY:{$this->getName()}\n";
 	    $content .= "SEQUENCE:{$this->getSequence()}\n";
 	    $content .= "STATUS:CONFIRMED\n";
 	    $content .= "TRANSP:OPAQUE\n";

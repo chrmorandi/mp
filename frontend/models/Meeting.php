@@ -625,7 +625,7 @@ class Meeting extends \yii\db\ActiveRecord
          $meeting = Meeting::findOne($id);
          $invite = new \common\models\Calendar($id);
          $start_time = $chosenTime->start+(3600*7); // adjust timezone to PST
-         $end_time = $chosenTime->end;
+         $end_time = $chosenTime->end+(3600*7);
          // note below, we send PST time zone with these times
          $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
          $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST'));
@@ -647,10 +647,23 @@ class Meeting extends \yii\db\ActiveRecord
          	->setLocation($location)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username)
           ->setSequence($meeting->sequence_id);
+          $commentStr='';
           foreach ($attendeeList as $a) {
             $invite
             ->addAttendee($a['email'], $a['username']);
+            // if building for organizer, attach attendee contact info
+            // otherwise, attach organizer contact info
+              if ($meeting->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO) {
+                if ($a['user_id']<>$meeting->owner_id) {
+                  // send organizer contact
+                  $commentStr.=UserContact::buildContactString($meeting->owner_id,'ical');
+                } else {
+                  // send attendee contact
+                  $commentStr.=UserContact::buildContactString($a['user_id'],'ical');
+                }
+            }
           }
+            $invite->setComment($commentStr);
           $invite->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
           $invite->generate() // generate the invite
 	         ->save(); // save it to a file;

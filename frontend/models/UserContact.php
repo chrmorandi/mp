@@ -21,6 +21,8 @@ use yii\db\ActiveRecord;
  */
 class UserContact extends \yii\db\ActiveRecord
 {
+    public $friendly_type;
+
     const TYPE_OTHER = 0;
     const TYPE_PHONE = 10;
     const TYPE_SKYPE = 20;
@@ -139,13 +141,33 @@ class UserContact extends \yii\db\ActiveRecord
     return $contacts;
   }
 
-  public static function buildContactString($user_id) {
+  public static function buildContactString($user_id,$mode='ical') {
     // to do - create a view for this that can be rendered
     $contacts = UserContact::getUserContactList($user_id);
-    $str ='';
+    if (count($contacts)==0) return '';
+    if ($mode=='ical') {
+        $str='';
+    } else if ($mode =='html') {
+        $str='<p>';
+    }
+    $str = \common\components\MiscHelpers::getDisplayName($user_id).': ';
+    if ($mode=='ical') {
+        $str.=' \\n';
+    } else if ($mode =='html') {
+        $str.='<br />';
+    }
     foreach ($contacts as $c) {
-      //$str.='<p>'.$c->friendly_type.': '.$c->info.'<br />'.$c->details.'</p>';
-      $str.=$c->friendly_type.': '.$c->info.' ('.$c->details.')';
+
+      if ($mode=='ical') {
+        $str.=$c->friendly_type.': '.$c->info.' ('.$c->details.')\\n';
+      } else if ($mode =='html') {
+        $str.=$c->friendly_type.': '.$c->info.'<br />'.$c->details.'<br />';
+      }
+    }
+    if ($mode=='ical') {
+        $str.=' \\n';
+    } else if ($mode =='html') {
+        $str.='</p>';
     }
     return $str;
   }
