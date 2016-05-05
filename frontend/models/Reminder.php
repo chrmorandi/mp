@@ -57,7 +57,7 @@ class Reminder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'created_at', 'updated_at'], 'required'],
+            [['user_id'], 'required'],
             [['user_id', 'duration_friendly', 'unit', 'duration', 'reminder_type', 'created_at', 'updated_at'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -97,18 +97,20 @@ class Reminder extends \yii\db\ActiveRecord
         return new ReminderQuery(get_called_class());
     }
 
-    public function initialize($user_id) {
+    public static function initialize($user_id) {
       // create initial reminders for a user
       $r1 = new Reminder();
       $r1->user_id = $user_id;
-      $r1->duration_friendly = '1';
+      $r1->duration_friendly = 1;
       $r1->unit = Reminder::UNIT_HOURS;
       $r1->reminder_type = Reminder::TYPE_EMAIL;
       $r1->duration = 3600;
+      $r1->validate();
+      var_dump($r1->getErrors());
       $r1->save();
       $r2 = new Reminder();
       $r2->user_id = $user_id;
-      $r2->duration_friendly = '1';
+      $r2->duration_friendly = 1;
       $r2->unit = Reminder::UNIT_DAYS;
       $r2->reminder_type = Reminder::TYPE_EMAIL;
       $r2->duration = 1*24*3600;

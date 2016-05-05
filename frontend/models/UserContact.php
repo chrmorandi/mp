@@ -124,4 +124,29 @@ class UserContact extends \yii\db\ActiveRecord
     return $contacts;
   }
 
+  public static function userCount($user_id) {
+    $cnt = UserContact::find()->where(['user_id'=>$user_id])->count();
+    return $cnt;
+  }
+
+  public static function getUserContactList($user_id) {
+    $optionList = UserContact::getUserContactTypeOptions();
+    $contacts = UserContact::find()->where(['user_id'=>$user_id,'status'=>UserContact::STATUS_ACTIVE])->all();
+    foreach ($contacts as $c) {
+      // add type string
+      $c->friendly_type=$optionList[$c['contact_type']];
+    }
+    return $contacts;
+  }
+
+  public static function buildContactString($user_id) {
+    // to do - create a view for this that can be rendered
+    $contacts = UserContact::getUserContactList($user_id);
+    $str ='';
+    foreach ($contacts as $c) {
+      //$str.='<p>'.$c->friendly_type.': '.$c->info.'<br />'.$c->details.'</p>';
+      $str.=$c->friendly_type.': '.$c->info.' ('.$c->details.')';
+    }
+    return $str;
+  }
 }

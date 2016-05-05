@@ -157,20 +157,4 @@ class Friend extends \yii\db\ActiveRecord
       }
     }
 
-    public static function fixPreFriends() {
-      // before the friend feature worked
-      // need to patch relationships
-      $meetings = \frontend\models\Meeting::find()->all();
-      foreach ($meetings as $m) {
-        foreach ($m->participants as $p) {
-          // add as friend - anyone people invited
-          Friend::add($p->invited_by,$p->participant_id);
-          if ($m->status >= \frontend\models\Meeting::STATUS_CONFIRMED) {
-            // if meeting confirmed, add the converse
-            Friend::add($p->participant_id,$p->invited_by);
-          }
-        }
-      }
-    }
-
 }

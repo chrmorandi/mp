@@ -400,6 +400,10 @@ class MeetingController extends Controller
           case Meeting::COMMAND_ADD_NOTE:
             $this->redirect(['meeting-note/create','meeting_id'=>$id]);
           break;
+          case Meeting::COMMAND_ADD_CONTACT:
+            $this->redirect(['user-contact/index']);
+          break;
+
           case Meeting::COMMAND_ACCEPT_PLACE:
             $mpc = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$obj_id,'user_id'=>$actor_id])->one();
             MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,$actor_id);

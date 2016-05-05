@@ -149,5 +149,4 @@ class UserSetting extends \yii\db\ActiveRecord
             self::SETTING_OFF => 'Do not send an early reminder',
            );
        }
-
 }

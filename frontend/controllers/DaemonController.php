@@ -41,7 +41,8 @@ class DaemonController extends Controller
   public function actionIndex()
   {
     // to do - remove this, fixed friends list for pre-existing users
-    // \frontend\models\Friend::fixPreFriends();
+    // \frontend\models\Fix::fixPreFriends();
+    \frontend\models\Fix::fixPreReminders();
   }
 
 

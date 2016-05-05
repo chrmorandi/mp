@@ -16,30 +16,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.</p>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('frontend', 'Add Contact Details', [
-    'modelClass' => 'User Contact',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 		        [
-		            'attribute' => 'contact_type',
+		            'attribute' => Yii::t('frontend','Type'),
 		            'format' => 'raw',
 		            'value' => function ($model) {
 		                        return '<div>'.$model->getUserContactType($model->contact_type).'</div>';
 		                },
 		        ],
-            'info',
+            [
+		            'attribute' => Yii::t('frontend','Information'),
+		            'format' => 'raw',
+		            'value' => function ($model) {
+		                        return '<div>'.$model->info.'</div>';
+		                },
+		        ],
             // 'status',
             ['class' => 'yii\grid\ActionColumn',
 				      'template'=>'{update} {delete}',
 			      ],
         ],
     ]); ?>
+    <p>
+        <?= Html::a(Yii::t('frontend', 'Add Contact Details', [
+    'modelClass' => 'User Contact',
+    ]), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
 </div>
