@@ -109,13 +109,14 @@ if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING )
 <?php
 $script = <<< JS
 var notifierOkay; // meeting sent already and no page change session flash
+
 if  ($('#notifierOkay').val() == 'on') {
   notifierOkay = true;
 } else {
   notifierOkay = false;
 }
 
-function displayNotifier(mode='') {
+function displayNotifier(mode) {
   if (notifierOkay) {
     if (mode == 'time') {
       $('#notifierTime').show();
@@ -126,7 +127,6 @@ function displayNotifier(mode='') {
     }
     notifierOkay=false;
   }
-
 }
 
 function refreshSend() {
