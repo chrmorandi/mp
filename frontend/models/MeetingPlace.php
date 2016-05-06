@@ -73,6 +73,21 @@ class MeetingPlace extends \yii\db\ActiveRecord
         }
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+          if ($insert) {
+            if (MeetingPlace::find()->where(['meeting_id'=>$this->meeting_id])->count()>=Yii::$app->params['maximumPlaces']) {
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, no more places are allowed for this meeting.'));
+              return false;
+            }
+          }
+          return true;
+        } else {
+          return false;
+        }
+    }
+
     public static function addChoices($meeting_id,$participant_id) {
       $all_places = MeetingPlace::find()->where(['meeting_id'=>$meeting_id])->all();
       foreach ($all_places as $mp) {

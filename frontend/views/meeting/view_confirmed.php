@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
           'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
             ?>
             <?php echo Html::a('', ['cancel', 'id' => $model->id],
-           ['class' => 'btn btn-primary glyphicon glyphicon-remove btn-danger',
+           ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
            'title'=>Yii::t('frontend','Cancel'),
            'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
            ]) ?>

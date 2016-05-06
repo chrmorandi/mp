@@ -77,6 +77,21 @@ class MeetingTime extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+          if ($insert) {
+            if (MeetingTime::find()->where(['meeting_id'=>$this->meeting_id])->count()>=Yii::$app->params['maximumTimes']) {
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, no more dates and times are allowed for this meeting.'));
+              return false;
+            }
+          }
+          return true;
+        } else {
+          return false;
+        }
+    }
+
     public function afterSave($insert,$changedAttributes)
     {
         parent::afterSave($insert,$changedAttributes);

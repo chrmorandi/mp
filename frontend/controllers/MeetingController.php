@@ -37,12 +37,12 @@ class MeetingController extends Controller
             ],
           'access' => [
                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
-                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard'],
+                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash'],
                         'rules' => [
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download','wizard'],
+                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash'],
                                'roles' => ['@'],
                            ],
                           [
@@ -249,10 +249,14 @@ class MeetingController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionTrash($id)
     {
-        $this->findModel($id)->delete();
-
+        $user_id = Yii::$app->user->getId();
+        if ($this->findModel($id)->trash($user_id)) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your meeting has been deleted.'));
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we had a problem deleting your meeting.'));
+          }
         return $this->redirect(['index']);
     }
 
@@ -262,8 +266,11 @@ class MeetingController extends Controller
 
     public function actionDecline($id) {
       $user_id = Yii::$app->user->getId();
-      $this->findModel($id)->decline($user_id);
-      Yii::$app->getSession()->setFlash('success', 'Your participation in this meeting has been declined and the organizer will be notified.');
+      if ($this->findModel($id)->decline($user_id)) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your participation in this meeting has been declined and the organizer will be notified.'));
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we had a problem recording your decline.'));
+      }
       return $this->redirect(['index']);
     }
 
@@ -279,8 +286,11 @@ class MeetingController extends Controller
 
     public function actionCancel($id) {
       $user_id = Yii::$app->user->getId();
-      $this->findModel($id)->cancel($user_id);
-      Yii::$app->getSession()->setFlash('success', Yii::t('This meeting has been canceled and everyone will be notified shortly.'));
+      if ($this->findModel($id)->cancel($user_id)) {
+          Yii::$app->getSession()->setFlash('success', Yii::t('frontend','This meeting has been canceled and everyone will be notified shortly.'));
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we had trouble canceling this meeting.'));
+      }
       return $this->redirect(['index']);
     }
 

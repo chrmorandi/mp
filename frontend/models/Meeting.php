@@ -54,6 +54,7 @@ class Meeting extends \yii\db\ActiveRecord
   const STATUS_CONFIRMED = 40; // finalized
   const STATUS_COMPLETED = 50;
   const STATUS_CANCELED = 60;
+  const STATUS_TRASH = 70;
 
   const VIEWER_ORGANIZER = 0;
   const VIEWER_PARTICIPANT = 10;
@@ -519,6 +520,19 @@ class Meeting extends \yii\db\ActiveRecord
           $this->status = self::STATUS_CANCELED;
           $this->update();
           MeetingLog::add($this->id,MeetingLog::ACTION_CANCEL_MEETING,$user_id);
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      public function trash($user_id) {
+        // to do - check if user can Delete
+        if ($this->owner_id == $user_id && $this->status == self::STATUS_PLANNING) {
+          $this->status = self::STATUS_TRASH;
+          $this->update();
+          MeetingLog::add($this->id,MeetingLog::ACTION_DELETE_MEETING,$user_id);
+          return true;
         } else {
           return false;
         }
@@ -537,6 +551,7 @@ class Meeting extends \yii\db\ActiveRecord
           }
         }
         MeetingLog::add($this->id,MeetingLog::ACTION_DECLINE_MEETING,$user_id);
+        return true;
       }
 
       // these next two functions are for when only a single place and time exist
@@ -807,6 +822,65 @@ class Meeting extends \yii\db\ActiveRecord
              ->send();
              // add to log
              MeetingLog::add($mtg->id,MeetingLog::ACTION_SENT_CONTACT_REQUEST,$a['user_id'],0);
+         }
+       }
+     }
+
+     public static function notify($meeting_id,$user_id) {
+       // send updates about recent meeting changes made by $user_id
+       $mtg = Meeting::findOne($meeting_id);
+       //$user_id = $mtg->owner_id;
+       // build an attendees array for all participants
+       $cnt =0;
+       $attendees = array();
+       foreach ($mtg->participants as $p) {
+         if ($p->status ==Participant::STATUS_DEFAULT && $p->participant_id <> $user_id) {
+           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+           'email'=>$p->participant->email,
+           'username'=>$p->participant->username];
+           $cnt+=1;
+         }
+       }
+       if ($user_id <> $mtg->owner_id) {
+         // add organizer
+         $auth_key=\common\models\User::find()->where(['id'=>$mtg->owner_id])->one()->auth_key;
+         $attendees[$cnt]=['user_id'=>$mtg->owner_id,'auth_key'=>$auth_key,
+           'email'=>$mtg->owner->email,
+           'username'=>$mtg->owner->username];
+       }
+     // use this code to send
+     foreach ($attendees as $cnt=>$a) {
+       // check if email is okay and okay from this sender_id
+       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+           // Build the absolute links to the meeting and commands
+           $links=[
+             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+             'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
+             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+           ];
+           // send the message
+           $message = Yii::$app->mailer->compose([
+             'html' => 'notify-html',
+             'text' => 'notify-text'
+           ],
+           [
+             'meeting_id' => $mtg->id,
+             'sender_id'=> $user_id,
+             'user_id' => $a['user_id'],
+             'auth_key' => $a['auth_key'],
+             'links' => $links,
+             'meetingSettings' => $mtg->meetingSettings,
+         ]);
+           // to do - add full name
+         $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+         $message->setTo($a['email'])
+             ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
+             ->send();
+             // clear log of  updates
+             // MeetingLog::touch($mtg->id,);
          }
        }
      }

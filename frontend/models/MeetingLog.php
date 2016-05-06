@@ -30,6 +30,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_CREATE_MEETING = 0;
 	const ACTION_EDIT_MEETING = 3;
 	const ACTION_CANCEL_MEETING = 7;
+	const ACTION_DELETE_MEETING = 8;
 	const ACTION_DECLINE_MEETING = 9;
 	const ACTION_SUGGEST_PLACE = 10;
 	const ACTION_ACCEPT_ALL_PLACES = 11;
@@ -141,8 +142,11 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_CANCEL_MEETING:
 					$label = Yii::t('frontend','cancel meeting');
 				break;
-				case MeetingLog::ACTION_DECLINE_MEETING:
-					$label = Yii::t('frontend','decline meeting');
+				case MeetingLog::ACTION_DELETE_MEETING:
+					$label = Yii::t('frontend','cancel meeting');
+				break;
+				case MeetingLog::ACTION_DELETE_MEETING:
+					$label = Yii::t('frontend','deleted meeting');
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
 				$label = Yii::t('frontend','add place');

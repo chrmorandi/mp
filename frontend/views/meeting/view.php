@@ -39,11 +39,21 @@ $this->params['breadcrumbs'][] = $this->title;
             echo Html::a(Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
           }
            ?>
-          <?php echo Html::a('', ['cancel', 'id' => $model->id],
-           ['class' => 'btn btn-primary glyphicon glyphicon-remove btn-danger',
-           'title'=>Yii::t('frontend','Cancel'),
-           'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
-           ]) ?>
+          <?php
+            if ($isOwner) {
+              echo Html::a('', ['cancel', 'id' => $model->id],
+               ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
+               'title'=>Yii::t('frontend','Cancel'),
+               'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
+              ]);
+            } else {
+              echo Html::a('', ['decline', 'id' => $model->id],
+               ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
+               'title'=>Yii::t('frontend','Decline invitation'),
+              ]);
+            }
+
+          ?>
 
           <?php
             if ($isOwner) {
