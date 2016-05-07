@@ -212,11 +212,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-					$label = MiscHelper::getDisplayName($this->item_id);
+					$label = MiscHelpers::getDisplayName($this->item_id);
 					if (is_null($label)) {
 						$label = 'error - unknown user';
-					} else {
-						$label = $label->email;
 					}
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:

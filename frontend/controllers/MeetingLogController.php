@@ -64,7 +64,7 @@ class MeetingLogController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);                
+        ]);
     }
 
     /**
@@ -79,6 +79,7 @@ class MeetingLogController extends Controller
 			}
       $searchModel = new MeetingLogSearch();
       $dataProvider = $searchModel->search(['MeetingLogSearch'=>['meeting_id'=>$id]]);
+
       return $this->render('index', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,

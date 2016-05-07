@@ -668,7 +668,7 @@ class Meeting extends \yii\db\ActiveRecord
             ->addAttendee($a['email'], $a['username']);
             // if building for organizer, attach attendee contact info
             // otherwise, attach organizer contact info
-              if ($meeting->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO) {
+              if ($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO) {
                 if ($a['user_id']<>$meeting->owner_id) {
                   // send organizer contact
                   $commentStr.=UserContact::buildContactString($meeting->owner_id,'ical');
@@ -695,23 +695,57 @@ class Meeting extends \yii\db\ActiveRecord
        public static function touchLog($id) {
          $mtg = Meeting::findOne($id);
          $mtg->logged_at = time();
-         $mtg->update();
+        /* if ($mtg->cleared_at==0)
+         {
+           $mtg->cleared_at=time()-1;
+         }
+*/         $mtg->update();
        }
 
        public static function findFresh() {
          // identify all meetings with log entries not yet cleared
-         $meetings = Meeting::find()->where(['>','logged_at','cleared_at'])->all();
+         $meetings = Meeting::find()->where('logged_at-cleared_at>0')->all();
          foreach ($meetings as $m) {
-           if (($m->logged_at-$m->cleared_at)>MeetingLog::TIMELAPSE) {
-             echo $m->id.' - '.$m->subject.' - ';
+           // to do - choose a different safe gap
+           // temporary - don't send notifications more than an hour old
+           echo $m->id.' - '.$m->subject.': <br />';
+           echo ($m->logged_at-$m->cleared_at).' '.(time()-$m->logged_at).'<br />';
+           echo '<br />';
+           if ($m->cleared_at!=0 && (time()-$m->logged_at)>3600) continue;
+           // uncleared log entry older than TIMELAPSE
+           if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE) { //
+
              echo '<a href="'.Url::to(['/meeting-log/view','id'=>$m->id],true).'">view log</a>.<br />';
-             // review the meeting log of the organizer's actions
-             // result: send update to the participant
-             // review th meeting log for the participants' actions
-             // result: send update to the organizer
+             $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->groupBy('actor_id')->all();
+             $current_actor=0;
+             foreach ($logs as $log) {
+               echo '<br />';
+               echo $log->id.'<br />';
+               if ($log->actor_id<>$current_actor) {
+                  $current_actor = $log->actor_id;
+                 // new actor, let's notify others
+                 if ($log->actor_id==$m->owner_id) {
+                   // this is the organizer
+                   // notify the participants
+                   echo 'notify participants';
+                   foreach ($m->participants as $p) {
+                      $m->notify($m->id,$p->id);
+                   }
+                 } else {
+                   // this is a participant
+                   // notify the other participants
+                   // to do - when there are multiple participants
+                   // notify the organizer
+                   echo 'notify organizer';
+                   echo $m->owner_id; $m->owner->email;
+                   $m->notify($m->id,$m->owner_id);
+                 }
+               } else {
+                 continue;
+               }
+             }
              // clear the log for this meeting
-             // todo - reactive clearlog
-             //$this->clearLog($m->id);
+             Meeting::clearLog($m->id);
            }
          }
        }
@@ -829,30 +863,18 @@ class Meeting extends \yii\db\ActiveRecord
      public static function notify($meeting_id,$user_id) {
        // send updates about recent meeting changes made by $user_id
        $mtg = Meeting::findOne($meeting_id);
-       //$user_id = $mtg->owner_id;
-       // build an attendees array for all participants
-       $cnt =0;
-       $attendees = array();
-       foreach ($mtg->participants as $p) {
-         if ($p->status ==Participant::STATUS_DEFAULT && $p->participant_id <> $user_id) {
-           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
-           'email'=>$p->participant->email,
-           'username'=>$p->participant->username];
-           $cnt+=1;
-         }
+       $u = \common\models\User::find()->where(['id'=>$user_id])->one();
+       if (empty($u->auth_key)) {
+         return false;
        }
-       if ($user_id <> $mtg->owner_id) {
-         // add organizer
-         $auth_key=\common\models\User::find()->where(['id'=>$mtg->owner_id])->one()->auth_key;
-         $attendees[$cnt]=['user_id'=>$mtg->owner_id,'auth_key'=>$auth_key,
-           'email'=>$mtg->owner->email,
-           'username'=>$mtg->owner->username];
-       }
-     // use this code to send
-     foreach ($attendees as $cnt=>$a) {
+       echo $u->email;
+       $a=['user_id'=>$user_id,
+        'auth_key'=>$u->auth_key,
+        'email'=>$u->email,
+        'username'=>$u->username
+      ];
        // check if email is okay and okay from this sender_id
-       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+       if (User::checkEmailDelivery($user_id,0)) {
            // Build the absolute links to the meeting and commands
            $links=[
              'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -874,14 +896,12 @@ class Meeting extends \yii\db\ActiveRecord
              'links' => $links,
              'meetingSettings' => $mtg->meetingSettings,
          ]);
-           // to do - add full name
-         $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
-         $message->setTo($a['email'])
-             ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
-             ->send();
-             // clear log of  updates
-             // MeetingLog::touch($mtg->id,);
-         }
-       }
+           if (!empty($a['email'])) {
+             $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
+             $message->setTo($a['email'])
+                 ->setSubject(Yii::t('frontend','Meeting Update: ').$mtg->subject)
+                 ->send();
+           }
+        }
      }
 }

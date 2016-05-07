@@ -209,8 +209,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function isAdmin() {
-      echo 'a'.$this->id.'here';exit;
-
       if ($this->role == User::ROLE_ADMIN) {
         return true;
       } else {
@@ -224,6 +222,11 @@ class User extends ActiveRecord implements IdentityInterface
       $us = UserSetting::safeGet($user_id);
       if ($us->no_email != UserSetting::EMAIL_OK) {
         return false;
+      }
+
+      // check if no sender i.e. system notification
+      if ($sender_id==0) {
+        return true;
       }
       // check if sender is blocked
       $ub = UserBlock::find()->where(['user_id'=>$user_id,'blocked_user_id'=>$sender_id])->one();
