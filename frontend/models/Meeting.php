@@ -862,8 +862,7 @@ class Meeting extends \yii\db\ActiveRecord
        }
      }
 
-     public static function notify($meeting_id,$user_id) {
-       return;
+     public static function notify($meeting_id,$user_id) {       
        // send updates about recent meeting changes made by $user_id
        $mtg = Meeting::findOne($meeting_id);
        $u = \common\models\User::find()->where(['id'=>$user_id])->one();
