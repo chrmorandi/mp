@@ -49,6 +49,7 @@ class DaemonController extends Controller
 public function actionFrequent() {
   // called every three minutes
   Meeting::findFresh();
+  //MeetingReminder::check();
   // to do - turn off output
 }
 
