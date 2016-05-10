@@ -708,9 +708,9 @@ class Meeting extends \yii\db\ActiveRecord
          foreach ($meetings as $m) {
            // to do - choose a different safe gap
            // temporary - don't send notifications more than an hour old
-           echo $m->id.' - '.$m->subject.': <br />';
-           echo ($m->logged_at-$m->cleared_at).' '.(time()-$m->logged_at).'<br />';
-           echo '<br />';
+           //echo $m->id.' - '.$m->subject.': <br />';
+           //echo ($m->logged_at-$m->cleared_at).' '.(time()-$m->logged_at).'<br />';
+           //echo '<br />';
            if ((time()-$m->logged_at)>3600) {
              // to do - consider clearing out these old ones
              continue;
