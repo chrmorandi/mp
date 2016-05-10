@@ -711,16 +711,18 @@ class Meeting extends \yii\db\ActiveRecord
            echo $m->id.' - '.$m->subject.': <br />';
            echo ($m->logged_at-$m->cleared_at).' '.(time()-$m->logged_at).'<br />';
            echo '<br />';
-           if ($m->cleared_at!=0 && (time()-$m->logged_at)>3600) continue;
+           if ((time()-$m->logged_at)>3600) {
+             // to do - consider clearing out these old ones
+             continue;
+           }
            // uncleared log entry older than TIMELAPSE
            if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE) { //
-
-             echo '<a href="'.Url::to(['/meeting-log/view','id'=>$m->id],true).'">view log</a>.<br />';
+             //echo '<a href="'.Url::to(['/meeting-log/view','id'=>$m->id],true).'">view log</a>.<br />';
              $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->groupBy('actor_id')->all();
              $current_actor=0;
              foreach ($logs as $log) {
-               echo '<br />';
-               echo $log->id.'<br />';
+               //echo '<br />';
+               //echo $log->id.'<br />';
                if ($log->actor_id<>$current_actor) {
                   $current_actor = $log->actor_id;
                  // new actor, let's notify others
