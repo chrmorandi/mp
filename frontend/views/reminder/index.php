@@ -21,15 +21,38 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
-
-            'duration_friendly',
-            //'unit',
-            //'duration',
-            // 'reminder_type',
-            // 'created_at',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+              'label'=>'Duration',
+                'attribute' => 'duration_friendly',
+                'format' => 'raw',
+                'value' => function ($model) {
+                        return '<div>'.$model->duration_friendly.'</div>';
+                    },
+            ],
+            [
+              'label'=>'Timespan',
+                'attribute' => 'unit',
+                'format' => 'raw',
+                'value' => function ($model) {
+                        return '<div>'.$model->displayUnits($model->unit).' before</div>';
+                    },
+            ],
+            [
+              'label'=>'Delivery',
+                'attribute' => 'reminder_type',
+                'format' => 'raw',
+                'value' => function ($model) {
+                        return '<div>via '.$model->displayType($model->reminder_type).'</div>';
+                    },
+            ],
+            ['class' => 'yii\grid\ActionColumn',
+              'template'=>'{update}&nbsp;&nbsp;{delete}',
+              'buttons'=>[
+                /*'delete' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-trash"></span>', $model->id, ['title' => Yii::t('yii', 'Delete'),]);
+                }*/
+              ],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

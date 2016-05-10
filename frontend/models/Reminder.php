@@ -58,7 +58,7 @@ class Reminder extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'duration_friendly', 'unit', 'duration', 'reminder_type', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'duration_friendly', 'unit', 'duration', 'reminder_type' ], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -115,5 +115,41 @@ class Reminder extends \yii\db\ActiveRecord
       $r2->reminder_type = Reminder::TYPE_EMAIL;
       $r2->duration = 1*24*3600;
       $r2->save();
+    }
+
+    public static function displayUnits($unit) {
+      switch ($unit) {
+        case Reminder::UNIT_MINUTES:
+          $str = 'minute(s)';
+        break;
+        case Reminder::UNIT_HOURS:
+          $str = 'hour(s)';
+        break;
+        case Reminder::UNIT_DAYS:
+          $str ='day(s)';
+        break;
+        default:
+          $str ='unknown — please email support';
+        break;
+      }
+      return $str;
+    }
+
+    public static function displayType($reminder_type) {
+      switch ($reminder_type) {
+        case Reminder::TYPE_EMAIL:
+          $str = 'email';
+        break;
+        case Reminder::TYPE_BOTH:
+          $str = 'email and text';
+        break;
+        case Reminder::TYPE_SMS:
+          $str ='text';
+        break;
+        default:
+          $str ='unknown — please email support';
+        break;
+      }
+      return $str;
     }
 }

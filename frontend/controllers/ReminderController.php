@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Reminder;
 use frontend\models\ReminderSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,12 +54,17 @@ class ReminderController extends Controller
      */
     public function actionIndex()
     {
+      $remProvider = new ActiveDataProvider([
+            'query' => Reminder::find()->joinWith('user')->where(['user_id'=>Yii::$app->user->getId()]),
+            //'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
+        ]);
+
         $searchModel = new ReminderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $remProvider,
         ]);
     }
 
@@ -82,14 +88,21 @@ class ReminderController extends Controller
     public function actionCreate()
     {
         $model = new Reminder();
+        $model->user_id = Yii::$app->user->getId();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+          //$model->setDuration();
+          $model->duration = 0;
+          if ($model->validate()) {
+            $model->save();
+            return $this->redirect('index');
+          } else {
+            // to do set flash
+          }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -103,7 +116,8 @@ class ReminderController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+          // to do set flash
+            return $this->redirect('index');
         } else {
             return $this->render('update', [
                 'model' => $model,
