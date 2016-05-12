@@ -122,9 +122,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $mrs = MeetingReminder::find()->where('due_at<='.time().' and status='.MeetingReminder::STATUS_PENDING)->all();
       foreach ($mrs as $mr) {
         // process each meeting reminder
-        var_dump($mr);continue;
+        //var_dump($mr);continue;
         $this->process($mr);
-
       }
     }
 
@@ -133,6 +132,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
       // deliver the email or sms
       // send updates about recent meeting changes made by $user_id
       $user_id = $mr->user_id;
+      $meeting_id = $mr->meeting_id;
       $mtg = Meeting::findOne($meeting_id);
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
