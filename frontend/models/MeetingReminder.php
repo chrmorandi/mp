@@ -142,7 +142,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
       if (empty($u->auth_key)) {
         return false;
       }
-      $chosen_time = Meeting::getChosenTime($meeting_id);
+      echo 'here';exit;
+       $chosen_time = Meeting::getChosenTime($meeting_id);
       $timezone = MiscHelpers::fetchUserTimezone($user_id);
       $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
       $a=['user_id'=>$user_id,
@@ -150,8 +151,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
        'email'=>$u->email,
        'username'=>$u->username
      ];
-     echo 'here';exit;
-      // check if email is okay and okay from this sender_id
+       // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
           // Build the absolute links to the meeting and commands
           $links=[
