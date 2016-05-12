@@ -42,7 +42,7 @@ class DaemonController extends Controller
   {
     // to do - remove this, fixed friends list for pre-existing users
     // \frontend\models\Fix::fixPreFriends();
-     \frontend\models\Fix::fixPreReminders();
+    //\frontend\models\Fix::fixPreReminders();
   }
 
 
