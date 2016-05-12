@@ -150,6 +150,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
        'email'=>$u->email,
        'username'=>$u->username
      ];
+     echo 'here';exit;
       // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
           // Build the absolute links to the meeting and commands
