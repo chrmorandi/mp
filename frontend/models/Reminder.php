@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\i18n\Formatter;
 use common\models\User;
+use frontend\models\MeetingReminder;
 
 /**
  * This is the model class for table "reminder".
@@ -30,6 +31,7 @@ class Reminder extends \yii\db\ActiveRecord
   const TYPE_EMAIL = 0;
   const TYPE_SMS = 10;
   const TYPE_BOTH = 20;
+
     /**
      * @inheritdoc
      */
@@ -101,12 +103,11 @@ class Reminder extends \yii\db\ActiveRecord
       // create initial reminders for a user
       $r1 = new Reminder();
       $r1->user_id = $user_id;
-      $r1->duration_friendly = 1;
+      $r1->duration_friendly = 3;
       $r1->unit = Reminder::UNIT_HOURS;
       $r1->reminder_type = Reminder::TYPE_EMAIL;
       $r1->duration = 3600;
       $r1->validate();
-      var_dump($r1->getErrors());
       $r1->save();
       $r2 = new Reminder();
       $r2->user_id = $user_id;
@@ -115,6 +116,13 @@ class Reminder extends \yii\db\ActiveRecord
       $r2->reminder_type = Reminder::TYPE_EMAIL;
       $r2->duration = 1*24*3600;
       $r2->save();
+      $r3 = new Reminder();
+      $r3->user_id = $user_id;
+      $r3->duration_friendly = 3;
+      $r3->unit = Reminder::UNIT_DAYS;
+      $r3->reminder_type = Reminder::TYPE_EMAIL;
+      $r3->duration = $r3->duration_friendly*24*3600;
+      $r3->save();
     }
 
     public static function displayUnits($unit) {
@@ -151,5 +159,91 @@ class Reminder extends \yii\db\ActiveRecord
         break;
       }
       return $str;
+    }
+
+    public static function setDuration($duration_friendly,$unit) {
+      $cnt_sec = 0;
+      switch ($unit) {
+        case Reminder::UNIT_MINUTES:
+          $cnt_sec = 60;
+        break;
+        case Reminder::UNIT_HOURS:
+          $cnt_sec = 3600;
+        break;
+        case Reminder::UNIT_DAYS:
+          $cnt_sec = 24*3600;
+        break;
+      }
+      return $cnt_sec;
+    }
+
+    public static function processNewReminder($reminder_id) {
+      $rem = Reminder::findOne($reminder_id);
+      // find all the meetings this user is a part of
+      // create meeting reminder for all meetings where this reminder's creator is the organizer
+      $mtgs = Meeting::find()->where(['owner_id'=>$rem->user_id])->all();
+      // to do performance - could add an open join above to participants
+      foreach ($mtgs as $m) {
+        MeetingReminder::create($m->id,$rem->user_id,$rem->id,$rem->duration);
+      }
+      // create meeting reminder for all meetings where this reminder's creator is a participant
+      $part_mtgs = Participant::find()->where(['participant_id'=>$rem->user_id])->all();
+      foreach ($part_mtgs as $m) {
+        MeetingReminder::create($m->id,$rem->user_id,$rem->id,$rem->duration);
+      }
+    }
+    
+    public static function processTimeChange($meeting_id,$chosen_time) {
+      // when a meeting time is set or changes, reset the reminders for all participants
+      // $chosen_time = Meeting::getChosenTime($meeting_id);
+      // clear out old meeting reminders for all users for this meeting
+      MeetingReminder::find()->where(['meeting_id'=>$meeting_id])->deleteAll();
+      // set meeting reminders for all users for this meeting
+      // note each user has different reminders
+      Reminder::setMeetingReminders($meeting_id,$chosen_time);
+    }
+
+    public static function setMeetingReminders($meeting_id,$chosen_time=0) {
+      $mtg = Meeting::findOne($meeting_id);
+      if ($chosen_time ==0) {
+        $chosen_time = Meeting::getChosenTime($meeting_id);
+      }
+      // create attendees list for organizer and participants
+      $attendees = array();
+      $attendees[0]=$mtg->owner_id;
+      $cnt =1;
+      foreach ($mtg->participants as $p) {
+        if ($p->status ==Participant::STATUS_DEFAULT) {
+          $attendees[$cnt]=$p->participant_id;
+          $cnt+=1;
+        }
+      }
+      // for each attendee
+      foreach ($attendees as $a) {
+        // for their reminders
+        $rems = Reminder::find()->where(['user_id'=>$a]);
+        foreach ($rems as $rem) {
+          // create a meeting reminder for that reminder at that time
+            MeetingReminder::create($meeting_id,$a,$rem->id,$rem->duration);
+        }
+      }
+    }
+
+    public static function updateReminder($reminder_id) {
+      // when user updates a reminder, update all the meeting reminders
+      $new_reminder = Reminder::findOne($reminder_id);
+      // delete old meeting reminders for this reminder_id
+      $mrs = MeetingReminder::find()->where(['reminder_id'=>$reminder_id])->all();
+      // update each meeting reminder
+      foreach ($mrs as $mr) {
+        $chosen_time = Meeting::getChosenTime($mr->meeting_id);
+        $mr->due_at = $chosen_time-$new_reminder->duration;
+        if ($mr->due_at>time()) {
+          $mr->status=MeetingReminder::STATUS_PENDING;
+        } else {
+          $mr->status=MeetingReminder::STATUS_COMPLETE;
+        }
+        $mr->update();
+      }
     }
 }

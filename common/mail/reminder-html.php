@@ -11,7 +11,8 @@ use frontend\models\UserContact;
   <tr>
     <td colspan="2">
       <p><em>Hi, this email is regarding our new service <?php echo HTML::a(Yii::t('frontend','Meeting Planner'),$links['home']); ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails.</em></p>
-      <p>Changes have been made to your meeting, <?php echo HTML::a(Yii::t('frontend','please review them here'),$links['view']); ?>.</p>
+      <p>This is just a reminder about your meeting coming up <?php echo $display_time; ?>. <?php echo HTML::a(Yii::t('frontend','View the meeting details'),$links['view']); ?>.</p>
+      <p><em>Stay tuned: Soon we'll embed a link to the map and some helpful features for if you're running late or need to call the other participant(s).</em></p>
     </td>
   </tr>
 </table>

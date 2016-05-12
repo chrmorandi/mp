@@ -236,4 +236,10 @@ class User extends ActiveRecord implements IdentityInterface
       return true;
     }
 
+    public static function completeInitialize($user_id) {
+      \frontend\models\UserProfile::initialize($user_id);
+      \frontend\models\UserSetting::initialize($user_id);
+      \frontend\models\Reminder::initialize($user_id);
+    }
+
 }

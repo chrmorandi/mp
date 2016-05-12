@@ -63,10 +63,6 @@ AppAsset::register($this);
     				                    'url' => ['/friend'],
     				                ],
       				                 [
-      				                    'label' => Yii::t('frontend','Settings'),
-      				                    'url' => ['/user-setting'],
-      				                ],
-                              [
                                  'label' => Yii::t('frontend','Profile'),
                                  'url' => ['/user-profile'],
                              ],
@@ -74,6 +70,14 @@ AppAsset::register($this);
                                 'label' => Yii::t('frontend','Contact information'),
                                 'url' => ['/user-contact'],
                             ],
+                            [
+                               'label' => Yii::t('frontend','Settings'),
+                               'url' => ['/user-setting'],
+                           ],
+                           [
+                              'label' => Yii::t('frontend','Reminders'),
+                              'url' => ['/reminder'],
+                          ],
       				                 [
       				                    'label' => Yii::t('frontend','Logout').' (' . Yii::$app->user->identity->username . ')',
       				                    'url' => ['/site/logout'],

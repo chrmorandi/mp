@@ -506,6 +506,8 @@ class Meeting extends \yii\db\ActiveRecord
           $this->status = self::STATUS_CONFIRMED;
           $this->update();
       }
+      // create all of each users reminders
+      Reminder::processTimeChange($this->id,$chosenTime);
       // add to log
       MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
       if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO) {
@@ -862,7 +864,7 @@ class Meeting extends \yii\db\ActiveRecord
        }
      }
 
-     public static function notify($meeting_id,$user_id) {       
+     public static function notify($meeting_id,$user_id) {
        // send updates about recent meeting changes made by $user_id
        $mtg = Meeting::findOne($meeting_id);
        $u = \common\models\User::find()->where(['id'=>$user_id])->one();

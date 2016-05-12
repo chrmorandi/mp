@@ -3,6 +3,8 @@
 namespace frontend\models;
 
 use Yii;
+use common\components\MiscHelpers;
+use frontend\models\Meeting;
 
 /**
  * This is the model class for table "meeting_reminder".
@@ -95,6 +97,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
     }
 
     public static function create($meeting_id,$user_id,$reminder_id,$differential) {
+        // delete any previously existing reminder for this meeting
+         MeetingReminder::find()->where(['meeting_id'=>$meeting_id,'reminder_id'=>$reminder_id])->deleteAll();
          $mtg = Meeting::findOne($meeting_id);
          $mr = new MeetingReminder;
          $mr->meeting_id = $meeting_id;
@@ -120,14 +124,18 @@ class MeetingReminder extends \yii\db\ActiveRecord
     public static function process($mr) {
       // fetch the reminder
       // deliver the email or sms
-
       // send updates about recent meeting changes made by $user_id
+      $user_id = $mr->user_id;
       $mtg = Meeting::findOne($meeting_id);
+      // only send reminders for meetings that are confirmed
+      if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
       $u = \common\models\User::find()->where(['id'=>$user_id])->one();
       if (empty($u->auth_key)) {
         return false;
       }
-      echo $u->email;
+      $chosen_time = Meeting::getChosenTime($meeting_id);
+      $timezone = MiscHelpers::fetchUserTimezone($user_id);
+      $display_time = Meeting::friendlyDateFromTimestamp($chosen_time,$timezone);
       $a=['user_id'=>$user_id,
        'auth_key'=>$u->auth_key,
        'email'=>$u->email,
@@ -153,6 +161,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'sender_id'=> $user_id,
             'user_id' => $a['user_id'],
             'auth_key' => $a['auth_key'],
+            'display_time' => $display_time,
             'links' => $links,
             'meetingSettings' => $mtg->meetingSettings,
         ]);

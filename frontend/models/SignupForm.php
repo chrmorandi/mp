@@ -49,6 +49,7 @@ class SignupForm extends Model
             $user->setPassword($this->password);
             $user->generateAuthKey();
             $user->save();
+            $user->completeInitialize($user->id);
             return $user;
         }
 

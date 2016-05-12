@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\Reminder;
+use frontend\models\MeetingReminder;
 use frontend\models\ReminderSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -89,15 +90,17 @@ class ReminderController extends Controller
     {
         $model = new Reminder();
         $model->user_id = Yii::$app->user->getId();
-
+        $model->duration = 0;
         if ($model->load(Yii::$app->request->post())) {
-          //$model->setDuration();
-          $model->duration = 0;
+          $model->duration = $model->setDuration($model->duration_friendly,$model->unit);
           if ($model->validate()) {
             $model->save();
+            Reminder::processNewReminder($model->id);
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your reminder has been created for all current and future meetings.'));
             return $this->redirect('index');
           } else {
             // to do set flash
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','There was a problem creating your reminder.'));
           }
         }
         return $this->render('create', [
@@ -114,10 +117,11 @@ class ReminderController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-          // to do set flash
-            return $this->redirect('index');
+          // update all the meeting reminders for this reminder
+          $model->updateReminder($id);
+          Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your reminder has been updated for all current and future meetings.'));
+          return $this->redirect('index');
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -134,7 +138,7 @@ class ReminderController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        MeetingReminder::find()->where(['reminder_id'=>$id])->deleteAll();
         return $this->redirect(['index']);
     }
 

@@ -257,6 +257,7 @@ class SiteController extends Controller
                   $user_id = $auth->user_id;
                   $person = new \common\models\User;
                   $identity = $person->findIdentity($user_id);
+                  User::completeInitialize($user_id);
                   UserProfile::applySocialNames($user_id,$firstname,$lastname,$fullname);
                   Yii::$app->user->login($identity);
                 } else {
@@ -299,6 +300,7 @@ class SiteController extends Controller
                             ]);
                             if ($auth->save()) {
                                 $transaction->commit();
+                                User::completeInitialize($user->id);
                                 UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
                                 Yii::$app->user->login($user);
                             } else {
