@@ -135,7 +135,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $meeting_id = $mr->meeting_id;
       echo 'here';
       echo $meeting_id;
-      $mtg = Meeting::findOne($meeting_id);
+      //$mtg = Meeting::findOne($meeting_id);
       var_dump($mtg);exit;
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
