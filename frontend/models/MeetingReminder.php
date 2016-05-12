@@ -122,8 +122,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $mrs = MeetingReminder::find()->where('due_at<='.time().' and status='.MeetingReminder::STATUS_PENDING)->all();
       foreach ($mrs as $mr) {
         // process each meeting reminder
-        //var_dump($mr);continue;
-        $this->process($mr);
+        var_dump($mr);continue;
+        //$this->process($mr);
       }
     }
 
