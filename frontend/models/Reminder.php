@@ -123,6 +123,9 @@ class Reminder extends \yii\db\ActiveRecord
       $r3->reminder_type = Reminder::TYPE_EMAIL;
       $r3->duration = $r3->duration_friendly*24*3600;
       $r3->save();
+      Reminder::processNewReminder($r1->id);
+      Reminder::processNewReminder($r2->id);
+      Reminder::processNewReminder($r3->id);
     }
 
     public static function displayUnits($unit) {
@@ -192,7 +195,7 @@ class Reminder extends \yii\db\ActiveRecord
         MeetingReminder::create($m->id,$rem->user_id,$rem->id,$rem->duration);
       }
     }
-    
+
     public static function processTimeChange($meeting_id,$chosen_time) {
       // when a meeting time is set or changes, reset the reminders for all participants
       // $chosen_time = Meeting::getChosenTime($meeting_id);
