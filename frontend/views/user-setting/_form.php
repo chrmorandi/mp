@@ -22,9 +22,9 @@ use yii\widgets\ActiveForm;
          <div class="tab-content">
            <div class="tab-pane active vertical-pad" id="general">
 
-               <?/*= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); */?>
+               <?php /*= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); */?>
 
-               <?/*= $form->field($model, 'reminder_hours')
+               <?php /*= $form->field($model, 'reminder_hours')
                        ->dropDownList(
                            $model->getEarlyReminderOptions(),
            	                ['prompt'=>Yii::t('frontend','When would you like your early reminder?')]
