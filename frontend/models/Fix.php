@@ -33,7 +33,9 @@ class Fix
     // need default reminders created
     $users = User::find()->all();
     foreach ($users as $u) {
+      echo $u->id;
       $cnt = Reminder::find()->where(['user_id'=>$u->id])->count();
+      echo ' '.$cnt.'<br />';
       if ($cnt==0) {
         Reminder::initialize($u->id);
       }
