@@ -582,6 +582,9 @@ class Meeting extends \yii\db\ActiveRecord
             if (is_null($chosenTime)) {
               $chosenTime = new MeetingTime;
               $chosenTime->meeting_id = $meeting_id;
+              $chosenTime->start = time();
+              $chosenTime->duration = 3600;
+              $chosenTime->end = time()+3600;
               $chosenTime->status = MeetingTime::STATUS_SELECTED;
               $chosenTime->suggested_by = Yii::$app->user->getId();
               $chosenTime->save();

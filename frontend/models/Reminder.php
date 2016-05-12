@@ -200,15 +200,15 @@ class Reminder extends \yii\db\ActiveRecord
       // when a meeting time is set or changes, reset the reminders for all participants
       // $chosen_time = Meeting::getChosenTime($meeting_id);
       // clear out old meeting reminders for all users for this meeting
-      MeetingReminder::find()->where(['meeting_id'=>$meeting_id])->deleteAll();
+      MeetingReminder::deleteAll(['meeting_id'=>$meeting_id]);
       // set meeting reminders for all users for this meeting
       // note each user has different reminders
       Reminder::setMeetingReminders($meeting_id,$chosen_time);
     }
 
-    public static function setMeetingReminders($meeting_id,$chosen_time=0) {
+    public static function setMeetingReminders($meeting_id,$chosen_time=false) {
       $mtg = Meeting::findOne($meeting_id);
-      if ($chosen_time ==0) {
+      if ($chosen_time ===false) {
         $chosen_time = Meeting::getChosenTime($meeting_id);
       }
       // create attendees list for organizer and participants
@@ -235,12 +235,11 @@ class Reminder extends \yii\db\ActiveRecord
     public static function updateReminder($reminder_id) {
       // when user updates a reminder, update all the meeting reminders
       $new_reminder = Reminder::findOne($reminder_id);
-      // delete old meeting reminders for this reminder_id
       $mrs = MeetingReminder::find()->where(['reminder_id'=>$reminder_id])->all();
       // update each meeting reminder
       foreach ($mrs as $mr) {
         $chosen_time = Meeting::getChosenTime($mr->meeting_id);
-        $mr->due_at = $chosen_time-$new_reminder->duration;
+        $mr->due_at = $chosen_time->start-$new_reminder->duration;
         if ($mr->due_at>time()) {
           $mr->status=MeetingReminder::STATUS_PENDING;
         } else {

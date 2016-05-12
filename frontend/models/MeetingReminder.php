@@ -93,7 +93,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
     // clears and re-adds meeting reminders for a meeting for each user
     public static function reset($meeting_id,$user_id) {
         // delete all reminder for this meeting and user
-         MeetingReminder::find()->where(['meeting_id'=>$meeting_id,'user_id'=>$user_id])->deleteAll();
+         MeetingReminder::deleteAll(['meeting_id'=>$meeting_id,'user_id'=>$user_id]);
     }
 
     public static function create($meeting_id,$user_id,$reminder_id,$differential) {
@@ -104,7 +104,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
          $mr = new MeetingReminder;
          $mr->meeting_id = $meeting_id;
          $mr->user_id = $user_id;
-         $mr->due_at = $chosen_time-$differential;
+         $mr->due_at = $chosen_time->start-$differential;
          if ($mr->due_at>time()) {
            $mr->status=MeetingReminder::STATUS_PENDING;
          } else {
@@ -136,7 +136,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
       }
       $chosen_time = Meeting::getChosenTime($meeting_id);
       $timezone = MiscHelpers::fetchUserTimezone($user_id);
-      $display_time = Meeting::friendlyDateFromTimestamp($chosen_time,$timezone);
+      $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
       $a=['user_id'=>$user_id,
        'auth_key'=>$u->auth_key,
        'email'=>$u->email,
