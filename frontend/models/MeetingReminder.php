@@ -133,7 +133,10 @@ class MeetingReminder extends \yii\db\ActiveRecord
       // send updates about recent meeting changes made by $user_id
       $user_id = $mr->user_id;
       $meeting_id = $mr->meeting_id;
+      echo 'here';
+      echo $meeting_id;
       $mtg = Meeting::findOne($meeting_id);
+      var_dump($mtg);exit;
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
       // only send reminders that are less than a day late
@@ -142,7 +145,6 @@ class MeetingReminder extends \yii\db\ActiveRecord
       if (empty($u->auth_key)) {
         return false;
       }
-      echo 'here';exit;
        $chosen_time = Meeting::getChosenTime($meeting_id);
       $timezone = MiscHelpers::fetchUserTimezone($user_id);
       $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
