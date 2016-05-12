@@ -577,16 +577,21 @@ class Meeting extends \yii\db\ActiveRecord
       public static function getChosenTime($meeting_id) {
           $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingTime::STATUS_SELECTED])->one();
           if (is_null($chosenTime)) {
-            // no chosen Time, set it as chosen
+            // no chosen Time, set first one as chosen
             $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id])->one();
             if (is_null($chosenTime)) {
+              // patches old testing platform in real time (meeting time might not exist)
+              $mtg = Meeting::findOne($meeting_id);
+              if (is_null($mtg)) return;
               $chosenTime = new MeetingTime;
               $chosenTime->meeting_id = $meeting_id;
-              $chosenTime->start = time();
+              $chosenTime->start = time()+48*3600;
               $chosenTime->duration = 3600;
-              $chosenTime->end = time()+3600;
+              $chosenTime->end = $chosenTime->start + 3600;
               $chosenTime->status = MeetingTime::STATUS_SELECTED;
-              $chosenTime->suggested_by = Yii::$app->user->getId();
+              $chosenTime->suggested_by = $mtg->owner_id;
+              $chosenTime->created_at = time();
+              $chosenTime->updated_at= time();
               $chosenTime->save();
               // need to create entry
             } else {

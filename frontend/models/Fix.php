@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use common\models\User;
 use frontend\models\Friend;
 use frontend\models\Reminder;
+use frontend\models\MeetingReminder;
 
 class Fix
 {
@@ -30,18 +31,17 @@ class Fix
 
   public static function fixPreReminders() {
     // legacy users before the new reminder model
-    // need default reminders created
+    // need default reminders created    
     $users = User::find()->all();
     foreach ($users as $u) {
       $rems = Reminder::find()->where(['user_id'=>$u->id])->all();
       if (count($rems)==0) {
         Reminder::initialize($u->id);
-      } else {
-        foreach ($rems as $r) {
-          Reminder::processNewReminder($r->id);
-        }
+        $rems = Reminder::find()->where(['user_id'=>$u->id])->all();
       }
-
+      foreach ($rems as $r) {
+        Reminder::processNewReminder($r->id);
+      }
     }
   }
 }

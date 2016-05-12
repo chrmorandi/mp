@@ -100,8 +100,12 @@ class MeetingReminder extends \yii\db\ActiveRecord
         // delete any previously existing reminder for this meeting
          MeetingReminder::deleteAll(['meeting_id'=>$meeting_id,'reminder_id'=>$reminder_id]);
          $mtg = Meeting::findOne($meeting_id);
+         if (is_null($mtg)) {
+           return false;
+         }
          $chosen_time = Meeting::getChosenTime($meeting_id);
          $mr = new MeetingReminder;
+         $mr->reminder_id = $reminder_id;
          $mr->meeting_id = $meeting_id;
          $mr->user_id = $user_id;
          $mr->due_at = $chosen_time->start-$differential;
