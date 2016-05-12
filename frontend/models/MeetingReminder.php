@@ -119,11 +119,10 @@ class MeetingReminder extends \yii\db\ActiveRecord
 
     // frequent cron task will call to check on due reminders
     public static function check() {
-      $mrs = MeetingReminder::find()->where('due_at>'.time().' and status='.MeetingReminder::STATUS_PENDING)->all();
+      $mrs = MeetingReminder::find()->where('due_at<='.time().' and status='.MeetingReminder::STATUS_PENDING)->all();
       foreach ($mrs as $mr) {
         // process each meeting reminder
-        // $this->process($mr);
-        var_dump($mr);
+        $this->process($mr);
       }
     }
 
