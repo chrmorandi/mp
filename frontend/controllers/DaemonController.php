@@ -6,6 +6,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\data\ActiveDataProvider;
 use frontend\models\Meeting;
+use frontend\models\MeetingReminder;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,14 +43,16 @@ class DaemonController extends Controller
   {
     // to do - remove this, fixed friends list for pre-existing users
     // \frontend\models\Fix::fixPreFriends();
-  \frontend\models\Fix::fixPreReminders();
+    // \frontend\models\Fix::fixPreReminders();
   }
 
 
 public function actionFrequent() {
   // called every three minutes
+  // notify users about fresh changes
   Meeting::findFresh();
-  //MeetingReminder::check();
+  // send meeting reminders that are due
+  MeetingReminder::check();
   // to do - turn off output
 }
 
