@@ -98,7 +98,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
 
     public static function create($meeting_id,$user_id,$reminder_id,$differential) {
         // delete any previously existing reminder for this meeting
-         MeetingReminder::find()->where(['meeting_id'=>$meeting_id,'reminder_id'=>$reminder_id])->deleteAll();
+         MeetingReminder::deleteAll(['meeting_id'=>$meeting_id,'reminder_id'=>$reminder_id]);
          $mtg = Meeting::findOne($meeting_id);
          $mr = new MeetingReminder;
          $mr->meeting_id = $meeting_id;
