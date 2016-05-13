@@ -122,8 +122,9 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $mrs = MeetingReminder::find()->where('due_at<='.time().' and status='.MeetingReminder::STATUS_PENDING)->all();
       foreach ($mrs as $mr) {
         // process each meeting reminder
-        var_dump($mr);continue;
-        //$this->process($mr);
+        //var_dump($mr);continue;
+        var_dump($mr);echo '<p><br /></p>';
+        MeetingReminder::process($mr);
       }
     }
 
@@ -133,15 +134,15 @@ class MeetingReminder extends \yii\db\ActiveRecord
       // send updates about recent meeting changes made by $user_id
       $user_id = $mr->user_id;
       $meeting_id = $mr->meeting_id;
-      echo 'here';
-      echo $meeting_id;
-      //$mtg = Meeting::findOne($meeting_id);
-      var_dump($mtg);exit;
+      echo 'step b';
+      $mtg = Meeting::findOne($meeting_id);
+      echo 'step c';
+      //var_dump($mtg);exit;
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
       // only send reminders that are less than a day late
       if ((time()-$mr->due_at)>(24*3600+1)) return false;
-      $u = \common\models\User::find()->where(['id'=>$user_id])->one();
+      $u = \common\models\User::findOne($user_id);
       if (empty($u->auth_key)) {
         return false;
       }
@@ -153,6 +154,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
        'email'=>$u->email,
        'username'=>$u->username
      ];
+     echo 'step d';
        // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
           // Build the absolute links to the meeting and commands
@@ -184,7 +186,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
                 ->send();
           }
        }
+       echo 'step e';
       $mr->status=MeetingReminder::STATUS_COMPLETE;
-      $mr->save();
+      $mr->update();
     }
 }
