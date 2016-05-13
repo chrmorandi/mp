@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use Yii;
-use common\components\User;
+use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
 
