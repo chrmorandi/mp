@@ -23,15 +23,18 @@ ComboAsset::register($this);
 
     <?= $form->errorSummary($model); ?>
 
+<?php
+  $ups=[];
+  $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
+  if (count($up)>0) {
+    ?>
+
     <h3>Choose one of your places</h3>
     <div class="row">
       <div class="col-md-6">
-
 <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
   <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
     <?php
-    $ups=[];
-    $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     foreach ($up as $p) {
       $ups[]=$p->place->name;
       ?>
@@ -40,24 +43,28 @@ ComboAsset::register($this);
     }
     ?>
 </select>
-
     <h3>- or -</h3>
+
+<?php
+  }
+    ?>
+    <div class="col-md-8">
     <h3>Choose from Google Places</h3>
       <p>Type in a place or business known to Google Places:</p>
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Place') ?>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div id="map-canvas">
           <article></article>
         </div>
       </div>
-      </div> <!-- end row -->
         <?= BaseHtml::activeHiddenInput($model, 'name'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'google_place_id'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'location'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'website'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'vicinity'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
+        </div> <!-- end row -->
     <div class="clearfix"></div>
     <div class="row vertical-pad">
       <div class="form-group">
