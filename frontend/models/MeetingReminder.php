@@ -124,7 +124,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
       foreach ($mrs as $mr) {
         // process each meeting reminder
         //var_dump($mr);continue;
-        var_dump($mr);echo '<p><br /></p>';
+        //var_dump($mr);echo '<p><br /></p>';
         MeetingReminder::process($mr);
       }
     }
@@ -135,9 +135,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
       // send updates about recent meeting changes made by $user_id
       $user_id = $mr->user_id;
       $meeting_id = $mr->meeting_id;
-      echo 'step b';
       $mtg = Meeting::findOne($meeting_id);
-      echo 'step c';
       //var_dump($mtg);exit;
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
@@ -155,7 +153,6 @@ class MeetingReminder extends \yii\db\ActiveRecord
        'email'=>$u->email,
        'username'=>$u->username
      ];
-     echo 'step d';
        // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
           // Build the absolute links to the meeting and commands
@@ -187,7 +184,6 @@ class MeetingReminder extends \yii\db\ActiveRecord
                 ->send();
           }
        }
-       echo 'step e';
       $mr->status=MeetingReminder::STATUS_COMPLETE;
       $mr->update();
     }
