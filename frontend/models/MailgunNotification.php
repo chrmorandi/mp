@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
+use common\models\Yiigun;
 use common\components\MiscHelpers;
 
 /**
@@ -17,6 +18,9 @@ use common\components\MiscHelpers;
  */
 class MailgunNotification extends \yii\db\ActiveRecord
 {
+  const STATUS_PENDING = 0;
+  const STATUS_READ = 1;
+
     /**
      * @inheritdoc
      */
@@ -61,5 +65,12 @@ class MailgunNotification extends \yii\db\ActiveRecord
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
+    }
+
+    public function process() {
+      $yg = new Yiigun();
+      //$yg->send_simple_message('jeff@meetingplanner.io','newscloud@gmail.com','Monitor Test Result','because i said so');
+      $response = $yg->get('domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
+      var_dump($response);
     }
 }

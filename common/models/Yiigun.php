@@ -38,8 +38,9 @@ class Yiigun
   }
 
   public function get($url='') {
+    echo $url;
     $result = $this->mg->get($url);
-    return result;
+    return $result;
   }
 
   public function send_html_message($from='',$to='',$subject='',$bodyHtml='') {

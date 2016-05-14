@@ -5,6 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use common\models\Yiigun;
+use frontend\models\MailgunNotification;
 
 class MailgunNotificationController extends \yii\web\Controller
 {
@@ -50,21 +51,17 @@ class MailgunNotificationController extends \yii\web\Controller
     }
 
     public function actionTest() {
-      $yg = new Yiigun();
-      $response = $yg->get('https://api.mailgun.net/v2/domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
     }
 
     public function actionStore()
     {
-
-        //$mn = new MailgunNotification();
-        //foreach ($_POST as $k => $p) {
-          //error_log($k .'='. $p);
-        //}
-        error_log($_POST['from']);
-        error_log($_POST['message-url']);
-
-        exit;
+      // to do - security clean post url
+      if (exists($_POST['message-url'])) {
+        $mn = new MailgunNotification();
+        $mn->status = MailgunNotification::STATUS_PENDING;
+        $mn->url = $_POST['message-url'];
+        $mn->save();
+      }
     }
 
 }
