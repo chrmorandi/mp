@@ -54,6 +54,8 @@ public function actionFrequent() {
   // send meeting reminders that are due
   MeetingReminder::check();
   // to do - turn off output
+  // look for new messages in the store
+  Meeting::checkMail();
 }
 
 public function actionQuarter() {

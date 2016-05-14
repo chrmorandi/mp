@@ -916,4 +916,5 @@ class Meeting extends \yii\db\ActiveRecord
            }
         }
      }
+    
 }
