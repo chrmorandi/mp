@@ -86,12 +86,12 @@ class MailgunNotification extends \yii\db\ActiveRecord
       foreach ($items as $m) {
         echo $m->id.'<br />';
         $response = $yg->get($m->url);
-        //var_dump($response);
+        var_dump($response);
         // parse the meeting id
-        $to_address = str_ireplace('@meetingplanner.io','',$response->To);
+        $to_address = str_ireplace('@meetingplanner.io','',$response->to);
         $to_address = str_ireplace('mp_','',$to_address);
         // verify meeting id is valid
-        $sender = $response->Sender;
+        $sender = $response->sender;
         // verify sender is a participant or organizer to this meeting
         // add meeting note with log entry
         // mark as read
