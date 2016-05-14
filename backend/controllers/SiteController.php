@@ -56,17 +56,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-      if (!\Yii::$app->user->isGuest) {
-        $u=new User;
-        $u->findOne(Yii::$app->user->getId());
-        if ($u->isAdmin()) {
-          return $this->render('index');
-        } else {
-            $this->redirect('http://meetingplanner.io');
-        }
-      } else {
-        $this->redirect('http://meetingplanner.io');
-      }
+        return $this->render('index');    
     }
 
     public function actionLogin()
