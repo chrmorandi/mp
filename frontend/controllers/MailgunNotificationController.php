@@ -53,7 +53,10 @@ class MailgunNotificationController extends \yii\web\Controller
         //$mn = new MailgunNotification();
         //echo 'hi';
         //Yii::error('apple','beta');
-        error_log('from mg:'.implode($_POST));
+        foreach ($_POST as $k => $p) {
+          error_log($k .'='. $p);  
+        }
+
         exit;
     }
 
