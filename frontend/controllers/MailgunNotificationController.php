@@ -50,13 +50,14 @@ class MailgunNotificationController extends \yii\web\Controller
 
     public function actionStore()
     {
+
         //$mn = new MailgunNotification();
         //echo 'hi';
         //Yii::error('apple','beta');
-        foreach ($_POST as $k => $p) {
-          error_log($k .'='. $p);  
-        }
-
+        //foreach ($_POST as $k => $p) {
+          //error_log($k .'='. $p);
+        //}
+        error_log($_POST['message-url']);
         exit;
     }
 
