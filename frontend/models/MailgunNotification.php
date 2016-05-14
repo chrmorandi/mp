@@ -69,7 +69,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
 
     public function process() {
       $yg = new Yiigun();
-      $items = MailgunNotification::find()->where('status'=>MailgunNotification::STATUS_PENDING)->all();
+      $items = MailgunNotification::find()->where(['status'=>MailgunNotification::STATUS_PENDING])->all();
       foreach ($items as $m) {
         echo $m->id.'<br />';
         $response = $yg->get('domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
