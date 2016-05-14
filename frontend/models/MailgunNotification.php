@@ -114,8 +114,9 @@ class MailgunNotification extends \yii\db\ActiveRecord
         echo $sender;
         echo '<br><br>';
         // to do - security clean post body
-        $m->status = MailgunNotification::STATUS_READ;
-        $m->update();
+        //$m->status = MailgunNotification::STATUS_READ;
+        //$m->update();
+        $yg->delete($m->url);
         echo '<br><br>';
       }
     }
