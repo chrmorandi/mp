@@ -56,16 +56,8 @@ class MailgunNotificationController extends \yii\web\Controller
 
     public function actionStore()
     {
-      // to do - security clean post url
       if (isset($_POST['message-url'])) {
-        $mn = new MailgunNotification();
-        $mn->status = MailgunNotification::STATUS_PENDING;
-        $temp = str_ireplace('https://api.mailgun.net/v2/','',$_POST['message-url']);
-        $temp = str_ireplace('https://api.mailgun.net/v3/','',$temp);
-        $mn->url = $temp;
-        $mn->save();
-        Yii::error('test1: ');
-        error_log('test2: ');
+        MailgunNotification::store($_POST['message-url']);
       }
     }
 

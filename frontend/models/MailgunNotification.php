@@ -67,15 +67,42 @@ class MailgunNotification extends \yii\db\ActiveRecord
         ];
     }
 
+    public function store($message_url) {
+      // store the url from mailgun notification
+        $mn = new MailgunNotification();
+        $mn->status = MailgunNotification::STATUS_PENDING;
+        $temp = str_ireplace('https://api.mailgun.net/v2/','',$message_url);
+        $temp = str_ireplace('https://api.mailgun.net/v3/','',$temp);
+        $mn->url = $temp;
+        $mn->save();
+    }
+
     public function process() {
-      $yg = new Yiigun();
       $items = MailgunNotification::find()->where(['status'=>MailgunNotification::STATUS_PENDING])->all();
+      if (count($items)==0) {
+        return false;
+      }
+      $yg = new Yiigun();
       foreach ($items as $m) {
         echo $m->id.'<br />';
-        $response = $yg->get('domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
-        var_dump($response);
+        $response = $yg->get($m->url);
+        //var_dump($response);
+        // parse the meeting id
+        $to_address = str_ireplace('@meetingplanner.io','',$response['To']);
+        $to_address = str_ireplace('mp_','',$to_address);
+        // verify meeting id is valid
+        $sender = $response['Sender'];
+        // verify sender is a participant or organizer to this meeting
+        // add meeting note with log entry
+        // mark as read
+        echo $to_address;
+        echo '<br><br>';
+        echo $sender;
+        echo '<br><br>';
+        // to do - security clean post body
+        $mn->status = MailgunNotification::STATUS_READ;
+        $mn->update();
         echo '<br><br>';
       }
-
     }
 }
