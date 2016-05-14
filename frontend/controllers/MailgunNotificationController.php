@@ -8,12 +8,12 @@ class MailgunNotificationController extends \yii\web\Controller
   public function behaviors()
   {
       return [
-        /*  'verbs' => [
+          'verbs' => [
               'class' => VerbFilter::className(),
               'actions' => [
                   'store' => ['post'],
               ],
-          ],*/
+          ],
         'access' => [
                       'class' => \yii\filters\AccessControl::className(),
                       'only' => ['store'],
@@ -35,6 +35,16 @@ class MailgunNotificationController extends \yii\web\Controller
       ];
   }
 
+
+  public function beforeAction()
+    {
+        if ($this->action->id == 'store') {
+            Yii::$app->controller->enableCsrfValidation = false;
+        }
+
+        return true;
+
+    }
 
     public function actionStore()
     {
