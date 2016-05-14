@@ -1,6 +1,8 @@
 <?php
 
 namespace frontend\controllers;
+use Yii;
+use yii\web\Controller;
 use yii\filters\VerbFilter;
 
 class MailgunNotificationController extends \yii\web\Controller
@@ -36,7 +38,7 @@ class MailgunNotificationController extends \yii\web\Controller
   }
 
 
-  public function beforeAction()
+  public function beforeAction($action)
     {
         //if ($this->action->id == 'store') {
             Yii::$app->controller->enableCsrfValidation = false;
