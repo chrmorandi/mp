@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\UserContactSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('frontend', 'Contact Information');
+$this->title = Yii::t('frontend', 'Your Contact Information');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-contact-index">

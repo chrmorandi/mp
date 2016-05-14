@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
            'modelClass' => 'Place',
         ]), ['create'], ['class' => 'btn btn-success']) ?>
         // to do - readd when https is available
-        <? //= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?> 
+        <? //= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('frontend','Add a Google {modelClass}',[
            'modelClass' => 'Place'
         ]), ['create_place_google'], ['class' => 'btn btn-success']) ?>

@@ -18,23 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             [
-              'label'=>'Duration',
+              'label'=>'Time Before',
                 'attribute' => 'duration_friendly',
                 'format' => 'raw',
                 'value' => function ($model) {
-                        return '<div>'.$model->duration_friendly.'</div>';
-                    },
-            ],
-            [
-              'label'=>'Timespan',
-                'attribute' => 'unit',
-                'format' => 'raw',
-                'value' => function ($model) {
-                        return '<div>'.$model->displayUnits($model->unit).' before</div>';
+                        return '<div>'.$model->duration_friendly.' '.$model->displayUnits($model->unit).'</div>';
                     },
             ],
             [
@@ -47,11 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['class' => 'yii\grid\ActionColumn',
               'template'=>'{update}&nbsp;&nbsp;{delete}',
-              'buttons'=>[
-                /*'delete' => function ($url, $model) {
-                  return Html::a('<span class="glyphicon glyphicon-trash"></span>', $model->id, ['title' => Yii::t('yii', 'Delete'),]);
-                }*/
-              ],
             ],
         ],
     ]); ?>

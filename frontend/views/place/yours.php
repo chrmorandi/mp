@@ -19,31 +19,31 @@ $this->params['breadcrumbs'][] = $this->title;
          <?= Html::a(Yii::t('frontend', 'Create {modelClass}', [
            'modelClass' => 'Place',
         ]), ['create'], ['class' => 'btn btn-success']) ?>
-        
-        <?= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?> 
+
+        <?= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('frontend','Add a Google {modelClass}',[
            'modelClass' => 'Place'
-        ]), ['create_place_google'], ['class' => 'btn btn-success']) ?> 
+        ]), ['create_place_google'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+          //  ['class' => 'yii\grid\SerialColumn'],
             'name',
             [
                 'attribute' => 'place_type',
                 'format' => 'raw',
-                'value' => function ($model) {                      
+                'value' => function ($model) {
                             return '<div>'.$model->getPlaceType($model->place_type).'</div>';
                     },
             ],
             ['class' => 'yii\grid\ActionColumn',
 				      'template'=>'{view} {update} ',
 					    'buttons'=>[
-                'view' => function ($url, $model) {     
-                  return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',$model->slug, ['title' => Yii::t('yii', 'View'),]);	
+                'view' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',$model->slug, ['title' => Yii::t('yii', 'View'),]);
 						      }
 							],
 			      ],

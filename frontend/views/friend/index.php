@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('frontend', 'Create {modelClass}', [
+        <?= Html::a(Yii::t('frontend', Yii::t('frontend','Add a Friend'), [
     'modelClass' => 'Friend',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>

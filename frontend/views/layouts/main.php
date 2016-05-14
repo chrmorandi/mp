@@ -112,12 +112,11 @@ AppAsset::register($this);
           }
            ?>
         <p class="pull-right">
-        <?php
+        <?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?><?php
         if (!Yii::$app->user->isGuest) {
-          echo Html::a('&copy; Lookahead Consulting '.date('Y'),'http://lookahead.io').'&nbsp;|&nbsp';
+          echo '&nbsp;|&nbsp;'.Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io').'';
         }
         ?>
-        <?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
         </p>
         </div>
     </footer>

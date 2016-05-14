@@ -136,7 +136,7 @@ if ($mode =='upcoming' || $mode =='past') {
 ?>
 
     <p>
-        <?= Html::a(Yii::t('frontend', 'Create {modelClass}', [
+        <?= Html::a(Yii::t('frontend', Yii::t('frontend','Schedule a Meeting'), [
     'modelClass' => 'Meeting',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
