@@ -56,7 +56,7 @@ class MailgunNotificationController extends \yii\web\Controller
     public function actionStore()
     {
       // to do - security clean post url
-      if (exists($_POST['message-url'])) {
+      if (isset($_POST['message-url'])) {
         $mn = new MailgunNotification();
         $mn->status = MailgunNotification::STATUS_PENDING;
         $mn->url = $_POST['message-url'];
