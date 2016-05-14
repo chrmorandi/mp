@@ -38,9 +38,9 @@ class MailgunNotificationController extends \yii\web\Controller
 
   public function beforeAction()
     {
-        if ($this->action->id == 'store') {
+        //if ($this->action->id == 'store') {
             Yii::$app->controller->enableCsrfValidation = false;
-        }
+        //}
 
         return true;
 
@@ -49,7 +49,7 @@ class MailgunNotificationController extends \yii\web\Controller
     public function actionStore()
     {
         //$mn = new MailgunNotification();
-        //error_log('from mg:'.json_decode($_POST));
+        error_log('from mg:'.json_decode($_POST));
         exit;
     }
 
