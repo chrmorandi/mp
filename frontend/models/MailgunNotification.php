@@ -85,7 +85,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
       $yg = new Yiigun();
       foreach ($items as $m) {
         //echo $m->id.'<br />';
-        $raw_response = $yg->get($m->url);      
+        $raw_response = $yg->get($m->url);
         //var_dump ($response->http_response_body);
         $response = $raw_response->http_response_body;
         // parse the meeting id
@@ -103,17 +103,20 @@ class MailgunNotification extends \yii\db\ActiveRecord
           $sender = $response->sender;
         }
         // verify sender is a participant or organizer to this meeting
+        // verify Sender and look up id
         // add meeting note with log entry
-        // mark as read
-        echo $to_address;
-        echo '<br><br>';
-        echo $sender;
-        echo '<br><br>';
+        // filter the body
         // to do - security clean post body
+        // MeetingNote::add
+        echo $to_address;
+        echo ' => ';
+        echo $sender;
+        echo '<br>';
+        // delete the message from the store
         $yg->delete($m->url);
+        // mark as read
         $m->status = MailgunNotification::STATUS_READ;
         $m->update();
-        echo '<br><br>';
       }
     }
 }
