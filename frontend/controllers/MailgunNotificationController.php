@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use yii\filters\VerbFilter;
 
 class MailgunNotificationController extends \yii\web\Controller
 {
