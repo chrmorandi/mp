@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use common\models\Yiigun;
 
 class MailgunNotificationController extends \yii\web\Controller
 {
@@ -18,7 +19,7 @@ class MailgunNotificationController extends \yii\web\Controller
           ],
         'access' => [
                       'class' => \yii\filters\AccessControl::className(),
-                      'only' => ['store'],
+                      'only' => ['store','test'],
                       'rules' => [
                         // allow authenticated users
                          [
@@ -28,7 +29,7 @@ class MailgunNotificationController extends \yii\web\Controller
                          ],
                         [
                             'allow' => true,
-                            'actions'=>['store'],
+                            'actions'=>['store','test'],
                             'roles' => ['?'],
                         ],
                         // everything else is denied
@@ -48,6 +49,12 @@ class MailgunNotificationController extends \yii\web\Controller
 
     }
 
+    public function test() {
+      $yg = new Yiigun;
+      $response = $yg->mg->get('https://api.mailgun.net/v2/domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
+
+    }
+
     public function actionStore()
     {
 
@@ -57,6 +64,7 @@ class MailgunNotificationController extends \yii\web\Controller
         //}
         error_log($_POST['from']);
         error_log($_POST['message-url']);
+
         exit;
     }
 
