@@ -37,6 +37,11 @@ class Yiigun
     return $result->http_response_body;
   }
 
+  public function get($url='') {
+    $result = $this->mg->get($url);
+    return result;
+  }
+
   public function send_html_message($from='',$to='',$subject='',$bodyHtml='') {
     if ($from == '')
       $from = $this->mail_from;

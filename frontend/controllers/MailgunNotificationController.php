@@ -24,7 +24,7 @@ class MailgunNotificationController extends \yii\web\Controller
                         // allow authenticated users
                          [
                              'allow' => true,
-                             'actions'=>['store'],
+                             'actions'=>['store','test'],
                              'roles' => ['@'],
                          ],
                         [
@@ -49,10 +49,9 @@ class MailgunNotificationController extends \yii\web\Controller
 
     }
 
-    public function test() {
-      $yg = new Yiigun;
-      $response = $yg->mg->get('https://api.mailgun.net/v2/domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
-
+    public function actionTest() {
+      $yg = new Yiigun();
+      $response = $yg->get('https://api.mailgun.net/v2/domains/meetingplanner.io/messages/eyJwIjogZmFsc2UsICJrIjogIjdiYWMyZDNjLTRkNGYtNDIzMy04NDU1LTM3ZmMyMjc1YWRmMiIsICJzIjogIjIwYzNkNWRhY2YiLCAiYyI6ICJ0YW5rczIifQ==');
     }
 
     public function actionStore()
