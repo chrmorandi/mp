@@ -40,6 +40,7 @@ class MailgunNotificationController extends \yii\web\Controller
     {
         //$mn = new MailgunNotification();
         error_log('from mg:'.json_decode($_POST));
+        exit;
     }
 
 }
