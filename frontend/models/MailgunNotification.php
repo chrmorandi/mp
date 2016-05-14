@@ -77,21 +77,25 @@ class MailgunNotification extends \yii\db\ActiveRecord
         $mn->save();
     }
 
-    public function process() {
+    public static function process() {
       $items = MailgunNotification::find()->where(['status'=>MailgunNotification::STATUS_PENDING])->all();
       if (count($items)==0) {
         return false;
       }
       $yg = new Yiigun();
       foreach ($items as $m) {
-        echo $m->id.'<br />';
-        $response = $yg->get($m->url);
-        var_dump($response);
+        //echo $m->id.'<br />';
+        $raw_response = $yg->get($m->url);
+      //  foreach ($response as $r) {
+        //  echo $r.'<br />';
+        //}
+        //var_dump ($response->http_response_body);
+        $response = $raw_response->http_response_body;
         // parse the meeting id
-        $to_address = str_ireplace('@meetingplanner.io','',$response->to);
+        $to_address = str_ireplace('@meetingplanner.io','',$response->To);
         $to_address = str_ireplace('mp_','',$to_address);
         // verify meeting id is valid
-        $sender = $response->sender;
+        $sender = $response->Sender;
         // verify sender is a participant or organizer to this meeting
         // add meeting note with log entry
         // mark as read
@@ -100,8 +104,8 @@ class MailgunNotification extends \yii\db\ActiveRecord
         echo $sender;
         echo '<br><br>';
         // to do - security clean post body
-        $mn->status = MailgunNotification::STATUS_READ;
-        $mn->update();
+        $m->status = MailgunNotification::STATUS_READ;
+        $m->update();
         echo '<br><br>';
       }
     }

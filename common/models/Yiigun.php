@@ -37,8 +37,7 @@ class Yiigun
     return $result->http_response_body;
   }
 
-  public function get($url='') {
-    echo $url;
+  public function get($url='') {    
     $result = $this->mg->get($url);
     return $result;
   }
