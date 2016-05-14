@@ -8,12 +8,12 @@ class MailgunNotificationController extends \yii\web\Controller
   public function behaviors()
   {
       return [
-          'verbs' => [
+        /*  'verbs' => [
               'class' => VerbFilter::className(),
               'actions' => [
                   'store' => ['post'],
               ],
-          ],
+          ],*/
         'access' => [
                       'class' => \yii\filters\AccessControl::className(),
                       'only' => ['store'],
@@ -21,7 +21,7 @@ class MailgunNotificationController extends \yii\web\Controller
                         // allow authenticated users
                          [
                              'allow' => true,
-                             'actions'=>[''],
+                             'actions'=>['store'],
                              'roles' => ['@'],
                          ],
                         [
@@ -39,7 +39,7 @@ class MailgunNotificationController extends \yii\web\Controller
     public function actionStore()
     {
         //$mn = new MailgunNotification();
-        error_log('from mg:'.json_decode($_POST));
+        //error_log('from mg:'.json_decode($_POST));
         exit;
     }
 
