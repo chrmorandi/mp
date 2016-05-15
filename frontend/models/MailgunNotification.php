@@ -6,7 +6,9 @@ use Yii;
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use common\models\Yiigun;
+use common\models\User;
 use common\components\MiscHelpers;
+use frontend\models\Meeting;
 
 /**
  * This is the model class for table "mailgun_notification".
@@ -96,22 +98,30 @@ class MailgunNotification extends \yii\db\ActiveRecord
         }
         $to_address = str_ireplace('@meetingplanner.io','',$to_address);
         $to_address = str_ireplace('mp_','',$to_address);
+        $meeting_id = intval($to_address);
         // verify meeting id is valid
         if (isset($response->Sender)) {
           $sender = $response->Sender;
         } else {
           $sender = $response->sender;
         }
-        // verify sender is a participant or organizer to this meeting
-        // verify Sender and look up id
-        // add meeting note with log entry
-        // filter the body
-        // to do - security clean post body
-        // MeetingNote::add
-        echo $to_address;
-        echo ' => ';
-        echo $sender;
-        echo '<br>';
+        $user_id = User::findByEmail($sender);
+        if ($user_id===false) {
+          // do nothing
+          // to do - reply with do not recognize
+        } else {
+          // verify sender is a participant or organizer to this meeting
+          $is_attendee = Meeting::isAttendee($meeting_id,$user_id);
+          if ($is_attendee) {
+            // add meeting note with log entry
+            // to do - security clean post body
+            // MeetingNote::add
+            // update timestamp in aftersave probably already done
+          } else {
+            // do nothing
+            // to do - reply with do not recognize
+          }
+        }
         // delete the message from the store
         $yg->delete($m->url);
         // mark as read

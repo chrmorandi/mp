@@ -242,4 +242,15 @@ class User extends ActiveRecord implements IdentityInterface
       \frontend\models\Reminder::initialize($user_id);
     }
 
+    public static function findByEmail($email) {
+      $u = User::find()->where(['email'=>$email])->one();
+      if (is_null($u)) {
+        // user doesn't exist
+        return false;
+      } else {
+        return $u->id;
+      }
+
+    }
+
 }

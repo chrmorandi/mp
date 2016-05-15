@@ -10,6 +10,7 @@ use common\models\Yiigun;
 use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\UserContact;
+use frontend\models\Participant;
 
 /**
  * This is the model class for table "meeting".
@@ -921,4 +922,17 @@ class Meeting extends \yii\db\ActiveRecord
         }
      }
 
+     public static function isAttendee($meeting_id,$user_id) {
+       $m = Meeting::findOne($meeting_id);
+       // are they the organizer?
+       if ($m->owner_id = $user_id) {
+         return true;
+       }
+       // are they a participant?      
+       $p = Participant::find()->where(['meeting_id'=>$meeting_id,'participant_id'=>$user_id])->one();
+       if (!is_null($p)) {
+         return true;
+       }
+       return false;
+     }
 }
