@@ -92,7 +92,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
         //echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
         $response = $raw_response->http_response_body;
-        $stripped_text = HtmlPurifier::process($response->{'stripped-text'});
+        $stripped_text = yii\helpers\HtmlPurifier::process($response->{'stripped-text'});
         // parse the meeting id
         if (isset($response->To)) {
           $to_address = $response->To;
@@ -112,7 +112,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
           $sender = $response->sender;
         }
         // clean sender
-        $sender = HtmlPurifier::process($sender);
+        $sender = yii\helpers\HtmlPurifier::process($sender);
         $user_id = User::findByEmail($sender);
         if ($user_id===false) {
           $error = true;

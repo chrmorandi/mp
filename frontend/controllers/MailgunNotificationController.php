@@ -50,6 +50,7 @@ class MailgunNotificationController extends \yii\web\Controller
     }
 
     public function actionTest() {
+      MailgunNotification::process();
     }
 
     public function actionStore()
