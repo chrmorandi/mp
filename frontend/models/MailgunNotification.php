@@ -89,9 +89,10 @@ class MailgunNotification extends \yii\db\ActiveRecord
       $yg = new Yiigun();
       foreach ($items as $m) {
         $error = false;
-        //echo $m->id.'<br />';
+        echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
         $response = $raw_response->http_response_body;
+        print_r($response);
         $stripped_text = \yii\helpers\HtmlPurifier::process($response->{'stripped-text'});
         // parse the meeting id
         if (isset($response->To)) {
@@ -105,6 +106,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
         if (!is_numeric($meeting_id)) {
           $error = true;
         }
+        echo 'mid: '.$meeting_id.'<br>';
         // verify meeting id is valid
         if (isset($response->Sender)) {
           $sender = $response->Sender;
@@ -112,13 +114,17 @@ class MailgunNotification extends \yii\db\ActiveRecord
           $sender = $response->sender;
         }
         // clean sender
+        echo ' pre clean sender: '.$sender.'<br>';
         $sender = \yii\helpers\HtmlPurifier::process($sender);
+        echo 'sender: '.$sender.'<br>';
         $user_id = User::findByEmail($sender);
         if ($user_id===false) {
           $error = true;
           // do nothing
           // to do - reply with do not recognize email address
+          echo ' unrecognized sender';
         } else {
+          echo 'check attendee';
           // verify sender is a participant or organizer to this meeting
           $is_attendee = Meeting::isAttendee($meeting_id,$user_id);
           if ($is_attendee) {
@@ -126,11 +132,13 @@ class MailgunNotification extends \yii\db\ActiveRecord
             MeetingNote::add($meeting_id,$user_id,$stripped_text);
           } else {
             // do nothing
+            echo 'not attendee';
             $error = true;
             // to do - reply with not an attendee of this meeting
           }
         }
         // delete the message from the store
+        // to do turn store delete back on
         //$yg->delete($m->url);
         if (!$error) {
           // mark as read

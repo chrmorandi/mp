@@ -55,7 +55,7 @@ public function actionFrequent() {
   // send meeting reminders that are due
   MeetingReminder::check();
   // process new notifications in the store
-  MailgunNotification::process();
+  //MailgunNotification::process();
 }
 
 public function actionQuarter() {
