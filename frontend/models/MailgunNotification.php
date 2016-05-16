@@ -25,6 +25,10 @@ class MailgunNotification extends \yii\db\ActiveRecord
   const STATUS_PENDING = 0;
   const STATUS_READ = 1;
   const STATUS_ERROR = 2;
+  const STATUS_NOT_FOUND = 3;
+  const STATUS_INVALID_MEETING_ID = 5;
+  const STATUS_UNRECOGNIZED_SENDER = 10;
+  const STATUS_NOT_ATTENDEE = 12;
     /**
      * @inheritdoc
      */
@@ -89,10 +93,15 @@ class MailgunNotification extends \yii\db\ActiveRecord
       $yg = new Yiigun();
       foreach ($items as $m) {
         $error = false;
-        echo $m->id.'<br />';
+        // echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
+        if (is_null($raw_response)) {
+          $m->status = MailgunNotification::STATUS_NOT_FOUND;
+          $m->update();
+          continue;
+        }
         $response = $raw_response->http_response_body;
-        print_r($response);
+        //print_r($response);
         $stripped_text = \yii\helpers\HtmlPurifier::process($response->{'stripped-text'});
         // parse the meeting id
         if (isset($response->To)) {
@@ -105,8 +114,11 @@ class MailgunNotification extends \yii\db\ActiveRecord
         $meeting_id = intval($to_address);
         if (!is_numeric($meeting_id)) {
           $error = true;
+          $m->status = MailgunNotification::STATUS_INVALID_MEETING_ID;
+          $m->update();
+          continue;
         }
-        echo 'mid: '.$meeting_id.'<br>';
+        // echo 'mid: '.$meeting_id.'<br>';
         // verify meeting id is valid
         if (isset($response->Sender)) {
           $sender = $response->Sender;
@@ -114,17 +126,19 @@ class MailgunNotification extends \yii\db\ActiveRecord
           $sender = $response->sender;
         }
         // clean sender
-        echo ' pre clean sender: '.$sender.'<br>';
+        // echo ' pre clean sender: '.$sender.'<br>';
         $sender = \yii\helpers\HtmlPurifier::process($sender);
-        echo 'sender: '.$sender.'<br>';
+        // echo 'sender: '.$sender.'<br>';
         $user_id = User::findByEmail($sender);
         if ($user_id===false) {
           $error = true;
           // do nothing
           // to do - reply with do not recognize email address
-          echo ' unrecognized sender';
+          $m->status = MailgunNotification::STATUS_UNRECOGNIZED_SENDER;
+          $m->update();
+          continue;
         } else {
-          echo 'check attendee';
+          // echo 'check attendee';
           // verify sender is a participant or organizer to this meeting
           $is_attendee = Meeting::isAttendee($meeting_id,$user_id);
           if ($is_attendee) {
@@ -132,9 +146,12 @@ class MailgunNotification extends \yii\db\ActiveRecord
             MeetingNote::add($meeting_id,$user_id,$stripped_text);
           } else {
             // do nothing
-            echo 'not attendee';
+            // // echo 'not attendee';
             $error = true;
             // to do - reply with not an attendee of this meeting
+            $m->status = MailgunNotification::STATUS_NOT_ATTENDEE;
+            $m->update();
+            continue;
           }
         }
         // delete the message from the store
