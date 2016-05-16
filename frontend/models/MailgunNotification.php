@@ -89,6 +89,8 @@ class MailgunNotification extends \yii\db\ActiveRecord
         //echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
         $response = $raw_response->http_response_body;
+        $stripped_text = $response['stripped-text'];
+        echo 'st1:'.$stripped_text;
         var_dump ($response);
 
         exit;
