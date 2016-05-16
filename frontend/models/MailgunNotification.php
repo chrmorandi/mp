@@ -89,7 +89,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
         //echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
         $response = $raw_response->http_response_body;
-        var_dump ($response->http_response_body);
+        var_dump ($response);
 
         exit;
         // parse the meeting id
