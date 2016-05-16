@@ -407,7 +407,7 @@ class Meeting extends \yii\db\ActiveRecord
       ]);
       // to do - add full name
       $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-      $message->setReplyToAddress('mp_'.$this->id.'@meetingplanner.io');
+      $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
       $message->setTo($p->participant->email)
           ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
           ->send();
@@ -500,7 +500,7 @@ class Meeting extends \yii\db\ActiveRecord
         // to do - add full name
       $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$a,$attendees);
       $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
-      $message->setReplyToAddress('mp_'.$this->id.'@meetingplanner.io');
+      $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
       $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
       $message->setTo($a['email'])
           ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
@@ -866,7 +866,7 @@ class Meeting extends \yii\db\ActiveRecord
          ]);
            // to do - add full name
          $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
-         $message->setReplyToAddress('mp_'.$this->id.'@meetingplanner.io');
+         $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
          $message->setTo($a['email'])
              ->setSubject(Yii::t('frontend','Meeting Request: Please provide your contact information.'))
              ->send();
@@ -914,7 +914,7 @@ class Meeting extends \yii\db\ActiveRecord
          ]);
            if (!empty($a['email'])) {
              $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
-             $message->setReplyToAddress('mp_'.$meeting_id.'@meetingplanner.io');
+             $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
              $message->setTo($a['email'])
                  ->setSubject(Yii::t('frontend','Meeting Update: ').$mtg->subject)
                  ->send();
@@ -928,7 +928,7 @@ class Meeting extends \yii\db\ActiveRecord
        if ($m->owner_id = $user_id) {
          return true;
        }
-       // are they a participant?      
+       // are they a participant?
        $p = Participant::find()->where(['meeting_id'=>$meeting_id,'participant_id'=>$user_id])->one();
        if (!is_null($p)) {
          return true;

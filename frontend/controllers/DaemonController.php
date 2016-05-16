@@ -7,6 +7,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use frontend\models\Meeting;
 use frontend\models\MeetingReminder;
+use frontend\models\MailgunNotification;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
