@@ -23,6 +23,9 @@ use common\models\User;
  */
 class MeetingNote extends \yii\db\ActiveRecord
 {
+
+  const STATUS_OK = 0;
+
     /**
      * @inheritdoc
      */
@@ -110,5 +113,14 @@ class MeetingNote extends \yii\db\ActiveRecord
           // if MeetingNote
           MeetingLog::add($this->meeting_id,MeetingLog::ACTION_ADD_NOTE,$this->posted_by,$this->id);
         }
+    }
+
+    public static function add($meeting_id,$posted_by,$note) {
+        $mn = new MeetingNote();
+        $mn->meeting_id = $meeeting_id;
+        $mn->posted_by = $posted_by;
+        $mn->note = $note;
+        $mn->status = MeetingNote::STATUS_OK;
+        $mn->save();
     }
 }

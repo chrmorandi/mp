@@ -50,11 +50,11 @@ class MailgunNotificationController extends \yii\web\Controller
     }
 
     public function actionTest() {
-      MailgunNotification::process();
     }
 
     public function actionStore()
     {
+      // stores inbound post notification from Mailgun
       if (isset($_POST['message-url'])) {
         MailgunNotification::store($_POST['message-url']);
       }

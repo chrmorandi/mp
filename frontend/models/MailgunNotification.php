@@ -4,11 +4,13 @@ namespace frontend\models;
 
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\HtmlPurifier;
 use yii\db\ActiveRecord;
 use common\models\Yiigun;
 use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
+use frontend\models\MeetingNote;
 
 /**
  * This is the model class for table "mailgun_notification".
@@ -22,7 +24,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
 {
   const STATUS_PENDING = 0;
   const STATUS_READ = 1;
-
+  const STATUS_ERROR = 2;
     /**
      * @inheritdoc
      */
@@ -86,14 +88,11 @@ class MailgunNotification extends \yii\db\ActiveRecord
       }
       $yg = new Yiigun();
       foreach ($items as $m) {
+        $error = false;
         //echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
         $response = $raw_response->http_response_body;
-        $stripped_text = $response->{'stripped-text'};
-        echo 'st1:'.$stripped_text;
-        print_r ($response);
-
-        exit;
+        $stripped_text = HtmlPurifier::process($response->{'stripped-text'});
         // parse the meeting id
         if (isset($response->To)) {
           $to_address = $response->To;
@@ -103,33 +102,43 @@ class MailgunNotification extends \yii\db\ActiveRecord
         $to_address = str_ireplace('@meetingplanner.io','',$to_address);
         $to_address = str_ireplace('mp_','',$to_address);
         $meeting_id = intval($to_address);
+        if (!is_numeric($meeting_id)) {
+          $error = true;
+        }
         // verify meeting id is valid
         if (isset($response->Sender)) {
           $sender = $response->Sender;
         } else {
           $sender = $response->sender;
         }
+        // clean sender
+        $sender = HtmlPurifier::process($sender);
         $user_id = User::findByEmail($sender);
         if ($user_id===false) {
+          $error = true;
           // do nothing
-          // to do - reply with do not recognize
+          // to do - reply with do not recognize email address
         } else {
           // verify sender is a participant or organizer to this meeting
           $is_attendee = Meeting::isAttendee($meeting_id,$user_id);
           if ($is_attendee) {
-            // add meeting note with log entry
-            // to do - security clean post body
-            // MeetingNote::add
-            // update timestamp in aftersave probably already done
+            // add meeting note, automatically its logged and meeting touch stamp updated
+            MeetingNote::add($meeting_id,$user_id,$stripped_text);
           } else {
             // do nothing
-            // to do - reply with do not recognize
+            $error = true;
+            // to do - reply with not an attendee of this meeting
           }
         }
         // delete the message from the store
         $yg->delete($m->url);
-        // mark as read
-        $m->status = MailgunNotification::STATUS_READ;
+        if (!$error) {
+          // mark as read
+          $m->status = MailgunNotification::STATUS_READ;
+        } else {
+          // mark as read
+          $m->status = MailgunNotification::STATUS_ERROR;
+        }
         $m->update();
       }
     }
