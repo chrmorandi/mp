@@ -131,7 +131,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
           }
         }
         // delete the message from the store
-        $yg->delete($m->url);
+        //$yg->delete($m->url);
         if (!$error) {
           // mark as read
           $m->status = MailgunNotification::STATUS_READ;
