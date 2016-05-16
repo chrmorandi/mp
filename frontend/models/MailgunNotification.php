@@ -88,8 +88,12 @@ class MailgunNotification extends \yii\db\ActiveRecord
       foreach ($items as $m) {
         //echo $m->id.'<br />';
         $raw_response = $yg->get($m->url);
-        //var_dump ($response->http_response_body);
+        var_dump ($response->http_response_body);
+
         $response = $raw_response->http_response_body;
+        $stripped_text = $response['stripped-text'];
+        echo 'st1:'.$stripped_text;
+        exit;
         // parse the meeting id
         if (isset($response->To)) {
           $to_address = $response->To;
