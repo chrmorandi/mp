@@ -117,7 +117,7 @@ class MeetingNote extends \yii\db\ActiveRecord
 
     public static function add($meeting_id,$posted_by,$note) {
         $mn = new MeetingNote();
-        $mn->meeting_id = $meeeting_id;
+        $mn->meeting_id = $meeting_id;
         $mn->posted_by = $posted_by;
         $mn->note = $note;
         $mn->status = MeetingNote::STATUS_OK;
