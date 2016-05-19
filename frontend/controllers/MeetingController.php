@@ -107,6 +107,7 @@ class MeetingController extends Controller
       // notes always used on view panel
       $noteProvider = new ActiveDataProvider([
           'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
+          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
       $participantProvider = new ActiveDataProvider([
           'query' => Participant::find()->where(['meeting_id'=>$id]),
