@@ -43,10 +43,10 @@ AppAsset::register($this);
 	            ];
             }
       			if (Yii::$app->user->isGuest) {
-              $menuItems[]=['label' => Yii::t('frontend','About'),
+              $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
-                  ['label' => Yii::t('frontend','Learn more'), 'url' => ['/site/about']],
-                  ['label' => Yii::t('frontend','Contact us'), 'url' => ['/site/contact']],
+                  ['label' => Yii::t('frontend','Support'), 'url' => 'http://support.meetingplanner.io'],
+                  ['label' => Yii::t('frontend','About'), 'url' => ['/site/about']],
                 ],
               ];
               echo Nav::widget([
@@ -107,7 +107,7 @@ AppAsset::register($this);
           <p class="pull-left">
           <?php
           if (!Yii::$app->user->isGuest) {
-            echo Html::a(Yii::t('frontend','Contact'),Url::to(['/site/contact'])).' | ';
+            echo Html::a(Yii::t('frontend','Support'),Url::to('http://support.meetingplanner.io')).' | ';
             echo Html::a(Yii::t('frontend','About'),Url::to(['/site/about']));
           }
            ?>
