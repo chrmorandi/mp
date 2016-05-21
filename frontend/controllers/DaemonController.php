@@ -44,7 +44,8 @@ class DaemonController extends Controller
   {
     // to do - remove this, fixed friends list for pre-existing users
     // \frontend\models\Fix::fixPreFriends();
-    // \frontend\models\Fix::fixPreReminders();
+
+    \frontend\models\Fix::fixPreReminders();
   }
 
 
@@ -53,7 +54,7 @@ public function actionFrequent() {
   // notify users about fresh changes
   Meeting::findFresh();
   // send meeting reminders that are due
-  MeetingReminder::check();
+  #MeetingReminder::check();
   // process new notifications in the store
   MailgunNotification::process();
 }
@@ -69,7 +70,6 @@ public function actionQuarter() {
   	  $current_hour = date('G');
   	  if ($current_hour%6) {
         // every six hours
-
       }
   	}
 }
