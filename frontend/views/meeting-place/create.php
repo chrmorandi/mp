@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 
-  $gpJsLink= 'http://maps.googleapis.com/maps/api/js?' . http_build_query(array(
+  $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query(array(
                           'libraries' => 'places',
                           'sensor' => 'false',
                   ));

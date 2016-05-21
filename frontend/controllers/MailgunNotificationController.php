@@ -46,7 +46,6 @@ class MailgunNotificationController extends \yii\web\Controller
             Yii::$app->controller->enableCsrfValidation = false;
         }
         return true;
-
     }
 
     public function actionTest() {
