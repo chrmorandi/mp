@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
+use common\models\Yiigun;
 
 /**
  * This is the model class for table "friend".
@@ -62,8 +63,18 @@ class Friend extends \yii\db\ActiveRecord
             [['user_id', 'friend_id'], 'required'],
             ['user_id', 'compare','compareAttribute' => 'friend_id', 'operator'=>'!=','message'=>Yii::t('frontend','You can\'t add yourself as a friend')],
             ['email', 'unique', 'targetAttribute' => ['user_id', 'friend_id'],'message' => Yii::t('frontend','You\'ve already added this friend')],
+            ['email','mailgunValidator'],
             [['user_id', 'friend_id', 'status', 'number_meetings', 'is_favorite', 'created_at', 'updated_at'], 'integer']
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = [
+            'some_scenario' => ['email'],
+        ];
+
+        return array_merge(parent::scenarios(), $scenarios);
     }
 
     /**
@@ -155,6 +166,21 @@ class Friend extends \yii\db\ActiveRecord
         $f->is_favorite =Friend::FAVORITE_NO;
         $f->save();
       }
+    }
+
+    public function mailgunValidator($attribute,$params)
+    {
+          $yg = new Yiigun();
+          $result = $yg->validate($this->$attribute);
+          if ($result->is_valid)
+            return false;
+          else {
+            $str = 'There is a problem with your email address '.$result->address.'.';
+            if ($result->did_you_mean<>'') {
+                $str.=' Did you mean '.$result->did_you_mean.'?';
+            }
+            $this->addError($attribute, $str);
+          }
     }
 
 }

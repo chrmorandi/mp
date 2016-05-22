@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
+use yii\bootstrap\ActiveForm;
+use yii\web\Response;
 
 /**
  * FriendController implements the CRUD actions for Friend model.
@@ -68,6 +70,10 @@ class FriendController extends Controller
     {
         $model = new Friend();
         $model->user_id = Yii::$app->user->getId();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($model->load(Yii::$app->request->post())) {
           // get user_id of email
           $user_id = $model->lookupEmail($model->email);
@@ -79,7 +85,7 @@ class FriendController extends Controller
           if ($model->validate()) {
               // all inputs are valid
               $model->save();
-              return $this->redirect(['view', 'id' => $model->id]);
+              return $this->redirect('index');
           } else {
               // validation failed
               return $this->render('create', [

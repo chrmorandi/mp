@@ -83,5 +83,5 @@ public static function fetchUserTimezone($user_id) {
   return $timezone;
 }
 
- }
+}
 ?>

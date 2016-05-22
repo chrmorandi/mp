@@ -9,12 +9,13 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="friend-form">
+  <?php $form = ActiveForm::begin([
+    'id'=> 'friend-form',
+  ]); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php echo $form->errorSummary($model);?>
 
-    <?php echo $form->errorSummary($model);?> 
-
-    <?= $form->field($model, 'email')->textInput() ?>
+    <?= $form->field($model, 'email',['enableAjaxValidation' => true])->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Create') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

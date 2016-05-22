@@ -72,16 +72,16 @@ class ParticipantController extends Controller
       var_dump($result);
       exit;
 */
-$mtg = new Meeting();
-$title = $mtg->getMeetingTitle($meeting_id);
-  $model = new Participant();
-  $model->meeting_id= $meeting_id;
-  $model->invited_by= Yii::$app->user->getId();
+        $mtg = new Meeting();
+        $title = $mtg->getMeetingTitle($meeting_id);
+          $model = new Participant();
+          $model->meeting_id= $meeting_id;
+          $model->invited_by= Yii::$app->user->getId();
 
-if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-    Yii::$app->response->format = Response::FORMAT_JSON;
-    return ActiveForm::validate($model);
-}
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         // load friends for auto complete field
         $friends = Friend::getFriendList(Yii::$app->user->getId());
         if ($model->load(Yii::$app->request->post())) {

@@ -10,12 +10,14 @@ use yii\widgets\ActiveForm;
 
 <div class="user-contact-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+  <?php $form = ActiveForm::begin([
+    'id'=> 'user-contact-form',    
+  ]); ?>
 
     <?= $form->field($model, 'contact_type')
             ->dropDownList(
-                $model->getUserContactTypeOptions(),   
-	                ['prompt'=>Yii::t('frontend','What type of contact is this?')] 
+                $model->getUserContactTypeOptions(),
+	                ['prompt'=>Yii::t('frontend','What type of contact is this?')]
 	            )->label(Yii::t('frontend','Type of Contact')) ?>
 
     <?= $form->field($model, 'info')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Contact Information'))->hint(Yii::t('frontend','e.g. phone number, skype address, et al.')) ?>

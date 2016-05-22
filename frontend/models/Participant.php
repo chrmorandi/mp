@@ -172,15 +172,16 @@ class Participant extends \yii\db\ActiveRecord
     public function mailgunValidator($attribute,$params)
     {
           $yg = new Yiigun();
-     	    $result = $yg->validate($this->$attribute);
-     	    if ($result->is_valid)
-     	      return false;
-     	    else {
+          $result = $yg->validate($this->$attribute);
+          if ($result->is_valid)
+            return false;
+          else {
             $str = 'There is a problem with your email address '.$result->address.'.';
             if ($result->did_you_mean<>'') {
                 $str.=' Did you mean '.$result->did_you_mean.'?';
             }
             $this->addError($attribute, $str);
-     	    }
+          }
     }
+
 }
