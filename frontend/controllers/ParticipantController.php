@@ -13,6 +13,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Inflector;
 use yii\base\Security;
+use yii\bootstrap\ActiveForm;
+use yii\web\Response;
 
 /**
  * ParticipantController implements the CRUD actions for Participant model.
@@ -65,11 +67,21 @@ class ParticipantController extends Controller
      */
     public function actionCreate($meeting_id)
     {
-      $mtg = new Meeting();
-      $title = $mtg->getMeetingTitle($meeting_id);
-        $model = new Participant();
-        $model->meeting_id= $meeting_id;
-        $model->invited_by= Yii::$app->user->getId();
+      /*$yg = new \common\models\Yiigun();
+      $result = $yg->validate('rob@gmai.com');
+      var_dump($result);
+      exit;
+*/
+$mtg = new Meeting();
+$title = $mtg->getMeetingTitle($meeting_id);
+  $model = new Participant();
+  $model->meeting_id= $meeting_id;
+  $model->invited_by= Yii::$app->user->getId();
+
+if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+    Yii::$app->response->format = Response::FORMAT_JSON;
+    return ActiveForm::validate($model);
+}
         // load friends for auto complete field
         $friends = Friend::getFriendList(Yii::$app->user->getId());
         if ($model->load(Yii::$app->request->post())) {

@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
+use common\models\Yiigun;
 use frontend\models\Friend;
 
 /**
@@ -66,10 +67,20 @@ class Participant extends \yii\db\ActiveRecord
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
               ['email', 'email'],
+              ['new_email','mailgunValidator'],
 //              ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],
 
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = [
+            'some_scenario' => ['new_email'],
+        ];
+
+        return array_merge(parent::scenarios(), $scenarios);
     }
 
     public function beforeSave($insert)
@@ -158,4 +169,18 @@ class Participant extends \yii\db\ActiveRecord
       return $user->id;
     }
 
+    public function mailgunValidator($attribute,$params)
+    {
+          $yg = new Yiigun();
+     	    $result = $yg->validate($this->$attribute);
+     	    if ($result->is_valid)
+     	      return false;
+     	    else {
+            $str = 'There is a problem with your email address '.$result->address.'.';
+            if ($result->did_you_mean<>'') {
+                $str.=' Did you mean '.$result->did_you_mean.'?';
+            }
+            $this->addError($attribute, $str);
+     	    }
+    }
 }

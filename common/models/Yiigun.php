@@ -9,18 +9,24 @@ use Mailgun\Mailgun;
 class Yiigun
 {
   private $mg;
-  private $mgValidate;
   private $mailgun_api_key;
+  private $mailgun_public_api_key;
   public $mailgun_domain;
   private $mail_from;
 
-   function __construct() {
+   function __construct($mode = 'normal') {
      // initialize mailgun connection
      $this->mailgun_api_key = Yii::$app->params['mailgun_api_key'];
+     $this->mailgun_public_api_key = Yii::$app->params['mailgun_public_api_key'];
      $this->mailgun_domain = Yii::$app->params['mailgun_domain'];
      $this->mail_from = 'Meeting Planner <support@'.$this->mailgun_domain.'>';
      $client = new \Http\Adapter\Guzzle6\Client();
-     $this->mg = new Mailgun($this->mailgun_api_key,$client);
+     if ($mode=='') {
+       $this->mg = new Mailgun($this->mailgun_api_key,$client);
+     } else {
+       $this->mg = new Mailgun($this->mailgun_public_api_key,$client);
+     }
+
   }
 
   public function get($url='') {
@@ -46,7 +52,7 @@ class Yiigun
                                                ));
     return $result->http_response_body;
   }
-  
+
   public function send_html_message($from='',$to='',$subject='',$bodyHtml='') {
     if ($from == '')
       $from = $this->mail_from;
@@ -80,6 +86,10 @@ class Yiigun
       return false;
    }
 
+   public function validate($email='') {
+      $result = $this->mg->get('address/validate', array('address' => $email));
+      return $result->http_response_body;
+    }
 }
 
 ?>

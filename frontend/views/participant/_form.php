@@ -13,14 +13,17 @@ ComboAsset::register($this);
 ?>
 
 <div class="participant-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+      'id'=> 'participant-form',
+      //'enableAjaxValidation' => 'true',
+    ]); ?>
 
     <?= $form->errorSummary($model); ?>
 
     <div class="row">
       <div class="col-md-6">
         <?php
-        echo $form->field($model, 'new_email')->textInput(['placeholder' => "enter an email address to invite someone new"])->label(Yii::t('frontend','Invite Someone New'))
+        echo $form->field($model, 'new_email',['enableAjaxValidation' => true])->textInput(['placeholder' => "enter an email address to invite someone new"])->label(Yii::t('frontend','Invite Someone New'))
         ?>
     <?php
     // to do - replace with Friend::getFriendList
