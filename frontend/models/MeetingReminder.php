@@ -98,7 +98,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
     }
 
     public static function create($meeting_id,$user_id,$reminder_id,$differential) {
-        // delete any previously existing reminder for this meeting
+        // delete any previously existing meetingreminder for this reminder_id and meeting_id
          MeetingReminder::deleteAll(['meeting_id'=>$meeting_id,'reminder_id'=>$reminder_id]);
          $mtg = Meeting::findOne($meeting_id);
          if (is_null($mtg)) {
@@ -136,7 +136,6 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $user_id = $mr->user_id;
       $meeting_id = $mr->meeting_id;
       $mtg = Meeting::findOne($meeting_id);
-      //var_dump($mtg);exit;
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
       // only send reminders that are less than a day late

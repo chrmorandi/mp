@@ -9,7 +9,6 @@ $this->title = Yii::t('frontend', 'Update {modelClass}: ', [
     'modelClass' => 'Reminder',
 ]) . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Reminders'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
 ?>
 <div class="reminder-update">

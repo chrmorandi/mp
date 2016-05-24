@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Reminder */
 
-$this->title = Yii::t('frontend', 'Create Reminder');
+$this->title = Yii::t('frontend', 'Add a Reminder');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Reminders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

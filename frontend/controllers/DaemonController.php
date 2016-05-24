@@ -25,7 +25,7 @@ class DaemonController extends Controller
                 // allow authenticated users
                  [
                      'allow' => true,
-                     'actions'=>['index'],
+                     'actions'=>['index','fix'],
                      'roles' => ['@'],
                  ],
                 [
@@ -72,4 +72,10 @@ public function actionQuarter() {
         // every six hours
       }
   	}
+
+    public function actionFix()
+    {
+      \frontend\models\Fix::cleanupReminders();
+      echo 'complete';
+    }
 }

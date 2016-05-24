@@ -31,11 +31,11 @@ class Fix
 
   public static function fixPreReminders() {
     // legacy users before the new reminder model
-    // need default reminders created    
+    // need default reminders created
     $users = User::find()->all();
     foreach ($users as $u) {
       $rems = Reminder::find()->where(['user_id'=>$u->id])->all();
-      if (count($rems)==0) {
+      if (is_null($rems) || count($rems)==0) {
         Reminder::initialize($u->id);
         $rems = Reminder::find()->where(['user_id'=>$u->id])->all();
       }
@@ -43,6 +43,14 @@ class Fix
         Reminder::processNewReminder($r->id);
       }
     }
+  }
+
+  public static function cleanupReminders() {
+    // erase all MeetingReminder
+    MeetingReminder::deleteAll();
+    // erase all reminders
+    Reminder::deleteAll();
+    Fix::fixPreReminders();
   }
 }
 ?>
