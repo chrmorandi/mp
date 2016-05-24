@@ -38,7 +38,8 @@ class PasswordResetRequestForm extends Model
     {
         /* @var $user User */
         $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
+            //'status' => User::STATUS_ACTIVE,
+            // to do - look at again
             'email' => $this->email,
         ]);
 
