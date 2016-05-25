@@ -138,13 +138,15 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $mtg = Meeting::findOne($meeting_id);
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
-      // only send reminders that are less than a day late
+      // only send reminders that are less than a day late - to do - remove after testing period
       if ((time()-$mr->due_at)>(24*3600+1)) return false;
       $u = \common\models\User::findOne($user_id);
+      // ensure there is an auth key for the recipient user
       if (empty($u->auth_key)) {
         return false;
       }
-       $chosen_time = Meeting::getChosenTime($meeting_id);
+      // prepare data for the message
+      $chosen_time = Meeting::getChosenTime($meeting_id);
       $timezone = MiscHelpers::fetchUserTimezone($user_id);
       $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
       $a=['user_id'=>$user_id,
