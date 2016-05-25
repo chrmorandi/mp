@@ -67,11 +67,10 @@ class ParticipantController extends Controller
      */
     public function actionCreate($meeting_id)
     {
-      /*$yg = new \common\models\Yiigun();
+      $yg = new \common\models\Yiigun();
       $result = $yg->validate('rob@gmai.com');
       var_dump($result);
       exit;
-*/
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
           $model = new Participant();
