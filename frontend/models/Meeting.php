@@ -866,7 +866,7 @@ class Meeting extends \yii\db\ActiveRecord
          ]);
            // to do - add full name
          $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
-         $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
+         $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
          $message->setTo($a['email'])
              ->setSubject(Yii::t('frontend','Meeting Request: Please provide your contact information.'))
              ->send();
