@@ -67,16 +67,16 @@ class ParticipantController extends Controller
      */
     public function actionCreate($meeting_id)
     {
-      $yg = new \common\models\Yiigun();
+      /*$yg = new \common\models\Yiigun();
       $result = $yg->validate('rob@gmai.com');
       var_dump($result);
       exit;
+*/
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
           $model = new Participant();
           $model->meeting_id= $meeting_id;
           $model->invited_by= Yii::$app->user->getId();
-
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);

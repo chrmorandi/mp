@@ -67,7 +67,8 @@ class Participant extends \yii\db\ActiveRecord
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
               ['email', 'email'],
-              ['new_email','mailgunValidator'],
+              ['new_email','email'],
+              //['new_email','mailgunValidator'],
 //              ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],
 
