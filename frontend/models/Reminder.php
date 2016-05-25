@@ -233,9 +233,9 @@ class Reminder extends \yii\db\ActiveRecord
       // for each attendee
       foreach ($attendees as $a) {
         // for their reminders
-        $rems = Reminder::find()->where(['user_id'=>$a]);
+        $rems = Reminder::find()->where(['user_id'=>$a])->all();
         foreach ($rems as $rem) {
-          // create a meeting reminder for that reminder at that time
+          // create a meeting reminder for that reminder at that time          
             MeetingReminder::create($meeting_id,$a,$rem->id,$rem->duration);
         }
       }
