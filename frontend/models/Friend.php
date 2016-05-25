@@ -63,7 +63,7 @@ class Friend extends \yii\db\ActiveRecord
             [['user_id', 'friend_id'], 'required'],
             ['user_id', 'compare','compareAttribute' => 'friend_id', 'operator'=>'!=','message'=>Yii::t('frontend','You can\'t add yourself as a friend')],
             ['email', 'unique', 'targetAttribute' => ['user_id', 'friend_id'],'message' => Yii::t('frontend','You\'ve already added this friend')],
-            ['email','mailgunValidator'],
+            //['email','mailgunValidator'],
             [['user_id', 'friend_id', 'status', 'number_meetings', 'is_favorite', 'created_at', 'updated_at'], 'integer']
         ];
     }
