@@ -49,6 +49,7 @@ class PasswordResetRequestForm extends Model
             }
 
             if ($user->save()) {
+                \Yii::$app->mailer->htmlLayout = '@common/mail/layouts/oxygen_html';
                 return \Yii::$app->mailer->compose('passwordResetToken', ['user' => $user])
                     ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' Assistant'])
                     ->setTo($this->email)
@@ -56,7 +57,6 @@ class PasswordResetRequestForm extends Model
                     ->send();
             }
         }
-
         return false;
     }
 }
