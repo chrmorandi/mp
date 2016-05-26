@@ -138,17 +138,4 @@ use frontend\models\MeetingTime;
   <?php
   }
   ?>
-<table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
-  <tr><td width="300" style="text-align:center;margin:10px;">
-<p>
-  <?php echo Html::a(Yii::t('frontend','Visit Meeting Planner'), MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)); ?>
-</p>
-</td></tr>
-<tr><td width="300" style="text-align:center;font-size:75%;margin:10px;">
-<em>
-  <?php echo HTML::a(Yii::t('frontend','Review your email settings'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_EMAIL,0,$user_id,$auth_key)); ?>
-  | <?php echo HTML::a(Yii::t('frontend','Block this person'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_BLOCK,$sender_id,$user_id,$auth_key)); ?>
-  | <?php echo HTML::a(Yii::t('frontend','Block all emails'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$user_id,$auth_key)); ?>
-</em>
-</td></tr>
-</table>
+<?php echo \Yii::$app->view->renderFile('@common/mail/footer_dynamic.php',['links'=>$links]) ?>

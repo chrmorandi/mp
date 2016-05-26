@@ -5,204 +5,324 @@ use yii\helpers\Html;
 /* @var $content string main view render result */
 ?>
 <?php $this->beginPage(); ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Yii::$app->charset; ?>" />
-    <title><?php echo Html::encode($this->title); ?></title>
-    <?php $this->head(); ?>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Yii::$app->charset; ?>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><?php echo Html::encode($this->title); ?></title>
+  <?php $this->head(); ?>
 	<style type="text/css">
+  /* Take care of image borders and formatting, client hacks */
+  img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}
+  a img { border: none; }
+  table { border-collapse: collapse !important;}
+  #outlook a { padding:0; }
+  .ReadMsgBody { width: 100%; }
+  .ExternalClass { width: 100%; }
+  .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }
+  table td { border-collapse: collapse; }
+  .ExternalClass * { line-height: 115%; }
+  .container-for-gmail-android { min-width: 600px; }
+  /* General styling */
+  * {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    width: 100% !important;
+    margin: 0 !important;
+    height: 100%;
+    color: #676767;
+  }
+  td {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #777777;
+    text-align: center;
+    line-height: 21px;
+  }
+  a {
+    color: #676767;
+    text-decoration: none !important;
+  }
+  .pull-left {
+    text-align: left;
+  }
+  .pull-right {
+    text-align: right;
+  }
+  .header-lg,
+  .header-md,
+  .header-sm {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: normal;
+    padding: 35px 0 0;
+    color: #4d4d4d;
+  }
+  .header-md {
+    font-size: 24px;
+  }
+  .header-sm {
+    padding: 5px 0;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .content-padding {
+    padding: 20px 0 30px;
+  }
+  .mobile-header-padding-right {
+    width: 290px;
+    text-align: right;
+    padding-left: 10px;
+  }
+  .mobile-header-padding-left {
+    width: 290px;
+    text-align: left;
+    padding-left: 10px;
+  }
+  .free-text {
+    width: 100% !important;
+    padding: 10px 60px 0px;
+  }
+  .block-rounded {
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    vertical-align: top;
+  }
+  .button {
+    padding: 30px 0;
+  }
+  .info-block {
+    padding: 0 20px;
+    width: 260px;
+  }
+  .block-rounded {
+    width: 260px;
+  }
+  .info-img {
+    width: 258px;
+    border-radius: 5px 5px 0 0;
+  }
+  .force-width-gmail {
+    min-width:600px;
+    height: 0px !important;
+    line-height: 1px !important;
+    font-size: 1px !important;
+  }
+  .button-width {
+    width: 228px;
+  }
+  .mini-block {
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 12px 15px 15px;
+    text-align: left;
+    width: 253px;
+  }
 
-		/***********
-		Originally based on The MailChimp Reset from Fabio Carneiro, MailChimp User Experience Design
-		More info and templates on Github: https://github.com/mailchimp/Email-Blueprints
-		http://www.mailchimp.com &amp; http://www.fabio-carneiro.com
+  .mini-container-left {
+    width: 278px;
+    padding: 10px 0 10px 15px;
+  }
 
-		INLINE: Yes.
-		***********/
-		/* Client-specific Styles */
-		#outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
-		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
-		/* Prevent Webkit and Windows Mobile platforms from changing default font sizes, while not breaking desktop design. */
-		.ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */
-		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */
-		#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
-		/* End reset */
+  .mini-container-right {
+    width: 278px;
+    padding: 10px 14px 10px 15px;
+  }
 
-		/* Some sensible defaults for images
-		1. "-ms-interpolation-mode: bicubic" works to help ie properly resize images in IE. (if you are resizing them using the width and height attributes)
-		2. "border:none" removes border when linking images.
-		3. Updated the common Gmail/Hotmail image display fix: Gmail and Hotmail unwantedly adds in an extra space below images when using non IE browsers. You may not always want all of your images to be block elements. Apply the "image_fix" class to any image you need to fix.
+  .product {
+    text-align: left;
+    vertical-align: top;
+    width: 175px;
+  }
 
-		Bring inline: Yes.
-		*/
-		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
-		a img {border:none;}
-		.image_fix {display:block;}
+  .total-space {
+    padding-bottom: 8px;
+    display: inline-block;
+  }
 
-		/** Yahoo paragraph fix: removes the proper spacing or the paragraph (p) tag. To correct we set the top/bottom margin to 1em in the head of the document. Simple fix with little effect on other styling. NOTE: It is also common to use two breaks instead of the paragraph tag but I think this way is cleaner and more semantic. NOTE: This example recommends 1em. More info on setting web defaults: http://www.w3.org/TR/CSS21/sample.html or http://meiert.com/en/blog/20070922/user-agent-style-sheets/
+  .item-table {
+    padding: 50px 20px;
+    width: 560px;
+  }
 
-		Bring inline: Yes.
-		**/
-		p {margin: 1em 0;}
+  .item {
+    width: 300px;
+  }
 
-		/** Hotmail header color reset: Hotmail replaces your header color styles with a green color on H2, H3, H4, H5, and H6 tags. In this example, the color is reset to black for a non-linked header, blue for a linked header, red for an active header (limited support), and purple for a visited header (limited support).  Replace with your choice of color. The !important is really what is overriding Hotmail's styling. Hotmail also sets the H1 and H2 tags to the same size.
+  .mobile-hide-img {
+    text-align: left;
+    width: 125px;
+  }
 
-		Bring inline: Yes.
-		**/
-		h1, h2, h3, h4, h5, h6 {color: black !important;}
+  .mobile-hide-img img {
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+  }
 
-		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
+  .title-dark {
+    text-align: left;
+    border-bottom: 1px solid #cccccc;
+    color: #4d4d4d;
+    font-weight: 700;
+    padding-bottom: 5px;
+  }
 
-		h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
-			color: red !important; /* Preferably not the same color as the normal header link color.  There is limited support for psuedo classes in email clients, this was added just for good measure. */
-		 }
+  .item-col {
+    padding-top: 20px;
+    text-align: left;
+    vertical-align: top;
+  }
 
-		h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
-			color: purple !important; /* Preferably not the same color as the normal header link color. There is limited support for psuedo classes in email clients, this was added just for good measure. */
-		}
+  .force-width-gmail {
+    min-width:600px;
+    height: 0px !important;
+    line-height: 1px !important;
+    font-size: 1px !important;
+  }
 
-		/** Outlook 07, 10 Padding issue: These "newer" versions of Outlook add some padding around table cells potentially throwing off your perfectly pixeled table.  The issue can cause added space and also throw off borders completely.  Use this fix in your header or inline to safely fix your table woes.
+</style>
+<link rel="stylesheet" media="screen" type="text/css" href="http://fonts.googleapis.com/css?family=Oxygen:400,700">
+<style type="text/css" media="screen">
+  @media screen {
+    /* Thanks Outlook 2013! */
+    * {
+      font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+    }
+  }
+</style>
+<style type="text/css" media="only screen and (max-width: 480px)">
+  /* Mobile styles */
+  @media only screen and (max-width: 480px) {
+    table[class*="container-for-gmail-android"] {
+      min-width: 290px !important;
+      width: 100% !important;
+    }
+    table[class="w320"] {
+      width: 320px !important;
+    }
+    img[class="force-width-gmail"] {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    a[class="button-width"],
+    a[class="button-mobile"] {
+      width: 248px !important;
+    }
+    td[class*="mobile-header-padding-left"] {
+      width: 160px !important;
+      padding-left: 0 !important;
+    }
+    td[class*="mobile-header-padding-right"] {
+      width: 160px !important;
+      padding-right: 0 !important;
+    }
+    td[class="header-lg"] {
+      font-size: 24px !important;
+      padding-bottom: 5px !important;
+    }
+    td[class="header-md"] {
+      font-size: 18px !important;
+      padding-bottom: 5px !important;
+    }
+    td[class="content-padding"] {
+      padding: 5px 0 30px !important;
+    }
+     td[class="button"] {
+      padding: 5px !important;
+    }
+    td[class*="free-text"] {
+      padding: 10px 18px 30px !important;
+    }
+    td[class="info-block"] {
+      display: block !important;
+      width: 280px !important;
+      padding-bottom: 40px !important;
+    }
+    td[class="info-img"],
+    img[class="info-img"] {
+      width: 278px !important;
+    }
+    td[class~="mobile-hide-img"] {
+      display: none !important;
+      height: 0 !important;
+      width: 0 !important;
+      line-height: 0 !important;
+    }
 
-		More info: http://www.ianhoar.com/2008/04/29/outlook-2007-borders-and-1px-padding-on-table-cells/
-		http://www.campaignmonitor.com/blog/post/3392/1px-borders-padding-on-table-cells-in-outlook-07/
+    td[class~="item"] {
+      width: 140px !important;
+      vertical-align: top !important;
+    }
 
-		H/T @edmelly
+    td[class~="quantity"] {
+      width: 50px !important;
+    }
 
-		Bring inline: No.
-		**/
-		table td {border-collapse: collapse;}
+    td[class~="price"] {
+      width: 90px !important;
+    }
 
-		/** Remove spacing around Outlook 07, 10 tables
+    td[class="item-table"] {
+      padding: 30px 20px !important;
+    }
 
-		More info : http://www.campaignmonitor.com/blog/post/3694/removing-spacing-from-around-tables-in-outlook-2007-and-2010/
-
-		Bring inline: Yes
-		**/
-		table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
-
-		/* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email, bring your styles inline.  Your link colors will be uniform across clients when brought inline.
-
-		Bring inline: Yes. */
-		a {color: orange;}
-
-		/* Or to go the gold star route...
-		a:link { color: orange; }
-		a:visited { color: blue; }
-		a:hover { color: green; }
-		*/
-
-		/***************************************************
-		****************************************************
-		MOBILE TARGETING
-
-		Use @media queries with care.  You should not bring these styles inline -- so it's recommended to apply them AFTER you bring the other stlying inline.
-
-		Note: test carefully with Yahoo.
-		Note 2: Don't bring anything below this line inline.
-		****************************************************
-		***************************************************/
-
-		/* NOTE: To properly use @media queries and play nice with yahoo mail, use attribute selectors in place of class, id declarations.
-		table[class=classname]
-		Read more: http://www.campaignmonitor.com/blog/post/3457/media-query-issues-in-yahoo-mail-mobile-email/
-		*/
-		@media only screen and (max-device-width: 480px) {
-
-			/* A nice and clean way to target phone numbers you want clickable and avoid a mobile phone from linking other numbers that look like, but are not phone numbers.  Use these two blocks of code to "unstyle" any numbers that may be linked.  The second block gives you a class to apply with a span tag to the numbers you would like linked and styled.
-
-			Inspired by Campaign Monitor's article on using phone numbers in email: http://www.campaignmonitor.com/blog/post/3571/using-phone-numbers-in-html-email/.
-
-			Step 1 (Step 2: line 224)
-			*/
-			a[href^="tel"], a[href^="sms"] {
-						text-decoration: none;
-						color: black; /* or whatever your want */
-						pointer-events: none;
-						cursor: default;
-					}
-
-			.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-						text-decoration: default;
-						color: orange !important; /* or whatever your want */
-						pointer-events: auto;
-						cursor: default;
-					}
-		}
-
-		/* More Specific Targeting */
-
-		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-			/* You guessed it, ipad (tablets, smaller screens, etc) */
-
-			/* Step 1a: Repeating for the iPad */
-			a[href^="tel"], a[href^="sms"] {
-						text-decoration: none;
-						color: blue; /* or whatever your want */
-						pointer-events: none;
-						cursor: default;
-					}
-
-			.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-						text-decoration: default;
-						color: orange !important;
-						pointer-events: auto;
-						cursor: default;
-					}
-		}
-
-		@media only screen and (-webkit-min-device-pixel-ratio: 2) {
-			/* Put your iPhone 4g styles in here */
-		}
-
-		/* Following Android targeting from:
-		http://developer.android.com/guide/webapps/targeting.html
-		http://pugetworks.com/2011/04/css-media-queries-for-targeting-different-mobile-devices/  */
-		@media only screen and (-webkit-device-pixel-ratio:.75){
-			/* Put CSS for low density (ldpi) Android layouts in here */
-		}
-		@media only screen and (-webkit-device-pixel-ratio:1){
-			/* Put CSS for medium density (mdpi) Android layouts in here */
-		}
-		@media only screen and (-webkit-device-pixel-ratio:1.5){
-			/* Put CSS for high density (hdpi) Android layouts in here */
-		}
-		/* end Android targeting */
-	</style>
-
-	<!-- Targeting Windows Mobile -->
-	<!--[if IEMobile 7]>
-	<style type="text/css">
-
-	</style>
-	<![endif]-->
-
-	<!-- ***********************************************
-	****************************************************
-	END MOBILE TARGETING
-	****************************************************
-	************************************************ -->
-
-	<!--[if gte mso 9]>
-	<style>
-		/* Target Outlook 2007 and 2010 */
-	</style>
-	<![endif]-->
+    td[class="mini-container-left"],
+    td[class="mini-container-right"] {
+      padding: 0 15px 15px !important;
+      display: block !important;
+      width: 290px !important;
+    }
+  }
+</style>
 </head>
 <body>
-  <?php $this->beginBody(); ?>
-  <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
-	<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" align="center" width="600">
-	<tr>
-		<td width="600">
-    <?php echo $content; ?>
-    <br />
-    <br />
-  </td>
-</tr>
+<?php $this->beginBody(); ?>
+<body bgcolor="#f7f7f7">
+<table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
+  <tr>
+    <td align="left" valign="top" width="100%" style="background:repeat-x url(https://meetingplanner.io/img/bg_top_02.jpg) #ffffff;">
+      <center>
+        <?= Html::img('https://meetingplanner.io/img/transparent.png', ['class'=>'force-width-gmail']);?>
+        <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff" background="https://meetingplanner.io/img/bg_top_02.jpg" style="background-color:transparent">
+          <tr>
+            <td width="100%" height="80" valign="top" style="text-align: center; vertical-align:middle;">
+            <!--[if gte mso 9]>
+            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:80px; v-text-anchor:middle;">
+              <v:fill type="tile" src="http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg" color="#ffffff" />
+              <v:textbox inset="0,0,0,0">
+            <![endif]-->
+              <center>
+                <table cellpadding="0" cellspacing="0" width="600" class="w320">
+                  <tr>
+                    <td class="pull-left mobile-header-padding-left" style="vertical-align: middle;">
+                      <a href="https://meetingplanner.io"><?= Html::img('https://meetingplanner.io/img/email-logo.gif', ['alt'=>'Meeting Planner logo','height'=>'47','width'=>'137']);?></a>
+                    </td>
+                    <td class="pull-right mobile-header-padding-right" style="color: #4d4d4d;">
+                      <a href="https://twitter.com/intent/user?screen_name=meetingio"><?= Html::img('https://meetingplanner.io/img/social_twitter.gif', ['alt'=>'@meetingio on twitter','height'=>'47','width'=>'38']);?></a>
+                      <!-- <a href=""><img width="38" height="47" src="http://s3.amazonaws.com/swu-filepicker/LMPMj7JSRoCWypAvzaN3_social_09.gif" alt="facebook" /></a>-->
+                      <!-- <a href=""><img width="40" height="47" src="http://s3.amazonaws.com/swu-filepicker/hR33ye5FQXuDDarXCGIW_social_10.gif" alt="rss" /></a>-->
+                    </td>
+                  </tr>
+                </table>
+              </center>
+              <!--[if gte mso 9]>
+              </v:textbox>
+            </v:rect>
+            <![endif]-->
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+<?php echo $content; ?>
 </table>
-<!-- End of wrapper table -->
 <?php $this->endBody(); ?>
 </body>
 </html>

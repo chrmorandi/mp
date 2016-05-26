@@ -15,7 +15,7 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 't
         </tr>
         <tr>
           <td class="free-text">
-            Hello <?= Html::encode($user->username) ?>,
+            Hello <?php echo Html::encode(\common\components\MiscHelpers::getDisplayName($user->id)); ?>,
             Click the button below to reset your Meeting Planner password:
           </td>
         </tr>
@@ -26,7 +26,7 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 't
                 <w:anchorlock/>
                 <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">My Account</center>
               </v:roundrect>
-            <![endif]--><a class="button-mobile" href="<?= $resetLink ?>"
+            <![endif]--><a class="button-mobile" href="<?php echo $resetLink ?>"
             style="background-color:#ff6f6f;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Reset Your Password</a></div>
           </td>
         </tr>
@@ -34,3 +34,11 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 't
     </center>
   </td>
 </tr>
+<tr>
+  <td align="center" valign="top" width="100%" style="background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
+    <center>
+      <br />
+    </center>
+  </td>
+</tr>
+<?php echo \Yii::$app->view->renderFile('@common/mail/footer_static.php') ?>

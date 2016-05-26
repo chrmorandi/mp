@@ -15,7 +15,7 @@ use frontend\models\MeetingTime;
       <p><em>Hi, <?php echo $owner; ?> is inviting you to an event using a new service called <?php echo HTML::a(Yii::t('frontend','Meeting Planner'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)); ?>. The service makes it easy to plan meetings without the exhausting threads of repetitive emails. Please try it out below.</em></p>
       <p><?php echo $intro; ?></p>
       <p> <?php echo HTML::a(Yii::t('frontend','Visit the Meeting page'),$links['view']); ?>
-        | <?php echo HTML::a(Yii::t('frontend','Cancel meeting'),$links['cancel']); ?></p>      
+        | <?php echo HTML::a(Yii::t('frontend','Cancel meeting'),$links['cancel']); ?></p>
     </td>
   </tr>
   <?php
@@ -84,17 +84,4 @@ use frontend\models\MeetingTime;
   <?php
   }
   ?>
-<table  cellpadding="0" cellspacing="10" border="0" align="center" width="600">
-  <tr><td width="300" style="text-align:center;margin:10px;">
-<p>
-  <?php echo Html::a(Yii::t('frontend','Visit Meeting Planner'), MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)); ?>
-</p>
-</td></tr>
-<tr><td width="300" style="text-align:center;font-size:75%;margin:10px;">
-  <em>
-    <?php echo HTML::a(Yii::t('frontend','Review your email settings'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_EMAIL,0,$user_id,$auth_key)); ?>
-    | <?php echo HTML::a(Yii::t('frontend','Block this person'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_BLOCK,$sender_id,$user_id,$auth_key)); ?>
-    | <?php echo HTML::a(Yii::t('frontend','Block all emails'),MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$user_id,$auth_key)); ?>
-  </em>
-</td></tr>
-</table>
+<?php echo \Yii::$app->view->renderFile('@common/mail/footer_dynamic.php',['links'=>$links]) ?>
