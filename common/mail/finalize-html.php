@@ -99,4 +99,4 @@ use frontend\models\MeetingTime;
     </center>
   </td>
 </tr>
-<?php echo \Yii::$app->view->renderFile('@common/mail/footer_dynamic.php',['links'=>$links]) ?>
+<?php echo \Yii::$app->view->renderFile('@common/mail/section-footer-dynamic.php',['links'=>$links]) ?>

@@ -41,4 +41,4 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 't
     </center>
   </td>
 </tr>
-<?php echo \Yii::$app->view->renderFile('@common/mail/footer_static.php') ?>
+<?php echo \Yii::$app->view->renderFile('@common/mail/section-footer-static.php') ?>
