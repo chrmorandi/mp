@@ -13,7 +13,6 @@
           <td style="padding: 25px 0 25px">
             <strong>Meeting Planner</strong><br />
             Seattle, Washington<br />
-            <br />
           </td>
         </tr>
       </table>
