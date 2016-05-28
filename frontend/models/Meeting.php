@@ -711,51 +711,43 @@ class Meeting extends \yii\db\ActiveRecord
         /* if ($mtg->cleared_at==0)
          {
            $mtg->cleared_at=time()-1;
-         }
-*/         $mtg->update();
+         }*/
+         $mtg->update();
        }
 
        public static function findFresh() {
          // identify all meetings with log entries not yet cleared
          $meetings = Meeting::find()->where('logged_at-cleared_at>0')->all();
          foreach ($meetings as $m) {
-           // to do - choose a different safe gap
-           // temporary - don't send notifications more than an hour old
-           //echo $m->id.' - '.$m->subject.': <br />';
-           //echo ($m->logged_at-$m->cleared_at).' '.(time()-$m->logged_at).'<br />';
-           //echo '<br />';
+           // to do - choose a different safe gap, for now an hour
            if ((time()-$m->logged_at)>3600) {
              // to do - consider clearing out these old ones
              continue;
            }
            // uncleared log entry older than TIMELAPSE
            if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE) { //
-             //echo '<a href="'.Url::to(['/meeting-log/view','id'=>$m->id],true).'">view log</a>.<br />';
-             $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->groupBy('actor_id')->all();
+             // get logged items which occured after last cleared_at
+             $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->andWhere('created_at>'.$m->cleared_at)->groupBy('actor_id')->all();
              $current_actor=0;
              foreach ($logs as $log) {
-               //echo '<br />';
-               //echo $log->id.'<br />';
                if ($log->actor_id<>$current_actor) {
                   $current_actor = $log->actor_id;
                  // new actor, let's notify others
                  if ($log->actor_id==$m->owner_id) {
                    // this is the organizer
                    // notify the participants
-                   echo 'notify participants';
+                   //echo 'notify participants';
                    foreach ($m->participants as $p) {
                       $m->notify($m->id,$p->id);
                    }
                  } else {
                    // this is a participant
-                   // notify the other participants
+                   // notify the organizer and
                    // to do - when there are multiple participants
-                   // notify the organizer
-                   echo 'notify organizer';
-                   echo $m->owner_id; $m->owner->email;
                    $m->notify($m->id,$m->owner_id);
                  }
                } else {
+                 // this log entry by same actor as last
                  continue;
                }
              }
@@ -899,6 +891,8 @@ class Meeting extends \yii\db\ActiveRecord
              'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
              'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
            ];
+           // build the english language notification
+           $history = MeetingLog::getHistory($meeting_id,$user_id,$mtg->cleared_at);
            // send the message
            $message = Yii::$app->mailer->compose([
              'html' => 'notify-html',
@@ -911,6 +905,7 @@ class Meeting extends \yii\db\ActiveRecord
              'auth_key' => $a['auth_key'],
              'links' => $links,
              'meetingSettings' => $mtg->meetingSettings,
+             'history'=>$history,
          ]);
            if (!empty($a['email'])) {
              $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);

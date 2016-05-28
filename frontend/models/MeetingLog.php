@@ -214,17 +214,17 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
 					$label = MiscHelpers::getDisplayName($this->item_id);
 					if (is_null($label)) {
-						$label = 'error - unknown user';
+						$label = 'Error - unknown user';
 					}
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
 				$label = Place::find()->where(['id'=>$this->item_id])->one();
 				if (is_null($label)) {
-					$label = 'error - sugg pl';
+					$label = 'Error - suggested unknown place';
 				} else {
 					$label = $label->name;
 					if (is_null($label)) {
-						$label = 'error - sugg pl - name';
+						$label = 'Error - suggested place has unknown name';
 					}
 				}
 				break;
@@ -232,14 +232,14 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REJECT_PLACE:
 				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
 				if (is_null($label)) {
-					$label = 'error - accrej-pl';
+					$label = 'Error - Accept or reject unknown place x1';
 				} else {
 					if (is_null($label->place))
-						$label = 'err no acc rej place 1';
+						$label = 'Error Accept or reject unknown place x2';
 					else {
 						$label = $label->place->name;
 						if (is_null($label)) {
-							$label = 'error - accrej label pl name';
+							$label = 'Error accept or reject unknown place name x3';
 						}
 					}
 				}
@@ -247,14 +247,14 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_CHOOSE_PLACE:
 				$label = MeetingPlace::find()->where(['id'=>$this->item_id])->one();
 				if (is_null($label)) {
-					$label = 'error - choose -pl';
+					$label = 'Error - chose unknown place x1';
 				} else {
 					if (is_null($label->place))
-						$label = 'err no choose place 1';
+						$label = 'Error chose unknown place x2';
 					else {
 						$label = $label->place->name;
 						if (is_null($label)) {
-							$label = 'error - choose pl name';
+							$label = 'Error - choose unknown place name x3';
 						}
 					}
 				}
@@ -266,17 +266,16 @@ class MeetingLog extends \yii\db\ActiveRecord
 					// get the start time
 					$mt = MeetingTime::find()->where(['id'=>$this->item_id])->one();
 					if (is_null($mt)) {
-						$label = 'err mtime of 4';
+						$label = 'Error meeting time unknown';
 					} else {
 						$label = Meeting::friendlyDateFromTimestamp($mt->start);
 					}
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
 					if ($this->item_id ==0) {
-						$label = ' note not logged ';
+						$label = 'note not logged';
 					} else {
 						$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
-
 					}
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
@@ -292,5 +291,19 @@ class MeetingLog extends \yii\db\ActiveRecord
 				break;
 			}
 			return $label;
+		}
+
+		public static function getHistory($meeting_id,$user_id,$cleared_at) {
+			// build a textual history of events for this meeting
+			// not performed by this user_id and since cleared_at
+			$str ='';
+			$events = MeetingLog::find()->where(['meeting_id'=>$meeting_id])->andWhere('actor_id<>'.$user_id)->andWhere('created_at>'.$cleared_at)->all();
+			foreach ($events as $e) {
+				$actor = MiscHelpers::getDisplayName($e->actor_id);
+				$action = $e->getMeetingLogCommand();
+				$item = $e->getMeetingLogItem();
+				$str.=$actor.' '.$action.' '.$item.'. ';
+			}
+			return $str;
 		}
 }

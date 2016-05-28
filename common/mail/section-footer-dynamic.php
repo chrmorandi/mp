@@ -15,8 +15,8 @@ use common\components\MiscHelpers;
         </tr>
         <tr><td style="font-size:75%;"><em>
           <?php echo HTML::a(Yii::t('frontend','Email settings'),$links['footer_email']); ?>
-          | <?php echo HTML::a(Yii::t('frontend','Block person'),$links['footer_block']); ?>
-          | <?php echo HTML::a(Yii::t('frontend','Block all'),$links['footer_block_all']); ?>
+          | <?php echo HTML::a(Yii::t('frontend','Block sender'),$links['footer_block']); ?>
+          <?php //echo HTML::a(Yii::t('frontend','Block all'),$links['footer_block_all']); ?>
         </em>
         </td></tr>
       </table>

@@ -93,7 +93,7 @@ use yii\helpers\Html;
     vertical-align: top;
   }
   .button {
-    padding: 30px 0;
+    padding: 30px 0 30px 0;
   }
   .info-block {
     padding: 0 20px;
@@ -121,17 +121,42 @@ use yii\helpers\Html;
     background-color: #ffffff;
     padding: 12px 15px 15px;
     text-align: left;
+    vertical-align:top;
     width: 253px;
+  }
+
+  .mini-large-block {
+    background-color: #ffffff;
+    width: 498px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 60px 75px;
   }
 
   .mini-container-left {
     width: 278px;
     padding: 10px 0 10px 15px;
+    vertical-align: top;
   }
 
   .mini-container-right {
     width: 278px;
     padding: 10px 14px 10px 15px;
+    vertical-align: top;
+  }
+
+  .mini-large-block-container {
+    padding: 30px 50px;
+    width: 500px;
+  }
+
+  td[class="mini-large-block-container"] {
+    padding: 8px 20px !important;
+    width: 280px !important;
+
+  td[class="mini-block-container"] {
+    padding: 8px 20px !important;
+    width: 280px !important;
   }
 
   .product {

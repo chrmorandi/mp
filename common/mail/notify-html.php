@@ -18,8 +18,9 @@ use frontend\models\UserContact;
         </tr>
         <tr>
           <td class="free-text">
-            <p>Hi <?php echo Html::encode(MiscHelper::getDisplayName($user->id)); ?>, changes have been made to your meeting.
-            Please click the button below to view them on the meeting page.
+            <p>Hi <?php echo Html::encode(MiscHelper::getDisplayName($user->id)); ?>, changes have been made to your meeting.</p>
+            <p><?php echo $history; ?></p>
+            <p>Please click the button below to view the meeting page.</p>
           </td>
         </tr>
         <tr>
