@@ -63,6 +63,7 @@ public function actionQuarter() {
     // called every fifteen minutes
     $m = new Meeting;
     $past = $m->checkPast();
+    $past = $m->checkAbandoned();
     // to do - turn off output
   }
 

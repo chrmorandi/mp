@@ -83,6 +83,8 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_FOOTER_BLOCK = 410;
   const COMMAND_FOOTER_BLOCK_ALL = 420;
 
+  const ABANDONED_AGE = 2; // weeks
+
   public $title;
   public $viewer;
   public $viewer_id;
@@ -757,10 +759,22 @@ class Meeting extends \yii\db\ActiveRecord
          }
        }
 
+       public static function checkAbandoned() {
+         // review meetings in planning or sent
+         // if the last change is old move to past
+         $abandoned_time = time() - (3600*24*7*Meeting::ABANDONED_AGE);
+         $meetings = Meeting::find()->where('logged_at<'.$abandoned_time)->andWhere(['meeting.status'=>[Meeting::STATUS_SENT,Meeting::STATUS_PLANNING]])->all();
+         foreach ($meetings as $m) {
+            $m->status = Meeting::STATUS_COMPLETED;
+            $m->update();
+            MeetingLog::add($m->id,MeetingLog::ACTION_ABANDON_MEETING,$m->owner_id);
+           }
+       }
+
        public static function checkPast() {
          // review meetings in sent or confirmed STATUS_SENT
          // if the chosen datetime has passed, move to STATUS_COMPLETED
-         $meetings = Meeting::find()->where(['status'=>Meeting::STATUS_SENT])->orWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]])->all();
+         $meetings = Meeting::find()->where(['status'=>Meeting::STATUS_PLANNING])->orWhere(['meeting.status'=>[Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]])->all();
          foreach ($meetings as $m) {
            echo $m->owner_id.' - '.$m->subject.' <br />';
            $chosenTime=Meeting::getChosenTime($m->id);
@@ -768,7 +782,7 @@ class Meeting extends \yii\db\ActiveRecord
            if (time()>$chosenTime->start) {
              echo 'PAST';
              echo '<br />';
-             // chosent meeting time has password_needs_rehash
+             // chosen meeting time has password_needs_rehash
              $m->status = Meeting::STATUS_COMPLETED;
              $m->update();
              MeetingLog::add($m->id,MeetingLog::ACTION_COMPLETE_MEETING,$m->owner_id);

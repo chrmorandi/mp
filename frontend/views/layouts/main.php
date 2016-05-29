@@ -38,8 +38,8 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => Yii::t('frontend','Login'), 'url' => ['/site/login']];
             } else {
 	            $menuItems = [
+                  ['label' => Yii::t('frontend','Schedule'), 'url' => ['/meeting/create']],
                   ['label' => Yii::t('frontend','Meetings'), 'url' => ['/meeting']],
-	                ['label' => Yii::t('frontend','Places'), 'url' => ['/place/yours']],
 	            ];
             }
       			if (Yii::$app->user->isGuest) {
@@ -58,6 +58,7 @@ AppAsset::register($this);
       				$menuItems[] = [
       				            'label' => 'Account',
       				            'items' => [
+                            ['label' => Yii::t('frontend','Places'), 'url' => ['/place/yours']],
     				                 [
     				                    'label' => Yii::t('frontend','Friends'),
     				                    'url' => ['/friend'],
@@ -79,7 +80,7 @@ AppAsset::register($this);
                               'url' => ['/reminder'],
                           ],
       				                 [
-      				                    'label' => Yii::t('frontend','Logout').' (' . Yii::$app->user->identity->username . ')',
+      				                    'label' => Yii::t('frontend','Logout').' (' . \common\components\MiscHelpers::getDisplayName(Yii::$app->user->id) . ')',
       				                    'url' => ['/site/logout'],
       				                    'linkOptions' => ['data-method' => 'post']
       				                ],

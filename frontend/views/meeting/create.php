@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 
-$this->title = Yii::t('frontend', 'Create {modelClass}', [
+$this->title = Yii::t('frontend', 'Schedule a {modelClass}', [
     'modelClass' => 'Meeting',
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];

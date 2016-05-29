@@ -121,7 +121,7 @@ class ReminderController extends Controller
           // update all the meeting reminders for this reminder
           $model->updateReminder($id);
           Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your reminder has been updated for all current and future meetings.'));
-          return $this->redirect('index');
+          return $this->redirect(['/reminder/index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

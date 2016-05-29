@@ -48,6 +48,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_CHOOSE_PLACE = 110;
 	const ACTION_CHOOSE_TIME = 120;
 	const ACTION_SENT_CONTACT_REQUEST = 150;
+	const ACTION_ABANDON_MEETING = 200;
 
 	// not yet implemented
 	//	const ACTION_ = ;
@@ -134,67 +135,70 @@ class MeetingLog extends \yii\db\ActiveRecord
 		public function getMeetingLogCommand() {
 			switch ($this->action) {
 				case MeetingLog::ACTION_CREATE_MEETING:
-					$label = Yii::t('frontend','create meeting');
+					$label = Yii::t('frontend','created meeting');
 				break;
 				case MeetingLog::ACTION_EDIT_MEETING:
-					$label = Yii::t('frontend','edit meeting');
+					$label = Yii::t('frontend','edited meeting');
 				break;
 				case MeetingLog::ACTION_CANCEL_MEETING:
-					$label = Yii::t('frontend','cancel meeting');
+					$label = Yii::t('frontend','canceled meeting');
 				break;
 				case MeetingLog::ACTION_DELETE_MEETING:
-					$label = Yii::t('frontend','cancel meeting');
+					$label = Yii::t('frontend','canceled meeting');
 				break;
 				case MeetingLog::ACTION_DELETE_MEETING:
 					$label = Yii::t('frontend','deleted meeting');
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
-				$label = Yii::t('frontend','add place');
+				$label = Yii::t('frontend','added place');
 				break;
 				case MeetingLog::ACTION_SUGGEST_TIME:
-				$label = Yii::t('frontend','add time');
+				$label = Yii::t('frontend','added time');
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
-				$label = Yii::t('frontend','add note');
+				$label = Yii::t('frontend','added note');
 				break;
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-				$label = Yii::t('frontend','Invite participant');
+				$label = Yii::t('frontend','invited participant');
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
-					$label = Yii::t('frontend','accept all places');
+					$label = Yii::t('frontend','accepted all places');
 				break;
 				case MeetingLog::ACTION_ACCEPT_PLACE:
-					$label = Yii::t('frontend','accept place');
+					$label = Yii::t('frontend','accepted place');
 				break;
 				case MeetingLog::ACTION_REJECT_PLACE:
-					$label = Yii::t('frontend','reject place');
+					$label = Yii::t('frontend','rejected place');
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
-					$label = Yii::t('frontend','accept all times');
+					$label = Yii::t('frontend','accepted all times');
 				break;
 				case MeetingLog::ACTION_ACCEPT_TIME:
-					$label = Yii::t('frontend','accept time');
+					$label = Yii::t('frontend','accepted time');
 				break;
 				case MeetingLog::ACTION_REJECT_TIME:
-					$label = Yii::t('frontend','reject time');
+					$label = Yii::t('frontend','rejected time');
 				break;
 				case MeetingLog::ACTION_CHOOSE_PLACE:
-					$label = Yii::t('frontend','choose place');
+					$label = Yii::t('frontend','chose place');
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
-					$label = Yii::t('frontend','choose time');
+					$label = Yii::t('frontend','chose time');
 				break;
 				case MeetingLog::ACTION_SEND_INVITE:
-				$label = Yii::t('frontend','Send');
+				$label = Yii::t('frontend','Sent');
 				break;
 				case MeetingLog::ACTION_FINALIZE_INVITE:
-				$label = Yii::t('frontend','Finalize');
+				$label = Yii::t('frontend','Finalized');
 				break;
 				case MeetingLog::ACTION_COMPLETE_MEETING:
-				$label = Yii::t('frontend','Complete meeting');
+				$label = Yii::t('frontend','Completed meeting');
 				break;
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
-				$label = Yii::t('frontend','Send request for contact information');
+				$label = Yii::t('frontend','Sent request for contact information');
+				case MeetingLog::ACTION_ABANDON_MEETING:
+				$label = Yii::t('frontend','Abandoned meeting');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -275,7 +279,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 					if ($this->item_id ==0) {
 						$label = 'note not logged';
 					} else {
-						$label = MeetingNote::find()->where(['id'=>$this->item_id])->one()->note;
+						$label = '"'.MeetingNote::find()->where(['id'=>$this->item_id])->one()->note.'"';
 					}
 				break;
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
@@ -283,6 +287,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SEND_INVITE:
 				case MeetingLog::ACTION_FINALIZE_INVITE:
 				case MeetingLog::ACTION_COMPLETE_MEETING:
+				case MeetingLog::ACTION_ABANDON_MEETING:
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
 					$label = Yii::t('frontend','-');
 				break;
@@ -297,13 +302,45 @@ class MeetingLog extends \yii\db\ActiveRecord
 			// build a textual history of events for this meeting
 			// not performed by this user_id and since cleared_at
 			$str ='';
-			$events = MeetingLog::find()->where(['meeting_id'=>$meeting_id])->andWhere('actor_id<>'.$user_id)->andWhere('created_at>'.$cleared_at)->all();
+			$events = MeetingLog::find()->where(['meeting_id'=>$meeting_id])->andWhere('actor_id<>'.$user_id)->andWhere('created_at>'.$cleared_at)->orderBy(['created_at' => SORT_DESC,'actor_id'=>SORT_ASC])->all();
+			$num_events = count($events);
+			$cnt =1;
+			$current_actor = 0;
+			$current_str='';
+			$items_mentioned =[];
 			foreach ($events as $e) {
-				$actor = MiscHelpers::getDisplayName($e->actor_id);
+				if ($e->actor_id <> $current_actor) {
+					// new actor, update the overall string
+					$str.=$current_str.'<br />';
+					// reset the current actor's event string
+					$current_str='';
+					$current_actor = $e->actor_id;
+					$actor = MiscHelpers::getDisplayName($e->actor_id);
+				} else {
+						$actor = '';
+				}
 				$action = $e->getMeetingLogCommand();
 				$item = $e->getMeetingLogItem();
-				$str.=$actor.' '.$action.' '.$item.'. ';
+				if (in_array($e->item_id,$items_mentioned)) {
+					// only mention item the first time it appears (last action, as sorted)
+					$cnt+=1;
+					continue;
+				} else {
+					$items_mentioned[]=$e->item_id;
+					if ($actor=='') {
+							if ($cnt == $num_events) {
+								$current_str.=' and '.$action.' '.$item;
+							} else {
+								$current_str.=', '.$action.' '.$item;
+							}
+					} else {
+							$current_str.=$actor.' '.$action.' '.$item;
+					}					
+					$cnt+=1;
+				}
 			}
+			// add last current_str (may be empty)
+			$str.=$current_str.'<br />';
 			return $str;
 		}
 }

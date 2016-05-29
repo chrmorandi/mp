@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use frontend\models\Meeting;
 use common\models\User;
+use common\components\MiscHelpers;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MeetingLogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -29,14 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
     //'filterModel' => $searchModel,
     'columns' => [
         //['class' => 'yii\grid\SerialColumn'],
-        [
+        /*[
           'label'=>'MtgId',
             'attribute' => 'meeting_id',
             'format' => 'raw',
             'value' => function ($model) {
                 return '<div>'.$model->meeting_id.'</div>';
                 },
-        ],
+        ],*/
         [
           'label'=>'Subject',
             'attribute' => 'subject',
@@ -50,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'actor_id',
             'format' => 'raw',
             'value' => function ($model) {
-                    return '<div>'.User::find($model->actor_id)->one()->username.'</div>';
+                    return '<div>'.MiscHelpers::getDisplayName($model->actor_id).'</div>';
                 },
         ],
         [
