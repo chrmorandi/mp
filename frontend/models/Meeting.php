@@ -441,6 +441,8 @@ class Meeting extends \yii\db\ActiveRecord
       // Get message header
       $header = $this->getMeetingHeader();
       // build an attendees array of both the organizer and the participants
+      // to do - this can be replaced by buildAttendeeList
+      // but friendship reciprocate needs to be reviewed and included
       $cnt =0;
       $attendees = array();
       foreach ($this->participants as $p) {
@@ -822,6 +824,63 @@ class Meeting extends \yii\db\ActiveRecord
          }
        }
 
+       public static function sendLateNotice($meeting_id,$sender_id) {
+         // check meeting log to see if it's already been sent for meeting, user_id
+         $ml = MeetingLog::find()->where(['meeting_id'=>$meeting_id,'actor_id'=>$sender_id,'action'=>MeetingLog::ACTION_SENT_RUNNING_LATE])->count();
+         if ($ml>0) {
+           return false;
+         }
+         $sender_name=MiscHelpers::getDisplayName($sender_id);
+         // for all participants and organizer not the $user_id
+         $mtg = Meeting::findOne($meeting_id);
+         $attendees = $mtg->buildAttendeeList();
+         $contacts_html= UserContact::buildContactString($sender_id,'html');
+         foreach ($attendees as $a)
+         {
+          if ($a['user_id']==$sender_id) {
+            // don't send late notice to sender
+            continue;
+          }
+          // send the late notice
+         // check if email is okay and okay from this sender_id
+         if (User::checkEmailDelivery($a['user_id'],$sender_id)) {
+             // Build the absolute links to the meeting and commands
+             $links=[
+               'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+               'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+               'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+               'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
+               'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+             ];
+             // send the message
+             $message = Yii::$app->mailer->compose([
+               'html' => 'late-html',
+               'text' => 'late-text'
+             ],
+             [
+               'meeting_id' => $mtg->id,
+               'sender_id'=> $sender_id,
+               'user_id' => $a['user_id'],
+               'auth_key' => $a['auth_key'],
+               'links' => $links,
+               'meetingSettings' => $mtg->meetingSettings,
+               'sender_name' => $sender_name,
+               'contacts_html' => $contacts_html,
+           ]);
+             if (!empty($a['email'])) {
+               $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
+               $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
+               $message->setTo($a['email'])
+                   ->setSubject(Yii::t('frontend','Meeting Update: '.$sender_name.' is Running Late'))
+                   ->send();
+             }
+          }
+        }
+         // add the event
+         MeetingLog::add($meeting_id,MeetingLog::ACTION_SENT_RUNNING_LATE,$sender_id);
+         return true;
+       }
+
      public static function checkContactInformation($meeting_id) {
        $mtg = Meeting::findOne($meeting_id);
        $user_id = $mtg->owner_id;
@@ -944,5 +1003,25 @@ class Meeting extends \yii\db\ActiveRecord
          return true;
        }
        return false;
+     }
+
+     public function buildAttendeeList() {
+       // build an attendees array of both the organizer and the participants
+       $cnt =0;
+       $attendees = array();
+       foreach ($this->participants as $p) {
+         if ($p->status ==Participant::STATUS_DEFAULT) {
+           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+           'email'=>$p->participant->email,
+           'username'=>$p->participant->username];
+           $cnt+=1;
+         }
+       }
+       $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
+       $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
+         'email'=>$this->owner->email,
+         'username'=>$this->owner->username];
+      return $attendees;
      }
 }

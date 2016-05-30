@@ -152,7 +152,17 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
       // get place
       $chosen_place = Meeting::getChosenPlace($meeting_id);
-
+      // build contact details for all other attendees
+      $contacts_html = '';
+      // get attendees
+      $attendee_list = $mtg->buildAttendeeList();
+      foreach ($attendee_list as $c) {
+        if ($c['user_id']==$user_id) {
+          // dont add user whose reminder this is
+          continue;
+        }
+        $contacts_html .= UserContact::buildContactString($c['user_id'],'html');
+      }
       $a=['user_id'=>$user_id,
        'auth_key'=>$u->auth_key,
        'email'=>$u->email,
@@ -182,6 +192,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'auth_key' => $a['auth_key'],
             'display_time' => $display_time,
             'chosen_place' => $chosen_place,
+            'contacts_html'=>$contacts_html,
             'links' => $links,
             'meetingSettings' => $mtg->meetingSettings,
         ]);

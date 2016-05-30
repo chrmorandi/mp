@@ -37,12 +37,12 @@ class MeetingController extends Controller
             ],
           'access' => [
                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
-                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash'],
+                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
                         'rules' => [
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash'],
+                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
                                'roles' => ['@'],
                            ],
                           [
@@ -261,6 +261,16 @@ class MeetingController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionLate($id,$result=false)
+    {
+        if ($result) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We have notified the other participant(s) that you are running a few minutes late.'));
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, it appears we already notified the other participants that you are running late.'));
+        }
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
     public function actionDownload($id) {
       echo Meeting::buildCalendar($id);
     }
@@ -444,7 +454,8 @@ class MeetingController extends Controller
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_RUNNING_LATE:
-            // to do 
+            $result = Meeting::sendLateNotice($id,$actor_id);
+            $this->redirect(['meeting/late','id'=>$id,'result'=>$result]);
           break;
           case Meeting::COMMAND_FOOTER_EMAIL:
             // change email settings

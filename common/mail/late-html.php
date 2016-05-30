@@ -13,27 +13,13 @@ use frontend\models\UserContact;
       <table cellspacing="0" cellpadding="0" width="600" class="w320">
         <tr>
           <td class="header-lg">
-            Reminder of Your Meeting
+            Late Notice
           </td>
         </tr>
         <tr>
           <td class="free-text">
-            Just a reminder about your upcoming meeting <?php echo $display_time; ?>
-            <?php
-            // this code is similar to code in finalize-html
-            if ($chosen_place!==false) {
-            ?>
-            &nbsp;at <?php echo $chosen_place->place->name; ?>&nbsp;
-              (<?php echo $chosen_place->place->vicinity; ?>, <?php echo HTML::a(Yii::t('frontend','map'),$links['view_map']); ?>)
-              <?php
-            } else {
-            ?>
-            &nbsp;via phone or video conference.
-            <?php
-              }
-            ?>
-            <br />
-            Click below to view more details to view the meeting page.
+            Just a note that <?php echo $sender_name; ?> is running a few minutes late for your meeting.<br />
+            Click below to view the meeting page.
           </td>
         </tr>
       <tr>
