@@ -157,7 +157,6 @@ class UserContact extends \yii\db\ActiveRecord
         $str.='<br />';
     }
     foreach ($contacts as $c) {
-
       if ($mode=='ical') {
         $str.=$c->friendly_type.': '.$c->info.' ('.$c->details.')\\n';
       } else if ($mode =='html') {

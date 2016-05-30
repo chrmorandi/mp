@@ -44,7 +44,7 @@ use frontend\models\UserContact;
                       <strong>Helpful options:</strong>
                       <p>
                         <?php
-                          echo HTML::a(Yii::t('frontend','Inform them I\'m running late.'),$links['running_late']);
+                          echo HTML::a(Yii::t('frontend','Inform them I\'m running late as well.'),$links['running_late']);
                         ?>
                       </p>
                         <?php if ($contacts_html <>'') {

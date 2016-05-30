@@ -124,7 +124,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
       foreach ($mrs as $mr) {
         // process each meeting reminder
         //var_dump($mr);continue;
-        //var_dump($mr);echo '<p><br /></p>';
+        var_dump($mr);echo '<p><br /></p>';
         MeetingReminder::process($mr);
       }
     }
