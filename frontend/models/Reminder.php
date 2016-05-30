@@ -192,8 +192,9 @@ class Reminder extends \yii\db\ActiveRecord
       }
       // create meeting reminder for all meetings where this reminder's creator is a participant
       $part_mtgs = Participant::find()->where(['participant_id'=>$rem->user_id])->all();
-      foreach ($part_mtgs as $m) {
-        MeetingReminder::create($m->id,$rem->user_id,$rem->id,$rem->duration);
+      foreach ($part_mtgs as $p) {
+        // fixed - there was a big bug here where I was using participant_id not p->meeting_id
+        MeetingReminder::create($p->meeting_id,$rem->user_id,$rem->id,$rem->duration);
       }
     }
 
@@ -235,7 +236,7 @@ class Reminder extends \yii\db\ActiveRecord
         // for their reminders
         $rems = Reminder::find()->where(['user_id'=>$a])->all();
         foreach ($rems as $rem) {
-          // create a meeting reminder for that reminder at that time          
+          // create a meeting reminder for that reminder at that time
             MeetingReminder::create($meeting_id,$a,$rem->id,$rem->duration);
         }
       }

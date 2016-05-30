@@ -478,6 +478,9 @@ class MeetingController extends Controller
             Yii::$app->getSession()->setFlash('success', 'You will no longer receive email from us. You can reverse this below.');
             $this->redirect(['user-setting/update','id'=>$us->id]);
           break;
+          case Meeting::COMMAND_GO_REMINDERS:
+            $this->redirect(['reminder/index']);
+          break;
           default:
             $this->redirect(['site\error','meeting_id'=>$id]);
             break;

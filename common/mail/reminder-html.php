@@ -71,6 +71,9 @@ use frontend\models\UserContact;
                        </p>
                       <?php }
                       ?>
+                      <p>
+                        <?php echo HTML::a(Yii::t('frontend','Adjust your reminder settings'),$links['reminders']); ?>
+                      </p>
                     </td>
                   </tr>
                 </table>

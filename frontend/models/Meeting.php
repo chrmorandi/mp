@@ -83,6 +83,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_FOOTER_EMAIL = 400;
   const COMMAND_FOOTER_BLOCK = 410;
   const COMMAND_FOOTER_BLOCK_ALL = 420;
+  const COMMAND_GO_REMINDERS = 450;
 
   const ABANDONED_AGE = 2; // weeks
 

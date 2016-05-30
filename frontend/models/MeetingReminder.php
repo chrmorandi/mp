@@ -178,7 +178,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
             'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key']),
-            'view_map'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,0,$a['user_id'],$a['auth_key'])
+            'view_map'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,0,$a['user_id'],$a['auth_key']),
+            'reminders'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_GO_REMINDERS,0,$a['user_id'],$a['auth_key'])
           ];
           // send the message
           $message = Yii::$app->mailer->compose([
