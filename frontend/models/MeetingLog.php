@@ -48,6 +48,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_CHOOSE_PLACE = 110;
 	const ACTION_CHOOSE_TIME = 120;
 	const ACTION_SENT_CONTACT_REQUEST = 150;
+	const ACTION_SENT_RUNNING_LATE = 160;
 	const ACTION_ABANDON_MEETING = 200;
 
 	// not yet implemented
@@ -196,6 +197,10 @@ class MeetingLog extends \yii\db\ActiveRecord
 				break;
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
 				$label = Yii::t('frontend','Sent request for contact information');
+				break;
+				case MeetingLog::ACTION_SENT_RUNNING_LATE:
+				$label = Yii::t('frontend','Sent running late notification');
+				break;
 				case MeetingLog::ACTION_ABANDON_MEETING:
 				$label = Yii::t('frontend','Abandoned meeting');
 				break;
@@ -289,6 +294,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_COMPLETE_MEETING:
 				case MeetingLog::ACTION_ABANDON_MEETING:
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
+				case MeetingLog::ACTION_SENT_RUNNING_LATE:
 					$label = Yii::t('frontend','-');
 				break;
 				default:
@@ -335,7 +341,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 							}
 					} else {
 							$current_str.=$actor.' '.$action.' '.$item;
-					}					
+					}
 					$cnt+=1;
 				}
 			}

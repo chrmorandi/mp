@@ -79,6 +79,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_ADD_TIME = 310;
   const COMMAND_ADD_NOTE = 320;
   const COMMAND_ADD_CONTACT = 330;
+  const COMMAND_RUNNING_LATE = 350;
   const COMMAND_FOOTER_EMAIL = 400;
   const COMMAND_FOOTER_BLOCK = 410;
   const COMMAND_FOOTER_BLOCK_ALL = 420;

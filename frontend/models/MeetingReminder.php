@@ -146,9 +146,13 @@ class MeetingReminder extends \yii\db\ActiveRecord
         return false;
       }
       // prepare data for the message
+      // get time
       $chosen_time = Meeting::getChosenTime($meeting_id);
       $timezone = MiscHelpers::fetchUserTimezone($user_id);
       $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
+      // get place
+      $chosen_place = Meeting::getChosenPlace($meeting_id);
+
       $a=['user_id'=>$user_id,
        'auth_key'=>$u->auth_key,
        'email'=>$u->email,
@@ -163,6 +167,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+            'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key']),
+            'view_map'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,0,$a['user_id'],$a['auth_key'])
           ];
           // send the message
           $message = Yii::$app->mailer->compose([
@@ -175,6 +181,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'user_id' => $a['user_id'],
             'auth_key' => $a['auth_key'],
             'display_time' => $display_time,
+            'chosen_place' => $chosen_place,
             'links' => $links,
             'meetingSettings' => $mtg->meetingSettings,
         ]);

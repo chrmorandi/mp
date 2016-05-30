@@ -443,6 +443,9 @@ class MeetingController extends Controller
             MeetingTime::setChoice($id,$obj_id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
           break;
+          case Meeting::COMMAND_RUNNING_LATE:
+            // to do 
+          break;
           case Meeting::COMMAND_FOOTER_EMAIL:
             // change email settings
             // find the correct usersetting record by actor_id
