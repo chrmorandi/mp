@@ -730,12 +730,14 @@ class Meeting extends \yii\db\ActiveRecord
              // to do - consider clearing out these old ones
              continue;
            }
+           echo 'M-id: '.$m->id.'<br />';
            // uncleared log entry older than TIMELAPSE
            if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE) { //
              // get logged items which occured after last cleared_at
              $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->andWhere('created_at>'.$m->cleared_at)->groupBy('actor_id')->all();
              $current_actor=0;
              foreach ($logs as $log) {
+               echo 'ML-id: '.$log->id.'<br />';
                if ($log->actor_id<>$current_actor) {
                   $current_actor = $log->actor_id;
                  // new actor, let's notify others
@@ -744,7 +746,8 @@ class Meeting extends \yii\db\ActiveRecord
                    // notify the participants
                    //echo 'notify participants';
                    foreach ($m->participants as $p) {
-                      $m->notify($m->id,$p->id);
+                     echo 'Notify P-id: '.$p->participant_id.'<br />';
+                      $m->notify($m->id,$p->participant_id);
                    }
                  } else {
                    // this is a participant
