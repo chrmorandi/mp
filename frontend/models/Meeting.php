@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\Html;
 use yii\db\ActiveRecord;
 use yii\i18n\Formatter;
 use common\models\Yiigun;
@@ -809,7 +810,7 @@ class Meeting extends \yii\db\ActiveRecord
                $user->update();
            }
            $t=$user->password_reset_token;
-            Yii::$app->getSession()->setFlash('info', '<a href="'.Url::to(['/site/reset-password','token'=>$t],true).'">'.Yii::t('frontend','Please create a password so you can login with us directly.').'</a>');
+            Yii::$app->getSession()->setFlash('info', Yii::t('frontend','Please ').HTML::a(Yii::t('frontend','reset your password'),Url::to(['/site/reset-password','token'=>$t],true)).Yii::t('frontend',' or ').Html::a(Yii::t('frontend','link a social account (e.g. Google, Facebook, LinkedIn)'),Url::to(['/user-profile','tab'=>'social'],true)).Yii::t('frontend',' so you can login directly.').'</a>');
          } else {
             $up_id = MiscHelpers::isProfileEmpty($user_id);
             // returns UserProfile->id if available

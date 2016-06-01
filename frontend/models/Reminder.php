@@ -100,7 +100,10 @@ class Reminder extends \yii\db\ActiveRecord
     }
 
     public static function initialize($user_id) {
-      // create initial reminders for a user
+      // check if any reminders exist
+      $cnt=Reminder::find()->where(['user_id'=>$user_id])->count();
+      if ($cnt>0) return false;
+      // if not, create initial reminders for a user
       $r1 = new Reminder();
       $r1->user_id = $user_id;
       $r1->duration_friendly = 3;

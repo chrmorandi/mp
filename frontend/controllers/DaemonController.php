@@ -76,7 +76,7 @@ public function actionQuarter() {
 
     public function actionFix()
     {
-      // \frontend\models\Fix::cleanupReminders();
+      \frontend\models\Fix::cleanupReminders();
       echo 'complete';
     }
 }

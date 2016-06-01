@@ -129,8 +129,12 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->item_id =$item_id;
          $log->extra_id =$extra_id;
          $log->save();
-				 // sets the touched_at field for the Meeting
-				 Meeting::touchLog($meeting_id);
+				 // don't need the update sent for these actions, so no need to touch logged_at
+				 $ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST];
+				 if (!in_array($action,$ignorable)) {
+					 // sets the touched_at field for the Meeting
+	 				Meeting::touchLog($meeting_id);
+				 }
     }
 
 		public function getMeetingLogCommand() {
@@ -308,7 +312,10 @@ class MeetingLog extends \yii\db\ActiveRecord
 			// build a textual history of events for this meeting
 			// not performed by this user_id and since cleared_at
 			$str ='';
-			$events = MeetingLog::find()->where(['meeting_id'=>$meeting_id])->andWhere('actor_id<>'.$user_id)->andWhere('created_at>'.$cleared_at)->orderBy(['created_at' => SORT_DESC,'actor_id'=>SORT_ASC])->all();
+			$events = MeetingLog::find()->where(['meeting_id'=>$meeting_id])
+				->andWhere('actor_id<>'.$user_id)
+				->andWhere('created_at>'.$cleared_at)
+				->orderBy(['created_at' => SORT_DESC,'actor_id'=>SORT_ASC])->all();
 			$num_events = count($events);
 			$cnt =1;
 			$current_actor = 0;
