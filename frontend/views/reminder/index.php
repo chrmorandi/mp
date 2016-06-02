@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\ReminderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -16,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
@@ -40,9 +39,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
               'template'=>'{update}&nbsp;&nbsp;{delete}',
             ],
+
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
 <p>
     <?= Html::a(Yii::t('frontend', 'Add a Reminder'), ['create'], ['class' => 'btn btn-success']) ?>
 </p>

@@ -138,7 +138,7 @@ class ReminderController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        MeetingReminder::find()->where(['reminder_id'=>$id])->deleteAll();
+        MeetingReminder::deleteAll(['reminder_id'=>$id]);
         return $this->redirect(['index']);
     }
 

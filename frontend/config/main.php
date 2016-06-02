@@ -9,7 +9,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'mp-frontend',
     'name' => 'Meeting Planner',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -41,27 +41,6 @@ return [
                               */
               ],
           ],
-      'urlManager' => [
-                  'class' => 'yii\web\UrlManager',
-                  'enablePrettyUrl' => true,
-                  'showScriptName' => 'false',
-                  'enableStrictParsing' => false,
-                  'rules' => [
-                      'place' => 'place/index',
-                      'place/index' => 'place/index',
-                      'place/yours' => 'place/yours',
-                      'place/create' => 'place/create',
-                      'place/create_geo' => 'place/create_geo',
-                      'place/create_place_google' => 'place/create_place_google',
-                      'place/view/<id:\d+>' => 'place/view',
-                      'place/update/<id:\d+>' => 'place/update',
-                      'place/<slug>' => 'place/slug',
-                      '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                      '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                      '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-					            'defaultRoute' => '/site/index',
-                  ],
-              ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

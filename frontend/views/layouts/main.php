@@ -25,8 +25,8 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-        <?php
-            NavBar::begin([
+        <?php        
+                NavBar::begin([
                 'brandLabel' => Yii::t('frontend','MeetingPlanner.io'), //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
