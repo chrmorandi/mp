@@ -8,30 +8,31 @@ use frontend\models\UserContact;
 /* @var $message \yii\mail\BaseMessage instance of newly created mail message */
 ?>
 <tr>
-  <td align="center" valign="top" width="100%" style="background-color: #f7f7f7;" class="content-padding">
+  <td align="center" valign="top" width="100%" style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; padding:20px 0 30px; background-color:#f7f7f7" bgcolor="#f7f7f7">
     <center>
-      <table cellspacing="0" cellpadding="0" width="600" class="w320">
+      <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
-          <td class="header-lg">
+          <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:32px; line-height:normal; text-align:center; border-collapse:collapse; font-weight:700; padding:35px 0 0" align="center">
             Changes to Your Meeting
           </td>
         </tr>
         <tr>
-          <td class="free-text">
+          <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
             <p>Hi <?php echo Html::encode(MiscHelpers::getDisplayName($user_id)); ?>, changes have been made to your meeting.</p>
             <p><?php echo $history; ?></p>
             <p>Please click the button below to view the meeting page.</p>
           </td>
         </tr>
         <tr>
-          <td class="button">
-            <div><!--[if mso]>
+          <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:30px 0 30px 0" align="center">
+            <div>
+<!--[if mso]>
               <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:45px;v-text-anchor:middle;width:155px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#ff6f6f">
                 <w:anchorlock/>
                 <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">My Account</center>
               </v:roundrect>
-            <![endif]--><a class="button-mobile" href="<?php echo $links['view'] ?>"
-            style="background-color:#ff6f6f;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Visit Meeting Page</a></div>
+            <![endif]--><a href="<?php echo $links['view'] ?>" style='color:#fff; text-decoration:none; -webkit-text-size-adjust:none; background-color:#ff6f6f; border-radius:5px; display:inline-block; font-family:"Cabin", Helvetica, Arial, sans-serif; font-size:14px; font-weight:regular; line-height:45px; mso-hide:all; text-align:center; width:155px' bgcolor="#ff6f6f" align="center" width="155">Visit Meeting Page</a>
+</div>
           </td>
         </tr>
       </table>
@@ -39,9 +40,9 @@ use frontend\models\UserContact;
   </td>
 </tr>
 <tr>
-  <td align="center" valign="top" width="100%" style="background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
+  <td align="center" valign="top" width="100%" style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; background-color:#fff; border-bottom:1px solid #e5e5e5; border-top:1px solid #e5e5e5" bgcolor="#ffffff">
     <center>
-      <br />
+      <br>
     </center>
   </td>
 </tr>
