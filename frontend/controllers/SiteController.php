@@ -270,46 +270,52 @@ class SiteController extends Controller
                     ]);
                     $this->redirect(['login']);
                   } else {
-                    if ($mode == 'login') {
-                      // they were trying to login with an unconnected account - ask them to login normally and link after
-                      Yii::$app->getSession()->setFlash('error', [
-                          Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
-                      ]);
-                      $this->redirect(['signup']);
-                    } else if ($mode == 'signup') {
-                      // sign up a new account using oauth
-                      // look for username that exists already and differentiate it
-                      if (isset($username) && User::find()->where(['username' => $username])->exists()) {
-                        $username.=Yii::$app->security->generateRandomString(6);
-                      }
-                      $password = Yii::$app->security->generateRandomString(12);
-                        $user = new User([
-                            'username' => $username, // $attributes['login'],
-                            'email' => $email,
-                            'password' => $password,
-                            'status' => User::STATUS_ACTIVE,
+                    switch ($mode) {
+                      case 'login':
+                        // they were trying to login with an unconnected account - ask them to login normally and link after
+                        Yii::$app->getSession()->setFlash('error', [
+                            Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
                         ]);
-                        $user->generateAuthKey();
-                        $user->generatePasswordResetToken();
-                        $transaction = $user->getDb()->beginTransaction();
-                        if ($user->save()) {
-                            $auth = new Auth([
-                                'user_id' => $user->id,
-                                'source' => $serviceProvider, // $client->getId(),
-                                'source_id' => $serviceId, // (string)$attributes['id'],
-                            ]);
-                            if ($auth->save()) {
-                                $transaction->commit();
-                                User::completeInitialize($user->id);
-                                UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
-                                Yii::$app->user->login($user);
-                            } else {
-                                print_r($auth->getErrors());
-                            }
-                        } else {
-                            print_r($user->getErrors());
+                        $this->redirect(['signup']);
+                        break;
+                      case 'signup':
+                        // sign up a new account using oauth
+                        // look for username that exists already and differentiate it
+                        if (isset($username) && User::find()->where(['username' => $username])->exists()) {
+                          $username.=Yii::$app->security->generateRandomString(6);
                         }
-                      } // end signup
+                        $password = Yii::$app->security->generateRandomString(12);
+                          $user = new User([
+                              'username' => $username, // $attributes['login'],
+                              'email' => $email,
+                              'password' => $password,
+                              'status' => User::STATUS_ACTIVE,
+                          ]);
+                          $user->generateAuthKey();
+                          $user->generatePasswordResetToken();
+                          $transaction = $user->getDb()->beginTransaction();
+                          if ($user->save()) {
+                              $auth = new Auth([
+                                  'user_id' => $user->id,
+                                  'source' => $serviceProvider, // $client->getId(),
+                                  'source_id' => $serviceId, // (string)$attributes['id'],
+                              ]);
+                              if ($auth->save()) {
+                                  $transaction->commit();
+                                  User::completeInitialize($user->id);
+                                  UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
+                                  Yii::$app->user->login($user);
+                              } else {
+                                  print_r($auth->getErrors());
+                              }
+                          } else {
+                              print_r($user->getErrors());
+                          }
+                      break;
+                      case 'schedule':
+                      // to do - neeeds integration above as well
+                      break;
+                    }
                   }
                 }
             } else {

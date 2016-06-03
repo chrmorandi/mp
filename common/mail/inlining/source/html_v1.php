@@ -1,4 +1,6 @@
 <?php
+/* This was the first early template that we used - based on some public mailgun templates */
+/* But it had obvious defects and limitations */
 use yii\helpers\Html;
 /* @var $this \yii\web\View view component instance */
 /* @var $message \yii\mail\MessageInterface the message being composed */

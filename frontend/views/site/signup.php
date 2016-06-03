@@ -12,9 +12,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-signup">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to signup:</p>
+    <div class="row">
+        <div class="col-lg-5">
+          <p><?php echo Yii::t('frontend','Please sign up one of these services:'); ?></p>
+          <?= yii\authclient\widgets\AuthChoice::widget([
+               'baseAuthUrl' => ['site/auth','mode'=>'signup'],
+               'popupMode' => false,
+          ]) ?>
+        </div> <!-- end col-lg-5 -->
+      </div> <!-- end row -->
 
     <div class="row">
+      <p>Or, fill out the following fields to register manually:</p>
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <?= $form->field($model, 'username') ?>
@@ -26,13 +35,5 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-5">
-          <p><?php echo Yii::t('frontend','Or, sign up with your existing account at one of these services:'); ?></p>
-          <?= yii\authclient\widgets\AuthChoice::widget([
-               'baseAuthUrl' => ['site/auth','mode'=>'signup'],
-               'popupMode' => false,
-          ]) ?>
-        </div> <!-- end col-lg-5 -->
-      </div> <!-- end row -->
+
 </div>

@@ -42,7 +42,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
+                               'actions'=>['create','index','view','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
                                'roles' => ['@'],
                            ],
                           [
@@ -218,9 +218,15 @@ class MeetingController extends Controller
               ]);
           }
         } else {
-          return $this->render('create', [
-              'model' => $model,
-          ]);
+          if (\Yii::$app->user->isGuest) {
+            return $this->render('create_guest', [
+                'model' => $model,
+            ]);
+          } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+          }
         }
     }
 
