@@ -18,7 +18,7 @@ use frontend\models\UserContact;
         </tr>
         <tr>
           <td class="free-text">
-            Hi <?php echo Html::encode(MiscHelper::getDisplayName($user->id)); ?>,
+            Hi <?php echo Html::encode(MiscHelpers::getDisplayName($user_id)); ?>,
             We don't have any contact information for you for your <?php echo HTML::a(Yii::t('frontend','upcoming meeting'),$links['view']); ?>.
             Please click the button below to add your phone number or online conferencing details.
           </td>
@@ -31,7 +31,7 @@ use frontend\models\UserContact;
                 <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">My Account</center>
               </v:roundrect>
             <![endif]--><a class="button-mobile" href="<?php echo $links['add_contact'] ?>"
-            style="background-color:#ff6f6f;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Add Contact Information</a></div>
+            style="background-color:#ff6f6f;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:175px;-webkit-text-size-adjust:none;mso-hide:all;">Add Contact Information</a></div>
           </td>
         </tr>
       </table>

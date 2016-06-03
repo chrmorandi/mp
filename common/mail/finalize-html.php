@@ -79,7 +79,7 @@ use frontend\models\MeetingTime;
                               } else {
                                   ?>
                                   Phone or video <br />
-                                  Contact info will appear here in the future>br />
+                                  Contact info will appear here in the future<br />
                               <?php
                                 }
                               ?>

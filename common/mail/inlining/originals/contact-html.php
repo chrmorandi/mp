@@ -18,7 +18,7 @@ use frontend\models\UserContact;
         </tr>
         <tr>
           <td class="free-text">
-            Hi <?php echo Html::encode(MiscHelper::getDisplayName($user->id)); ?>,
+            Hi <?php echo Html::encode(MiscHelpers::getDisplayName($user_id)); ?>,
             We don't have any contact information for you for your <?php echo HTML::a(Yii::t('frontend','upcoming meeting'),$links['view']); ?>.
             Please click the button below to add your phone number or online conferencing details.
           </td>
