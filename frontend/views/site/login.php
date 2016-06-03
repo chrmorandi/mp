@@ -11,10 +11,10 @@ $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title).' '.Yii::t('frontend','to Meeting Planner') ?></h1>
     <div class="row">
         <div class="col-lg-5">
-          <p>Please use one of the following services:</p>
+          <p>It's easiest to login using one of the following services:</p>
           <?= yii\authclient\widgets\AuthChoice::widget([
                'baseAuthUrl' => ['site/auth','mode'=>'login'],
                'popupMode' => false,
@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
       </div> <!-- end row -->
 
     <div class="row">
-      <p>Or, fill out the following fields to login:</p>
         <div class="col-lg-5">
+          <p>Or, fill out the following fields to login:</p>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
                 <?= $form->field($model, 'username') ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>

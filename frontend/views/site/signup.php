@@ -10,11 +10,11 @@ $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title).' '.Yii::t('frontend','with Meeting Planner') ?></h1>
 
     <div class="row">
         <div class="col-lg-5">
-          <p><?php echo Yii::t('frontend','Please sign up one of these services:'); ?></p>
+          <p><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
           <?= yii\authclient\widgets\AuthChoice::widget([
                'baseAuthUrl' => ['site/auth','mode'=>'signup'],
                'popupMode' => false,
