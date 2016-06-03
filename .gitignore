@@ -33,6 +33,9 @@ phpunit.phar
 /frontend/web/uploads
 /frontend/web/invites
 
+#unused inlining template files
+/common/mail/inlining
+
 #local environment files
 /environments/prod/common/config/main-local.php
 /environments/prod/frontend/config/main-local.php

@@ -4,7 +4,7 @@ return [
     // available languages
     // 'ar','de','es','it','iw','ja','yi','zh-CN'
     'language' => 'en', // english
-    'homeUrl' => '/mp',
+    // 'homeUrl' => '/mp',
     'components' => [
         'urlManager' => [
                   'class' => 'yii\web\UrlManager',
