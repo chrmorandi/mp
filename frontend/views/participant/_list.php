@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use \common\components\MiscHelpers;
 
 ?>
 
@@ -8,7 +9,7 @@ use yii\helpers\Html;
   <td style >
     <div class="meeting-participant-view">
       <div>
-        <?php echo $model->participant->email ?>
+        <?php echo MiscHelpers::getDisplayName($model->participant->id); ?>
         <?php
           if ($model->participant->status == \frontend\models\Participant::STATUS_DECLINED) {
             echo Yii::t('frontend','(declined)');

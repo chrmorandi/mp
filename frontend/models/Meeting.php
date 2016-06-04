@@ -121,7 +121,7 @@ class Meeting extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['owner_id', 'subject'], 'required'],
+            [['owner_id'], 'required'],
             [['owner_id', 'meeting_type', 'status', 'created_at', 'updated_at','sequence_id'], 'integer'],
             [['message','subject'], 'string']
         ];
@@ -1030,4 +1030,9 @@ class Meeting extends \yii\db\ActiveRecord
          'username'=>$this->owner->username];
       return $attendees;
      }
+
+    public static function findEmptyMeeting($user_id) {
+      $emptyMtg = Meeting::find()->where(['owner_id'=>Yii::$app->user->getId()])->one();
+      var_dump($emptyMtg);exit;
+    }
 }

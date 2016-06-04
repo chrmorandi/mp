@@ -19,19 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
   <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">
-      <div class="row">
-        <div class="col-lg-12"><h1><?php echo Html::encode($this->title) ?></h1>
-          <p style="font-size:10px;"><em>All of this finalized meeting view is preliminary.</em></p>
-        </div>
-      </div>
-    </div>
     <div class="panel-body">
-    <?php echo $model->message.'&nbsp;';
-    //echo Html::a(Yii::t('frontend','Download to Calendar'), ['download', 'id' => $model->id]);
-    ?>
-    </div>
-    <div class="panel-footer">
       <div class="row">
         <div class="col-lg-6"></div>
         <div class="col-lg-6" >
@@ -52,16 +40,52 @@ $this->params['breadcrumbs'][] = $this->title;
            ]) ?>
           </div>
         </div>
-    </div> <!-- end row -->
-    </div>
+      </div> <!-- end row -->
+    </div> <!-- end head -->
+  </div>
+
+  <?php if ($isOwner) {
+    echo $this->render('../participant/_panel', [
+        'model'=>$model,
+        'participantProvider' => $participantProvider,
+    ]);
+  }
+   ?>
+
+   <div class="panel panel-default">
+     <!-- Default panel contents -->
+     <div class="panel-heading">
+       <div class="row">
+         <div class="col-lg-9"><h4>What</h4></div>
+         <div class="col-lg-3" ><div style="float:right;">
+         
+         </div>
+       </div>
+       </div>
+     </div>
+     <div class="panel-body">
+       <?php echo Html::encode($this->title) ?>
+     <?php echo $model->message.'&nbsp;'; ?>
+     </div>
    </div>
-   <?php if ($isOwner) {
-     echo $this->render('../participant/_panel', [
-         'model'=>$model,
-         'participantProvider' => $participantProvider,
-     ]);
-   }
-    ?>
+
+
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-lg-9"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
+          </div>
+        </div>
+      </div>
+        <div class="panel-body">
+          <p><?php echo $time; ?></p>
+
+        </div>
+      </div>
+
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="row">
@@ -129,20 +153,6 @@ $this->params['breadcrumbs'][] = $this->title;
    ?>
   </div> <!-- end panel body -->
 </div> <!-- end panel -->
-       <div class="panel panel-default">
-         <!-- Default panel contents -->
-         <div class="panel-heading">
-           <div class="row">
-             <div class="col-lg-9"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
-             </div>
-           </div>
-         </div>
-           <div class="panel-body">
-             <p><?php echo $time; ?></p>
-
-           </div>
-         </div>
-       </div>
 
     <?php echo $this->render('../meeting-note/_panel', [
             'model'=>$model,

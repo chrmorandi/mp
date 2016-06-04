@@ -9,7 +9,7 @@ use yii\widgets\ListView;
 
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-9"><h4><?= Yii::t('frontend','Dates &amp; Times') ?></h4><p><em>
+  <div class="panel-heading"><div class="row"><div class="col-lg-9"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
     <?php if ($timeProvider->count>1) { ?>
       Use the switches below to indicate which are acceptable options.&nbsp;
     <?php

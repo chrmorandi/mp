@@ -10,7 +10,7 @@ use yii\widgets\ListView;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-9"><h4><?= Yii::t('frontend','Places') ?></h4><p><em>
+      <div class="col-lg-9"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
         <?php if ($placeProvider->count>1) { ?>
           Use the switches below to indicate which places are acceptable options for you.&nbsp;
         <?php

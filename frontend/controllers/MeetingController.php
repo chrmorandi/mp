@@ -62,6 +62,11 @@ class MeetingController extends Controller
      */
     public function actionIndex()
     {
+      Meeting::findEmptyMeeting(Yii::$app->user->getId());
+      $cnt = Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->count();
+      if ($cnt==0) {
+        $this->redirect(['create']);
+      }
       $planningProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
@@ -188,10 +193,10 @@ class MeetingController extends Controller
     }
 
     public function actionTest() {
-      $model = new Meeting();
+    /*  $model = new Meeting();
       return $this->render('test', [
           'model' => $model,
-      ]);
+       ] );*/
     }
 
     /**
@@ -201,33 +206,14 @@ class MeetingController extends Controller
      */
     public function actionCreate()
     {
+      // to do - check for a blank meeting, and load it first
         $model = new Meeting();
-        if ($model->load(Yii::$app->request->post())) {
           $model->owner_id= Yii::$app->user->getId();
           $model->sequence_id = 0;
-          // validate the form against model rules
-          if ($model->validate()) {
-              // all inputs are valid
-              $model->save();
-              $model->initializeMeetingSetting($model->id,$model->owner_id);
-              return $this->redirect(['view', 'id' => $model->id]);
-          } else {
-              // validation failed
-              return $this->render('create', [
-                  'model' => $model,
-              ]);
-          }
-        } else {
-          if (\Yii::$app->user->isGuest) {
-            return $this->render('create_guest', [
-                'model' => $model,
-            ]);
-          } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-          }
-        }
+          $model->meeting_type = 0;
+          $model->save();
+          $model->initializeMeetingSetting($model->id,$model->owner_id);
+           $this->redirect(['view', 'id' => $model->id]);
     }
 
     /**
