@@ -17,15 +17,23 @@ use \kartik\switchinput\SwitchInput;
        }
     ?>
   </td>
-  <td style>
-      <?php
-        if (!$isOwner) {
-           showTimeOwnerStatus($model,$isOwner);
-         } else {
-           showTimeParticipantStatus($model,$isOwner);
-         }
-      ?>
-  </td>
+  <?php
+   /* to do - placeholder for removing cols in planning
+   if ($model->status != Meeting::STATUS_PLANNING) {
+     ?>
+     <?php
+   }*/
+   ?>
+   <td style>
+       <?php
+         if (!$isOwner) {
+            showTimeOwnerStatus($model,$isOwner);
+          } else {
+            showTimeParticipantStatus($model,$isOwner);
+          }
+       ?>
+   </td>
+
   <td style>
       <?php
       if ($timeCount>1) {

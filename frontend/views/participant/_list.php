@@ -9,6 +9,7 @@ use \common\components\MiscHelpers;
   <td style >
     <div class="meeting-participant-view">
       <div>
+
         <?php echo MiscHelpers::getDisplayName($model->participant->id); ?>
         <?php
           if ($model->participant->status == \frontend\models\Participant::STATUS_DECLINED) {

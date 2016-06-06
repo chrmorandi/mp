@@ -35,7 +35,16 @@ use yii\widgets\ListView;
      <tr class="small-header">
        <td></td>
        <td ><?=Yii::t('frontend','You') ?></td>
-       <td ><?=Yii::t('frontend','Them') ?></td>
+         <?php
+         /* to do - placeholder for removing cols in planning
+          if ($model->status != $model::STATUS_PLANNING) {
+            ?>
+            <?php
+          }*/
+          ?>
+          <td>
+            <?php echo Yii::t('frontend','Them'); ?>
+          </td>        
        <td >
          <?php
           if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings->participant_choose_date_time)) echo Yii::t('frontend','Choose');

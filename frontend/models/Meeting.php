@@ -39,7 +39,7 @@ use frontend\models\Participant;
 
 class Meeting extends \yii\db\ActiveRecord
 {
-  const TYPE_OTHER = 0;
+  const TYPE_NEW = 0;
   const TYPE_COFFEE = 10;
   const TYPE_BREAKFAST = 20;
   const TYPE_LUNCH = 30;
@@ -50,6 +50,7 @@ class Meeting extends \yii\db\ActiveRecord
   const TYPE_DRINKS = 80;
   const TYPE_BRUNCH = 90;
   const TYPE_OFFICE = 100;
+  const TYPE_OTHER = 110;
 
   const STATUS_PLANNING =0;
   const STATUS_SENT = 20;
@@ -88,6 +89,7 @@ class Meeting extends \yii\db\ActiveRecord
 
   const ABANDONED_AGE = 2; // weeks
 
+  public $has_subject = false;
   public $title;
   public $viewer;
   public $viewer_id;
@@ -236,7 +238,7 @@ class Meeting extends \yii\db\ActiveRecord
     public function getMeetingType($data) {
       $options = $this->getMeetingTypeOptions();
 	  if (!isset($options[$data])) {
-		$data = self::TYPE_OTHER;
+		$data = self::TYPE_NEW;
 		}
       return $options[$data];
     }
@@ -244,6 +246,7 @@ class Meeting extends \yii\db\ActiveRecord
     public function getMeetingTypeOptions()
     {
       return array(
+        self::TYPE_NEW => 'New meeting',
         self::TYPE_OFFICE => 'Office',
         self::TYPE_COFFEE => 'Coffee',
         self::TYPE_BREAKFAST => 'Breakfast',
@@ -258,7 +261,28 @@ class Meeting extends \yii\db\ActiveRecord
          );
      }
 
+     public function getMeetingTitle($meeting_id) {
+        $m = Meeting::find()->where(['id' => $meeting_id])->one();
+        //$title = $this->getMeetingType($meeting->meeting_type);
+        //$title.=' Meeting';
+        if (empty($m->subject)) {
+          $str = 'New meeting';
+        } else {
+          $str = $m->subject;
+        }
+        return $str;
+     }
+
      public function getMeetingHeader() {
+       if (empty($this->subject)) {
+         $str = 'New meeting';
+         $this->has_subject = false;
+       } else {
+         $this->has_subject = true;
+         $str = $this->subject;
+       }
+       return $str;
+       /*
        $str = $this->getMeetingType($this->meeting_type);
        if ($this->isOwner(Yii::$app->user->getId())) {
          if (count($this->participants)>0) {
@@ -270,7 +294,7 @@ class Meeting extends \yii\db\ActiveRecord
          $str.=Yii::t('frontend',' with ');
          $str.=MiscHelpers::getDisplayName($this->owner_id);
        }
-       return $str;
+       */
      }
 
      public function getMeetingParticipants() {
@@ -290,13 +314,6 @@ class Meeting extends \yii\db\ActiveRecord
      public static function getSubject($id) {
        $meeting = Meeting::find()->where(['id' => $id])->one();
        return $meeting->subject;
-     }
-
-     public function getMeetingTitle($meeting_id) {
-        $meeting = Meeting::find()->where(['id' => $meeting_id])->one();
-        $title = $this->getMeetingType($meeting->meeting_type);
-        $title.=' Meeting';
-        return $title;
      }
 
      public function reschedule($meeting_id) {
@@ -1032,7 +1049,38 @@ class Meeting extends \yii\db\ActiveRecord
      }
 
     public static function findEmptyMeeting($user_id) {
-      $emptyMtg = Meeting::find()->where(['owner_id'=>Yii::$app->user->getId()])->one();
-      var_dump($emptyMtg);exit;
+      // looks for empty meeting in last seven
+      $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
+      foreach ($meetings as $m) {
+        if (!is_null($m) and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+          return $m->id;
+        }
+      }
+      return false;
+    }
+
+    public static function countUserMeetings($user_id) {
+      // number of meetings owned or participated in
+      return Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->count();
+    }
+
+    public static function defaultSubjectList() {
+      $subjects = [
+        Yii::t('frontend','Coffee'),
+        Yii::t('frontend','Breakfast'),
+        Yii::t('frontend','Brunch'),
+        Yii::t('frontend','Lunch'),
+        Yii::t('frontend','Happy hour'),
+        Yii::t('frontend','Drinks'),
+        Yii::t('frontend','Dinner'),
+        Yii::t('frontend','Catch up'),
+        Yii::t('frontend','Meetup'),
+        Yii::t('frontend','Review '),
+        Yii::t('frontend','Discussion about '),
+        Yii::t('frontend','Phone call '),
+        Yii::t('frontend','Skype '),
+        Yii::t('frontend','Video conference '),
+      ];
+      return $subjects;
     }
 }

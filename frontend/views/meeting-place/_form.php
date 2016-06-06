@@ -28,7 +28,6 @@ ComboAsset::register($this);
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
   if (count($up)>0) {
     ?>
-
     <h3>Choose one of your places</h3>
     <div class="row">
       <div class="col-md-6">
@@ -69,6 +68,7 @@ ComboAsset::register($this);
     <div class="row vertical-pad">
       <div class="form-group">
           <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Add Place') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+          <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
       </div>
     </div>
 

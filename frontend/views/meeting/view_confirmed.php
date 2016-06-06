@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
        <div class="row">
          <div class="col-lg-9"><h4>What</h4></div>
          <div class="col-lg-3" ><div style="float:right;">
-         
+
          </div>
        </div>
        </div>

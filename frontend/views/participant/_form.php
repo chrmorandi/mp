@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use frontend\models\Friend;
 use yii\widgets\ActiveForm;
-use \kartik\typeahead\Typeahead;
+//use \kartik\typeahead\Typeahead;
 use frontend\assets\ComboAsset;
 ComboAsset::register($this);
 
@@ -58,6 +58,7 @@ ComboAsset::register($this);
 
     <div class="form-group">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Invite') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

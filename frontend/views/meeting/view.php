@@ -1,19 +1,13 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
-
 $this->title = $model->getMeetingHeader();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-
-
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-body">
@@ -57,7 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
  </div>
 
 <div class="meeting-view">
-        <?php if ($isOwner) {
+        <?php //who
+        if ($isOwner) {
           echo $this->render('../participant/_panel', [
               'model'=>$model,
               'participantProvider' => $participantProvider,
@@ -65,28 +60,14 @@ $this->params['breadcrumbs'][] = $this->title;
         }
          ?>
 
-         <div class="panel panel-default">
-           <!-- Default panel contents -->
-           <div class="panel-heading">
-             <div class="row">
-               <div class="col-lg-9"><h4>What</h4></div>
-               <div class="col-lg-3" ><div style="float:right;">
-               <?php
-                 if ($isOwner) {
-                     echo Html::a('', ['update', 'id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil','title'=>'Edit']);
-                   }
-                 ?>
-               </div>
-             </div>
-             </div>
-           </div>
-           <div class="panel-body">
-             <?php echo Html::encode($this->title) ?>
-           <?php echo $model->message.'&nbsp;'; ?>
-           </div>
-         </div>
+         <?php  // what
+         echo $this->render('./_panel_what', [
+             'model'=>$model,
+             'isOwner' => $isOwner,
+         ]) ?>
 
-         <?php echo $this->render('../meeting-time/_panel', [
+         <?php // when
+          echo $this->render('../meeting-time/_panel', [
              'model'=>$model,
              'timeProvider' => $timeProvider,
              'isOwner' => $isOwner,
@@ -95,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
          ]) ?>
 
         <?php
+          // where
           if (!($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO)) {
             echo $this->render('../meeting-place/_panel', [
               'model'=>$model,
@@ -106,7 +88,8 @@ $this->params['breadcrumbs'][] = $this->title;
            ?>
 
         <?php
-        if ( $model->status > $model::STATUS_SENT)
+          // notes
+        if ( $model->status >= $model::STATUS_SENT)
          {
            echo $this->render('../meeting-note/_panel', [
                'model'=>$model,

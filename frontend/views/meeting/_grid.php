@@ -32,14 +32,14 @@ if ($mode =='upcoming' || $mode =='past') {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingParticipants($model->id).'</a></div>';
                   },
           ],
-          [
+          /*[
             'label'=>'Type',
               'attribute' => 'meeting_type',
               'format' => 'raw',
               'value' => function ($model) {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingType($model->meeting_type).'</a></div>';
                   },
-          ],
+          ],*/
           [
             'label'=>'Date',
               'attribute' => 'created_at',
@@ -98,14 +98,14 @@ if ($mode =='upcoming' || $mode =='past') {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingParticipants($model->id).'</a></div>';
               },
       ],
-      [
+      /*[
         'label'=>'Type',
           'attribute' => 'meeting_type',
           'format' => 'raw',
           'value' => function ($model) {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingType($model->meeting_type).'</a></div>';
               },
-      ],
+      ],*/
       [
         'label'=>'Created',
           'attribute' => 'created_at',

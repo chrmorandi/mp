@@ -38,13 +38,13 @@ class MiscHelpers  {
        }
      } else {
        $calcName = $profile->firstname.' '.$profile->lastname;
-       if ($profile->fullname<>'') {
+       if ($profile->fullname<>'' and $profile->fullname<>' ') {
          $displayName = $profile->fullname;
        } else if ($calcName<>' ') {
          // note check for middle space
          $displayName = $calcName;
        } else {
-         // profile names are Empty
+         // profile names are Empty         
          if (!$no_email)
          {
            $displayName = $u->email;

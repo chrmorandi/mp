@@ -62,21 +62,17 @@ class MeetingController extends Controller
      */
     public function actionIndex()
     {
-      Meeting::findEmptyMeeting(Yii::$app->user->getId());
-      $cnt = Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->count();
-      if ($cnt==0) {
+      if (Meeting::countUserMeetings(Yii::$app->user->getId())==0) {
         $this->redirect(['create']);
       }
       $planningProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
         ]);
-
       $upcomingProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_CONFIRMED]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
         ]);
-
         $pastProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_COMPLETED]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
@@ -117,6 +113,8 @@ class MeetingController extends Controller
       $participantProvider = new ActiveDataProvider([
           'query' => Participant::find()->where(['meeting_id'=>$id]),
       ]);
+      //$x = Participant::find()->where(['meeting_id'=>$id])->one();
+      //var_dump($x->participant->email);exit;
       // fetch user timezone
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
@@ -206,14 +204,20 @@ class MeetingController extends Controller
      */
     public function actionCreate()
     {
-      // to do - check for a blank meeting, and load it first
-        $model = new Meeting();
+        // prevent creation of numerous empty meetings
+        $meeting_id = Meeting::findEmptyMeeting(Yii::$app->user->getId());
+        //echo $meeting_id;exit;
+        if ($meeting_id===false) {
+        // otherwise, create a new meeting
+          $model = new Meeting();
           $model->owner_id= Yii::$app->user->getId();
           $model->sequence_id = 0;
           $model->meeting_type = 0;
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);
-           $this->redirect(['view', 'id' => $model->id]);
+          $meeting_id = $model->id;
+        }
+        $this->redirect(['view', 'id' => $meeting_id]);
     }
 
     /**

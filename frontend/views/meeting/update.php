@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 
-$this->title = Yii::t('frontend', 'Update {modelClass}: ', [
+$this->title = Yii::t('frontend', '', [
     'modelClass' => 'Meeting',
 ]) . ' ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'subjects' =>  $model->defaultSubjectList(),
     ]) ?>
 
 </div>
