@@ -384,6 +384,7 @@ class MeetingController extends Controller
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_VIEW_MAP:
+            // obj_id is Place model id
             $this->redirect(['meeting/viewplace','id'=>$id,'meeting_place_id'=>$obj_id]);
           break;
           case Meeting::COMMAND_FINALIZE:

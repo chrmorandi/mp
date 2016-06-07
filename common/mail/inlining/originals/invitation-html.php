@@ -85,7 +85,7 @@ use frontend\models\MeetingTime;
                                   ?>
                                       <?php echo $p->place->name.' '; ?>
                                       <span style="font-size:75%;"><?php echo $p->place->vicinity; ?> <?php echo HTML::a(Yii::t('frontend','map'),
-                                      MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->id,$user_id,$auth_key)); ?></span><br />
+                                      MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->place->id,$user_id,$auth_key)); ?></span><br />
                                 <?php
                                     }
                                 ?>
