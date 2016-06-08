@@ -1059,6 +1059,11 @@ class Meeting extends \yii\db\ActiveRecord
       return false;
     }
 
+    public static function isMeetingEmpty($meeting_id) {
+      $m = Meeting::find()->where(['id'=>$meeting_id])->one();
+      return (!is_null($m) and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0));
+    }
+
     public static function countUserMeetings($user_id) {
       // number of meetings owned or participated in
       return Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->count();

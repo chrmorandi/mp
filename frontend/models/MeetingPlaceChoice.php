@@ -130,7 +130,6 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
       } else {
         return false;
       }
-
     }
 
     public static function setAll($meeting_id,$user_id)

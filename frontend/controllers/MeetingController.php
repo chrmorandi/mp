@@ -179,8 +179,11 @@ class MeetingController extends Controller
     public function actionViewplace($id,$meeting_place_id)
     {
       $meetingPlace= MeetingPlace::findOne($meeting_place_id);
+      var_dump($meetingPlace);
       $model = $this->findModel($id);
+      var_dump($model);
       $model->prepareView();
+      echo 'past prep view';
         return $this->render('viewplace', [
             'model' => $model,
             'viewer' => Yii::$app->user->getId(),

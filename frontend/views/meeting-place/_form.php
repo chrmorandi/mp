@@ -67,7 +67,7 @@ ComboAsset::register($this);
     <div class="clearfix"></div>
     <div class="row vertical-pad">
       <div class="form-group">
-          <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Add Place') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+          <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
           <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
       </div>
     </div>
