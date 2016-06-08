@@ -176,23 +176,17 @@ class MeetingController extends Controller
       }
     }
 
-    public function actionViewplace($id,$meeting_place_id)
-    {
-      echo 'inside';
-      $meetingPlace= MeetingPlace::findOne($meeting_place_id);
-      var_dump($meetingPlace);
-      echo 'outside';
+    public function actionViewplace($id,$place_id)
+    {  
+      $place= MeetingPlace::find()->where(['place_id'=>$place_id,'meeting_id'=>$id])->one();
       $model = $this->findModel($id);
-      //var_dump($model);
       $model->prepareView();
-      echo 'past prep view';
-      exit;
         return $this->render('viewplace', [
             'model' => $model,
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
-            'place' => $meetingPlace->place,
-            'gps'=>$meetingPlace->place->getLocation($meetingPlace->place->id),
+            'place' => $place,
+            'gps'=>$place->getLocation($place->id),
         ]);
     }
 
@@ -391,7 +385,7 @@ class MeetingController extends Controller
           break;
           case Meeting::COMMAND_VIEW_MAP:
             // obj_id is Place model id
-            $this->redirect(['meeting/viewplace','id'=>$id,'meeting_place_id'=>$obj_id]);
+            $this->redirect(['meeting/viewplace','id'=>$id,'place_id'=>$obj_id]);
           break;
           case Meeting::COMMAND_FINALIZE:
             $this->redirect(['meeting/finalize','id'=>$id]);
