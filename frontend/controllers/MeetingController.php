@@ -178,15 +178,15 @@ class MeetingController extends Controller
 
     public function actionViewplace($id,$place_id)
     {
-      $place= MeetingPlace::find()->where(['place_id'=>$place_id,'meeting_id'=>$id])->one();
+      $meeting_place= MeetingPlace::find()->where(['place_id'=>$place_id,'meeting_id'=>$id])->one();
       $model = $this->findModel($id);
       $model->prepareView();
         return $this->render('viewplace', [
             'model' => $model,
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
-            'place' => $place,
-            'gps'=>$place->place->getLocation($place_id),
+            'place' => $meeting_place->place,
+            'gps'=>$meeting_place->place->getLocation($place_id),
         ]);
     }
 
