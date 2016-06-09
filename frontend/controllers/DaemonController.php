@@ -5,12 +5,13 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\data\ActiveDataProvider;
-use frontend\models\Meeting;
-use frontend\models\MeetingReminder;
-use frontend\models\MailgunNotification;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\Meeting;
+use frontend\models\MeetingReminder;
+use frontend\models\MailgunNotification;
+use backend\models\UserData;
 
 class DaemonController extends Controller
 {
@@ -20,17 +21,17 @@ class DaemonController extends Controller
         return [
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
-              'only' => ['index','hourly'],
+              'only' => ['index','hourly','overnight'],
               'rules' => [
                 // allow authenticated users
                  [
                      'allow' => true,
-                     'actions'=>['index','fix'],
+                     'actions'=>['index','fix','overnight'],
                      'roles' => ['@'],
                  ],
                 [
                     'allow' => true,
-                    'actions'=>['quarter','frequent'],
+                    'actions'=>['quarter','frequent','overnight'],
                     'roles' => ['?'],
                 ],
                 // everything else is denied
@@ -73,6 +74,12 @@ public function actionQuarter() {
         // every six hours
       }
   	}
+
+  public function actionOvernight() {
+      UserData::calculate();
+
+  }
+
 
     public function actionFix()
     {

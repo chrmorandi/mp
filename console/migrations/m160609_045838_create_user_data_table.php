@@ -18,7 +18,7 @@ class m160609_045838_create_user_data_table extends Migration
           $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
       }
 
-        $this->createTable('user_data_table', [
+        $this->createTable('{{%user_data}}', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_BIGINT.' NOT NULL',
             'source' => Schema::TYPE_SMALLINT.' NOT NULL',
@@ -27,7 +27,7 @@ class m160609_045838_create_user_data_table extends Migration
             'count_meeting_participant' => Schema::TYPE_INTEGER.' NOT NULL',
             'count_meeting_participant_last30' => Schema::TYPE_INTEGER.' NOT NULL',
             'count_places' => Schema::TYPE_INTEGER.' NOT NULL',
-            'count_friends' => Schema::TYPE_INTEGER.' NOT NULL',            
+            'count_friends' => Schema::TYPE_INTEGER.' NOT NULL',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);

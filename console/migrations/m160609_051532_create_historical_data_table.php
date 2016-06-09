@@ -1,5 +1,6 @@
 <?php
 
+use yii\db\Schema;
 use yii\db\Migration;
 
 /**
@@ -14,7 +15,7 @@ class m160609_051532_create_historical_data_table extends Migration
         $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
     }
 
-      $this->createTable('historical_data_table', [
+      $this->createTable('{{%historical_data}}', [
           'id' => Schema::TYPE_PK,
           'date'=> Schema::TYPE_DATE.' NOT NULL',
           'percent_own_meeting'  => Schema::TYPE_FLOAT.' NOT NULL',
@@ -31,7 +32,7 @@ class m160609_051532_create_historical_data_table extends Migration
           'average_places'  => Schema::TYPE_SMALLINT.' NOT NULL',
           'source_google' => Schema::TYPE_INTEGER.' NOT NULL',
           'source_facebook' => Schema::TYPE_INTEGER.' NOT NULL',
-          'source_linkedin' => Schema::TYPE_INTEGER.' NOT NULL',          
+          'source_linkedin' => Schema::TYPE_INTEGER.' NOT NULL',
       ], $tableOptions);
       //$this->addForeignKey('fk_historical_data_user_id', '{{%historical_data}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
   }
