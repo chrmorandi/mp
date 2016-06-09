@@ -111,9 +111,9 @@ class HistoricalData extends \yii\db\ActiveRecord
         // calculate  $source_google
         $hd->source_google = Auth::find()->where(['source'=>'google'])->count();
         // calculate  $source_facebook
-        $hd->source_google = Auth::find()->where(['source'=>'facebook'])->count();
+        $hd->$source_facebook = Auth::find()->where(['source'=>'facebook'])->count();
         // calculate  $source_linkedin
-        $hd->source_google = Auth::find()->where(['source'=>'linkedin'])->count();
+        $hd->$source_linkedin = Auth::find()->where(['source'=>'linkedin'])->count();
         $hd->update();
     }
     // total users
