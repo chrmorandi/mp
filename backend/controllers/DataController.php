@@ -13,6 +13,12 @@ use common\models\User;
  */
 class DataController extends Controller
 {
+
+  // historical
+  // sign ups by day
+  // meetings created by day
+  // meetings finalized by day
+  // meetings completed by day
   public function behaviors()
   {
       return [
@@ -68,7 +74,7 @@ class DataController extends Controller
     // to do - count meetings per user and average meetings per user
 
     // to do - average time from creation to completion
-    
+
     $user_places = UserPlace::find()
       ->select(['user_id,COUNT(*) AS dataCount'])
       ->groupBy(['user_id'])
