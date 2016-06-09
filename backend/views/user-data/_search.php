@@ -19,11 +19,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'source') ?>
+    <?= $form->field($model, 'is_social') ?>
+
+    <?= $form->field($model, 'invite_then_own') ?>
 
     <?= $form->field($model, 'count_meetings') ?>
 
-    <?= $form->field($model, 'count_meetings_last30') ?>
+    <?php // echo $form->field($model, 'count_meetings_last30') ?>
 
     <?php // echo $form->field($model, 'count_meeting_participant') ?>
 

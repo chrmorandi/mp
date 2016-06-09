@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'user_id',
-            'source',
+            'is_social',
+            'invite_then_own',
             'count_meetings',
             'count_meetings_last30',
             'count_meeting_participant',

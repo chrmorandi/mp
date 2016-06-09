@@ -14,7 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id')->textInput() ?>
 
-    <?= $form->field($model, 'source')->textInput() ?>
+    <?= $form->field($model, 'is_social')->textInput() ?>
+
+    <?= $form->field($model, 'invite_then_own')->textInput() ?>
 
     <?= $form->field($model, 'count_meetings')->textInput() ?>
 

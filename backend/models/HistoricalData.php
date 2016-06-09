@@ -5,9 +5,11 @@ namespace backend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
+use backend\models\UserData;
 use frontend\models\Auth;
 use frontend\models\Meeting;
 use frontend\models\Place;
+use frontend\models\Friend;
 
 /*
 use frontend\models\Participant;
@@ -49,9 +51,9 @@ class HistoricalData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
-            //[['percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant'], 'number'],
-            [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin','date'], 'integer'],
+            [['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
+            [['average_meetings', 'average_friends', 'average_places','percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant'], 'number'],
+            [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places',  'source_google', 'source_facebook', 'source_linkedin','date'], 'integer'],
         ];
     }
 
@@ -63,20 +65,20 @@ class HistoricalData extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('backend', 'ID'),
             'date' => Yii::t('backend', 'Date'),
-            'percent_own_meeting' => Yii::t('backend', 'Percent Own Meeting'),
-            'percent_own_meeting_last30' => Yii::t('backend', 'Percent Own Meeting Last30'),
-            'percent_invited_own_meeting' => Yii::t('backend', 'Percent Invited Own Meeting'),
-            'percent_participant' => Yii::t('backend', 'Percent Participant'),
+            'percent_own_meeting' => Yii::t('backend', '% Created Meeting'),
+            'percent_own_meeting_last30' => Yii::t('backend', '% Created Meeting Last30'),
+            'percent_invited_own_meeting' => Yii::t('backend', '% Invited & Created Meeting'),
+            'percent_participant' => Yii::t('backend', '% Participant'),
             'count_users' => Yii::t('backend', 'Count Users'),
-            'count_meetings_completed' => Yii::t('backend', 'Count Meetings Completed'),
-            'count_meetings_planning' => Yii::t('backend', 'Count Meetings Planning'),
-            'count_places' => Yii::t('backend', 'Count Places'),
-            'average_meetings' => Yii::t('backend', 'Average Meetings'),
-            'average_friends' => Yii::t('backend', 'Average Friends'),
-            'average_places' => Yii::t('backend', 'Average Places'),
-            'source_google' => Yii::t('backend', 'Source Google'),
-            'source_facebook' => Yii::t('backend', 'Source Facebook'),
-            'source_linkedin' => Yii::t('backend', 'Source Linkedin'),
+            'count_meetings_completed' => Yii::t('backend', '# Meetings Completed'),
+            'count_meetings_planning' => Yii::t('backend', '# Meetings Planning'),
+            'count_places' => Yii::t('backend', '# Places'),
+            'average_meetings' => Yii::t('backend', 'Avg Meetings Per User'),
+            'average_friends' => Yii::t('backend', 'Avg Friends Per User'),
+            'average_places' => Yii::t('backend', 'Avg Places Per User'),
+            'source_google' => Yii::t('backend', '# Google'),
+            'source_facebook' => Yii::t('backend', '# Facebook'),
+            'source_linkedin' => Yii::t('backend', '# Linkedin'),
         ];
     }
 
@@ -93,12 +95,15 @@ class HistoricalData extends \yii\db\ActiveRecord
         if ($day === false) {
           $day = mktime(0, 0, 0)-(60*60*24);
         }
+
         // create new record for date or update existing
         $hd = HistoricalData::find()->where(['date'=>$day])->one();
         if (is_null($hd)) {
           $hd = new HistoricalData();
           $hd->date = $day;
-          $hd->save();
+          $action = 'save';
+        } else {
+          $action = 'update';
         }
         // calculate  $count_users
         $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->count();
@@ -114,14 +119,26 @@ class HistoricalData extends \yii\db\ActiveRecord
         $hd->source_facebook = Auth::find()->where(['source'=>'facebook'])->count();
         // calculate  $source_linkedin
         $hd->source_linkedin = Auth::find()->where(['source'=>'linkedin'])->count();
-        $hd->update();
+        // total users
+        $total_users = UserData::find()->count();
+        $total_friends = Friend::find()->count();
+        $total_places = Place::find()->count();
+        $hd->average_meetings = ($hd->count_meetings_completed+$hd->count_meetings_planning)/$total_users;
+        $hd->average_friends = $total_friends/$total_users;
+        $hd->average_places =  $total_places/$total_users;
+        $hd->percent_own_meeting = UserData::find()->where('count_meetings>0')->count() / $total_users;
+        $hd->percent_own_meeting_last30 = UserData::find()->where('count_meetings_last30>0')->count() / $total_users;
+        $hd->percent_participant = UserData::find()->where('count_meeting_participant>0')->count() / $total_users;
+        $own_meeting_last30=0;
+        $participant=0;
+        $query = (new \yii\db\Query())->from('user_data');
+        $sum = $query->sum('invite_then_own');
+        $hd->percent_invited_own_meeting=$sum/$total_users;
+
+        if ($action=='save') {
+          $hd->save();
+        } else {
+          $hd->update();
+        }      
     }
-    // total users
-    // calculate  $percent_own_meeting
-    // calculate  $percent_own_meeting_last30
-    // calculate  $percent_invited_own_meeting
-    // calculate  $percent_participant
-    // calculate  $average_meetings
-    // calculate  $average_friends
-    // calculate  $average_places
 }

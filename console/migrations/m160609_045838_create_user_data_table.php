@@ -21,7 +21,8 @@ class m160609_045838_create_user_data_table extends Migration
         $this->createTable('{{%user_data}}', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_BIGINT.' NOT NULL',
-            'source' => Schema::TYPE_SMALLINT.' NOT NULL',
+            'is_social' => Schema::TYPE_SMALLINT.' NOT NULL',
+            'invite_then_own' => Schema::TYPE_SMALLINT.' NOT NULL',
             'count_meetings' => Schema::TYPE_INTEGER.' NOT NULL',
             'count_meetings_last30' => Schema::TYPE_INTEGER.' NOT NULL',
             'count_meeting_participant' => Schema::TYPE_INTEGER.' NOT NULL',

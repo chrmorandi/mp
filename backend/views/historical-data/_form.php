@@ -14,14 +14,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'date')->textInput() ?>
 
-    <?= $form->field($model, 'percent_own_meeting')->textInput() ?>
-
-    <?= $form->field($model, 'percent_own_meeting_last30')->textInput() ?>
-
-    <?= $form->field($model, 'percent_invited_own_meeting')->textInput() ?>
-
-    <?= $form->field($model, 'percent_participant')->textInput() ?>
-
     <?= $form->field($model, 'count_users')->textInput() ?>
 
     <?= $form->field($model, 'count_meetings_completed')->textInput() ?>

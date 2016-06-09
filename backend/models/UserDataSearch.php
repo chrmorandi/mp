@@ -18,7 +18,7 @@ class UserDataSearch extends UserData
     public function rules()
     {
         return [
-            [['id', 'user_id', 'source', 'count_meetings', 'count_meetings_last30', 'count_meeting_participant', 'count_meeting_participant_last30', 'count_places', 'count_friends', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'user_id', 'is_social', 'invite_then_own', 'count_meetings', 'count_meetings_last30', 'count_meeting_participant', 'count_meeting_participant_last30', 'count_places', 'count_friends', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -60,7 +60,8 @@ class UserDataSearch extends UserData
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'source' => $this->source,
+            'is_social' => $this->is_social,
+            'invite_then_own' => $this->invite_then_own,
             'count_meetings' => $this->count_meetings,
             'count_meetings_last30' => $this->count_meetings_last30,
             'count_meeting_participant' => $this->count_meeting_participant,

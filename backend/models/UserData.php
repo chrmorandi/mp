@@ -15,13 +15,14 @@ use frontend\models\Friend;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $source
+ * @property integer $is_social
  * @property integer $count_meetings
  * @property integer $count_meetings_last30
  * @property integer $count_meeting_participant
  * @property integer $count_meeting_participant_last30
  * @property integer $count_places
  * @property integer $count_friends
+ * @property integer $invite_then_own
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -57,7 +58,7 @@ class UserData extends \yii\db\ActiveRecord
     {
         return [
             [['user_id' ], 'required'],
-            [['user_id', 'source', 'count_meetings', 'count_meetings_last30', 'count_meeting_participant', 'count_meeting_participant_last30', 'count_places', 'count_friends', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'is_social', 'count_meetings', 'count_meetings_last30', 'count_meeting_participant', 'count_meeting_participant_last30', 'count_places', 'count_friends', 'invite_then_own','created_at', 'updated_at'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -70,13 +71,14 @@ class UserData extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('backend', 'ID'),
             'user_id' => Yii::t('backend', 'User ID'),
-            'source' => Yii::t('backend', 'Source'),
+            'is_social' => Yii::t('backend', 'Social Login'),
             'count_meetings' => Yii::t('backend', 'Count Meetings'),
             'count_meetings_last30' => Yii::t('backend', 'Count Meetings Last30'),
             'count_meeting_participant' => Yii::t('backend', 'Count Meeting Participant'),
             'count_meeting_participant_last30' => Yii::t('backend', 'Count Meeting Participant Last30'),
             'count_places' => Yii::t('backend', 'Count Places'),
             'count_friends' => Yii::t('backend', 'Count Friends'),
+            'invite_then_own'=> Yii::t('backend','Invite then Owned'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
         ];
@@ -114,8 +116,6 @@ class UserData extends \yii\db\ActiveRecord
           $ud->save();
         }
         $user_id = $u->id;
-        // determine source
-
         $monthago = mktime(0, 0, 0)-(60*60*24*30);
         // count meetings they've organized
         $ud->count_meetings = Meeting::find()->where(['owner_id'=>$user_id])->count();
@@ -126,6 +126,16 @@ class UserData extends \yii\db\ActiveRecord
         // count places and Friends
         $ud->count_places = UserPlace::find()->where(['user_id'=>$user_id])->count();
         $ud->count_friends = Friend::find()->where(['user_id'=>$user_id])->count();
+        // calculate invite than Own - participant first, then organizer
+        $first_invite = Participant::find()->where(['participant_id'=>$user_id])->orderby('created_at asc')->one();
+        $first_organized = Meeting::find()->where(['owner_id'=>$user_id])->orderby('created_at asc')->one();
+        $ud->invite_then_own =0;
+        if (!is_null($first_invite) && !is_null($first_organized)) {
+          if ($first_invite->created_at < $first_organized->created_at) {
+            // they were invited as a participant earlier than they organized their own meeting
+            $ud->invite_then_own =1;
+          }
+        }
         $ud->update();
       }
     }
