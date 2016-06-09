@@ -11,6 +11,7 @@ use frontend\models\MeetingTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+//use yii\web\Response;
 
 /**
  * MeetingTimeController implements the CRUD actions for MeetingTime model.
@@ -71,15 +72,17 @@ class MeetingTimeController extends Controller
      */
     public function actionCreate($meeting_id)
     {
-        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
-        date_default_timezone_set($timezone);
-        $mtg = new Meeting();
-        $title = $mtg->getMeetingTitle($meeting_id);
-        $model = new MeetingTime();
-        $model->duration = 1;
-        $model->meeting_id= $meeting_id;
-        $model->suggested_by= Yii::$app->user->getId();
-        $model->status = self::STATUS_PROPOSED;
+      //Yii::$app->response->format = Response::FORMAT_JSON;
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      date_default_timezone_set($timezone);
+      $mtg = new Meeting();
+      $title = $mtg->getMeetingTitle($meeting_id);
+      $model = new MeetingTime();
+      $model->duration = 1;
+      $model->meeting_id= $meeting_id;
+      $model->suggested_by= Yii::$app->user->getId();
+      $model->status = self::STATUS_PROPOSED;
+      //if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {}
         if ($model->load(Yii::$app->request->post())) {
           // convert date time to timestamp
           $model->start = strtotime($model->start);

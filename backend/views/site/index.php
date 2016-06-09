@@ -10,7 +10,7 @@ $this->title = Yii::t('backend','Meeting Planner');
 
         <p class="lead"></p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Sign in</a></p>
+        <p><a class="btn btn-lg btn-success" href="site/login">Sign in</a></p>
     </div>
 
     <div class="body-content">

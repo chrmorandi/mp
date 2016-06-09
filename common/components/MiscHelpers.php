@@ -1,5 +1,6 @@
 <?php
 namespace common\components;
+use yii;
 use yii\helpers\Url;
 use common\models\User;
 
@@ -44,7 +45,7 @@ class MiscHelpers  {
          // note check for middle space
          $displayName = $calcName;
        } else {
-         // profile names are Empty         
+         // profile names are Empty
          if (!$no_email)
          {
            $displayName = $u->email;
@@ -81,6 +82,11 @@ public static function fetchUserTimezone($user_id) {
     $timezone = 'America/Los_Angeles';
   }
   return $timezone;
+}
+
+public static function getUrlPrefix() {
+  // to do - obviate this with proper config of base url
+  return (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
 }
 
 }

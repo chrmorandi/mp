@@ -25,6 +25,7 @@ use yii\db\Expression;
  */
 class UserPlace extends \yii\db\ActiveRecord
 {
+  public $dataCount;
     /**
      * @inheritdoc
      */
@@ -91,7 +92,7 @@ class UserPlace extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    
+
     // add place to user place list
     public function add($user_id,$place_id) {
         // check if it exists
@@ -102,7 +103,7 @@ class UserPlace extends \yii\db\ActiveRecord
               $up = new UserPlace;
               $up->user_id =$user_id;
               $up->place_id=$place_id;
-              $up->save();  
-            }            
+              $up->save();
+            }
     }
 }

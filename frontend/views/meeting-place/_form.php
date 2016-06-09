@@ -28,9 +28,10 @@ ComboAsset::register($this);
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
   if (count($up)>0) {
     ?>
-    <h3>Choose one of your places</h3>
+
     <div class="row">
       <div class="col-md-6">
+        <h3>Choose one of your places</h3>
 <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
   <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
     <?php
@@ -42,12 +43,18 @@ ComboAsset::register($this);
     }
     ?>
 </select>
+  </div>
+</div> <!-- end row -->
+<div class="row">
+    <div class="col-md-6">
     <h3>- or -</h3>
-
+  </div>
+</div>
+<div class="row">
 <?php
   }
     ?>
-    <div class="col-md-8">
+    <div class="col-md-6">
     <h3>Choose from Google Places</h3>
       <p>Type in a place or business known to Google Places:</p>
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Place') ?>
@@ -63,8 +70,7 @@ ComboAsset::register($this);
         <?= BaseHtml::activeHiddenInput($model, 'website'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'vicinity'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
-        </div> <!-- end row -->
-    <div class="clearfix"></div>
+  </div> <!-- end row -->
     <div class="row vertical-pad">
       <div class="form-group">
           <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -74,4 +80,4 @@ ComboAsset::register($this);
 
     <?php ActiveForm::end(); ?>
 
-</div>
+</div> <!-- end form -->

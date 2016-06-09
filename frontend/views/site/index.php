@@ -25,7 +25,7 @@ display: flex;
 align-items: center;
 justify-content: center }
     </style>
-    <div class="container6">
+<div class="container6">
   <?php $authAuthChoice = AuthChoice::begin([
     'baseAuthUrl' => ['site/auth','mode'=>'signup'],
     'popupMode' => false,
@@ -36,9 +36,11 @@ justify-content: center }
     <li class="auth-client"><?php $authAuthChoice->clientLink($client) ?></li>
 <?php endforeach; ?>
 </ul>
+<?php echo Yii::t('frontend','or ').HTML::a(Yii::t('frontend','sign up old school'),['site/signup']); ?>
 <?php AuthChoice::end(); ?>
-
 </div>
+
+
 
 
 

@@ -21,10 +21,19 @@ use yii\widgets\ListView;
   </em></p></div><div class="col-lg-3" ><div style="float:right;">
     <?php
       if ($isOwner || $model->meetingSettings->participant_add_date_time) {
-        echo Html::a(Yii::t('frontend', ''), ['meeting-time/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus']);
+        /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/
+        echo Html::a('', ['meeting-time/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);
       }
     ?>
-  </div></div></div></div>
+      </div>
+    </div>
+  </div> <!-- end row -->
+</div> <!-- end heading -->
+  <div id="addTime" style="display:none;">
+    <!-- hidden add time form -->
+
+  <br />
+  </div>
 
   <?php
    if ($timeProvider->count>0):
@@ -44,7 +53,7 @@ use yii\widgets\ListView;
           ?>
           <td>
             <?php echo Yii::t('frontend','Them'); ?>
-          </td>        
+          </td>
        <td >
          <?php
           if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings->participant_choose_date_time)) echo Yii::t('frontend','Choose');
@@ -111,13 +120,8 @@ use \kartik\switchinput\SwitchInput;
     }
   }
 ?>
-
-  <?php
-  if (isset(Yii::$app->params['urlPrefix'])) {
-    $urlPrefix = Yii::$app->params['urlPrefix'];
-    } else {
-      $urlPrefix ='';
-    }
+<?php
+$urlPrefix = \common\components\MiscHelpers::getUrlPrefix();
 $script = <<< JS
 timeCount = $timeProvider->count;
 $('input[name="time-chooser"]').on('switchChange.bootstrapSwitch', function(e, s) {
@@ -133,7 +137,6 @@ $('input[name="time-chooser"]').on('switchChange.bootstrapSwitch', function(e, s
        return true;
      }
   });
-
 });
 
 // users can say if a time is an option for them
@@ -154,6 +157,22 @@ $('input[name="meeting-time-choice"]').on('switchChange.bootstrapSwitch', functi
      }
   });
 });
+/*
+$('#buttonTime').on('click', function(e, s) {
+  //console.log(e.target.value); // true | false
+  $.ajax({
+     url: '$urlPrefix/meeting-time/create',
+     data: {id: $model->id},
+     success: function(data) {
+
+       //$('#addTime').html(data);
+       //$('#addTime').className='';
+       $('#addTime').show();
+       return true;
+     }
+  });
+});
+*/
 JS;
 $position = \yii\web\View::POS_READY;
 $this->registerJs($script, $position);

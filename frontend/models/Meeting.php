@@ -12,6 +12,7 @@ use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\UserContact;
 use frontend\models\Participant;
+//use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "meeting".
@@ -95,6 +96,7 @@ class Meeting extends \yii\db\ActiveRecord
   public $viewer_id;
   public $isReadyToSend = false;
   public $isReadyToFinalize = false;
+  public $dataCount;
 
     /**
      * @inheritdoc
@@ -107,6 +109,12 @@ class Meeting extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
+            /*[
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'immutable' => true,
+                'ensureUnique'=>true,
+            ],*/
             'timestamp' => [
                 'class' => 'yii\behaviors\TimestampBehavior',
                 'attributes' => [
@@ -638,7 +646,7 @@ class Meeting extends \yii\db\ActiveRecord
         // has invitation been sent
          if ($canSend && $this->status < Meeting::STATUS_SENT) {
            Yii::$app->session->setFlash('warning', Yii::t('frontend','This invitation has not yet been sent.'));
-      }
+         }
         // to do - if sent, has invitation been opened
         // to do - if not finalized, is it within 72 hrs, 48 hrs
       }

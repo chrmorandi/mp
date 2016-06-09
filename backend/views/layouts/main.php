@@ -1,6 +1,7 @@
 <?php
 use backend\assets\AppAsset;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -31,16 +32,23 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-            ];
+            $menuItems[] = [
+                        'label' => 'Real Time',
+                        'items' => [
+                          ['label' => Yii::t('frontend','Usage'), 'url' => ['/data/current']],
+                        ]
+                      ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {
                 $menuItems[] = [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                  'label' => 'Account',
+                  'items' => [
+                    ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                    'linkOptions' => ['data-method' => 'post'],
+                    ],
+                  ],
                 ];
             }
             echo Nav::widget([
@@ -60,8 +68,19 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
+          <p class="pull-left">
+          <?php
+          if (!Yii::$app->user->isGuest) {
+            echo Html::a(Yii::t('frontend','Support'),Url::to('http://support.meetingplanner.io'));
+          }
+           ?>
+        <p class="pull-right">
+        <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?><?php
+        if (!Yii::$app->user->isGuest) {
+          echo '&nbsp;|&nbsp;'.Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io').'';
+        }
+        ?>
+        </p>
         </div>
     </footer>
 

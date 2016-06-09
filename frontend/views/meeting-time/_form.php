@@ -44,7 +44,7 @@ use dosamigos\datetimepicker\DateTimePicker;
             ['prompt'=>'select a duration']    // options
         );
         ?>
-      </div
+      </div>
   </div>
   <div class="clearfix"><p></div>
   <div class="row">
@@ -57,4 +57,4 @@ use dosamigos\datetimepicker\DateTimePicker;
   </div>
     <?php ActiveForm::end(); ?>
 
-</div>
+</div> <!-- end container -->
