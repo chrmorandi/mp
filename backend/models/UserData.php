@@ -111,8 +111,6 @@ class UserData extends \yii\db\ActiveRecord
         if (is_null($ud)) {
           $ud = new UserData();
           $ud->user_id = $u->id;
-          //var_dump($ud->validate());
-          //var_dump($ud->getErrors());
           $ud->save();
         }
         $user_id = $u->id;
