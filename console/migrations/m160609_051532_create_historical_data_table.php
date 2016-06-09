@@ -17,7 +17,7 @@ class m160609_051532_create_historical_data_table extends Migration
 
       $this->createTable('{{%historical_data}}', [
           'id' => Schema::TYPE_PK,
-          'date'=> Schema::TYPE_DATE.' NOT NULL',
+          'date'=> Schema::TYPE_INTEGER.' NOT NULL',
           'percent_own_meeting'  => Schema::TYPE_FLOAT.' NOT NULL',
           'percent_own_meeting_last30'  => Schema::TYPE_FLOAT.' NOT NULL',
           // % of users invited by others who own a meeting

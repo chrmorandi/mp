@@ -5,17 +5,19 @@ namespace backend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
-/*
+use frontend\models\Auth;
 use frontend\models\Meeting;
+use frontend\models\Place;
+
+/*
 use frontend\models\Participant;
-use frontend\models\UserPlace;
 use frontend\models\Friend;
 */
 /**
  * This is the model class for table "historical_data".
  *
  * @property integer $id
- * @property string $date
+ * @property integer $date
  * @property double $percent_own_meeting
  * @property double $percent_own_meeting_last30
  * @property double $percent_invited_own_meeting
@@ -47,10 +49,9 @@ class HistoricalData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
-            [['date'], 'safe'],
-            [['percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant'], 'number'],
-            [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'integer'],
+            //[['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
+            //[['percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant'], 'number'],
+            [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin','date'], 'integer'],
         ];
     }
 
@@ -87,4 +88,40 @@ class HistoricalData extends \yii\db\ActiveRecord
     {
         return new HistoricalDataQuery(get_called_class());
     }
+
+    public static function calculate($day = false) {
+        if ($day === false) {
+          $day = mktime(0, 0, 0)-(60*60*24);
+        }
+        // create new record for date or update existing
+        $hd = HistoricalData::find()->where(['date'=>$day])->one();
+        if (is_null($hd)) {
+          $hd = new HistoricalData();
+          $hd->date = $day;
+          $hd->save();
+        }
+        // calculate  $count_users
+        $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->count();
+        // calculate  $count_meetings_completed
+        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->count();;
+        // calculate  $count_meetings_planning
+        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->count();;
+        // calculate  $count_places
+        $hd->count_places = Place::find()->count();
+        // calculate  $source_google
+        $hd->source_google = Auth::find()->where(['source'=>'google'])->count();
+        // calculate  $source_facebook
+        $hd->source_google = Auth::find()->where(['source'=>'facebook'])->count();
+        // calculate  $source_linkedin
+        $hd->source_google = Auth::find()->where(['source'=>'linkedin'])->count();
+        $hd->update();
+    }
+    // total users
+    // calculate  $percent_own_meeting
+    // calculate  $percent_own_meeting_last30
+    // calculate  $percent_invited_own_meeting
+    // calculate  $percent_participant
+    // calculate  $average_meetings
+    // calculate  $average_friends
+    // calculate  $average_places
 }

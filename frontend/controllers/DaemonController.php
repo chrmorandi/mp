@@ -12,6 +12,7 @@ use frontend\models\Meeting;
 use frontend\models\MeetingReminder;
 use frontend\models\MailgunNotification;
 use backend\models\UserData;
+use backend\models\HistoricalData;
 
 class DaemonController extends Controller
 {
@@ -77,7 +78,7 @@ public function actionQuarter() {
 
   public function actionOvernight() {
       UserData::calculate();
-
+      HistoricalData::calculate();
   }
 
 
