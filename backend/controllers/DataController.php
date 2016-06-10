@@ -26,11 +26,11 @@ class DataController extends Controller
               'class' => AccessControl::className(),
               'rules' => [
                   [
-                      'actions' => [],
+                      'actions' => [''],
                       'allow' => true,
                   ],
                   [
-                      'actions' => ['usage'],
+                      'actions' => ['current'],
                       'allow' => true,
                       'roles' => ['@'],
                   ],
