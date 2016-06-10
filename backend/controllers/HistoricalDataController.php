@@ -52,7 +52,9 @@ class HistoricalDataController extends Controller
     {
         $searchModel = new HistoricalDataSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider->setSort([
+                'defaultOrder' => ['date'=>SORT_DESC],
+              ]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
