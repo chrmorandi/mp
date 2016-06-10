@@ -79,7 +79,7 @@ public function actionQuarter() {
   public function actionOvernight() {
       UserData::reset();
       HistoricalData::reset();
-      $after = mktime(0, 0, 0, 3, 1, 2016);
+      $after = mktime(0, 0, 0, 2, 15, 2016);
       $since = mktime(0, 0, 0, 3, 1, 2016);
       $n=0;
       while ($since < time()) {
