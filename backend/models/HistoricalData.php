@@ -93,6 +93,10 @@ class HistoricalData extends \yii\db\ActiveRecord
         return new HistoricalDataQuery(get_called_class());
     }
 
+    public static function reset() {
+      HistoricalData::deleteAll();
+    }
+
     public static function calculate($day = false,$after=0) {
         if ($day === false) {
           $day = mktime(0, 0, 0)-(60*60*24);
@@ -113,7 +117,7 @@ class HistoricalData extends \yii\db\ActiveRecord
         // calculate  $count_meetings_planning
         $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->count();;
         // calculate  $count_places
-        $hd->count_places = Place::find()->count();
+        $hd->count_places = Place::find()->where('created_at>'.$after)->count();
         // calculate  $source_google
         $hd->source_google = Auth::find()->where(['source'=>'google'])->count();
         // calculate  $source_facebook
@@ -122,8 +126,8 @@ class HistoricalData extends \yii\db\ActiveRecord
         $hd->source_linkedin = Auth::find()->where(['source'=>'linkedin'])->count();
         // total users
         $total_users = UserData::find()->count();
-        $total_friends = Friend::find()->count();
-        $total_places = Place::find()->count();
+        $total_friends = Friend::find()->where('created_at>'.$after)->count();
+        $total_places = Place::find()->where('created_at>'.$after)->count();
         $hd->average_meetings = ($hd->count_meetings_completed+$hd->count_meetings_planning)/$total_users;
         $hd->average_friends = $total_friends/$total_users;
         $hd->average_places =  $total_places/$total_users;

@@ -78,11 +78,12 @@ public function actionQuarter() {
 
   public function actionOvernight() {
       UserData::reset();
-      $after = mktime(0, 0, 0, 3, 1, 2016);
-      $since = mktime(0, 0, 0, 6, 1, 2016);
+      HistoricalData::reset();
+      $after = mktime(0, 0, 0, 4, 1, 2016);
+      $since = mktime(0, 0, 0, 5, 15, 2016);
       $n=0;
       while ($since < time()) {
-        if ($n>12) break;
+        if ($n>24) break;
         UserData::calculate($since,$after);
         HistoricalData::calculate($since,$after);
         $since+=24*60*60;
