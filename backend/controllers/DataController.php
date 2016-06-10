@@ -5,6 +5,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\data\ArrayDataProvider;
 use frontend\models\Meeting;
 use frontend\models\UserPlace;
 use common\models\User;

@@ -7,7 +7,7 @@ use \kartik\switchinput\SwitchInput;
 
 <tr >
   <td style >
-        <?= Html::a($model->place->name,Url::to(['meeting/viewplace','id'=>$model->meeting_id,'meeting_place_id'=>$model->id],true)) ?>
+        <?= Html::a($model->place->name,Url::to(['meeting/viewplace','id'=>$model->meeting_id,'place_id'=>$model->place_id],true)) ?>
   </td>
   <td style>
     <?php
