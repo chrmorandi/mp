@@ -56,9 +56,9 @@ public function actionFrequent() {
   // notify users about fresh changes
   Meeting::findFresh();
   // send meeting reminders that are due
-  MeetingReminder::check();
+  //MeetingReminder::check();
   // process new notifications in the store
-  MailgunNotification::process();
+  //MailgunNotification::process();
 }
 
 public function actionQuarter() {
