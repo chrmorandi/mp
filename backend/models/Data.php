@@ -57,9 +57,7 @@ class Data extends Model
       ->select(['user_id,count(*) AS dataCount'])
       ->groupBy(['user_id'])
       ->limit(5),
-      'pagination' => [
-      'pageSize' => 20,
-      ],
+      'pagination' => false,
       ]);
 
     // calculate average # of places per user
