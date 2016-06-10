@@ -55,7 +55,8 @@ class Data extends Model
     $data->userPlaces = new ActiveDataProvider([
       'query' => UserPlace::find()
       ->select(['user_id,count(*) AS dataCount'])
-      ->groupBy(['user_id']),
+      ->groupBy(['user_id'])
+      ->limit(5),
       'pagination' => [
       'pageSize' => 20,
       ],
