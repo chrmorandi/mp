@@ -116,7 +116,7 @@ class UserData extends \yii\db\ActiveRecord
       $all = User::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->all();
       foreach ($all as $u) {
         // create new record for user or update old one
-        $ud = UserData::findOne($u->id);
+        $ud = UserData::find()->where(['user_id'=>$u->id])->one();
         if (is_null($ud)) {
           $ud = new UserData();
           $ud->user_id = $u->id;
