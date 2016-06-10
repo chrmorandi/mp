@@ -110,8 +110,6 @@ class HistoricalData extends \yii\db\ActiveRecord
         } else {
           $action = 'update';
         }
-        // calculate  $count_users
-        $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('created_at>'.$after)->count();
         // calculate  $count_meetings_completed
         $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->count();;
         // calculate  $count_meetings_planning
@@ -126,6 +124,9 @@ class HistoricalData extends \yii\db\ActiveRecord
         $hd->source_linkedin = Auth::find()->where(['source'=>'linkedin'])->count();
         // total users
         $total_users = UserData::find()->count();
+        // calculate  $count_users
+        $hd->count_users = $total_users;
+        //User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('created_at>'.$after)->count();
         $total_friends = Friend::find()->where('created_at>'.$after)->count();
         $total_places = Place::find()->where('created_at>'.$after)->count();
         $hd->average_meetings = ($hd->count_meetings_completed+$hd->count_meetings_planning)/$total_users;
