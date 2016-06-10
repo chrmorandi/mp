@@ -91,6 +91,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
         return false;
       }
       echo 'entry';
+      exit;
       $yg = new Yiigun('secure');
       echo 'exit';
       foreach ($items as $m) {
