@@ -125,10 +125,10 @@ class UserData extends \yii\db\ActiveRecord
         $user_id = $u->id;
         // count meetings they've organized
         $ud->count_meetings = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at<'.$since)->count();
-        $ud->count_meetings_last30 = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at>='.$monthago)->count();
+        $ud->count_meetings_last30 = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at<'.$since)->andWhere('created_at>='.$monthago)->count();
         // count meetings they were invited to
         $ud->count_meeting_participant = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at<'.$since)->count();
-        $ud->count_meeting_participant_last30 = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at>='.$monthago)->count();
+        $ud->count_meeting_participant_last30 = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at<'.$since)->andWhere('created_at>='.$monthago)->count();
         // count places and Friends
         $ud->count_places = UserPlace::find()->where(['user_id'=>$user_id])->andWhere('created_at<'.$since)->count();
         $ud->count_friends = Friend::find()->where(['user_id'=>$user_id])->andWhere('created_at<'.$since)->count();

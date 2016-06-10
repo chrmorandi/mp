@@ -111,11 +111,11 @@ class HistoricalData extends \yii\db\ActiveRecord
           $action = 'update';
         }
         // calculate  $count_meetings_completed
-        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->count();;
+        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->andWhere('created_at<'.$day)->count();;
         // calculate  $count_meetings_planning
-        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->count();;
+        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->andWhere('created_at<'.$day)->count();;
         // calculate  $count_places
-        $hd->count_places = Place::find()->where('created_at>'.$after)->count();
+        $hd->count_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$day)->count();
         // calculate  $source_google
         $hd->source_google = Auth::find()->where(['source'=>'google'])->count();
         // calculate  $source_facebook
@@ -127,8 +127,8 @@ class HistoricalData extends \yii\db\ActiveRecord
         // calculate  $count_users
         $hd->count_users = $total_users;
         //User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('created_at>'.$after)->count();
-        $total_friends = Friend::find()->where('created_at>'.$after)->count();
-        $total_places = Place::find()->where('created_at>'.$after)->count();
+        $total_friends = Friend::find()->where('created_at>'.$after)->andWhere('created_at<'.$day)->count();
+        $total_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$day)->count();
         $hd->average_meetings = ($hd->count_meetings_completed+$hd->count_meetings_planning)/$total_users;
         $hd->average_friends = $total_friends/$total_users;
         $hd->average_places =  $total_places/$total_users;
