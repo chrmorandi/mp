@@ -9,6 +9,7 @@ use frontend\models\Meeting;
 use frontend\models\Participant;
 use frontend\models\UserPlace;
 use frontend\models\Friend;
+use frontend\models\Auth;
 
 /**
  * This is the model class for table "user_data".
@@ -135,6 +136,11 @@ class UserData extends \yii\db\ActiveRecord
             // they were invited as a participant earlier than they organized their own meeting
             $ud->invite_then_own =1;
           }
+        }
+        if (Auth::find()->where(['user_id'=>$user_id])->count()>0) {
+          $ud->is_social =1;
+        } else {
+          $ud->is_social =0;
         }
         $ud->update();
       }

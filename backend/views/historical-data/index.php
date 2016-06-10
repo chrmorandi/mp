@@ -14,34 +14,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('backend', 'Create Historical Data'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            //['class' => 'yii\grid\SerialColumn'],
             'date',
             'percent_own_meeting',
             'percent_own_meeting_last30',
             'percent_invited_own_meeting',
-            // 'percent_participant',
-            // 'count_users',
-            // 'count_meetings_completed',
-            // 'count_meetings_planning',
-            // 'count_places',
-            // 'average_meetings',
-            // 'average_friends',
-            // 'average_places',
-            // 'source_google',
-            // 'source_facebook',
-            // 'source_linkedin',
+            'percent_participant',
+            'count_users',
+            'count_meetings_completed',
+            'count_meetings_planning',
+            'count_places',
+            'average_meetings',
+             'average_friends',
+             'average_places',
+             'source_google',
+             'source_facebook',
+             'source_linkedin',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

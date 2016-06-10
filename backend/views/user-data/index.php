@@ -15,29 +15,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('backend', 'Create User Data'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            //['class' => 'yii\grid\SerialColumn'],
             'user_id',
             'is_social',
             'invite_then_own',
             'count_meetings',
-            // 'count_meetings_last30',
-            // 'count_meeting_participant',
-            // 'count_meeting_participant_last30',
-            // 'count_places',
-            // 'count_friends',
-            // 'created_at',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+             'count_meetings_last30',
+             'count_meeting_participant',
+             'count_meeting_participant_last30',
+             'count_places',
+             'count_friends',
+          //  ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
