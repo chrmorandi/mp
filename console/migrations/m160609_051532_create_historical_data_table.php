@@ -23,6 +23,7 @@ class m160609_051532_create_historical_data_table extends Migration
           // % of users invited by others who own a meeting
           'percent_invited_own_meeting'  => Schema::TYPE_FLOAT.' NOT NULL',
           'percent_participant'  => Schema::TYPE_FLOAT.' NOT NULL',
+          'percent_participant_last30'  => Schema::TYPE_FLOAT.' NOT NULL',
           'count_users' => Schema::TYPE_INTEGER.' NOT NULL',
           'count_meetings_completed' => Schema::TYPE_INTEGER.' NOT NULL',
           'count_meetings_planning' => Schema::TYPE_INTEGER.' NOT NULL',

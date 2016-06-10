@@ -24,6 +24,7 @@ use frontend\models\Friend;
  * @property double $percent_own_meeting_last30
  * @property double $percent_invited_own_meeting
  * @property double $percent_participant
+ * @property double $percent_participant_last30
  * @property integer $count_users
  * @property integer $count_meetings_completed
  * @property integer $count_meetings_planning
@@ -51,8 +52,8 @@ class HistoricalData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
-            [['average_meetings', 'average_friends', 'average_places','percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant'], 'number'],
+            [['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
+            [['average_meetings', 'average_friends', 'average_places','percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30'], 'number'],
             [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places',  'source_google', 'source_facebook', 'source_linkedin','date'], 'integer'],
         ];
     }
@@ -68,17 +69,18 @@ class HistoricalData extends \yii\db\ActiveRecord
             'percent_own_meeting' => Yii::t('backend', '% Created Meeting'),
             'percent_own_meeting_last30' => Yii::t('backend', '% Created Meeting Last30'),
             'percent_invited_own_meeting' => Yii::t('backend', '% Invited & Created Meeting'),
-            'percent_participant' => Yii::t('backend', '% Participant'),
-            'count_users' => Yii::t('backend', 'Count Users'),
-            'count_meetings_completed' => Yii::t('backend', '# Meetings Completed'),
-            'count_meetings_planning' => Yii::t('backend', '# Meetings Planning'),
+            'percent_participant' => Yii::t('backend', '% Prtcpnt'),
+            'percent_participant_last30'=>Yii::t('backend', '% Prtcpnt L30'),
+            'count_users' => Yii::t('backend', '# Users'),
+            'count_meetings_completed' => Yii::t('backend', '# Mtgs Complete'),
+            'count_meetings_planning' => Yii::t('backend', '# Mtgs Plan'),
             'count_places' => Yii::t('backend', '# Places'),
-            'average_meetings' => Yii::t('backend', 'Avg Meetings Per User'),
-            'average_friends' => Yii::t('backend', 'Avg Friends Per User'),
-            'average_places' => Yii::t('backend', 'Avg Places Per User'),
-            'source_google' => Yii::t('backend', '# Google'),
-            'source_facebook' => Yii::t('backend', '# Facebook'),
-            'source_linkedin' => Yii::t('backend', '# Linkedin'),
+            'average_meetings' => Yii::t('backend', 'Mtgs/User'),
+            'average_friends' => Yii::t('backend', 'Friends/User'),
+            'average_places' => Yii::t('backend', 'Places/User'),
+            'source_google' => Yii::t('backend', '# Goog'),
+            'source_facebook' => Yii::t('backend', '# FB'),
+            'source_linkedin' => Yii::t('backend', '# LnkIn'),
         ];
     }
 
@@ -129,8 +131,7 @@ class HistoricalData extends \yii\db\ActiveRecord
         $hd->percent_own_meeting = UserData::find()->where('count_meetings>0')->count() / $total_users;
         $hd->percent_own_meeting_last30 = UserData::find()->where('count_meetings_last30>0')->count() / $total_users;
         $hd->percent_participant = UserData::find()->where('count_meeting_participant>0')->count() / $total_users;
-        $own_meeting_last30=0;
-        $participant=0;
+        $hd->percent_participant_last30 = UserData::find()->where('count_meeting_participant_last30>0')->count() / $total_users;
         $query = (new \yii\db\Query())->from('user_data');
         $sum = $query->sum('invite_then_own');
         $hd->percent_invited_own_meeting=$sum/$total_users;
@@ -139,6 +140,6 @@ class HistoricalData extends \yii\db\ActiveRecord
           $hd->save();
         } else {
           $hd->update();
-        }      
+        }
     }
 }

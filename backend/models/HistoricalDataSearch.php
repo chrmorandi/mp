@@ -19,7 +19,7 @@ class HistoricalDataSearch extends HistoricalData
     {
         return [
             [['id', 'date', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'integer'],
-            [['percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant'], 'number'],
+            [['percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30'], 'number'],
         ];
     }
 
@@ -65,6 +65,7 @@ class HistoricalDataSearch extends HistoricalData
             'percent_own_meeting_last30' => $this->percent_own_meeting_last30,
             'percent_invited_own_meeting' => $this->percent_invited_own_meeting,
             'percent_participant' => $this->percent_participant,
+            'percent_participant_last30' => $this->percent_participant_last30,
             'count_users' => $this->count_users,
             'count_meetings_completed' => $this->count_meetings_completed,
             'count_meetings_planning' => $this->count_meetings_planning,

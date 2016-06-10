@@ -27,7 +27,7 @@ AppAsset::register($this);
         <?php
             NavBar::begin([
                 'brandLabel' => Yii::t('backend','Meeting Planner'),
-                'brandUrl' => Yii::$app->homeUrl,
+                'brandUrl' => 'https://meetingplanner.io',
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
@@ -37,6 +37,18 @@ AppAsset::register($this);
                         'items' => [
                           ['label' => Yii::t('frontend','Usage'), 'url' => ['/data/current']],
                         ]
+                      ];
+            $menuItems[] = [
+                        'label' => 'Yesterday',
+                        'items' => [
+                          ['label' => Yii::t('frontend','User Data'), 'url' => ['/user-data']],
+                        ]
+                      ];
+              $menuItems[]=[
+                        'label' => 'Historical',
+                        'items' => [
+                          ['label' => Yii::t('frontend','Statistics'), 'url' => ['/historical-data']],
+                        ],
                       ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

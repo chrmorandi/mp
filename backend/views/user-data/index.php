@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel backend\models\UserDataSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'User Datas');
+$this->title = Yii::t('backend', 'User Data as of Yesterday');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-data-index">
@@ -21,14 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             'user_id',
-            'is_social',
-            'invite_then_own',
             'count_meetings',
              'count_meetings_last30',
              'count_meeting_participant',
              'count_meeting_participant_last30',
+             'invite_then_own',
              'count_places',
              'count_friends',
+             'is_social',
           //  ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
