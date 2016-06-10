@@ -106,8 +106,14 @@ class UserData extends \yii\db\ActiveRecord
       UserData::find()->deleteAll();
     }
 
-    public static function calculate() {
-      $all = User::find()->all();
+    public static function calculate($since=false) {
+      if ($since===false) {
+        $since = mktime(0, 0, 0);
+        $monthago = mktime(0, 0, 0)-(60*60*24*30);
+      } else {
+        $monthago = $since-(60*60*24*30);
+      }
+      $all = User::find()->where('created_at<'.$since)->all();
       foreach ($all as $u) {
         // create new record for user or update old one
         $ud = UserData::findOne($u->id);
@@ -117,22 +123,21 @@ class UserData extends \yii\db\ActiveRecord
           $ud->save();
         }
         $user_id = $u->id;
-        $monthago = mktime(0, 0, 0)-(60*60*24*30);
         // count meetings they've organized
-        $ud->count_meetings = Meeting::find()->where(['owner_id'=>$user_id])->count();
+        $ud->count_meetings = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at<'.$since)->count();
         $ud->count_meetings_last30 = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at>='.$monthago)->count();
         // count meetings they were invited to
-        $ud->count_meeting_participant = Participant::find()->where(['participant_id'=>$user_id])->count();
+        $ud->count_meeting_participant = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at<'.$since)->count();
         $ud->count_meeting_participant_last30 = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at>='.$monthago)->count();
         // count places and Friends
-        $ud->count_places = UserPlace::find()->where(['user_id'=>$user_id])->count();
-        $ud->count_friends = Friend::find()->where(['user_id'=>$user_id])->count();
+        $ud->count_places = UserPlace::find()->where(['user_id'=>$user_id])->andWhere('created_at<'.$since)->count();
+        $ud->count_friends = Friend::find()->where(['user_id'=>$user_id])->andWhere('created_at<'.$since)->count();
         // calculate invite than Own - participant first, then organizer
-        $first_invite = Participant::find()->where(['participant_id'=>$user_id])->orderby('created_at asc')->one();
-        $first_organized = Meeting::find()->where(['owner_id'=>$user_id])->orderby('created_at asc')->one();
+        $first_invite = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at<'.$since)->orderby('created_at asc')->one();
+        $first_organized = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at<'.$since)->orderby('created_at asc')->one();
         $ud->invite_then_own =0;
         if (!is_null($first_invite) && !is_null($first_organized)) {
-          if ($first_invite->created_at < $first_organized->created_at) {
+          if ($first_invite->created_at < $first_organized->created_at && $first_organized->created_at < $since) {
             // they were invited as a participant earlier than they organized their own meeting
             $ud->invite_then_own =1;
           }
