@@ -13,21 +13,18 @@ class Yiigun
   public $mailgun_domain;
   private $mail_from;
 
-   function __construct($mode = 'secure') {
+   function __construct() {
      // initialize mailgun connection
      $this->mailgun_api_key = Yii::$app->params['mailgun_api_key'];
      $this->mailgun_public_api_key = Yii::$app->params['mailgun_public_api_key'];
      $this->mailgun_domain = Yii::$app->params['mailgun_domain'];
      $this->mail_from = 'Meeting Planner <support@'.$this->mailgun_domain.'>';
-     var_dump(Yii::$app->params);
-     exit;
      $client = new \Http\Adapter\Guzzle6\Client();
-     if ($mode=='secure') {
+    // if ($mode=='secure') {
        $this->mg = new Mailgun($this->mailgun_api_key,$client);
-     } else {
-       $this->mg = new Mailgun($this->mailgun_public_api_key,$client);
-     }
-
+     //} else {
+    //   $this->mg = new Mailgun($this->mailgun_public_api_key,$client);
+     //}
   }
 
   public function get($url='') {
