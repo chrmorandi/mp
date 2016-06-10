@@ -170,7 +170,7 @@ class Friend extends \yii\db\ActiveRecord
 
     public function mailgunValidator($attribute,$params)
     {
-          $yg = new Yiigun();
+          $yg = new Yiigun('public');
           $result = $yg->validate($this->$attribute);
           if ($result->is_valid)
             return false;
