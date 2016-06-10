@@ -90,6 +90,8 @@ class MailgunNotification extends \yii\db\ActiveRecord
       if (count($items)==0) {
         return false;
       }
+      echo 'here';
+      exit;
       $yg = new Yiigun('secure');
       foreach ($items as $m) {
         $error = false;
