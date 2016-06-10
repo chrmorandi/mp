@@ -19,6 +19,7 @@ class Yiigun
      echo 'inside';
 
      $this->mailgun_api_key = Yii::$app->params['mailgun_api_key'];
+     var_dump(Yii::$app->params);
      exit;
      $this->mailgun_public_api_key = Yii::$app->params['mailgun_public_api_key'];
      $this->mailgun_domain = Yii::$app->params['mailgun_domain'];
