@@ -78,6 +78,8 @@ class DataController extends Controller
     $user_places = UserPlace::find()
       ->select(['user_id,COUNT(*) AS dataCount'])
       ->groupBy(['user_id'])
+      ->orderBy('dataCount DESC')
+      ->limit(5)
       ->all();
       $totalPlaces = 0;
       foreach ($user_places as $up) {
