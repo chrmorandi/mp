@@ -34,7 +34,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     const ROLE_USER = 10;
     const ROLE_ADMIN = 100;
-    
+
     public $dataCount;
 
 
@@ -255,4 +255,18 @@ class User extends ActiveRecord implements IdentityInterface
 
     }
 
+    public static function lookupStatus($status) {
+      switch ($status) {
+        case User::STATUS_ACTIVE:
+          $label = Yii::t('frontend','Active');
+        break;
+        case User::STATUS_PASSIVE:
+          $label = Yii::t('frontend','Via invite');
+        break;
+        case User::STATUS_DELETED:
+          $label = Yii::t('frontend','Deleted');
+        break;
+      }
+      return $label;
+    }
 }

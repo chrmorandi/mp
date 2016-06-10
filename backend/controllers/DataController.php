@@ -5,10 +5,8 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\data\ArrayDataProvider;
-use frontend\models\Meeting;
-use frontend\models\UserPlace;
-use common\models\User;
+use backend\models\Data;
+
 /**
  * Message controller
  */
@@ -31,7 +29,7 @@ class DataController extends Controller
                       'allow' => true,
                   ],
                   [
-                      'actions' => ['current'],
+                      'actions' => ['current','recalc'],
                       'allow' => true,
                       'roles' => ['@'],
                   ],
@@ -57,37 +55,13 @@ class DataController extends Controller
         ];
     }
 
+    public function actionRecalc() {      
+        Data::recalc();
+    }
+
     public function actionCurrent()
     {
-      $data = new \stdClass();
-
-      $data->meetings = Meeting::find()
-->select(['status,COUNT(*) AS dataCount'])
-//->where('approved = 1')
-->groupBy(['status'])
-->all();
-
-    $data->users = User::find()
-    ->select(['status,COUNT(*) AS dataCount'])
-    ->groupBy(['status'])
-    ->all();
-
-    // to do - count meetings per user and average meetings per user
-
-    // to do - average time from creation to completion
-
-    $user_places = UserPlace::find()
-      ->select(['user_id,COUNT(*) AS dataCount'])
-      ->groupBy(['user_id'])
-      ->orderBy('dataCount DESC')
-      ->limit(5)
-      ->all();
-      $totalPlaces = 0;
-      foreach ($user_places as $up) {
-        $totalPlaces+=$up->dataCount;
-      }
-      $data->avgUserPlaces = $totalPlaces / count($user_places);
-      $data->userPlaces = $user_places;
+      $data = Data::getRealTimeData();
       return $this->render('current', [
           'data' => $data,
       ]);

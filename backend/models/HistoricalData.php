@@ -97,25 +97,25 @@ class HistoricalData extends \yii\db\ActiveRecord
       HistoricalData::deleteAll();
     }
 
-    public static function calculate($day = false,$after=0) {
-        if ($day === false) {
-          $day = mktime(0, 0, 0)-(60*60*24);
+    public static function calculate($since = false,$after=0) {
+        if ($since === false) {
+          $since = mktime(0, 0, 0);
         }
         // create new record for date or update existing
-        $hd = HistoricalData::find()->where(['date'=>$day])->one();
+        $hd = HistoricalData::find()->where(['date'=>$since])->one();
         if (is_null($hd)) {
           $hd = new HistoricalData();
-          $hd->date = $day;
+          $hd->date = $since;
           $action = 'save';
         } else {
           $action = 'update';
         }
         // calculate  $count_meetings_completed
-        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->andWhere('created_at<'.$day)->count();;
+        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->andWhere('created_at<'.$since)->count();;
         // calculate  $count_meetings_planning
-        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->andWhere('created_at<'.$day)->count();;
+        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->andWhere('created_at<'.$since)->count();;
         // calculate  $count_places
-        $hd->count_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$day)->count();
+        $hd->count_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->count();
         // calculate  $source_google
         $hd->source_google = Auth::find()->where(['source'=>'google'])->count();
         // calculate  $source_facebook
@@ -127,18 +127,20 @@ class HistoricalData extends \yii\db\ActiveRecord
         // calculate  $count_users
         $hd->count_users = $total_users;
         //User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('created_at>'.$after)->count();
-        $total_friends = Friend::find()->where('created_at>'.$after)->andWhere('created_at<'.$day)->count();
-        $total_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$day)->count();
-        $hd->average_meetings = ($hd->count_meetings_completed+$hd->count_meetings_planning)/$total_users;
-        $hd->average_friends = $total_friends/$total_users;
-        $hd->average_places =  $total_places/$total_users;
-        $hd->percent_own_meeting = UserData::find()->where('count_meetings>0')->count() / $total_users;
-        $hd->percent_own_meeting_last30 = UserData::find()->where('count_meetings_last30>0')->count() / $total_users;
-        $hd->percent_participant = UserData::find()->where('count_meeting_participant>0')->count() / $total_users;
-        $hd->percent_participant_last30 = UserData::find()->where('count_meeting_participant_last30>0')->count() / $total_users;
-        $query = (new \yii\db\Query())->from('user_data');
-        $sum = $query->sum('invite_then_own');
-        $hd->percent_invited_own_meeting=$sum/$total_users;
+        $total_friends = Friend::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->count();
+        $total_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->count();
+        if ($total_users >0) {
+          $hd->average_meetings = ($hd->count_meetings_completed+$hd->count_meetings_planning)/$total_users;
+          $hd->average_friends = $total_friends/$total_users;
+          $hd->average_places =  $total_places/$total_users;
+          $hd->percent_own_meeting = UserData::find()->where('count_meetings>0')->count() / $total_users;
+          $hd->percent_own_meeting_last30 = UserData::find()->where('count_meetings_last30>0')->count() / $total_users;
+          $hd->percent_participant = UserData::find()->where('count_meeting_participant>0')->count() / $total_users;
+          $hd->percent_participant_last30 = UserData::find()->where('count_meeting_participant_last30>0')->count() / $total_users;
+          $query = (new \yii\db\Query())->from('user_data');
+          $sum = $query->sum('invite_then_own');
+          $hd->percent_invited_own_meeting=$sum/$total_users;
+        }
         if ($action=='save') {
           $hd->save();
         } else {

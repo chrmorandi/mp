@@ -109,10 +109,8 @@ class UserData extends \yii\db\ActiveRecord
     public static function calculate($since=false,$after = 0) {
       if ($since===false) {
         $since = mktime(0, 0, 0);
-        $monthago = mktime(0, 0, 0)-(60*60*24*30);
-      } else {
-        $monthago = $since-(60*60*24*30);
       }
+      $monthago = $since-(60*60*24*30);
       $all = User::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->all();
       foreach ($all as $u) {
         // create new record for user or update old one

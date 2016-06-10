@@ -77,29 +77,11 @@ public function actionQuarter() {
   	}
 
     public function actionOvernight() {
-      $after = mktime(0, 0, 0, 2, 15, 2016);
       $since = mktime(0, 0, 0);
+      $after = mktime(0, 0, 0, 2, 15, 2016);
       UserData::calculate(false,$after);
       HistoricalData::calculate(false,$after);
     }
-
-  public function actionRecalc() {
-      UserData::reset();
-      HistoricalData::reset();
-      $after = mktime(0, 0, 0, 2, 15, 2016);
-      $since = mktime(0, 0, 0, 3, 1, 2016);
-      $n=0;
-      while ($since < time()) {
-        if ($n>120) {exit;}
-        UserData::calculate($since,$after);
-        HistoricalData::calculate($since,$after);
-        $since+=24*60*60;
-        echo $n.'<br/>';
-        $n+=1;
-      }
-
-  }
-
 
     public function actionFix()
     {

@@ -1096,4 +1096,28 @@ class Meeting extends \yii\db\ActiveRecord
       ];
       return $subjects;
     }
+
+    public static function lookupStatus($status) {
+			switch ($status) {
+				case Meeting::STATUS_PLANNING:
+					$label = Yii::t('frontend','In planning');
+				break;
+        case Meeting::STATUS_SENT:
+					$label = Yii::t('frontend','Sent');
+				break;
+        case Meeting::STATUS_CONFIRMED:
+					$label = Yii::t('frontend','Confirmed');
+				break;
+        case Meeting::STATUS_COMPLETED:
+					$label = Yii::t('frontend','Completed');
+				break;
+        case Meeting::STATUS_CANCELED:
+					$label = Yii::t('frontend','Canceled');
+				break;
+        case Meeting::STATUS_TRASH:
+					$label = Yii::t('frontend','Deleted');
+				break;
+			}
+      return $label;
+    }
 }
