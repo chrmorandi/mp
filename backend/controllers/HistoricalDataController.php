@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use backend\models\HistoricalData;
 use backend\models\HistoricalDataSearch;
 use yii\web\Controller;
@@ -17,17 +18,31 @@ class HistoricalDataController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+     public function behaviors()
+     {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                     [
+                         'actions' => [''],
+                         'allow' => true,
+                     ],
+                     [
+                         'actions' => ['index'],
+                         'allow' => true,
+                         'roles' => ['@'],
+                     ],
+                 ],
+             ],
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'logout' => ['post'],
+                 ],
+             ],
+         ];
+     }
 
     /**
      * Lists all HistoricalData models.
