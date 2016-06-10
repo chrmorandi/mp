@@ -139,7 +139,6 @@ class HistoricalData extends \yii\db\ActiveRecord
         $query = (new \yii\db\Query())->from('user_data');
         $sum = $query->sum('invite_then_own');
         $hd->percent_invited_own_meeting=$sum/$total_users;
-
         if ($action=='save') {
           $hd->save();
         } else {
