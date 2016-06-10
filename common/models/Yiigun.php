@@ -21,8 +21,8 @@ class Yiigun
      $this->mailgun_domain = Yii::$app->params['mailgun_domain'];
      $this->mail_from = 'Meeting Planner <support@'.$this->mailgun_domain.'>';
      $client = new \Http\Adapter\Guzzle6\Client();
+     echo $mode;exit;
      if ($mode=='secure') {
-       echo 'secure';exit;
        $this->mg = new Mailgun($this->mailgun_api_key,$client);
      } else {
        $this->mg = new Mailgun($this->mailgun_public_api_key,$client);
