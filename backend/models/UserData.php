@@ -103,7 +103,7 @@ class UserData extends \yii\db\ActiveRecord
     }
 
     public static function reset() {
-      UserData::find()->deleteAll();
+      UserData::deleteAll();
     }
 
     public static function calculate($since=false,$after = 0) {

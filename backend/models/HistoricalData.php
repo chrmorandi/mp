@@ -107,7 +107,7 @@ class HistoricalData extends \yii\db\ActiveRecord
           $action = 'update';
         }
         // calculate  $count_users
-        $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('create_date>'.$after)->count();
+        $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('created_at>'.$after)->count();
         // calculate  $count_meetings_completed
         $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->count();;
         // calculate  $count_meetings_planning
