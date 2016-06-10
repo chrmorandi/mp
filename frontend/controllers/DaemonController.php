@@ -22,12 +22,12 @@ class DaemonController extends Controller
         return [
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
-              'only' => ['index','hourly','overnight'],
+              'only' => ['index','hourly','overnight','recalc'],
               'rules' => [
                 // allow authenticated users
                  [
                      'allow' => true,
-                     'actions'=>['index','fix','overnight'],
+                     'actions'=>['index','fix','overnight','recalc'],
                      'roles' => ['@'],
                  ],
                 [
@@ -76,7 +76,14 @@ public function actionQuarter() {
       }
   	}
 
-  public function actionOvernight() {
+    public function actionOvernight() {
+      $after = mktime(0, 0, 0, 2, 15, 2016);
+      $since = mktime(0, 0, 0);
+      UserData::calculate(false,$after);
+      HistoricalData::calculate(false,$after);
+    }
+
+  public function actionRecalc() {
       UserData::reset();
       HistoricalData::reset();
       $after = mktime(0, 0, 0, 2, 15, 2016);
