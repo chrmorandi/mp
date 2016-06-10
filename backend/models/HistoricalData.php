@@ -93,11 +93,10 @@ class HistoricalData extends \yii\db\ActiveRecord
         return new HistoricalDataQuery(get_called_class());
     }
 
-    public static function calculate($day = false) {
+    public static function calculate($day = false,$after=0) {
         if ($day === false) {
           $day = mktime(0, 0, 0)-(60*60*24);
         }
-
         // create new record for date or update existing
         $hd = HistoricalData::find()->where(['date'=>$day])->one();
         if (is_null($hd)) {
@@ -108,7 +107,7 @@ class HistoricalData extends \yii\db\ActiveRecord
           $action = 'update';
         }
         // calculate  $count_users
-        $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->count();
+        $hd->count_users = User::find()->where('status<>'.User::STATUS_DELETED)->andWhere('create_date>'.$after)->count();
         // calculate  $count_meetings_completed
         $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->count();;
         // calculate  $count_meetings_planning
