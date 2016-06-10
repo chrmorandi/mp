@@ -113,7 +113,7 @@ class UserData extends \yii\db\ActiveRecord
       } else {
         $monthago = $since-(60*60*24*30);
       }
-      $all = User::find()->where('created_at<'.$since)->andWhere('created_at>'.$after)->all();
+      $all = User::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->all();
       foreach ($all as $u) {
         // create new record for user or update old one
         $ud = UserData::findOne($u->id);
