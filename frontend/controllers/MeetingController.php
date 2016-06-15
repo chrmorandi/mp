@@ -137,7 +137,7 @@ class MeetingController extends Controller
       } else {
         // meeting is finalized or past
         $isOwner = $model->isOwner(Yii::$app->user->getId());
-        if (($model->meeting_type == Meeting::TYPE_PHONE || $model->meeting_type == Meeting::TYPE_VIDEO)) {
+        if (($model->meeting_type == Meeting::TYPE_PHONE || $model->meeting_type == Meeting::TYPE_VIDEO || $model->meeting_type == Meeting::TYPE_VIRTUAL)) {
           $noPlace = true;
           if ($isOwner) {
             // display participants contact info

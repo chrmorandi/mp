@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php
           // where
-          if (!($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO)) {
+          if (!($model->meeting_type == \frontend\models\Meeting::TYPE_PHONE || $model->meeting_type == \frontend\models\Meeting::TYPE_VIDEO || $model->meeting_type == \frontend\models\Meeting::TYPE_VIRTUAL)) {
             echo $this->render('../meeting-place/_panel', [
               'model'=>$model,
               'placeProvider' => $placeProvider,
