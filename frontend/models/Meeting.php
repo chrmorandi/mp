@@ -601,7 +601,7 @@ class Meeting extends \yii\db\ActiveRecord
       // but none is officially chosen to finalize
       public static function getChosenPlace($meeting_id) {
           $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
-          if (($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL)) {
+          if (($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO || $meeting->meeting_type == Meeting::TYPE_VIRTUAL)) {
             return false;
           }
           $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
@@ -726,7 +726,7 @@ class Meeting extends \yii\db\ActiveRecord
             ->addAttendee($a['email'], $a['username']);
             // if building for organizer, attach attendee contact info
             // otherwise, attach organizer contact info
-              if ($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+              if ($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO || $meeting->meeting_type == Meeting::TYPE_VIRTUAL) {
                 if ($a['user_id']<>$meeting->owner_id) {
                   // send organizer contact
                   $commentStr.=UserContact::buildContactString($meeting->owner_id,'ical');
