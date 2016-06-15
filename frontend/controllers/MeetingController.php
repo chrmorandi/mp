@@ -339,6 +339,20 @@ class MeetingController extends Controller
       }
     }
 
+    public function actionVirtual($id,$state) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      // set virtual
+      $meeting = $this->findModel($id);
+      if ($state == 1) {
+        $meeting->meeting_type = Meeting::TYPE_VIRTUAL;
+        MeetingLog::add($id,MeetingLog::ACTION_MAKE_VIRTUAL,Yii::$app->user->getId(),0);
+      } else {
+        $meeting->meeting_type = Meeting::TYPE_OTHER;
+        MeetingLog::add($id,MeetingLog::ACTION_MAKE_INPERSON,Yii::$app->user->getId(),0);
+      }
+      $meeting->update();
+    }
+
     public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$k=0) {
       $performAuth = true;
       $authResult = false;

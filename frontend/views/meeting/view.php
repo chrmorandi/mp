@@ -116,6 +116,7 @@ if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING )
 
 ?>
 <input id="notifierOkay" value="<?= $notifierOkay ?>" type="hidden">
+<input id="meeting_id" value="<?= $model->id; ?>" type="hidden">
 <?php
 $script = <<< JS
 var notifierOkay; // meeting sent already and no page change session flash

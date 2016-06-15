@@ -34,6 +34,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     public $vicinity;
     public $full_address;
     public $place_name;
+
     /**
      * @inheritdoc
      */

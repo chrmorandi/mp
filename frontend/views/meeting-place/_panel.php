@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use \kartik\switchinput\SwitchInput;
+
 ?>
 <div id="notifierPlace" class="alert-info alert fade in" style="display:none;">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -10,7 +12,7 @@ use yii\widgets\ListView;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-9"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
+      <div class="col-lg-6"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
         <?php if ($placeProvider->count>1) { ?>
           Use the switches below to indicate which places are acceptable options for you.&nbsp;
         <?php
@@ -26,17 +28,42 @@ use yii\widgets\ListView;
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
-      <div class="col-lg-3" ><div style="float:right;">
+      <div class="col-lg-6" ><div style="float:right;">
         <?php
           if ($isOwner || $model->meetingSettings->participant_add_place) {
-            echo Html::a('', ['meeting-place/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-plus']);
+          ?>
+          <table><tr style="vertical-align:top;"><td style="padding-left:10px;">
+            <?php
+            echo SwitchInput::widget([
+              'type' => SwitchInput::CHECKBOX,
+              'name' => 'meeting-switch-virtual',
+                'value' => $model->switchVirtual,
+                'pluginOptions' => ['size'=>'mini','onText' => 'in person','offText'=>'virtual'], // 'onColor' => 'success','offColor' => 'danger'
+                'labelOptions' => ['style' => 'font-size: 8px'],
+            ]);
+            ?>
+            </td><td style="padding-left:10px;">
+            <?php
+              if ($model->switchVirtual == $model::SWITCH_INPERSON) {
+                  echo Html::a('', ['meeting-place/create', 'meeting_id' => $model->id], ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus']);
+              } else {
+                echo Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true]);
+              }
+
+            ?>
+            </td></tr></table>
+          <?php
           }
         ?>
+
               </div>
     </div>
   </div>
   </div>
-
+  <?php
+    $style = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'none':'block');
+   ?>
+  <div id ="meeting-place-list" style="display:<?php echo $style; ?>">
   <?php
    if ($placeProvider->count>0):
   ?>
@@ -62,6 +89,7 @@ use yii\widgets\ListView;
   </table>
   <?php else: ?>
   <?php endif; ?>
+</div>
 
 </div>
 <?php
@@ -109,13 +137,38 @@ $('input[name="meeting-place-choice"]').on('switchChange.bootstrapSwitch', funct
   });
 });
 
+// users can say if a place is an option for them
+$('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', function(e, s) {
+  //console.log(e.target.id,s); // true | false
+  // set intval to pass via AJAX from boolean state
+  if (!s) {
+    $('#meeting-add-place').prop("disabled",true);
+    $('a#meeting-add-place').attr('disabled', true);
+    $('a#meeting-add-place').prop('href', 'javascript:void(0);');
+    $('#meeting-place-list').prop('style','display:none;');
+    state = 1; // state of these are backwards: true is 0, 1 is false
+  } else {
+    $('#meeting-add-place').prop("disabled",false);
+    $('a#meeting-add-place').attr('disabled', false);
+    $('a#meeting-add-place').prop('href', '$urlPrefix/meeting-place/create/?meeting_id=$model->id');
+    $('#meeting-place-list').prop('style','display:block;');
+    state =0; // state of these are backwards: true is 0, 1 is false
+  }
+  $.ajax({
+     url: '$urlPrefix/meeting/virtual',
+     data: {id: $model->id, 'state': state},
+     success: function(data) {
+       return true;
+     }
+  });
+});
+
 JS;
 $position = \yii\web\View::POS_READY;
 $this->registerJs($script, $position);
 ?>
 
 <?php
-use \kartik\switchinput\SwitchInput;
 
   function showOwnerStatus($model,$isOwner) {
     foreach ($model->meetingPlaceChoices as $mpc) {

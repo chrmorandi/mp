@@ -30,6 +30,7 @@ class Data extends Model
       $since+=24*60*60;
     }
   }
+  
   public static function getRealTimeData() {
     $data = new \stdClass();
 

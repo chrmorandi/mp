@@ -50,6 +50,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_SENT_CONTACT_REQUEST = 150;
 	const ACTION_SENT_RUNNING_LATE = 160;
 	const ACTION_ABANDON_MEETING = 200;
+	const ACTION_MAKE_VIRTUAL = 210;
+	const ACTION_MAKE_INPERSON = 215;
 
 	// not yet implemented
 	//	const ACTION_ = ;
@@ -208,6 +210,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_ABANDON_MEETING:
 				$label = Yii::t('frontend','Abandoned meeting');
 				break;
+				case MeetingLog::ACTION_MAKE_VIRTUAL:
+				$label = Yii::t('frontend','Switched to virtual meeting');
+				break;
+				case MeetingLog::ACTION_MAKE_INPERSON:
+				$label = Yii::t('frontend','Switched to in person meeting');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -297,6 +305,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_FINALIZE_INVITE:
 				case MeetingLog::ACTION_COMPLETE_MEETING:
 				case MeetingLog::ACTION_ABANDON_MEETING:
+				case MeetingLog::ACTION_MAKE_VIRTUAL:
+				case MeetingLog::ACTION_MAKE_INPERSON:
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
 				case MeetingLog::ACTION_SENT_RUNNING_LATE:
 					$label = Yii::t('frontend','-');

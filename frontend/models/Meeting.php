@@ -52,6 +52,7 @@ class Meeting extends \yii\db\ActiveRecord
   const TYPE_BRUNCH = 90;
   const TYPE_OFFICE = 100;
   const TYPE_OTHER = 110;
+  const TYPE_VIRTUAL = 150;
 
   const STATUS_PLANNING =0;
   const STATUS_SENT = 20;
@@ -90,6 +91,9 @@ class Meeting extends \yii\db\ActiveRecord
 
   const ABANDONED_AGE = 2; // weeks
 
+  const SWITCH_INPERSON =1;
+  const SWITCH_VIRTUAL =0;
+
   public $has_subject = false;
   public $title;
   public $viewer;
@@ -97,6 +101,7 @@ class Meeting extends \yii\db\ActiveRecord
   public $isReadyToSend = false;
   public $isReadyToFinalize = false;
   public $dataCount;
+  public $switchVirtual = Meeting::SWITCH_INPERSON;
 
     /**
      * @inheritdoc
@@ -641,6 +646,13 @@ class Meeting extends \yii\db\ActiveRecord
         $this->setViewer();
         // check for meeting_settings
         $this->initializeMeetingSetting($this->id,$this->owner_id);
+        if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+          $this->switchVirtual = Meeting::SWITCH_VIRTUAL;
+          //echo 'here';exit;
+        } else {
+          $this->switchVirtual = Meeting::SWITCH_INPERSON;
+          //echo 'here- live';exit;
+        }
         $canSend = $this->canSend($this->viewer_id);
         $this->canFinalize($this->viewer_id);
         // has invitation been sent
