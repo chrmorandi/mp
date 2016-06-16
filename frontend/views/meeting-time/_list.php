@@ -28,27 +28,11 @@ use \kartik\switchinput\SwitchInput;
                 <?php
                    if ($isOwner) {
                      showTimeOwnerStatus($model,$isOwner);
-                   } /*else {
+                   } else {
                      showTimeParticipantStatus($model,$isOwner);
-                   }*/
+                   }
                 ?>
               </td>
-              <?php
-               /* to do - placeholder for removing cols in planning
-               if ($model->status != Meeting::STATUS_PLANNING) {
-                 ?>
-                 <?php
-               }*/
-               ?>
-               <td >
-                   <?php
-                     if (!$isOwner) {
-                        showTimeOwnerStatus($model,$isOwner);
-                      } /*else {
-                        showTimeParticipantStatus($model,$isOwner);
-                      }*/
-                   ?>
-               </td>
               <td class="switch-pad">
                   <?php
                   if ($timeCount>1) {

@@ -31,19 +31,9 @@ use \kartik\switchinput\SwitchInput;
                    if ($isOwner) {
                      showOwnerStatus($model,$isOwner);
                    } else {
-                     //showParticipantStatus($model,$isOwner);
+                     showParticipantStatus($model,$isOwner);
                    }
                 ?>
-              </td>
-              <td style>
-                  <?php
-                // show meeting participants in next column(s)
-                    if (!$isOwner) {
-                       showOwnerStatus($model,$isOwner);
-                     } else {
-                       //showParticipantStatus($model,$isOwner);
-                     }
-                  ?>
               </td>
               <td class="switch-pad">
                   <?php
