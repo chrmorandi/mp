@@ -12,7 +12,7 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-xs-4"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
         <?php if ($placeProvider->count>1) { ?>
           Use the switches below to indicate which places are acceptable options for you.&nbsp;
         <?php
@@ -28,7 +28,7 @@ use \kartik\switchinput\SwitchInput;
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
-      <div class="col-lg-8 col-md-8 col-xs-8" ><div style="float:right;">
+      <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;">
         <?php
           if ($isOwner || $model->meetingSettings->participant_add_place) {
           ?>
@@ -55,7 +55,6 @@ use \kartik\switchinput\SwitchInput;
           <?php
           }
         ?>
-
               </div>
     </div>
   </div>
@@ -68,17 +67,6 @@ use \kartik\switchinput\SwitchInput;
    if ($placeProvider->count>0):
   ?>
   <table class="table">
-     <thead>
-     <tr class="small-header">
-       <td></td>
-       <td ><?=Yii::t('frontend','You') ?></td>
-       <td ><?=Yii::t('frontend','Them') ?></td>
-        <td >
-          <?php
-           if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) echo Yii::t('frontend','Choose');
-          ?></td>
-    </tr>
-    </thead>
     <?= ListView::widget([
            'dataProvider' => $placeProvider,
            'itemOptions' => ['class' => 'item'],
@@ -183,7 +171,7 @@ $this->registerJs($script, $position);
           'id'=>'mpc-'.$mpc->id,
           'value' => $value,
           'disabled' => !$isOwner,
-          'pluginOptions' => ['size' => 'mini','onText' => 'okay','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
+          'pluginOptions' => ['size' => 'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
           ]);
       }
     }
@@ -208,7 +196,7 @@ $this->registerJs($script, $position);
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
-            'pluginOptions' => ['size' => 'mini','onText' => 'okay','offText'=>'reject','onColor' => 'success','offColor' => 'danger'],
+            'pluginOptions' => ['size' => 'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger'],
             // <i class="glyphicon glyphicon-ok"></i>
             // <i class="glyphicon glyphicon-remove"></i>
         ]);

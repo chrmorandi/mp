@@ -8,14 +8,14 @@ use \kartik\switchinput\SwitchInput;
 <tr >
   <td style >
         <?= Html::a($model->place->name,Url::to(['meeting/viewplace','id'=>$model->meeting_id,'place_id'=>$model->place_id],true)) ?>
-  </td>
-  <td style>
+  <table style="float:right;display:inline;"><tr>
+  <td >
     <?php
     // show meeting owner in first column
        if ($isOwner) {
          showOwnerStatus($model,$isOwner);
        } else {
-         showParticipantStatus($model,$isOwner);
+         //showParticipantStatus($model,$isOwner);
        }
     ?>
 
@@ -26,7 +26,7 @@ use \kartik\switchinput\SwitchInput;
         if (!$isOwner) {
            showOwnerStatus($model,$isOwner);
          } else {
-           showParticipantStatus($model,$isOwner);
+           //showParticipantStatus($model,$isOwner);
          }
       ?>
   </td>
@@ -47,11 +47,14 @@ use \kartik\switchinput\SwitchInput;
                   [ 'value' => $model->id],
               ],
               'value' => $value,
-              'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
+              'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => 'choose','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], //<i class="glyphicon glyphicon-ok"></i>
               'labelOptions' => ['style' => 'font-size: 12px'],
           ]);
         }
       }
       ?>
   </td>
+</tr>
+</table>
+</td>
 </tr>

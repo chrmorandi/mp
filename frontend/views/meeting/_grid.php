@@ -52,7 +52,7 @@ if ($mode =='upcoming' || $mode =='past') {
           ],*/
               ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {decline}  {cancel}',
               'headerOptions' => ['class' => 'itemHide'],
-              'contentOptions' => ['class' => 'itemHide'],              
+              'contentOptions' => ['class' => 'itemHide'],
               'buttons'=>[
                   'view' => function ($url, $model) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url,
@@ -126,17 +126,17 @@ if ($mode =='upcoming' || $mode =='past') {
           'contentOptions' => ['class' => 'itemHide'],
           'buttons'=>[
               'view' => function ($url, $model) {
-                return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                return $model->status==$model::STATUS_PLANNING ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                         'title' => Yii::t('frontend', 'view'),
                         'class' => 'icon-pad',
-                ]) ;
+                ]):'' ;
               },
               'trash' => function ($url, $model) {
-                return $model->status==$model::STATUS_PLANNING ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                         'title' => Yii::t('frontend', 'delete'),
                         'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this meeting?'),
                         'class' => 'icon-pad',
-                ]) :'';
+                ]);
               },
             ]
           ],

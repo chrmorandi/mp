@@ -9,7 +9,7 @@ use yii\widgets\ListView;
 
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-4 col-md-4 col-xs-4"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
+  <div class="panel-heading"><div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
     <?php if ($timeProvider->count>1) { ?>
       Use the switches below to indicate which are acceptable options.&nbsp;
     <?php
@@ -18,7 +18,7 @@ use yii\widgets\ListView;
     <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
       You are also allowed to choose the date and time.
     <?php }?>
-  </em></p></div><div class="col-lg-8 col-md-8 col-xs-8"><div style="float:right;">
+  </em></p></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
       if ($isOwner || $model->meetingSettings->participant_add_date_time) {
         /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/
@@ -31,36 +31,13 @@ use yii\widgets\ListView;
 </div> <!-- end heading -->
   <div id="addTime" style="display:none;">
     <!-- hidden add time form -->
-
   <br />
   </div>
-
   <?php
    if ($timeProvider->count>0):
   ?>
   <!-- Table -->
   <table class="table">
-     <thead>
-     <tr class="small-header">
-       <td></td>
-       <td ><?=Yii::t('frontend','You') ?></td>
-         <?php
-         /* to do - placeholder for removing cols in planning
-          if ($model->status != $model::STATUS_PLANNING) {
-            ?>
-            <?php
-          }*/
-          ?>
-          <td>
-            <?php echo Yii::t('frontend','Them'); ?>
-          </td>
-       <td >
-         <?php
-          if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings->participant_choose_date_time)) echo Yii::t('frontend','Choose');
-         ?>
-        </td>
-    </tr>
-    </thead>
     <?= ListView::widget([
            'dataProvider' => $timeProvider,
            'itemOptions' => ['class' => 'item'],
@@ -89,7 +66,7 @@ use \kartik\switchinput\SwitchInput;
             'id'=>'mtc-'.$mtc->id,
             'value' => $value,
             'disabled' => !$isOwner,
-            'pluginOptions' => ['size' => 'mini','onText' => 'okay','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size' => 'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
             ]);
       }
     }
@@ -114,7 +91,7 @@ use \kartik\switchinput\SwitchInput;
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
-            'pluginOptions' => ['size'=>'mini','onText' => 'okay','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size'=>'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
         ]);
       }
     }
