@@ -148,6 +148,9 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
      url: '$urlPrefix/meeting/virtual',
      data: {id: $model->id, 'state': state},
      success: function(data) {
+       displayNotifier('place');
+       refreshSend();
+       refreshFinalize();
        return true;
      }
   });
