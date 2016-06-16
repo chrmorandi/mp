@@ -14,12 +14,12 @@ use \kartik\switchinput\SwitchInput;
     <div class="row">
       <div class="col-lg-10 col-md-10 col-xs-10"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
         <?php if ($placeProvider->count>1) { ?>
-          Use the switches below to indicate which places are acceptable options for you.&nbsp;
+          Use switches below to denote acceptable places.&nbsp;
         <?php
           }
         ?>
         <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
-          You are also allowed to choose the meeting place.
+          You can also choose the meeting place.
         <?php }?>
       </em></p></div>
 
