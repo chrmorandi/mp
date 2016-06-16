@@ -162,6 +162,10 @@ table.table-list td.table-list-first {
   font-style: italic;
 }
 
+.setting-label label, #preferences label {
+  font-weight:normal;
+}
+
 /* ----------- mobile displays ----------- */
 
 @media only screen

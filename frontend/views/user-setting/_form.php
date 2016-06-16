@@ -37,9 +37,11 @@ use yii\widgets\ActiveForm;
                                       'prompt'=>'Please select your local timezone below']
                                 );
                                 ?>
+                      <span class="setting-label">
                   <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
                   <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+</span>
                 </div>
            <div class="tab-pane vertical-pad" id="preferences">
              <?= $form->field($model, 'participant_add_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
