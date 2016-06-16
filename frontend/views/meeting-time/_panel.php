@@ -18,7 +18,7 @@ use yii\widgets\ListView;
     <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
       You are also allowed to choose the date and time.
     <?php }?>
-  </em></p></div><div class="col-lg-8 col-md-8 col-xs-8">><div style="float:right;">
+  </em></p></div><div class="col-lg-8 col-md-8 col-xs-8"><div style="float:right;">
     <?php
       if ($isOwner || $model->meetingSettings->participant_add_date_time) {
         /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/
