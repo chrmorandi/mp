@@ -245,14 +245,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public static function findByEmail($email) {
-      $u = User::find()->where(['email'=>$email])->one();
+      $u = static::findOne(['email'=>$email]);
       if (is_null($u)) {
         // user doesn't exist
         return false;
       } else {
-        return $u->id;
+        return $u;
       }
-
     }
 
     public static function lookupStatus($status) {

@@ -129,8 +129,8 @@ class MailgunNotification extends \yii\db\ActiveRecord
         // echo ' pre clean sender: '.$sender.'<br>';
         $sender = \yii\helpers\HtmlPurifier::process($sender);
         // echo 'sender: '.$sender.'<br>';
-        $user_id = User::findByEmail($sender);
-        if ($user_id===false) {
+        $u = User::findByEmail($sender);
+        if ($u===false) {
           $error = true;
           // do nothing
           // to do - reply with do not recognize email address
@@ -138,6 +138,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
           $m->update();
           continue;
         } else {
+          $user_id = $u->id;
           // echo 'check attendee';
           // verify sender is a participant or organizer to this meeting
           $is_attendee = Meeting::isAttendee($meeting_id,$user_id);

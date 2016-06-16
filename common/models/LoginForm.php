@@ -70,8 +70,11 @@ class LoginForm extends Model
     {
         if ($this->_user === false) {
             $this->_user = User::findByUsername($this->username);
+            if (is_null($this->_user)) {
+                // try login with email
+                $this->_user = User::findByEmail($this->username);
+            }
         }
-
         return $this->_user;
     }
 }
