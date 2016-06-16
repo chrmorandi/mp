@@ -18,9 +18,9 @@ if ($mode =='upcoming' || $mode =='past') {
               'value' => function ($model) {
                   // to do - remove legacy code when subject didn't exist
                     if ($model->subject=='') {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                     } else {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                     }
                   },
           ],
@@ -53,19 +53,23 @@ if ($mode =='upcoming' || $mode =='past') {
               ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {decline}  {cancel}',
               'buttons'=>[
                   'view' => function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url,
+                    [
                             'title' => Yii::t('frontend', 'view'),
+                            'class' => 'icon-pad',
                     ]);
                   },
                   'decline' => function ($url, $model) {
                     return ($model->status==$model::STATUS_SENT ) ? Html::a('<span class="glyphicon glyphicon-thumbs-down"></span>', $url, [
-                            'title' => Yii::t('frontend', 'decline')
+                            'title' => Yii::t('frontend', 'decline'),
+                            'class' => 'icon-pad',
                     ]) : '';
                   },
                   'cancel' => function ($url, $model) {
                     return ($model->status==$model::STATUS_SENT || $model->status==$model::STATUS_CONFIRMED ) ? Html::a('<span class="glyphicon glyphicon-remove-circle"></span>', $url, [
                             'title' => Yii::t('frontend', 'cancel'),
-                            'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
+                            'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?'),
+                            'class' => 'icon-pad',
                     ]) : '';
                   },
                 ]
@@ -85,9 +89,9 @@ if ($mode =='upcoming' || $mode =='past') {
           'value' => function ($model) {
               // to do - remove legacy code when subject didn't exist
                 if ($model->subject=='') {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                 } else {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                 }
               },
       ],
@@ -120,12 +124,14 @@ if ($mode =='upcoming' || $mode =='past') {
               'view' => function ($url, $model) {
                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                         'title' => Yii::t('frontend', 'view'),
+                        'class' => 'icon-pad',
                 ]) ;
               },
               'trash' => function ($url, $model) {
                 return $model->status==$model::STATUS_PLANNING ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                         'title' => Yii::t('frontend', 'delete'),
-                        'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this meeting?')
+                        'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this meeting?'),
+                        'class' => 'icon-pad',
                 ]) :'';
               },
             ]
@@ -136,8 +142,6 @@ if ($mode =='upcoming' || $mode =='past') {
 }
 ?>
 
-    <p>
         <?= Html::a(Yii::t('frontend', Yii::t('frontend','Schedule a Meeting'), [
     'modelClass' => 'Meeting',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>

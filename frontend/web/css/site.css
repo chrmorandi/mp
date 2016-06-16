@@ -104,12 +104,18 @@ tr.small-header {
 }
 
 /* Custom styles */
-.index_participant {
+/* mouse spacing for buttons */
+a.icon-pad {
+  padding:3px;
+}
+/* meeting participant in index view */
+.index-participant {
   font-style:italic;
   font-size: 90%;
   color: grey;
 
 }
+
 /* ----------- iPhone 6 ----------- */
 
 /* Portrait and Landscape */
@@ -130,6 +136,11 @@ tr.small-header {
      ul.breadcrumb li:nth-child(2)::before {
        content:'';
     }
+    /* fingertip spacing for buttons */
+    a.icon-pad {
+      padding:7px;
+    }
+
 }
 /* ----------- iPad mini ----------- */
 
