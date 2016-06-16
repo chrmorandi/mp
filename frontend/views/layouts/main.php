@@ -39,7 +39,11 @@ AppAsset::register($this);
             } else {
 	            $menuItems = [
                   ['label' => Yii::t('frontend','Schedule'), 'url' => ['/meeting/create']],
-                  ['label' => Yii::t('frontend','Meetings'), 'url' => ['/meeting']],
+                  [
+                    'label' => Yii::t('frontend','Meetings'),
+                    'url' => ['/meeting'],
+                    'options'=>['class'=>'menuHide'],
+                  ],
 	            ];
             }
       			if (Yii::$app->user->isGuest) {

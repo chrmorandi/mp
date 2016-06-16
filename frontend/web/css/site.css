@@ -146,7 +146,7 @@ a.icon-pad {
   and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2) {
     /* hides drop down menu items and footer items */
-    .itemHide,.menuHide {
+    .itemHide,li.menuHide {
       display:none;
       visible:false;
     }
