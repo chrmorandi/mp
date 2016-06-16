@@ -29,15 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
             /*echo Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule', 'id' => $model->id], ['id'=>'actionReschedule','class' => 'btn btn-default',
             'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);*/
             ?>
-            <?php
-            echo Html::a(Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
-          'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
-            ?>
-            <?php echo Html::a('', ['cancel', 'id' => $model->id],
-           ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
-           'title'=>Yii::t('frontend','Cancel'),
-           'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
-           ]) ?>
+            <span class="button-pad">
+              <?php
+              echo Html::a(Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
+            'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+              ?>
+            </span><span class="button-pad">
+              <?php echo Html::a('', ['cancel', 'id' => $model->id],
+             ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
+             'title'=>Yii::t('frontend','Cancel'),
+             'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
+             ]) ?>
+            </span>                  
           </div>
         </div>
       </div> <!-- end row -->

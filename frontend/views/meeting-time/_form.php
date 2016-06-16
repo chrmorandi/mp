@@ -50,9 +50,12 @@ use dosamigos\datetimepicker\DateTimePicker;
   <div class="row">
       <div class="col-md-4">
      <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+       <span class="button-pad">
+         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+       </span><span class="button-pad">
         <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
-    </div>
+      </span>
+     </div>
     </div>
   </div>
     <?php ActiveForm::end(); ?>

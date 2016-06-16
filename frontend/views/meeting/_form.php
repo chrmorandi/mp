@@ -35,8 +35,11 @@ use \kartik\typeahead\TypeaheadBasic;
     <?= $form->field($model, 'message')->textarea(['rows' => 6])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')) ?>
     </div>
     <div class="form-group">
+      <span class="button-pad">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+      </span><span class="button-pad">
         <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
+      </span>
     </div>
 
     <?php ActiveForm::end(); ?>

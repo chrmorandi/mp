@@ -57,8 +57,11 @@ ComboAsset::register($this);
     <?php // $form->field($model, 'participant_id')->textInput() ?>
 
     <div class="form-group">
+      <span class="button-pad">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+      </span><span class="button-pad">
         <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
+      </span>
     </div>
 
     <?php ActiveForm::end(); ?>
