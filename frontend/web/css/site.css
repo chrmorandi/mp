@@ -91,7 +91,7 @@ a.desc:after {
 }
 
 .vertical-pad {
-  margin-top:25px;
+  margin:15px 0px;
 }
 
 .profile-image {
@@ -104,9 +104,24 @@ tr.small-header {
 }
 
 /* Custom styles */
-/* mouse spacing for buttons */
+
+/* virtual or in person switch */
+td.virtualThing .form-group .bootstrap-switch .bootstrap-switch-container {
+  height:34px;
+  background-color: white;
+}
+td.virtualThing .form-group .bootstrap-switch .bootstrap-switch-container span.bootstrap-switch-primary {
+  padding-top:7px;
+}
+td.virtualThing .form-group .bootstrap-switch .bootstrap-switch-container span.bootstrap-switch-default {
+  padding-top:7px;
+}
+td.virtualThing .form-group .bootstrap-switch .bootstrap-switch-container span.bootstrap-switch-label {
+}
+
+/* mouse spacing for icons and buttons */
 a.icon-pad {
-  padding: 0 3px 0 3px ;
+  padding: 0 3px 0 3px;
 }
 /* meeting participant in index view */
 .index-participant {
@@ -143,6 +158,9 @@ a.icon-pad {
     /* fingertip spacing for buttons */
     a.icon-pad {
       padding: 0 5px 0 2px;
+    }
+    .button-pad {
+      padding-left:7px;
     }
 
 }

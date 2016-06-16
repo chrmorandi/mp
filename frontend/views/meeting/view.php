@@ -16,17 +16,20 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="col-lg-6" >
         <div style="float:right;">
           <!--  to do - check meeting settings if participant can send/finalize -->
+          <span class="button-pad">
         <?php
         if ($isOwner && $model->status < $model::STATUS_SENT)
          {
         echo Html::a(Yii::t('frontend', 'Send'), ['send', 'id' => $model->id], ['id'=>'actionSend','class' => 'btn btn-primary '.(!$model->isReadyToSend?'disabled':'')]);
         }
       ?>
+    </span><span class="button-pad">
         <?php
         if (($isOwner  || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
           echo Html::a(Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
         }
          ?>
+         </span><span class="button-pad">
         <?php
           if ($isOwner) {
             echo Html::a('', ['cancel', 'id' => $model->id],
@@ -40,9 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
              'title'=>Yii::t('frontend','Decline invitation'),
             ]);
           }
-
         ?>
-
+      </span><span class="button-pad">
       </div>
     </div>
 

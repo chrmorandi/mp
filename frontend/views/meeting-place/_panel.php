@@ -32,14 +32,14 @@ use \kartik\switchinput\SwitchInput;
         <?php
           if ($isOwner || $model->meetingSettings->participant_add_place) {
           ?>
-          <table><tr style="vertical-align:top;"><td style="padding-left:10px;">
+          <table><tr style="vertical-align:top;"><td class="virtualThing" style="padding-left:10px;">
             <?php
             echo SwitchInput::widget([
               'type' => SwitchInput::CHECKBOX,
               'name' => 'meeting-switch-virtual',
                 'value' => $model->switchVirtual,
                 'pluginOptions' => ['size'=>'mini','onText' => 'in person','offText'=>'virtual'], // 'onColor' => 'success','offColor' => 'danger'
-                'labelOptions' => ['style' => 'font-size: 8px'],
+                'labelOptions' => ['style' => 'font-size: 8px;'],
             ]);
             ?>
             </td><td style="padding-left:10px;">

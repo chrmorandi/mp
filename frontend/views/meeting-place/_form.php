@@ -31,7 +31,7 @@ ComboAsset::register($this);
 
     <div class="row">
       <div class="col-md-6">
-        <h3>Choose one of your places</h3>
+        <h3>From your places</h3>
 <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
   <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
     <?php
@@ -47,7 +47,7 @@ ComboAsset::register($this);
 </div> <!-- end row -->
 <div class="row">
     <div class="col-md-6">
-    <h3>- or -</h3>
+    <h4><center>- or -</center></h4>
   </div>
 </div>
 <div class="row">
@@ -55,9 +55,8 @@ ComboAsset::register($this);
   }
     ?>
     <div class="col-md-6">
-    <h3>Choose from Google Places</h3>
-      <p>Type in a place or business known to Google Places:</p>
-        <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Place') ?>
+    <h3>From Google Places</h3>
+        <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in a place or business known to Google Places') ?>
       </div>
       <div class="col-md-4">
         <div id="map-canvas">
