@@ -143,7 +143,7 @@ a.icon-pad {
 table.table-list {
   width:100%;
 }
-table.table-list td.table-list-first {    
+table.table-list td.table-list-first {
     float: left;
     display: inline;
     width: auto;
@@ -162,9 +162,8 @@ table.table-list td.table-list-first {
   font-style: italic;
 }
 
-/* ----------- iPhone 6 ----------- */
+/* ----------- mobile displays ----------- */
 
-/* Portrait and Landscape */
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 667px)
@@ -192,30 +191,4 @@ table.table-list td.table-list-first {
     .rwd-break {
       display:block;
     }
-}
-/* ----------- iPad mini ----------- */
-
-/* Portrait and Landscape */
-@media only screen
-  and (min-device-width: 768px)
-  and (max-device-width: 1024px)
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* ----------- Laptops ----------- */
-
-/* ----------- Non-Retina Screens ----------- */
-@media screen
-  and (min-device-width: 1200px)
-  and (max-device-width: 1600px)
-  and (-webkit-min-device-pixel-ratio: 1) {
-}
-
-/* ----------- Retina Screens ----------- */
-@media screen
-  and (min-device-width: 1200px)
-  and (max-device-width: 1600px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (min-resolution: 192dpi) {
 }

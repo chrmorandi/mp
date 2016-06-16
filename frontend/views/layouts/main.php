@@ -85,7 +85,7 @@ AppAsset::register($this);
                             [
                                'label' => Yii::t('frontend','Settings'),
                                'url' => ['/user-setting'],
-                               'options'=>['class'=>'menuHide'],
+                               //'options'=>['class'=>'menuHide'],
                            ],
                            [
                               'label' => Yii::t('frontend','Reminders'),

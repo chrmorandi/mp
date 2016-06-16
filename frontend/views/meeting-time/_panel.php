@@ -12,12 +12,12 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading"><div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
     <?php if ($timeProvider->count>1) { ?>
-      Use switches below to indicate acceptable options.&nbsp;
+      Use switches below to denote acceptable times.&nbsp;
     <?php
       }
     ?>
     <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
-      You can also choose the date and time.
+      You can also choose the time.
     <?php }?>
   </em></p></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
@@ -44,7 +44,7 @@ use \kartik\switchinput\SwitchInput;
            'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
            'itemView' => '_list',
-           'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time']],
+           'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],'whenStatus'=>$whenStatus],
        ]) ?>
   </table>
   <?php else: ?>

@@ -4,7 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-
+use common\components\MiscHelpers;
 /**
  * This is the model class for table "meeting_time".
  *
@@ -140,6 +140,44 @@ class MeetingTime extends \yii\db\ActiveRecord
     public function getMeetingTimeChoices()
     {
         return $this->hasMany(MeetingTimeChoice::className(), [ 'meeting_time_id'=>'id']);
+    }
+
+    public static function getWhenStatus($meeting,$viewer_id) {
+      // get an array of textual status of meeting times for $viewer_id
+      // Acceptable / Rejected / No response:
+      $whenStatus = [];
+      foreach ($meeting->meetingTimes as $mt) {
+        // build status for each time
+        $acceptableChoice=[];
+        $rejectedChoice=[];
+        $unknownChoice=[];
+        // to do - add meeting_id to MeetingTimeChoice for sortable queries
+        foreach ($mt->meetingTimeChoices as $mtc) {
+          if ($mtc->user_id == $viewer_id) continue;
+          switch ($mtc->status) {
+            case MeetingTimeChoice::STATUS_UNKNOWN:
+              $unknownChoice[]=$mtc->user_id;
+            break;
+            case MeetingTimeChoice::STATUS_YES:
+              $acceptableChoice[]=$mtc->user_id;
+            break;
+            case MeetingTimeChoice::STATUS_NO:
+              $rejectedChoice[]=$mtc->user_id;
+            break;
+          }
+        }
+        $temp ='';
+        // to do - update for multiple participants
+        if (count($acceptableChoice)>0) {
+          $temp.='Acceptable to '.MiscHelpers::getDisplayName($acceptableChoice[0]);
+        } else if (count($rejectedChoice)>0) {
+          $temp.='Rejected by '.MiscHelpers::getDisplayName($rejectedChoice[0]);
+        } else if (count($unknownChoice)>0) {
+          $temp.='No response from '.MiscHelpers::getDisplayName($unknownChoice[0]);
+        }
+        $whenStatus[$mt->id]=$temp;
+      }
+      return $whenStatus;
     }
 
     public static function setChoice($meeting_id,$meeting_time_id,$user_id) {

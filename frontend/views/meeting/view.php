@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
           echo $this->render('../meeting-time/_panel', [
              'model'=>$model,
              'timeProvider' => $timeProvider,
-             //'whenStatus'=> $whenStatus,
+             'whenStatus'=> $whenStatus,
              'isOwner' => $isOwner,
              'viewer' => $viewer,
              'timezone'=> $timezone,

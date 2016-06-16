@@ -19,7 +19,7 @@ use \kartik\switchinput\SwitchInput;
           }
         ?>
         <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
-          You can also choose the meeting place.
+          You can also choose the place.
         <?php }?>
       </em></p></div>
 
