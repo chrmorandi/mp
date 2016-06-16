@@ -159,7 +159,8 @@ class MeetingPlace extends \yii\db\ActiveRecord
     public static function getWhereStatus($meeting,$viewer_id) {
       // get an array of textual status of meeting places for $viewer_id
       // Acceptable / Rejected / No response:
-      $whereStatus = [];
+      $whereStatus['style'] = [];
+      $whereStatus['text'] = [];
       foreach ($meeting->meetingPlaces as $mp) {
         // build status for each place
         $acceptableChoice=[];
@@ -182,14 +183,18 @@ class MeetingPlace extends \yii\db\ActiveRecord
         }
         $temp ='';
         // to do - update for multiple participants
+        // to do - integrate current setting for this user in style setting
         if (count($acceptableChoice)>0) {
           $temp.='Acceptable to '.MiscHelpers::getDisplayName($acceptableChoice[0]);
+          $whereStatus['style'][$mp->place_id]='success';
         } else if (count($rejectedChoice)>0) {
           $temp.='Rejected by '.MiscHelpers::getDisplayName($rejectedChoice[0]);
+          $whereStatus['style'][$mp->place_id]='danger';
         } else if (count($unknownChoice)>0) {
           $temp.='No response from '.MiscHelpers::getDisplayName($unknownChoice[0]);
+          $whereStatus['style'][$mp->place_id]='warning';
         }
-        $whereStatus[$mp->place_id]=$temp;
+        $whereStatus['text'][$mp->place_id]=$temp;
       }
       return $whereStatus;
     }

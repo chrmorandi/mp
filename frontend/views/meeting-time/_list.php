@@ -10,11 +10,11 @@ use \kartik\switchinput\SwitchInput;
         <td class="table-list-first"> <!-- time & status -->
           <?= Meeting::friendlyDateFromTimestamp($model->start,$timezone) ?>
           <?php
-            if ($whenStatus[$model->id]<>'') {
+            if ($whenStatus['text'][$model->id]<>'') {
             ?>
             <br /><span class="smallStatus">
             <?php
-            echo $whenStatus[$model->id];
+            echo $whenStatus['text'][$model->id];
             ?>
           </span><br />
             <?php
@@ -50,7 +50,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor' => 'warning','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
+                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor' => $whenStatus['style'][$model->id],'offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
                           'labelOptions' => ['style' => 'font-size: 12px'],
                       ]);
                     }

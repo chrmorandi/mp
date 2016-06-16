@@ -11,11 +11,11 @@ use \kartik\switchinput\SwitchInput;
         <td class="table-list-first"> <!-- place name & status -->
           <?= Html::a($model->place->name,Url::to(['meeting/viewplace','id'=>$model->meeting_id,'place_id'=>$model->place_id],true)) ?>
           <?php
-            if ($whereStatus[$model->place->id]<>'') {
+            if ($whereStatus['text'][$model->place->id]<>'') {
             ?>
             <br /><span class="smallStatus">
             <?php
-            echo $whereStatus[$model->place->id];
+            echo $whereStatus['text'][$model->place->id];
             ?>
           </span><br />
             <?php
@@ -52,7 +52,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'warning','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
+                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>$whereStatus['style'][$model->place_id],'offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
                           'labelOptions' => ['style' => 'font-size: 12px'],
                       ]);
                     }

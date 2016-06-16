@@ -145,7 +145,8 @@ class MeetingTime extends \yii\db\ActiveRecord
     public static function getWhenStatus($meeting,$viewer_id) {
       // get an array of textual status of meeting times for $viewer_id
       // Acceptable / Rejected / No response:
-      $whenStatus = [];
+      $whenStatus['text'] = [];
+      $whenStatus['style'] = [];
       foreach ($meeting->meetingTimes as $mt) {
         // build status for each time
         $acceptableChoice=[];
@@ -168,14 +169,18 @@ class MeetingTime extends \yii\db\ActiveRecord
         }
         $temp ='';
         // to do - update for multiple participants
+        // to do - integrate current setting for this user in style setting
         if (count($acceptableChoice)>0) {
           $temp.='Acceptable to '.MiscHelpers::getDisplayName($acceptableChoice[0]);
+          $whenStatus['style'][$mt->id]='success';
         } else if (count($rejectedChoice)>0) {
           $temp.='Rejected by '.MiscHelpers::getDisplayName($rejectedChoice[0]);
+          $whenStatus['style'][$mt->id]='danger';
         } else if (count($unknownChoice)>0) {
           $temp.='No response from '.MiscHelpers::getDisplayName($unknownChoice[0]);
+          $whenStatus['style'][$mt->id]='warning';
         }
-        $whenStatus[$mt->id]=$temp;
+        $whenStatus['text'][$mt->id]=$temp;
       }
       return $whenStatus;
     }
