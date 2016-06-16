@@ -9,7 +9,7 @@ use yii\widgets\ListView;
 
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-9"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
+  <div class="panel-heading"><div class="row"><div class="col-lg-4 col-md-4 col-xs-4"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
     <?php if ($timeProvider->count>1) { ?>
       Use the switches below to indicate which are acceptable options.&nbsp;
     <?php
@@ -18,7 +18,7 @@ use yii\widgets\ListView;
     <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
       You are also allowed to choose the date and time.
     <?php }?>
-  </em></p></div><div class="col-lg-3" ><div style="float:right;">
+  </em></p></div><div class="col-lg-8 col-md-8 col-xs-8">><div style="float:right;">
     <?php
       if ($isOwner || $model->meetingSettings->participant_add_date_time) {
         /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/

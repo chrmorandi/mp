@@ -6,8 +6,8 @@ use yii\helpers\Html;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-9"><h4>What</h4></div>
-      <div class="col-lg-3" ><div style="float:right;">
+      <div class="col-lg-4 col-md-4 col-xs-4"><h4>What</h4></div>
+      <div class="col-lg-8 col-md-8 col-xs-8"><div style="float:right;">
       <?php
         if ($isOwner) {
             echo Html::a('', ['update', 'id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil','title'=>'Edit']);

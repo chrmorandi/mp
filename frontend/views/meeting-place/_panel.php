@@ -12,7 +12,7 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-6"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
+      <div class="col-lg-4 col-md-4 col-xs-4"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
         <?php if ($placeProvider->count>1) { ?>
           Use the switches below to indicate which places are acceptable options for you.&nbsp;
         <?php
@@ -28,7 +28,7 @@ use \kartik\switchinput\SwitchInput;
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
-      <div class="col-lg-6" ><div style="float:right;">
+      <div class="col-lg-8 col-md-8 col-xs-8" ><div style="float:right;">
         <?php
           if ($isOwner || $model->meetingSettings->participant_add_place) {
           ?>
