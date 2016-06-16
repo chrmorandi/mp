@@ -31,9 +31,9 @@ use \kartik\typeahead\TypeaheadBasic;
   </div>
 </div>
     <?php // $form->field($model, 'subject')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Subject')) ?>
-
+    <div class="itemHide">
     <?= $form->field($model, 'message')->textarea(['rows' => 6])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')) ?>
-
+    </div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>

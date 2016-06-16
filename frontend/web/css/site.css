@@ -113,7 +113,11 @@ a.icon-pad {
   font-style:italic;
   font-size: 90%;
   color: grey;
-
+}
+/* for desktop testing media queries to do - remove */
+.testHide {
+  display:none;
+  visible:false;
 }
 
 /* ----------- iPhone 6 ----------- */
