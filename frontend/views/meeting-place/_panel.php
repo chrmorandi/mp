@@ -39,7 +39,7 @@ use \kartik\switchinput\SwitchInput;
               'name' => 'meeting-switch-virtual',
                 'value' => $model->switchVirtual,
                 'pluginOptions' => [
-                  'handleWidth'=>85,
+                  'handleWidth'=>65,
                   'size'=>'mini','onText' => 'in person','offText'=>'virtual'], // 'onColor' => 'success','offColor' => 'danger'
                 'labelOptions' => ['style' => 'font-size: 8px;'],
             ]);
