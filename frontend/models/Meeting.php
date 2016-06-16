@@ -311,7 +311,7 @@ class Meeting extends \yii\db\ActiveRecord
        */
      }
 
-     public function getMeetingParticipants() {
+     public function getMeetingParticipants($prefix = false) {
        // get a string of the participants other than the viewer
        $str='';
        if ($this->isOwner(Yii::$app->user->getId())) {
@@ -322,7 +322,7 @@ class Meeting extends \yii\db\ActiveRecord
          //$owner = \common\models\User::findIdentity($this->owner_id);
          $str=MiscHelpers::getDisplayName($this->owner_id);
        }
-       return $str;
+       return (($prefix && strlen($str)>0)?'with '.$str:$str);
      }
 
      public static function getSubject($id) {

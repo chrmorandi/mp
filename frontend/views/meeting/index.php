@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <ul class="nav nav-tabs" role="tablist">
   <li class="active"><a href="#planning" role="tab" data-toggle="tab">Planning</a></li>
   <li ><a href="#upcoming" role="tab" data-toggle="tab">Confirmed</a></li>
-  <li><a href="#past" role="tab" data-toggle="tab">Past</a></li>
-  <li><a href="#canceled" role="tab" data-toggle="tab">Canceled</a></li>
+  <li class="tabHide"><a href="#past" role="tab" data-toggle="tab" >Past</a></li>
+  <li class="tabHide"><a href="#canceled" role="tab" data-toggle="tab" class="itemHide">Canceled</a></li>
 </ul>
 
 <!-- Tab panes -->

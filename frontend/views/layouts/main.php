@@ -25,7 +25,7 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-        <?php        
+        <?php
                 NavBar::begin([
                 'brandLabel' => Yii::t('frontend','MeetingPlanner.io'), //
                 'brandUrl' => Yii::$app->homeUrl,
@@ -58,26 +58,35 @@ AppAsset::register($this);
       				$menuItems[] = [
       				            'label' => 'Account',
       				            'items' => [
-                            ['label' => Yii::t('frontend','Places'), 'url' => ['/place/yours']],
+                            [
+                              'label' => Yii::t('frontend','Places'),
+                               'url' => ['/place/yours'],
+                               'options'=>['class'=>'menuHide'],
+                             ],
     				                 [
     				                    'label' => Yii::t('frontend','Friends'),
     				                    'url' => ['/friend'],
+                                'options'=>['class'=>'menuHide'],
     				                ],
       				                 [
                                  'label' => Yii::t('frontend','Profile'),
                                  'url' => ['/user-profile'],
+                                 'options'=>['class'=>'menuHide'],
                              ],
                              [
                                 'label' => Yii::t('frontend','Contact information'),
                                 'url' => ['/user-contact'],
+                                'options'=>['class'=>'menuHide'],
                             ],
                             [
                                'label' => Yii::t('frontend','Settings'),
                                'url' => ['/user-setting'],
+                               'options'=>['class'=>'menuHide'],
                            ],
                            [
                               'label' => Yii::t('frontend','Reminders'),
                               'url' => ['/reminder'],
+                              'options'=>['class'=>'menuHide'],
                           ],
       				                 [
       				                    'label' => Yii::t('frontend','Logout').' (' . \common\components\MiscHelpers::getDisplayName(Yii::$app->user->id) . ')',
@@ -95,7 +104,8 @@ AppAsset::register($this);
         ?>
 
         <div class="container">
-        <?= Breadcrumbs::widget([
+        <?php
+        echo Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
@@ -108,14 +118,14 @@ AppAsset::register($this);
           <p class="pull-left">
           <?php
           if (!Yii::$app->user->isGuest) {
-            echo Html::a(Yii::t('frontend','Support'),Url::to('http://support.meetingplanner.io')).' | ';
-            echo Html::a(Yii::t('frontend','About'),Url::to(['/site/about']));
+            echo Html::a(Yii::t('frontend','Support'),Url::to('http://support.meetingplanner.io')).Html::tag('span',' | ',['class'=>'itemHide']);
+            echo Html::a(Yii::t('frontend','About'),Url::to(['/site/about']),['class'=>'itemHide']);
           }
            ?>
         <p class="pull-right">
         <?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?><?php
         if (!Yii::$app->user->isGuest) {
-          echo '&nbsp;|&nbsp;'.Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io').'';
+          echo Html::tag('span',' | ',['class'=>'itemHide']).Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']).'';
         }
         ?>
         </p>

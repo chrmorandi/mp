@@ -12,18 +12,19 @@ if ($mode =='upcoming' || $mode =='past') {
           //'filterModel' => $searchModel,
           'columns' => [
           [
-            'label'=>'Subject',
+            'label'=>'Details',
               'attribute' => 'meeting_type',
               'format' => 'raw',
               'value' => function ($model) {
                   // to do - remove legacy code when subject didn't exist
                     if ($model->subject=='') {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                     } else {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                     }
                   },
           ],
+          /*
           [
             'label'=>'Participant(s)',
               'attribute' => 'id',
@@ -32,14 +33,14 @@ if ($mode =='upcoming' || $mode =='past') {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingParticipants($model->id).'</a></div>';
                   },
           ],
-          /*[
+          [
             'label'=>'Type',
               'attribute' => 'meeting_type',
               'format' => 'raw',
               'value' => function ($model) {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingType($model->meeting_type).'</a></div>';
                   },
-          ],*/
+          ],
           [
             'label'=>'Date',
               'attribute' => 'created_at',
@@ -48,7 +49,7 @@ if ($mode =='upcoming' || $mode =='past') {
                     $chosenTime = $model->getChosenTime($model->id);
                     return '<div>'.Yii::$app->formatter->asDatetime($chosenTime->start,"MMM d").'</div>';
                   },
-          ],
+          ],*/
               ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {decline}  {cancel}',
               'buttons'=>[
                   'view' => function ($url, $model) {
@@ -78,19 +79,19 @@ if ($mode =='upcoming' || $mode =='past') {
       //'filterModel' => $searchModel,
       'columns' => [
       [
-        'label'=>'Subject',
+        'label'=>'Details',
           'attribute' => 'meeting_type',
           'format' => 'raw',
           'value' => function ($model) {
               // to do - remove legacy code when subject didn't exist
                 if ($model->subject=='') {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                 } else {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index_participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                 }
               },
       ],
-      [
+      /*[
         'label'=>'Participant(s)',
           'attribute' => 'id',
           'format' => 'raw',
@@ -98,14 +99,14 @@ if ($mode =='upcoming' || $mode =='past') {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingParticipants($model->id).'</a></div>';
               },
       ],
-      /*[
+      [
         'label'=>'Type',
           'attribute' => 'meeting_type',
           'format' => 'raw',
           'value' => function ($model) {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingType($model->meeting_type).'</a></div>';
               },
-      ],*/
+      ],
       [
         'label'=>'Created',
           'attribute' => 'created_at',
@@ -113,7 +114,7 @@ if ($mode =='upcoming' || $mode =='past') {
           'value' => function ($model) {
                 return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"MMM d").'</div>';
               },
-      ],
+      ],*/
           ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {trash}',
           'buttons'=>[
               'view' => function ($url, $model) {

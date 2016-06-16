@@ -26,8 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
           <div style="float:right;">
             <!--  to do - check meeting settings if participant can send/finalize -->
             <?php
-            echo Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule', 'id' => $model->id], ['id'=>'actionReschedule','class' => 'btn btn-default',
-            'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+            /*echo Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule', 'id' => $model->id], ['id'=>'actionReschedule','class' => 'btn btn-default',
+            'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);*/
             ?>
             <?php
             echo Html::a(Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
