@@ -123,7 +123,7 @@ AppAsset::register($this);
           }
            ?>
         <p class="pull-right">
-        <?= Html::a(Yii::t('frontend','Follow').' @meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?><?php
+        <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?><?php
         if (!Yii::$app->user->isGuest) {
           echo Html::tag('span',' | ',['class'=>'itemHide']).Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']).'';
         }
