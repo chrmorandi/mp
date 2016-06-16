@@ -1,9 +1,8 @@
 <?php
-
 namespace frontend\models;
-
 use Yii;
 use yii\db\ActiveRecord;
+use common\components\MiscHelpers;
 
 /**
  * This is the model class for table "meeting_place".
@@ -155,6 +154,44 @@ class MeetingPlace extends \yii\db\ActiveRecord
     public function getMeetingPlaceChoices()
     {
         return $this->hasMany(MeetingPlaceChoice::className(), [ 'meeting_place_id'=>'id']);
+    }
+
+    public static function getWhereStatus($meeting,$viewer_id) {
+      // get an array of textual status of meeting places for $viewer_id
+      // Acceptable / Rejected / No response:
+      $whereStatus = [];
+      foreach ($meeting->meetingPlaces as $mp) {
+        // build status for each place
+        $acceptableChoice=[];
+        $rejectedChoice=[];
+        $unknownChoice=[];
+        // to do - add meeting_id to MeetingPlaceChoice for sortable queries
+        foreach ($mp->meetingPlaceChoices as $mpc) {
+          if ($mpc->user_id == $viewer_id) continue;
+          switch ($mpc->status) {
+            case MeetingPlaceChoice::STATUS_UNKNOWN:
+              $unknownChoice[]=$mpc->user_id;
+            break;
+            case MeetingPlaceChoice::STATUS_YES:
+              $acceptableChoice[]=$mpc->user_id;
+            break;
+            case MeetingPlaceChoice::STATUS_NO:
+              $rejectedChoice[]=$mpc->user_id;
+            break;
+          }
+        }
+        $temp ='';
+        // to do - update for multiple participants
+        if (count($acceptableChoice)>0) {
+          $temp.='Acceptable to '.MiscHelpers::getDisplayName($acceptableChoice[0]);
+        } else if (count($rejectedChoice)>0) {
+          $temp.='Rejected by '.MiscHelpers::getDisplayName($rejectedChoice[0]);
+        } else if (count($unknownChoice)>0) {
+          $temp.='No response from '.MiscHelpers::getDisplayName($unknownChoice[0]);
+        }
+        $whereStatus[$mp->place_id]=$temp;
+      }
+      return $whereStatus;
     }
 
     public static function setChoice($meeting_id,$meeting_place_id,$user_id) {

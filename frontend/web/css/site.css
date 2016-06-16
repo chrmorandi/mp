@@ -137,6 +137,30 @@ a.icon-pad {
 .rwd-break {
   display:none;
 }
+.switch-pad {
+  padding-left:7px;
+}
+table.table-list {
+  width:100%;
+}
+table.table-list td.table-list-first {    
+    float: left;
+    display: inline;
+    width: auto;
+  }
+
+  table.table-list td.table-switches {
+      width: auto;
+      float: right;
+      display: inline;
+      padding-top: 10px;
+    }
+
+.smallStatus {
+  font-size:90%;
+  color: grey;
+  font-style: italic;
+}
 
 /* ----------- iPhone 6 ----------- */
 
@@ -168,7 +192,6 @@ a.icon-pad {
     .rwd-break {
       display:block;
     }
-
 }
 /* ----------- iPad mini ----------- */
 

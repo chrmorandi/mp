@@ -34,7 +34,7 @@ use \kartik\switchinput\SwitchInput;
           }*/
        ?>
    </td>
-  <td >
+  <td class="switch-pad">
       <?php
       if ($timeCount>1) {
         if ($model->status == $model::STATUS_SELECTED) {
@@ -51,7 +51,7 @@ use \kartik\switchinput\SwitchInput;
                   [ 'value' => $model->id],
               ],
               'value' => $value,
-              'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>','onColor' => 'warning','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
+              'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor' => 'warning','offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
               'labelOptions' => ['style' => 'font-size: 12px'],
           ]);
         }

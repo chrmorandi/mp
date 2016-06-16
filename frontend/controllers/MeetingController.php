@@ -118,6 +118,8 @@ class MeetingController extends Controller
       // fetch user timezone
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
+        $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
+        //$whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
         ]);
@@ -130,6 +132,8 @@ class MeetingController extends Controller
               'timeProvider' => $timeProvider,
               'noteProvider' => $noteProvider,
               'placeProvider' => $placeProvider,
+              'whereStatus' => $whereStatus,
+              //'whenStatus' => $whenStatus,
               'viewer' => Yii::$app->user->getId(),
               'isOwner' => $model->isOwner(Yii::$app->user->getId()),
               'timezone' => $timezone,

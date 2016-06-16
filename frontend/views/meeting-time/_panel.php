@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use \kartik\switchinput\SwitchInput;
 ?>
 <div id="notifierTime" class="alert-info alert fade in" style="display:none;">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -51,7 +52,6 @@ use yii\widgets\ListView;
 </div>
 
 <?php
-use \kartik\switchinput\SwitchInput;
 
   function showTimeOwnerStatus($model,$isOwner) {
     foreach ($model->meetingTimeChoices as $mtc) {
