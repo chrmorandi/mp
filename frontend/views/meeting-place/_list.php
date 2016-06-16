@@ -52,7 +52,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>$whereStatus['style'][$model->place_id],'offText'=>'<i class="glyphicon glyphicon-remove"></i>'],
+                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>60,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->place_id],
                           'labelOptions' => ['style' => 'font-size: 12px'],
                       ]);
                     }
