@@ -126,7 +126,7 @@ if ($mode =='upcoming' || $mode =='past') {
           'contentOptions' => ['class' => 'itemHide'],
           'buttons'=>[
               'view' => function ($url, $model) {
-                return $model->status==$model::STATUS_PLANNING ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                return $model->status<=$model::STATUS_SENT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                         'title' => Yii::t('frontend', 'view'),
                         'class' => 'icon-pad',
                 ]):'' ;
