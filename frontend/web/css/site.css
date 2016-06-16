@@ -129,6 +129,9 @@ a.icon-pad {
   font-size: 90%;
   color: grey;
 }
+.rwd-break {
+  display:none;
+}
 /* for desktop testing media queries to do - remove */
 .testHide {
   display:none;
@@ -162,8 +165,8 @@ a.icon-pad {
     .button-pad {
       padding-left:7px;
     }
-    .rwd-line {
-      display:inline;
+    .rwd-break {
+      display:block;
     }
 
 }
