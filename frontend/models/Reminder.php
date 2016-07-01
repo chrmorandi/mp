@@ -109,7 +109,7 @@ class Reminder extends \yii\db\ActiveRecord
       $r1->duration_friendly = 3;
       $r1->unit = Reminder::UNIT_HOURS;
       $r1->reminder_type = Reminder::TYPE_EMAIL;
-      $r1->duration = 3600;
+      $r1->duration = (3600*3);
       $r1->validate();
       $r1->save();
       $r2 = new Reminder();

@@ -339,7 +339,7 @@ class Meeting extends \yii\db\ActiveRecord
        // req: a participant, at least one place, at least one time
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
-        && (count($this->meetingPlaces)>0 || $this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL)
+        && (count($this->meetingPlaces)>0 || ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL))
         && count($this->meetingTimes)>0
         ) {
          $this->isReadyToSend = true;
@@ -449,6 +449,7 @@ class Meeting extends \yii\db\ActiveRecord
           ->send();
           // send the meeting
           $this->status = Meeting::STATUS_SENT;
+          $this->cleared_at = time()+30;
           $this->update();
           // add to log
           MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id,0);
@@ -773,7 +774,7 @@ class Meeting extends \yii\db\ActiveRecord
            // uncleared log entry older than TIMELAPSE
            if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE) { //
              // get logged items which occured after last cleared_at
-             $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->andWhere('created_at>'.$m->cleared_at)->groupBy('actor_id')->all();
+             $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->andWhere('created_at>'.$m->cleared_at)->andWhere('status>='.Meeting::STATUS_SENT)->groupBy('actor_id')->all();
              $current_actor=0;
              foreach ($logs as $log) {
                echo 'ML-id: '.$log->id.'<br />';
