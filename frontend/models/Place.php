@@ -204,16 +204,20 @@ class Place extends \yii\db\ActiveRecord
 
      public function addLocationFromAddress($model,$full_address='') {
        // finds gps coordinates from full_address field if available
-       if ($full_address=='') return false;
+       if ($full_address=='') return false;       
        $gc = new GeocodingClient();
-       $result = $gc->lookup(array('address'=>$full_address,'components'=>1));
- 			 $location = $result['results'][0]['geometry']['location'];
-        if (!is_null($location)) {
-   				$lat = $location['lat'];
-   				$lng = $location['lng'];
-          // add GPS entry in PlaceGeometry
-          $this->addGeometryByPoint($model,$lat,$lng);
-        }
+       try {
+         $result = $gc->lookup(array('address'=>$full_address,'components'=>1));
+         $location = $result['results'][0]['geometry']['location'];
+          if (!is_null($location)) {
+     				$lat = $location['lat'];
+     				$lng = $location['lng'];
+            // add GPS entry in PlaceGeometry
+            $this->addGeometryByPoint($model,$lat,$lng);
+          }
+       } catch (Exception $e) {
+           echo 'Caught2 exception: ',  $e->getMessage(), "\n";
+       }
       }
 
      public function addGeometryByPoint($model,$lat,$lon) {

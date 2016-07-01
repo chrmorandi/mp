@@ -37,7 +37,7 @@ class PlaceController extends Controller
                             ],
                             // everything else is denied
                         ],
-                    ],            
+                    ],
         ];
     }
 
@@ -50,11 +50,11 @@ class PlaceController extends Controller
         return $this->redirect('user-place/index');
     }
 
-    public function actionYours() 
+    public function actionYours()
     {
       $query = Place::find()->joinWith('userPlaces')->where(['user_id' => Yii::$app->user->getId()]);
       $searchModel = new PlaceSearch();
-      
+
          $dataProvider = new ActiveDataProvider([
              'query' => $query,
              'pagination' => ['pageSize' => 10],
@@ -77,14 +77,14 @@ class PlaceController extends Controller
     }
 
     public function actionSlug($slug)
-    { 
+    {
       $model = Place::find()->where(['slug'=>$slug])->one();
       if (!is_null($model)) {
         $gps = $model->getLocation($model->id);
           return $this->render('view', [
               'model' => $model,
               'gps'=> $gps,
-          ]);      
+          ]);
       } else {
         return $this->redirect('/user-place/index');
       }
@@ -145,7 +145,7 @@ class PlaceController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Place();       
+        $model = new Place();
         if ($model->load(Yii::$app->request->post())) {
 			      $form = Yii::$app->request->post();
             if (!is_numeric($model->place_type)) {
@@ -157,21 +157,22 @@ class PlaceController extends Controller
                 // all inputs are valid
                 $model->save();
                 // lookup gps location from address
-                $model->addLocationFromAddress($model,$form['Place']['full_address']); 
+                // to do - reactivate location add
+                // $model->addLocationFromAddress($model,$form['Place']['full_address']); 
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 // validation failed
                 return $this->render('create', [
                     'model' => $model,
                 ]);
-            }            
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
     }
-    
+
     /**
       * Creates a new Place model from Google Place
       * If creation is successful, the browser will be redirected to the 'view' page.
@@ -179,7 +180,7 @@ class PlaceController extends Controller
       */
      public function actionCreate_place_google()
      {
-       $model = new Place();        
+       $model = new Place();
        if ($model->load(Yii::$app->request->post())) {
            $form = Yii::$app->request->post();
            if (!is_numeric($model->place_type)) {
@@ -204,7 +205,7 @@ class PlaceController extends Controller
                'model' => $model,
            ]);
        }
-     }    
+     }
 
      /**
       * Creates a new Place model via Geolocation
@@ -221,7 +222,7 @@ class PlaceController extends Controller
              if ($model->validate()) {
                   // all inputs are valid
                   $model->save();
-                  // add GPS entry in PlaceGeometry                    
+                  // add GPS entry in PlaceGeometry
                   $model->addGeometryByPoint($model,$form['Place']['lat'],$form['Place']['lng']);
                   return $this->redirect(['view', 'id' => $model->id]);
               } else {
@@ -235,5 +236,5 @@ class PlaceController extends Controller
                  'model' => $model,
              ]);
          }
-     }      
+     }
 }
