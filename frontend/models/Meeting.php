@@ -771,10 +771,9 @@ class Meeting extends \yii\db\ActiveRecord
              continue;
            }
            echo 'M-id: '.$m->id.'<br />';
-           // uncleared log entry older than TIMELAPSE
-           if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE) { //
+           // uncleared log entry older than TIMELAPSE, and past planning stage
+           if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE && $m->status>=Meeting::STATUS_SENT) { //
              // get logged items which occured after last cleared_at
-             // ->andWhere('status>='.Meeting::STATUS_SENT)
              $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->andWhere('created_at>'.$m->cleared_at)->groupBy('actor_id')->all();
              $current_actor=0;
              foreach ($logs as $log) {
