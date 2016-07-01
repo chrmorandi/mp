@@ -150,8 +150,6 @@ class MeetingReminder extends \yii\db\ActiveRecord
       $chosen_time = Meeting::getChosenTime($meeting_id);
       $timezone = MiscHelpers::fetchUserTimezone($user_id);
       $display_time = Meeting::friendlyDateFromTimestamp($chosen_time->start,$timezone);
-      // get place
-      $chosen_place = Meeting::getChosenPlace($meeting_id);
       // build contact details for all other attendees
       $contacts_html = '';
       // get attendees
@@ -168,6 +166,14 @@ class MeetingReminder extends \yii\db\ActiveRecord
        'email'=>$u->email,
        'username'=>$u->username
      ];
+     // get place
+     $chosen_place = Meeting::getChosenPlace($meeting_id);
+     if ($chosen_place===false) {
+       // virtual meeting
+       $setViewMap = false;
+     } else {
+       $setViewMap = MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,$chosen_place->place_id,$a['user_id'],$a['auth_key']);
+     }
        // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
           // Build the absolute links to the meeting and commands
@@ -178,7 +184,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
             'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key']),
-            'view_map'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,$chosen_place->place_id,$a['user_id'],$a['auth_key']),
+            'view_map'=>$setViewMap,
             'reminders'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_GO_REMINDERS,0,$a['user_id'],$a['auth_key'])
           ];
           // send the message
