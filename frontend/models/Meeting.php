@@ -88,6 +88,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_FOOTER_BLOCK = 410;
   const COMMAND_FOOTER_BLOCK_ALL = 420;
   const COMMAND_GO_REMINDERS = 450;
+  const COMMAND_VERIFY_EMAIL = 460;
 
   const ABANDONED_AGE = 2; // weeks
 
@@ -595,6 +596,10 @@ class Meeting extends \yii\db\ActiveRecord
           }
         }
         MeetingLog::add($this->id,MeetingLog::ACTION_DECLINE_MEETING,$user_id);
+        if (count($this->participants)==1) {
+          // if there's only one participant, cancel the meeting
+            $this->cancel($user_id);
+        }
         return true;
       }
 

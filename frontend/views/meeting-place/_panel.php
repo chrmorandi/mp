@@ -131,13 +131,16 @@ $('input[name="meeting-place-choice"]').on('switchChange.bootstrapSwitch', funct
 $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', function(e, s) {
   //console.log(e.target.id,s); // true | false
   // set intval to pass via AJAX from boolean state
+
   if (!s) {
+    // change to virtual
     $('#meeting-add-place').prop("disabled",true);
     $('a#meeting-add-place').attr('disabled', true);
     $('a#meeting-add-place').prop('href', 'javascript:void(0);');
     $('#meeting-place-list').prop('style','display:none;');
     state = 1; // state of these are backwards: true is 0, 1 is false
   } else {
+    // change to in person
     $('#meeting-add-place').prop("disabled",false);
     $('a#meeting-add-place').attr('disabled', false);
     $('a#meeting-add-place').prop('href', '$urlPrefix/meeting-place/create/?meeting_id=$model->id');

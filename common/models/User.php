@@ -29,6 +29,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     // note: validation rule uses range of status variables
     const STATUS_DELETED = 0;
+    const STATUS_UNVERIFIED = 5;
     const STATUS_ACTIVE = 10;
     const STATUS_PASSIVE = 20;
 
@@ -63,7 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [ self::STATUS_DELETED,self::STATUS_ACTIVE,self::STATUS_PASSIVE]],
+            ['status', 'in', 'range' => [ self::STATUS_DELETED,self::STATUS_ACTIVE,self::STATUS_PASSIVE,self::STATUS_UNVERIFIED]],
 
             ['role', 'default', 'value' => self::ROLE_USER],
             ['role', 'in', 'range' => [self::ROLE_USER,self::ROLE_ADMIN]],
@@ -112,7 +113,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => [self::STATUS_ACTIVE,self::STATUS_PASSIVE],
+            'status' => [self::STATUS_ACTIVE,self::STATUS_PASSIVE,self::STATUS_UNVERIFIED],
         ]);
     }
 
@@ -259,6 +260,9 @@ class User extends ActiveRecord implements IdentityInterface
         case User::STATUS_ACTIVE:
           $label = Yii::t('frontend','Active');
         break;
+        case User::STATUS_UNVERIFIED:
+          $label = Yii::t('frontend','Email unverified');
+        break;
         case User::STATUS_PASSIVE:
           $label = Yii::t('frontend','Via invite');
         break;
@@ -267,5 +271,18 @@ class User extends ActiveRecord implements IdentityInterface
         break;
       }
       return $label;
+    }
+
+    public static function sendVerifyEmail($user_id,$meeting_id) {
+      // to do - add text version of verify email
+      // \Yii::$app->mailer->htmlLayout = '/common/mail/layouts/oxygen_html';
+      $u = User::findOne($user_id);
+      $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key);
+      \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);
+      return \Yii::$app->mailer->compose('verification-html', ['user' => $u,'verifyLink'=>$verifyLink])
+          ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' Assistant'])
+          ->setTo($u->email)
+          ->setSubject('Verify Your Email Address for ' . \Yii::$app->name)
+          ->send();
     }
 }

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\data\ActiveDataProvider;
 use common\components\MiscHelpers;
+use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\MeetingSearch;
 use frontend\models\Participant;
@@ -319,6 +320,13 @@ class MeetingController extends Controller
 
     public function actionSend($id) {
       $meeting = $this->findModel($id);
+      // check that owner is verified
+      $u = User::findOne($meeting->owner_id);
+      if ($u->status==User::STATUS_UNVERIFIED) {
+        User::sendVerifyEmail($u->id,$meeting->id);
+        Yii::$app->getSession()->setFlash('error', 'Sorry, before you can send, we need you to verify your email address by clicking the button in the message we just sent you.');
+        return $this->redirect(['view', 'id' => $id]);
+      }
       if ($meeting->canSend(Yii::$app->user->getId())) {
         $meeting->send(Yii::$app->user->getId());
         Yii::$app->getSession()->setFlash('success', 'Your meeting invitation has been sent.');
@@ -332,6 +340,15 @@ class MeetingController extends Controller
 
     public function actionFinalize($id) {
       $meeting = $this->findModel($id);
+      // check if owner is finalizing and they are verified
+      if ($meeting->owner_id == Yii::$app->user->getId()) {
+        $u = User::findOne($meeting->owner_id);
+        if ($u->status==User::STATUS_UNVERIFIED) {
+          User::sendVerifyEmail($u->id,$meeting->id);
+          Yii::$app->getSession()->setFlash('error', 'Sorry, before you can send, we need you to verify your email address by clicking the button in the message we just sent you.');
+          return $this->redirect(['view', 'id' => $id]);
+        }
+      }
       if ($meeting->canFinalize(Yii::$app->user->getId())) {
         $meeting->finalize(Yii::$app->user->getId());
         Yii::$app->getSession()->setFlash('success', 'Your meeting has been finalized.');
@@ -355,6 +372,7 @@ class MeetingController extends Controller
         MeetingLog::add($id,MeetingLog::ACTION_MAKE_INPERSON,Yii::$app->user->getId(),0);
       }
       $meeting->update();
+      return true;
     }
 
     public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$k=0) {
@@ -393,7 +411,9 @@ class MeetingController extends Controller
         // - if no password, setflash to link to create password
         // - meeting page - flash to security limitation of that meeting view
         // - meeting index - redirect to view only that meeting (do this on other index pages too)
-        $meeting = $this->findModel($id);
+        if ($id!=0) {
+          $meeting = $this->findModel($id);
+        }
         switch ($cmd) {
           case Meeting::COMMAND_HOME:
             $this->goHome();
@@ -492,6 +512,12 @@ class MeetingController extends Controller
             $us->update();
             Yii::$app->getSession()->setFlash('success', 'You will no longer receive email from us. You can reverse this below.');
             $this->redirect(['user-setting/update','id'=>$us->id]);
+          break;
+          case Meeting::COMMAND_VERIFY_EMAIL:
+            $u  = \common\models\User::findOne($actor_id);
+            $u->status = \common\models\User::STATUS_ACTIVE;
+            $u->update();
+            $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_GO_REMINDERS:
             $this->redirect(['reminder/index']);

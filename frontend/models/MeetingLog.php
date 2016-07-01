@@ -52,6 +52,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_ABANDON_MEETING = 200;
 	const ACTION_MAKE_VIRTUAL = 210;
 	const ACTION_MAKE_INPERSON = 215;
+	const ACTION_SENT_EMAIL_VERIFICATION = 220;
 
 	// not yet implemented
 	//	const ACTION_ = ;
@@ -145,7 +146,7 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->extra_id =$extra_id;
          $log->save();
 				 // don't need the update sent for these actions, so no need to touch logged_at
-				 $ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST];
+				 $ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST,MeetingLog::ACTION_SENT_EMAIL_VERIFICATION];
 				 if (!in_array($action,$ignorable)) {
 					 // sets the touched_at field for the Meeting
 	 				Meeting::touchLog($meeting_id);
@@ -163,8 +164,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_CANCEL_MEETING:
 					$label = Yii::t('frontend','canceled meeting');
 				break;
-				case MeetingLog::ACTION_DELETE_MEETING:
-					$label = Yii::t('frontend','canceled meeting');
+				case MeetingLog::ACTION_DECLINE_MEETING:
+					$label = Yii::t('frontend','declined meeting');
 				break;
 				case MeetingLog::ACTION_DELETE_MEETING:
 					$label = Yii::t('frontend','deleted meeting');
@@ -228,6 +229,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				break;
 				case MeetingLog::ACTION_MAKE_INPERSON:
 				$label = Yii::t('frontend','Switched to in person meeting');
+				break;
+				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
+					$label = Yii::t('frontend','Sent email verification link');
 				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
@@ -322,6 +326,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_MAKE_INPERSON:
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
 				case MeetingLog::ACTION_SENT_RUNNING_LATE:
+				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
 					$label = Yii::t('frontend','-');
 				break;
 				default:

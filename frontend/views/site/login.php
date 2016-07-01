@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
           <p>Or, fill out the following fields to login:</p>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-                <?= $form->field($model, 'username') ?>
+                <?= $form->field($model, 'username')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Username'))->hint(Yii::t('frontend','You can also use your email address when logging in.')) ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
                 <div style="color:#999;margin:1em 0">

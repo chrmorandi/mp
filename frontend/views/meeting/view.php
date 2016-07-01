@@ -131,7 +131,7 @@ if  ($('#notifierOkay').val() == 'on') {
   notifierOkay = false;
 }
 
-function displayNotifier(mode) {
+function displayNotifier(mode) {  
   if (notifierOkay) {
     if (mode == 'time') {
       $('#notifierTime').show();
