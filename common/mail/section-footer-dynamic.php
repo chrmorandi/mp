@@ -19,7 +19,7 @@ use common\components\MiscHelpers;
     if (isset($mode)) {
       if ($mode == 'update') {
          echo HTML::a(Yii::t('frontend','Email settings'),$links['footer_email']);
-         echo HTML::a(Yii::t('frontend','Block updates'),$links['footer_block_updates']);
+         //echo HTML::a(Yii::t('frontend','Block updates'),$links['footer_block_updates']);
          ?>
          |
     <?php

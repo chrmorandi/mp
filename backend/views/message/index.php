@@ -13,7 +13,7 @@ $this->title = Yii::t('backend', 'Messages');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="message-index">
-
+  
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -38,12 +38,20 @@ $this->params['breadcrumbs'][] = $this->title;
             //'content:ntext',
             //'action_text',
             // 'action_url:url',
-             'status',
+             //'status',
+             [
+               'label'=>'Status',
+                 'attribute' => 'status',
+                 'format' => 'raw',
+                 'value' => function ($model) {
+                     return '<div>'.$model->displayStatus().'</div>';
+                     },
+             ],
             // 'created_at',
             // 'updated_at',
 
             //['class' => 'yii\grid\ActionColumn'],
-            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {trash}',
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {send} {trash}',
             'headerOptions' => ['class' => 'itemHide'],
             'contentOptions' => ['class' => 'itemHide'],
             'buttons'=>[
@@ -53,10 +61,23 @@ $this->params['breadcrumbs'][] = $this->title;
                           'class' => 'icon-pad',
                   ]);
                 },
+                'test' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-wrench"></span>', $url, [
+                          'title' => Yii::t('frontend', 'test'),
+                          'class' => 'icon-pad',
+                  ]);
+                },
                 'trash' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                           'title' => Yii::t('frontend', 'delete'),
                           'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this message?'),
+                          'class' => 'icon-pad',
+                  ]);
+                },
+                'send' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-envelope"></span>', $url, [
+                          'title' => Yii::t('frontend', 'send'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to everyone?'),
                           'class' => 'icon-pad',
                   ]);
                 },

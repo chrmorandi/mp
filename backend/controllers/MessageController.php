@@ -66,7 +66,7 @@ class MessageController extends Controller
         $model = new Message();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,7 +85,7 @@ class MessageController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -103,6 +103,38 @@ class MessageController extends Controller
     {
         $this->findModel($id)->delete();
 
+        return $this->redirect(['index']);
+    }
+
+    public function actionTrash($id)
+    {
+        $user_id = Yii::$app->user->getId();
+        if ($this->findModel($id)->trash($user_id)) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('backend','Your message has been deleted.'));
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('backend','Sorry, we had a problem deleting your message.'));
+          }
+        return $this->redirect(['index']);
+    }
+
+    public function actionTest($id)
+    {
+      // sends out a test of this message to the admin
+      // to do
+      $m = new Message();
+      $m->test($id);
+        Yii::$app->getSession()->setFlash('success', Yii::t('backend','A test version of this has been sent to administrators.'));
+        return $this->redirect(['index']);
+    }
+
+    public function actionSend($id)
+    {
+      // sends out message to all users not blocking updates and all email
+      // to do
+      $m = new Message();
+      $m->send($id);
+
+        Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
         return $this->redirect(['index']);
     }
 

@@ -50,6 +50,10 @@ AppAsset::register($this);
                           ['label' => Yii::t('frontend','Statistics'), 'url' => ['/historical-data']],
                         ],
                       ];
+              $menuItems[]=[
+                        'label' => 'Messages',
+                        'url' => ['/message'],
+                      ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {

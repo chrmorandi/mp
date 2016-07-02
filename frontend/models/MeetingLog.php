@@ -146,7 +146,7 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->extra_id =$extra_id;
          $log->save();
 				 // don't need the update sent for these actions, so no need to touch logged_at
-				 $ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST,MeetingLog::ACTION_SENT_EMAIL_VERIFICATION];
+				 $ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST,MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,MeetingLog::ACTION_FINALIZE_INVITE];
 				 if (!in_array($action,$ignorable)) {
 					 // sets the touched_at field for the Meeting
 	 				Meeting::touchLog($meeting_id);

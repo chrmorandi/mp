@@ -41,6 +41,7 @@ use frontend\models\UserContact;
       <?php
         if (1==0) {
           // is there an action link
+          // could be a verified log in url
       ?>
       <tr>
         <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:30px 0 30px 0" align="center">
