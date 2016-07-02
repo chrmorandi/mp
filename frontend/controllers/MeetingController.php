@@ -513,6 +513,24 @@ class MeetingController extends Controller
             Yii::$app->getSession()->setFlash('success', 'You will no longer receive email from us. You can reverse this below.');
             $this->redirect(['user-setting/update','id'=>$us->id]);
           break;
+          case Meeting::COMMAND_NO_UPDATES:
+            // change setting to block all email
+            UserSetting::initialize($actor_id);
+            $us = UserSetting::find()->where(['user_id'=>$actor_id])->one();
+            $us->no_updates = UserSetting::EMAIL_NONE;
+            $us->update();
+            Yii::$app->getSession()->setFlash('success', 'You will no longer receive product updates from us. You can reverse this below.');
+            $this->redirect(['user-setting/update','id'=>$us->id]);
+            break;
+          case Meeting::COMMAND_NO_NEWSLETTER:
+            // change setting to block all email
+            UserSetting::initialize($actor_id);
+            $us = UserSetting::find()->where(['user_id'=>$actor_id])->one();
+            $us->no_newsletter = UserSetting::EMAIL_NONE;
+            $us->update();
+            Yii::$app->getSession()->setFlash('success', 'You will no longer receive product updates from us. You can reverse this below.');
+            $this->redirect(['user-setting/update','id'=>$us->id]);
+            break;
           case Meeting::COMMAND_VERIFY_EMAIL:
             $u  = \common\models\User::findOne($actor_id);
             $u->status = \common\models\User::STATUS_ACTIVE;

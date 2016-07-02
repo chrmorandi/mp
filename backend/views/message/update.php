@@ -9,7 +9,7 @@ $this->title = Yii::t('backend', 'Update {modelClass}: ', [
     'modelClass' => 'Message',
 ]) . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Messages'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->subject, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'Update');
 ?>
 <div class="message-update">

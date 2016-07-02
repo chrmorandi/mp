@@ -87,6 +87,8 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_FOOTER_EMAIL = 400;
   const COMMAND_FOOTER_BLOCK = 410;
   const COMMAND_FOOTER_BLOCK_ALL = 420;
+  const COMMAND_NO_UPDATES = 425;
+  const COMMAND_NO_NEWSLETTER = 430;
   const COMMAND_GO_REMINDERS = 450;
   const COMMAND_VERIFY_EMAIL = 460;
 

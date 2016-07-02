@@ -19,11 +19,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'subject') ?>
 
+    <?= $form->field($model, 'caption') ?>
+
     <?= $form->field($model, 'content') ?>
 
     <?= $form->field($model, 'action_text') ?>
 
-    <?= $form->field($model, 'action_url') ?>
+    <?php // echo $form->field($model, 'action_url') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

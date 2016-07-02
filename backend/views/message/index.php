@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MessageSearch */
@@ -18,22 +20,48 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('backend', 'Create Message'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
+<?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+              // ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'subject',
-            'content:ntext',
-            'action_text',
-            'action_url:url',
-            // 'status',
+            // 'id',
+            [
+              'label'=>'Subject',
+                'attribute' => 'subject',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return '<div><a href="'.Url::to(['message/update', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->caption.'</span></div>';
+                    },
+            ],
+            //'content:ntext',
+            //'action_text',
+            // 'action_url:url',
+             'status',
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {trash}',
+            'headerOptions' => ['class' => 'itemHide'],
+            'contentOptions' => ['class' => 'itemHide'],
+            'buttons'=>[
+                'update' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                          'title' => Yii::t('frontend', 'update'),
+                          'class' => 'icon-pad',
+                  ]);
+                },
+                'trash' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                          'title' => Yii::t('frontend', 'delete'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this message?'),
+                          'class' => 'icon-pad',
+                  ]);
+                },
+              ]
+            ],
         ],
     ]); ?>
-</div>
+<?php Pjax::end(); ?></div>

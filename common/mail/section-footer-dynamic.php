@@ -15,10 +15,24 @@ use common\components\MiscHelpers;
         </tr>
         <tr><td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:75%; line-height:21px; text-align:center; border-collapse:collapse" align="center">
 <em>
-  <?php echo HTML::a(Yii::t('frontend','Email settings'),$links['footer_email']); ?>
-  | <?php echo HTML::a(Yii::t('frontend','Block sender'),$links['footer_block']); ?>
-  <?php //echo HTML::a(Yii::t('frontend','Block all'),$links['footer_block_all']); ?>
-        </em>
+  <?php
+    if (isset($mode)) {
+      if ($mode == 'update') {
+         echo HTML::a(Yii::t('frontend','Email settings'),$links['footer_email']);
+         echo HTML::a(Yii::t('frontend','Block updates'),$links['footer_block_updates']);
+         ?>
+         |
+    <?php
+      }
+    } else {
+      ?>
+      <?php echo HTML::a(Yii::t('frontend','Email settings'),$links['footer_email']); ?>
+      | <?php echo HTML::a(Yii::t('frontend','Block sender'),$links['footer_block']); ?>
+      <?php //echo HTML::a(Yii::t('frontend','Block all'),$links['footer_block_all']); ?>
+      <?php
+    }
+  ?>
+          </em>
         </td></tr>
       </table>
     </center>

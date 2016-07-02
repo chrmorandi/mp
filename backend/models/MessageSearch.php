@@ -19,7 +19,7 @@ class MessageSearch extends Message
     {
         return [
             [['id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['subject', 'content', 'action_text', 'action_url'], 'safe'],
+            [['subject', 'caption', 'content', 'action_text', 'action_url'], 'safe'],
         ];
     }
 
@@ -66,6 +66,7 @@ class MessageSearch extends Message
         ]);
 
         $query->andFilterWhere(['like', 'subject', $this->subject])
+            ->andFilterWhere(['like', 'caption', $this->caption])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'action_text', $this->action_text])
             ->andFilterWhere(['like', 'action_url', $this->action_url]);
