@@ -4,49 +4,49 @@ namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use backend\models\UserData;
-use backend\models\UserDataSearch;
+use common\models\User;
+use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UserDataController implements the CRUD actions for UserData model.
+ * UserController implements the CRUD actions for User model.
  */
-class UserDataController extends Controller
+class UserController extends Controller
 {
     /**
      * @inheritdoc
      */
-     public function behaviors()
-     {
-         return [
-             'access' => [
-                 'class' => AccessControl::className(),
-                 'rules' => [
-                     [
-                         'allow' => true,
-                         'matchCallback' => function ($rule, $action) {
-                             return (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin());
-                           }],
-                 ],
-             ],
-             'verbs' => [
-                 'class' => VerbFilter::className(),
-                 'actions' => [
-                     'logout' => ['post'],
-                 ],
-             ],
-         ];
-     }
+    public function behaviors()
+    {
+        return [
+          'access' => [
+              'class' => AccessControl::className(),
+              'rules' => [
+                  [
+                      'allow' => true,
+                      'matchCallback' => function ($rule, $action) {
+                          return (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin());
+                        }],
+              ],
+          ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
 
     /**
-     * Lists all UserData models.
+     * Lists all User models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UserDataSearch();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,7 +56,7 @@ class UserDataController extends Controller
     }
 
     /**
-     * Displays a single UserData model.
+     * Displays a single User model.
      * @param integer $id
      * @return mixed
      */
@@ -68,13 +68,13 @@ class UserDataController extends Controller
     }
 
     /**
-     * Creates a new UserData model.
+     * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new UserData();
+        $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -86,7 +86,7 @@ class UserDataController extends Controller
     }
 
     /**
-     * Updates an existing UserData model.
+     * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -105,7 +105,7 @@ class UserDataController extends Controller
     }
 
     /**
-     * Deletes an existing UserData model.
+     * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -118,15 +118,15 @@ class UserDataController extends Controller
     }
 
     /**
-     * Finds the UserData model based on its primary key value.
+     * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UserData the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UserData::findOne($id)) !== null) {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

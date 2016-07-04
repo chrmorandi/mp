@@ -226,7 +226,6 @@ class User extends ActiveRecord implements IdentityInterface
       if ($us->no_email != UserSetting::EMAIL_OK) {
         return false;
       }
-
       // check if no sender i.e. system notification
       if ($sender_id==0) {
         return true;

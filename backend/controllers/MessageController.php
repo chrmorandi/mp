@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use backend\models\Message;
 use backend\models\MessageSearch;
 use yii\web\Controller;
@@ -20,6 +21,18 @@ class MessageController extends Controller
     public function behaviors()
     {
         return [
+          'access' => [
+              'class' => AccessControl::className(),
+              //'only' => ['index'],
+              'rules' => [
+                  [
+                      'allow' => true,
+                      'matchCallback' => function ($rule, $action) {
+                          return (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin());
+                        }
+                  ],
+              ],
+          ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -25,13 +25,10 @@ class HistoricalDataController extends Controller
                  'class' => AccessControl::className(),
                  'rules' => [
                      [
-                         'actions' => [''],
                          'allow' => true,
-                     ],
-                     [
-                         'actions' => ['index'],
-                         'allow' => true,
-                         'roles' => ['@'],
+                         'matchCallback' => function ($rule, $action) {
+                             return (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin());
+                           }
                      ],
                  ],
              ],

@@ -23,16 +23,18 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['index','login','logout', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['index', 'logout'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'matchCallback'  => function ($rule, $action) {
+                            return (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin());
+                          }
+                        ],
                     ],
                 ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -56,7 +58,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->redirect(['data/current']); 
+        return $this->redirect(['data/current']);
     }
 
     public function actionLogin()

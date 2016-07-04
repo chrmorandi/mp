@@ -147,6 +147,8 @@ class Message extends \yii\db\ActiveRecord
        // check if email is okay and okay from this sender_id
        // to do - extend checkEmailDelivery
       if (User::checkEmailDelivery($user_id,0)) {
+        //var_dump($a);
+        //echo 'here';exit;
           // Build the absolute links to the meeting and commands
           $links=[
             'home'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -161,17 +163,18 @@ class Message extends \yii\db\ActiveRecord
           [
             'user_id' => $a['user_id'],
             'auth_key' => $a['auth_key'],
-            'mode' => 'update2',
+            'mode' => 'update',
             'links' => $links,
         ]);
           if (!empty($a['email'])) {
             $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
-            $message->setTo($a['email'])
-                ->setSubject(Yii::t('frontend','Meeting Planner Update: ').$msg->subject)
+            //$message->setTo($a['email'])
+            $message->setTo('jeff@lookahead.me')
+                ->setSubject(Yii::t('backend','Meeting Planner Update: ').$msg->subject)
                 ->send();
           }
+          $msg->status=Message::STATUS_TEST;
+          $msg->update();
        }
-      $msg->status=Message::STATUS_TEST;
-      $msg->update();
     }
 }
