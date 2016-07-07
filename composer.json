@@ -1,16 +1,14 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Application Template",
-    "keywords": ["yii2", "framework", "advanced", "application template"],
+    "name": "newscloud/mp",
+    "description": "Meeting Planner using Yii2 advanced template",
+    "keywords": ["meeting planner","yii2", "framework", "advanced"],
     "homepage": "http://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
+        "issues": "http://support.meetingplanner.io",
+        "forum": "http://support.meetingplanner.io/support/home",
+        "source": "https://github.com/newscloud/mp"
     },
     "minimum-stability": "stable",
     "require": {
@@ -28,7 +26,6 @@
         "cebe/yii2-gravatar": "*",
         "kartik-v/yii2-widget-fileinput": "*",
         "yiisoft/yii2-imagine": "*",
-        "2amigos/yii2-resource-manager-component": "0.1.*",
         "yiisoft/yii2-authclient": "~2.0.0",
         "mailgun/mailgun-php": "~2.0",
         "guzzlehttp/guzzle":"6.2.0 as 4.2.3",

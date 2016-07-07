@@ -58,6 +58,7 @@ AppAsset::register($this);
                         'label' => 'Data',
                         'items' => [
                           ['label' => Yii::t('frontend','Users'), 'url' => ['/user']],
+                          ['label' => Yii::t('frontend','Places'), 'url' => ['/place']],
                         ],
                       ];
             if (Yii::$app->user->isGuest) {

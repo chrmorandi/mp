@@ -4,9 +4,11 @@ namespace backend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+
 use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
+use backend\models\MessageLog;
 
 /**
  * This is the model class for table "message".
@@ -112,29 +114,46 @@ class Message extends \yii\db\ActiveRecord
     }
 
     public function test($id) {
-      if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
+      $u = User::findOne(Yii::$app->user->getId());
+      if ($u->isAdmin()) {
         // send to this administrator
         $msg = Message::findOne($id);
-        $msg->sendOne($id,Yii::$app->user->getId());
+        $this->sendOne($msg,$u);
       } else {
         echo 'not admin';exit;
       }
 
     }
 
-    public function send($id) {
+    public function findNextGroup($limit = 10) {
+      // find the next group of users we haven't sent this message to
+      $users = User::find()
+      //->select('user.id,user.email')
+    ->leftJoin('message_log','message_log.user_id=user.id')
+    ->where('message_log.id is null')
+    ->limit($limit)
+    ->all();
+    return $users;
+    }
+
+    public function send($id,$limit = 10) {
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
-
+        $msg = Message::findOne($id);
+        $users = $this->findNextGroup($limit);
+        foreach ($users as $u) {
+          $this->sendOne($msg,$u);
+        }
+        $msg->status=Message::STATUS_TEST;
+        $msg->update();
       } else {
         echo 'not admin';exit;
       }
 
     }
 
-    public function sendone($id,$user_id) {
-      $msg = Message::findOne($id);
-      $u = \common\models\User::findOne($user_id);
+    public function sendOne($msg,$u) {
       // ensure there is an auth key for the recipient user
+      $user_id = $u->id;
       if (empty($u->auth_key)) {
         return false;
       }
@@ -147,8 +166,6 @@ class Message extends \yii\db\ActiveRecord
        // check if email is okay and okay from this sender_id
        // to do - extend checkEmailDelivery
       if (User::checkEmailDelivery($user_id,0)) {
-        //var_dump($a);
-        //echo 'here';exit;
           // Build the absolute links to the meeting and commands
           $links=[
             'home'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -163,7 +180,7 @@ class Message extends \yii\db\ActiveRecord
           [
             'user_id' => $a['user_id'],
             'auth_key' => $a['auth_key'],
-            'mode' => 'update',
+            'mode' => 'update', // used in footer
             'links' => $links,
         ]);
           if (!empty($a['email'])) {
@@ -172,9 +189,8 @@ class Message extends \yii\db\ActiveRecord
             $message->setTo('jeff@lookahead.me')
                 ->setSubject(Yii::t('backend','Meeting Planner Update: ').$msg->subject)
                 ->send();
+            MessageLog::add($msg->id,$user_id);
           }
-          $msg->status=Message::STATUS_TEST;
-          $msg->update();
        }
     }
 }

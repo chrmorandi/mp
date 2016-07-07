@@ -284,4 +284,6 @@ class User extends ActiveRecord implements IdentityInterface
           ->setSubject('Verify Your Email Address for ' . \Yii::$app->name)
           ->send();
     }
+
+    
 }

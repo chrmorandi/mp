@@ -49,7 +49,7 @@ AppAsset::register($this);
       			if (Yii::$app->user->isGuest) {
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
-                  ['label' => Yii::t('frontend','Support'), 'url' => 'http://support.meetingplanner.io'],
+                  ['label' => Yii::t('frontend','Support'), 'url' => 'https://meetingplanner.freshdesk.com/support/home'], // 'http://support.meetingplanner.io'
                   ['label' => Yii::t('frontend','About'), 'url' => ['/site/about']],
                 ],
               ];
@@ -122,7 +122,7 @@ AppAsset::register($this);
           <p class="pull-left">
           <?php
           if (!Yii::$app->user->isGuest) {
-            echo Html::a(Yii::t('frontend','Support'),Url::to('http://support.meetingplanner.io')).Html::tag('span',' | ',['class'=>'itemHide']);
+            echo Html::a(Yii::t('frontend','Support'),Url::to('https://meetingplanner.freshdesk.com/support/home')).Html::tag('span',' | ',['class'=>'itemHide']); // 'http://support.meetingplanner.io'
             echo Html::a(Yii::t('frontend','About'),Url::to(['/site/about']),['class'=>'itemHide']);
           }
            ?>

@@ -103,7 +103,7 @@ class SiteController extends Controller
     }
 
     public function actionLogout()
-    {      
+    {
         Yii::$app->user->logout();
         return $this->goHome();
     }
@@ -208,132 +208,148 @@ class SiteController extends Controller
     }
 
     public function onAuthSuccess($client)
-        {
-          $mode =  Yii::$app->getRequest()->getQueryParam('mode');
-          $attributes = $client->getUserAttributes();
-          $serviceId = $attributes['id'];
-          $serviceProvider = $client->getId();
-          $serviceTitle = $client->getTitle();
-          $firstname ='';
-          $lastname='';
-          $fullname ='';
-          switch ($serviceProvider) {
-            case 'facebook':
-              $username = $email = $attributes['email'];
-              $fullname = $attributes['name'];
-              break;
-            case 'google':
-              $email = $attributes['emails'][0]['value'];
-              if (isset($attributes['displayName'])) {
-                  $fullname = $username = $attributes['displayName'];
-              }
-              if (isset($attributes['name']['familyName']) and isset($attributes['name']['givenName'])) {
-                $lastname = $attributes['name']['familyName'];
-                $firstname = $attributes['name']['givenName'];
-              }
+      {
+        // mode via login or signup
+        $mode =  Yii::$app->getRequest()->getQueryParam('mode');
+        $attributes = $client->getUserAttributes();
+        $serviceId = $attributes['id'];
+        $serviceProvider = $client->getId();
+        $serviceTitle = $client->getTitle();
+        $firstname ='';
+        $lastname='';
+        $fullname ='';
+        switch ($serviceProvider) {
+          case 'facebook':
+            $username = $email = $attributes['email'];
+            $fullname = $attributes['name'];
             break;
-            case 'linkedin':
-              $username = $email = $attributes['email-address'];
-              $lastname = $attributes['first-name'];
-              $firstname = $attributes['last-name'];
-              $fullname = $firstname.' '.$lastname;
-            break;
-            case 'twitter':
-              $username = $attributes['screen_name'];
-              $fullname = $attributes['name'];
-              // to do - fix social helpers
-              $email = $serviceId.'@twitter.com';
-            break;
-          }
-          // to do - split names into first and last with parser
-            $auth = Auth::find()->where([
-                'source' => (string)$serviceProvider,
-                'source_id' => (string)$serviceId,
-            ])->one();
-            if (Yii::$app->user->isGuest) {
-                if ($auth) {
-                  // if the user_id associated with this oauth login is registered, try to log them in
-                  $user_id = $auth->user_id;
-                  $person = new \common\models\User;
-                  $identity = $person->findIdentity($user_id);
-                  User::completeInitialize($user_id);
-                  UserProfile::applySocialNames($user_id,$firstname,$lastname,$fullname);
-                  Yii::$app->user->login($identity);
-                } else {
-                  // it's a new oauth id
-                  // first check if we know the email address
-                  if (isset($email) && User::find()->where(['email' => $email])->exists()) {
-                    // the email is already registered, ask person to link accounts after loggin in
-                    Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('frontend', "The email in this {client} account is already registered. Please login using your username and password first, then link to this account in your profile settings.", ['client' => $serviceTitle]),
-                    ]);
-                    $this->redirect(['login']);
-                  } else {
-                    switch ($mode) {
-                      case 'login':
-                        // they were trying to login with an unconnected account - ask them to login normally and link after
-                        Yii::$app->getSession()->setFlash('error', [
-                            Yii::t('frontend', "We don't recognize the user with this email from {client}. If you wish to sign up, try again below. If you wish to link {client} to your Meeting Planner account, login first with your username and password. Then visit your profile settings.", ['client' => $serviceTitle]),
-                        ]);
-                        $this->redirect(['signup']);
-                        break;
-                      case 'signup':
-                        // sign up a new account using oauth
-                        // look for username that exists already and differentiate it
-                        if (isset($username) && User::find()->where(['username' => $username])->exists()) {
-                          $username.=Yii::$app->security->generateRandomString(6);
-                        }
-                        $password = Yii::$app->security->generateRandomString(12);
-                          $user = new User([
-                              'username' => $username, // $attributes['login'],
-                              'email' => $email,
-                              'password' => $password,
-                              'status' => User::STATUS_ACTIVE,
-                          ]);
-                          $user->generateAuthKey();
-                          $user->generatePasswordResetToken();
-                          $transaction = $user->getDb()->beginTransaction();
-                          if ($user->save()) {
-                              $auth = new Auth([
-                                  'user_id' => $user->id,
-                                  'source' => $serviceProvider, // $client->getId(),
-                                  'source_id' => $serviceId, // (string)$attributes['id'],
-                              ]);
-                              if ($auth->save()) {
-                                  $transaction->commit();
-                                  User::completeInitialize($user->id);
-                                  UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
-                                  Yii::$app->user->login($user);
-                              } else {
-                                  print_r($auth->getErrors());
-                              }
-                          } else {
-                              print_r($user->getErrors());
-                          }
-                      break;
-                      case 'schedule':
-                      // to do - neeeds integration above as well
-                      break;
-                    }
-                  }
-                }
+          case 'google':
+            $email = $attributes['emails'][0]['value'];
+            if (isset($attributes['displayName'])) {
+                $fullname = $username = $attributes['displayName'];
+            }
+            if (isset($attributes['name']['familyName']) and isset($attributes['name']['givenName'])) {
+              $lastname = $attributes['name']['familyName'];
+              $firstname = $attributes['name']['givenName'];
+            }
+          break;
+          case 'linkedin':
+            $username = $email = $attributes['email-address'];
+            $lastname = $attributes['first-name'];
+            $firstname = $attributes['last-name'];
+            $fullname = $firstname.' '.$lastname;
+          break;
+          case 'twitter':
+            $username = $attributes['screen_name'];
+            $fullname = $attributes['name'];
+            // to do - fix social helpers
+            $email = $serviceId.'@twitter.com';
+          break;
+        }
+        // to do - split names into first and last with parser
+        // lookup social auth result to see if we know it
+        $auth = Auth::find()->where([
+            'source' => (string)$serviceProvider,
+            'source_id' => (string)$serviceId,
+        ])->one();
+        if (Yii::$app->user->isGuest) {
+            // not logged in: either sign in or register
+            if ($auth) {
+              // if the user_id associated with this oauth login is registered, try to log them in
+              $user_id = $auth->user_id;
+              $person = new \common\models\User;
+              $identity = $person->findIdentity($user_id);
+              User::completeInitialize($user_id);
+              UserProfile::applySocialNames($user_id,$firstname,$lastname,$fullname);
+              Yii::$app->user->login($identity);
             } else {
-              UserProfile::applySocialNames(Yii::$app->user->id,$firstname,$lastname,$fullname);
-              // user already logged in, link the accounts
-                if (!$auth) { // add auth provider
+                // auth_id is new to us
+                $user = User::find()->where(['email' => $email])->one();
+                // this check may override which mode they came from
+                if (is_null($user)) {
+                  // email is unregistered, sign them up
+                  $mode='signup';
+                } else {
+                  // email exists, log them in
+                  $mode ='login';
+                }
+                switch ($mode) {
+                  case 'login':
+                    // logging in but account not yet connected, may be passive
                     $auth = new Auth([
-                        'user_id' => Yii::$app->user->id,
-                        'source' => $serviceProvider,
-                        'source_id' => $serviceId,
+                        'user_id' => $user->id,
+                        'source' => $serviceProvider, // $client->getId(),
+                        'source_id' => $serviceId, // (string)$attributes['id'],
                     ]);
-                    $auth->validate();
-                    $auth->save();
-                    $u = User::findOne(Yii::$app->user->id);
-                    $u->status = User::STATUS_ACTIVE;
-                    $u->update();
-                    Yii::$app->session->setFlash('success', Yii::t('frontend', 'Your {serviceProvider} account has been connected to your Meeting Planner account. In the future you can log in with a single click of its logo.',
-    array('serviceProvider'=>$serviceTitle)));
+                    if ($auth->save()) {
+                        $user->status = User::STATUS_ACTIVE;
+                        $user->update();
+                        User::completeInitialize($user->id);
+                        UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
+                        Yii::$app->user->login($user);
+                    } else {
+                        print_r($auth->getErrors());
+                    }
+                    break;
+                  case 'signup':
+                    // sign up a new account using oauth
+                    // look for username that exists already and differentiate it
+                    if (isset($username) && User::find()->where(['username' => $username])->exists()) {
+                      // important - to do - build a function to verify unique username
+                      $username.=Yii::$app->security->generateRandomString(6); // append to duplicate username
+                    }
+                    $password = Yii::$app->security->generateRandomString(12);
+                      $user = new User([
+                          'username' => $username, // $attributes['login'],
+                          'email' => $email,
+                          'password' => $password,
+                          'status' => User::STATUS_ACTIVE,
+                      ]);
+                      $user->generateAuthKey();
+                      $user->generatePasswordResetToken();
+                      $transaction = $user->getDb()->beginTransaction();
+                      if ($user->save()) {
+                          $auth = new Auth([
+                              'user_id' => $user->id,
+                              'source' => $serviceProvider, // $client->getId(),
+                              'source_id' => $serviceId, // (string)$attributes['id'],
+                          ]);
+                          if ($auth->save()) {
+                              User::completeInitialize($user->id);
+                              UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
+                              $transaction->commit();
+                              Yii::$app->user->login($user);
+                          } else {
+                              print_r($auth->getErrors());
+                          }
+                      } else {
+                          $transaction->rollBack();
+                          print_r($user->getErrors());
+                      }
+                  break;
+                  case 'schedule':
+                  // to do - neeeds integration above as well
+                  break;
                 }
             }
+        } else {
+          // already signed in, just link the social account and make user active
+          UserProfile::applySocialNames(Yii::$app->user->id,$firstname,$lastname,$fullname);
+          // user already logged in, link the accounts
+            if (!$auth) { // add auth provider
+                $auth = new Auth([
+                    'user_id' => Yii::$app->user->id,
+                    'source' => $serviceProvider,
+                    'source_id' => $serviceId,
+                ]);
+                $auth->validate();
+                $auth->save();
+                $u = User::findOne(Yii::$app->user->id);
+                $u->status = User::STATUS_ACTIVE;
+                $u->update();
+                Yii::$app->session->setFlash('success', Yii::t('frontend', 'Your {serviceProvider} account has been connected to your Meeting Planner account. In the future you can log in with a single click of its logo.',
+array('serviceProvider'=>$serviceTitle)));
+            }
         }
+    }
 }
