@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+//use yii\widgets\Pjax;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -13,14 +13,15 @@ $this->title = Yii::t('backend', 'Messages');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="message-index">
-  
+
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('backend', 'Create Message'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php // Pjax::begin(); ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -51,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_at',
 
             //['class' => 'yii\grid\ActionColumn'],
-            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {send} {trash}',
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {trash} {send} ',
             'headerOptions' => ['class' => 'itemHide'],
             'contentOptions' => ['class' => 'itemHide'],
             'buttons'=>[
@@ -85,4 +86,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php // Pjax::end(); ?></div>

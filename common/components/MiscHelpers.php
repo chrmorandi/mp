@@ -9,8 +9,33 @@ use common\models\User;
 class MiscHelpers  {
 
   public static function buildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {
+    // to do - build string of local or remote destination
+    // note: if change made, change in Message.php
     return Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,],true);
    }
+
+   public static function backendBuildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {
+     // to do - build string of local or remote destination
+     // note: if change made, change in Message.php
+     $url = Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,]);
+     $url = str_ireplace('/mpa/index.php/','',$url);
+     return MiscHelpers::buildUrl().$url;
+    }
+
+    public static function buildUrl() {
+      // manages links created from backend to go to frontend
+       $baseUrl = Url::home(true);
+       if (stristr($baseUrl,'localhost')===false) {
+         // live site
+         $url = 'https://meetingplanner.io/';
+       } else {
+          // development - returns http://localhost:8888/mpa/index.php
+          // change to front end
+          $url = 'http://localhost:8888/mp/';
+       }
+      // messages are sent from back end but need to link to front end url
+      return $url;
+    }
 
    public static function isProfileEmpty($user_id) {
      // returns false or userprofile id

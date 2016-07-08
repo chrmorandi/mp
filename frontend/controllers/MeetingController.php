@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
 use common\components\MiscHelpers;
 use common\models\User;
@@ -519,6 +520,7 @@ class MeetingController extends Controller
             $us = UserSetting::find()->where(['user_id'=>$actor_id])->one();
             $us->no_updates = UserSetting::EMAIL_NONE;
             $us->update();
+            \backend\models\Message::respond($obj_id,$actor_id,\backend\models\Message::RESPONSE_NO_UPDATES);
             Yii::$app->getSession()->setFlash('success', 'You will no longer receive product updates from us. You can reverse this below.');
             $this->redirect(['user-setting/update','id'=>$us->id]);
             break;
@@ -540,6 +542,9 @@ class MeetingController extends Controller
           case Meeting::COMMAND_GO_REMINDERS:
             $this->redirect(['reminder/index']);
           break;
+          case Meeting::COMMAND_RESPOND_MESSAGE:
+            $this->redirect(\backend\models\Message::respond($obj_id,$actor_id,\backend\models\Message::RESPONSE_YES));
+            break;
           default:
             $this->redirect(['site\error','meeting_id'=>$id]);
             break;

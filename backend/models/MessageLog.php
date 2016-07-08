@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use backend\models\Message;
 
 /**
  * This is the model class for table "message_log".
@@ -30,8 +31,8 @@ class MessageLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['message_id', 'user_id'], 'required'],
-            [['message_id', 'user_id'], 'integer'],
+            [['message_id', 'user_id', 'response'], 'required'],
+            [['message_id', 'user_id', 'response'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['message_id'], 'exist', 'skipOnError' => true, 'targetClass' => Message::className(), 'targetAttribute' => ['message_id' => 'id']],
         ];
@@ -46,6 +47,7 @@ class MessageLog extends \yii\db\ActiveRecord
             'id' => Yii::t('backend', 'ID'),
             'message_id' => Yii::t('backend', 'Message ID'),
             'user_id' => Yii::t('backend', 'User ID'),
+             'response' => Yii::t('backend', 'Response'),
         ];
     }
 
@@ -82,7 +84,17 @@ class MessageLog extends \yii\db\ActiveRecord
          }
          $log->message_id=$message_id;
          $log->user_id =$user_id;
+         $log->response = Message::RESPONSE_NO;
          $log->save();
+    }
+
+    public static function recordResponse($message_id,$user_id,$response) {
+      $ml = MessageLog::find()->where(['message_id'=>$message_id,'user_id'=>$user_id])->one();
+      if (is_null($ml)) {
+        return false;
+      }
+      $ml->response = $response; // yes or no_updates
+      $ml->update();
     }
 
 }

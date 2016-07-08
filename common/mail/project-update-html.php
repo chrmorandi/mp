@@ -13,12 +13,12 @@ use frontend\models\UserContact;
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:32px; line-height:normal; text-align:center; border-collapse:collapse; font-weight:700; padding:35px 0 0" align="center">
-            Subject
+            <?php echo $msg->subject; ?>
           </td>
         </tr>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
-            Caption
+            <?php echo $msg->caption; ?>
           </td>
         </tr>
       <tr>
@@ -30,6 +30,7 @@ use frontend\models\UserContact;
                   <tr>
                     <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:left; border-collapse:collapse" align="left">
                       <!-- body content -->
+                      <?php echo $msg->content; ?>
                     </td>
                   </tr>
                 </table>
@@ -39,7 +40,7 @@ use frontend\models\UserContact;
         </td>
       </tr>
       <?php
-        if (1==0) {
+        if (1==1) {
           // is there an action link
           // could be a verified log in url
       ?>
@@ -51,7 +52,7 @@ use frontend\models\UserContact;
               <w:anchorlock/>
               <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">My Account</center>
             </v:roundrect>
-          <![endif]--><a href="<?php echo $links['action_url'] ?>" style='color:#fff; text-decoration:none; -webkit-text-size-adjust:none; background-color:#ff6f6f; border-radius:5px; display:inline-block; font-family:"Cabin", Helvetica, Arial, sans-serif; font-size:14px; font-weight:regular; line-height:45px; mso-hide:all; text-align:center; width:155px' bgcolor="#ff6f6f" align="center" width="155">Action Text</a>
+          <![endif]--><a href="<?php echo $links['action_url'] ?>" style='color:#fff; text-decoration:none; -webkit-text-size-adjust:none; background-color:#ff6f6f; border-radius:5px; display:inline-block; font-family:"Cabin", Helvetica, Arial, sans-serif; font-size:14px; font-weight:regular; line-height:45px; mso-hide:all; text-align:center; width:155px' bgcolor="#ff6f6f" align="center" width="155"><?php echo $msg->action_text; ?></a>
 </div>
         </td>
       </tr>

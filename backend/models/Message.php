@@ -4,7 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-
+use yii\helpers\Url;
 use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
@@ -30,6 +30,10 @@ class Message extends \yii\db\ActiveRecord
   const STATUS_TEST = 10;
   const STATUS_SENT = 20;
   const STATUS_TRASH = 50;
+
+  const RESPONSE_NO = 0;
+  const RESPONSE_YES = 10;
+  const RESPONSE_NO_UPDATES = 20;
 
   public function behaviors()
   {
@@ -166,11 +170,14 @@ class Message extends \yii\db\ActiveRecord
        // check if email is okay and okay from this sender_id
        // to do - extend checkEmailDelivery
       if (User::checkEmailDelivery($user_id,0)) {
+          // CAUTION - beware backend message sending generates links to backend site not frontend
           // Build the absolute links to the meeting and commands
           $links=[
-            'home'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-            'footer_email'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-            'footer_block_all'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+            'home'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_HOME,$msg->id,$a['user_id'],$a['auth_key']),
+            'footer_email'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_FOOTER_EMAIL,$msg->id,$a['user_id'],$a['auth_key']),
+            'footer_block_updates'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_NO_UPDATES,$msg->id,$a['user_id'],$a['auth_key']),
+            'footer_block_all'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,$msg->id,$a['user_id'],$a['auth_key']),
+            'action_url'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_RESPOND_MESSAGE,$msg->id,$a['user_id'],$a['auth_key']),
           ];
           // send the message
           $message = Yii::$app->mailer->compose([
@@ -182,15 +189,28 @@ class Message extends \yii\db\ActiveRecord
             'auth_key' => $a['auth_key'],
             'mode' => 'update', // used in footer
             'links' => $links,
+            'msg'=>$msg,
         ]);
           if (!empty($a['email'])) {
-            $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
-            //$message->setTo($a['email'])
-            $message->setTo('jeff@lookahead.me')
-                ->setSubject(Yii::t('backend','Meeting Planner Update: ').$msg->subject)
-                ->send();
+            $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner'])
+              ->setTo($a['email'])
+              ->setSubject(Yii::t('backend','Meeting Planner Update: ').$msg->subject)
+              ->send();
             MessageLog::add($msg->id,$user_id);
           }
        }
     }
+
+    public static function respond($message_id,$user_id) {
+        // user clicked on action_url command
+        $msg = Message::findOne($message_id);
+        // record the response
+        MessageLog::recordResponse($message_id,$user_id,Message::RESPONSE_YES);
+        // process redirect
+        if ($msg->action_url=='') {
+          return Url::home(true);
+        } else {
+          return $msg->action_url;
+        }
+    }  
 }

@@ -91,6 +91,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_NO_NEWSLETTER = 430;
   const COMMAND_GO_REMINDERS = 450;
   const COMMAND_VERIFY_EMAIL = 460;
+  const COMMAND_RESPOND_MESSAGE = 470;
 
   const ABANDONED_AGE = 2; // weeks
 

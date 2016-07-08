@@ -16,6 +16,7 @@ class m160704_202157_create_message_log_table extends Migration
           'id' => Schema::TYPE_PK,
           'message_id' => Schema::TYPE_INTEGER.' NOT NULL',
           'user_id' => Schema::TYPE_BIGINT.' NOT NULL',
+          'response' => Schema::TYPE_SMALLINT.' NOT NULL',
       ], $tableOptions);
       $this->addForeignKey('fk_message_log_message', '{{%message_log}}', 'message_id', '{{%message}}', 'id', 'CASCADE', 'CASCADE');
       $this->addForeignKey('fk_message_log_user', '{{%message_log}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');

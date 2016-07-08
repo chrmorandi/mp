@@ -9,6 +9,7 @@ use backend\models\MessageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -136,8 +137,8 @@ class MessageController extends Controller
       // to do
       $m = new Message();
       $m->test($id);
-        Yii::$app->getSession()->setFlash('success', Yii::t('backend','A test version of this has been sent to administrators.'));
-        return $this->redirect(['index']);
+      Yii::$app->getSession()->setFlash('success', Yii::t('backend','A test version of this has been sent to administrators.'));
+      return $this->redirect(['index']);
     }
 
     public function actionSend($id)
@@ -146,7 +147,6 @@ class MessageController extends Controller
       // to do
       $m = new Message();
       $m->send($id);
-
         Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
         return $this->redirect(['index']);
     }
