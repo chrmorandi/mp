@@ -29,7 +29,10 @@ class Message extends \yii\db\ActiveRecord
   const STATUS_DRAFT = 0;
   const STATUS_TEST = 10;
   const STATUS_SENT = 20;
+  const STATUS_IN_PROGRESS = 25;
+  const STATUS_ALL_SENT = 30;
   const STATUS_TRASH = 50;
+
 
   const RESPONSE_NO = 0;
   const RESPONSE_YES = 10;
@@ -143,11 +146,15 @@ class Message extends \yii\db\ActiveRecord
     public function send($id,$limit = 10) {
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
         $msg = Message::findOne($id);
-        $users = $this->findNextGroup($limit);
-        foreach ($users as $u) {
-          $this->sendOne($msg,$u);
+        $users = $this->findNextGroup($limit);        
+        if (count($users)==0) {
+          $msg->status=Message::STATUS_ALL_SENT;
+        } else {
+          $msg->status=Message::STATUS_IN_PROGRESS;
+          foreach ($users as $u) {
+            $this->sendOne($msg,$u);
+          }
         }
-        $msg->status=Message::STATUS_TEST;
         $msg->update();
       } else {
         echo 'not admin';exit;

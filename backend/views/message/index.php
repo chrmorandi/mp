@@ -52,34 +52,41 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_at',
 
             //['class' => 'yii\grid\ActionColumn'],
-            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {trash} {send} ',
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {next10} {next25} {trash}',
             'headerOptions' => ['class' => 'itemHide'],
             'contentOptions' => ['class' => 'itemHide'],
             'buttons'=>[
                 'update' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                           'title' => Yii::t('frontend', 'update'),
-                          'class' => 'icon-pad',
+                          'class' => 'icon-pad admin-pad',
                   ]);
                 },
                 'test' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-wrench"></span>', $url, [
                           'title' => Yii::t('frontend', 'test'),
-                          'class' => 'icon-pad',
+                          'class' => 'icon-pad admin-pad',
                   ]);
                 },
                 'trash' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                           'title' => Yii::t('frontend', 'delete'),
                           'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this message?'),
-                          'class' => 'icon-pad',
+                          'class' => 'icon-pad admin-pad',
                   ]);
                 },
-                'send' => function ($url, $model) {
+                'next10' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-envelope"></span>', $url, [
-                          'title' => Yii::t('frontend', 'send'),
-                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to everyone?'),
-                          'class' => 'icon-pad',
+                          'title' => Yii::t('frontend', 'send to next 10'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to the next 10 people?'),
+                          'class' => 'icon-pad admin-pad',
+                  ]);
+                },
+                'next25' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-filter"></span>', $url, [
+                          'title' => Yii::t('frontend', 'send to next 25'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to the next 25 people?'),
+                          'class' => 'icon-pad admin-pad',
                   ]);
                 },
               ]

@@ -89,3 +89,8 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+/* with extra spacing for safety */
+a.admin-pad {
+  padding: 0 7px 0 7px;
+}
