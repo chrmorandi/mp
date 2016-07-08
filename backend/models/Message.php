@@ -201,16 +201,16 @@ class Message extends \yii\db\ActiveRecord
        }
     }
 
-    public static function respond($message_id,$user_id) {
+    public static function respond($message_id,$user_id,$response) {
         // user clicked on action_url command
         $msg = Message::findOne($message_id);
         // record the response
-        MessageLog::recordResponse($message_id,$user_id,Message::RESPONSE_YES);
+        MessageLog::recordResponse($message_id,$user_id,$response);
         // process redirect
         if ($msg->action_url=='') {
           return Url::home(true);
         } else {
           return $msg->action_url;
         }
-    }  
+    }
 }
