@@ -27,7 +27,7 @@ class MiscHelpers  {
        $baseUrl = Url::home(true);
        if (stristr($baseUrl,'localhost')===false) {
          // live site
-         $url = 'https://meetingplanner.io/';
+         $url = 'https://meetingplanner.io';
        } else {
           // development - returns http://localhost:8888/mpa/index.php
           // change to front end
