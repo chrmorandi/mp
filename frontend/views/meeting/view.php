@@ -4,7 +4,7 @@ use yii\widgets\DetailView;
 use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
-$this->title = $model->getMeetingHeader();
+$this->title = $model->getMeetingHeader('view');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -131,7 +131,7 @@ if  ($('#notifierOkay').val() == 'on') {
   notifierOkay = false;
 }
 
-function displayNotifier(mode) {  
+function displayNotifier(mode) {
   if (notifierOkay) {
     if (mode == 'time') {
       $('#notifierTime').show();

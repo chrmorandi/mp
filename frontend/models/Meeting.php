@@ -291,9 +291,13 @@ class Meeting extends \yii\db\ActiveRecord
         return $str;
      }
 
-     public function getMeetingHeader() {
+     public function getMeetingHeader($source='index') {
        if (empty($this->subject)) {
-         $str = 'New meeting';
+         if ($source!='index') {
+           $str = 'Schedule a meeting';
+         } else {
+           $str = 'New meeting';
+         }
          $this->has_subject = false;
        } else {
          $this->has_subject = true;

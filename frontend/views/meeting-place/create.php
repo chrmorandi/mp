@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
   $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query(array(
                           'libraries' => 'places',
-                          'sensor' => 'false',
+                          'key' => Yii::$app->params['google_maps_key'],                                                  
                   ));
   echo $this->registerJsFile($gpJsLink);
 

@@ -25,7 +25,7 @@ use common\components\MiscHelpers;
  */
 class MeetingLog extends \yii\db\ActiveRecord
 {
-	const TIMELAPSE = 300; // five minutes
+	const TIMELAPSE = (3*60); // three minutes
 
 	const ACTION_CREATE_MEETING = 0;
 	const ACTION_EDIT_MEETING = 3;
