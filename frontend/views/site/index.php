@@ -9,10 +9,9 @@ $this->title = 'Meeting Planner';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1><?php echo Yii::t('frontend','Scheduling'); ?><br class="rwd-break" /><span class="itemHide">&nbsp;</span><?php echo Yii::t('frontend','Made Easy') ?></h1>                 
+        <h1><?php echo Yii::t('frontend','Scheduling'); ?><br class="rwd-break" /><span class="itemHide">&nbsp;</span><?php echo Yii::t('frontend','Made Easy') ?></h1>
 
       <h3><?= Yii::t('frontend','Want to sign up now?') ?></h3>
-
 
             <p class="lead"><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
 

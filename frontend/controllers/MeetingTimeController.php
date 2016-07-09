@@ -140,7 +140,7 @@ class MeetingTimeController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionChoose($id,$val) {
+    public function actionChoose($id,$val) {      
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
