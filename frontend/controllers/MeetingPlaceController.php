@@ -149,7 +149,7 @@ class MeetingPlaceController extends Controller
       foreach ($mtg->meetingPlaces as $mp) {
         if ($mp->id == intval($val)) {
           $mp->status = MeetingPlace::STATUS_SELECTED;
-          // MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),intval($val));
+          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),intval($val));
         }
         else {
           $mp->status = MeetingPlace::STATUS_SUGGESTED;
