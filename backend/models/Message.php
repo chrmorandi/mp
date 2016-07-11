@@ -146,7 +146,7 @@ class Message extends \yii\db\ActiveRecord
     public function send($id,$limit = 10) {
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
         $msg = Message::findOne($id);
-        $users = $this->findNextGroup($limit);        
+        $users = $this->findNextGroup($limit);
         if (count($users)==0) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {
@@ -201,7 +201,7 @@ class Message extends \yii\db\ActiveRecord
           if (!empty($a['email'])) {
             $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner'])
               ->setTo($a['email'])
-              ->setSubject(Yii::t('backend','Meeting Planner Update: ').$msg->subject)
+              ->setSubject(Yii::t('backend','').$msg->subject)
               ->send();
             MessageLog::add($msg->id,$user_id);
           }
