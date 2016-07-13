@@ -52,5 +52,87 @@ class Fix
     Reminder::deleteAll();
     Fix::fixPreReminders();
   }
+
+  public static function cleanupEmails() {
+    $badEmails=[
+      'test2@gmail.com',
+'1111@gmail.com',
+'qwerty@gmail.com',
+'amjadiqbalkhanniazi@gmail.com',
+'admin@admin.com',
+'rhizalpatra@fellow.lpkia.ac.id',
+'tm@archi.com',
+'test@test.com',
+'web@yahoo.fr',
+'a@a.a',
+'ailaa@aa.com',
+'be@yahoo.fr',
+'vico@gmail.com',
+'nobu@gmail.com',
+'a@gmail.com',
+'ct@gmail.com',
+'sanjaydk@projectdemo.biz',
+'trial@gmail.com',
+'varlog255q@hotmail.com',
+'baah@baah.com',
+'minhvnn1@gmail.com',
+'test@gmail.com',
+'test@mediabite.co.uk',
+'ddd@c.hu',
+'ddd@ymail.com',
+'a.chetan@saisoftex.com',
+'user02@local.com',
+'Imrky4@gmail.com',
+'robomadybu@hotmail.com',
+'mike@mike.mike',
+'abcd@gmail.com',
+'azazaz@azazaza.com',
+'mama@mama.mn',
+'qweqwe@qwe.qwe',
+'testere@wp.pl',
+'kaze@hotmail.com',
+'test@usertest.fr',
+'demodemo@demo.com',
+'qqq@dd.gh',
+'gnfbb@h.vo',
+'admin@admin123.com',
+'testsir@testsir.com',
+'oi.hd@yeah1.vn',
+'loi.hd@yeah1.vn',
+'test@email.com',
+'salom@salom.com',
+'ar@yahoo.com',
+'lex@gmail.com',
+'Tester1234@gmail.com',
+'mantaf@mail.com',
+'aaa@aaa.com',
+'oeui@gmail.com',
+'risitesh.biswal14@yahoo.com',
+'ttt@wp.pl',
+'nnn@nnn.net',
+'nnn2@nnn.net',
+'ana@gmail.com',
+'asdf@yahoo.com',
+'noom@gmail.com',
+'jomon@example.com',
+'asdfasdf@yahoo.com',
+'admin@yahoo.com',
+'abinubli@mail.com',
+'tes@tes.com',
+'asdasdr@asd.com',
+    ];
+    foreach ($badEmails as $e) {
+      $u = User::find()->where(['email'=>$e])->one();
+      if (is_null($u)) {
+        echo 'no action '.$e.'<br />';
+        continue;
+      } else {
+        echo 'deleting '.$e.'<br />';
+        $u->status = User::STATUS_DELETED;
+        $u->update();
+        var_dump(User::checkEmailDelivery($u->id));
+      }
+    }
+  }
 }
 ?>

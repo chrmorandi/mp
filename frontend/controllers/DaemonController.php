@@ -86,6 +86,7 @@ public function actionQuarter() {
     public function actionFix()
     {
       // \frontend\models\Fix::cleanupReminders();
+      \frontend\models\Fix::cleanupEmails();
       echo 'complete';
     }
 }

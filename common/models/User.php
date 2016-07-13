@@ -219,8 +219,13 @@ class User extends ActiveRecord implements IdentityInterface
       }
     }
 
-    public static function checkEmailDelivery($user_id,$sender_id) {
+    public static function checkEmailDelivery($user_id,$sender_id=0) {
       // check if this user_id receives email and if sender_id not blocked
+      // check that account isn't Deleted
+      $u = User::findOne($user_id);
+      if ($u->status == User::STATUS_DELETED) {
+        return false;
+      }
       // check if all email is turned off
       $us = UserSetting::safeGet($user_id);
       if ($us->no_email != UserSetting::EMAIL_OK) {
@@ -285,5 +290,5 @@ class User extends ActiveRecord implements IdentityInterface
           ->send();
     }
 
-    
+
 }
