@@ -120,6 +120,15 @@ class Fix
 'abinubli@mail.com',
 'tes@tes.com',
 'asdasdr@asd.com',
+'something@some.com',
+'ademin@example.com',
+'d@dd.com',
+'robo@gmail.com',
+'toto@titi.com',
+'fesfe@fseff.fes',
+'master@wpthemeslist.com',
+'teste@teste.com',
+'barny182@hotmail.com'
     ];
     foreach ($badEmails as $e) {
       $u = User::find()->where(['email'=>$e])->one();

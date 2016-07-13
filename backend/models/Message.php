@@ -138,6 +138,7 @@ class Message extends \yii\db\ActiveRecord
       //->select('user.id,user.email')
     ->leftJoin('message_log','message_log.user_id=user.id')
     ->where('message_log.id is null')
+    ->andWhere('status!='.User::STATUS_DELETED)
     ->limit($limit)
     ->all();
     return $users;
