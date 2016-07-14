@@ -149,7 +149,7 @@ class Message extends \yii\db\ActiveRecord
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
         $msg = Message::findOne($id);
         $users = $this->findNextGroup($limit);
-        if (count($users)==0) {
+        if (is_null($users)) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {
           $msg->status=Message::STATUS_IN_PROGRESS;

@@ -144,7 +144,12 @@ class Fix
 'endri.azizi.92@gmail.com',
 '123123@gmail.com',
 'myfriend@gmai.com',
-
+'geraldo_1989@hotmail.com',
+'rob.test.999@gmail.com',
+'j@c.com',
+'Agung.andika@mhs.uinjkt.ac.id',
+'W3test@ya.ru',
+'user@ya.ru'
     ];
     foreach ($badEmails as $e) {
       $u = User::find()->where(['email'=>$e])->one();
