@@ -31,13 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
             <span class="button-pad">
               <?php
-              // to do - hide both of these next buttons for meeting past              
-              echo Html::a(Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
+              // to do - hide both of these next buttons for meeting past
+              echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
             'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
               ?>
             </span>
             <span class="button-pad">
-              <?php echo Html::a('', ['cancel', 'id' => $model->id],
+              <?php echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
              ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
              'title'=>Yii::t('frontend','Cancel'),
              'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
