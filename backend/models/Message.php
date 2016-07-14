@@ -179,6 +179,7 @@ class Message extends \yii\db\ActiveRecord
       // ensure there is an auth key for the recipient user
       $user_id = $u->id;
       if (empty($u->auth_key) || empty($u->email)) {
+        echo 'something empty';
         return false;
       }
       // prepare data for the message
