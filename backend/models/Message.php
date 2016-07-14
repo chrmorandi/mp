@@ -134,6 +134,7 @@ class Message extends \yii\db\ActiveRecord
 
     public function findNextGroup($limit = 10) {
       // find the next group of users we haven't sent this message to
+      // to do - problem with left join with deleted users and limits
       $users = User::find()
       //->select('user.id,user.email')
     ->leftJoin('message_log','message_log.user_id=user.id')

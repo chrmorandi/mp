@@ -135,6 +135,12 @@ class Fix
 'jm@gmail.com',
 'john-panin@qip.ru',
 'loslos@loslos.com',
+'ghfhf@jhgjgjk.com',
+'lol@lol.com',
+'tester1@gmail.com',
+'g0952180828@gmail.com',
+'testim@testim.com',
+'mnml.name@gmail.com'
     ];
     foreach ($badEmails as $e) {
       $u = User::find()->where(['email'=>$e])->one();
