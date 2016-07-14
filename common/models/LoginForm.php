@@ -74,6 +74,10 @@ class LoginForm extends Model
                 // try login with email
                 $this->_user = User::findByEmail($this->username);
             }
+            // block deleted accounts from logging in
+            if ($this->_user!==false && !is_null($this->_user) && $this->_user->status == User::STATUS_DELETED) {
+              $this->_user= false;
+            }
         }
         return $this->_user;
     }

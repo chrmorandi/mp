@@ -34,6 +34,7 @@ class UserSetting extends \yii\db\ActiveRecord
 {
     const SETTING_NO = 0;
     const SETTING_OFF = 0;
+    const SETTING_ON = 1; // for checkbox on
     const SETTING_YES = 10;
     const SETTING_24_HOUR = 24;
     const SETTING_48_HOUR = 48;
@@ -136,6 +137,11 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->reminder_hours = 48;
         $us->no_newsletter = self::SETTING_NO;
         $us->no_updates = self::SETTING_NO;
+        $us->participant_add_place = self::SETTING_ON;
+        $us->participant_add_date_time = self::SETTING_ON;
+        $us->participant_choose_place = self::SETTING_OFF;
+        $us->participant_choose_date_time = self::SETTING_OFF;
+        $us->participant_finalize = self::SETTING_OFF;
         $us->save();
       }
       return $us->id;

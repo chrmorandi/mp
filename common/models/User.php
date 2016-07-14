@@ -100,6 +100,16 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
+    public static function findByEmail($email) {
+      $u = static::findOne(['email'=>$email]);
+      if (is_null($u)) {
+        // user doesn't exist
+        return false;
+      } else {
+        return $u;
+      }
+    }
+    
     /**
      * Finds user by password reset token
      *
@@ -249,16 +259,6 @@ class User extends ActiveRecord implements IdentityInterface
       \frontend\models\Reminder::initialize($user_id);
     }
 
-    public static function findByEmail($email) {
-      $u = static::findOne(['email'=>$email]);
-      if (is_null($u)) {
-        // user doesn't exist
-        return false;
-      } else {
-        return $u;
-      }
-    }
-
     public static function lookupStatus($status) {
       switch ($status) {
         case User::STATUS_ACTIVE:
@@ -280,15 +280,15 @@ class User extends ActiveRecord implements IdentityInterface
     public static function sendVerifyEmail($user_id,$meeting_id) {
       // to do - add text version of verify email
       // \Yii::$app->mailer->htmlLayout = '/common/mail/layouts/oxygen_html';
-      $u = User::findOne($user_id);
-      $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key);
-      \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);
-      return \Yii::$app->mailer->compose('verification-html', ['user' => $u,'verifyLink'=>$verifyLink])
-          ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' Assistant'])
-          ->setTo($u->email)
-          ->setSubject('Verify Your Email Address for ' . \Yii::$app->name)
-          ->send();
+      if (User::checkEmailDelivery($user_id)) {
+          $u = User::findOne($user_id);
+          $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key);
+          \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);
+          return \Yii::$app->mailer->compose('verification-html', ['user' => $u,'verifyLink'=>$verifyLink])
+              ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' Assistant'])
+              ->setTo($u->email)
+              ->setSubject('Verify Your Email Address for ' . \Yii::$app->name)
+              ->send();
+      }
     }
-
-
 }
