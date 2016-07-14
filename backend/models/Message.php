@@ -154,21 +154,18 @@ class Message extends \yii\db\ActiveRecord
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
         $msg = Message::findOne($id);
         $users = $this->findNextGroup($limit);
-        /*echo $msg->status;
+        echo $msg->status;
         var_dump($users);
-        exit;*/
         if (is_null($users)) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {
           $msg->status=Message::STATUS_IN_PROGRESS;
           foreach ($users as $u) {
-            if ($u->email=='') {
-              continue;
-            }
             $this->sendOne($msg,$u);
           }
         }
         $msg->update();
+        exit;
       } else {
         echo 'not admin';exit;
       }
@@ -178,7 +175,7 @@ class Message extends \yii\db\ActiveRecord
     public function sendOne($msg,$u) {
       // ensure there is an auth key for the recipient user
       $user_id = $u->id;
-      if (empty($u->auth_key)) {
+      if (empty($u->auth_key) or empty($u->email)) {
         return false;
       }
       // prepare data for the message
