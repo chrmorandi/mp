@@ -149,7 +149,9 @@ class Fix
 'j@c.com',
 'Agung.andika@mhs.uinjkt.ac.id',
 'W3test@ya.ru',
-'user@ya.ru'
+'user@ya.ru',
+'ed@ed.fl',
+'ed@ed.es',
     ];
     foreach ($badEmails as $e) {
       $u = User::find()->where(['email'=>$e])->one();

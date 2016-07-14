@@ -33,7 +33,6 @@ class Message extends \yii\db\ActiveRecord
   const STATUS_ALL_SENT = 30;
   const STATUS_TRASH = 50;
 
-
   const RESPONSE_NO = 0;
   const RESPONSE_YES = 10;
   const RESPONSE_NO_UPDATES = 20;
@@ -97,14 +96,20 @@ class Message extends \yii\db\ActiveRecord
 
     public function displayStatus() {
       switch ($this->status) {
+        case Message::STATUS_IN_PROGRESS:
+          return 'In Progress';
+          break;
+        case Message::STATUS_ALL_SENT:
+          return 'All Sent';
+          break;
         case Message::STATUS_SENT:
-          return 'sent';
+          return 'Sent';
           break;
         case Message::STATUS_TRASH:
-          return 'deleted';
+          return 'Deleted';
           break;
         default:
-          return 'draft';
+          return 'Draft';
           break;
       }
     }
@@ -149,6 +154,9 @@ class Message extends \yii\db\ActiveRecord
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
         $msg = Message::findOne($id);
         $users = $this->findNextGroup($limit);
+        echo $msg->status;
+        var_dump($users);
+        exit;
         if (is_null($users)) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {

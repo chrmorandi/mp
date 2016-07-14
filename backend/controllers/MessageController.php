@@ -155,7 +155,7 @@ class MessageController extends Controller
     {
       // sends out message to all users not blocking updates and all email
       $m = new Message();
-      $m->send($id,25);
+      $m->send($id,25);      
         Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
         return $this->redirect(['index']);
     }
