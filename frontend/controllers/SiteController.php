@@ -34,7 +34,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup','error','authfailure'],
+                        'actions' => ['signup','error','authfailure','offline'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -82,8 +82,11 @@ class SiteController extends Controller
         // user is logged in
         $this->redirect('meeting/index');
       }
+    }
 
-
+    public function actionOffline()
+    {
+      return $this->render('offline');      
     }
 
     public function actionLogin()

@@ -5,6 +5,7 @@ return [
     // 'ar','de','es','it','iw','ja','yi','zh-CN'
     'language' => 'en', // english
     // 'homeUrl' => '/mp',
+    //'catchAll' => ['site/offline'],
     'components' => [
         'urlManager' => [
                   'class' => 'yii\web\UrlManager',

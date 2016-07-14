@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 </div> <!-- end first col -->
 <div class="col-md-6">
-  <?
+  <?php
   if ($gps!==false) {
     $coord = new LatLng(['lat' => $gps->lat, 'lng' => $gps->lng]);
     $map = new Map([
