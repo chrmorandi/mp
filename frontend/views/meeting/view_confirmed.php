@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </span>
             <span class="button-pad">
               <?php echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
-             ['class' => 'btn btn-primary glyphicon glyphicon-remove-circle btn-danger',
+             ['class' => 'btn btn-primary btn-danger',
              'title'=>Yii::t('frontend','Cancel'),
              'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
              ]) ?>
