@@ -66,7 +66,7 @@ use \kartik\switchinput\SwitchInput;
             'id'=>'mtc-'.$mtc->id,
             'value' => $value,
             'disabled' => !$isOwner,
-            'pluginOptions' => ['size' => 'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],            
             ]);
       }
     }
@@ -91,7 +91,7 @@ use \kartik\switchinput\SwitchInput;
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
-            'pluginOptions' => ['size'=>'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
         ]);
       }
     }

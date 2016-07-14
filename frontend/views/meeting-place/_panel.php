@@ -179,7 +179,7 @@ $this->registerJs($script, $position);
           'id'=>'mpc-'.$mpc->id,
           'value' => $value,
           'disabled' => !$isOwner,
-          'pluginOptions' => ['size' => 'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger',],
+          'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
           ]);
       }
     }
@@ -204,9 +204,7 @@ $this->registerJs($script, $position);
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
-            'pluginOptions' => ['size' => 'mini','onText' => 'acceptable','offText'=>'reject','onColor' => 'success','offColor' => 'danger'],
-            // <i class="glyphicon glyphicon-ok"></i>
-            // <i class="glyphicon glyphicon-remove"></i>
+            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
         ]);
       }
     }
