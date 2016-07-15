@@ -4,8 +4,6 @@ use yii;
 use yii\helpers\Url;
 use common\models\User;
 
-//use \yii\helpers\FormatConverter;
-
 class MiscHelpers  {
 
   public static function buildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {
