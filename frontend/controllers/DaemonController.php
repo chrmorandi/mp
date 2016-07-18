@@ -101,4 +101,8 @@ public function actionQuarter() {
           ->send();
       echo 'complete';
     }
+
+    public function actionDiagnostics() {
+      echo 'PHP Version: '.phpversion();
+    }
 }
