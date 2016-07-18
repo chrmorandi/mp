@@ -21,8 +21,8 @@ class Data extends Model
   public static function recalc() {
     UserData::reset();
     HistoricalData::reset();
-    $after = mktime(0, 0, 0, 2, 15, 2016);
-    $since = mktime(0, 0, 0, 4, 1, 2016);
+    $after = mktime(0, 0, 0, 2, 19, 2015);
+    $since = mktime(0, 0, 0, 2, 20, 2015);
     while ($since < time()) {
       UserData::calculate($since,$after);
       HistoricalData::calculate($since,$after);
@@ -30,7 +30,7 @@ class Data extends Model
       $since+=24*60*60;
     }
   }
-  
+
   public static function getRealTimeData() {
     $data = new \stdClass();
 
