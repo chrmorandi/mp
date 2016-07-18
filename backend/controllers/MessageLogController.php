@@ -23,7 +23,6 @@ class MessageLogController extends Controller
          return [
            'access' => [
                'class' => AccessControl::className(),
-               //'only' => ['index'],
                'rules' => [
                    [
                        'allow' => true,
@@ -42,31 +41,14 @@ class MessageLogController extends Controller
          ];
      }
 
-    /**
-     * Lists all MessageLog models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new MessageLogSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single MessageLog model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+			$searchModel = new MessageLogSearch();
+      $dataProvider = $searchModel->search(['MessageLogSearch'=>['message_id'=>$id]]);
+      return $this->render('index', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+      ]);
     }
 
     /**

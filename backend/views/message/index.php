@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_at',
 
             //['class' => 'yii\grid\ActionColumn'],
-            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {next10} {next25} {trash}',
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {next10} {next25} {trash} {view}',
             'headerOptions' => ['class' => 'itemHide'],
             'contentOptions' => ['class' => 'itemHide'],
             'buttons'=>[
@@ -86,6 +86,12 @@ $this->params['breadcrumbs'][] = $this->title;
                   return Html::a('<span class="glyphicon glyphicon-filter"></span>', $url, [
                           'title' => Yii::t('frontend', 'send to next 25'),
                           'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to the next 25 people?'),
+                          'class' => 'icon-pad admin-pad',
+                  ]);
+                },
+                'view' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', Url::to(['message-log/view', 'id' => $model->id]), [
+                          'title' => Yii::t('frontend', 'view message log'),
                           'class' => 'icon-pad admin-pad',
                   ]);
                 },

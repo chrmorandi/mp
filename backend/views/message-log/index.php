@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\components\MiscHelpers;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MessageLogSearch */
@@ -19,9 +20,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'message_id',
+            //'message_id',
             'user_id',
-            'response',
+            [
+              'label'=>'Actor',
+                'attribute' => 'user_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                        return '<div>'.MiscHelpers::getDisplayName($model->user_id).'</div>';
+                    },
+            ],
+            [
+              'label'=>'Response',
+                'attribute' => 'response',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return '<div>'.$model->displayResponse().'</div>';
+                    },
+            ],
             // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

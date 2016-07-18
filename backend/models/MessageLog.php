@@ -97,4 +97,22 @@ class MessageLog extends \yii\db\ActiveRecord
       $ml->update();
     }
 
+    public function displayResponse() {
+      switch ($this->response) {
+        case Message::RESPONSE_NO:
+          return 'None';
+          break;
+        case Message::RESPONSE_YES:
+          return 'Opened';
+          break;
+        case Message::RESPONSE_NO_UPDATES:
+          return 'No updates';
+          break;
+        default:
+          return 'n/a';
+          break;
+      }
+    }
+
+
 }
