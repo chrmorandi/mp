@@ -19,6 +19,7 @@ class Data extends Model
 {
 
   public static function recalc() {
+    set_time_limit(0);
     UserData::reset();
     HistoricalData::reset();
     $after = mktime(0, 0, 0, 2, 19, 2015);

@@ -52,7 +52,7 @@ class DataController extends Controller
         ];
     }
 
-    public function actionRecalc() {
+    public function actionRecalc() {      
         Data::recalc();
     }
 
