@@ -22,12 +22,12 @@ class DaemonController extends Controller
         return [
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
-              'only' => ['index','hourly','overnight','recalc'],
+              'only' => ['index','hourly','overnight','recalc','firewall'],
               'rules' => [
                 // allow authenticated users
                  [
                      'allow' => true,
-                     'actions'=>['index','fix','overnight','recalc'],
+                     'actions'=>['index','fix','overnight','recalc','firewall'],
                      'roles' => ['@'],
                  ],
                 [
@@ -87,6 +87,18 @@ public function actionQuarter() {
     {
       // \frontend\models\Fix::cleanupReminders();
       \frontend\models\Fix::cleanupEmails();
+      echo 'complete';
+    }
+
+    public function actionFirewall()
+    {
+      // Test mailgun interface for firewall usage
+      $test = Yii::$app->mailer->compose()
+          ->setTo(Yii::$app->params['adminEmail'])
+          ->setFrom(['support@meetingplanner.io' => 'Meeting Planner'])
+          ->setSubject('Firewall Test of Email')
+          ->setTextBody('If the firewall for email access is working, you will receive this.')
+          ->send();
       echo 'complete';
     }
 }
