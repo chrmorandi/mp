@@ -26,7 +26,7 @@ class MeetingTime extends \yii\db\ActiveRecord
 {
   const STATUS_SUGGESTED =0;
   const STATUS_SELECTED =10; // the chosen date time
-
+  public $dow;
     /**
      * @inheritdoc
      */
@@ -200,5 +200,35 @@ class MeetingTime extends \yii\db\ActiveRecord
       }
       MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,$user_id,$meeting_time_id);
       return true;
+    }
+
+    public static function calcPopular() {
+      //$r = MeetingTime::find()->addSelect('DAYOFWEEK(start) as dow,COUNT(DAYOFWEEK(start)) AS usageCount')->groupBy('dow')->all();
+      $r = MeetingTime::find()->all();
+      //$dow = [];
+      $localList = [];
+      foreach($r as $p) {
+        //$dow[]= jddayofweek($p->start);
+        echo $p->dow;
+        echo '<br/>';
+        $localList[]=$p->dow;
+      }
+      print_r(array_count_values($localList));
+    }
+
+    public static function calcPopularByUser($user_id) {
+      //$r = MeetingTime::find()->addSelect('DAYOFWEEK(start) as dow,COUNT(DAYOFWEEK(start)) AS usageCount')->groupBy('dow')->all();
+      $r = MeetingTime::find()->where(['suggested_by'=>$user_id])->all();
+      $dow = [];
+      foreach($r as $p) {
+        $dow[]= jddayofweek($p->start);
+      }
+      print_r(array_count_values($dow));
+    }
+
+    public function afterFind()
+    {
+          $this->dow = jddayofweek($this->start);
+          return parent::afterFind();
     }
 }

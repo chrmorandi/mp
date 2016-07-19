@@ -21,9 +21,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Default panel contents -->
     <div class="panel-body">
       <div class="row">
+        <?php
+          if ( $model->status >= $model::STATUS_COMPLETED) {
+          ?>
+          <div class="col-lg-12">
+          <?php
+            switch ($model->status) {
+              case $model::STATUS_COMPLETED:
+                echo Yii::t('frontend',"This meeting has past.");
+              break;
+              case $model::STATUS_CANCELED:
+                echo Yii::t('frontend',"This meeting was canceled.");
+              break;
+              case $model::STATUS_TRASH:
+                echo Yii::t('frontend',"This meeting has been deleted.");
+              break;
+            }
+          ?>
+        </div>
+          <?php
+        } else {
+           ?>
         <div class="col-lg-6"></div>
         <div class="col-lg-6" >
           <div style="float:right;">
+
             <!--  to do - check meeting settings if participant can send/finalize -->
             <?php
             /*echo Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule', 'id' => $model->id], ['id'=>'actionReschedule','class' => 'btn btn-default',
@@ -32,19 +54,26 @@ $this->params['breadcrumbs'][] = $this->title;
             <span class="button-pad">
               <?php
               // to do - hide both of these next buttons for meeting past
-              echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
-            'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+              if ( $model->status < $model::STATUS_COMPLETED) {
+                echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
+              'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+              }
               ?>
             </span>
             <span class="button-pad">
-              <?php echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
-             ['class' => 'btn btn-primary btn-danger',
-             'title'=>Yii::t('frontend','Cancel'),
-             'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
-             ]) ?>
+              <?php
+              if ( $model->status < $model::STATUS_COMPLETED) {
+                echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
+               ['class' => 'btn btn-primary btn-danger',
+               'title'=>Yii::t('frontend','Cancel'),
+               'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
+               ]) ;
+                }
+           ?>
             </span>
           </div>
         </div>
+        <?php } ?>
       </div> <!-- end row -->
     </div> <!-- end head -->
   </div>

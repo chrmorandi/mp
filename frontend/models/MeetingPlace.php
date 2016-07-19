@@ -32,7 +32,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     public $website;
     public $vicinity;
     public $full_address;
-    public $place_name;
+    public $place_name;    
 
     /**
      * @inheritdoc

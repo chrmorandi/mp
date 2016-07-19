@@ -19,6 +19,8 @@ class Data extends Model
 {
 
   public static function recalc() {
+    return;
+    /// currently turned off in production
     set_time_limit(0);
     UserData::reset();
     HistoricalData::reset();

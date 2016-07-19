@@ -99,10 +99,12 @@ public function actionQuarter() {
           ->setSubject('Firewall Test of Email')
           ->setTextBody('If the firewall for email access is working, you will receive this.')
           ->send();
-      echo 'complete';
+      //echo 'complete';
     }
 
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
+      //\frontend\models\Place::getMeetingPlaceCountByUser(1);
+      \frontend\models\MeetingTime::calcPopular();
     }
 }

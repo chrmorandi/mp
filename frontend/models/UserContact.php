@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $info
  * @property string $details
  * @property integer $status
+ * @property integer $accept_sms
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -38,6 +39,9 @@ class UserContact extends \yii\db\ActiveRecord
 
 	const STATUS_ACTIVE = 0;
 	const STATUS_INACTIVE = 10;
+
+  const SETTING_NO = 0;
+  const SETTING_YES = 10;
 
     /**
      * @inheritdoc
@@ -67,7 +71,7 @@ class UserContact extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'info' ], 'required'],
-            [['user_id', 'contact_type', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'contact_type', 'status', 'accept_sms','created_at', 'updated_at'], 'integer'],
             [['details'], 'string'],
             [['info'], 'string', 'max' => 255]
         ];
@@ -85,6 +89,7 @@ class UserContact extends \yii\db\ActiveRecord
             'info' => Yii::t('frontend', 'Info'),
             'details' => Yii::t('frontend', 'Details'),
             'status' => Yii::t('frontend', 'Status'),
+            'accept_sms' => Yii::t('frontend', 'Receive texts here?'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];

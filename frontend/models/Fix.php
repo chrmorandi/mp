@@ -55,7 +55,8 @@ class Fix
 
   public static function cleanupEmails() {
     $badEmails=[
-      'test2@gmail.com',
+      '',
+'test2@gmail.com',
 '1111@gmail.com',
 'qwerty@gmail.com',
 'amjadiqbalkhanniazi@gmail.com',
@@ -152,7 +153,6 @@ class Fix
 'user@ya.ru',
 'ed@ed.fl',
 'ed@ed.es',
-''
     ];
     foreach ($badEmails as $e) {
       $u = User::find()->where(['email'=>$e])->one();

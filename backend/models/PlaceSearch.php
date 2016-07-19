@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use frontend\models\Place;
 
+
 /**
  * PlaceSearch represents the model behind the search form about `frontend\models\Place`.
  */

@@ -42,6 +42,7 @@ class Place extends \yii\db\ActiveRecord
     public $location;
     public $lat;
     public $lng;
+    public $usageCount;
 
     /**
      * @inheritdoc
@@ -204,7 +205,7 @@ class Place extends \yii\db\ActiveRecord
 
      public function addLocationFromAddress($model,$full_address='') {
        // finds gps coordinates from full_address field if available
-       if ($full_address=='') return false;       
+       if ($full_address=='') return false;
        $gc = new GeocodingClient();
        try {
          $result = $gc->lookup(array('address'=>$full_address,'components'=>1));
@@ -305,4 +306,23 @@ class Place extends \yii\db\ActiveRecord
         return explode(' ', $string);
     }
 
+    public static function getMeetingPlaceCount() {
+      $r = Place::find()->joinWith('meetingPlaces')->addSelect('name,COUNT(place_id) AS usageCount')->having('usageCount>0')->groupBy('place.id')->all();
+      foreach($r as $p) {
+        echo $p->name.': '.$p->usageCount;
+        echo '<br />';
+      }
+    }
+
+    public static function getMeetingPlaceCountByUser($user_id) {
+      $r = Place::find()->joinWith('meetingPlaces')->addSelect('name,COUNT(place_id) AS usageCount')->andWhere(['suggested_by'=>$user_id])->having('usageCount>0')->groupBy('place.id')->all();
+      foreach($r as $p) {
+        echo $p->name.': '.$p->usageCount;
+        echo '<br />';
+      }
+    }
+
+    public function getUsageCount() {
+      Place::find()->joinWith('meetingPlaces')->addSelect('name,COUNT(place_id) AS usageCount')->having('usageCount>0')->groupBy('place.id')->all();
+    }
 }

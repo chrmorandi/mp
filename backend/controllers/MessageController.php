@@ -142,8 +142,7 @@ class MessageController extends Controller
     }
 
     public function actionNext10($id)
-    {
-      // to do - problem next 10 isn't sending anything on production
+    {            
       // sends out message to all users not blocking updates and all email
       $m = new Message();
       $m->send($id,10);
@@ -155,7 +154,7 @@ class MessageController extends Controller
     {
       // sends out message to all users not blocking updates and all email
       $m = new Message();
-      $m->send($id,25);      
+      $m->send($id,25);
         Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
         return $this->redirect(['index']);
     }

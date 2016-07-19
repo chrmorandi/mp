@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a85a67473a321ae4156d7406f63a98f6",
-    "content-hash": "05a21b77583fe85562de0f7788484359",
+    "hash": "a49a3a241a810fb65ac7eb038a829feb",
+    "content-hash": "643b60ed29c76e8e9f83945759bac649",
     "packages": [
         {
             "name": "2amigos/yii2-date-time-picker-widget",
@@ -1933,6 +1933,53 @@
             "time": "2016-02-06 00:49:24"
         },
         {
+            "name": "yiisoft/yii2-debug",
+            "version": "2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-debug.git",
+                "reference": "55ed2e853ed8050a34415f63a4da84f88a56f895"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/55ed2e853ed8050a34415f63a4da84f88a56f895",
+                "reference": "55ed2e853ed8050a34415f63a4da84f88a56f895",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": ">=2.0.4",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\debug\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Qiang Xue",
+                    "email": "qiang.xue@gmail.com"
+                }
+            ],
+            "description": "The debugger extension for the Yii framework",
+            "keywords": [
+                "debug",
+                "debugger",
+                "yii2"
+            ],
+            "time": "2016-03-17 03:50:19"
+        },
+        {
             "name": "yiisoft/yii2-imagine",
             "version": "2.0.3",
             "source": {
@@ -2239,53 +2286,6 @@
                 "yii2"
             ],
             "time": "2016-03-17 03:41:26"
-        },
-        {
-            "name": "yiisoft/yii2-debug",
-            "version": "2.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "55ed2e853ed8050a34415f63a4da84f88a56f895"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/55ed2e853ed8050a34415f63a4da84f88a56f895",
-                "reference": "55ed2e853ed8050a34415f63a4da84f88a56f895",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": ">=2.0.4",
-                "yiisoft/yii2-bootstrap": "*"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "yii\\debug\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Qiang Xue",
-                    "email": "qiang.xue@gmail.com"
-                }
-            ],
-            "description": "The debugger extension for the Yii framework",
-            "keywords": [
-                "debug",
-                "debugger",
-                "yii2"
-            ],
-            "time": "2016-03-17 03:50:19"
         },
         {
             "name": "yiisoft/yii2-faker",
