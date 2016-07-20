@@ -86,7 +86,7 @@ class SiteController extends Controller
 
     public function actionOffline()
     {
-      return $this->render('offline');      
+      return $this->render('offline');
     }
 
     public function actionLogin()
@@ -297,9 +297,8 @@ class SiteController extends Controller
                   case 'signup':
                     // sign up a new account using oauth
                     // look for username that exists already and differentiate it
-                    if (isset($username) && User::find()->where(['username' => $username])->exists()) {
-                      // important - to do - build a function to verify unique username
-                      $username.=Yii::$app->security->generateRandomString(6); // append to duplicate username
+                    if (isset($username) && User::find()->where(['username' => $username])->exists()) {                      
+                      $username = User::generateUniqueUsername($username);
                     }
                     $password = Yii::$app->security->generateRandomString(12);
                       $user = new User([

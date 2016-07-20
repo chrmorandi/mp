@@ -72,6 +72,7 @@ class UserProfileController extends Controller
            $model->filename = $image->name;
            $ext = end((explode(".", $image->name)));
            // generate a unique file name to prevent duplicate filenames
+           // to do - verify this file does not exist already
            $model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
            if($model->save()){
              $path = Yii::$app->params['uploadPath'] . $model->avatar;

@@ -93,6 +93,10 @@ class ReminderController extends Controller
         $model->duration = 0;
         if ($model->load(Yii::$app->request->post())) {
           $model->duration = $model->setDuration($model->duration_friendly,$model->unit);
+          // note - validation for integer isn't working here
+          if ($model->reminder_type =='') {
+            $model->reminder_type = Reminder::TYPE_EMAIL;
+          }
           if ($model->validate()) {
             $model->save();
             Reminder::processNewReminder($model->id);
@@ -117,11 +121,18 @@ class ReminderController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+          $model->duration = $model->setDuration($model->duration_friendly,$model->unit);
+          if ($model->validate()) {
+              $model->save();
+              $model->updateReminder($id);
+              Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your reminder has been updated for all current and future meetings.'));
+            } else {
+              // to do set flash
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','There was a problem creating your reminder.'));
+            }
+            return $this->redirect(['/reminder/index']);
           // update all the meeting reminders for this reminder
-          $model->updateReminder($id);
-          Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your reminder has been updated for all current and future meetings.'));
-          return $this->redirect(['/reminder/index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

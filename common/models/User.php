@@ -109,7 +109,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $u;
       }
     }
-    
+
     /**
      * Finds user by password reset token
      *
@@ -290,5 +290,21 @@ class User extends ActiveRecord implements IdentityInterface
               ->setSubject('Verify Your Email Address for ' . \Yii::$app->name)
               ->send();
       }
+    }
+
+    public static function generateUniqueUsername($prefix='') {
+      $is_unique = false;
+      $cnt = 0;
+      while (!$is_unique && $cnt<15) {
+        $username=$prefix.Yii::$app->security->generateRandomString(6);
+        $u = User::find()->where(['username'=>$username])->one();
+        if (is_null($u)) {
+          return $username;
+        } else {
+          $cnt+=1;
+        }
+      }
+      echo 'Sorry, we were unable to generate a unique username for you.';
+      exit();      
     }
 }

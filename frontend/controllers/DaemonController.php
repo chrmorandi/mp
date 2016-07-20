@@ -106,8 +106,9 @@ public function actionQuarter() {
       echo 'PHP Version: '.phpversion();
       //\frontend\models\Place::getMeetingPlaceCountByUser(1);
       //\frontend\models\MeetingTime::calcPopular();
-      $user_id = 1;
+      /*$user_id = 1;
       $s = new \common\models\Sms();
       $s->transmit($user_id,'Fourth transmit test from MP codebase!');
+      */      
       }
 }

@@ -180,7 +180,7 @@ class Reminder extends \yii\db\ActiveRecord
           $cnt_sec = 24*3600;
         break;
       }
-      return $cnt_sec;
+      return $cnt_sec*$duration_friendly;
     }
 
     public static function processNewReminder($reminder_id) {

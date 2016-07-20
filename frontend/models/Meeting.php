@@ -1105,7 +1105,7 @@ class Meeting extends \yii\db\ActiveRecord
 
     public static function countUserMeetings($user_id) {
       // number of meetings owned or participated in
-      return Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->count();
+      return Meeting::find()->joinWith('participants')->where(['owner_id'=>$user_id])->orWhere(['participant_id'=>$user_id])->count();
     }
 
     public static function defaultSubjectList() {
