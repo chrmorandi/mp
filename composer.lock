@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a49a3a241a810fb65ac7eb038a829feb",
-    "content-hash": "643b60ed29c76e8e9f83945759bac649",
+    "hash": "3ca8505fadc1602324ed7a2ee194fd6e",
+    "content-hash": "fc7bb54a785a67f18fdd0b1c62253310",
     "packages": [
         {
             "name": "2amigos/yii2-date-time-picker-widget",
@@ -560,16 +560,16 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.7.0",
+            "version": "v4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40"
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/ae1828d955112356f7677c465f94f7deb7d27a40",
-                "reference": "ae1828d955112356f7677c465f94f7deb7d27a40",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
                 "shasum": ""
             },
             "require": {
@@ -600,7 +600,52 @@
             "keywords": [
                 "html"
             ],
-            "time": "2015-08-05 01:03:42"
+            "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "filipajdacic/yii2-twilio",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filipajdacic/yii2-twilio.git",
+                "reference": "7d547a0a47c9864f2e8b5fb5f43748fbd24fc4b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filipajdacic/yii2-twilio/zipball/7d547a0a47c9864f2e8b5fb5f43748fbd24fc4b1",
+                "reference": "7d547a0a47c9864f2e8b5fb5f43748fbd24fc4b1",
+                "shasum": ""
+            },
+            "require": {
+                "twilio/sdk": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "filipajdacic\\yiitwilio\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Filip Ajdacic",
+                    "email": "ajdasoft@gmail.com"
+                }
+            ],
+            "description": "This component is YII2 wrapper for Twilio PHP module",
+            "keywords": [
+                "extension",
+                "sms",
+                "twillio",
+                "video",
+                "voice",
+                "yii2"
+            ],
+            "time": "2016-06-26 17:28:47"
         },
         {
             "name": "google/apiclient",
@@ -1694,6 +1739,56 @@
             "time": "2015-12-08 16:14:14"
         },
         {
+            "name": "twilio/sdk",
+            "version": "4.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "292fef46097bcc935007a117ddce9acc40a1a8c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/292fef46097bcc935007a117ddce9acc40a1a8c1",
+                "reference": "292fef46097bcc935007a117ddce9acc40a1a8c1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "mockery/mockery": ">=0.7.2",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Services/Twilio.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Burke",
+                    "email": "kevin@twilio.com"
+                },
+                {
+                    "name": "Kyle Conroy",
+                    "email": "kyle+pear@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2016-01-29 00:19:22"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "2.0.9",
             "source": {
@@ -2398,7 +2493,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "google/apiclient": 10
+        "google/apiclient": 10,
+        "filipajdacic/yii2-twilio": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

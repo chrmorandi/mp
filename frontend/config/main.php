@@ -37,14 +37,18 @@ return [
                       'class' => 'yii\authclient\clients\Twitter',
                       'consumerKey' => $config['oauth_twitter_key'],
                       'consumerSecret' => $config['oauth_twitter_secret'],
-                              ],
-                              */
+                              ],*/
               ],
           ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'enableSession' => true,
+        ],
+        'Yii2Twilio' => [
+          'class' => 'filipajdacic\yiitwilio\YiiTwilio',
+          'account_sid' => $config['twilio_sid'],
+          'auth_key' => $config['twilio_token'],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

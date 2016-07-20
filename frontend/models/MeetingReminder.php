@@ -208,6 +208,12 @@ class MeetingReminder extends \yii\db\ActiveRecord
             $message->setTo($a['email'])
                 ->setSubject(Yii::t('frontend','Meeting Reminder: ').$mtg->subject)
                 ->send();
+
+            // to do - send same day reminders as SMS
+            // if meeting is today (same day)
+            // construct reminder text with link
+            // send SMS to user_id
+
           }
        }
       $mr->status=MeetingReminder::STATUS_COMPLETE;

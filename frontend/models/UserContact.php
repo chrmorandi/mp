@@ -175,4 +175,9 @@ class UserContact extends \yii\db\ActiveRecord
     }
     return $str;
   }
+
+  public function clearOtherNumbers() {
+    // to do - turn off sms for other numbers
+    //https://app.asana.com/0/138933783917168/157333263929755
+  }
 }

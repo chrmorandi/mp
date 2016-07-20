@@ -930,6 +930,11 @@ class Meeting extends \yii\db\ActiveRecord
                $message->setTo($a['email'])
                    ->setSubject(Yii::t('frontend','Meeting Update: '.$sender_name.' is Running Late'))
                    ->send();
+
+               // to do - send running late notice
+               // look up user_contact with sms for $user_id
+               // send SMS with running late notice
+
              }
           }
         }

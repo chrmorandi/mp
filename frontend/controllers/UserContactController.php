@@ -85,6 +85,7 @@ class UserContactController extends Controller
             // validate the form against model rules
             if ($model->validate()) {
                 // all inputs are valid
+                // to do - if saving with SMS on, then run clear others
                 $model->save();
                 return $this->redirect(['index']);
             } else {
