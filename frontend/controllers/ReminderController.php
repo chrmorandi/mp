@@ -29,7 +29,7 @@ class ReminderController extends Controller
                  ],
              ],
            'access' => [
-                         'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
+                         'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
                          'only' => ['index','view','create','update','delete'],
                          'rules' => [
                            // allow authenticated users
