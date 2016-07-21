@@ -15,11 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('frontend', Yii::t('frontend','Add a Friend'), [
-    'modelClass' => 'Friend',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -54,5 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
 			      ],
         ],
     ]); ?>
+    <p>
+        <?= Html::a(Yii::t('frontend', Yii::t('frontend','Add a Friend'), [
+    'modelClass' => 'Friend',
+    ]), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
 
 </div>

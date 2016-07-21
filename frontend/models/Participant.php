@@ -28,6 +28,8 @@ class Participant extends \yii\db\ActiveRecord
     const STATUS_DEFAULT = 0;
     const STATUS_DECLINED = 100;
 
+    const MEETING_LIMIT = 12;
+
     public $email;
     public $username;
     public $password;
@@ -183,6 +185,17 @@ class Participant extends \yii\db\ActiveRecord
             }
             $this->addError($attribute, $str);
           }
+    }
+
+    public static function withinLimit($meeting_id) {
+      // how many meetingplaces on this meeting
+      $cnt = Participant::find()
+        ->where(['meeting_id'=>$meeting_id])
+        ->count();        
+      if ($cnt >= Participant::MEETING_LIMIT ) {
+        return false;
+      }
+      return true;
     }
 
 }

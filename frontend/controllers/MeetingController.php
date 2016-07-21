@@ -70,18 +70,30 @@ class MeetingController extends Controller
       $planningProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 7,
+              ],
         ]);
       $upcomingProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_CONFIRMED]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 7,
+              ],
         ]);
         $pastProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_COMPLETED]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 7,
+              ],
         ]);
         $canceledProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_CANCELED]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 7,
+              ],
         ]);
         Meeting::displayProfileHints();
         return $this->render('index', [

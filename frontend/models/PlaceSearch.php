@@ -18,7 +18,7 @@ class PlaceSearch extends Place
     public function rules()
     {
         return [
-            [['created_by'], 'required'],        
+            [['created_by'], 'required'],
             [['id', 'place_type', 'status', 'created_by', 'created_at', 'updated_at'], 'integer'],
             [['name', 'google_place_id', 'slug', 'website', 'full_address', 'vicinity', 'notes'], 'safe'],
         ];
@@ -67,7 +67,7 @@ class PlaceSearch extends Place
             ->andFilterWhere(['like', 'full_address', $this->full_address])
             ->andFilterWhere(['like', 'vicinity', $this->vicinity])
             ->andFilterWhere(['like', 'notes', $this->notes]);
-        
+
         return $dataProvider;
     }
 }

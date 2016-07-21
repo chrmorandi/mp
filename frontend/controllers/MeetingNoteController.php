@@ -77,6 +77,10 @@ class MeetingNoteController extends Controller
      */
     public function actionCreate($meeting_id)
     {
+      if (!MeetingNote::withinLimit(Yii::$app->user->getId())) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are posting notes too quickly. Please slow down. Contact support if you need additional help or want to offer feedback.'));
+        return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
+      }
         $model = new MeetingNote();
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
@@ -88,7 +92,7 @@ class MeetingNoteController extends Controller
           if ($model->validate()) {
               // all inputs are valid
               $model->save();
-              Meeting::displayNotificationHint($meeting_id);  
+              Meeting::displayNotificationHint($meeting_id);
               return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
           } else {
               // validation failed

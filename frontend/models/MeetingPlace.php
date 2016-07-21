@@ -221,7 +221,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     public static function withinLimit($meeting_id) {
       // how many meetingplaces on this meeting
       $cnt = MeetingPlace::find()
-        ->andwhere(['meeting_id'=>$meeting_id])
+        ->where(['meeting_id'=>$meeting_id])
         ->count();
         // per user limit option: ->where(['suggested_by'=>$user_id])
       if ($cnt >= MeetingPlace::MEETING_LIMIT ) {

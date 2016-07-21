@@ -88,6 +88,11 @@ class ReminderController extends Controller
      */
     public function actionCreate()
     {
+      if (!Reminder::withinLimit(Yii::$app->user->getId())) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of reminders. Contact support if you need additional help or want to offer feedback.'));
+        return $this->redirect(['/reminder/']);
+      }
+
         $model = new Reminder();
         $model->user_id = Yii::$app->user->getId();
         $model->duration = 0;

@@ -43,6 +43,8 @@ class UserContact extends \yii\db\ActiveRecord
   const SETTING_NO = 0;
   const SETTING_YES = 10;
 
+  const MAX_LIMIT = 7;
+
     /**
      * @inheritdoc
      */
@@ -180,4 +182,16 @@ class UserContact extends \yii\db\ActiveRecord
     // to do - turn off sms for other numbers
     //https://app.asana.com/0/138933783917168/157333263929755
   }
+
+  public static function withinLimit($user_id) {
+    // check max
+    $cnt = UserContact::find()
+      ->where(['user_id'=>$user_id])
+      ->count();
+    if ($cnt >= UserContact::MAX_LIMIT ) {
+      return false;
+    }
+    return true;
+  }
+
 }

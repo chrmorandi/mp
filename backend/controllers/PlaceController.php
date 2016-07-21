@@ -48,7 +48,6 @@ class PlaceController extends Controller
     {
         $searchModel = new PlaceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -26,6 +26,9 @@ class MeetingNote extends \yii\db\ActiveRecord
 
   const STATUS_OK = 0;
 
+  const NEAR_LIMIT = 25;
+  const DAY_LIMIT = 75;
+
     /**
      * @inheritdoc
      */
@@ -122,5 +125,25 @@ class MeetingNote extends \yii\db\ActiveRecord
         $mn->note = $note;
         $mn->status = MeetingNote::STATUS_OK;
         $mn->save();
+    }
+
+    public static function withinLimit($user_id,$minutes_ago = 60) {
+      // how many meetings created by this user in past $minutes_ago
+      $cnt = MeetingNote::find()
+        ->where(['posted_by'=>$user_id])
+        ->andWhere('created_at>'.(time()-($minutes_ago*60)))
+        ->count();
+      if ($cnt >= MeetingNote::NEAR_LIMIT ) {
+        return false;
+      }
+      // check in last DAY_LIMIT
+      $cnt = MeetingNote::find()
+        ->where(['posted_by'=>$user_id])
+        ->andWhere('created_at>'.(time()-(24*3600)))
+        ->count();
+      if ($cnt >= MeetingNote::DAY_LIMIT ) {
+          return false;
+      }
+      return true;
     }
 }

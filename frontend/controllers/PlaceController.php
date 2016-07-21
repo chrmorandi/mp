@@ -57,7 +57,7 @@ class PlaceController extends Controller
 
          $dataProvider = new ActiveDataProvider([
              'query' => $query,
-             'pagination' => ['pageSize' => 10],
+             'pagination' => ['pageSize' => 7],
          ]);
 
          return $this->render('yours',[

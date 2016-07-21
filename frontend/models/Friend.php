@@ -30,6 +30,9 @@ class Friend extends \yii\db\ActiveRecord
     const FAVORITE_NO = 0;
     const FAVORITE_YES = 10;
 
+    const NEAR_LIMIT = 25;
+    const DAY_LIMIT = 50;
+
     public $email;
 
     /**
@@ -183,4 +186,23 @@ class Friend extends \yii\db\ActiveRecord
           }
     }
 
+    public static function withinLimit($user_id,$minutes_ago = 180) {
+      // how many meetings created by this user in past $minutes_ago
+      $cnt = Friend::find()
+        ->where(['user_id'=>$user_id])
+        ->andWhere('created_at>'.(time()-($minutes_ago*60)))
+        ->count();
+      if ($cnt >= Friend::NEAR_LIMIT ) {
+        return false;
+      }
+      // check in last DAY_LIMIT
+      $cnt = Friend::find()
+        ->where(['user_id'=>$user_id])
+        ->andWhere('created_at>'.(time()-(24*3600)))
+        ->count();
+      if ($cnt >= Friend::DAY_LIMIT ) {
+          return false;
+      }
+      return true;
+    }
 }

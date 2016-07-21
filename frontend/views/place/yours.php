@@ -15,16 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-         <?= Html::a(Yii::t('frontend', 'Create {modelClass}', [
-           'modelClass' => 'Place',
-        ]), ['create'], ['class' => 'btn btn-success']) ?>
-
-        <?= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('frontend','Add a Google {modelClass}',[
-           'modelClass' => 'Place'
-        ]), ['create_place_google'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -49,5 +39,16 @@ $this->params['breadcrumbs'][] = $this->title;
 			      ],
         ],
     ]); ?>
+
+    <p>
+         <?= Html::a(Yii::t('frontend', 'Create {modelClass}', [
+           'modelClass' => 'Place',
+        ]), ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('frontend','Add a Google {modelClass}',[
+           'modelClass' => 'Place'
+        ]), ['create_place_google'], ['class' => 'btn btn-success']) ?>
+    </p>
 
 </div>

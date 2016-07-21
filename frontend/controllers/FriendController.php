@@ -38,8 +38,12 @@ class FriendController extends Controller
     public function actionIndex()
     {
       $friendProvider = new ActiveDataProvider([
+            // to do - sort this by best display name
+            //'sort'=> ['defaultOrder' => ['email?'=>SORT_DESC]],
             'query' => Friend::find()->joinWith('user')->where(['user_id'=>Yii::$app->user->getId()]),
-            //'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
+            'pagination' => [
+                'pageSize' => 10,
+              ],
         ]);
 
         $searchModel = new FriendSearch();
@@ -70,6 +74,11 @@ class FriendController extends Controller
      */
     public function actionCreate()
     {
+      if (!Friend::withinLimit(Yii::$app->user->getId())) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there are limits on how quickly you can add friends one by one. Try importing via Gmail, or visit support if you need assistance.'));
+        return $this->redirect(['index']);
+      }
+
         $model = new Friend();
         $model->user_id = Yii::$app->user->getId();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {

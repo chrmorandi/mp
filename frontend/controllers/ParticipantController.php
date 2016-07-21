@@ -70,8 +70,11 @@ class ParticipantController extends Controller
       /*$yg = new \common\models\Yiigun();
       $result = $yg->validate('rob@gmai.com');
       var_dump($result);
-      exit;
-*/
+      exit; */
+      if (!Participant::withinLimit($meeting_id)) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of participants per meeting. Contact support if you need additional help or want to offer feedback.'));
+        return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
+      }
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
           $model = new Participant();

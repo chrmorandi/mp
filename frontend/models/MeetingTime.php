@@ -234,7 +234,7 @@ class MeetingTime extends \yii\db\ActiveRecord
     public static function withinLimit($meeting_id) {
       // how many meetingtimes added to this meeting
       $cnt = MeetingTime::find()
-        ->andwhere(['meeting_id'=>$meeting_id])
+        ->where(['meeting_id'=>$meeting_id])
         ->count();
         // per user limit option: ->where(['suggested_by'=>$user_id])
       if ($cnt >= MeetingTime::MEETING_LIMIT ) {

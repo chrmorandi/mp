@@ -32,6 +32,8 @@ class Reminder extends \yii\db\ActiveRecord
   const TYPE_SMS = 10;
   const TYPE_BOTH = 20;
 
+  const MAX_LIMIT = 10;
+
     /**
      * @inheritdoc
      */
@@ -253,6 +255,17 @@ class Reminder extends \yii\db\ActiveRecord
       // set meeting reminders for all users for this meeting
       // note each user has different reminders
       Reminder::setMeetingReminders($meeting_id,$chosen_time);
+    }
+
+    public static function withinLimit($user_id) {
+      // check max reminders
+      $cnt = Reminder::find()
+        ->where(['user_id'=>$user_id])
+        ->count();
+      if ($cnt >= Reminder::MAX_LIMIT ) {
+        return false;
+      }
+      return true;
     }
 
 }
