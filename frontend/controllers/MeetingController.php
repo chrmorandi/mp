@@ -38,7 +38,7 @@ class MeetingController extends Controller
                 ],
             ],
           'access' => [
-                        'class' => \common\filters\MeetingControl::className(), // \yii\filters\AccessControl::className(),
+                        'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
                         'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
                         'rules' => [
                           // allow authenticated users
@@ -210,6 +210,10 @@ class MeetingController extends Controller
      */
     public function actionCreate()
     {
+        if (!Meeting::withinLimit(Yii::$app->user->getId())) {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there are limits on how quickly you can create meetings. Visit support if you need assistance.'));
+          return $this->redirect(['index']);
+        }
         // prevent creation of numerous empty meetings
         $meeting_id = Meeting::findEmptyMeeting(Yii::$app->user->getId());
         //echo $meeting_id;exit;

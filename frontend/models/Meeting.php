@@ -98,6 +98,9 @@ class Meeting extends \yii\db\ActiveRecord
   const SWITCH_INPERSON =1;
   const SWITCH_VIRTUAL =0;
 
+  const NEAR_LIMIT = 7;
+  const DAY_LIMIT = 12;
+
   public $has_subject = false;
   public $title;
   public $viewer;
@@ -1150,5 +1153,25 @@ class Meeting extends \yii\db\ActiveRecord
 				break;
 			}
       return $label;
+    }
+
+    public static function withinLimit($user_id,$minutes_ago = 180) {
+      // how many meetings created by this user in past $minutes_ago
+      $cnt = Meeting::find()
+        ->where(['owner_id'=>$user_id])
+        ->andWhere('created_at>'.(time()-($minutes_ago*60)))
+        ->count();
+      if ($cnt >= Meeting::NEAR_LIMIT ) {
+        return false;
+      }
+      // check in last DAY_LIMIT
+      $cnt = Meeting::find()
+        ->where(['owner_id'=>$user_id])
+        ->andWhere('created_at>'.(time()-(24*3600)))
+        ->count();
+      if ($cnt >= Meeting::DAY_LIMIT ) {
+          return false;
+      }
+      return true;        
     }
 }

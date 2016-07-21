@@ -72,6 +72,10 @@ class MeetingTimeController extends Controller
      */
     public function actionCreate($meeting_id)
     {
+      if (!MeetingTime::withinLimit($meeting_id)) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of date times per meeting. Contact support if you need additional help or want to offer feedback.'));
+        return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
+      }
       //Yii::$app->response->format = Response::FORMAT_JSON;
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       date_default_timezone_set($timezone);
@@ -140,7 +144,7 @@ class MeetingTimeController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionChoose($id,$val) {      
+    public function actionChoose($id,$val) {
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

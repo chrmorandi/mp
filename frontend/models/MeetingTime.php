@@ -26,7 +26,12 @@ class MeetingTime extends \yii\db\ActiveRecord
 {
   const STATUS_SUGGESTED =0;
   const STATUS_SELECTED =10; // the chosen date time
+
+  const MEETING_LIMIT = 7;
+
   public $dow;
+  public $hod;
+  public $min;
     /**
      * @inheritdoc
      */
@@ -226,9 +231,23 @@ class MeetingTime extends \yii\db\ActiveRecord
       print_r(array_count_values($dow));
     }
 
+    public static function withinLimit($meeting_id) {
+      // how many meetingtimes added to this meeting
+      $cnt = MeetingTime::find()
+        ->andwhere(['meeting_id'=>$meeting_id])
+        ->count();
+        // per user limit option: ->where(['suggested_by'=>$user_id])
+      if ($cnt >= MeetingTime::MEETING_LIMIT ) {
+        return false;
+      }
+      return true;
+    }
+
     public function afterFind()
     {
           $this->dow = jddayofweek($this->start);
+          $this->hod = date('H',$this->start);
+          $this->min = date('i',$this->start);
           return parent::afterFind();
     }
 }

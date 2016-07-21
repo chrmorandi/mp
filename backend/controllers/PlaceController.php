@@ -75,7 +75,6 @@ class PlaceController extends Controller
     public function actionCreate()
     {
         $model = new Place();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

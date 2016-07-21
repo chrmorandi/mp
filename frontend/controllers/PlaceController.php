@@ -145,6 +145,10 @@ class PlaceController extends Controller
      */
     public function actionCreate()
     {
+      if (!Place::withinLimit(Yii::$app->user->getId())) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of places that you can add today. Contact support if you need additional help or want to offer feedback.'));
+        return $this->redirect('yours');
+      }
         $model = new Place();
         if ($model->load(Yii::$app->request->post())) {
 			      $form = Yii::$app->request->post();
@@ -158,7 +162,7 @@ class PlaceController extends Controller
                 $model->save();
                 // lookup gps location from address
                 // to do - reactivate location add
-                // $model->addLocationFromAddress($model,$form['Place']['full_address']); 
+                // $model->addLocationFromAddress($model,$form['Place']['full_address']);
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 // validation failed
@@ -180,6 +184,11 @@ class PlaceController extends Controller
       */
      public function actionCreate_place_google()
      {
+       if (!Place::withinLimit(Yii::$app->user->getId())) {
+         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of places that you can add today. Contact support if you need additional help or want to offer feedback.'));
+         return $this->redirect('yours');
+       }
+
        $model = new Place();
        if ($model->load(Yii::$app->request->post())) {
            $form = Yii::$app->request->post();
@@ -212,6 +221,11 @@ class PlaceController extends Controller
       */
      public function actionCreate_geo()
      {
+       if (!Place::withinLimit(Yii::$app->user->getId())) {
+         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of places that you can add today. Contact support if you need additional help or want to offer feedback.'));
+         return $this->redirect('yours');
+       }
+
          $model = new Place();
          if ($model->load(Yii::$app->request->post())) {
              $form = Yii::$app->request->post();
