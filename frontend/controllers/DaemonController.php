@@ -115,7 +115,6 @@ public function actionQuarter() {
 
       public function beforeAction($action)
       {
-        return true;
         // your custom code here, if you want the code to run before action filters,
         // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
         if (!parent::beforeAction($action)) {
@@ -124,9 +123,9 @@ public function actionQuarter() {
         // other custom code here
         if (( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] ) ||
             (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()))
-           {
-          return true;
-        }
+         {
+           return true;
+         }
         echo 'Unauthorized access.';
         return false; // or false to not run the action
       }
