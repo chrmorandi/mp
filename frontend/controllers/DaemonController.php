@@ -22,17 +22,23 @@ class DaemonController extends Controller
         return [
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
-              'only' => ['index','hourly','overnight','recalc','firewall'],
+              'only' => ['index','fix','recalc','firewall','diagnostics','quarter','frequent','hourly'],
               'rules' => [
                 // allow authenticated users
+                [
+                    'allow' => true,
+                    'matchCallback' => function ($rule, $action) {
+                        return (1==7);
+                      }
+                ],
                  [
                      'allow' => true,
-                     'actions'=>['index','fix','overnight','recalc','firewall'],
+                     'actions'=>['index','fix','recalc','firewall','diagnostics'],
                      'roles' => ['@'],
                  ],
                 [
                     'allow' => true,
-                    'actions'=>['quarter','frequent','overnight'],
+                    'actions'=>['quarter','frequent','hourly'],
                     'roles' => ['?'],
                 ],
                 // everything else is denied
@@ -52,6 +58,8 @@ class DaemonController extends Controller
 
 
 public function actionFrequent() {
+  echo php_sapi_name(); // apache2handler
+  $this->touchSapi();
   // called every three minutes
   // notify users about fresh changes
   Meeting::findFresh();
@@ -104,11 +112,46 @@ public function actionQuarter() {
 
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
+      $this->touchSapi();
+
       //\frontend\models\Place::getMeetingPlaceCountByUser(1);
       //\frontend\models\MeetingTime::calcPopular();
       /*$user_id = 1;
       $s = new \common\models\Sms();
       $s->transmit($user_id,'Fourth transmit test from MP codebase!');
-      */      
+      */
+      }
+
+      public function touchSapi() {
+        echo php_sapi_name(); // apache2handler
+        $sapi_name=php_sapi_name().'\n';
+        $file = Yii::$app->basePath . '/web/uploads/sapi.txt';
+        if (!file_exists($file)) {
+          file_put_contents($file, $sapi_name);
+          $current ='';
+        } else {
+          $current = file_get_contents($file);
+        }
+        $current.=$sapi_name;
+
+
+        $isCLI = ( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] );
+        if( !$isCLI ) {
+          $current.='remote addr != server addr\n';
+        } else {
+          $current.='remote and server match\n'; 
+        }
+        $current.='remote_addr: '.$_SERVER['REMOTE_ADDR'];
+        if (!empty($_SERVER['REMOTE_ADDR'])){
+            $current.=' remote_addr NOT EMPTY';
+          }
+        if ($_SERVER['REMOTE_ADDR'] == "127.0.0.1") {
+          $current.='remote_addr is 127.0.0.1\r\n';
+        }
+
+
+
+
+        file_put_contents($file, $current);
       }
 }
