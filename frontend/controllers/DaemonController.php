@@ -33,7 +33,7 @@ class DaemonController extends Controller
                 ],
                  [
                      'allow' => true,
-                     'actions'=>['index','fix','recalc','firewall','diagnostics'],
+                     'actions'=>['index','fix','recalc','firewall','diagnostics','frequent'],
                      'roles' => ['@'],
                  ],
                 [
@@ -139,7 +139,7 @@ public function actionQuarter() {
         if( !$isCLI ) {
           $current.='remote addr != server addr\n';
         } else {
-          $current.='remote and server match\n'; 
+          $current.='remote and server match\n';
         }
         $current.='remote_addr: '.$_SERVER['REMOTE_ADDR'];
         if (!empty($_SERVER['REMOTE_ADDR'])){
