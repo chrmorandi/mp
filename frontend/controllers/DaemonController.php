@@ -126,7 +126,7 @@ public function actionQuarter() {
            {
           return true;
         }
-
+        echo 'Unauthorized access.';
         return false; // or false to not run the action
       }
 
