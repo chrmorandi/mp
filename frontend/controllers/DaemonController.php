@@ -25,12 +25,6 @@ class DaemonController extends Controller
               'only' => ['index','fix','recalc','firewall','diagnostics','quarter','frequent','hourly'],
               'rules' => [
                 // allow authenticated users
-                [
-                    'allow' => true,
-                    'matchCallback' => function ($rule, $action) {
-                        return (1==7);
-                      }
-                ],
                  [
                      'allow' => true,
                      'actions'=>['index','fix','recalc','firewall','diagnostics','frequent'],
@@ -58,8 +52,6 @@ class DaemonController extends Controller
 
 
 public function actionFrequent() {
-  echo php_sapi_name(); // apache2handler
-  $this->touchSapi();
   // called every three minutes
   // notify users about fresh changes
   Meeting::findFresh();
@@ -112,7 +104,6 @@ public function actionQuarter() {
 
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
-      $this->touchSapi();
 
       //\frontend\models\Place::getMeetingPlaceCountByUser(1);
       //\frontend\models\MeetingTime::calcPopular();
@@ -122,19 +113,34 @@ public function actionQuarter() {
       */
       }
 
+      public function beforeAction($action)
+      {
+        // your custom code here, if you want the code to run before action filters,
+        // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        // other custom code here
+        if (( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] ) ||
+            (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()))
+           {
+          return true;
+        }
+
+        return false; // or false to not run the action
+      }
+
       public function touchSapi() {
         echo php_sapi_name(); // apache2handler
         $sapi_name=php_sapi_name().'\n';
         $file = Yii::$app->basePath . '/web/uploads/sapi.txt';
         if (!file_exists($file)) {
-          file_put_contents($file, $sapi_name);
+          //file_put_contents($file, $sapi_name);
           $current ='';
         } else {
           $current = file_get_contents($file);
         }
         $current.=$sapi_name;
-
-
         $isCLI = ( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] );
         if( !$isCLI ) {
           $current.='remote addr != server addr\n';
@@ -148,10 +154,6 @@ public function actionQuarter() {
         if ($_SERVER['REMOTE_ADDR'] == "127.0.0.1") {
           $current.='remote_addr is 127.0.0.1\r\n';
         }
-
-
-
-
-        file_put_contents($file, $current);
+        //file_put_contents($file, $current);
       }
 }
