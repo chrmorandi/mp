@@ -23,6 +23,18 @@ class MeetingPlaceChoiceController extends \yii\web\Controller
                   'delete' => ['post'],
               ],
           ],
+          'access' => [
+              'class' => \yii\filters\AccessControl::className(),
+              'rules' => [
+                  // allow authenticated users
+                  [
+                      'allow' => true,
+                      'actions'=>['set'],
+                      'roles' => ['@'],
+                  ],
+                  // everything else is denied
+              ],
+          ],
       ];
   }
 

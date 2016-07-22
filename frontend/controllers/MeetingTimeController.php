@@ -31,26 +31,30 @@ class MeetingTimeController extends Controller
                 ],
             ],
             'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'actions'=>['create','delete','choose'],
+                        'roles' => ['@'],
+                    ],
+                    // everything else is denied
+                ],
+            ],
+            'access' => [
                         'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['create','update','view'],
                         'rules' => [
                             // allow authenticated users
                             [
                                 'allow' => true,
+                                'actions' => ['create','update','view','delete','choose'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
                         ],
                     ],
         ];
-    }
-    /**
-     * Lists all MeetingTime models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $this->redirect(Yii::getAlias('@web').'/meeting');
     }
 
     /**

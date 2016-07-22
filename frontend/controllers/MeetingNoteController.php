@@ -28,34 +28,17 @@ class MeetingNoteController extends Controller
             ],
             'access' => [
                         'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['create','update','view','delete'],
                         'rules' => [
                             // allow authenticated users
                             [
                                 'allow' => true,
+                                'actions'=>['create','update','view','delete'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
                         ],
                     ],
         ];
-    }
-
-    /**
-     * Lists all MeetingNote models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-//      $this->redirect(Yii::getAlias('@web').'/meeting');
-
-        $searchModel = new MeetingNoteSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     /**

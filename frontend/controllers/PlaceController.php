@@ -27,17 +27,17 @@ class PlaceController extends Controller
                 ],
             ],
             'access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','yours','create', 'create_geo','create_place_google','update','view','slug'],
-                        'rules' => [
-                            // allow authenticated users
-                            [
-                                'allow' => true,
-                                'roles' => ['@'],
-                            ],
-                            // everything else is denied
-                        ],
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'actions' => ['index','yours','create', 'create_geo','create_place_google','update','view','slug','delete'],
+                        'roles' => ['@'],
                     ],
+                    // everything else is denied
+                ],
+            ],
         ];
     }
 
@@ -120,22 +120,6 @@ class PlaceController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Place model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Place the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Place::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 
     /**
@@ -249,6 +233,22 @@ class PlaceController extends Controller
              return $this->render('create_geo', [
                  'model' => $model,
              ]);
+         }
+     }
+
+     /**
+      * Finds the Place model based on its primary key value.
+      * If the model is not found, a 404 HTTP exception will be thrown.
+      * @param integer $id
+      * @return Place the loaded model
+      * @throws NotFoundHttpException if the model cannot be found
+      */
+     protected function findModel($id)
+     {
+         if (($model = Place::findOne($id)) !== null) {
+             return $model;
+         } else {
+             throw new NotFoundHttpException('The requested page does not exist.');
          }
      }
 }

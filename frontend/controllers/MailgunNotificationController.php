@@ -20,17 +20,16 @@ class MailgunNotificationController extends \yii\web\Controller
           ],
         'access' => [
                       'class' => \yii\filters\AccessControl::className(),
-                      'only' => ['store','test'],
                       'rules' => [
                         // allow authenticated users
                          [
                              'allow' => true,
-                             'actions'=>['store','test'],
+                             'actions'=>['store'],
                              'roles' => ['@'],
                          ],
                         [
                             'allow' => true,
-                            'actions'=>['store','test'],
+                            'actions'=>['store'],
                             'roles' => ['?'],
                         ],
                         // everything else is denied
@@ -46,10 +45,6 @@ class MailgunNotificationController extends \yii\web\Controller
             Yii::$app->controller->enableCsrfValidation = false;
         }
         return true;
-    }
-
-    public function actionTest() {
-      //MailgunNotification::process();
     }
 
     public function actionStore()

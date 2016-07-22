@@ -26,6 +26,23 @@ class UserBlockController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                  // allow authenticated users
+                   [
+                       'allow' => true,
+                       'actions'=>[''],
+                       'roles' => ['@'],
+                   ],
+                  [
+                      'allow' => true,
+                      'actions'=>[''],
+                      'roles' => ['?'],
+                  ],
+                  // everything else is denied
+                ],
+            ],
         ];
     }
 

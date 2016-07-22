@@ -30,7 +30,6 @@ class ReminderController extends Controller
              ],
            'access' => [
                          'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
-                         'only' => ['index','view','create','update','delete'],
                          'rules' => [
                            // allow authenticated users
                             [
@@ -40,7 +39,7 @@ class ReminderController extends Controller
                             ],
                            [
                                'allow' => true,
-                               'actions'=>['command'],
+                               'actions'=>[''],
                                'roles' => ['?'],
                            ],
                            // everything else is denied

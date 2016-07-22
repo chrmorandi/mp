@@ -28,6 +28,23 @@ class FriendController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                  // allow authenticated users
+                   [
+                       'allow' => true,
+                       'actions'=>['create','index','view','update','delete', 'import'],
+                       'roles' => ['@'],
+                   ],
+                  [
+                      'allow' => true,
+                      'actions'=>[''],
+                      'roles' => ['?'],
+                  ],
+                  // everything else is denied
+                ],
+            ],
         ];
     }
 
@@ -156,9 +173,6 @@ class FriendController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
-    public function actionGrab() {
-      }
 
     public function actionImport() {
       $session = Yii::$app->session;

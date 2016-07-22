@@ -39,12 +39,11 @@ class MeetingController extends Controller
             ],
           'access' => [
                         'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
-                        'only' => ['index','view','create','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
                         'rules' => [
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','update','delete', 'decline','cancel','command','download','wizard','trash','late'],
+                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual'], // 'wizard'
                                'roles' => ['@'],
                            ],
                           [
@@ -104,11 +103,10 @@ class MeetingController extends Controller
         ]);
     }
 
-    public function actionWizard() {
+    /*public function actionWizard() {
       return $this->render('wizard', [
-
       ]);
-    }
+    }*/
 
     /**
      * Displays a single Meeting model.
@@ -206,13 +204,6 @@ class MeetingController extends Controller
             'place' => $meeting_place->place,
             'gps'=>$meeting_place->place->getLocation($place_id),
         ]);
-    }
-
-    public function actionTest() {
-    /*  $model = new Meeting();
-      return $this->render('test', [
-          'model' => $model,
-       ] );*/
     }
 
     /**
@@ -567,7 +558,6 @@ class MeetingController extends Controller
         }
       }
     }
-
 
     /**
      * Finds the Meeting model based on its primary key value.

@@ -26,11 +26,11 @@ class UserContactController extends Controller
             ],
             'access' => [
                         'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','create','update','view','delete'],
                         'rules' => [
                             // allow authenticated users
                             [
                                 'allow' => true,
+                                'actions' => ['index','create','update','view','delete'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -47,7 +47,7 @@ class UserContactController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserContactSearch();
-		$searchModel->user_id = Yii::$app->user->getId();
+		      $searchModel->user_id = Yii::$app->user->getId();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

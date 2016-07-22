@@ -28,13 +28,12 @@ class MeetingLogController extends Controller
                  ],
              ],
            'access' => [
-                         'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(), 
-                         'only' => ['index'],
+                         'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
                          'rules' => [
                            // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions'=>['index'],
+                                'actions'=>['index','view'],
                                 'roles' => ['@'],
                             ],
                            [
@@ -58,7 +57,6 @@ class MeetingLogController extends Controller
 				if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
 					$this->redirect(['site/authfailure']);
 				}
-
         $searchModel = new MeetingLogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
@@ -79,43 +77,10 @@ class MeetingLogController extends Controller
 			}
       $searchModel = new MeetingLogSearch();
       $dataProvider = $searchModel->search(['MeetingLogSearch'=>['meeting_id'=>$id]]);
-
       return $this->render('index', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,
       ]);
-    }
-
-    /**
-     * Updates an existing MeetingLog model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing MeetingLog model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

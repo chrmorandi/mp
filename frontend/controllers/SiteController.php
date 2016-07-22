@@ -31,15 +31,15 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['signup','logout'],
                 'rules' => [
                     [
-                        'actions' => ['signup','error','authfailure','offline'],
+                        'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','error','authfailure'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -297,7 +297,7 @@ class SiteController extends Controller
                   case 'signup':
                     // sign up a new account using oauth
                     // look for username that exists already and differentiate it
-                    if (isset($username) && User::find()->where(['username' => $username])->exists()) {                      
+                    if (isset($username) && User::find()->where(['username' => $username])->exists()) {
                       $username = User::generateUniqueUsername($username);
                     }
                     $password = Yii::$app->security->generateRandomString(12);

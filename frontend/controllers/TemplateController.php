@@ -27,6 +27,23 @@ class TemplateController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                  // allow authenticated users
+                   [
+                       'allow' => true,
+                       'actions'=>['create','index','view','update','delete'],
+                       'roles' => ['@'],
+                   ],
+                  [
+                      'allow' => true,
+                      'actions'=>[''],
+                      'roles' => ['?'],
+                  ],
+                  // everything else is denied
+                ],
+            ],
         ];
     }
 
@@ -100,7 +117,7 @@ class TemplateController extends Controller
             $subjects = Meeting::defaultSubjectList();
             return $this->render('update', [
                 'model' => $model,
-                'subjects' => $subjects, 
+                'subjects' => $subjects,
             ]);
         }
     }

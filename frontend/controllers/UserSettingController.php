@@ -25,6 +25,18 @@ class UserSettingController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'actions' => ['index','update'],
+                        'roles' => ['@'],
+                    ],
+                    // everything else is denied
+                ],
+            ],
         ];
     }
 
@@ -37,33 +49,6 @@ class UserSettingController extends Controller
       // returns record id not user_id
       $id = UserSetting::initialize(Yii::$app->user->getId());
       return $this->redirect(['update', 'id' => $id]);
-    }
-
-    /**
-     * Lists all UserSetting models.
-     * @return mixed
-     */
-    public function actionAdmin()
-    {
-        $searchModel = new UserSettingSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single UserSetting model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
     }
 
     /**
