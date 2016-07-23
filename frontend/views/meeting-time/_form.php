@@ -12,7 +12,7 @@ use dosamigos\datetimepicker\DateTimePicker;
 <div class="meeting-time-form">
 
   <div class="row">
-    <div class="col-xs-4">
+    <div class="col-lg-4">
     <?php $form = ActiveForm::begin(); ?>
     <strong><?php echo Yii::t('frontend','Date') ?></strong>
     <?= DateTimePicker::widget([
@@ -33,11 +33,11 @@ use dosamigos\datetimepicker\DateTimePicker;
     ]);?>
     <p></p>
   </div>
-  <div class="col-xs-8">
+  <div class="col-lg-8">
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-4">
+  <div class="col-lg-4">
     <strong><?php echo Yii::t('frontend','Time') ?></strong>
     <?= DateTimePicker::widget([
         'model' => $model,
@@ -61,11 +61,11 @@ use dosamigos\datetimepicker\DateTimePicker;
     ]);?>
     <p></p>
     </div>
-    <div class="col-xs-8">
+    <div class="col-lg-8">
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-4">
+    <div class="col-lg-4">
       <?php
       //$durationList = [1,2,3,4,5,6,12,24,48,72];
       $durationList = [1=>'1 hour',2=>'2 hours',3=>'3 hours',4=>'4 hours',5=>'5 hours',6=>'6 hours',12=>'12 hours',24=>'24 hours',48=>'48 hours',72=>'72 hours'];
@@ -75,7 +75,7 @@ use dosamigos\datetimepicker\DateTimePicker;
             ['prompt'=>'select a duration']    // options
         );
         ?>
-        <div class="col-xs-8">
+        <div class="col-lg-8">
         </div>
       </div>
   </div>
