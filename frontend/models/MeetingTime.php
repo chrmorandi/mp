@@ -32,6 +32,8 @@ class MeetingTime extends \yii\db\ActiveRecord
   public $dow;
   public $hod;
   public $min;
+
+  public $start_time;
     /**
      * @inheritdoc
      */
@@ -46,10 +48,9 @@ class MeetingTime extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['meeting_id', 'start', 'duration','suggested_by'], 'required'],
+            [['meeting_id',  'start','duration','suggested_by'], 'required'],
             [['meeting_id', 'start','duration','end', 'suggested_by', 'status', 'created_at', 'updated_at'], 'integer'],
             [['start'], 'unique', 'targetAttribute' => ['start','meeting_id'], 'message'=>Yii::t('frontend','This date and time has already been suggested.')],
-
         ];
     }
 

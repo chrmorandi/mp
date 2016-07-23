@@ -92,8 +92,17 @@ class MeetingTimeController extends Controller
       $model->status = self::STATUS_PROPOSED;
       //if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {}
         if ($model->load(Yii::$app->request->post())) {
+          if (empty($model->start)) {
+            $model->start = Date('M d, Y',time()+3*24*3600);
+          }
+          $model->start_time = Yii::$app->request->post()['MeetingTime']['start_time'];
+          $selected_time = date_parse($model->start_time);
+          if ($selected_time['hour'] === false) {
+            $selected_time['hour'] =9;
+            $selected_time['minute'] =0;
+          }
           // convert date time to timestamp
-          $model->start = strtotime($model->start);
+          $model->start = strtotime($model->start) +  $selected_time['hour']*3600+ $selected_time['minute']*60;
           $model->end = $model->start + (3600*$model->duration);
           // validate the form against model rules
           if ($model->validate()) {
@@ -102,13 +111,19 @@ class MeetingTimeController extends Controller
               Meeting::displayNotificationHint($meeting_id);
               return $this->redirect(['/meeting/view', 'id' => $model->meeting_id]);
           } else {
-              // validation failed
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this date time may be a duplicate or there is some other problem.'));
+              $model->start = Date('M d, Y',time()+3*24*3600);
+              $model->start_time = '9:00 am';
+                // validation failed
               return $this->render('create', [
                   'model' => $model,
                 'title' => $title,
               ]);
           }
         } else {
+          $model->start = Date('M d, Y',time()+3*24*3600);
+          $model->start_time = '9:00 am';
+
           return $this->render('create', [
               'model' => $model,
             'title' => $title,

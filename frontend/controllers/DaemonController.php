@@ -145,7 +145,7 @@ public function actionQuarter() {
 
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
-      echo phpinfo();
+      //echo phpinfo();
       echo Yii::$app->request->userIP;
       //Meeting::checkPast();
       $d = new Daemon();

@@ -12,29 +12,60 @@ use dosamigos\datetimepicker\DateTimePicker;
 <div class="meeting-time-form">
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-xs-4">
     <?php $form = ActiveForm::begin(); ?>
-    <strong><?php echo Yii::t('frontend','Start') ?></strong>
+    <strong><?php echo Yii::t('frontend','Date') ?></strong>
     <?= DateTimePicker::widget([
         'model' => $model,
-
         'attribute' => 'start',
         'language' => 'en',
         'size' => 'ms',
         'clientOptions' => [
             'autoclose' => true,
-            'format' => 'MM d, yyyy H:ii p',
+            'format' => 'MM d, yyyy',
+            'todayBtn' => true,
+            //'pickerPosition' => 'bottom-left',
+            'startView'=>2,
+            'minView'=>2,
+            // to do - format three day ahead
+            'initialDate'=> Date('Y-m-d',time()+3600*72),
+        ]
+    ]);?>
+    <p></p>
+  </div>
+  <div class="col-xs-8">
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4">
+    <strong><?php echo Yii::t('frontend','Time') ?></strong>
+    <?= DateTimePicker::widget([
+        'model' => $model,
+        'attribute' => 'start_time',
+        'language' => 'en',
+        'size' => 'ms',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'H:ii p',
             'todayBtn' => false,
             'minuteStep'=> 15,
             'showMeridian'=>true,
             //'pickerPosition' => 'bottom-left',
-            //'startView'=>2,
+            'startView'=>1,
+            'minView'=>0,
+            'maxView'=>1,
             // to do - format one day ahead
-            'initialDate'=> Date('Y-m-d',time()+3600*72),
+            'initialDate'=> Date('Y-m-d'),
+            'initialTime'=> '13',
         ]
     ]);?>
+    <p></p>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-8">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
       <?php
       //$durationList = [1,2,3,4,5,6,12,24,48,72];
       $durationList = [1=>'1 hour',2=>'2 hours',3=>'3 hours',4=>'4 hours',5=>'5 hours',6=>'6 hours',12=>'12 hours',24=>'24 hours',48=>'48 hours',72=>'72 hours'];
@@ -44,6 +75,8 @@ use dosamigos\datetimepicker\DateTimePicker;
             ['prompt'=>'select a duration']    // options
         );
         ?>
+        <div class="col-xs-8">
+        </div>
       </div>
   </div>
   <div class="clearfix"><p></div>
