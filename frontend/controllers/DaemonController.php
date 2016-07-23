@@ -1,11 +1,12 @@
 <?php
-
 // TO DO: Move to backend controllers when a domain is set up
-namespace frontend\controllers;
 
+namespace frontend\controllers;
 use Yii;
 use yii\web\Request;
 use yii\data\ActiveDataProvider;
+use frontend\models\Daemon;
+use frontend\models\DaemonSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,12 @@ class DaemonController extends Controller
     public function behaviors()
     {
         return [
+          'verbs' => [
+              'class' => VerbFilter::className(),
+              'actions' => [
+                  'delete' => ['POST'],
+              ],
+            ],
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
               'only' => ['index','fix','recalc','firewall','diagnostics'],
@@ -38,7 +45,7 @@ class DaemonController extends Controller
                 ],
                 // everything else is denied
               ],
-                    ],
+            ],
         ];
     }
 
@@ -65,28 +72,39 @@ class DaemonController extends Controller
     // to do - remove this, fixed friends list for pre-existing users
     // \frontend\models\Fix::fixPreFriends();
     // \frontend\models\Fix::fixPreReminders();
+    $searchModel = new DaemonSearch();
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       return $this->render('index', [
+           'searchModel' => $searchModel,
+           'dataProvider' => $dataProvider,
+       ]);
   }
-
 
 public function actionFrequent() {
   // called every three minutes
   // notify users about fresh changes
   Meeting::findFresh();
+  Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_FIND_FRESH);
   // send meeting reminders that are due
   MeetingReminder::check();
+  Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_REMINDER_CHECK);
   // process new notifications in the store
   MailgunNotification::process();
+  Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_MAILGUN_PROCESS);
 }
 
 public function actionQuarter() {
     // called every fifteen minutes
     $m = new Meeting;
     $past = $m->checkPast();
+    Daemon::add(Daemon::ACTION_QUARTER,Daemon::TASK_CHECK_PAST);
     $past = $m->checkAbandoned();
+    Daemon::add(Daemon::ACTION_QUARTER,Daemon::TASK_CHECK_ABANDONED);
     // to do - turn off output
   }
 
   public function actionHourly() {
+      Daemon::add(Daemon::ACTION_HOURLY,Daemon::TASK_DO_NOTHING);
   	  $current_hour = date('G');
   	  if ($current_hour%6) {
         // every six hours
@@ -97,7 +115,9 @@ public function actionQuarter() {
       $since = mktime(0, 0, 0);
       $after = mktime(0, 0, 0, 2, 15, 2016);
       UserData::calculate(false,$after);
+      Daemon::add(Daemon::ACTION_OVERNIGHT,Daemon::TASK_CALC_USER_DATA);
       HistoricalData::calculate(false,$after);
+      Daemon::add(Daemon::ACTION_OVERNIGHT,Daemon::TASK_CALC_HISTORICAL_DATA);
     }
 
     public function actionFix()
@@ -122,7 +142,9 @@ public function actionQuarter() {
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
       echo Yii::$app->request->userIP;
-      Meeting::checkPast();
+      //Meeting::checkPast();
+      $d = new Daemon();
+      echo $d->displayConstant(10);
       //\frontend\models\Place::getMeetingPlaceCountByUser(1);
       //\frontend\models\MeetingTime::calcPopular();
       /*$user_id = 1;
@@ -150,5 +172,12 @@ public function actionQuarter() {
         }
         //file_put_contents($file, $current);*/
       }
-
+      protected function findModel($id)
+         {
+             if (($model = Daemon::findOne($id)) !== null) {
+                 return $model;
+             } else {
+                 throw new NotFoundHttpException('The requested page does not exist.');
+             }
+         }
 }
