@@ -4,6 +4,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Request;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -22,17 +23,17 @@ class DaemonController extends Controller
         return [
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
-              'only' => ['index','fix','recalc','firewall','diagnostics','quarter','frequent','hourly'],
+              'only' => ['index','fix','recalc','firewall','diagnostics'],
               'rules' => [
                 // allow authenticated users
                  [
                      'allow' => true,
-                     'actions'=>['index','fix','recalc','firewall','diagnostics','frequent'],
+                     'actions'=>['index','fix','recalc','firewall','diagnostics'],
                      'roles' => ['@'],
                  ],
                 [
                     'allow' => true,
-                    'actions'=>['quarter','frequent','hourly'],
+                    'actions'=>[''],
                     'roles' => ['?'],
                 ],
                 // everything else is denied
@@ -41,13 +42,29 @@ class DaemonController extends Controller
         ];
     }
 
+    // only cron jobs and admins can run this controller's actions
+    public function beforeAction($action)
+    {
+      // your custom code here, if you want the code to run before action filters,
+      // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
+      if (!parent::beforeAction($action)) {
+          return false;
+      }
+      // other custom code here
+      if (( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] ) ||
+          (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()))
+       {
+         return true;
+       }
+      return false; // or false to not run the action
+    }
+
 
   public function actionIndex()
   {
     // to do - remove this, fixed friends list for pre-existing users
     // \frontend\models\Fix::fixPreFriends();
-
-    \frontend\models\Fix::fixPreReminders();
+    // \frontend\models\Fix::fixPreReminders();
   }
 
 
@@ -104,7 +121,7 @@ public function actionQuarter() {
 
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
-
+      echo Yii::$app->request->userIP;
       //\frontend\models\Place::getMeetingPlaceCountByUser(1);
       //\frontend\models\MeetingTime::calcPopular();
       /*$user_id = 1;
@@ -113,47 +130,24 @@ public function actionQuarter() {
       */
       }
 
-      public function beforeAction($action)
-      {
-        // your custom code here, if you want the code to run before action filters,
-        // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
-        if (!parent::beforeAction($action)) {
-            return false;
-        }
-        // other custom code here
-        if (( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] ) ||
-            (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()))
-         {
-           return true;
-         }
-        echo 'Unauthorized access.';
-        return false; // or false to not run the action
-      }
-
       public function touchSapi() {
-        echo php_sapi_name(); // apache2handler
+        /*
+        echo php_sapi_name(); // always apache2handler, local and remote
         $sapi_name=php_sapi_name().'\n';
         $file = Yii::$app->basePath . '/web/uploads/sapi.txt';
         if (!file_exists($file)) {
-          //file_put_contents($file, $sapi_name);
+          file_put_contents($file, $sapi_name);
           $current ='';
         } else {
           $current = file_get_contents($file);
         }
         $current.=$sapi_name;
-        $isCLI = ( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] );
-        if( !$isCLI ) {
-          $current.='remote addr != server addr\n';
-        } else {
-          $current.='remote and server match\n';
-        }
         $current.='remote_addr: '.$_SERVER['REMOTE_ADDR'];
-        if (!empty($_SERVER['REMOTE_ADDR'])){
-            $current.=' remote_addr NOT EMPTY';
-          }
+        // won't work with wget from cron job
         if ($_SERVER['REMOTE_ADDR'] == "127.0.0.1") {
           $current.='remote_addr is 127.0.0.1\r\n';
         }
-        //file_put_contents($file, $current);
+        //file_put_contents($file, $current);*/
       }
+
 }

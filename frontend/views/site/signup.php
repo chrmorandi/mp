@@ -30,6 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?=
                 $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->textInput() ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname(), [
+                      // configure additional widget properties here
+                  ]) ?>
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>

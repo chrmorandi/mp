@@ -5,6 +5,7 @@ use common\models\User;
 use yii\base\Model;
 use Yii;
 use yii\helpers\Html;
+use yii\validators\EmailValidator;
 
 /**
  * Signup form
@@ -14,6 +15,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $captcha;
 
     /**
      * @inheritdoc
@@ -27,10 +29,12 @@ class SignupForm extends Model
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
-            ['email', 'email'],
+            ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken. '.Html::a('Looking for your password?', ['site/request-password-reset'])],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['captcha', 'required'],
+            ['captcha', 'captcha'],
         ];
     }
 
