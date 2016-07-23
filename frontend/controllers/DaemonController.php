@@ -72,12 +72,16 @@ class DaemonController extends Controller
     // to do - remove this, fixed friends list for pre-existing users
     // \frontend\models\Fix::fixPreFriends();
     // \frontend\models\Fix::fixPreReminders();
-    $searchModel = new DaemonSearch();
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-       return $this->render('index', [
-           'searchModel' => $searchModel,
-           'dataProvider' => $dataProvider,
-       ]);
+    if (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()) {
+      $searchModel = new DaemonSearch();
+         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+         return $this->render('index', [
+             'searchModel' => $searchModel,
+             'dataProvider' => $dataProvider,
+         ]);
+      } else {
+        $this->goHome();
+      }
   }
 
 public function actionFrequent() {

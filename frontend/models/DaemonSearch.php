@@ -40,12 +40,15 @@ class DaemonSearch extends Daemon
      */
     public function search($params)
     {
-        $query = Daemon::find();
+        $query = Daemon::find()->orderby(['id'=> SORT_DESC]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
