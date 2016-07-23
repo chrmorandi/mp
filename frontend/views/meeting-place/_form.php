@@ -55,8 +55,8 @@ ComboAsset::register($this);
   }
     ?>
     <div class="col-md-6">
-    <h3>From Google Places</h3>
-        <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in a place or business known to Google Places') ?>
+    <h3>Via Google Maps</h3>
+        <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in an address, place or business known to Google Maps') ?>
       </div>
       <div class="col-md-4">
         <div id="map-canvas">

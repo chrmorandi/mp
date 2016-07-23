@@ -836,11 +836,18 @@ class Meeting extends \yii\db\ActiveRecord
        public static function checkPast() {
          // review meetings in sent or confirmed STATUS_SENT
          // if the chosen datetime has passed, move to STATUS_COMPLETED
-         $meetings = Meeting::find()->where(['status'=>Meeting::STATUS_PLANNING])->orWhere(['meeting.status'=>[Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]])->all();
+         $meetings = Meeting::find()
+          ->where(['status'=>Meeting::STATUS_PLANNING])
+          ->orWhere(['status'=>Meeting::STATUS_SENT])
+          ->orWhere(['status'=>Meeting::STATUS_CONFIRMED])
+          ->all();
+          //->orWhere(['meeting.status'=>[Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]])->all();
+         echo ' <br />';
          foreach ($meetings as $m) {
-           echo $m->owner_id.' - '.$m->subject.' <br />';
+           echo 'Meeting: '.$m->id.' Status: '.$m->status.' <br />';
+           echo $m->owner->email.' ('.$m->owner->id.') - '.$m->subject.' <br />';
            $chosenTime=Meeting::getChosenTime($m->id);
-           echo time().' -- '.$chosenTime->start.' ==>';
+           echo (time()-$chosenTime->start).' <= '.time().' -- '.$chosenTime->start.' ==>';
            if (time()>$chosenTime->start) {
              echo 'PAST';
              echo '<br />';
@@ -1172,6 +1179,6 @@ class Meeting extends \yii\db\ActiveRecord
       if ($cnt >= Meeting::DAY_LIMIT ) {
           return false;
       }
-      return true;        
+      return true;
     }
 }

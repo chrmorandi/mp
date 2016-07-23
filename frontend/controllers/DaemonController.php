@@ -122,6 +122,7 @@ public function actionQuarter() {
     public function actionDiagnostics() {
       echo 'PHP Version: '.phpversion();
       echo Yii::$app->request->userIP;
+      Meeting::checkPast();
       //\frontend\models\Place::getMeetingPlaceCountByUser(1);
       //\frontend\models\MeetingTime::calcPopular();
       /*$user_id = 1;

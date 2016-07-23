@@ -26,11 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
   $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query(array(
                           'libraries' => 'places',
-                          'key' => Yii::$app->params['google_maps_key'],                                                  
+                          'key' => Yii::$app->params['google_maps_key'],
                   ));
   echo $this->registerJsFile($gpJsLink);
 
-  $options = '{"types":["establishment"],"componentRestrictions":{"country":"us"}}';
+  $options = '{"componentRestrictions":{"country":"us"}}';
+  // turned off "types":["establishment"]
   echo $this->registerJs("(function(){
         var input = document.getElementById('meetingplace-searchbox');
         var options = $options;
