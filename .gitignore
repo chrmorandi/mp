@@ -39,3 +39,5 @@ phpunit.phar
 #local environment files
 /environments/prod/common/config/main-local.php
 /environments/prod/frontend/config/main-local.php
+/frontend/config/params-local.php
+/frontend/config/main-local.php

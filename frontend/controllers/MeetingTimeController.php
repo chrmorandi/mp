@@ -121,8 +121,8 @@ class MeetingTimeController extends Controller
               ]);
           }
         } else {
-          $model->start = Date('M d, Y',time()+3*24*3600);
-          $model->start_time = '9:00 am';
+          $model->start = Date('M d, Y',strtotime('today midnight')+3600*24*3);
+          $model->start_time = '';//Date('g:i a',time()+3*24*3600+9*60);
 
           return $this->render('create', [
               'model' => $model,

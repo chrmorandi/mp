@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\components\MiscHelpers;
 use dosamigos\datetimepicker\DateTimePicker;
 
 /* @var $this yii\web\View */
@@ -18,7 +19,7 @@ use dosamigos\datetimepicker\DateTimePicker;
     <?= DateTimePicker::widget([
         'model' => $model,
         'attribute' => 'start',
-        'language' => 'en',
+        //'language' => 'en',
         'size' => 'ms',
         'clientOptions' => [
             'autoclose' => true,
@@ -38,11 +39,11 @@ use dosamigos\datetimepicker\DateTimePicker;
 </div>
 <div class="row">
   <div class="col-lg-4">
-    <strong><?php echo Yii::t('frontend','Time') ?></strong>
+    <strong><?php echo Yii::t('frontend','Time') ?></strong>    
     <?= DateTimePicker::widget([
         'model' => $model,
         'attribute' => 'start_time',
-        'language' => 'en',
+        //'language' => 'en',
         'size' => 'ms',
         'clientOptions' => [
             'autoclose' => true,
@@ -55,8 +56,8 @@ use dosamigos\datetimepicker\DateTimePicker;
             'minView'=>0,
             'maxView'=>1,
             // to do - format one day ahead
-            'initialDate'=> Date('Y-m-d'),
-            'initialTime'=> '13',
+            //'initialDate'=> Date('Y-m-d'),
+            // $( "th.switch" ).text( "Pick the time" );
         ]
     ]);?>
     <p></p>
@@ -91,6 +92,8 @@ use dosamigos\datetimepicker\DateTimePicker;
      </div>
     </div>
   </div>
-    <?php ActiveForm::end(); ?>
+  <?php ActiveForm::end();
+   $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting_time.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+   ?>
 
 </div> <!-- end container -->
