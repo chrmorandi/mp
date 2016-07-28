@@ -179,6 +179,8 @@ public function actionQuarter() {
          //echo phpinfo();
          echo Yii::$app->request->userIP;
          echo MiscHelpers::br();
+         echo 'new';
+         exit;
          // User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
