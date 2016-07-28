@@ -325,7 +325,8 @@ class Reminder extends \yii\db\ActiveRecord
           echo 'Meeting: '.$m->id.' status: '.Meeting::lookupStatus($m->status);
           echo MiscHelpers::br();
           if (!empty($temp)) {
-            echo $temp.MiscHelpers::br();
+            echo $temp.MiscHelpers::br(2);
+            continue;
           }
           echo 'Participants: ';
           var_dump($people);
