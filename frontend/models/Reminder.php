@@ -274,7 +274,8 @@ class Reminder extends \yii\db\ActiveRecord
       // check that reminder configurations are correct
       // check their meetingreminders
       // for all confirmed meetings
-      $output = true;
+      $report = new \stdClass;
+      $report->result = true;
       $mtgs = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->all(); // STATUS_CONFIRMED
       if ($output) {
         echo MiscHelpers::br();
@@ -282,14 +283,21 @@ class Reminder extends \yii\db\ActiveRecord
         echo MiscHelpers::br();
       }
 
-
       foreach ($mtgs as $m) {
         $people = [];
         // for all organizers
         $people[0] = $m->owner_id;
+        $role[0] = 'organizer';
         // for all participants
         foreach ($m->participants as $p) {
           $people[]= $p->participant_id;
+          $role[]='participant';
+        }
+        if (count($people)<2) {
+          $temp = $report->errors[] = 'Error! Meeting:'.$m->id.', has no participants';
+          if ($output) {
+            echo $temp.MiscHelpers::br();
+          }
         }
         // display headers
         if ($output) {
@@ -300,24 +308,41 @@ class Reminder extends \yii\db\ActiveRecord
           echo MiscHelpers::br();
         }
         // check their reminders
+        $cnt = 0;
         foreach ($people as $p) {
           if ($output) {
-            echo 'Participant: '.$p;
+            echo $role[$cnt].': '.$p;
             echo MiscHelpers::br();
           }
           $reminders = Reminder::find()->where(['user_id'=>$p])->all();
+          if (empty($reminders)) {
+            $temp = $report->errors[] = 'Error! '.$role[$cnt].' user_id '.$p.' has no reminders';
+            if ($output) {
+              echo $temp.MiscHelpers::br();
+            }
+          }
           foreach ($reminders as $r) {
             $result = Reminder::checkMeetingReminder($r,$m->id);
-            echo 'Reminder #'.$r->id.': ';
             if ($result) {
-              echo 'OK';
+              $temp = 'OK';
             } else {
-              echo 'Error!';
+
+              $temp = $report->errors[] = 'Error! Reminder #'.$r->id.', Meeting:'.$m->id.', '.$role[$cnt].' user_id: '.$p.' time is wrong!';
             }
-            echo MiscHelpers::br();
+            if ($output) {
+              echo 'Reminder #'.$r->id.': '.$temp.MiscHelpers::br();
+            }
           }
+          $cnt+=1;
+        }
+        if ($output) {
+          echo MiscHelpers::br(); // next meeting
         }
       }
+      if (count($report->errors) >0 ) {
+        $report->result = false;
+      }
+      return $report;
     }
 
     public static function checkMeetingReminder($reminder,$meeting_id) {

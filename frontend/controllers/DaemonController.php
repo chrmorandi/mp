@@ -185,8 +185,11 @@ public function actionQuarter() {
          $s = new \common\models\Sms();
          $s->transmit($user_id,'Fourth transmit test from MP codebase!');
          */
-         \frontend\models\Reminder::statusCheck(true);
+         $report = \frontend\models\Reminder::statusCheck(false);
+         foreach ($report->errors as $e) {
+           echo $e.MiscHelpers::br();
          }
+      }
 
 
 }
