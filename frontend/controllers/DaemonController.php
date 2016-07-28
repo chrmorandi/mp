@@ -179,9 +179,7 @@ public function actionQuarter() {
          //echo phpinfo();
          echo Yii::$app->request->userIP;
          echo MiscHelpers::br();
-         echo 'new';
-         exit;
-         // User::checkAllUsers();
+         User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
          //\frontend\models\MeetingTime::calcPopular();
@@ -191,7 +189,7 @@ public function actionQuarter() {
          */
          $report = \frontend\models\Reminder::statusCheck(true);
          foreach ($report->errors as $e) {
-          // echo $e.MiscHelpers::br();
+          echo $e.MiscHelpers::br();
         }
       }
 
