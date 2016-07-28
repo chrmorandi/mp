@@ -80,37 +80,45 @@ class MiscHelpers  {
      return $displayName;
    }
 
-   /**
- * Timezones list with GMT offset
- *
- * @return array
- * @link customized from http://stackoverflow.com/a/9328760
- */
-public static function getTimezoneList() {
-  $zones_array = array();
-  $timestamp = time();
-  foreach(timezone_identifiers_list() as $key => $zone) {
-    date_default_timezone_set($zone);
-    $zones_array[$zone] = $zone.' UTC/GMT ' . date('P', $timestamp);
+     /**
+   * Timezones list with GMT offset
+   *
+   * @return array
+   * @link customized from http://stackoverflow.com/a/9328760
+   */
+  public static function getTimezoneList() {
+    $zones_array = array();
+    $timestamp = time();
+    foreach(timezone_identifiers_list() as $key => $zone) {
+      date_default_timezone_set($zone);
+      $zones_array[$zone] = $zone.' UTC/GMT ' . date('P', $timestamp);
+    }
+    return $zones_array;
   }
-  return $zones_array;
-}
 
-public static function fetchUserTimezone($user_id) {
-  // fetch user timezone
-  $user_setting = \frontend\models\UserSetting::safeGet($user_id);
-  if (!is_null($user_setting)) {
-    $timezone = $user_setting->timezone;
-  } else {
-    $timezone = 'America/Los_Angeles';
+  public static function fetchUserTimezone($user_id) {
+    // fetch user timezone
+    $user_setting = \frontend\models\UserSetting::safeGet($user_id);
+    if (!is_null($user_setting)) {
+      $timezone = $user_setting->timezone;
+    } else {
+      $timezone = 'America/Los_Angeles';
+    }
+    return $timezone;
   }
-  return $timezone;
-}
 
-public static function getUrlPrefix() {
-  // to do - obviate this with proper config of base url
-  return (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
-}
+  public static function getUrlPrefix() {
+    // to do - obviate this with proper config of base url
+    return (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
+  }
+
+  public static function br($n = 1) {
+    $str = '';
+    for ($i=0;$i<$n;$i++) {
+      $str.='<br />';
+    }
+    return $str;
+  }
 
 }
 ?>

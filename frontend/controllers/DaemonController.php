@@ -143,21 +143,6 @@ public function actionQuarter() {
       //echo 'complete';
     }
 
-    public function actionDiagnostics() {
-      echo 'PHP Version: '.phpversion();
-      //echo phpinfo();
-      echo Yii::$app->request->userIP;
-      //Meeting::checkPast();
-      $d = new Daemon();
-      echo $d->displayConstant(10);
-      //\frontend\models\Place::getMeetingPlaceCountByUser(1);
-      //\frontend\models\MeetingTime::calcPopular();
-      /*$user_id = 1;
-      $s = new \common\models\Sms();
-      $s->transmit($user_id,'Fourth transmit test from MP codebase!');
-      */
-      }
-
       public function touchSapi() {
         /*
         echo php_sapi_name(); // always apache2handler, local and remote
@@ -185,4 +170,22 @@ public function actionQuarter() {
                  throw new NotFoundHttpException('The requested page does not exist.');
              }
          }
+
+       public function actionDiagnostics() {
+         echo 'PHP Version: '.phpversion();
+         //echo phpinfo();
+         echo Yii::$app->request->userIP;
+         //Meeting::checkPast();
+         $d = new Daemon();
+         echo $d->displayConstant(10);
+         //\frontend\models\Place::getMeetingPlaceCountByUser(1);
+         //\frontend\models\MeetingTime::calcPopular();
+         /*$user_id = 1;
+         $s = new \common\models\Sms();
+         $s->transmit($user_id,'Fourth transmit test from MP codebase!');
+         */
+         \frontend\models\Reminder::statusCheck(true);
+         }
+
+
 }

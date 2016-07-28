@@ -6,6 +6,8 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\i18n\Formatter;
 use common\models\User;
+use common\components\MiscHelpers;
+use frontend\models\Meeting;
 use frontend\models\MeetingReminder;
 
 /**
@@ -266,6 +268,55 @@ class Reminder extends \yii\db\ActiveRecord
         return false;
       }
       return true;
+    }
+
+    public static function statusCheck($output = false) {
+      // check that reminder configurations are correct
+      // check their meetingreminders
+      // for all confirmed meetings
+      $output = true;
+      $mtgs = Meeting::find()->where(['status'=>Meeting::STATUS_CONFIRMED])->all();
+      if ($output) {
+        echo MiscHelpers::br();
+        echo 'Count of Confirmed Meetings: '.count($mtgs);
+        echo MiscHelpers::br();
+      }
+
+
+      foreach ($mtgs as $m) {
+        $people = [];
+        // for all organizers
+        $people[0] = $m->owner_id;
+        // for all participants
+        foreach ($m->participants->participant_id as $p_id) {
+          $people[]= $p_id;
+        }
+        // display headers
+        if ($output) {
+          echo 'Meeting: '.$m->id;
+          echo MiscHelpers::br();
+          echo 'Participants: ';
+          var_dump($people);
+          echo MiscHelpers::br();
+        }
+        // check their reminders
+        foreach ($people as $p) {
+          if ($output) {
+            echo 'Participant: '.$p;
+            echo MiscHelpers::br();
+          }
+          $reminders = Reminder::find()->where(['user_id'=>$p])->all();
+          foreach ($reminders as $r) {
+            $result = $this->checkMeetingReminders($r);
+            echo 'Reminder: '.$r->id;
+            echo MiscHelpers::br();
+          }
+        }
+      }
+    }
+
+    public static function checkMeetingReminders($reminder) {
+
     }
 
 }
