@@ -128,7 +128,7 @@ public function actionQuarter() {
 
     public function actionFix()
     {
-      \frontend\models\Fix::cleanupReminders();
+      // \frontend\models\Fix::cleanupReminders();
       // \frontend\models\Fix::cleanupEmails();
       echo 'complete';
     }
@@ -179,7 +179,7 @@ public function actionQuarter() {
          //echo phpinfo();
          echo Yii::$app->request->userIP;
          echo MiscHelpers::br();
-         User::checkAllUsers();
+         // User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
          //\frontend\models\MeetingTime::calcPopular();
