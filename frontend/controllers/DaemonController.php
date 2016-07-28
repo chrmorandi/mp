@@ -10,6 +10,7 @@ use frontend\models\DaemonSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\MeetingReminder;
 use frontend\models\MailgunNotification;
@@ -173,11 +174,11 @@ public function actionQuarter() {
 
        public function actionDiagnostics() {
          echo 'PHP Version: '.phpversion();
+         echo MiscHelpers::br();
          //echo phpinfo();
          echo Yii::$app->request->userIP;
+         echo MiscHelpers::br();
          //Meeting::checkPast();
-         $d = new Daemon();
-         echo $d->displayConstant(10);
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
          //\frontend\models\MeetingTime::calcPopular();
          /*$user_id = 1;

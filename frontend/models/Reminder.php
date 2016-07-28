@@ -275,7 +275,7 @@ class Reminder extends \yii\db\ActiveRecord
       // check their meetingreminders
       // for all confirmed meetings
       $output = true;
-      $mtgs = Meeting::find()->where(['status'=>Meeting::STATUS_CONFIRMED])->all();
+      $mtgs = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->all(); // STATUS_CONFIRMED
       if ($output) {
         echo MiscHelpers::br();
         echo 'Count of Confirmed Meetings: '.count($mtgs);
@@ -288,8 +288,8 @@ class Reminder extends \yii\db\ActiveRecord
         // for all organizers
         $people[0] = $m->owner_id;
         // for all participants
-        foreach ($m->participants->participant_id as $p_id) {
-          $people[]= $p_id;
+        foreach ($m->participants as $p) {
+          $people[]= $p->participant_id;
         }
         // display headers
         if ($output) {
@@ -307,16 +307,29 @@ class Reminder extends \yii\db\ActiveRecord
           }
           $reminders = Reminder::find()->where(['user_id'=>$p])->all();
           foreach ($reminders as $r) {
-            $result = $this->checkMeetingReminders($r);
-            echo 'Reminder: '.$r->id;
+            $result = Reminder::checkMeetingReminder($r,$m->id);
+            echo 'Reminder #'.$r->id.': ';
+            if ($result) {
+              echo 'OK';
+            } else {
+              echo 'Error!';
+            }
             echo MiscHelpers::br();
           }
         }
       }
     }
 
-    public static function checkMeetingReminders($reminder) {
-
+    public static function checkMeetingReminder($reminder,$meeting_id) {
+      // get chosen start time for Meeting
+      $chosenTime = Meeting::getChosenTime($meeting_id);
+      // check that there is a meeting reminder for this reminder
+      $mr = MeetingReminder::find()->where(['reminder_id'=>$reminder->id,'meeting_id'=>$meeting_id])->one();
+      $dueTime = $chosenTime->start - $reminder->duration;
+      if (!empty($mr) && $mr->due_at ==$dueTime ) {
+          return true;
+      } else {
+        return false;
+      }
     }
-
 }
