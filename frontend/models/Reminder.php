@@ -285,7 +285,7 @@ class Reminder extends \yii\db\ActiveRecord
       foreach ($users as $u) {
         $cntRems = Reminder::find()->where(['user_id'=>$u->id])->count();
         if ($cntRems==0) {
-          $temp = $report->errors[]='ERROR! User #: '.$u->id.' '.$userCls->displayConstant($u->status).' created: '.date('M j, Y',$u->created_at).' has no reminders!';
+          $temp = $report->errors[]='ERROR! User #: '.$u->id.' '.$u->email.' '.$userCls->displayConstant($u->status).' created: '.date('M j, Y',$u->created_at).' has no reminders!';
           if ($output) {
             echo $temp.MiscHelpers::br();
           }
