@@ -157,21 +157,6 @@ class Participant extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'participant_id']);
     }
 
-    public function addUser() {
-      // new participant from meeting invite
-      // lookup email as existing user
-      // if not exist, create user entry
-      // username, email and password
-          $user = new User();
-          $user->username = $this->username;
-          $user->email = $this->email;
-          $user->status = User::STATUS_PASSIVE;
-          $user->setPassword($this->password);
-          $user->generateAuthKey();
-          $user->save();
-      return $user->id;
-    }
-
     public function mailgunValidator($attribute,$params)
     {
           $yg = new Yiigun('public');
@@ -191,7 +176,7 @@ class Participant extends \yii\db\ActiveRecord
       // how many meetingplaces on this meeting
       $cnt = Participant::find()
         ->where(['meeting_id'=>$meeting_id])
-        ->count();        
+        ->count();
       if ($cnt >= Participant::MEETING_LIMIT ) {
         return false;
       }

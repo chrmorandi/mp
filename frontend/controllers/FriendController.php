@@ -3,8 +3,6 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Friend;
-use frontend\models\FriendSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
@@ -13,6 +11,10 @@ use yii\bootstrap\ActiveForm;
 use yii\web\Request;
 use yii\web\Response;
 use yii\helpers\Html;
+use common\models\User;
+use frontend\models\Friend;
+use frontend\models\FriendSearch;
+
 
 /**
  * FriendController implements the CRUD actions for Friend model.
@@ -103,12 +105,7 @@ class FriendController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post())) {
-          // get user_id of email
-          $user_id = $model->lookupEmail($model->email);
-          if ($user_id===false) {
-            $user_id = $model->addUser($model->email);
-          }
-          $model->friend_id = $user_id;
+          $model->friend_id = User::addUserFromEmail($model->email);
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid

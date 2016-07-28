@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use frontend\models\UserBlock;
 use frontend\models\UserSetting;
+use yii\helpers\Inflector;
 
 /**
  * User model
@@ -292,20 +293,52 @@ class User extends ActiveRecord implements IdentityInterface
       }
     }
 
-    public static function generateUniqueUsername($prefix='') {
+    public static function generateUniqueUsername($prefix='',$mode = 'form') {
       $is_unique = false;
       $cnt = 0;
+      $username=$prefix;
       while (!$is_unique && $cnt<15) {
-        $username=$prefix.Yii::$app->security->generateRandomString(6);
         $u = User::find()->where(['username'=>$username])->one();
         if (is_null($u)) {
           return $username;
         } else {
           $cnt+=1;
         }
+        $username.=Yii::$app->security->generateRandomString(1);
       }
-      echo 'Sorry, we were unable to generate a unique username for you.';
-      exit();
+      if ($mode =='form') {
+        echo 'Sorry, we were unable to generate a unique username for you.';
+        exit();
+      } else {
+        // called from addUserFromEmail
+        return false;
+      }
+
+    }
+
+    public static function addUserFromEmail($email) {
+      // safely creates and initializes new user account
+      // called from Participant added and Friend added
+      // but if already exists, returns user_id
+      if (User::find()->where(['email' => $email])->exists()) {
+        return User::find()->where(['email' => $email])->one()->id;
+      }
+      $user = new User();
+      $user->email = $email;
+      $unique_username = User::generateUniqueUsername($email);
+      if ($unique_username===false) {
+        // to do - log or email major error
+        exit;
+      }
+      $user->username = $unique_username;
+      $user->status = User::STATUS_PASSIVE;
+      $pwd = Yii::$app->security->generateRandomString(12);
+      $user->setPassword($pwd);
+      $user->generateAuthKey();
+      $user->save();
+      // to do - report error
+      $user->completeInitialize($user->id);
+      return $user->id;
     }
 
     public function displayConstant($lookup) {
@@ -320,4 +353,42 @@ class User extends ActiveRecord implements IdentityInterface
      		}
      	}
      }
+
+    public static function checkAllUsers() {
+        $users = User::find()
+          ->where(['status'=>User::STATUS_ACTIVE])
+          ->orWhere(['status'=>User::STATUS_PASSIVE])
+          ->all();
+        foreach ($users as $u) {
+          $report = User::isInitialized($u->id);
+          if ($report->result===false) {
+            var_dump($report->errors);
+            echo \common\components\MiscHelpers::br();
+          }
+        }
+    }
+
+    public static function isInitialized($user_id) {
+      // have a user profile entry
+      // have a user setting entry
+      // have reminders
+      $report = new \stdClass;
+      $report->result = true;
+      $up = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
+      if (is_null($up)) {
+        $report->result = false;
+        $report->errors[] = $user_id.' has no UserProfile';
+      }
+      $us = \frontend\models\UserSetting::find()->where(['user_id'=>$user_id])->one();
+      if (is_null($us)) {
+        $report->result = false;
+        $report->errors[] = $user_id.' has no UserSettings';
+      }
+      $rems = \frontend\models\Reminder::find()->where(['user_id'=>$user_id])->count();
+      if ($rems ==0) {
+        $report->result = false;
+        $report->errors[] = 'Warning: '.$user_id.' has no Reminders';
+      }
+      return $report;
+    }
 }

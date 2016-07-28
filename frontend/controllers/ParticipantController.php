@@ -3,18 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\base\Security;
+use yii\bootstrap\ActiveForm;
+use yii\web\Response;
+use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\Participant;
 use frontend\models\ParticipantSearch;
 use frontend\models\Friend;
-use common\models\User;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\helpers\Inflector;
-use yii\base\Security;
-use yii\bootstrap\ActiveForm;
-use yii\web\Response;
 
 /**
  * ParticipantController implements the CRUD actions for Participant model.
@@ -89,18 +88,7 @@ class ParticipantController extends Controller
             if (!empty($postedVars['Participant']['new_email'])) {
                 $model->email = $postedVars['Participant']['new_email'];
             }
-            if (!User::find()->where( [ 'email' => $model->email ] )->exists()) {
-              // if email not already registered
-              //  create new user with temporary username & password
-              $temp_email_arr[] = $model->email;
-              $model->username = Inflector::slug(implode('-', $temp_email_arr));
-              $model->password = Yii::$app->security->generateRandomString(12);
-              $model->participant_id = $model->addUser();
-            } else {
-              // add participant from user record
-              $usr = User::find()->where( [ 'email' => $model->email ] )->one();
-              $model->participant_id = $usr->id;
-            }
+            $model->participant_id = User::addUserFromEmail($model->email);
             // validate the form against model rules
             if ($model->validate()) {
                 // all inputs are valid

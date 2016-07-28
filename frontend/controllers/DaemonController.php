@@ -5,12 +5,13 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Request;
 use yii\data\ActiveDataProvider;
-use frontend\models\Daemon;
-use frontend\models\DaemonSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\components\MiscHelpers;
+use common\models\User;
+use frontend\models\Daemon;
+use frontend\models\DaemonSearch;
 use frontend\models\Meeting;
 use frontend\models\MeetingReminder;
 use frontend\models\MailgunNotification;
@@ -178,6 +179,7 @@ public function actionQuarter() {
          //echo phpinfo();
          echo Yii::$app->request->userIP;
          echo MiscHelpers::br();
+         User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
          //\frontend\models\MeetingTime::calcPopular();
@@ -188,7 +190,7 @@ public function actionQuarter() {
          $report = \frontend\models\Reminder::statusCheck(true);
          foreach ($report->errors as $e) {
           // echo $e.MiscHelpers::br();
-         }
+        }
       }
 
 
