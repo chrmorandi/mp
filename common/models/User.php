@@ -362,8 +362,10 @@ class User extends ActiveRecord implements IdentityInterface
         foreach ($users as $u) {
           $report = User::isInitialized($u->id);
           if ($report->result===false) {
-            var_dump($report->errors);
+            echo 'User: '.$u->email;
             echo \common\components\MiscHelpers::br();
+            var_dump($report->errors);
+            echo \common\components\MiscHelpers::br(2);
           }
         }
     }
