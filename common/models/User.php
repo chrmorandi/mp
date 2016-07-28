@@ -33,7 +33,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
     const STATUS_PASSIVE = 20;
 
-    const ROLE_USER = 10;
+    const ROLE_USER = 10; // to do - change from STATUS_ACTIVE
     const ROLE_ADMIN = 100;
 
     public $dataCount;
@@ -305,6 +305,19 @@ class User extends ActiveRecord implements IdentityInterface
         }
       }
       echo 'Sorry, we were unable to generate a unique username for you.';
-      exit();      
+      exit();
     }
+
+    public function displayConstant($lookup) {
+       $xClass = new \ReflectionClass ( get_class($this));
+     	$constants = $xClass->getConstants();
+     	$constName = null;
+     	foreach ( $constants as $name => $value )
+     	{
+     		if ($value == $lookup)
+     		{
+     			return strtolower($name);
+     		}
+     	}
+     }
 }

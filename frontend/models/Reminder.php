@@ -281,10 +281,11 @@ class Reminder extends \yii\db\ActiveRecord
         ->where(['status'=>User::STATUS_ACTIVE])
         ->orWhere(['status'=>User::STATUS_PASSIVE])
         ->all();
+      $userCls = new User;
       foreach ($users as $u) {
         $cntRems = Reminder::find()->where(['user_id'=>$u->id])->count();
         if ($cntRems==0) {
-          $temp = $report->errors[]='ERROR! User #: '.$u->id.' created: '.date('M j, Y',$u->created_at).' has no reminders!';
+          $temp = $report->errors[]='ERROR! User #: '.$u->id.' '.$userCls->displayConstant($u->status).' created: '.date('M j, Y',$u->created_at).' has no reminders!';
           if ($output) {
             echo $temp.MiscHelpers::br();
           }
@@ -296,6 +297,7 @@ class Reminder extends \yii\db\ActiveRecord
       $mtgs = Meeting::find()
         ->where(['status'=>Meeting::STATUS_COMPLETED])
         ->orWhere(['status'=>Meeting::STATUS_CONFIRMED])
+        ->orderBy('id DESC')
         ->all();
       $report->meetingCount = count($mtgs);
       if ($output) {
