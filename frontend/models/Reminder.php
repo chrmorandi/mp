@@ -276,13 +276,33 @@ class Reminder extends \yii\db\ActiveRecord
       // for all confirmed meetings
       $report = new \stdClass;
       $report->result = true;
-      $mtgs = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->all(); // STATUS_CONFIRMED
+      // first check that all users have reminders
+      $users = User::find()
+        ->where(['status'=>User::STATUS_ACTIVE])
+        ->orWhere(['status'=>User::STATUS_PASSIVE])
+        ->all();
+      foreach ($users as $u) {
+        $cntRems = Reminder::find()->where(['user_id'=>$u->id])->count();
+        if ($cntRems==0) {
+          $temp = $report->errors[]='ERROR! User #: '.$u->id.' created: '.date('M j, Y',$u->created_at).' has no reminders!';
+          if ($output) {
+            echo $temp.MiscHelpers::br();
+          }
+        }
+      }
       if ($output) {
         echo MiscHelpers::br();
-        echo 'Count of Confirmed Meetings: '.count($mtgs);
+      }
+      $mtgs = Meeting::find()
+        ->where(['status'=>Meeting::STATUS_COMPLETED])
+        ->orWhere(['status'=>Meeting::STATUS_CONFIRMED])
+        ->all();
+      $report->meetingCount = count($mtgs);
+      if ($output) {
+        echo MiscHelpers::br();
+        echo 'Count of Meetings: '.$report->meetingCount;
         echo MiscHelpers::br();
       }
-
       foreach ($mtgs as $m) {
         $people = [];
         // for all organizers
@@ -290,19 +310,21 @@ class Reminder extends \yii\db\ActiveRecord
         $role[0] = 'organizer';
         // for all participants
         foreach ($m->participants as $p) {
-          $people[]= $p->participant_id;
           $role[]='participant';
+          $people[]= $p->participant_id;
         }
         if (count($people)<2) {
-          $temp = $report->errors[] = 'Error! Meeting:'.$m->id.', has no participants';
-          if ($output) {
-            echo $temp.MiscHelpers::br();
-          }
+          $temp = $report->errors[] = 'Error! Meeting:'.$m->id.' created: '.date('M j, Y',$u->created_at).', has no participants';
+        } else {
+          $temp ='';
         }
         // display headers
         if ($output) {
-          echo 'Meeting: '.$m->id;
+          echo 'Meeting: '.$m->id.' status: '.Meeting::lookupStatus($m->status);
           echo MiscHelpers::br();
+          if (!empty($temp)) {
+            echo $temp.MiscHelpers::br();
+          }
           echo 'Participants: ';
           var_dump($people);
           echo MiscHelpers::br();
@@ -327,7 +349,7 @@ class Reminder extends \yii\db\ActiveRecord
               $temp = 'OK';
             } else {
 
-              $temp = $report->errors[] = 'Error! Reminder #'.$r->id.', Meeting:'.$m->id.', '.$role[$cnt].' user_id: '.$p.' time is wrong!';
+              $temp = $report->errors[] = 'Error! Reminder #'.$r->id.', Meeting:'.$m->id.' '.Meeting::lookupStatus($m->status).', '.$role[$cnt].' user_id: '.$p.' time is wrong!';
             }
             if ($output) {
               echo 'Reminder #'.$r->id.': '.$temp.MiscHelpers::br();
