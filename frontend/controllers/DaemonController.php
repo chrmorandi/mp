@@ -179,7 +179,7 @@ public function actionQuarter() {
          //echo phpinfo();
          echo Yii::$app->request->userIP;
          echo MiscHelpers::br();
-         User::checkAllUsers();
+         //User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
          //\frontend\models\MeetingTime::calcPopular();
@@ -187,11 +187,5 @@ public function actionQuarter() {
          $s = new \common\models\Sms();
          $s->transmit($user_id,'Fourth transmit test from MP codebase!');
          */
-         $report = \frontend\models\Reminder::statusCheck(true);
-         foreach ($report->errors as $e) {
-          echo $e.MiscHelpers::br();
-        }
       }
-
-
 }

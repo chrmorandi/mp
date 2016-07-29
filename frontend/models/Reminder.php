@@ -295,10 +295,10 @@ class Reminder extends \yii\db\ActiveRecord
         echo MiscHelpers::br();
       }
       $mtgs = Meeting::find()
-        ->where(['status'=>Meeting::STATUS_COMPLETED])
-        ->orWhere(['status'=>Meeting::STATUS_CONFIRMED])
+        ->where(['status'=>Meeting::STATUS_CONFIRMED])
         ->orderBy('id DESC')
         ->all();
+        // ->orWhere(['status'=>Meeting::STATUS_COMPLETED])
       $report->meetingCount = count($mtgs);
       if ($output) {
         echo MiscHelpers::br();
@@ -364,7 +364,7 @@ class Reminder extends \yii\db\ActiveRecord
           echo MiscHelpers::br(); // next meeting
         }
       }
-      if (count($report->errors) >0 ) {
+      if (!empty($report->errors) ) {
         $report->result = false;
       }
       return $report;

@@ -8,7 +8,7 @@ use yii\filters\VerbFilter;
 use backend\models\Data;
 
 /**
- * Message controller
+ * Data controller
  */
 class DataController extends Controller
 {
@@ -52,7 +52,7 @@ class DataController extends Controller
         ];
     }
 
-    public function actionRecalc() {      
+    public function actionRecalc() {
         Data::recalc();
     }
 

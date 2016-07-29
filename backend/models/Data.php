@@ -12,7 +12,6 @@ use backend\models\UserData;
 use backend\models\HistoricalData;
 
 /**
- * This is the model class for table "friend".
  *
  */
 class Data extends Model

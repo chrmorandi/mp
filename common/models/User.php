@@ -355,6 +355,8 @@ class User extends ActiveRecord implements IdentityInterface
      }
 
     public static function checkAllUsers() {
+      $fullReport = new \stdClass;
+      $fullReport->result = true;
         $users = User::find()
           ->where(['status'=>User::STATUS_ACTIVE])
           ->orWhere(['status'=>User::STATUS_PASSIVE])
@@ -362,12 +364,14 @@ class User extends ActiveRecord implements IdentityInterface
         foreach ($users as $u) {
           $report = User::isInitialized($u->id);
           if ($report->result===false) {
-            echo 'User: '.$u->email;
-            echo \common\components\MiscHelpers::br();
-            var_dump($report->errors);
-            echo \common\components\MiscHelpers::br(2);
+            $fullReport->result = false;
+            $fullReport->errors[]='User: '.$u->email;
+            foreach ($report->errors as $e) {
+              $fullReport->errors[]=$e;
+            }
           }
         }
+        return $fullReport;
     }
 
     public static function isInitialized($user_id) {
