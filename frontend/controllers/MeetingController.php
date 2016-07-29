@@ -508,8 +508,12 @@ class MeetingController extends Controller
           break;
           case Meeting::COMMAND_FOOTER_BLOCK:
             // block this $obj_id (is sender_id)
-            \frontend\models\UserBlock::add($actor_id,$obj_id);
-            Yii::$app->getSession()->setFlash('success', 'We have blocked this user from contacting you again.');
+            if ($obj_id>0) {
+              \frontend\models\UserBlock::add($actor_id,$obj_id);
+              Yii::$app->getSession()->setFlash('success', 'We have blocked this user from contacting you again.');
+            } else {
+              Yii::$app->getSession()->setFlash('error', 'Sorry, there was a problem. Please visit our support page and tell us what you were doing.');                
+            }
             $this->redirect(['user-block/index']);
           break;
           case Meeting::COMMAND_FOOTER_BLOCK_ALL:

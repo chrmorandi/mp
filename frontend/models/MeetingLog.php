@@ -54,6 +54,13 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_MAKE_INPERSON = 215;
 	const ACTION_SENT_EMAIL_VERIFICATION = 220;
 
+	public $ignorable = [
+			MeetingLog::ACTION_SENT_RUNNING_LATE,
+			MeetingLog::ACTION_SENT_CONTACT_REQUEST,
+			MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,
+			MeetingLog::ACTION_FINALIZE_INVITE
+		];
+
 	// not yet implemented
 	//	const ACTION_ = ;
 	//	const ACTION_ = ;
@@ -146,8 +153,8 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->extra_id =$extra_id;
          $log->save();
 				 // don't need the update sent for these actions, so no need to touch logged_at
-				 $ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST,MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,MeetingLog::ACTION_FINALIZE_INVITE];
-				 if (!in_array($action,$ignorable)) {
+				 //$ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST,MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,MeetingLog::ACTION_FINALIZE_INVITE];
+				 if (!in_array($action,$this->ignorable)) {
 					 // sets the touched_at field for the Meeting
 	 				Meeting::touchLog($meeting_id);
 				 }
@@ -216,7 +223,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				$label = Yii::t('frontend','Completed meeting');
 				break;
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
-				$label = Yii::t('frontend','Sent request for contact information');
+				$label = Yii::t('frontend','was sent a request for contact information');
 				break;
 				case MeetingLog::ACTION_SENT_RUNNING_LATE:
 				$label = Yii::t('frontend','Sent running late notification');
@@ -369,7 +376,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 					// check if this participant was invited
 					($e->action == MeetingLog::ACTION_INVITE_PARTICIPANT && $e->item_id == $user_id) ||
 					// check if it was finalized, meaning a confirmation will appear next
-					($e->action == MeetingLog::ACTION_FINALIZE_INVITE)
+					(in_array($e->action,$this->ignorable))
 					) {
 						$num_events-=1; // skip event, reduce number of events
 						continue;

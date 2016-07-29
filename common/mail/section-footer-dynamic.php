@@ -27,7 +27,13 @@ use common\components\MiscHelpers;
     } else {
       ?>
       <?php echo HTML::a(Yii::t('frontend','Email settings'),$links['footer_email']); ?>
+      <?php
+        if (isset($links['footer_block'])) {
+      ?>
       | <?php echo HTML::a(Yii::t('frontend','Block sender'),$links['footer_block']); ?>
+      <?php
+        }
+       ?>
       <?php //echo HTML::a(Yii::t('frontend','Block all'),$links['footer_block_all']); ?>
       <?php
     }

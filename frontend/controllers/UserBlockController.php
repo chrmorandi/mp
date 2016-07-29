@@ -32,7 +32,7 @@ class UserBlockController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>[''],
+                       'actions'=>['index','cancel'],
                        'roles' => ['@'],
                    ],
                   [
@@ -116,10 +116,9 @@ class UserBlockController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionCancel($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
