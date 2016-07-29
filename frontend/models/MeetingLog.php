@@ -54,7 +54,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_MAKE_INPERSON = 215;
 	const ACTION_SENT_EMAIL_VERIFICATION = 220;
 
-	public $ignorable = [
+	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
 			MeetingLog::ACTION_SENT_CONTACT_REQUEST,
 			MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,
@@ -154,7 +154,7 @@ class MeetingLog extends \yii\db\ActiveRecord
          $log->save();
 				 // don't need the update sent for these actions, so no need to touch logged_at
 				 //$ignorable = [MeetingLog::ACTION_SENT_RUNNING_LATE,MeetingLog::ACTION_SENT_CONTACT_REQUEST,MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,MeetingLog::ACTION_FINALIZE_INVITE];
-				 if (!in_array($action,$this->ignorable)) {
+				 if (!in_array($action,MeetingLog::$ignorable)) {
 					 // sets the touched_at field for the Meeting
 	 				Meeting::touchLog($meeting_id);
 				 }
@@ -376,7 +376,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 					// check if this participant was invited
 					($e->action == MeetingLog::ACTION_INVITE_PARTICIPANT && $e->item_id == $user_id) ||
 					// check if it was finalized, meaning a confirmation will appear next
-					(in_array($e->action,$this->ignorable))
+					(in_array($e->action,MeetingLog::$ignorable))
 					) {
 						$num_events-=1; // skip event, reduce number of events
 						continue;

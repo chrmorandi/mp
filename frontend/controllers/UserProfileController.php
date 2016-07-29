@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\UserProfile;
 use frontend\models\UserProfileSearch;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -86,7 +87,7 @@ class UserProfileController extends Controller
            // generate a unique file name to prevent duplicate filenames
            // to do - verify this file does not exist already
            $model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
-           if($model->save()){
+           if($model->validate() && $model->save()) {
              $path = Yii::$app->params['uploadPath'] . $model->avatar;
              $results = $image->saveAs($path);
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
@@ -98,14 +99,24 @@ class UserProfileController extends Controller
               }
            } else {
              // error in saving model
+             Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there were some problems.'));
              // pass thru to form
            }
          } else {
            // simple save
-           Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your profile has been updated.'));
-           $model->update();
+           if ($model->validate()) {
+             $model->updateUsername($model->username,$model->user_id);
+             $model->update();
+             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your profile has been updated.'));
+
+           } else {
+             Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there were some problems.'));
+           }
            // pass thru to form
          }
+      } else {
+        $u = User::find($model->user_id)->one();
+        $model->username = $u->username;
       }
       return $this->render('update', [
           'model' => $model,

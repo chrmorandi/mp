@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use common\models\User;
 
 /**
  * This is the model class for table "user_profile".
@@ -22,7 +23,7 @@ class UserProfile extends \yii\db\ActiveRecord
 {
 
   public $image;
-
+  public $username;
     /**
      * @inheritdoc
      */
@@ -50,10 +51,11 @@ class UserProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', ], 'required'], // 'filename', 'avatar','firstname', 'lastname', 'fullname'
+            [['user_id','username'], 'required'], // 'filename', 'avatar','firstname', 'lastname', 'fullname'
             [['user_id'], 'integer'],
-            [['firstname', 'lastname', 'fullname', 'filename', 'avatar'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            ['username', 'validateUsername', 'message'=>Yii::t('frontend','This username already exists.')],
+            [['firstname', 'lastname', 'fullname', 'username', 'filename', 'avatar'], 'string', 'max' => 255],
             [['image'], 'safe'],
             [['image'], 'file', 'extensions'=>'jpg, gif, png'],
             [['image'], 'file', 'maxSize'=>'100000'],
@@ -64,6 +66,20 @@ class UserProfile extends \yii\db\ActiveRecord
              [['filename', 'avatar'], 'string', 'max' => 255],
         ];
     }
+
+    public function validateUsername($attribute, $params)
+        {
+          $username = $this->$attribute;
+          $u = User::find()
+            ->where(['username'=>$username])
+            ->andWhere('id<>'.Yii::$app->user->getId())
+            ->all();
+          if (empty($u)) {
+            return true;
+          } else {
+                $this->addError($attribute, 'This username already exists.');
+            }
+        }
 
     /**
      * @inheritdoc
@@ -140,6 +156,20 @@ class UserProfile extends \yii\db\ActiveRecord
       if (empty($up->fullname)) {
           $up->fullname = $fullname;
       }
-      $up->update();    
+      $up->update();
+    }
+
+    public function updateUsername($username,$user_id) {
+      $u = User::find()
+        ->where(['username'=>$username])
+        ->andWhere('id<>'.$user_id)
+        ->all();
+      if (empty($u)) {
+        $u= User::findOne($user_id);
+        $u->username=$username;
+        $u->update();
+      } else {
+        return false;
+      }
     }
 }

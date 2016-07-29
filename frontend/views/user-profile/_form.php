@@ -15,6 +15,7 @@ use kartik\file\FileInput;
    <li class="active"><a href="#profile" role="tab" data-toggle="tab"><?= Yii::t('frontend','Your name') ?></a></li>
    <li><a href="#social" role="tab" data-toggle="tab"><?= Yii::t('frontend','Link Social accounts') ?></a></li>
    <li><a href="#photo" role="tab" data-toggle="tab"><?= Yii::t('frontend','Upload Photo') ?></a></li>
+   <li><a href="#un" role="tab" data-toggle="tab"><?= Yii::t('frontend','Username') ?></a></li>
  </ul>
  <!-- Tab panes -->
  <?php
@@ -27,12 +28,7 @@ use kartik\file\FileInput;
          <?= $form->field($model, 'firstname')->textInput(['maxlength' => true]) ?>
          <?= $form->field($model, 'lastname')->textInput(['maxlength' => true]) ?>
          <?= $form->field($model, 'fullname')->textInput(['maxlength' => true])->label(Yii::t('frontend','Friendly Name'))->hint(Yii::t('frontend','Optional')) ?>
-         <div class="form-group">
-             <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Create') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-         </div>
-
      </div>
-
    </div> <!-- end of profile tab -->
     <div class="tab-pane vertical-pad" id="social">
             <p>Do you want to login with one click with one of the following services?</p>
@@ -41,17 +37,19 @@ use kartik\file\FileInput;
                  'popupMode' => false,
             ]) ?>
     </div> <!-- end of social tab -->
+    <div class="tab-pane vertical-pad" id="un">
+      <?= $form->field($model, 'username')->textInput(['maxlength' => true])->label(Yii::t('frontend','Username'))->hint(Yii::t('frontend','Used for meeting links (URLs), signing in, et al.')) ?>
+    </div>  <!-- end tab content -->
     <div class="tab-pane vertical-pad" id="photo">
       <?=$form->field($model, 'image')->widget(FileInput::classname(), [
           'options' => ['accept' => 'image/*','data-show-upload'=>'false'],
            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']],
       ]);   ?>
-      <div class="form-group">
-          <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Create') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-      </div>
-
     </div> <!-- end of upload photo tab -->
 </div> <!-- end tab content -->
+<div class="form-group">
+    <?= Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
+</div>
 <?php ActiveForm::end(); ?>
 </div> <!-- end left col -->
 <div class="col-md-4">
