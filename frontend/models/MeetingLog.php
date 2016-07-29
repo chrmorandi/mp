@@ -362,26 +362,36 @@ class MeetingLog extends \yii\db\ActiveRecord
 				}
 				$action = $e->getMeetingLogCommand();
 				$item = $e->getMeetingLogItem();
-				if (in_array($e->item_id,$items_mentioned)) {
+				// check if action can be skipped
+				if (
 					// only mention item the first time it appears (last action, as sorted)
-					$cnt+=1;
-					continue;
-				} else {
-					$items_mentioned[]=$e->item_id;
-					if ($actor=='') {
-							if ($cnt == $num_events) {
-								$current_str.=' and '.$action.' '.$item;
-							} else {
-								$current_str.=', '.$action.' '.$item;
-							}
-					} else {
-							$current_str.=$actor.' '.$action.' '.$item;
+					(in_array($e->item_id,$items_mentioned)) ||
+					// check if this participant was invited
+					($e->action == MeetingLog::ACTION_INVITE_PARTICIPANT && $e->item_id == $user_id) ||
+					// check if it was finalized, meaning a confirmation will appear next
+					($e->action == MeetingLog::ACTION_FINALIZE_INVITE)
+					) {
+						$num_events-=1; // skip event, reduce number of events
+						continue;
 					}
-					$cnt+=1;
+				// add event to string
+				$items_mentioned[]=$e->item_id;
+				if ($actor=='') {
+						if ($cnt == $num_events) {
+							$current_str.=' and '.$action.' '.$item;
+						} else {
+							$current_str.=', '.$action.' '.$item;
+						}
+				} else {
+						$current_str.=$actor.' '.$action.' '.$item;
 				}
+				$cnt+=1;
 			}
 			// add last current_str (may be empty)
 			$str.=$current_str.'<br />';
+			if (count($items_mentioned)==0) {
+				$str='';
+			}
 			return $str;
 		}
 }

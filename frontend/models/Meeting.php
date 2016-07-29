@@ -1039,6 +1039,10 @@ class Meeting extends \yii\db\ActiveRecord
            ];
            // build the english language notification
            $history = MeetingLog::getHistory($meeting_id,$user_id,$mtg->cleared_at);
+           if ($history=='') {
+             // no recorded events were reportable, skip the email
+             return;
+           }
            // send the message
            $message = Yii::$app->mailer->compose([
              'html' => 'notify-html',
