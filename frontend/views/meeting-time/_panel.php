@@ -10,16 +10,19 @@ use \kartik\switchinput\SwitchInput;
 
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
-    <?php if ($timeProvider->count>1) { ?>
-      Use switches below to denote acceptable times.&nbsp;
+  <div class="panel-heading"><div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','When') ?></h4>
+    <span class="hint-text">
+      <?php if ($timeProvider->count==0) { ?>
+        <?= Yii::t('frontend','add one or more dates and times for participants to choose from') ?>
+    <?php } elseif ($timeProvider->count>1) { ?>
+      <?= Yii::t('frontend','accept or reject times below'); ?>
     <?php
       }
     ?>
     <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
-      You can also choose the time.
+      <?= Yii::t('frontend','- you can also choose the time') ?>
     <?php }?>
-  </em></p></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
+  </span></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
       if ($isOwner || $model->meetingSettings->participant_add_date_time) {
         /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/
@@ -66,7 +69,7 @@ use \kartik\switchinput\SwitchInput;
             'id'=>'mtc-'.$mtc->id,
             'value' => $value,
             'disabled' => !$isOwner,
-            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],            
+            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
             ]);
       }
     }

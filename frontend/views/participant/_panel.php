@@ -4,7 +4,7 @@ use yii\widgets\ListView;
 ?>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-4 col-md-4 col-xs-4"><h4><?= Yii::t('frontend','Who') ?></h4></div>
+  <div class="panel-heading"><div class="row"><div class="col-lg-4 col-md-4 col-xs-4"><h4 class="meeting-view"><?= Yii::t('frontend','Who') ?></h4><span class="hint-text"><?= Yii::t('frontend','add people via email or from your friends list') ?></span></div>
   <div class="col-lg-8 col-md-8 col-xs-8"><div style="float:right;"><?= Html::a(Yii::t('frontend', ''), ['/participant/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus'.((!empty($participantProvider) and ($participantProvider->getCount()>0))?' disabled':'')]) ?></div></div></div></div>
     <?php
     if (!empty($participantProvider) and $participantProvider->getCount()>0):

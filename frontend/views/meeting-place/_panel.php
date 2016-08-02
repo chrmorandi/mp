@@ -12,16 +12,19 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10"><h4><?= Yii::t('frontend','Where') ?></h4><p><em>
-        <?php if ($placeProvider->count>1) { ?>
-          Use switches below to denote acceptable places.&nbsp;
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','Where') ?></h4><p><em>
+        <span class="hint-text">
+        <?php if ($placeProvider->count==0) { ?>
+          <?= Yii::t('frontend','add places for participants to choose from or switch \'in person\' to \'virtual\'') ?>
+      <?php } elseif ($placeProvider->count>1) { ?>
+          <?= Yii::t('frontend','accept or reject places below&nbsp;') ?>
         <?php
           }
         ?>
         <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
-          You can also choose the place.
+          - you can also choose the place
         <?php }?>
-      </em></p></div>
+      </span></div>
 
 <?php
   if (!$isOwner) {

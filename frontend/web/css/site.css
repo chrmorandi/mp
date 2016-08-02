@@ -76,10 +76,20 @@ a.desc:after {
     white-space: nowrap;
 }
 
+.meeting-view h4 {
+  margin-bottom:0px;
+}
+
 .hint-block {
     display: block;
     margin-top: 5px;
     color: #999;
+}
+
+.hint-text {
+    color: #999;
+    font-size:90%;
+    font-style: italic;
 }
 
 .error-summary {
