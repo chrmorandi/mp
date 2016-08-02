@@ -81,7 +81,7 @@ class MeetingController extends Controller
               ],
         ]);
         $pastProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_COMPLETED]),
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_COMPLETED,Meeting::STATUS_EXPIRED]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
@@ -512,7 +512,7 @@ class MeetingController extends Controller
               \frontend\models\UserBlock::add($actor_id,$obj_id);
               Yii::$app->getSession()->setFlash('success', 'We have blocked this user from contacting you again.');
             } else {
-              Yii::$app->getSession()->setFlash('error', 'Sorry, there was a problem. Please visit our support page and tell us what you were doing.');                
+              Yii::$app->getSession()->setFlash('error', 'Sorry, there was a problem. Please visit our support page and tell us what you were doing.');
             }
             $this->redirect(['user-block/index']);
           break;

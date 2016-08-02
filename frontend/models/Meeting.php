@@ -58,6 +58,7 @@ class Meeting extends \yii\db\ActiveRecord
   const STATUS_SENT = 20;
   const STATUS_CONFIRMED = 40; // finalized
   const STATUS_COMPLETED = 50;
+  const STATUS_EXPIRED = 55;
   const STATUS_CANCELED = 60;
   const STATUS_TRASH = 70;
 
@@ -93,7 +94,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_VERIFY_EMAIL = 460;
   const COMMAND_RESPOND_MESSAGE = 470;
 
-  const ABANDONED_AGE = 2; // weeks
+  const ABANDONED_AGE = 3; // weeks
 
   const SWITCH_INPERSON =1;
   const SWITCH_VIRTUAL =0;
@@ -624,6 +625,9 @@ class Meeting extends \yii\db\ActiveRecord
           if (is_null($chosenPlace)) {
             // no chosen place, set it as chosen
             $place = MeetingPlace::find()->where(['meeting_id' => $meeting_id])->one();
+            if (is_null($place)) {
+              return false;
+            }
             $place->status = MeetingPlace::STATUS_SELECTED;
             $place->update();
             $chosenPlace = $place;
@@ -822,24 +826,22 @@ class Meeting extends \yii\db\ActiveRecord
        }
 
        public static function checkAbandoned() {
-         // review meetings in planning or sent
+         // converts sent and planned meetings beyond ABANDONED_AGE to Expired
          // if the last change is old move to past
          $abandoned_time = time() - (3600*24*7*Meeting::ABANDONED_AGE);
          $meetings = Meeting::find()->where('logged_at<'.$abandoned_time)->andWhere(['meeting.status'=>[Meeting::STATUS_SENT,Meeting::STATUS_PLANNING]])->all();
          foreach ($meetings as $m) {
-            $m->status = Meeting::STATUS_COMPLETED;
+            $m->status = Meeting::STATUS_EXPIRED;
             $m->update();
             MeetingLog::add($m->id,MeetingLog::ACTION_ABANDON_MEETING,$m->owner_id);
            }
        }
 
        public static function checkPast() {
-         // review meetings in sent or confirmed STATUS_SENT
+         // transitions confirmed meetings past their date to completed
          // if the chosen datetime has passed, move to STATUS_COMPLETED
          $meetings = Meeting::find()
-          ->where(['status'=>Meeting::STATUS_PLANNING])
-          ->orWhere(['status'=>Meeting::STATUS_SENT])
-          ->orWhere(['status'=>Meeting::STATUS_CONFIRMED])
+          ->where(['status'=>Meeting::STATUS_CONFIRMED])
           ->all();
           //->orWhere(['meeting.status'=>[Meeting::STATUS_SENT,Meeting::STATUS_CONFIRMED]])->all();
          echo ' <br />';
@@ -852,9 +854,11 @@ class Meeting extends \yii\db\ActiveRecord
              echo 'PAST';
              echo '<br />';
              // chosen meeting time has password_needs_rehash
-             $m->status = Meeting::STATUS_COMPLETED;
-             $m->update();
-             MeetingLog::add($m->id,MeetingLog::ACTION_COMPLETE_MEETING,$m->owner_id);
+             if ($m->status == Meeting::STATUS_CONFIRMED) {
+                $m->status = Meeting::STATUS_COMPLETED;
+                $m->update();
+                MeetingLog::add($m->id,MeetingLog::ACTION_COMPLETE_MEETING,$m->owner_id);
+             }
            } else {
              echo 'CURRENT';
              echo '<br />';
@@ -1150,6 +1154,9 @@ class Meeting extends \yii\db\ActiveRecord
         case Meeting::STATUS_SENT:
 					$label = Yii::t('frontend','Sent');
 				break;
+        case Meeting::STATUS_EXPIRED:
+          $label = Yii::t('frontend','Expired');
+        break;
         case Meeting::STATUS_CONFIRMED:
 					$label = Yii::t('frontend','Confirmed');
 				break;

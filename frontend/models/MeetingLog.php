@@ -58,7 +58,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
 			MeetingLog::ACTION_SENT_CONTACT_REQUEST,
 			MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,
-			MeetingLog::ACTION_FINALIZE_INVITE
+			MeetingLog::ACTION_FINALIZE_INVITE,
+			MeetingLog::ACTION_ABANDON_MEETING
 		];
 
 	// not yet implemented
