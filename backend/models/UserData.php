@@ -79,7 +79,7 @@ class UserData extends \yii\db\ActiveRecord
             'count_meeting_participant_last30' => Yii::t('backend', '# Prtcpnt L30'),
             'count_places' => Yii::t('backend', '# Places'),
             'count_friends' => Yii::t('backend', '# Friends'),
-            'invite_then_own'=> Yii::t('backend','Inv then Org'),
+            'invite_then_own'=> Yii::t('backend','Inv>Org'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
         ];

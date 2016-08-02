@@ -28,7 +28,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
               ],
               'count_users',
               [
-              'label'=>'% Mtg Org',
+              'label'=>'%OrgMtg',
                 'attribute' => 'percent_own_meeting',
                 'format' => 'raw',
                 'value' => function ($model) {
@@ -36,7 +36,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
                     },
             ],
             [
-              'label'=>'% Mtg Org L30',
+              'label'=>'%OrgMtgL30',
                 'attribute' => 'percent_own_meeting_last30',
                 'format' => 'raw',
                 'value' => function ($model) {
@@ -44,7 +44,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
                     },
             ],
             [
-              'label'=>'% Prtcpnt',
+              'label'=>'%Prtcpnt',
                 'attribute' => 'percent_participant',
                 'format' => 'raw',
                 'value' => function ($model) {
@@ -52,7 +52,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
                     },
             ],
             [
-              'label'=>'% Prtcpnt L30',
+              'label'=>'%PrtcpntL30',
                 'attribute' => 'percent_participant_last30',
                 'format' => 'raw',
                 'value' => function ($model) {
@@ -60,7 +60,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
                     },
             ],
             [
-              'label'=>'% Inv then Org',
+              'label'=>'%Inv>Org',
                 'attribute' => 'percent_invited_own_meeting',
                 'format' => 'raw',
                 'value' => function ($model) {
@@ -68,6 +68,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
                     },
             ],
             'count_meetings_completed',
+            'count_meetings_expired',
             'count_meetings_planning',
             [
                 'attribute' => 'average_meetings',
@@ -89,7 +90,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
                 'value' => function ($model) {
                             return '<div>'.sprintf("%.1f", $model->average_places).'</div>';
                     },
-            ],             
+            ],
              'count_places',
              'source_google',
              'source_facebook',

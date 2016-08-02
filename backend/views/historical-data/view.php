@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'count_users',
             'count_meetings_completed',
             'count_meetings_planning',
+            'count_meetings_expired',
             'count_places',
             'average_meetings',
             'average_friends',

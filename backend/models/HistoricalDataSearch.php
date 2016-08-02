@@ -18,7 +18,7 @@ class HistoricalDataSearch extends HistoricalData
     public function rules()
     {
         return [
-            [['id', 'date', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'integer'],
+            [['id', 'date', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin','count_meetings_expired'], 'integer'],
             [['percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30'], 'number'],
         ];
     }
@@ -69,6 +69,7 @@ class HistoricalDataSearch extends HistoricalData
             'count_users' => $this->count_users,
             'count_meetings_completed' => $this->count_meetings_completed,
             'count_meetings_planning' => $this->count_meetings_planning,
+            'count_meetings_expired' => $this->count_meetings_expired, 
             'count_places' => $this->count_places,
             'average_meetings' => $this->average_meetings,
             'average_friends' => $this->average_friends,

@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'count_users')->textInput() ?>
 
     <?= $form->field($model, 'count_meetings_completed')->textInput() ?>
+     <?= $form->field($model, 'count_meetings_expired')->textInput() ?> 
 
     <?= $form->field($model, 'count_meetings_planning')->textInput() ?>
 

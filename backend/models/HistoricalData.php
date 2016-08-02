@@ -28,6 +28,7 @@ use frontend\models\Friend;
  * @property integer $count_users
  * @property integer $count_meetings_completed
  * @property integer $count_meetings_planning
+ * @property integer $count_meetings_expired
  * @property integer $count_places
  * @property integer $average_meetings
  * @property integer $average_friends
@@ -53,8 +54,8 @@ class HistoricalData extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30', 'count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places', 'average_meetings', 'average_friends', 'average_places', 'source_google', 'source_facebook', 'source_linkedin'], 'required'],
-            [['average_meetings', 'average_friends', 'average_places','percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30'], 'number'],
-            [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places',  'source_google', 'source_facebook', 'source_linkedin','date'], 'integer'],
+            [['average_meetings', 'average_friends', 'average_places','percent_own_meeting', 'percent_own_meeting_last30', 'percent_invited_own_meeting', 'percent_participant','percent_participant_last30','count_meetings_expired'], 'number'],
+            [['count_users', 'count_meetings_completed', 'count_meetings_planning', 'count_places',  'source_google', 'source_facebook', 'source_linkedin','date','count_meetings_expired'], 'integer'],
         ];
     }
 
@@ -72,8 +73,9 @@ class HistoricalData extends \yii\db\ActiveRecord
             'percent_participant' => Yii::t('backend', '% Prtcpnt'),
             'percent_participant_last30'=>Yii::t('backend', '% Prtcpnt L30'),
             'count_users' => Yii::t('backend', '# Users'),
-            'count_meetings_completed' => Yii::t('backend', '# Mtgs Complete'),
-            'count_meetings_planning' => Yii::t('backend', '# Mtgs Plan'),
+            'count_meetings_completed' => Yii::t('backend', '# MComplete'),
+            'count_meetings_planning' => Yii::t('backend', '# MPlan'),
+            'count_meetings_expired' => Yii::t('backend', '# MExp'),
             'count_places' => Yii::t('backend', '# Places'),
             'average_meetings' => Yii::t('backend', 'Mtgs/User'),
             'average_friends' => Yii::t('backend', 'Friends/User'),
@@ -112,6 +114,8 @@ class HistoricalData extends \yii\db\ActiveRecord
         }
         // calculate  $count_meetings_completed
         $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->andWhere('created_at<'.$since)->count();;
+        // calculate  $count_meetings_expired
+        $hd->count_meetings_expired = Meeting::find()->where(['status'=>Meeting::STATUS_EXPIRED])->andWhere('created_at<'.$since)->count();;
         // calculate  $count_meetings_planning
         $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->andWhere('created_at<'.$since)->count();;
         // calculate  $count_places
