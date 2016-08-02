@@ -12,7 +12,7 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading"><div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','When') ?></h4>
     <span class="hint-text">
-      <?php if ($timeProvider->count==0) { ?>
+      <?php if ($timeProvider->count<=1) { ?>
         <?= Yii::t('frontend','add one or more dates and times for participants to choose from') ?>
     <?php } elseif ($timeProvider->count>1) { ?>
       <?= Yii::t('frontend','accept or reject times below'); ?>

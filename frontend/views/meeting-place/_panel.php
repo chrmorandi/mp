@@ -14,7 +14,7 @@ use \kartik\switchinput\SwitchInput;
     <div class="row">
       <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','Where') ?></h4><p><em>
         <span class="hint-text">
-        <?php if ($placeProvider->count==0) { ?>
+        <?php if ($placeProvider->count<=1) { ?>
           <?= Yii::t('frontend','add places for participants to choose from or switch \'in person\' to \'virtual\'') ?>
       <?php } elseif ($placeProvider->count>1) { ?>
           <?= Yii::t('frontend','accept or reject places below&nbsp;') ?>
