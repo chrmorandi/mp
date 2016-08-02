@@ -94,3 +94,7 @@ a.desc:after {
 a.admin-pad {
   padding: 0 7px 0 7px;
 }
+
+.statistics table td {
+  text-align: center;
+}

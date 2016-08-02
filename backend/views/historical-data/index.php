@@ -15,8 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<?php
-Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+<div class="statistics">
+     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -99,4 +100,6 @@ Pjax::begin(); ?>    <?= GridView::widget([
             //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+</div>
+<?php Pjax::end(); ?>
+</div>
