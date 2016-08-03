@@ -1111,7 +1111,7 @@ class Meeting extends \yii\db\ActiveRecord
       // looks for empty meeting in last seven
       $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
       foreach ($meetings as $m) {
-        if (!is_null($m) and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+        if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
           return $m->id;
         }
       }
@@ -1144,6 +1144,7 @@ class Meeting extends \yii\db\ActiveRecord
         Yii::t('frontend','Phone call '),
         Yii::t('frontend','Skype '),
         Yii::t('frontend','Video conference '),
+        Yii::t('frontend',Meeting::DEFAULT_SUBJECT),
       ];
       return $subjects;
     }
