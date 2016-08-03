@@ -10,10 +10,10 @@ use yii\widgets\ListView;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-xs-4"><h4 class="meeting-view"><?= Yii::t('frontend','Notes') ?></h4>
-        <span class="hint-text"><?= Yii::t('frontend','send a message to other participants') ?></span>
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','Notes') ?></h4>
+        <span class="hint-text"><?= Yii::t('frontend','send a message to others') ?></span>
       </div>
-      <div class="col-lg-8 col-md-8 col-xs-8"><div style="float:right;"><?= Html::a(Yii::t('frontend', ''), ['meeting-note/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus']) ?>
+      <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;"><?= Html::a(Yii::t('frontend', ''), ['meeting-note/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus']) ?>
       </div>
     </div>
   </div>
