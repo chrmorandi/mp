@@ -38,11 +38,11 @@ class MiscHelpers  {
    public static function isProfileEmpty($user_id) {
      // returns false or userprofile id
      $profileEmpty=false;
-     $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
+     $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();     
      if (is_null($profile)) {
        $up_id = \frontend\models\UserProfile::initialize($user_id);
        $profileEmpty = $up_id;
-     } else if (empty($profile->fullname)) {
+     } else if (empty($profile->firstname) && empty($profile->lastname) && ($profile->fullname==' ' || $profile->fullname=='')) {
        $profileEmpty=$profile->id;
      }
      return $profileEmpty;

@@ -879,12 +879,11 @@ class Meeting extends \yii\db\ActiveRecord
            $t=$user->password_reset_token;
             Yii::$app->getSession()->setFlash('info', Yii::t('frontend','Please ').HTML::a(Yii::t('frontend','reset your password'),Url::to(['/site/reset-password','token'=>$t],true)).Yii::t('frontend',' or ').Html::a(Yii::t('frontend','link a social account (e.g. Google, Facebook, LinkedIn)'),Url::to(['/user-profile','tab'=>'social'],true)).Yii::t('frontend',' so you can login directly.').'</a>');
          } else {
-            $up_id = MiscHelpers::isProfileEmpty($user_id);
+            $up_id = MiscHelpers::isProfileEmpty($user_id);            
             // returns UserProfile->id if available
             if ($up_id!==false) {
               Yii::$app->getSession()->setFlash('info', '<a href="' .Url::to(['/user-profile/update','id'=>$up_id],true).'">'.Yii::t('frontend','Please fill in your name so we can tell people what to call you.').'</a>');
             }
-
          }
        }
 

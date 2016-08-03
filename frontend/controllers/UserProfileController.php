@@ -75,6 +75,8 @@ class UserProfileController extends Controller
       } else {
           $model->user_id = Yii::$app->user->getId();
       }
+      $u = User::findOne(Yii::$app->user->getId());
+      $model->username = $u->username;
       if ($model->load(Yii::$app->request->post())) {
         $image = UploadedFile::getInstance($model, 'image');
         if (!is_null($image)) {
@@ -114,9 +116,6 @@ class UserProfileController extends Controller
            }
            // pass thru to form
          }
-      } else {
-        $u = User::find($model->user_id)->one();
-        $model->username = $u->username;
       }
       return $this->render('update', [
           'model' => $model,

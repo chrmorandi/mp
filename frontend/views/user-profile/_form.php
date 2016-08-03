@@ -37,7 +37,7 @@ use kartik\file\FileInput;
                  'popupMode' => false,
             ]) ?>
     </div> <!-- end of social tab -->
-    <div class="tab-pane vertical-pad" id="un">
+    <div class="tab-pane vertical-pad" id="un">      
       <?= $form->field($model, 'username')->textInput(['maxlength' => true])->label(Yii::t('frontend','Username'))->hint(Yii::t('frontend','Used for meeting links (URLs), signing in, et al.')) ?>
     </div>  <!-- end tab content -->
     <div class="tab-pane vertical-pad" id="photo">

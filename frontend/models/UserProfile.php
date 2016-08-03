@@ -51,7 +51,7 @@ class UserProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id','username'], 'required'], // 'filename', 'avatar','firstname', 'lastname', 'fullname'
+            [['user_id'], 'required'], // 'filename', 'avatar','firstname', 'lastname', 'fullname'
             [['user_id'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['username', 'validateUsername', 'message'=>Yii::t('frontend','This username already exists.')],
@@ -69,12 +69,14 @@ class UserProfile extends \yii\db\ActiveRecord
 
     public function validateUsername($attribute, $params)
         {
+          // to do - caution - this requires the user be logged in
+          // wherever we're initializing this model
           $username = $this->$attribute;
           $u = User::find()
             ->where(['username'=>$username])
             ->andWhere('id<>'.Yii::$app->user->getId())
-            ->all();
-          if (empty($u)) {
+            ->one();
+          if (is_null($u)) {
             return true;
           } else {
                 $this->addError($attribute, 'This username already exists.');
@@ -102,6 +104,7 @@ class UserProfile extends \yii\db\ActiveRecord
     public static function initialize($user_id) {
       $up = UserProfile::find()->where(['user_id'=>$user_id])->one();
       if (is_null($up)) {
+        $u=User::findOne($user_id);
         $up=new UserProfile;
         $up->user_id = $user_id;
         $up->firstname = '';
@@ -109,6 +112,7 @@ class UserProfile extends \yii\db\ActiveRecord
         $up->fullname = '';
         $up->filename='';
         $up->avatar='';
+        $up->username = $u->username;
         $up->save();
       }
       return $up->id;

@@ -255,7 +255,8 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public static function completeInitialize($user_id) {
-      \frontend\models\UserProfile::initialize($user_id);
+      // to do - there is a bug in userprofile validation that requires login status
+      // \frontend\models\UserProfile::initialize($user_id);
       \frontend\models\UserSetting::initialize($user_id);
       \frontend\models\Reminder::initialize($user_id);
     }
