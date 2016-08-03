@@ -102,6 +102,8 @@ class Meeting extends \yii\db\ActiveRecord
   const NEAR_LIMIT = 7;
   const DAY_LIMIT = 12;
 
+  const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
+
   public $has_subject = false;
   public $title;
   public $viewer;
@@ -287,7 +289,7 @@ class Meeting extends \yii\db\ActiveRecord
         $m = Meeting::find()->where(['id' => $meeting_id])->one();
         //$title = $this->getMeetingType($meeting->meeting_type);
         //$title.=' Meeting';
-        if (empty($m->subject)) {
+        if (empty($m->subject) || ($m->subject == Meeting::DEFAULT_SUBJECT)) {
           $str = 'New meeting';
         } else {
           $str = $m->subject;
@@ -296,9 +298,9 @@ class Meeting extends \yii\db\ActiveRecord
      }
 
      public function getMeetingHeader($source='index') {
-       if (empty($this->subject)) {
+       if (empty($this->subject) || ($this->subject ==Meeting::DEFAULT_SUBJECT)) {
          if ($source!='index') {
-           $str = 'Schedule a meeting';
+           $str = Meeting::DEFAULT_SUBJECT; // 'Schedule a meeting'
          } else {
            $str = 'New meeting';
          }

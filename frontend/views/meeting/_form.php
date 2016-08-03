@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use \kartik\typeahead\TypeaheadBasic;
-
+use common\components\MiscHelpers;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 /* @var $form yii\widgets\ActiveForm */
@@ -23,6 +23,7 @@ use \kartik\typeahead\TypeaheadBasic;
     echo $form->field($model, 'subject')->widget(TypeaheadBasic::classname(), [
     'data' => $subjects,
     'options' => ['placeholder' => Yii::t('frontend','what\'s the subject of this meeting?'),
+    'id'=>'meeting-subject',
       //'class'=>'input-large form-control'
     ],
     'pluginOptions' => ['highlight'=>true],
@@ -41,7 +42,7 @@ use \kartik\typeahead\TypeaheadBasic;
         <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
       </span>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+    <?php ActiveForm::end();
+     $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting_subject.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+     ?>
 </div>

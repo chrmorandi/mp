@@ -20,7 +20,7 @@ use yii\helpers\Html;
     </div>
   </div>
   <?php
-    if ($model->has_subject) {
+    if ($model->has_subject || $model->subject == \frontend\models\Meeting::DEFAULT_SUBJECT) {
       ?>
       <div class="panel-body">
         <?php echo Html::encode($this->title) ?>

@@ -39,7 +39,7 @@ use dosamigos\datetimepicker\DateTimePicker;
 </div>
 <div class="row">
   <div class="col-lg-4">
-    <strong><?php echo Yii::t('frontend','Time') ?></strong>    
+    <strong><?php echo Yii::t('frontend','Time') ?></strong>
     <?= DateTimePicker::widget([
         'model' => $model,
         'attribute' => 'start_time',

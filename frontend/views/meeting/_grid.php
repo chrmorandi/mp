@@ -17,7 +17,7 @@ if ($mode =='upcoming' || $mode =='past') {
               'format' => 'raw',
               'value' => function ($model) {
                   // to do - remove legacy code when subject didn't exist
-                    if ($model->subject=='') {
+                    if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT) {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                     } else {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
@@ -90,7 +90,7 @@ if ($mode =='upcoming' || $mode =='past') {
           'format' => 'raw',
           'value' => function ($model) {
               // to do - remove legacy code when subject didn't exist
-                if ($model->subject=='') {
+                if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT) {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
                 } else {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
