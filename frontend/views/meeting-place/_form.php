@@ -54,8 +54,8 @@ ComboAsset::register($this);
 <?php
   }
     ?>
-    <div class="col-md-12">
-    <h3>Via Google Maps</h3>
+    <div class="col-md-6">
+    <h3>Use Google Maps</h3>
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in an address, place or business known to Google Maps') ?>
       </div>
         <?= BaseHtml::activeHiddenInput($model, 'name'); ?>
