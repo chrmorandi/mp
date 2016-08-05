@@ -122,8 +122,8 @@ class MiscHelpers  {
 
   public static function downloadFile($fullpath){
     //echo getcwd();
-    echo dirname(__DIR__);
-    echo $fullpath; exit;
+
+    $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
     if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
         header('Content-Type:text/plain; charset=ISO-8859-15');
