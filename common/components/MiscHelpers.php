@@ -133,7 +133,7 @@ class MiscHelpers  {
         //header("Content-type:application/pdf"); //for pdf file
         header('Content-Type:text/plain; charset=ISO-8859-15');
         header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
-        //header('Content-Length: ' . filesize($fullpath));
+        header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
         //exit;
         //Yii::$app->end();
