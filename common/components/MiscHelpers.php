@@ -38,7 +38,7 @@ class MiscHelpers  {
    public static function isProfileEmpty($user_id) {
      // returns false or userprofile id
      $profileEmpty=false;
-     $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();     
+     $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
      if (is_null($profile)) {
        $up_id = \frontend\models\UserProfile::initialize($user_id);
        $profileEmpty = $up_id;
@@ -120,5 +120,15 @@ class MiscHelpers  {
     return $str;
   }
 
+  public static function downloadFile($fullpath){
+    if(!empty($fullpath)){
+        //header("Content-type:application/pdf"); //for pdf file
+        header('Content-Type:text/plain; charset=ISO-8859-15');
+        header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
+        header('Content-Length: ' . filesize($fullpath));
+        readfile($fullpath);
+        Yii::app()->end();
+    }
+  }
 }
 ?>

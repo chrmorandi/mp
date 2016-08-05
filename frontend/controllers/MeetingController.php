@@ -281,8 +281,15 @@ class MeetingController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
-    public function actionDownload($id) {
-      echo Meeting::buildCalendar($id);
+    public function actionDownload($id,$actor_id=false) {
+      // sometimes user arrives from _grid w/o actor_id or other times from email
+      if ($actor_id===false) {
+        $actor_id = Yii::$app->user->getId();
+      }
+      if ($actor_id == Yii::$app->user->getId() && Meeting::isAttendee($id,$actor_id)) {
+          Meeting::prepareDownloadIcs($id,$actor_id);
+      }
+
     }
 
     public function actionDecline($id) {
@@ -556,6 +563,9 @@ class MeetingController extends Controller
           break;
           case Meeting::COMMAND_RESPOND_MESSAGE:
             $this->redirect(\backend\models\Message::respond($obj_id,$actor_id,\backend\models\Message::RESPONSE_YES));
+            break;
+          case Meeting::COMMAND_DOWNLOAD_ICS:
+            $this->redirect(['meeting/download','id'=>$id,'actor_id'=>$actor_id]);
             break;
           default:
             $this->redirect(['site\error','meeting_id'=>$id]);

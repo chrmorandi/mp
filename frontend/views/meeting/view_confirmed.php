@@ -184,9 +184,16 @@ $this->params['breadcrumbs'][] = $this->title;
                   ?>
                   <span class="button-pad">
                     <?php
+                    if ( $model->status < $model::STATUS_COMPLETED) {
+                      echo Html::a('<i class="glyphicon glyphicon-calendar"></i>&nbsp;'.Yii::t('frontend', 'Download'), ['download', 'id' => $model->id,'actor_id'=>Yii::$app->user->getId()], ['class' => 'btn btn-default']);
+                    }
+                    ?>
+                  </span>
+                  <span class="button-pad">
+                    <?php
                     // to do - hide both of these next buttons for meeting past
                     if ( $model->status < $model::STATUS_COMPLETED) {
-                      echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['id'=>'actionLate','class' => 'btn btn-default',
+                      echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['class' => 'btn btn-default',
                     'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
                     }
                     ?>

@@ -50,7 +50,7 @@ if ($mode =='upcoming' || $mode =='past') {
                     return '<div>'.Yii::$app->formatter->asDatetime($chosenTime->start,"MMM d").'</div>';
                   },
           ],*/
-              ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {decline}  {cancel}',
+              ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {download}  {decline}  {cancel}',
               'headerOptions' => ['class' => 'itemHide'],
               'contentOptions' => ['class' => 'itemHide'],
               'buttons'=>[
@@ -61,6 +61,14 @@ if ($mode =='upcoming' || $mode =='past') {
                             'class' => 'icon-pad',
                     ]);
                   },
+                  'download' => function ($url, $model) {
+                    return ($model->status==$model::STATUS_CONFIRMED ) ? Html::a('<span class="glyphicon glyphicon-calendar"></span>', $url,
+                    [
+                            'title' => Yii::t('frontend', 'download for your calendar'),
+                            'class' => 'icon-pad',
+                    ]): '';
+                  },
+
                   'decline' => function ($url, $model) {
                     return ($model->status==$model::STATUS_SENT ) ? Html::a('<span class="glyphicon glyphicon-thumbs-down"></span>', $url, [
                             'title' => Yii::t('frontend', 'decline'),

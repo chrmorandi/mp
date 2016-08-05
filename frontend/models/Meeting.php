@@ -93,6 +93,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_GO_REMINDERS = 450;
   const COMMAND_VERIFY_EMAIL = 460;
   const COMMAND_RESPOND_MESSAGE = 470;
+  const COMMAND_DOWNLOAD_ICS = 480;
 
   const ABANDONED_AGE = 3; // weeks
 
@@ -506,7 +507,8 @@ class Meeting extends \yii\db\ActiveRecord
         }
       }
       $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
-      $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
+      $attendees[$cnt]=['user_id'=>$this->owner_id,
+        'auth_key'=>$auth_key,
         'email'=>$this->owner->email,
         'username'=>$this->owner->username];
     // use this code to send
@@ -517,6 +519,7 @@ class Meeting extends \yii\db\ActiveRecord
         $links=[
           'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
           'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+          'download'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_DOWNLOAD_ICS,0,$a['user_id'],$a['auth_key']),
           'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key']),
           'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key']),
           'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key']),
@@ -716,6 +719,49 @@ class Meeting extends \yii\db\ActiveRecord
            }
        }
 
+       public static function prepareDownloadIcs($meeting_id,$actor_id) {
+         $m = Meeting::findOne($meeting_id);
+         if ($m->meeting_type==Meeting::TYPE_PHONE || $m->meeting_type==Meeting::TYPE_VIDEO || $m->meeting_type == Meeting::TYPE_VIRTUAL) {
+           $noPlaces = true;
+           $chosenPlace=false;
+         } else {
+           $noPlaces = false;
+           $chosenPlace = $m->getChosenPlace($m->id);
+         }
+         // chosen time
+         $chosenTime=$m->getChosenTime($m->id);
+         // Get message header
+         $header = $m->getMeetingHeader();
+         // build an attendees array of both the organizer and the participants
+         // to do - this can be replaced by buildAttendeeList
+         // but friendship reciprocate needs to be reviewed and included
+         $cnt =0;
+         $attendees = array();
+         foreach ($m->participants as $p) {
+           if ($p->status ==Participant::STATUS_DEFAULT) {
+             $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+             $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+             'email'=>$p->participant->email,
+             'username'=>$p->participant->username];
+             $cnt+=1;
+             // reciprocate friendship to organizer
+             \frontend\models\Friend::add($p->participant_id,$p->invited_by);
+             // to do - reciprocate friendship in multi participant meetings
+           }
+         }
+         $auth_key=\common\models\User::find()->where(['id'=>$m->owner_id])->one()->auth_key;
+         $attendees[$cnt]=['user_id'=>$m->owner_id,
+           'auth_key'=>$auth_key,
+           'email'=>$m->owner->email,
+           'username'=>$m->owner->username];
+         foreach ($attendees as $cnt=>$a) {
+           if ($a['user_id']==$actor_id) {
+             $icsPath = Meeting::buildCalendar($m->id,$chosenPlace,$chosenTime,$a,$attendees);
+             MiscHelpers::downloadFile($icsPath);
+           }
+         }
+       }
+
        public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendee,$attendeeList) {
          $meeting = Meeting::findOne($id);
          $invite = new \common\models\Calendar($id);
@@ -759,7 +805,7 @@ class Meeting extends \yii\db\ActiveRecord
             }
           }
             $invite->setComment($commentStr);
-          $invite->setUrl(\common\components\MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
+          $invite->setUrl(MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
           $invite->generate() // generate the invite
 	         ->save(); // save it to a file;
            $downloadLink = $invite->getSavedPath();
@@ -879,7 +925,7 @@ class Meeting extends \yii\db\ActiveRecord
            $t=$user->password_reset_token;
             Yii::$app->getSession()->setFlash('info', Yii::t('frontend','Please ').HTML::a(Yii::t('frontend','reset your password'),Url::to(['/site/reset-password','token'=>$t],true)).Yii::t('frontend',' or ').Html::a(Yii::t('frontend','link a social account (e.g. Google, Facebook, LinkedIn)'),Url::to(['/user-profile','tab'=>'social'],true)).Yii::t('frontend',' so you can login directly.').'</a>');
          } else {
-            $up_id = MiscHelpers::isProfileEmpty($user_id);            
+            $up_id = MiscHelpers::isProfileEmpty($user_id);
             // returns UserProfile->id if available
             if ($up_id!==false) {
               Yii::$app->getSession()->setFlash('info', '<a href="' .Url::to(['/user-profile/update','id'=>$up_id],true).'">'.Yii::t('frontend','Please fill in your name so we can tell people what to call you.').'</a>');

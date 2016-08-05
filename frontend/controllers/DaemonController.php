@@ -174,11 +174,11 @@ public function actionQuarter() {
          }
 
        public function actionDiagnostics() {
-         echo 'PHP Version: '.phpversion();
+         /*echo 'PHP Version: '.phpversion();
          echo MiscHelpers::br();
          //echo phpinfo();
          echo Yii::$app->request->userIP;
-         echo MiscHelpers::br();
+         echo MiscHelpers::br();*/         
          //User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);
