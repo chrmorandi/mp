@@ -136,7 +136,7 @@ class MiscHelpers  {
         header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
         //exit;
-        //Yii::$app->end();
+        Yii::$app->end();
     }
   }
 }
