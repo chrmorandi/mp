@@ -123,6 +123,7 @@ class MiscHelpers  {
   public static function downloadFile($fullpath){
     $fullpath = str_replace ( './invites' ,'invites', $fullpath);
     $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
+    echo $fullpath;exit;
     if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
         header('Content-Type:text/plain; charset=ISO-8859-15');
