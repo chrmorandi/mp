@@ -121,7 +121,7 @@ class MiscHelpers  {
   }
 
   public static function downloadFile($fullpath){
-    $fullpath = str_replace ( './invites' ,'invites', $fullpath);
+    //$fullpath = str_replace ( './invites' ,'invites', $fullpath);
     $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
 
     if(!empty($fullpath)){
