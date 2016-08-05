@@ -123,14 +123,15 @@ class MiscHelpers  {
   public static function downloadFile($fullpath){
     $fullpath = str_replace ( './invites' ,'invites', $fullpath);
     $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
-    echo $fullpath;exit;
+
     if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
         header('Content-Type:text/plain; charset=ISO-8859-15');
-        header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
-        header('Content-Length: ' . filesize($fullpath));
+        //header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
+        //header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
-        Yii::app()->end();
+        exit;
+        //Yii::app()->end();
     }
   }
 }
