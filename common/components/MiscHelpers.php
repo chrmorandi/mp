@@ -121,21 +121,14 @@ class MiscHelpers  {
   }
 
   public static function downloadFile($fullpath){
-    //$fullpath = str_replace ( './invites' ,'invites', $fullpath);
+    // to do - make this work in dev env and be configurable
     $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
-    $info = pathinfo($fullpath);
-    //$file_name =  basename($fullpath,'.'.$info['extension']);
-    //echo 'Filename: '.$file_name;
-    //echo '<br />';
-    //echo 'Content-Disposition: attachment; filename="'.basename($fullpath).'"';
-    //echo 'Content-Length: ' . filesize($fullpath);
     if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
         header('Content-Type:text/plain; charset=ISO-8859-15');
         header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
         header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
-        //exit;
         Yii::$app->end();
     }
   }
