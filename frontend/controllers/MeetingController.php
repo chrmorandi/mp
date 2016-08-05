@@ -282,6 +282,7 @@ class MeetingController extends Controller
     }
 
     public function actionDownload($id,$actor_id=false) {
+      echo 'here';exit;
       // sometimes user arrives from _grid w/o actor_id or other times from email
       if ($actor_id===false) {
         $actor_id = Yii::$app->user->getId();
