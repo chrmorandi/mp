@@ -28,43 +28,13 @@ class MeetingSettingController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions' => ['create','update','view','delete'],
+                        'actions' => ['update'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
                 ],
             ],
         ];
-    }
-
-    /**
-     * Displays a single MeetingSetting model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new MeetingSetting model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new MeetingSetting();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
@@ -78,26 +48,15 @@ class MeetingSettingController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your settings for this meeting have been updated.'));
+            return $this->redirect(['/meeting/view', 'id' => $model->meeting_id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'id' => $model->meeting_id,
             ]);
         }
     }
 
-    /**
-     * Deletes an existing MeetingSetting model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the MeetingSetting model based on its primary key value.
@@ -108,7 +67,7 @@ class MeetingSettingController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = MeetingSetting::findOne($id)) !== null) {
+        if (($model = MeetingSetting::find()->where(['meeting_id'=>$id])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

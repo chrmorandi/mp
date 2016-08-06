@@ -129,13 +129,19 @@ if ($mode =='upcoming' || $mode =='past') {
                 return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"MMM d").'</div>';
               },
       ],*/
-          ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {trash}',
+          ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {settings} {trash}',
           'headerOptions' => ['class' => 'itemHide'],
           'contentOptions' => ['class' => 'itemHide'],
           'buttons'=>[
               'view' => function ($url, $model) {
                 return $model->status<=$model::STATUS_SENT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                         'title' => Yii::t('frontend', 'view'),
+                        'class' => 'icon-pad',
+                ]):'' ;
+              },
+              'settings' => function ($url, $model) {
+                return $model->status<=$model::STATUS_CONFIRMED ? Html::a('<span class="glyphicon glyphicon-cog"></span>', Url::to(['meeting-setting/update', 'id' => $model->id]), [
+                        'title' => Yii::t('frontend', 'settings'),
                         'class' => 'icon-pad',
                 ]):'' ;
               },

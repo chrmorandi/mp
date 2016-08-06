@@ -22,6 +22,9 @@ use yii\db\ActiveRecord;
  */
 class MeetingSetting extends \yii\db\ActiveRecord
 {
+  const SETTING_NO = 0;
+  const SETTING_YES = 10;
+
     /**
      * @inheritdoc
      */
@@ -41,7 +44,7 @@ class MeetingSetting extends \yii\db\ActiveRecord
                 ],
             ],
         ];
-    }    
+    }
 
     /**
      * @inheritdoc
@@ -62,11 +65,11 @@ class MeetingSetting extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'meeting_id' => Yii::t('app', 'Meeting ID'),
-            'participant_add_place' => Yii::t('app', 'Participant Add Place'),
-            'participant_add_date_time' => Yii::t('app', 'Participant Add Date Time'),
-            'participant_choose_place' => Yii::t('app', 'Participant Choose Place'),
-            'participant_choose_date_time' => Yii::t('app', 'Participant Choose Date Time'),
-            'participant_finalize' => Yii::t('app', 'Participant Finalize'),
+            'participant_add_place' => Yii::t('frontend', 'Allow invitees to add place options'),
+             'participant_add_date_time' => Yii::t('frontend', 'Allow invitees to add date & time options'),
+             'participant_choose_place' => Yii::t('frontend', 'Allow invitees to choose the place'),
+             'participant_choose_date_time' => Yii::t('frontend', 'Allow invitees to choose the date & time'),
+             'participant_finalize' => Yii::t('frontend', 'Allow invitees to finalize meetings'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
