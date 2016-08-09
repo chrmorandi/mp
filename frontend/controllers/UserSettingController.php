@@ -31,7 +31,7 @@ class UserSettingController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions' => ['index','update'],
+                        'actions' => ['index','update','timezone'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -62,12 +62,14 @@ class UserSettingController extends Controller
         $model = $this->findModel($id);
         $model->user_id = Yii::$app->user->getId();
         // set default timezone if not initialized in earlier users
-        if (empty($model->timezone)) {
-            $model->timezone = 'America/Los_Angeles';
-        }
         if ($model->load(Yii::$app->request->post())) {
+          $model->timezone =Yii::$app->request->post()['UserSetting']['timezone'];
           $model->save();
           Yii::$app->getSession()->setFlash('success', 'Your settings have been updated.');
+        } else {
+          if (empty($model->timezone)) {
+              $model->timezone = 'America/Los_Angeles';
+          }
         }
         $timezoneList=MiscHelpers::getTimezoneList();
         return $this->render('update', [
@@ -87,6 +89,16 @@ class UserSettingController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionTimezone($val) {
+      // set current logged in user timezone than return
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $user_id = Yii::$app->user->getId();
+
+      //
+      //
+      return true;
     }
 
     /**

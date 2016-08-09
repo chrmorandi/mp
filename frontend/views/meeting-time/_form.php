@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\BaseHtml;
 use yii\widgets\ActiveForm;
 use common\components\MiscHelpers;
 use dosamigos\datetimepicker\DateTimePicker;
@@ -10,11 +11,26 @@ use dosamigos\datetimepicker\DateTimePicker;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<div class="tz_success" id="tz_success">
+<div id="w4-tz-success" class="alert-success alert fade in">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+Your timezone has been updated successfully.
+</div>
+</div>
+<div class="tz_warning" id="tz_alert">
+<div id="w4-tz-info" class="alert-info alert fade in">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+Would you like us to change your timezone setting to <span id="tz_new"></span>?
+</div>
+</div>
 <div class="meeting-time-form">
 
   <div class="row">
     <div class="col-lg-4">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();?>
+    <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>\common\components\MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+    <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
+    <?= BaseHtml::activeHiddenInput($model, 'tz_current',['id'=>'tz_current']); ?>
     <strong><?php echo Yii::t('frontend','Date') ?></strong>
     <?= DateTimePicker::widget([
         'model' => $model,
@@ -93,6 +109,7 @@ use dosamigos\datetimepicker\DateTimePicker;
     </div>
   </div>
   <?php ActiveForm::end();
+   $this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
    $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting_time.js',['depends' => [\yii\web\JqueryAsset::className()]]);
    ?>
 

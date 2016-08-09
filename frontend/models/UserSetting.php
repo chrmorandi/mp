@@ -25,6 +25,7 @@ use yii\db\ActiveRecord;
  * @property integer $no_email
  * @property integer $no_newsletter
  * @property integer $no_updates
+ * @property integer $has_updated_timezone
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -72,7 +73,7 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             [['user_id', ], 'required'],
             [['user_id', ], 'unique'],
-            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates'], 'integer'],
+            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone'], 'integer'],
         ];
     }
 
@@ -87,6 +88,7 @@ class UserSetting extends \yii\db\ActiveRecord
             'filename' => Yii::t('frontend', 'Filename'),
             'avatar' => Yii::t('frontend', 'Avatar'),
             'timezone' => Yii::t('frontend', 'Local Timezone'),
+             'has_updated_timezone' => Yii::t('frontend', 'Has Updated Timezone'),
             'reminder_eve' => Yii::t('frontend', 'Reminder Eve'),
            'reminder_hours' => Yii::t('frontend', 'Reminder Hours'),
            'contact_share' => Yii::t('frontend', 'Contact Share'),
@@ -160,5 +162,20 @@ class UserSetting extends \yii\db\ActiveRecord
             self::SETTING_72_HOUR => '72 hours ahead',
             self::SETTING_OFF => 'Do not send an early reminder',
            );
+       }
+
+       public static function hasUserSetTimezone($user_id) {
+         // returns true if user has already configured a timezone
+         $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         if (is_null($us)) {
+           UserSetting::initialize($user_id);
+           return false;
+         } else {
+           if ($us->has_updated_timezone == UserSetting::SETTING_ON) {
+             return true;
+           } else {
+             return false;
+           }
+         }
        }
 }

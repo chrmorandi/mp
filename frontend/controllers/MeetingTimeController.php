@@ -86,6 +86,7 @@ class MeetingTimeController extends Controller
       $mtg = new Meeting();
       $title = $mtg->getMeetingTitle($meeting_id);
       $model = new MeetingTime();
+      $model->tz_current = $timezone;
       $model->duration = 1;
       $model->meeting_id= $meeting_id;
       $model->suggested_by= Yii::$app->user->getId();
@@ -163,6 +164,7 @@ class MeetingTimeController extends Controller
         return $this->redirect(['index']);
     }
 
+  
     public function actionChoose($id,$val) {
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
@@ -182,6 +184,7 @@ class MeetingTimeController extends Controller
       }
       return true;
     }
+
 
     /**
      * Finds the MeetingTime model based on its primary key value.

@@ -29,6 +29,9 @@ class MeetingTime extends \yii\db\ActiveRecord
 
   const MEETING_LIMIT = 7;
 
+  public $tz_dynamic;
+  public $tz_current;
+  public $url_prefix;
   public $dow;
   public $hod;
   public $min;
