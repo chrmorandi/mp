@@ -146,7 +146,7 @@ a.icon-pad {
   visible:false;
 }
 .heading-pad {
-  margin-top:0px;
+  margin-top:3px;
 }
 .rwd-break {
   display:none;
@@ -213,6 +213,6 @@ table.table-list td.table-switches {
       display:block;
     }
     .heading-pad {
-      margin-top:0px;
+      margin-top:5px;
     }
 }
