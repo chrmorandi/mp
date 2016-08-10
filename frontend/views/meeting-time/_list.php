@@ -50,8 +50,8 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],                          
-                          'labelOptions' => ['style' => 'font-size: 12px'],
+                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
+                          //'labelOptions' => ['style' => 'font-size: 10px'],
                       ]);
                     }
                   }
