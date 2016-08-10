@@ -145,6 +145,9 @@ a.icon-pad {
   display:none;
   visible:false;
 }
+.heading-pad {
+  margin-top:0px;
+}
 .rwd-break {
   display:none;
 }
@@ -208,5 +211,8 @@ table.table-list td.table-switches {
     }
     .rwd-break {
       display:block;
+    }
+    .heading-pad {
+      margin-top:0px;
     }
 }
