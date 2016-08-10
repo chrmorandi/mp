@@ -140,6 +140,14 @@ a.icon-pad {
   font-size: 90%;
   color: grey;
 }
+/* for desktop testing media queries to do - remove */
+.testHide {
+  display:none;
+  visible:false;
+}
+.heading-pad {
+  margin-top:0px;
+}
 .rwd-break {
   display:none;
 }
@@ -204,7 +212,9 @@ table.table-list td.table-switches {
     .rwd-break {
       display:block;
     }
-    .hint-text {
+    .heading-pad {
       margin-top:5px;
     }
+    
+
 }

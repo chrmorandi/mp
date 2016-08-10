@@ -71,7 +71,7 @@ use \kartik\switchinput\SwitchInput;
   <?php
    if ($placeProvider->count>0):
   ?>
-  <table >
+  <table class="table">
     <?= ListView::widget([
            'dataProvider' => $placeProvider,
            'itemOptions' => ['class' => 'item'],
