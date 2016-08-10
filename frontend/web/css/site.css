@@ -164,7 +164,7 @@ table.table-list td.table-switches {
     width: auto;
     float: right;
     display: inline;
-    padding: 10px 0px 0 0;
+    padding-top: 10px;
   }
 .switch-pad {
     padding-left:7px;
@@ -216,4 +216,5 @@ table.table-list td.table-switches {
       margin-top:5px;
     }
     
+
 }
