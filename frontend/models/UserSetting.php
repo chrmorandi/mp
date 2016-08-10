@@ -44,6 +44,9 @@ class UserSetting extends \yii\db\ActiveRecord
     const EMAIL_OK = 0;
     const EMAIL_NONE = 1;
 
+    public $tz_dynamic;
+    public $tz_current;
+    public $url_prefix;
     /**
      * @inheritdoc
      */
@@ -162,6 +165,19 @@ class UserSetting extends \yii\db\ActiveRecord
             self::SETTING_72_HOUR => '72 hours ahead',
             self::SETTING_OFF => 'Do not send an early reminder',
            );
+       }
+
+       public static function setUserTimezone($user_id,$timezone) {
+         // updates the user timezone string
+         $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         if (is_null($us)) {
+           UserSetting::initialize($user_id);
+           $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         }
+         $us->has_updated_timezone = UserSetting::SETTING_ON;
+         $us->timezone = $timezone;
+         $us->update();
+         return true;
        }
 
        public static function hasUserSetTimezone($user_id) {

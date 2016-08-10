@@ -14,13 +14,13 @@ use dosamigos\datetimepicker\DateTimePicker;
 <div class="tz_success" id="tz_success">
 <div id="w4-tz-success" class="alert-success alert fade in">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-Your timezone has been updated successfully.
+<?= Yii::t('frontend','Your timezone has been updated successfully.') ?>
 </div>
 </div>
 <div class="tz_warning" id="tz_alert">
 <div id="w4-tz-info" class="alert-info alert fade in">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-Would you like us to change your timezone setting to <span id="tz_new"></span>?
+<?= Yii::t('frontend','Would you like us to change your timezone setting to <span id="tz_new"></span>?') ?>
 </div>
 </div>
 <div class="meeting-time-form">

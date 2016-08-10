@@ -175,7 +175,7 @@ table.table-list td.table-switches {
   font-weight:normal;
 }
 
-.hidden {
+.hidden, #tz_alert, #tz_success {
   display:none;
   visible:false;
 }

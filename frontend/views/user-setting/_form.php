@@ -2,16 +2,31 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use common\components\MiscHelpers;
+use yii\helpers\BaseHtml;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserSetting */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<div class="tz_success" id="tz_success">
+<div id="w4-tz-success" class="alert-success alert fade in">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+<?= Yii::t('frontend','Your timezone has been saved successfully.') ?>
+</div>
+</div>
+<div class="tz_warning" id="tz_alert">
+<div id="w4-tz-info" class="alert-info alert fade in">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+<?= Yii::t('frontend','Would you like us to change your timezone setting to <span id="tz_new"></span>?') ?>
+</div>
+</div>
 
 <div class="user-setting-form">
     <?php
     $form = ActiveForm::begin();
          ?>
+         <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>\common\components\MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+         <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
         <div class="col-md-8">
          <!-- Nav tabs -->
          <ul class="nav nav-tabs" role="tablist">
@@ -34,7 +49,8 @@ use yii\widgets\ActiveForm;
                                 ->dropDownList(
                                     $timezoneList,           // Flat array ('id'=>'label')
                                     ['options' => [$model->timezone => ['Selected'=>'selected']],
-                                      'prompt'=>'Please select your local timezone below']
+                                      'prompt'=>'Please select your local timezone below',
+                                    'id'=>'tz_combo']
                                 );
                                 ?>
                       <span class="setting-label">
@@ -59,6 +75,9 @@ use yii\widgets\ActiveForm;
            </div>
          </div> <!-- end tab content -->
          </div> <!--end left col -->
-      <?php ActiveForm::end(); ?>
+      <?php ActiveForm::end();
+      $this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+      $this->registerJsFile(MiscHelpers::buildUrl().'/js/user_setting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+      ?>
 
 </div>

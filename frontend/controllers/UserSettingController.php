@@ -64,6 +64,7 @@ class UserSettingController extends Controller
         // set default timezone if not initialized in earlier users
         if ($model->load(Yii::$app->request->post())) {
           $model->timezone =Yii::$app->request->post()['UserSetting']['timezone'];
+          $model->has_updated_timezone = UserSetting::SETTING_ON;
           $model->save();
           Yii::$app->getSession()->setFlash('success', 'Your settings have been updated.');
         } else {
@@ -91,13 +92,11 @@ class UserSettingController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionTimezone($val) {
+    public function actionTimezone($timezone) {
       // set current logged in user timezone than return
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $user_id = Yii::$app->user->getId();
-
-      //
-      //
+      UserSetting::setUserTimezone($user_id,$timezone);
       return true;
     }
 
