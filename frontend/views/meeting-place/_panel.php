@@ -12,8 +12,8 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10 heading-pad" ><h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4><p><em>
-        <span class="hint-text">
+      <div class="col-lg-10 col-md-10 col-xs-10" ><h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4><p><em>
+        <div class="hint-text">
         <?php if ($placeProvider->count<=1) { ?>
           <?= Yii::t('frontend','add places for participants or switch to \'virtual\'') ?>
       <?php } elseif ($placeProvider->count>1) { ?>
@@ -24,7 +24,7 @@ use \kartik\switchinput\SwitchInput;
         <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
           <?= Yii::t('frontend','- you can also choose the place') ?>
         <?php }?>
-      </span></div>
+      </div></div>
 
 <?php
   if (!$isOwner) {
