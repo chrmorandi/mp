@@ -204,4 +204,7 @@ table.table-list td.table-switches {
     .rwd-break {
       display:block;
     }
+    .heading-pad {    
+      margin-top:5px;
+    }
 }
