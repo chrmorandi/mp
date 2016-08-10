@@ -212,10 +212,11 @@ table.table-list td.table-switches {
     .rwd-break {
       display:block;
     }
-    .switch-pad {        
-        padding-right:5px;
-      }
     .heading-pad {
       margin-top:5px;
     }
+    .panel-default table {
+      margin-right:10px;
+    }
+
 }
