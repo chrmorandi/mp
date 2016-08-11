@@ -28,7 +28,7 @@ use dosamigos\datetimepicker\DateTimePicker;
   <div class="row">
     <div class="col-lg-4">
     <?php $form = ActiveForm::begin();?>
-    <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>\common\components\MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+    <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
     <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
     <?= BaseHtml::activeHiddenInput($model, 'tz_current',['id'=>'tz_current']); ?>
     <strong><?php echo Yii::t('frontend','Date') ?></strong>

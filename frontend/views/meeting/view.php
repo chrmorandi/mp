@@ -1,12 +1,15 @@
 <?php
+use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
+use common\components\MiscHelpers;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 $this->title = $model->getMeetingHeader('view');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+echo $this->render('_timezone_alerts');
 ?>
 <div class="meeting-view">
         <?php //who
@@ -138,4 +141,9 @@ function refreshFinalize() {
 JS;
 $position = \yii\web\View::POS_READY;
 $this->registerJs($script, $position);
+$this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
+<?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
+<?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
+<?= BaseHtml::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>

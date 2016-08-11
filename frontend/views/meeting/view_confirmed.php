@@ -1,8 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\BaseHtml;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
+use common\components\MiscHelpers;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\Marker;
@@ -13,7 +15,7 @@ use dosamigos\google\maps\overlays\Marker;
 $this->title = $model->getMeetingHeader();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+echo $this->render('_timezone_alerts');
 ?>
 <div class="meeting-view">
 
@@ -175,3 +177,10 @@ $this->params['breadcrumbs'][] = $this->title;
       ]);
      ?>
 </div> <!-- end meeting view -->
+<?php
+  $this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+  $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
+<?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
+<?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
+<?= BaseHtml::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>

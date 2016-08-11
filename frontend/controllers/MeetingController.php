@@ -188,6 +188,7 @@ class MeetingController extends Controller
             'noPlace'=>$noPlace,
             'contacts' => $contacts,
             'contactTypes'=>UserContact::getUserContactTypeOptions(),
+            'timezone'=>$timezone,
         ]);
       }
     }
@@ -281,7 +282,7 @@ class MeetingController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
-    public function actionDownload($id,$actor_id=false) {      
+    public function actionDownload($id,$actor_id=false) {
       // sometimes user arrives from _grid w/o actor_id or other times from email
       if ($actor_id===false) {
         $actor_id = Yii::$app->user->getId();
