@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\User;
+use frontend\models\Meeting;
 use frontend\models\MeetingLog;
 use frontend\models\MeetingLogSearch;
 use yii\web\Controller;
@@ -72,14 +73,17 @@ class MeetingLogController extends Controller
      */
     public function actionView($id)
     {
-			if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
-				$this->redirect(['site/authfailure']);
-			}
-      $searchModel = new MeetingLogSearch();
+      if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
+        $this->redirect(['site/authfailure']);
+      }
+			$searchModel = new MeetingLogSearch();
       $dataProvider = $searchModel->search(['MeetingLogSearch'=>['meeting_id'=>$id]]);
+      $m= Meeting::findOne($id);
       return $this->render('index', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,
+          'meeting_id' => $id,
+          'subject' => $m->getMeetingHeader('log'),
       ]);
     }
 

@@ -10,7 +10,7 @@ use common\components\MiscHelpers;
 /* @var $searchModel frontend\models\MeetingLogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('frontend', 'Meeting Logs');
+$this->title = Yii::t('frontend', 'Meeting History for '.$subject);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return '<div>'.$model->meeting_id.'</div>';
                 },
         ],*/
+        /*
         [
           'label'=>'Subject',
             'attribute' => 'subject',
@@ -46,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return '<div>'.Meeting::getSubject($model->meeting_id).'</div>';
                 },
         ],
+        */
         [
           'label'=>'Actor',
             'attribute' => 'actor_id',
@@ -84,5 +86,10 @@ $this->params['breadcrumbs'][] = $this->title;
     ],
 ]);
 ?>
+<?= Html::a(Yii::t('frontend', 'Return to Meeting'), ['meeting/view', 'id' => $meeting_id],
+ ['class' => 'btn btn-primary  btn-info',
+ 'title'=>Yii::t('frontend','Return to meeting page'),
+]); ?>
+<?php Pjax::end(); ?>
 
-<?php Pjax::end(); ?></div>
+</div>

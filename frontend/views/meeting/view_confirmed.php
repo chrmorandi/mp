@@ -53,6 +53,9 @@ echo $this->render('_timezone_alerts');
      <?php
        echo $this->render('_command_bar_confirmed', [
            'model'=>$model,
+           'showRunningLate'=>$showRunningLate,
+           'isPast'=>$isPast,
+           'dropclass'=>'dropdown',
        ]);
       ?>
   <?php if ($isOwner) {
@@ -174,6 +177,9 @@ echo $this->render('_timezone_alerts');
     <?php
       echo $this->render('_command_bar_confirmed', [
           'model'=>$model,
+          'showRunningLate'=>$showRunningLate,
+          'isPast'=>$isPast,
+          'dropclass'=>'dropup',
       ]);
      ?>
 </div> <!-- end meeting view -->

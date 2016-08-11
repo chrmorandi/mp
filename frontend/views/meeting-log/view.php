@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\MeetingLog */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting Logs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting History'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="meeting-log-view">

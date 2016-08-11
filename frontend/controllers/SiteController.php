@@ -209,7 +209,7 @@ class SiteController extends Controller
     {
         return $this->render('error');
     }
-
+    
     public function onAuthSuccess($client)
       {
         // mode via login or signup

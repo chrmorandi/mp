@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting Setting
 
     <h1><?= Html::encode($this->title) ?></h1>
     <p><?php
-      echo Yii::t('frontend','You can change the permission settings for this meeting below. ');
-      echo Html::a(Yii::t('frontend', 'Change your default meeting preferences here'),
+      echo Yii::t('frontend','You can change the permission settings for this meeting below. Or, ');
+      echo Html::a(Yii::t('frontend', 'change your default meeting preferences'),
         ['/user-setting/update', 'id' => Yii::$app->user->getId()]);
      echo Yii::t('frontend',' for all future meetings.');
      ?>

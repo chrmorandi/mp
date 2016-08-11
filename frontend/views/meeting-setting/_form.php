@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 </div>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('frontend','Cancel'), Url::to(['/meeting/index']), ['class' => 'btn btn-danger']) ?>
+        <?= Html::a(Yii::t('frontend','Return to Meeting'), Url::to(['meeting/view', 'id' => $model->meeting_id]), ['class' => 'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -12,7 +12,7 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10" ><h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4><p><em>
+      <div class="col-lg-10 col-md-10 col-xs-10" ><h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4><p>
         <div class="hint-text heading-pad">
         <?php if ($placeProvider->count<=1) { ?>
           <?= Yii::t('frontend','add places for participants or switch to \'virtual\'') ?>

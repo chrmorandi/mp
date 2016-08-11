@@ -116,6 +116,9 @@ class MeetingController extends Controller
     public function actionView($id)
     {
       $model = $this->findModel($id);
+      if (!$model->isAttendee($id,Yii::$app->user->getId())) {
+        $this->redirect(['site/authfailure']);
+      }
       $model->prepareView();
       // notes always used on view panel
       $noteProvider = new ActiveDataProvider([
@@ -184,6 +187,8 @@ class MeetingController extends Controller
             'isOwner' => $isOwner,
             'place' => $place,
             'time'=>$model->friendlyDateFromTimestamp($chosenTime->start,$timezone),
+            'showRunningLate'=>($chosenTime->start - time() > 0 && $chosenTime->start -time() <10800 )?true:false,
+            'isPast'=>($chosenTime->start - time() < 0)?true:false,
             'gps'=>$gps,
             'noPlace'=>$noPlace,
             'contacts' => $contacts,

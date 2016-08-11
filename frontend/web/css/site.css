@@ -169,6 +169,9 @@ table.table-list td.table-switches {
 .setting-label label, #preferences label {
   font-weight:normal;
 }
+.command-bar {
+    margin: 0 0 10px 0;
+}
 
 .hidden, #tz_alert, #tz_success {
   display:none;
@@ -181,6 +184,7 @@ table.table-list td.table-switches {
   and (min-device-width: 320px)
   and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2) {
+
     /* hides drop down menu items and footer items */
     .itemHide,li.menuHide {
       display:none;
@@ -199,12 +203,13 @@ table.table-list td.table-switches {
       padding: 0 5px 0 2px;
     }
     .button-pad {
-      padding-left:7px;
+      padding: 7px 0 7px 0;
+
     }
     .rwd-break {
       display:block;
     }
-    .heading-pad {    
+    .heading-pad {
       margin-top:5px;
     }
 }
