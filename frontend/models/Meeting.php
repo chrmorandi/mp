@@ -770,7 +770,11 @@ class Meeting extends \yii\db\ActiveRecord
          foreach ($attendees as $cnt=>$a) {
            if ($a['user_id']==$actor_id) {
              $icsPath = Meeting::buildCalendar($m->id,$chosenPlace,$chosenTime,$a,$attendees);
-             MiscHelpers::downloadFile($icsPath);
+             if (!MiscHelpers::isIphone()) {
+               MiscHelpers::downloadFile($icsPath);
+             } else {
+                Yii::$app->response->redirect(MiscHelpers::buildUrl().'/'.$icsPath);
+             }
            }
          }
        }
@@ -820,7 +824,7 @@ class Meeting extends \yii\db\ActiveRecord
             $invite->setComment($commentStr);
           $invite->setUrl(MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
           $invite->generate() // generate the invite
-	         ->save(); // save it to a file;
+	         ->save('./invites/','cal_'.$attendee['user_id'].'_'.Yii::$app->getSecurity()->generateRandomString(12).'.ics'); // save it to a file;
            $downloadLink = $invite->getSavedPath();
            return $downloadLink;
        }
