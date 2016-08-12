@@ -8,10 +8,26 @@ use yii\db\ActiveRecord;
 use common\models\User;
 use frontend\models\Friend;
 use frontend\models\Reminder;
+use frontend\models\UserSetting;
 use frontend\models\MeetingReminder;
 
 class Fix
 {
+
+  public static function fixUserSettings() {
+    // task resets default user settings for everyone
+      $all = UserSetting::find()->all();
+      foreach ($all as $us) {
+        $us->participant_add_place=UserSetting::SETTING_ON;
+        $us->participant_add_date_time=UserSetting::SETTING_ON;
+        $us->participant_choose_place=UserSetting::SETTING_ON;
+        $us->participant_choose_date_time=UserSetting::SETTING_ON;
+        $us->participant_finalize=UserSetting::SETTING_ON;
+        $us->participant_request_change=UserSetting::SETTING_ON;
+        $us->participant_reopen=UserSetting::SETTING_OFF;
+        $us->update();
+      }
+  }
 
   public static function fixPreFriends() {
     // before the friend feature worked

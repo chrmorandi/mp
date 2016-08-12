@@ -16,7 +16,7 @@ use frontend\models\MeetingSetting;
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <?php
-            if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen==MeetingSetting::SETTING_YES)) {
+            if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
               ?>
               <li><?= Html::a(Yii::t('frontend', 'Make changes'), ['reopen','id'=>$model->id],
                ['title'=>Yii::t('frontend','tbd')]); ?></li>
@@ -24,7 +24,7 @@ use frontend\models\MeetingSetting;
             }
            ?>
            <?php
-             if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_request_change==MeetingSetting::SETTING_YES)) {
+             if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_request_change)) {
                ?>
                <li><?= Html::a(Yii::t('frontend', 'Request changes'), ['/site/unavailable'],
                 ['title'=>Yii::t('frontend','tbd')]); ?></li>

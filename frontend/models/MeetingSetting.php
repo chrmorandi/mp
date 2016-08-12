@@ -26,7 +26,7 @@ class MeetingSetting extends \yii\db\ActiveRecord
 {
   const SETTING_NO = 0;
   const SETTING_ON = 1; // for checkbox on
-  const SETTING_YES = 10;
+  const SETTING_YES = 1; // changed to 1 from 10
 
     /**
      * @inheritdoc
@@ -87,4 +87,5 @@ class MeetingSetting extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Meeting::className(), ['id' => 'meeting_id']);
     }
+
 }

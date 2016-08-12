@@ -86,6 +86,10 @@ class DaemonController extends Controller
       }
   }
 
+public function actionWeekly() {
+  Daemon::reset();
+}
+
 public function actionFrequent() {
   // called every three minutes
   // notify users about fresh changes
@@ -128,6 +132,8 @@ public function actionQuarter() {
 
     public function actionFix()
     {
+      Daemon::reset();
+      \frontend\models\Fix::fixUserSettings();
       // \frontend\models\Fix::cleanupReminders();
       // \frontend\models\Fix::cleanupEmails();
       echo 'complete';
@@ -178,7 +184,7 @@ public function actionQuarter() {
          echo MiscHelpers::br();
          //echo phpinfo();
          echo Yii::$app->request->userIP;
-         echo MiscHelpers::br();*/         
+         echo MiscHelpers::br();*/
          //User::checkAllUsers();
          //Meeting::checkPast();
          //\frontend\models\Place::getMeetingPlaceCountByUser(1);

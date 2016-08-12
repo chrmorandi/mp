@@ -69,7 +69,7 @@ use yii\helpers\Html;
     </span>
     <span class="button-pad">
         <?php
-        if (($isOwner  || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
+        if (($isOwner || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
           echo Html::a('<i class="glyphicon glyphicon-time"></i>&nbsp;'.Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
         }
          ?>

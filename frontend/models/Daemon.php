@@ -101,4 +101,9 @@ class Daemon extends \yii\db\ActiveRecord
     		}
     	}
     }
+
+    public static function reset() {
+      // empties daemon table
+      Daemon::deleteAll();
+    }
 }
