@@ -14,6 +14,24 @@ use frontend\models\MeetingReminder;
 class Fix
 {
 
+  public static function checkUserDataCalc() {
+    $since = false;
+    if ($since===false) {
+      $since = mktime(0, 0, 0);
+    }
+    $after = mktime(0, 0, 0, 2, 15, 2016);
+    $monthago = $since-(60*60*24*30);
+    $all = User::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->all();
+    foreach ($all as $u) {
+      echo $u->id.'<br />';
+      // create new record for user or update old one
+      $ud = UserData::find()->where(['user_id'=>$u->id])->one();
+      if (is_null($ud)) {
+        echo $u->email.'<br />';
+      }
+    }
+  }
+
   public static function fixUserSettings() {
     // task resets default user settings for everyone
       $all = UserSetting::find()->all();

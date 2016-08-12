@@ -20,6 +20,7 @@ class Daemon extends \yii\db\ActiveRecord
   const ACTION_QUARTER = 20;
   const ACTION_HOURLY = 30;
   const ACTION_OVERNIGHT = 40;
+  const ACTION_WEEKLY = 50;
 
   const TASK_FIND_FRESH = 200;
   const TASK_REMINDER_CHECK = 210;
@@ -29,6 +30,7 @@ class Daemon extends \yii\db\ActiveRecord
   const TASK_CALC_USER_DATA = 250;
   const TASK_CALC_HISTORICAL_DATA = 260;
   const TASK_DO_NOTHING = 270;
+  const TASK_RESET = 280;
 
   public function behaviors()
   {

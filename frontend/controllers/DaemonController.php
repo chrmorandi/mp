@@ -88,6 +88,7 @@ class DaemonController extends Controller
 
 public function actionWeekly() {
   Daemon::reset();
+  Daemon::add(Daemon::ACTION_WEEKLY,Daemon::TASK_RESET);
 }
 
 public function actionFrequent() {
@@ -132,8 +133,9 @@ public function actionQuarter() {
 
     public function actionFix()
     {
-      Daemon::reset();
-      \frontend\models\Fix::fixUserSettings();
+        \frontend\models\Fix::checkUserDataCalc();
+      //Daemon::reset();
+      //\frontend\models\Fix::fixUserSettings();
       // \frontend\models\Fix::cleanupReminders();
       // \frontend\models\Fix::cleanupEmails();
       echo 'complete';
