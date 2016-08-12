@@ -32,9 +32,10 @@ use frontend\models\MeetingSetting;
              }
              ?>
 
-          <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['/site/unavailable'],
+          <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule','id'=>$model->id],
            [
-           'title'=>Yii::t('frontend','tbd'),
+           'title'=>Yii::t('frontend','Cancel this meeting and reschedule a new one with the same people and place'),
+           'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting and schedule a new one?')
           ]); ?></li>
         <li role="separator" class="divider"></li>
         <?php
@@ -83,10 +84,9 @@ use frontend\models\MeetingSetting;
           </span>
           <span class="button-pad">
             <?php
-            // to do - hide both of these next buttons for meeting past
             if ( $showRunningLate ) {
               echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['class' => 'btn btn-default',
-            'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);
+              'title' => Yii::t('frontend', 'Notify participants that you will be late')]);
             }
             ?>
           </span>

@@ -125,11 +125,11 @@ class MiscHelpers  {
     $baseUrl = Url::home(true);
     if (stristr($baseUrl,'localhost')===false) {
       $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
-    } 
+    }
      if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
-        header('Content-Type:text/calendar; charset=ISO-8859-15');
-        header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
+        header('Content-Type: text/calendar');
+        header('Content-Disposition: inline; filename="'.basename($fullpath).'"');
         header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
         Yii::$app->end();

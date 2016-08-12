@@ -54,6 +54,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_MAKE_INPERSON = 215;
 	const ACTION_SENT_EMAIL_VERIFICATION = 220;
 	const ACTION_REOPEN = 230;
+	const ACTION_RESCHEDULE = 232;
 
 	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
@@ -246,6 +247,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REOPEN:
 				$label = Yii::t('frontend','Reopened the meeting to make changes');
 				break;
+				case MeetingLog::ACTION_RESCHEDULE:
+				$label = Yii::t('frontend','Rescheduled the meeting');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -341,6 +345,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SENT_RUNNING_LATE:
 				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
 				case MeetingLog::ACTION_REOPEN:
+				case MeetingLog::ACTION_RESCHEDULED:
 					$label = Yii::t('frontend','-');
 				break;
 				default:

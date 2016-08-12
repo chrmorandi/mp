@@ -351,10 +351,6 @@ class Meeting extends \yii\db\ActiveRecord
        return $meeting->subject;
      }
 
-     public function reschedule($meeting_id) {
-
-     }
-
      public function canSend($sender_id) {
        // check if an invite can be sent
        // req: a participant, at least one place, at least one time
@@ -594,9 +590,7 @@ class Meeting extends \yii\db\ActiveRecord
     }
 
       public function cancel($user_id) {
-        // to do - check if user can Cancel
-        // either the owner or a participant
-        if (1==1) {
+        if ($user_id == Yii::$app->user->getId()) {
           $this->status = self::STATUS_CANCELED;
           $this->update();
           MeetingLog::add($this->id,MeetingLog::ACTION_CANCEL_MEETING,$user_id);
@@ -1272,4 +1266,18 @@ class Meeting extends \yii\db\ActiveRecord
         return false;
       }
     }
+
+    public function reschedule() {
+      $this->cancel(Yii::$app->user->getId());
+      MeetingLog::add($this->id,MeetingLog::ACTION_RESCHEDULE,Yii::$app->user->getId());
+      // to do
+
+      // create new meeting - copy of old meeting
+      // same participants
+      // same chosen place
+      // meeting_id =
+      //return $meeting_id;
+      return 7;
+    }
+
 }

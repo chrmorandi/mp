@@ -43,7 +43,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen'], // 'wizard'
+                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule'], // 'wizard'
                                'roles' => ['@'],
                            ],
                           [
@@ -399,9 +399,31 @@ class MeetingController extends Controller
       return true;
     }
 
+    public function actionReschedule($id) {
+        // check that person has permissions
+        $m = $this->findModel($id);
+        $m->setViewer();
+        // to do - allow participants to reopen if meeting settings allow it
+        // also check reschedule()
+        if ($m->viewer == Meeting::VIEWER_ORGANIZER) {
+          $new_meeting = $m->reschedule();
+          if ($new_meeting!==false) {
+              Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The previous meeting is cancelled. Plan times for the new meeting below.'));
+              return $this->redirect(['view', 'id' => 122]);
+          } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there was a problem rescheduling the meeting.'));
+          }
+        } else {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to do this.'));
+          return $this->redirect(['view', 'id' => $id]);
+        }
+    }
+
     public function actionReopen($id) {
       $m = $this->findModel($id);
       $m->setViewer();
+      // to do - allow participants to reopen if meeting settings allow it
+      // also check reopen()
       if ($m->viewer == Meeting::VIEWER_ORGANIZER) {
         if ($m->reopen()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting has now been reopened so you can make changes.'));
