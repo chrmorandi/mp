@@ -146,7 +146,7 @@ class MiscHelpers  {
 
   public static function isIphone() {
     $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-    return (strpos($user_agent, 'iPhone') !== FALSE);
-}
+    return (strpos($user_agent, 'iPhone') !== FALSE || strpos($user_agent, 'iPad') !== FALSE);
+  }
 }
 ?>
