@@ -128,12 +128,26 @@ class MiscHelpers  {
     }
      if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
-        header('Content-Type: text/Calendar; charset=utf-8');
-        header('Content-Disposition: attachment; filename="ical.ics";'); // '.basename($fullpath).'
+        //header('Content-Type: text/Calendar; charset=utf-8');
+        //header('Content-Disposition: attachment; filename="ical.ics";'); // '.basename($fullpath).'
+        header("Pragma: public");
+      	header("Expires: 0");
+      	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+      	header("Cache-Control: public");
+      	header("Content-Description: File Transfer");
+      	header("Content-type: application/octet-stream");
+      	header("Content-Disposition: attachment; filename=\"invite.ics\"");
+      	header("Content-Transfer-Encoding: binary");
+      	//header("Content-Length: " . strlen($generate));
         header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
         Yii::$app->end();
     }
   }
+
+  public static function isIphone() {
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    return (strpos($user_agent, 'iPhone') !== FALSE);
+}
 }
 ?>
