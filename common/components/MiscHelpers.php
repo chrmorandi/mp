@@ -129,7 +129,7 @@ class MiscHelpers  {
      if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
         header('Content-Type: text/calendar');
-        header('Content-Disposition: inline; filename="'.basename($fullpath).'"');
+        header('Content-Disposition: attachment; filename="ical.ics";'); // '.basename($fullpath).'
         header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);
         Yii::$app->end();
