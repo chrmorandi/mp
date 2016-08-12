@@ -15,6 +15,8 @@ use yii\db\ActiveRecord;
  * @property integer $participant_choose_place
  * @property integer $participant_choose_date_time
  * @property integer $participant_finalize
+ * @property integer $participant_reopen
+ * @property integer $participant_request_change
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -23,6 +25,7 @@ use yii\db\ActiveRecord;
 class MeetingSetting extends \yii\db\ActiveRecord
 {
   const SETTING_NO = 0;
+  const SETTING_ON = 1; // for checkbox on
   const SETTING_YES = 10;
 
     /**
@@ -53,7 +56,7 @@ class MeetingSetting extends \yii\db\ActiveRecord
     {
         return [
             [['meeting_id'], 'required'],
-            [['meeting_id', 'participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize', 'created_at', 'updated_at'], 'integer']
+            [['meeting_id', 'participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize', 'participant_reopen', 'participant_request_change','created_at', 'updated_at'], 'integer']
         ];
     }
 
@@ -65,11 +68,13 @@ class MeetingSetting extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'meeting_id' => Yii::t('app', 'Meeting ID'),
-            'participant_add_place' => Yii::t('frontend', 'Allow invitees to add place options'),
-             'participant_add_date_time' => Yii::t('frontend', 'Allow invitees to add date & time options'),
-             'participant_choose_place' => Yii::t('frontend', 'Allow invitees to choose the place'),
-             'participant_choose_date_time' => Yii::t('frontend', 'Allow invitees to choose the date & time'),
-             'participant_finalize' => Yii::t('frontend', 'Allow invitees to finalize meetings'),
+            'participant_add_place' => Yii::t('frontend', 'Add place options'),
+             'participant_add_date_time' => Yii::t('frontend', 'Add date & time options'),
+             'participant_choose_place' => Yii::t('frontend', 'Choose the place'),
+             'participant_choose_date_time' => Yii::t('frontend', 'Choose the date & time'),
+             'participant_finalize' => Yii::t('frontend', 'Finalize meetings'),
+             'participant_reopen' => Yii::t('frontend', 'Make changes after it\'s been finalized'),
+             'participant_request_change' => Yii::t('frontend', 'Request changes after it\'s been finalized'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

@@ -53,6 +53,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_MAKE_VIRTUAL = 210;
 	const ACTION_MAKE_INPERSON = 215;
 	const ACTION_SENT_EMAIL_VERIFICATION = 220;
+	const ACTION_REOPEN = 230;
 
 	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
@@ -242,6 +243,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
 					$label = Yii::t('frontend','Sent email verification link');
 				break;
+				case MeetingLog::ACTION_REOPEN:
+				$label = Yii::t('frontend','Reopened the meeting to make changes');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -336,6 +340,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
 				case MeetingLog::ACTION_SENT_RUNNING_LATE:
 				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
+				case MeetingLog::ACTION_REOPEN:
 					$label = Yii::t('frontend','-');
 				break;
 				default:
@@ -403,4 +408,35 @@ class MeetingLog extends \yii\db\ActiveRecord
 			}
 			return $str;
 		}
+
+		public static function withinActionLimit($meeting_id,$action,$actor_id,$limit = 7) {
+			// how many times can this user perform this action for a meeting
+			$cnt = MeetingLog::find()
+				->where(['meeting_id'=>$meeting_id])
+				->andwhere(['actor_id'=>$actor_id])
+				->andwhere(['action'=>$action])
+				->count();
+			if ($cnt >= $limit ) {
+				return false;
+			}
+			/*
+			$cnt = MeetingNote::find()
+				->where(['posted_by'=>$user_id])
+				->andWhere('created_at>'.(time()-(24*3600)))
+				->count();
+			if ($cnt >= MeetingNote::DAY_LIMIT ) {
+					return false;
+			}
+			*/
+			return true;
+		}
+
+		public static function countAction($meeting_id,$action) {
+      // count # of times an action was performed
+      $cnt = MeetingLog::find()
+				->where(['meeting_id'=>$meeting_id])
+        ->andwhere(['action'=>$action])
+        ->count();
+      return $cnt;
+    }
 }

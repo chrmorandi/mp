@@ -22,6 +22,8 @@ use yii\db\ActiveRecord;
  * @property integer $participant_choose_place
  * @property integer $participant_choose_date_time
  * @property integer $participant_finalize
+ * @property integer $participant_reopen
+ * @property integer $participant_request_change
  * @property integer $no_email
  * @property integer $no_newsletter
  * @property integer $no_updates
@@ -76,7 +78,7 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             [['user_id', ], 'required'],
             [['user_id', ], 'unique'],
-            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone'], 'integer'],
+            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change'], 'integer'],
         ];
     }
 
@@ -95,11 +97,13 @@ class UserSetting extends \yii\db\ActiveRecord
             'reminder_eve' => Yii::t('frontend', 'Reminder Eve'),
            'reminder_hours' => Yii::t('frontend', 'Reminder Hours'),
            'contact_share' => Yii::t('frontend', 'Contact Share'),
-            'participant_add_place' => Yii::t('frontend', 'Allow invitees to add place options'),
-             'participant_add_date_time' => Yii::t('frontend', 'Allow invitees to add date & time options'),
-             'participant_choose_place' => Yii::t('frontend', 'Allow invitees to choose the place'),
-             'participant_choose_date_time' => Yii::t('frontend', 'Allow invitees to choose the date & time'),
-             'participant_finalize' => Yii::t('frontend', 'Allow invitees to finalize meetings'),
+            'participant_add_place' => Yii::t('frontend', 'Add place options'),
+             'participant_add_date_time' => Yii::t('frontend', 'Add date & time options'),
+             'participant_choose_place' => Yii::t('frontend', 'Choose the place'),
+             'participant_choose_date_time' => Yii::t('frontend', 'Choose the date & time'),
+             'participant_finalize' => Yii::t('frontend', 'Finalize meetings'),
+             'participant_reopen' => Yii::t('frontend', 'Make changes after it\'s been finalized'),
+             'participant_request_change' => Yii::t('frontend', 'Request changes after it\'s been finalized'),
              'no_email' => Yii::t('frontend', 'No Email'),
              'no_newsletter' => Yii::t('frontend', 'No newsletters'),
              'no_updates' => Yii::t('frontend', 'No updates'),
@@ -147,6 +151,8 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->participant_choose_place = self::SETTING_OFF;
         $us->participant_choose_date_time = self::SETTING_OFF;
         $us->participant_finalize = self::SETTING_OFF;
+        $us->participant_reopen= self::SETTING_OFF;
+        $us->participant_request_change= self::SETTING_OFF;
         $us->save();
       }
       return $us->id;

@@ -1,6 +1,8 @@
 
 <?php
 use yii\helpers\Html;
+use frontend\models\Meeting;
+use frontend\models\MeetingSetting;
 // to do - note this will offer other command button options in future
   if ( $model->status < $model::STATUS_COMPLETED) {
 ?>
@@ -13,27 +15,54 @@ use yii\helpers\Html;
         <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><?= Html::a(Yii::t('frontend', 'Request Changes'), ['/site/unavailable'],
-           [
-           'title'=>Yii::t('frontend','tbd'),
-          ]); ?></li>
+          <?php
+            if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen==MeetingSetting::SETTING_YES)) {
+              ?>
+              <li><?= Html::a(Yii::t('frontend', 'Make changes'), ['reopen','id'=>$model->id],
+               ['title'=>Yii::t('frontend','tbd')]); ?></li>
+          <?php
+            }
+           ?>
+           <?php
+             if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_request_change==MeetingSetting::SETTING_YES)) {
+               ?>
+               <li><?= Html::a(Yii::t('frontend', 'Request changes'), ['/site/unavailable'],
+                ['title'=>Yii::t('frontend','tbd')]); ?></li>
+             <?php
+             }
+             ?>
+
           <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['/site/unavailable'],
            [
            'title'=>Yii::t('frontend','tbd'),
           ]); ?></li>
         <li role="separator" class="divider"></li>
-        <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/site/unavailable'],
-         [
-         'title'=>Yii::t('frontend','Email invitations again to participants'),
-        ]); ?></li>
+        <?php
+          if (!$isPast && $model->status >= $model::STATUS_SENT) {
+            ?>
+            <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/site/unavailable'],
+             [
+             'title'=>Yii::t('frontend','Email invitations again to participants'),
+            ]); ?></li>
+          <?php
+          }
+          ?>
         <li><?= Html::a(Yii::t('frontend', 'History'), ['/meeting-log/view', 'id' => $model->id],
          [
          'title'=>Yii::t('frontend','View the historical log of meeting adjustments'),
         ]); ?></li>
-        <li><?= Html::a(Yii::t('frontend', 'Preferences'), ['/meeting-setting/update', 'id' => $model->id],
-         [
-         'title'=>Yii::t('frontend','Update the settings for this meeting'),
-        ]); ?></li>
+        <?php
+        if ($isOwner) {
+          ?>
+          <li>
+          <?= Html::a(Yii::t('frontend', 'Preferences'), ['/meeting-setting/update', 'id' => $model->id],
+           [
+           'title'=>Yii::t('frontend','Update the settings for this meeting'),
+          ]); ?>
+          </li>
+        <?php
+        }
+        ?>
         </ul>
         </div>
       </div>

@@ -201,6 +201,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'chosen_place' => $chosen_place,
             'contacts_html'=>$contacts_html,
             'links' => $links,
+            'showRunningLate'=>($chosen_time->start -time() <10800 )?true:false,
             'meetingSettings' => $mtg->meetingSettings,
         ]);
           if (!empty($a['email'])) {

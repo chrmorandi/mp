@@ -122,10 +122,13 @@ class MiscHelpers  {
 
   public static function downloadFile($fullpath){
     // to do - make this work in dev env and be configurable
-    $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
-    if(!empty($fullpath)){
+    $baseUrl = Url::home(true);
+    if (stristr($baseUrl,'localhost')===false) {
+      $fullpath = '/var/www/mp/frontend/web/'.$fullpath;
+    } 
+     if(!empty($fullpath)){
         //header("Content-type:application/pdf"); //for pdf file
-        header('Content-Type:text/plain; charset=ISO-8859-15');
+        header('Content-Type:text/calendar; charset=ISO-8859-15');
         header('Content-Disposition: attachment; filename="'.basename($fullpath).'"');
         header('Content-Length: ' . filesize($fullpath));
         readfile($fullpath);

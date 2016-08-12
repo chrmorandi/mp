@@ -12,6 +12,8 @@ use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\UserContact;
 use frontend\models\Participant;
+use frontend\models\MeetingLog;
+
 //use yii\behaviors\SluggableBehavior;
 
 /**
@@ -103,6 +105,7 @@ class Meeting extends \yii\db\ActiveRecord
   const NEAR_LIMIT = 7;
   const DAY_LIMIT = 12;
 
+  const DEFAULT_NEW_MEETING = 'New Meeting';
   const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
 
   public $has_subject = false;
@@ -190,6 +193,8 @@ class Meeting extends \yii\db\ActiveRecord
         $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
         $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
         $meeting_setting->participant_finalize=$user_setting->participant_finalize;
+        $meeting_setting->participant_reopen=$user_setting->participant_reopen;
+        $meeting_setting->participant_request_change=$user_setting->participant_request_change;
         $meeting_setting->save();
       }
     }
@@ -291,7 +296,7 @@ class Meeting extends \yii\db\ActiveRecord
         //$title = $this->getMeetingType($meeting->meeting_type);
         //$title.=' Meeting';
         if (empty($m->subject) || ($m->subject == Meeting::DEFAULT_SUBJECT)) {
-          $str = 'New meeting';
+          $str = Meeting::DEFAULT_NEW_MEETING;
         } else {
           $str = $m->subject;
         }
@@ -299,11 +304,12 @@ class Meeting extends \yii\db\ActiveRecord
      }
 
      public function getMeetingHeader($source='index') {
+       // returns a subject to display
        if (empty($this->subject) || ($this->subject ==Meeting::DEFAULT_SUBJECT)) {
          if ($source!='index') {
            $str = Meeting::DEFAULT_SUBJECT; // 'Schedule a meeting'
          } else {
-           $str = 'New meeting';
+           $str = Meeting::DEFAULT_NEW_MEETING;
          }
          $this->has_subject = false;
        } else {
@@ -475,6 +481,20 @@ class Meeting extends \yii\db\ActiveRecord
   }
 
     public function finalize($user_id) {
+      // Get message header
+      $header = $this->getMeetingHeader('confirmed');
+      /*if ($this->subject == Meeting::DEFAULT_NEW_MEETING) {
+        $this->subject = Meeting::DEFAULT_SUBJECT;
+        $this->has_subject = true;
+        $this->update();
+      }*/
+      if (MeetingLog::countAction($this->id,MeetingLog::ACTION_FINALIZE_INVITE)>0) {
+        $reopened = true;
+        $finalPrefix = Yii::t('frontend','Meeting Modified: ');
+      } else {
+        $reopened = false;
+        $finalPrefix = Yii::t('frontend','Meeting Confirmed: ');
+      }
       // to do - not all those links are needed in the view of a finalized meeting
       $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
       // chosen place
@@ -487,8 +507,6 @@ class Meeting extends \yii\db\ActiveRecord
       }
       // chosen time
       $chosenTime=$this->getChosenTime($this->id);
-      // Get message header
-      $header = $this->getMeetingHeader();
       // build an attendees array of both the organizer and the participants
       // to do - this can be replaced by buildAttendeeList
       // but friendship reciprocate needs to be reviewed and included
@@ -552,14 +570,15 @@ class Meeting extends \yii\db\ActiveRecord
           'chosenTime' => $chosenTime,
           'notes' => $notes,
           'meetingSettings' => $this->meetingSettings,
+          'reopened' => $reopened,
       ]);
         // to do - add full name
       $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$a,$attendees);
       $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
       $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
-      $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/plain']);
+      $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
       $message->setTo($a['email'])
-          ->setSubject(Yii::t('frontend','Meeting Confirmed: ').$this->subject)
+          ->setSubject($finalPrefix.$this->subject)
           ->send();
       }
           $this->status = self::STATUS_CONFIRMED;
@@ -1239,5 +1258,18 @@ class Meeting extends \yii\db\ActiveRecord
           return false;
       }
       return true;
+    }
+
+    public function reopen() {
+      // when organizer or participant with permission asks to make changes
+      if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
+        $this->status = Meeting::STATUS_SENT;
+        $this->update();
+        MeetingLog::add($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId());
+        return true;
+      } else {
+        // over limit per meeting
+        return false;
+      }
     }
 }

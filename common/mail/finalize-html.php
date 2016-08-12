@@ -15,7 +15,13 @@ use frontend\models\MeetingTime;
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:32px; line-height:normal; text-align:center; border-collapse:collapse; font-weight:700; padding:35px 0 0" align="center">
-            Your Meeting is Planned!
+            <?php
+              if (!$reopened) {
+                  echo Yii::t('frontend','Your Meeting is Planned!');
+              } else {
+                echo Yii::t('frontend','Your Meeting Has Been Modified!');
+              }
+              ?>
           </td>
         </tr>
         <tr>
@@ -69,7 +75,7 @@ use frontend\models\MeetingTime;
                         <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse:separate">
                           <tr>
                             <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:left; border-collapse:collapse; background-color:#fff; border:1px solid #e5e5e5; border-radius:5px; padding:12px 15px 15px; vertical-align:top; width:253px" align="left" bgcolor="#ffffff" valign="top" width="253">
-                              <span class="header-sm">Where</span><br />
+                              <span style="color:#4d4d4d; font-size:18px; font-weight:700; line-height:1.3; padding:5px 0">Where</span><br />
                               <?php
                               if (!$noPlaces) {
                               ?>

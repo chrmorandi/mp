@@ -18,8 +18,8 @@ use frontend\models\UserContact;
         </tr>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
-            Just a reminder about your upcoming meeting <?php echo $display_time; ?>
             <?php
+              echo Yii::t('frontend','Just a reminder about your upcoming meeting ').$display_time;
             // this code is similar to code in finalize-html
             if ($chosen_place!==false) {
             ?>
@@ -44,7 +44,7 @@ use frontend\models\UserContact;
               <w:anchorlock/>
               <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">My Account</center>
             </v:roundrect>
-          <![endif]--><a href="<?php echo $links['view'] ?>" style='color:#fff; text-decoration:none; -webkit-text-size-adjust:none; background-color:#ff6f6f; border-radius:5px; display:inline-block; font-family:"Cabin", Helvetica, Arial, sans-serif; font-size:14px; font-weight:regular; line-height:45px; mso-hide:all; text-align:center; width:155px' bgcolor="#ff6f6f" align="center" width="155">Visit Meeting Page</a>
+          <![endif]--><a href="<?php echo $links['view'] ?>" style='color:#fff; text-decoration:none; -webkit-text-size-adjust:none; background-color:#ff6f6f; border-radius:5px; display:inline-block; font-family:"Cabin", Helvetica, Arial, sans-serif; font-size:14px; font-weight:regular; line-height:45px; mso-hide:all; text-align:center; width:155px' bgcolor="#ff6f6f" align="center" width="155"><?= Yii::t('frontend','Visit Meeting Page'); ?></a>
 </div>
         </td>
       </tr>
@@ -59,7 +59,9 @@ use frontend\models\UserContact;
                       <strong>Helpful options:</strong>
                       <p>
                         <?php
-                          echo HTML::a(Yii::t('frontend','Inform them I\'m running late.'),$links['running_late']);
+                          if ($showRunningLate) {
+                              echo HTML::a(Yii::t('frontend','Inform them I\'m running late.'),$links['running_late']);
+                          }
                         ?>
                       </p>
                         <?php if ($contacts_html <>'') {

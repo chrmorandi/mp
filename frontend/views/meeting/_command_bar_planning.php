@@ -21,23 +21,38 @@ use yii\helpers\Html;
              'title'=>Yii::t('frontend','Cancel'),
              'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
             ]);
+            ?>
+            </li>
+          <?php
           }
-
-        ?>
-        </li>
+          ?>
         <li role="separator" class="divider"></li>
-        <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/site/unavailable'],
-         [
-         'title'=>Yii::t('frontend','Email invitations again to participants'),
-        ]); ?></li>
+        <?php
+          if ($model->status >= $model::STATUS_SENT) {
+            ?>
+            <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/site/unavailable'],
+             [
+             'title'=>Yii::t('frontend','Email invitations again to participants'),
+            ]); ?></li>
+          <?php
+          }
+          ?>
         <li><?= Html::a(Yii::t('frontend', 'History'), ['/meeting-log/view', 'id' => $model->id],
          [
          'title'=>Yii::t('frontend','View the historical log of meeting adjustments'),
         ]); ?></li>
-        <li><?= Html::a(Yii::t('frontend', 'Preferences'), ['/meeting-setting/update', 'id' => $model->id],
-         [
-         'title'=>Yii::t('frontend','Update the settings for this meeting'),
-        ]); ?></li>
+        <?php
+        if ($isOwner) {
+          ?>
+          <li>
+          <?= Html::a(Yii::t('frontend', 'Preferences'), ['/meeting-setting/update', 'id' => $model->id],
+           [
+           'title'=>Yii::t('frontend','Update the settings for this meeting'),
+          ]); ?>
+          </li>
+        <?php
+        }
+        ?>
         </ul>
         </div>
       </div>

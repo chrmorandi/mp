@@ -43,7 +43,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual'], // 'wizard'
+                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen'], // 'wizard'
                                'roles' => ['@'],
                            ],
                           [
@@ -116,6 +116,7 @@ class MeetingController extends Controller
     public function actionView($id)
     {
       $model = $this->findModel($id);
+      $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$id])->one();
       if (!$model->isAttendee($id,Yii::$app->user->getId())) {
         $this->redirect(['site/authfailure']);
       }
@@ -143,6 +144,7 @@ class MeetingController extends Controller
         ]);
           return $this->render('view', [
               'model' => $model,
+              'meetingSettings' => $meetingSettings,
               'participantProvider' => $participantProvider,
               'timeProvider' => $timeProvider,
               'noteProvider' => $noteProvider,
@@ -181,6 +183,7 @@ class MeetingController extends Controller
         $chosenTime = Meeting::getChosenTime($id);
         return $this->render('view_confirmed', [
             'model' => $model,
+            'meetingSettings' => $meetingSettings,
             'participantProvider' => $participantProvider,
             'noteProvider' => $noteProvider,
             'viewer' => Yii::$app->user->getId(),
@@ -295,7 +298,6 @@ class MeetingController extends Controller
       if ($actor_id == Yii::$app->user->getId() && Meeting::isAttendee($id,$actor_id)) {
           Meeting::prepareDownloadIcs($id,$actor_id);
       }
-
     }
 
     public function actionDecline($id) {
@@ -395,6 +397,21 @@ class MeetingController extends Controller
       }
       $meeting->update();
       return true;
+    }
+
+    public function actionReopen($id) {
+      $m = $this->findModel($id);
+      $m->setViewer();
+      if ($m->viewer == Meeting::VIEWER_ORGANIZER) {
+        if ($m->reopen()) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting has now been reopened so you can make changes.'));
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to reopen a meeting this many times. Try creating a new meeting.'));
+        }
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to do this.'));
+      }
+      return $this->redirect(['view', 'id' => $id]);
     }
 
     public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$k=0) {
