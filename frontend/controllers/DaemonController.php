@@ -133,7 +133,7 @@ public function actionQuarter() {
 
     public function actionFix()
     {
-        \frontend\models\Fix::checkUserDataCalc();
+      \frontend\models\Fix::checkUserDataCalc();
       //Daemon::reset();
       //\frontend\models\Fix::fixUserSettings();
       // \frontend\models\Fix::cleanupReminders();

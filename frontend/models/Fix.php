@@ -9,6 +9,7 @@ use common\models\User;
 use frontend\models\Friend;
 use frontend\models\Reminder;
 use frontend\models\UserSetting;
+use backend\models\UserData;
 use frontend\models\MeetingReminder;
 
 class Fix
