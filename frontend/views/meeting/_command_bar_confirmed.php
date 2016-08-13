@@ -24,7 +24,7 @@ use frontend\models\MeetingSetting;
            <?php
              if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_request_change)) {
                ?>
-               <li><?= Html::a(Yii::t('frontend', 'Request changes'), ['/site/unavailable'],
+               <li><?= Html::a(Yii::t('frontend', 'Request changes'), ['/request/create','meeting_id'=>$model->id],
                 ['title'=>Yii::t('frontend','tbd')]); ?></li>
              <?php
              }
