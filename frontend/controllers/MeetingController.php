@@ -406,10 +406,10 @@ class MeetingController extends Controller
         // to do - allow participants to reopen if meeting settings allow it
         // also check reschedule()
         if ($m->viewer == Meeting::VIEWER_ORGANIZER) {
-          $new_meeting = $m->reschedule();
-          if ($new_meeting!==false) {
-              Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The previous meeting is cancelled. Plan times for the new meeting below.'));
-              return $this->redirect(['view', 'id' => 122]);
+          $new_meeting_id = $m->reschedule();
+          if ($new_meeting_id!==false) {
+              Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Plan times for your rescheduled meeting below.'));
+              return $this->redirect(['view', 'id' => $new_meeting_id]);
           } else {
             Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there was a problem rescheduling the meeting.'));
           }

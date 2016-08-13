@@ -31,12 +31,17 @@ use frontend\models\MeetingSetting;
              <?php
              }
              ?>
-
-          <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule','id'=>$model->id],
-           [
-           'title'=>Yii::t('frontend','Cancel this meeting and reschedule a new one with the same people and place'),
-           'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting and schedule a new one?')
-          ]); ?></li>
+             <?php
+               if ($model->viewer == Meeting::VIEWER_ORGANIZER) {
+                 ?>
+                 <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule','id'=>$model->id],
+                  [
+                  'title'=>Yii::t('frontend','Cancel this meeting and reschedule a new one with the same people and place'),
+                  'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting and schedule a new one?')
+                 ]); ?></li>
+               <?php
+               }
+               ?>
         <li role="separator" class="divider"></li>
         <?php
           if (!$isPast && $model->status >= $model::STATUS_SENT) {
@@ -69,12 +74,6 @@ use frontend\models\MeetingSetting;
       </div>
       <div class="col-xs-8" >
         <div style="float:right;">
-
-          <!--  to do - check meeting settings if participant can send/finalize -->
-          <?php
-          /*echo Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule', 'id' => $model->id], ['id'=>'actionReschedule','class' => 'btn btn-default',
-          'data-confirm' => Yii::t('frontend', 'Sorry, this feature is not yet available.')]);*/
-          ?>
           <span class="button-pad">
             <?php
             if (!$isPast) {
