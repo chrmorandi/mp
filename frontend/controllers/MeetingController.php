@@ -43,7 +43,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule'], // 'wizard'
+                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat'], // 'wizard'
                                'roles' => ['@'],
                            ],
                           [
@@ -412,6 +412,24 @@ class MeetingController extends Controller
               return $this->redirect(['view', 'id' => $new_meeting_id]);
           } else {
             Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there was a problem rescheduling the meeting.'));
+          }
+        } else {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to do this.'));
+          return $this->redirect(['view', 'id' => $id]);
+        }
+    }
+
+    public function actionRepeat($id) {
+        // check that person has permissions
+        $m = $this->findModel($id);
+        $m->setViewer();
+        if ($m->isAttendee($id,Yii::$app->user->getId())) {
+          $new_meeting_id = $m->repeat();
+          if ($new_meeting_id!==false) {
+              Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Plan times for your new meeting below.'));
+              return $this->redirect(['view', 'id' => $new_meeting_id]);
+          } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there was a problem repeating this meeting.'));
           }
         } else {
           Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to do this.'));

@@ -345,7 +345,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SENT_RUNNING_LATE:
 				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
 				case MeetingLog::ACTION_REOPEN:
-				case MeetingLog::ACTION_RESCHEDULED:
+				case MeetingLog::ACTION_RESCHEDULE:
 					$label = Yii::t('frontend','-');
 				break;
 				default:

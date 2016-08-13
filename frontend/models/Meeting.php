@@ -1273,9 +1273,9 @@ class Meeting extends \yii\db\ActiveRecord
 
     public function reschedule() {
       $newOwner = $user_id = Yii::$app->user->getId();
-      $newParticipant = false;
       // user can only cancel their own Meeting
       if ($this->owner_id == $user_id) {
+        $addParticipant = false;
         $this->cancel($user_id);
         MeetingLog::add($this->id,MeetingLog::ACTION_RESCHEDULE,$user_id);
       } else {
@@ -1285,8 +1285,79 @@ class Meeting extends \yii\db\ActiveRecord
             return false;
           } else {
             // reverse the owner and participant
-            $newParticipant = $this->owner_id;
+            $addParticipant = $this->owner_id;
           }
+      }
+      // create new meeting - as copy of old meeting
+      $m = new Meeting();
+      $m->attributes = $this->attributes;
+      $m->owner_id = $newOwner;
+      $m->status = Meeting::STATUS_PLANNING;
+      $m->created_at = time();
+      $m->updated_at = time();
+      $m->logged_at = 0;
+      $m->cleared_at = 0;
+      $m->sequence_id = 0;
+      $m->save();
+      // clone the selected place (not all of them)
+      $chosenPlace = $this->getChosenPlace($this->id);
+      if ($chosenPlace!==false) {
+        $mp = new MeetingPlace;
+        $mp->suggested_by = $newOwner;
+        $mp->attributes = $chosenPlace->attributes;
+        $mp->meeting_id = $m->id;
+        $mp->created_at = time();
+        $mp->updated_at = time();
+        $mp->save();
+      }
+      // clone the participants
+      foreach ($this->participants as $p) {
+        // skip if reschedule new owner was a participant
+        if ($p->participant_id==$user_id) {
+          continue;
+        }
+        // note Participant afterSave will create choices for place
+        $clone_p = new Participant();
+        $clone_p->attributes = $p->attributes;
+        $clone_p->email = User::findOne($p->participant_id)->email;
+        $clone_p->meeting_id = $m->id;
+        $clone_p->invited_by = $newOwner;
+        $clone_p->status = Participant::STATUS_DEFAULT;
+        $clone_p->created_at = time();
+        $clone_p->updated_at = time();
+        $clone_p->save();
+      }
+      // if participant asked to reschedule - not yet allowed
+      if ($addParticipant!==false) {
+        $newP = new Participant();
+        $newP->meeting_id = $m->id;
+        $newP->participant_id = $addParticipant;
+        $newP->invited_by = $user_id;
+        $newP->status = Participant::STATUS_DEFAULT;
+        $newP->created_at = time();
+        $newP->updated_at = time();
+        $newP->save();
+      }
+      return $m->id;
+    }
+
+    public function repeat() {
+      // to do - expand repeat meeting to have more options
+      // e.g. pick same dow and time in future week or two
+      // e.g. duplicate chosenplace or all places
+      // e.g. duplicate all participants or just some (complicated if particpant duplicates)
+      $newOwner = $user_id = Yii::$app->user->getId();
+      // if user is participant - needs to reverse
+      if ($this->owner_id == $user_id) {
+        $addParticipant = false;
+      } else {
+        if (!isAttendee($this->id,$user_id)) {
+          // user isn't owner or participant - error
+          return false;
+        } else {
+          // reverse the owner and participant
+          $addParticipant = $this->owner_id;
+        }
       }
       // create new meeting - as copy of old meeting
       $m = new Meeting();
@@ -1326,11 +1397,11 @@ class Meeting extends \yii\db\ActiveRecord
         $clone_p->updated_at = time();
         $clone_p->save();
       }
-      // if participant asked to reschedule - not yet allowed
-      if ($newParticipant!==false) {
+      // if participant asked to repeat
+      if ($addParticipant!==false) {
         $newP = new Participant();
         $newP->meeting_id = $m->id;
-        $newP->participant_id = $newParticipant;
+        $newP->participant_id = $addParticipant;
         $newP->invited_by = $user_id;
         $newP->status = Participant::STATUS_DEFAULT;
         $newP->created_at = time();

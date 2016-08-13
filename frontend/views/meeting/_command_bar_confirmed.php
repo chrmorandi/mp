@@ -3,8 +3,6 @@
 use yii\helpers\Html;
 use frontend\models\Meeting;
 use frontend\models\MeetingSetting;
-// to do - note this will offer other command button options in future
-  if ( $model->status < $model::STATUS_COMPLETED) {
 ?>
   <div class="command-bar">
     <div class="row">
@@ -32,7 +30,7 @@ use frontend\models\MeetingSetting;
              }
              ?>
              <?php
-               if ($model->viewer == Meeting::VIEWER_ORGANIZER) {
+               if (!$isPast && $model->viewer == Meeting::VIEWER_ORGANIZER) {
                  ?>
                  <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule','id'=>$model->id],
                   [
@@ -40,7 +38,14 @@ use frontend\models\MeetingSetting;
                   'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting and schedule a new one?')
                  ]); ?></li>
                <?php
-               }
+             } elseif ($isPast) {
+               ?>
+               <li><?= Html::a(Yii::t('frontend', 'Repeat'), ['repeat','id'=>$model->id],
+                [
+                'title'=>Yii::t('frontend','Repeat this meeting at a new time'),
+                ]); ?></li>
+               <?php
+             }
                ?>
         <li role="separator" class="divider"></li>
         <?php
@@ -104,6 +109,3 @@ use frontend\models\MeetingSetting;
       </div>
     </div> <!-- end row -->
 </div>
-<?php
-  }
-  ?>

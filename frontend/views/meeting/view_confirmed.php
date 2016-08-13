@@ -21,45 +21,37 @@ echo $this->render('_timezone_alerts');
 
   <?php
     if ( $model->status >= $model::STATUS_COMPLETED) {
-    ?>
-    <div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-body">
-            <div class="row">
-      <div class="col-lg-12">
-    <?php
       switch ($model->status) {
         case $model::STATUS_EXPIRED:
-          echo Yii::t('frontend',"This meeting expired due to inactivity.");
+          Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','This meeting expired due to inactivity.'));
         break;
         case $model::STATUS_COMPLETED:
-          echo Yii::t('frontend',"This meeting has past.");
+          Yii::$app->getSession()->setFlash('info', Yii::t('frontend','This meeting has past.'));
         break;
         case $model::STATUS_CANCELED:
-          echo Yii::t('frontend',"This meeting was canceled.");
+          Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','This meeting was canceled.'));
         break;
         case $model::STATUS_TRASH:
-          echo Yii::t('frontend',"This meeting has been deleted.");
+          Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','This meeting has been deleted.'));
         break;
       }
-    ?>
-  </div> <!-- end col 12 -->
-  </div> <!-- end row -->
-</div>
-</div>
-    <?php
-      }
-     ?>
-     <?php
-       echo $this->render('_command_bar_confirmed', [
-           'model'=>$model,
-           'meetingSettings' => $meetingSettings,
-           'showRunningLate'=>$showRunningLate,
-           'isPast'=>$isPast,
-           'dropclass'=>'dropdown',
-           'isOwner' => $isOwner,
-       ]);
-      ?>
+      echo $this->render('_command_bar_past', [
+          'model'=>$model,          
+          'isPast'=>true,
+          'dropclass'=>'dropdown',
+          'isOwner' => $isOwner,
+      ]);
+    } else {
+      echo $this->render('_command_bar_confirmed', [
+          'model'=>$model,
+          'meetingSettings' => $meetingSettings,
+          'showRunningLate'=>$showRunningLate,
+          'isPast'=>$isPast,
+          'dropclass'=>'dropdown',
+          'isOwner' => $isOwner,
+      ]);
+    }
+  ?>
   <?php if ($isOwner) {
     echo $this->render('../participant/_panel', [
         'model'=>$model,
