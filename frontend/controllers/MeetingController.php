@@ -10,6 +10,7 @@ use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\MeetingSearch;
 use frontend\models\Participant;
+use frontend\models\Request;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingTime;
@@ -157,6 +158,10 @@ class MeetingController extends Controller
           ]);
       } else {
         // meeting is finalized or past
+        if (Request::countOpen($id)) {
+
+            Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Changes have been requested for this meeting. <a href="{url}">View them</a>.',['url'=>Url::to(['/request/index/','meeting_id'=>$id])]));
+        }
         $isOwner = $model->isOwner(Yii::$app->user->getId());
         if (($model->meeting_type == Meeting::TYPE_PHONE || $model->meeting_type == Meeting::TYPE_VIDEO || $model->meeting_type == Meeting::TYPE_VIRTUAL)) {
           $noPlace = true;

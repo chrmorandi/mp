@@ -3,12 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\components\MiscHelpers;
 use frontend\models\Meeting;
+use frontend\models\MeetingPlace;
+use frontend\models\MeetingSetting;
 use frontend\models\Request;
 use frontend\models\RequestSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+
 
 /**
  * RequestController implements the CRUD actions for Request model.
@@ -34,7 +39,7 @@ class RequestController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions'=>['view','create','update'],
+                        'actions'=>['view','create','update','index','accept','reject'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -50,11 +55,20 @@ class RequestController extends Controller
     public function actionIndex()
     {
         $searchModel = new RequestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $meeting_id = Yii::$app->request->queryParams['meeting_id'];
+        if (!Meeting::isAttendee($meeting_id,Yii::$app->user->getId())) {
+          $this->redirect(['site/authfailure']);
+        }
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+              'query' => Request::find()->where(['meeting_id'=>$meeting_id])
+                ->andWhere(['status'=>Request::STATUS_OPEN]),
+              //'sort'=> ['defaultOrder' => ['created_at'=>SORT_ASC]],
+          ]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'meeting_id' => $meeting_id,
         ]);
     }
 
@@ -65,8 +79,19 @@ class RequestController extends Controller
      */
     public function actionView($id)
     {
+        $model=$this->findModel($id);
+        if (!Meeting::isAttendee($model->meeting_id,Yii::$app->user->getId())) {
+          $this->redirect(['site/authfailure']);
+        }
+        $model->meeting->setViewer();
+        $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$model->meeting_id])->one();
+        $requestor = MiscHelpers::getDisplayName($model->requestor_id);
+        $content = Request::buildSubject($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'requestor'=>$requestor,
+            'content'=>$content,
+            'meetingSettings'=>$meetingSettings,
         ]);
     }
 
@@ -78,22 +103,72 @@ class RequestController extends Controller
     public function actionCreate($meeting_id)
     {
         // verify is attendee
+        if (!Meeting::isAttendee($meeting_id,Yii::$app->user->getId())) {
+          $this->redirect(['site/authfailure']);
+        }
+        if (Request::countRequestorOpen($meeting_id,Yii::$app->user->getId())>0) {
+            $r = Request::find()
+              ->where(['meeting_id'=>$meeting_id])
+              ->andWhere(['requestor_id'=>Yii::$app->user->getId()])
+              ->andWhere(['status'=>Request::STATUS_OPEN])
+              ->one();
+            Yii::$app->getSession()->setFlash('info', Yii::t('frontend','You already have an existing request below.'));
+              return $this->redirect(['view','id'=>$r->id]);            
+        }
+        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
         $model = new Request();
         $model->meeting_id=$meeting_id;
         $meeting = Meeting::findOne($meeting_id);
-        $places = [];
+        $chosenTime = Meeting::getChosenTime($meeting_id);
+        $countPlaces = count($meeting->meetingPlaces);
+        $countTimes = count($meeting->meetingTimes);
+        for ($i=1;$i<12;$i++) {
+          $earlierIndex = ((12-$i)*-15);
+          $altTimesList[$chosenTime->start+($earlierIndex*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($earlierIndex*60),$timezone,false);
+          $altTimesList[$chosenTime->start+($i*15*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($i*15*60),$timezone,false);
+        }
+        $altTimesList[-1000]=Yii::t('frontend','Select an alternate time below');
+        ksort($altTimesList);
+        $places[0]=Yii::t('frontend','No, keep the same place');
         foreach ($meeting->meetingPlaces as $p) {
-          $places[]=$p->place->name;
-
-        }        
+          if ($p->status <> MeetingPlace::STATUS_SELECTED) {
+              $places[$p->id]=$p->place->name;
+          }
+        }
+        $times[0] = Yii::t('frontend','select a different time');
+        foreach ($meeting->meetingTimes as $t) {
+          $times[$t->id] = Meeting::friendlyDateFromTimestamp($t->start,$timezone);
+        }
         $model->requestor_id = Yii::$app->user->getId();
-        $model->status = Request::STATUS_NEW;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->status = Request::STATUS_OPEN;
+        if ($model->load(Yii::$app->request->post())) {
+
+          if ($model->time_adjustment == Request::TIME_ADJUST_ABIT && $model->alternate_time == -1000) {
+            $model->time_adjustment = Request::TIME_ADJUST_NONE;
+          }
+          if (($model->time_adjustment == Request::TIME_ADJUST_NONE) && $model->meeting_place_id == 0) {
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','You must request a change for a valid submission.'));
+            return $this->render('create', [
+                'model' => $model,
+                'places' => $places,
+                'times' => $times,
+                'altTimesList' => $altTimesList,
+                'countPlaces' => $countPlaces,
+                'countTimes' => $countTimes,
+            ]);
+          } else {
+            $model->save();
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We are sending your request to other participants now.'));
+             return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
+          }
         } else {
             return $this->render('create', [
                 'model' => $model,
                 'places' => $places,
+                'times' => $times,
+                'altTimesList' => $altTimesList,
+                'countPlaces' => $countPlaces,
+                'countTimes' => $countTimes,
             ]);
         }
     }
@@ -117,17 +192,34 @@ class RequestController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing Request model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
+    public function actionAccept($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id);
+        $model->meeting->setViewer();
+        $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$model->meeting_id])->one();
+        // check permissions
+        if ($model->requestor_id != Yii::$app->user->getId() && ($model->meeting->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
+          Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The changes have been applied and participants will be notified.'));
+          return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
+        } else {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you do not have permissions to make the changes.'));
+          return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
+        }
+    }
 
-        return $this->redirect(['index']);
+    public function actionReject($id)
+    {
+      $this->findModel($id);
+      $model->meeting->setViewer();
+      $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$model->meeting_id])->one();
+      // check permissions
+      if ($model->requestor_id != Yii::$app->user->getId() && ($model->meeting->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The request was rejected. No changes were made to the meeting.'));
+        return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you do not have permissions to make the changes.'));
+        return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
+      }
     }
 
     /**

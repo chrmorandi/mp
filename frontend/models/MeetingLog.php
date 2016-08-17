@@ -55,6 +55,10 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_SENT_EMAIL_VERIFICATION = 220;
 	const ACTION_REOPEN = 230;
 	const ACTION_RESCHEDULE = 232;
+	const ACTION_REQUEST_CREATE = 240;
+	const ACTION_REQUEST_WITHDRAW = 250;
+	const ACTION_REQUEST_ORGANIZER_ACCEPT = 260;
+	const ACTION_REQUEST_ORGANIZER_REJECT = 270;
 
 	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
@@ -250,6 +254,18 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_RESCHEDULE:
 				$label = Yii::t('frontend','Rescheduled the meeting');
 				break;
+				case MeetingLog::ACTION_REQUEST_CREATE:
+					$label = Yii::t('frontend','Requested change');
+				break;
+				case MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT:
+				$label = Yii::t('frontend','Organizer accepted the change');
+				break;
+				case MeetingLog::ACTION_REQUEST_WITHDRAW:
+				$label = Yii::t('frontend','Withdrew requested change');
+				break;
+				case MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT:
+				$label = Yii::t('frontend','Organizer rejected the change');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -348,6 +364,19 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_RESCHEDULE:
 					$label = Yii::t('frontend','-');
 				break;
+				case MeetingLog::ACTION_REQUEST_CREATE:
+					$label = '';
+				break;
+				case MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT:
+					$label = '';
+				break;
+				case MeetingLog::ACTION_REQUEST_WITHDRAW:
+					$label = '';
+				break;
+				case MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT:
+					$label = '';
+				break;
+
 				default:
 					$label = Yii::t('frontend','n/a');
 				break;

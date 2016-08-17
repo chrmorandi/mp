@@ -18,7 +18,7 @@ class RequestSearch extends Request
     public function rules()
     {
         return [
-            [['id', 'meeting_id', 'requestor_id', 'time_adjustment', 'number_seconds', 'meeting_time_id', 'place_adjustment', 'meeting_place_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'meeting_id', 'requestor_id', 'time_adjustment', 'alternate_time', 'meeting_time_id', 'place_adjustment', 'meeting_place_id', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -62,7 +62,7 @@ class RequestSearch extends Request
             'meeting_id' => $this->meeting_id,
             'requestor_id' => $this->requestor_id,
             'time_adjustment' => $this->time_adjustment,
-            'number_seconds' => $this->number_seconds,
+            'alternate_time' => $this->alternate_time,
             'meeting_time_id' => $this->meeting_time_id,
             'place_adjustment' => $this->place_adjustment,
             'meeting_place_id' => $this->meeting_place_id,

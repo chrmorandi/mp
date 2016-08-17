@@ -708,18 +708,22 @@ class Meeting extends \yii\db\ActiveRecord
       }
 
        // formatting helpers
-       public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles') {
+       public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles',$dateOrder=true) {
          // adjust for timezone
          if (empty($timezone)) {
            $timezone = 'America/Los_Angeles';
          }
          Yii::$app->formatter->timeZone=$timezone;
          // same day as today?
-         if (date('z')==date('z',$tstamp)) {
-           $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
-         }   else {
-           $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
-         }
+         if ($dateOrder) {
+           if (date('z')==date('z',$tstamp)) {
+            $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
+          }   else {
+            $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
+          }
+        } else {
+          $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a \' '.Yii::t('frontend','on').'\' E MMM d');
+        }
          return $date_str;
        }
 

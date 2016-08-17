@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'time_adjustment') ?>
 
-    <?= $form->field($model, 'number_seconds') ?>
+    <?= $form->field($model, 'alternate_time') ?>
 
     <?php // echo $form->field($model, 'meeting_time_id') ?>
 

@@ -8,7 +8,9 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('frontend', 'Request a Change to Your Meeting');
 
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting'), 'url' => ['/meeting/view','id'=>$model->meeting_id]];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="request-create">
 
@@ -17,6 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'places' => $places,
+        'times'=>$times,
+        'altTimesList'=>$altTimesList,
+        'countPlaces' => $countPlaces,
+        'countTimes' => $countTimes,
     ]) ?>
 
 </div>
