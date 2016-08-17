@@ -19,20 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <p><em><?= Html::encode($model->note) ?></em></p>
       <?php } ?>
     <p>
-      <?php
-        if ($model->requestor_id != Yii::$app->user->getId() && ($model->meeting->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
-          ?>
-          <?= Html::a(Yii::t('frontend', 'Accept'), ['accept', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
-          <?= Html::a(Yii::t('frontend', 'Reject'), ['reject', 'id' => $model->id], [
-              'class' => 'btn btn-danger',
-              'data' => [
-                  'confirm' => Yii::t('frontend', 'Are you sure you want to reject this request?'),
-                  'method' => 'post',
-              ],
-          ]) ?>
-      <?php
-    } else {
-      ?>
+
       <p><em>
       <?=Yii::t('frontend','Waiting for organizer(s) to respond.')?>
     </em></p>
@@ -44,11 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
       ]) ?>
     </p>
-      <?php
-      }
-       ?>
-
-
+    
     </p>
 
 </div>

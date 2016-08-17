@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 <div class="request-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-      <div class ="col-xs-6">
+      <div class ="col-xs-12 col-lg-6">
         <?php
         $options=[Request::TIME_ADJUST_NONE=>Yii::t('frontend','no, keep the time'),
           Request::TIME_ADJUST_ABIT=>Yii::t('frontend','yes, adjust the time a bit')];
@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
           ?>
     <div id="choose_earlier" class="">
     <?php
-    echo $form->field($model, 'alternate_time')->label(Yii::t('frontend','Meet slightly earlier or later'))
+    echo $form->field($model, 'alternate_time')->label(Yii::t('frontend','Choose a time slightly earlier or later:'))
       ->dropDownList(
           $altTimesList           // Flat array ('id'=>'label')
           //,['prompt'=>'select an alternate time']
@@ -54,7 +54,7 @@ use yii\widgets\ActiveForm;
       )->hint(Yii::t('frontend','to select alternate places, just click the dropdown'));
     }
       ?>
-    <?= $form->field($model, 'note')->textarea(['rows' => 6])->hint(Yii::t('frontend','Optional'))->label(Yii::t('frontend','Add a message to your response here')); ?>
+    <?= $form->field($model, 'note')->textarea(['rows' => 6])->hint(Yii::t('frontend','Optional'))->label(Yii::t('frontend','Add a message to your request here')); ?>
 
 
     <div class="form-group">

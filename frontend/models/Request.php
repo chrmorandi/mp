@@ -13,6 +13,7 @@ use frontend\models\MeetingPlace;
  * @property integer $id
  * @property integer $meeting_id
  * @property integer $requestor_id
+ * @property integer $completed_by
  * @property integer $time_adjustment
  * @property integer $alternate_time
  * @property integer $meeting_time_id
@@ -31,6 +32,7 @@ class Request extends \yii\db\ActiveRecord
   const STATUS_OPEN = 0;
   const STATUS_ACCEPTED = 10;
   const STATUS_REJECTED = 20;
+  const STATUS_WITHDRAWN = 30;
 
   const TIME_ADJUST_NONE = 50;
   const TIME_ADJUST_ABIT = 60;
@@ -66,7 +68,7 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['meeting_id', 'requestor_id', 'time_adjustment', 'alternate_time', 'meeting_time_id', 'place_adjustment', 'meeting_place_id', 'status'], 'integer'],
+            [['meeting_id', 'requestor_id','completed_by', 'time_adjustment', 'alternate_time', 'meeting_time_id', 'place_adjustment', 'meeting_place_id', 'status'], 'integer'],
             [['note'], 'string'],
             [['requestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['requestor_id' => 'id']],
             [['meeting_id'], 'exist', 'skipOnError' => true, 'targetClass' => Meeting::className(), 'targetAttribute' => ['meeting_id' => 'id']],
@@ -81,7 +83,8 @@ class Request extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('frontend', 'ID'),
             'meeting_id' => Yii::t('frontend', 'Meeting ID'),
-            'requestor_id' => Yii::t('frontend', 'Requestor ID'),
+            'requestor_id' => Yii::t('frontend', 'Requested by'),
+            'completed_by' => Yii::t('frontend', 'Completed by'),
             'time_adjustment' => Yii::t('frontend', 'Time Adjustment'),
             'alternate_time' => Yii::t('frontend', 'Number Seconds'),
             'meeting_time_id' => Yii::t('frontend', 'Meeting Time ID'),
@@ -138,7 +141,7 @@ class Request extends \yii\db\ActiveRecord
         // get place name
         $place = MeetingPlace::findOne($r->meeting_place_id)->place->name;
       }
-      $result = $requestor.Yii::t('frontend',' asked for ');
+      $result = $requestor.Yii::t('frontend',' asked to meet at ');
       if ($rtime=='' && $place =='') {
         $result.=Yii::t('frontend','oops...no changes were requested.');
       } else if ($rtime<>'') {
@@ -153,16 +156,32 @@ class Request extends \yii\db\ActiveRecord
       return $result;
     }
 
-    public function accept($id) {
-      // check that acceptor has permissions
+    public function accept() {
+      $this->status = Request::STATUS_ACCEPTED;
+      $this->update();
+      // to do - check if organizer or participant
+      MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ACCEPT,Yii::$app->user->getId(),$this->id);
+      // to do - Make changes to the Meeting
+      // resend the finalization - which also needs to be done for resend invitation
     }
 
-    public function reject($id) {
-      // check that rejector has permissions
+    public function reject() {
+      $this->status = Request::STATUS_REJECTED;
+      $this->update();
+      // to do - check if organizer or participant
+      MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_REJECT,Yii::$app->user->getId(),$this->id);
     }
 
     public function withdraw($id) {
       // check that withdrawee created it
+      $r = Request::findOne($id);
+      $r->status = Request::STATUS_WITHDRAWN;
+      $r->update();
+      MeetingLog::add($r->meeting_id,MeetingLog::ACTION_REQUEST_WITHDRAW,Yii::$app->user->getId(),$r->id);
+    }
+
+    public function notify() {
+      // send notification of request with the link
     }
 
     public static function countRequestorOpen($meeting_id,$requestor_id) {

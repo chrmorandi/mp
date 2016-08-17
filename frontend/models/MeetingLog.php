@@ -58,7 +58,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_REQUEST_CREATE = 240;
 	const ACTION_REQUEST_WITHDRAW = 250;
 	const ACTION_REQUEST_ORGANIZER_ACCEPT = 260;
+	const ACTION_REQUEST_ACCEPT = 265;
 	const ACTION_REQUEST_ORGANIZER_REJECT = 270;
+	const ACTION_REQUEST_REJECT = 275;
 
 	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
@@ -66,7 +68,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,
 			MeetingLog::ACTION_FINALIZE_INVITE,
 			MeetingLog::ACTION_ABANDON_MEETING,
-			MeetingLog::ACTION_COMPLETE_MEETING
+			MeetingLog::ACTION_COMPLETE_MEETING,
+			MeetingLog::ACTION_REQUEST_CREATE
 		];
 
 	// not yet implemented
@@ -257,15 +260,22 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REQUEST_CREATE:
 					$label = Yii::t('frontend','Requested change');
 				break;
+				case MeetingLog::ACTION_REQUEST_ACCEPT:
+				$label = Yii::t('frontend','Accepted the requested change');
+				break;
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT:
-				$label = Yii::t('frontend','Organizer accepted the change');
+				$label = Yii::t('frontend','Organizer accepted the requested change');
 				break;
 				case MeetingLog::ACTION_REQUEST_WITHDRAW:
 				$label = Yii::t('frontend','Withdrew requested change');
 				break;
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT:
-				$label = Yii::t('frontend','Organizer rejected the change');
+				$label = Yii::t('frontend','Organizer rejected the requested change');
 				break;
+				case MeetingLog::ACTION_REQUEST_REJECT:
+				$label = Yii::t('frontend','Declined the requested change');
+				break;
+
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -367,12 +377,14 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REQUEST_CREATE:
 					$label = '';
 				break;
+				case MeetingLog::ACTION_REQUEST_ACCEPT:
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT:
 					$label = '';
 				break;
 				case MeetingLog::ACTION_REQUEST_WITHDRAW:
 					$label = '';
 				break;
+				case MeetingLog::ACTION_REQUEST_REJECT:
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT:
 					$label = '';
 				break;

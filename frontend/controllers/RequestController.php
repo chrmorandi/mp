@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
+use frontend\models\MeetingLog;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingSetting;
 use frontend\models\Request;
@@ -39,7 +40,7 @@ class RequestController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions'=>['view','create','update','index','accept','reject'],
+                        'actions'=>['view','create','update','index','withdraw'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -113,7 +114,7 @@ class RequestController extends Controller
               ->andWhere(['status'=>Request::STATUS_OPEN])
               ->one();
             Yii::$app->getSession()->setFlash('info', Yii::t('frontend','You already have an existing request below.'));
-              return $this->redirect(['view','id'=>$r->id]);            
+              return $this->redirect(['view','id'=>$r->id]);
         }
         $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
         $model = new Request();
@@ -123,9 +124,15 @@ class RequestController extends Controller
         $countPlaces = count($meeting->meetingPlaces);
         $countTimes = count($meeting->meetingTimes);
         for ($i=1;$i<12;$i++) {
+          // later times
+          if ($i<4 || $i%2 == 0) {
+            $altTimesList[$chosenTime->start+($i*15*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($i*15*60),$timezone,false);
+          }
+          // earlier times
           $earlierIndex = ((12-$i)*-15);
-          $altTimesList[$chosenTime->start+($earlierIndex*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($earlierIndex*60),$timezone,false);
-          $altTimesList[$chosenTime->start+($i*15*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($i*15*60),$timezone,false);
+          if ($i%2 == 0 || $i>=9) {
+            $altTimesList[$chosenTime->start+($earlierIndex*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($earlierIndex*60),$timezone,false);
+          }
         }
         $altTimesList[-1000]=Yii::t('frontend','Select an alternate time below');
         ksort($altTimesList);
@@ -158,6 +165,8 @@ class RequestController extends Controller
             ]);
           } else {
             $model->save();
+            MeetingLog::add($model->meeting_id,MeetingLog::ACTION_REQUEST_CREATE,Yii::$app->user->getId(),$model->id);
+            $model->notify();
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We are sending your request to other participants now.'));
              return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
           }
@@ -192,36 +201,16 @@ class RequestController extends Controller
         }
     }
 
-    public function actionAccept($id)
+    public function actionWithdraw($id)
     {
-        $this->findModel($id);
-        $model->meeting->setViewer();
-        $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$model->meeting_id])->one();
-        // check permissions
-        if ($model->requestor_id != Yii::$app->user->getId() && ($model->meeting->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
-          Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The changes have been applied and participants will be notified.'));
-          return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
-        } else {
-          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you do not have permissions to make the changes.'));
-          return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
+        $model=$this->findModel($id);
+        if (!$model->requestor_id == Yii::$app->user->getId()) {
+          $this->redirect(['site/authfailure']);
         }
-    }
-
-    public function actionReject($id)
-    {
-      $this->findModel($id);
-      $model->meeting->setViewer();
-      $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$model->meeting_id])->one();
-      // check permissions
-      if ($model->requestor_id != Yii::$app->user->getId() && ($model->meeting->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
-        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The request was rejected. No changes were made to the meeting.'));
+        $model->withdraw($id);
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your requested meeting change has been withdrawn.'));
         return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
-      } else {
-        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you do not have permissions to make the changes.'));
-        return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
-      }
     }
-
     /**
      * Finds the Request model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

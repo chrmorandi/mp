@@ -15,6 +15,7 @@ class m160813_012323_create_request_table extends Migration
             'id' => Schema::TYPE_PK,
             'meeting_id' => Schema::TYPE_INTEGER.' NOT NULL DEFAULT 0',
             'requestor_id' => Schema::TYPE_BIGINT.' NOT NULL DEFAULT 0',
+            'completed_by' => Schema::TYPE_BIGINT.' NOT NULL DEFAULT 0',
             'time_adjustment' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
             'alternate_time' => Schema::TYPE_BIGINT.' NOT NULL DEFAULT 0',
             'meeting_time_id' => Schema::TYPE_BIGINT.' NOT NULL DEFAULT 0',

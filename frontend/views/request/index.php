@@ -29,7 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute' => 'id',
               'format' => 'raw',
               'value' => function ($model) {
-                      return '<div>'.Html::a(Request::buildSubject($model->id),Url::to(['view','id'=>$model->id])).'</div>';
+                    if (Yii::$app->user->getId() == $model->requestor_id) {
+                      $url = Url::to(['view','id'=>$model->id]);
+                    } else {
+                      $url = Url::to(['/request-response/create','id'=>$model->id]);
+                    }
+                      return '<div>'.Html::a(Request::buildSubject($model->id),$url).'</div>';
                   },
           ],
             //'time_adjustment:datetime',
