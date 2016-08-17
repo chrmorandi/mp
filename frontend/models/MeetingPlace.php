@@ -229,4 +229,18 @@ class MeetingPlace extends \yii\db\ActiveRecord
       }
       return true;
     }
+
+    public function addFromRequest($request_id) {      
+      // load the request
+      $r = \frontend\models\Request::findOne($request_id);
+      $m = Meeting::findOne($r->meeting_id);
+      // get the duration of the currently accepted MeetingTime
+      $mp = new MeetingPlace();
+      $mp->meeting_id = $r->meeting_id;
+      $mp->place_id = $r->meeting_place_id;
+      $mp->suggested_by = $r->completed_by;
+      $mp->status = MeetingPlace::STATUS_SELECTED;
+      $mp->save();
+      MeetingPlace::setChoice($r->meeting_id,$mp->id,$r->completed_by);
+    }
 }

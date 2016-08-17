@@ -14,7 +14,6 @@ use yii\widgets\ActiveForm;
 </em>
 </p>
 <div class="request-response-form">
-
     <?php $form = ActiveForm::begin(); ?>
       <?= BaseHtml::activeHiddenInput($model, 'responder_id'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'request_id'); ?>

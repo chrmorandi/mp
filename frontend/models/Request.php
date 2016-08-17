@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\components\MiscHelpers;
+use frontend\models\Meeting;
 use frontend\models\MeetingTime;
 use frontend\models\MeetingPlace;
 /**
@@ -120,14 +121,11 @@ class Request extends \yii\db\ActiveRecord
       $rtime ='';
       $place = '';
       switch ($r->time_adjustment) {
-        case 0:
         case Request::TIME_ADJUST_NONE:
         break;
-        case 1:
         case Request::TIME_ADJUST_ABIT:
           $rtime = Meeting::friendlyDateFromTimestamp($r->alternate_time,$timezone);
         break;
-        case 2:
         case Request::TIME_ADJUST_OTHER:
           $t = MeetingTime::findOne($r->meeting_time_id);
           if (!is_null($t)) {
@@ -136,7 +134,7 @@ class Request extends \yii\db\ActiveRecord
         break;
       }
       if ($r->place_adjustment == Request::PLACE_ADJUST_NONE || $r->place_adjustment == 0 && $r->meeting_place_id ==0 ) {
-
+        // do nothing
       } else {
         // get place name
         $place = MeetingPlace::findOne($r->meeting_place_id)->place->name;
@@ -157,11 +155,38 @@ class Request extends \yii\db\ActiveRecord
     }
 
     public function accept() {
+      // to do - this will need to change when there are multiple participants
       $this->status = Request::STATUS_ACCEPTED;
       $this->update();
-      // to do - check if organizer or participant
-      MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ACCEPT,Yii::$app->user->getId(),$this->id);
-      // to do - Make changes to the Meeting
+      $m = Meeting::findOne($this->meeting_id);
+      if ($m->isOwner(Yii::$app->user->getId())) {
+        // they are an organizer
+        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT,Yii::$app->user->getId(),$this->id);
+      } else {
+        // they are a participant
+        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ACCEPT,Yii::$app->user->getId(),$this->id);
+      }
+      // is there a new time
+      switch ($r->time_adjustment) {
+        case Request::TIME_ADJUST_ABIT:
+          // create a new meeting time with alternate_time
+          // mark as selected
+          //$rtime = Meeting::friendlyDateFromTimestamp($r->alternate_time,$timezone);
+          MeetingTime::addFromRequest($this->id);
+        break;
+        case Request::TIME_ADJUST_OTHER:
+         // mark as selected
+          //$t = MeetingTime::findOne($r->meeting_time_id);
+          MeetingTime::addFromRequest($this->id);
+        break;
+      }
+      // is there a different place
+      if ($r->place_adjustment == Request::PLACE_ADJUST_OTHER || $r->meeting_place_id !=0 ) {
+        //$place = MeetingPlace::findOne($r->meeting_place_id)->place->name;
+        MeetingPlace::addFromRequest($this->id);
+      }
+      // Make changes to the Meeting
+      $m->increaseSequence();
       // resend the finalization - which also needs to be done for resend invitation
     }
 

@@ -593,6 +593,7 @@ class Meeting extends \yii\db\ActiveRecord
         if ($user_id == Yii::$app->user->getId() && $user_id == $this->owner_id) {
           $this->status = self::STATUS_CANCELED;
           $this->update();
+          $this->increaseSequence();
           MeetingLog::add($this->id,MeetingLog::ACTION_CANCEL_MEETING,$user_id);
           return true;
         } else {
@@ -605,6 +606,7 @@ class Meeting extends \yii\db\ActiveRecord
         if ($this->owner_id == $user_id && $this->status == self::STATUS_PLANNING) {
           $this->status = self::STATUS_TRASH;
           $this->update();
+          $this->increaseSequence();
           MeetingLog::add($this->id,MeetingLog::ACTION_DELETE_MEETING,$user_id);
           return true;
         } else {
@@ -1267,6 +1269,7 @@ class Meeting extends \yii\db\ActiveRecord
       if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
         $this->status = Meeting::STATUS_SENT;
         $this->update();
+        $this->increaseSequence();
         MeetingLog::add($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId());
         return true;
       } else {
@@ -1415,4 +1418,9 @@ class Meeting extends \yii\db\ActiveRecord
       return $m->id;
     }
 
+    public function increaseSequence() {
+      // increase the meeting sequence_id for iCal ics files
+      $this->sequence_id+=1;
+      $this->update();
+    }
 }
