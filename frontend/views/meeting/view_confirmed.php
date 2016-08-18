@@ -170,20 +170,6 @@ echo $this->render('_timezone_alerts');
         ]) ?>
         <?php
           if ( $model->status >= $model::STATUS_COMPLETED) {
-            switch ($model->status) {
-              case $model::STATUS_EXPIRED:
-                Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','This meeting expired due to inactivity.'));
-              break;
-              case $model::STATUS_COMPLETED:
-                Yii::$app->getSession()->setFlash('info', Yii::t('frontend','This meeting has past.'));
-              break;
-              case $model::STATUS_CANCELED:
-                Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','This meeting was canceled.'));
-              break;
-              case $model::STATUS_TRASH:
-                Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','This meeting has been deleted.'));
-              break;
-            }
             echo $this->render('_command_bar_past', [
                 'model'=>$model,
                 'isPast'=>true,

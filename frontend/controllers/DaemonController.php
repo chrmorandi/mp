@@ -4,6 +4,7 @@
 namespace frontend\controllers;
 use Yii;
 use yii\web\Request;
+use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -37,7 +38,7 @@ class DaemonController extends Controller
                 // allow authenticated users
                  [
                      'allow' => true,
-                     'actions'=>['index','fix','recalc','firewall','diagnostics'],
+                     'actions'=>['index','fix','recalc','firewall','diagnostics','cleanup'],
                      'roles' => ['@'],
                  ],
                 [
@@ -195,5 +196,15 @@ public function actionQuarter() {
          $s = new \common\models\Sms();
          $s->transmit($user_id,'Fourth transmit test from MP codebase!');
          */
+      }
+
+      public function actionCleanup() {
+        $baseUrl = Url::home(true);
+        if (stristr($baseUrl,'localhost')===false || \Yii::$app->user->isGuest && !User::findOne(Yii::$app->user->getId())->isAdmin()) {
+          Yii::$app->end();
+        }
+        $d = new \backend\models\Data;
+        $d->cleanupDatabase();
+
       }
 }

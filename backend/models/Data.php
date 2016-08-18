@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
 use common\models\User;
 use frontend\models\Meeting;
@@ -78,6 +79,22 @@ class Data extends Model
       $data->avgUserPlaces = $totalPlaces / $totalUsers;
 
       return $data;
+  }
+
+  public function cleanupDatabase() {
+    $baseUrl = Url::home(true);
+    if (stristr($baseUrl,'localhost')===false || \Yii::$app->user->isGuest && !User::findOne(Yii::$app->user->getId())->isAdmin()) {
+      Yii::$app->end();
+    }
+
+    $mts = Meeting::find()
+      ->orderby(['id'=> SORT_DESC])
+      ->limit(7)
+      ->all();
+    foreach ($mts as $m) {
+      echo 'Deleting '.$m->id.' '.$m->subject.'<br />';
+      $m->delete();
+    }
   }
 
 }
