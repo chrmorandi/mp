@@ -255,6 +255,24 @@ class MeetingTime extends \yii\db\ActiveRecord
           return parent::afterFind();
     }
 
+    public static function createTimePlus($meeting_id,$suggested_by,$start,$duration,$timeInFuture = 604800) {
+      // finds time in multiples of a week or timeInFuture seconds ahead past the present time
+      $newStart = $start+$timeInFuture;
+      while ($newStart<time()) {
+        $newStart+=$timeInFuture;
+      }
+      $mt = new MeetingTime();
+      $mt->meeting_id = $meeting_id;
+      $mt->start = $newStart;
+      $mt->duration = $duration;
+      $mt->end = $mt->start+($mt->duration*3600);
+      $mt->suggested_by = $suggested_by;
+      $mt->status = MeetingTime::STATUS_SUGGESTED;
+      $mt->updated_at = $mt->created_at = time();
+      $mt->save();
+      return $mt;
+    }
+
     public function addFromRequest($request_id) {
       // load the request
       $r = \frontend\models\Request::findOne($request_id);
@@ -263,10 +281,11 @@ class MeetingTime extends \yii\db\ActiveRecord
       $mt = new MeetingTime();
       $mt->meeting_id = $r->meeting_id;
       $mt->start = $start;
-      $mt->duration = 3600;
-      $mt->end = $start+3600;
+      $mt->duration = 1;
+      $mt->end = $start+($mt->duration*3600);
       $mt->suggested_by = $r->completed_by;
       $mt->status = MeetingTime::STATUS_SELECTED;
+      $mt->updated_at = $mt->created_at = time();
       $mt->save();
       MeetingTime::setChoice($r->meeting_id,$mt->id,$r->completed_by);
 

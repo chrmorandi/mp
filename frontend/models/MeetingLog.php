@@ -62,6 +62,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_REQUEST_ORGANIZER_REJECT = 270;
 	const ACTION_REQUEST_REJECT = 275;
 	const ACTION_RESEND = 300;
+	const ACTION_REPEAT = 310;
 
 	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
@@ -72,6 +73,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_COMPLETE_MEETING,
 			MeetingLog::ACTION_REQUEST_CREATE,
 			MeetingLog::ACTION_RESEND,
+			MeetingLog::ACTION_REPEAT,
 		];
 
 	// not yet implemented
@@ -280,6 +282,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_RESEND:
 				$label = Yii::t('frontend','Resent meeting invitation');
 				break;
+				case MeetingLog::ACTION_REPEAT:
+				$label = Yii::t('frontend','Repeat the meeting with future times');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -307,6 +312,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
 				case MeetingLog::ACTION_REOPEN:
 				case MeetingLog::ACTION_RESCHEDULE:
+				case MeetingLog::ACTION_REPEAT:
 					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_SEND_INVITE:
@@ -484,6 +490,22 @@ class MeetingLog extends \yii\db\ActiveRecord
 			*/
 			return true;
 		}
+
+		public static function withinActionTimeLimit($meeting_id,$action,$actor_id,$limit = 1, $seconds = 900) {
+			// how many times can this user perform this action for a meeting in last period of $seconds
+			$cnt = MeetingLog::find()
+				->where(['meeting_id'=>$meeting_id])
+				->andwhere(['action'=>$action])
+				->andwhere(['actor_id'=>$actor_id])
+				->andWhere('created_at>'.(time()-$seconds))
+				->count();
+			if ($cnt >= $limit ) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
 
 		public static function countAction($meeting_id,$action) {
       // count # of times an action was performed

@@ -1386,6 +1386,10 @@ class Meeting extends \yii\db\ActiveRecord
       $m->cleared_at = 0;
       $m->sequence_id = 0;
       $m->save();
+      // get prior meetings selected time and create two future times for the next two weeks
+      $chosenTime=$this->getChosenTime($this->id);
+      $mt1 = MeetingTime::createTimePlus($m->id,$m->owner_id,$chosenTime->start,$chosenTime->duration);
+      $mt2 = MeetingTime::createTimePlus($m->id,$m->owner_id,$mt1->start,$chosenTime->duration);
       // clone the selected place (not all of them)
       $chosenPlace = $this->getChosenPlace($this->id);
       if ($chosenPlace!==false) {
@@ -1414,6 +1418,7 @@ class Meeting extends \yii\db\ActiveRecord
         $clone_p->save();
       }
       // if participant asked to repeat
+      // add the prior owner as a participant
       if ($addParticipant!==false) {
         $newP = new Participant();
         $newP->meeting_id = $m->id;
@@ -1424,6 +1429,7 @@ class Meeting extends \yii\db\ActiveRecord
         $newP->updated_at = time();
         $newP->save();
       }
+      MeetingLog::add($this->id,MeetingLog::ACTION_REPEAT,$user_id,0);
       return $m->id;
     }
 
