@@ -439,6 +439,7 @@ class Meeting extends \yii\db\ActiveRecord
     // send the message
     // check if email is okay and okay from this sender_id
     if (User::checkEmailDelivery($p->participant_id,$this->owner_id)) {
+      Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($p->participant_id);
       $message = Yii::$app->mailer->compose([
         'html' => 'invitation-html',
         'text' => 'invitation-text'
@@ -536,6 +537,7 @@ class Meeting extends \yii\db\ActiveRecord
     foreach ($attendees as $cnt=>$a) {
       // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+        Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
         // Build the absolute links to the meeting and commands
         $links=[
           'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -993,6 +995,7 @@ class Meeting extends \yii\db\ActiveRecord
           // send the late notice
          // check if email is okay and okay from this sender_id
          if (User::checkEmailDelivery($a['user_id'],$sender_id)) {
+           Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
              // Build the absolute links to the meeting and commands
              $links=[
                'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -1063,6 +1066,7 @@ class Meeting extends \yii\db\ActiveRecord
      foreach ($attendees as $cnt=>$a) {
        // check if email is okay and okay from this sender_id
        if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
            // Build the absolute links to the meeting and commands
            $links=[
              'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -1112,6 +1116,7 @@ class Meeting extends \yii\db\ActiveRecord
       ];
        // check if email is okay and okay from this sender_id
        if (User::checkEmailDelivery($user_id,0)) {
+           Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
            // Build the absolute links to the meeting and commands
            $links=[
              'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),

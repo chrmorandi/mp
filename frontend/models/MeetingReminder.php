@@ -176,6 +176,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
      }
        // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
+          Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
           // Build the absolute links to the meeting and commands
           $links=[
             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
