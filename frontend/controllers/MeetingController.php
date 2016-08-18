@@ -44,7 +44,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat'], // 'wizard'
+                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend'], // 'wizard'
                                'roles' => ['@'],
                            ],
                           [
@@ -457,6 +457,16 @@ class MeetingController extends Controller
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to do this.'));
       }
       return $this->redirect(['view', 'id' => $id]);
+    }
+
+    public function actionResend($id) {
+      if (Meeting::Resend($id)) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Details about the meeting have been resent.'));
+        return $this->redirect(['view', 'id' => $id]);
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you can only resend the invitation so many times. Please contact support.'));
+        return $this->redirect(['index']);
+      }
     }
 
     public function actionCommand($id,$cmd=0,$obj_id=0,$actor_id=0,$k=0) {

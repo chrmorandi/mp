@@ -39,6 +39,7 @@ use frontend\models\MeetingSetting;
                  ]); ?></li>
                <?php
              } elseif ($isPast) {
+               // to do - should we allow confirmed meeting to be repeated before its past
                ?>
                <li><?= Html::a(Yii::t('frontend', 'Repeat'), ['repeat','id'=>$model->id],
                 [
@@ -49,9 +50,9 @@ use frontend\models\MeetingSetting;
                ?>
         <li role="separator" class="divider"></li>
         <?php
-          if (!$isPast && $model->status >= $model::STATUS_SENT) {
+          if (!$isPast && $model->status >= $model::STATUS_SENT && $model->viewer == $model::VIEWER_ORGANIZER) {
             ?>
-            <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/site/unavailable'],
+            <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/meeting/resend','id' => $model->id],
              [
              'title'=>Yii::t('frontend','Email invitations again to participants'),
             ]); ?></li>

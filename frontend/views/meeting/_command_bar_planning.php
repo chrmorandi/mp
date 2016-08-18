@@ -28,9 +28,9 @@ use yii\helpers\Html;
           ?>
         <li role="separator" class="divider"></li>
         <?php
-          if ($model->status >= $model::STATUS_SENT) {
+          if ($model->status >= $model::STATUS_SENT && $model->viewer == $model::VIEWER_ORGANIZER) {
             ?>
-            <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/site/unavailable'],
+            <li><?= Html::a(Yii::t('frontend', 'Resend invitations'), ['/meeting/resend','id' => $model->id],
              [
              'title'=>Yii::t('frontend','Email invitations again to participants'),
             ]); ?></li>

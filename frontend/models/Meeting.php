@@ -104,6 +104,7 @@ class Meeting extends \yii\db\ActiveRecord
 
   const NEAR_LIMIT = 7;
   const DAY_LIMIT = 12;
+  const RESEND_LIMIT = 3;
 
   const DEFAULT_NEW_MEETING = 'New Meeting';
   const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
@@ -402,10 +403,10 @@ class Meeting extends \yii\db\ActiveRecord
         return $this->isReadyToFinalize;
       }
 
-  public function send($user_id) {
+  public function send($user_id,$isResend = false) {
     // $user_id is the owner of the meeting
     // has the meeting already been sent
-    if ($this->status != Meeting::STATUS_PLANNING) return false;
+    if (!$isResend && $this->status != Meeting::STATUS_PLANNING) return false;
     $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
     $places = MeetingPlace::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
     $times = MeetingTime::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
@@ -469,14 +470,14 @@ class Meeting extends \yii\db\ActiveRecord
           $this->cleared_at = time()+30;
           $this->update();
           // add to log
-          MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id,0);
+          MeetingLog::add($this->id,MeetingLog::ACTION_SEND_INVITE,$user_id,$p->participant_id);
         } else {
           // to do - post an error that user doesn't accept email or blocked them
         }
     }
   }
 
-    public function finalize($user_id) {
+    public function finalize($user_id,$isResend=false) {
       // Get message header
       $header = $this->getMeetingHeader('confirmed');
       /*if ($this->subject == Meeting::DEFAULT_NEW_MEETING) {
@@ -484,12 +485,18 @@ class Meeting extends \yii\db\ActiveRecord
         $this->has_subject = true;
         $this->update();
       }*/
-      if (MeetingLog::countAction($this->id,MeetingLog::ACTION_FINALIZE_INVITE)>0) {
-        $reopened = true;
-        $finalPrefix = Yii::t('frontend','Meeting Modified: ');
-      } else {
+      if ($isResend) {
         $reopened = false;
-        $finalPrefix = Yii::t('frontend','Meeting Confirmed: ');
+        $finalPrefix = Yii::t('frontend','Meeting Renotification: ');
+      } else {
+        if (MeetingLog::countAction($this->id,MeetingLog::ACTION_FINALIZE_INVITE)>0) {
+          $reopened = true;
+          $finalPrefix = Yii::t('frontend','Meeting Modified: ');
+          $this->increaseSequence();
+        } else {
+          $reopened = false;
+          $finalPrefix = Yii::t('frontend','Meeting Confirmed: ');
+        }
       }
       // to do - not all those links are needed in the view of a finalized meeting
       $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
@@ -583,7 +590,9 @@ class Meeting extends \yii\db\ActiveRecord
       // create all of each users reminders
       Reminder::processTimeChange($this->id,$chosenTime);
       // add to log
-      MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+      if (!$isResend) {
+        MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+      }
       if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
         Meeting::checkContactInformation($this->id);
       }
@@ -1422,5 +1431,29 @@ class Meeting extends \yii\db\ActiveRecord
       // increase the meeting sequence_id for iCal ics files
       $this->sequence_id+=1;
       $this->update();
+    }
+
+    public static function resend($id) {
+      $sender_id = Yii::$app->user->getId();
+      // check if within resend limit
+      $cnt = MeetingLog::find()
+        ->where(['actor_id'=>$sender_id])
+        ->andWhere(['meeting_id'=>$id])
+        ->andWhere(['action'=>MeetingLog::ACTION_RESEND])
+        ->count();
+      if ($cnt >= Meeting::RESEND_LIMIT ) {
+        return false;
+      } else {
+        $m = Meeting::findOne($id);
+        if ($m->status == Meeting::STATUS_SENT) {
+          $m->send($sender_id,true);
+          // resend the planning invitation
+        } else if ($m->status == Meeting::STATUS_CONFIRMED) {
+          // resend the confirmed invitation
+          $m->finalize($sender_id,true);
+        }
+        MeetingLog::add($id,MeetingLog::ACTION_RESEND,$sender_id,0);
+        return true;
+      }
     }
 }

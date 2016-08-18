@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\User;
+use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\MeetingLog;
 use frontend\models\MeetingLogSearch;
@@ -58,11 +59,13 @@ class MeetingLogController extends Controller
 				if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
 					$this->redirect(['site/authfailure']);
 				}
+        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
         $searchModel = new MeetingLogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'timezone' => $timezone,
         ]);
     }
 
@@ -76,6 +79,8 @@ class MeetingLogController extends Controller
       if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
         $this->redirect(['site/authfailure']);
       }
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      Yii::$app->timeZone = $timezone;
 			$searchModel = new MeetingLogSearch();
       $dataProvider = $searchModel->search(['MeetingLogSearch'=>['meeting_id'=>$id]]);
       $m= Meeting::findOne($id);
@@ -84,6 +89,7 @@ class MeetingLogController extends Controller
           'dataProvider' => $dataProvider,
           'meeting_id' => $id,
           'subject' => $m->getMeetingHeader('log'),
+          'timezone' => $timezone,
       ]);
     }
 

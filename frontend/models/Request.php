@@ -188,6 +188,7 @@ class Request extends \yii\db\ActiveRecord
       // Make changes to the Meeting
       $m->increaseSequence();
       // resend the finalization - which also needs to be done for resend invitation
+      $m->finalize($m->owner_id,true);
     }
 
     public function reject() {

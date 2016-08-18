@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use frontend\models\Meeting;
 use frontend\models\MeetingSetting;
 ?>
+
   <div class="command-bar">
     <div class="row">
       <div class="col-xs-4">

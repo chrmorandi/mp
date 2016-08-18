@@ -61,6 +61,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_REQUEST_ACCEPT = 265;
 	const ACTION_REQUEST_ORGANIZER_REJECT = 270;
 	const ACTION_REQUEST_REJECT = 275;
+	const ACTION_RESEND = 300;
 
 	public static $ignorable = [
 			MeetingLog::ACTION_SENT_RUNNING_LATE,
@@ -69,7 +70,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_FINALIZE_INVITE,
 			MeetingLog::ACTION_ABANDON_MEETING,
 			MeetingLog::ACTION_COMPLETE_MEETING,
-			MeetingLog::ACTION_REQUEST_CREATE
+			MeetingLog::ACTION_REQUEST_CREATE,
+			MeetingLog::ACTION_RESEND,
 		];
 
 	// not yet implemented
@@ -275,7 +277,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REQUEST_REJECT:
 				$label = Yii::t('frontend','Declined the requested change');
 				break;
-
+				case MeetingLog::ACTION_RESEND:
+				$label = Yii::t('frontend','Resent meeting invitation');
+				break;
 				default:
 					$label = Yii::t('frontend','Unknown');
 				break;
@@ -290,12 +294,31 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_EDIT_MEETING:
 				case MeetingLog::ACTION_CANCEL_MEETING:
 				case MeetingLog::ACTION_DECLINE_MEETING:
+				case MeetingLog::ACTION_RESEND:
+				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
+				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
+				case MeetingLog::ACTION_FINALIZE_INVITE:
+				case MeetingLog::ACTION_COMPLETE_MEETING:
+				case MeetingLog::ACTION_ABANDON_MEETING:
+				case MeetingLog::ACTION_MAKE_VIRTUAL:
+				case MeetingLog::ACTION_MAKE_INPERSON:
+				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
+				case MeetingLog::ACTION_SENT_RUNNING_LATE:
+				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
+				case MeetingLog::ACTION_REOPEN:
+				case MeetingLog::ACTION_RESCHEDULE:
 					$label = Yii::t('frontend','-');
 				break;
+				case MeetingLog::ACTION_SEND_INVITE:
 				case MeetingLog::ACTION_INVITE_PARTICIPANT:
-					$label = MiscHelpers::getDisplayName($this->item_id);
-					if (is_null($label)) {
-						$label = 'Error - unknown user';
+					if ($this->item_id ==0) {
+						// backward log compatibility - previously didn't track recipient of invite
+						$label = '-';
+					} else {
+						$label = MiscHelpers::getDisplayName($this->item_id);
+						if (is_null($label)) {
+							$label = 'Error - unknown user';
+						}
 					}
 				break;
 				case MeetingLog::ACTION_SUGGEST_PLACE:
@@ -358,21 +381,6 @@ class MeetingLog extends \yii\db\ActiveRecord
 					} else {
 						$label = '"'.MeetingNote::find()->where(['id'=>$this->item_id])->one()->note.'"';
 					}
-				break;
-				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
-				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
-				case MeetingLog::ACTION_SEND_INVITE:
-				case MeetingLog::ACTION_FINALIZE_INVITE:
-				case MeetingLog::ACTION_COMPLETE_MEETING:
-				case MeetingLog::ACTION_ABANDON_MEETING:
-				case MeetingLog::ACTION_MAKE_VIRTUAL:
-				case MeetingLog::ACTION_MAKE_INPERSON:
-				case MeetingLog::ACTION_SENT_CONTACT_REQUEST:
-				case MeetingLog::ACTION_SENT_RUNNING_LATE:
-				case MeetingLog::ACTION_SENT_EMAIL_VERIFICATION:
-				case MeetingLog::ACTION_REOPEN:
-				case MeetingLog::ACTION_RESCHEDULE:
-					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_REQUEST_CREATE:
 					$label = '';
