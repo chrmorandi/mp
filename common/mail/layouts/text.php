@@ -1,4 +1,13 @@
-Not sure yet if this is needed or if there is a stripped html version sent from html.php
 <?php $this->beginBody() ?>
-<?php echo $content; ?>
+  <?php
+   if (isset($content) && $content!='') {
+  ?>
+    <?= $content ?>
+  <?php
+  } else {
+  ?>
+  Sorry, a text version of this message is not available yet.
+  <?php
+  }
+  ?>
 <?php $this->endBody() ?>

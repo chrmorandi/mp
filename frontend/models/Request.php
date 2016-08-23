@@ -231,8 +231,8 @@ class Request extends \yii\db\ActiveRecord
       $p1 = MiscHelpers::getDisplayName($user_id).Yii::t('frontend',' declined the request for ').$subject;
       $p2 = $request_response->note;
       $content=[
-        'subject' => Yii::t('frontend','Requested Change Withdrawn'),
-        'heading' => Yii::t('frontend','Requested Change Withdrawn'),
+        'subject' => Yii::t('frontend','Declined Requested Change to Meeting'),
+        'heading' => Yii::t('frontend','Declined Requested Change'),
         'p1' => $p1,
         'p2' => $p2,
         'plain_text' => $p1.' '.$p2.'...'.Yii::t('frontend','View the meeting here: '),
@@ -255,8 +255,8 @@ class Request extends \yii\db\ActiveRecord
       $subject = Request::buildSubject($id, false);
       $p1 = MiscHelpers::getDisplayName($r->requestor_id).Yii::t('frontend',' withdrew the request for ').$subject;
       $content=[
-        'subject' => Yii::t('frontend','Declined Requested Change to Meeting'),
-        'heading' => Yii::t('frontend','Declined Requested Change'),
+        'subject' => Yii::t('frontend','Requested Change Withdrawn'),
+        'heading' => Yii::t('frontend','Requested Change Withdrawn'),
         'p1' => $p1,
         'p2' => '',
         'plain_text' => $p1.'...'.Yii::t('frontend','View the meeting here: '),
