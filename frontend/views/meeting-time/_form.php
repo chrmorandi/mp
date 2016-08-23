@@ -39,7 +39,7 @@ use dosamigos\datetimepicker\DateTimePicker;
         'size' => 'ms',
         'clientOptions' => [
             'autoclose' => true,
-            'format' => 'MM d, yyyy',
+            'format' => 'M d, yyyy',
             'todayBtn' => true,
             //'pickerPosition' => 'bottom-left',
             'startView'=>2,
