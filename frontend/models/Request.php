@@ -198,7 +198,7 @@ class Request extends \yii\db\ActiveRecord
         'p1' => $p1,
         'p2' => $p2,
         'p3' => $p3,
-        'plain_text' => $p1.' '.$p2.'...'.Yii::t('frontend','View the meeting here: '),
+        'plain_text' => $p1.' '.$p2.' '.$p3.'...'.Yii::t('frontend','View the meeting here: '),
       ];
       $button= [
         'text' => Yii::t('frontend','View the Meeting'),

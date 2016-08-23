@@ -280,9 +280,9 @@ class MeetingTime extends \yii\db\ActiveRecord
       $chosenTime = Meeting::getChosenTime($r->meeting_id);
       $mt = new MeetingTime();
       $mt->meeting_id = $r->meeting_id;
-      $mt->start = $r->start;
+      $mt->start = $r->alternate_time;
       $mt->duration = $chosenTime->duration;
-      $mt->end = $start+($mt->duration*3600);
+      $mt->end = $mt->start+($mt->duration*3600);
       $mt->suggested_by = $r->requestor_id;
       $mt->status = MeetingTime::STATUS_SUGGESTED;
       $mt->updated_at = $mt->created_at = time();
