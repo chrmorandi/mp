@@ -595,6 +595,7 @@ class Meeting extends \yii\db\ActiveRecord
       // add to log
       if (!$isResend) {
         MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
+        Meeting::clearLog($this->id);
       }
       if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
         Meeting::checkContactInformation($this->id);
