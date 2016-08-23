@@ -74,6 +74,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_COMPLETE_MEETING,
 			MeetingLog::ACTION_RESEND,
 			MeetingLog::ACTION_REPEAT,
+			MeetingLog::ACTION_REQUEST_WITHDRAW,
 			MeetingLog::ACTION_REQUEST_CREATE,
 			MeetingLog::ACTION_REQUEST_SENT,
 			MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT,
