@@ -200,11 +200,11 @@ public function actionQuarter() {
 
       public function actionCleanup() {
         $baseUrl = Url::home(true);
-        if (stristr($baseUrl,'localhost')===false || \Yii::$app->user->isGuest && !User::findOne(Yii::$app->user->getId())->isAdmin()) {
+        if (stristr($baseUrl,'localhost')===false || \Yii::$app->user->isGuest || !User::findOne(Yii::$app->user->getId())->isAdmin()) {
           Yii::$app->end();
         }
         $d = new \backend\models\Data;
-        $d->cleanupDatabase();
+        //$d->cleanupDatabase();
 
       }
 }
