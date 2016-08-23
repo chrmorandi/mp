@@ -451,9 +451,8 @@ class MeetingController extends Controller
     public function actionReopen($id) {
       $m = $this->findModel($id);
       $m->setViewer();
-      // to do - allow participants to reopen if meeting settings allow it
       // also check reopen()
-      if ($m->viewer == Meeting::VIEWER_ORGANIZER) {
+      if ($m->viewer == Meeting::VIEWER_ORGANIZER || $m->meetingSettings->participant_reopen) {
         if ($m->reopen()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting has now been reopened so you can make changes.'));
         } else {
@@ -524,6 +523,10 @@ class MeetingController extends Controller
           case Meeting::COMMAND_VIEW_MAP:
             // obj_id is Place model id
             $this->redirect(['meeting/viewplace','id'=>$id,'place_id'=>$obj_id]);
+          break;
+          case Meeting::COMMAND_VIEW_REQUEST:
+            // obj_id is Request model id
+            $this->redirect(['request-response/create','id'=>$obj_id]);
           break;
           case Meeting::COMMAND_FINALIZE:
             $this->redirect(['meeting/finalize','id'=>$id]);

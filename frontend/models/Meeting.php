@@ -70,6 +70,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_HOME = 5;
   const COMMAND_VIEW = 10;
   const COMMAND_VIEW_MAP = 20;
+  const COMMAND_VIEW_REQUEST = 25;
   const COMMAND_FINALIZE = 50;
   const COMMAND_CANCEL = 60;
   const COMMAND_DECLINE = 65;

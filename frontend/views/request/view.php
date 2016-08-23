@@ -19,9 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <p><em><?= Html::encode($model->note) ?></em></p>
       <?php } ?>
     <p>
-
       <p><em>
-      <?=Yii::t('frontend','Waiting for organizer(s) to respond.')?>
+      <?=Yii::t('frontend','Waiting for other(s) to respond.')?>
     </em></p>
       <?= Html::a(Yii::t('frontend', 'Withdraw Your Request'), ['withdraw', 'id' => $model->id], [
           'class' => 'btn btn-danger',
@@ -31,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
       ]) ?>
     </p>
-    
+
     </p>
 
 </div>

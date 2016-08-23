@@ -149,7 +149,6 @@ class RequestController extends Controller
         $model->requestor_id = Yii::$app->user->getId();
         $model->status = Request::STATUS_OPEN;
         if ($model->load(Yii::$app->request->post())) {
-
           if ($model->time_adjustment == Request::TIME_ADJUST_ABIT && $model->alternate_time == -1000) {
             $model->time_adjustment = Request::TIME_ADJUST_NONE;
           }
@@ -166,7 +165,7 @@ class RequestController extends Controller
           } else {
             $model->save();
             MeetingLog::add($model->meeting_id,MeetingLog::ACTION_REQUEST_CREATE,Yii::$app->user->getId(),$model->id);
-            $model->notify();
+            $model->create();
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We are sending your request to other participants now.'));
              return $this->redirect(['meeting/view', 'id' => $model->meeting_id]);
           }

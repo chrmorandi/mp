@@ -17,7 +17,7 @@ use frontend\models\MeetingSetting;
             if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
               ?>
               <li><?= Html::a(Yii::t('frontend', 'Make changes'), ['reopen','id'=>$model->id],
-               ['title'=>Yii::t('frontend','tbd')]); ?></li>
+               ['title'=>Yii::t('frontend','Change the time and place of the meeting by returning it to planning mode.')]); ?></li>
           <?php
             }
            ?>
@@ -25,7 +25,7 @@ use frontend\models\MeetingSetting;
              if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_request_change)) {
                ?>
                <li><?= Html::a(Yii::t('frontend', 'Request changes'), ['/request/create','meeting_id'=>$model->id],
-                ['title'=>Yii::t('frontend','tbd')]); ?></li>
+                ['title'=>Yii::t('frontend','Request a change to the time and place of other participant(s)')]); ?></li>
              <?php
              }
              ?>

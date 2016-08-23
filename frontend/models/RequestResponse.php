@@ -17,6 +17,10 @@ use yii\db\ActiveRecord;
  */
 class RequestResponse extends \yii\db\ActiveRecord
 {
+  const RESPONSE_NONE = 0;
+  const RESPONSE_ACCEPT = 10;
+  const RESPONSE_REJECT = 20;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +35,7 @@ class RequestResponse extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['request_id', 'responder_id', 'response'], 'integer'],            
+            [['request_id', 'responder_id', 'response'], 'integer'],
             [['note'], 'string'],
         ];
     }

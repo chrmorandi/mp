@@ -273,21 +273,20 @@ class MeetingTime extends \yii\db\ActiveRecord
       return $mt;
     }
 
-    public function addFromRequest($request_id) {
+    public static function addFromRequest($request_id) {
       // load the request
       $r = \frontend\models\Request::findOne($request_id);
       $m = Meeting::findOne($r->meeting_id);
-      // get the duration of the currently accepted MeetingTime
+      $chosenTime = Meeting::getChosenTime($r->meeting_id);
       $mt = new MeetingTime();
       $mt->meeting_id = $r->meeting_id;
-      $mt->start = $start;
-      $mt->duration = 1;
+      $mt->start = $r->start;
+      $mt->duration = $chosenTime->duration;
       $mt->end = $start+($mt->duration*3600);
-      $mt->suggested_by = $r->completed_by;
-      $mt->status = MeetingTime::STATUS_SELECTED;
+      $mt->suggested_by = $r->requestor_id;
+      $mt->status = MeetingTime::STATUS_SUGGESTED;
       $mt->updated_at = $mt->created_at = time();
       $mt->save();
-      MeetingTime::setChoice($r->meeting_id,$mt->id,$r->completed_by);
-
+      return $mt->id;
     }
 }

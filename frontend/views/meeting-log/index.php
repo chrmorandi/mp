@@ -13,13 +13,6 @@ use common\components\MiscHelpers;
 $this->title = Yii::t('frontend', 'Meeting History for '.$subject);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-<p>
-    <?php // = Html::a(Yii::t('frontend', 'Create Meeting Log'), ['create'], ['class' => 'btn btn-success']) ?>
-</p>
-
-
 
 <?php Pjax::begin(); ?>
 <div class="meeting-log-index">
@@ -29,25 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     //'filterModel' => $searchModel,
     'columns' => [
-        //['class' => 'yii\grid\SerialColumn'],
-        /*[
-          'label'=>'MtgId',
-            'attribute' => 'meeting_id',
-            'format' => 'raw',
-            'value' => function ($model) {
-                return '<div>'.$model->meeting_id.'</div>';
-                },
-        ],*/
-        /*
-        [
-          'label'=>'Subject',
-            'attribute' => 'subject',
-            'format' => 'raw',
-            'value' => function ($model) {
-                return '<div>'.Meeting::getSubject($model->meeting_id).'</div>';
-                },
-        ],
-        */
         [
           'label'=>'Actor',
             'attribute' => 'actor_id',
@@ -80,9 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"hh:ss MMM d").'</div>';
                 },
         ],
-        // 'updated_at',
-        // 'extra_id',
-        //['class' => 'yii\grid\ActionColumn'],
     ],
 ]);
 ?>

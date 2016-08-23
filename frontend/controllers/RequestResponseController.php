@@ -74,15 +74,18 @@ class RequestResponseController extends Controller
         $model->request_id = $id;
         $model->responder_id = Yii::$app->user->getId();
         if ($model->load(Yii::$app->request->post()) ) {
-          $model->save();
           $posted = Yii::$app->request->post();
           if (isset($posted['accept'])) {
             // accept
-            $request->accept();
+            $model->response = RequestResponse::RESPONSE_ACCEPT;
+            $model->save();
+            $request->accept($model);
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Request accepted. We will update the meeting details and inform other participants.'));
           } else {
             // reject
-            $request->reject();
+            $model->response = RequestResponse::RESPONSE_REJECT;
+            $model->save();
+            $request->reject($model);
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your decline has been recorded. We will let other participants know.'));
           }
           return $this->redirect(['/meeting/view', 'id' => $request->meeting_id]);

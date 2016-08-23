@@ -8,6 +8,7 @@ use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\MeetingTime;
 use frontend\models\MeetingPlace;
+use common\models\User;
 /**
  * This is the model class for table "request".
  *
@@ -154,48 +155,94 @@ class Request extends \yii\db\ActiveRecord
       return $result;
     }
 
-    public function accept() {
+    public function accept($request_response) {
       // to do - this will need to change when there are multiple participants
       $this->status = Request::STATUS_ACCEPTED;
       $this->update();
       $m = Meeting::findOne($this->meeting_id);
-      if ($m->isOwner(Yii::$app->user->getId())) {
-        // they are an organizer
-        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT,Yii::$app->user->getId(),$this->id);
-      } else {
-        // they are a participant
-        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ACCEPT,Yii::$app->user->getId(),$this->id);
-      }
       // is there a new time
-      switch ($r->time_adjustment) {
+      switch ($this->time_adjustment) {
         case Request::TIME_ADJUST_ABIT:
           // create a new meeting time with alternate_time
+          $this->meeting_time_id = MeetingTime::addFromRequest($this->id);
+          $this->update();
           // mark as selected
-          //$rtime = Meeting::friendlyDateFromTimestamp($r->alternate_time,$timezone);
-          MeetingTime::addFromRequest($this->id);
+          MeetingTime::setChoice($this->meeting_id,$this->meeting_time_id,$request_response->responder_id);
         break;
         case Request::TIME_ADJUST_OTHER:
          // mark as selected
-          //$t = MeetingTime::findOne($r->meeting_time_id);
-          MeetingTime::addFromRequest($this->id);
+          MeetingTime::setChoice($this->meeting_id,$this->meeting_time_id,$request_response->responder_id);
         break;
       }
       // is there a different place
-      if ($r->place_adjustment == Request::PLACE_ADJUST_OTHER || $r->meeting_place_id !=0 ) {
-        //$place = MeetingPlace::findOne($r->meeting_place_id)->place->name;
-        MeetingPlace::addFromRequest($this->id);
+      if ($this->place_adjustment == Request::PLACE_ADJUST_OTHER || $this->meeting_place_id !=0 ) {
+        MeetingPlace::setChoice($this->meeting_id,$this->meeting_place_id,$request_response->responder_id);
       }
+      if ($m->isOwner($request_response->responder_id)) {
+        // they are an organizer
+        $this->completed_by =$request_response->responder_id;
+        $this->update();
+        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT,$request_response->responder_id,$this->id);
+      } else {
+        // they are a participant
+        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ACCEPT,$request_response->responder_id,$this->id);
+      }
+      $user_id = $request_response->responder_id;
+      $subject = Request::buildSubject($this->id, true);
+      $p1 = MiscHelpers::getDisplayName($user_id).Yii::t('frontend',' accepted the request: ').$subject;
+      $p2 = $request_response->note;
+      $p3 = Yii::t('frontend','You will receive an updated meeting confirmation reflecting these change(s). It will also include an updated attachment for your Calendar.');
+      $content=[
+        'subject' => Yii::t('frontend','Accepted Requested Change to Meeting'),
+        'heading' => Yii::t('frontend','Requested Change Accepted'),
+        'p1' => $p1,
+        'p2' => $p2,
+        'p3' => $p3,
+        'plain_text' => $p1.' '.$p2.'...'.Yii::t('frontend','View the meeting here: '),
+      ];
+      $button= [
+        'text' => Yii::t('frontend','View the Meeting'),
+        'command' => Meeting::COMMAND_VIEW,
+        'obj_id' => 0,
+      ];
+      $this->notify($user_id,$this->meeting_id, $content,$button);
       // Make changes to the Meeting
       $m->increaseSequence();
       // resend the finalization - which also needs to be done for resend invitation
-      $m->finalize($m->owner_id,true);
+      $m->finalize($m->owner_id);
     }
 
-    public function reject() {
+    public function reject($request_response) {
       $this->status = Request::STATUS_REJECTED;
       $this->update();
-      // to do - check if organizer or participant
-      MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_REJECT,Yii::$app->user->getId(),$this->id);
+      $m = Meeting::findOne($this->meeting_id);
+      if ($m->isOwner($request_response->responder_id)) {
+        // they are an organizer
+        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT,$request_response->responder_id,$this->id);
+        $this->completed_by =$request_response->responder_id;
+        $this->update();
+      } else {
+        // they are a participant
+        MeetingLog::add($this->meeting_id,MeetingLog::ACTION_REQUEST_REJECT,$request_response->responder_id,$this->id);
+      }
+      $meeting_id = $this->meeting_id;
+      $user_id = $request_response->responder_id;
+      $subject = Request::buildSubject($this->id, false);
+      $p1 = MiscHelpers::getDisplayName($user_id).Yii::t('frontend',' declined the request for ').$subject;
+      $p2 = $request_response->note;
+      $content=[
+        'subject' => Yii::t('frontend','Requested Change Withdrawn'),
+        'heading' => Yii::t('frontend','Requested Change Withdrawn'),
+        'p1' => $p1,
+        'p2' => $p2,
+        'plain_text' => $p1.' '.$p2.'...'.Yii::t('frontend','View the meeting here: '),
+      ];
+      $button= [
+        'text' => Yii::t('frontend','View the Meeting'),
+        'command' => Meeting::COMMAND_VIEW,
+        'obj_id' => 0,
+      ];
+      $this->notify($user_id,$meeting_id, $content,$button);
     }
 
     public function withdraw($id) {
@@ -203,11 +250,103 @@ class Request extends \yii\db\ActiveRecord
       $r = Request::findOne($id);
       $r->status = Request::STATUS_WITHDRAWN;
       $r->update();
-      MeetingLog::add($r->meeting_id,MeetingLog::ACTION_REQUEST_WITHDRAW,Yii::$app->user->getId(),$r->id);
+      $user_id = $r->requestor_id;
+      $meeting_id = $r->meeting_id;
+      $subject = Request::buildSubject($id, false);
+      $p1 = MiscHelpers::getDisplayName($r->requestor_id).Yii::t('frontend',' withdrew the request for ').$subject;
+      $content=[
+        'subject' => Yii::t('frontend','Declined Requested Change to Meeting'),
+        'heading' => Yii::t('frontend','Declined Requested Change'),
+        'p1' => $p1,
+        'p2' => '',
+        'plain_text' => $p1.'...'.Yii::t('frontend','View the meeting here: '),
+      ];
+      $button= [
+        'text' => Yii::t('frontend','View the Meeting'),
+        'command' => Meeting::COMMAND_VIEW,
+        'obj_id' => 0,
+      ];
+      $this->notify($user_id,$meeting_id, $content,$button);
     }
 
-    public function notify() {
-      // send notification of request with the link
+    public function create() {
+      $user_id = $this->requestor_id;
+      $meeting_id = $this->meeting_id;
+      $subject = Request::buildSubject($this->id);
+      $content=[
+        'subject' => Yii::t('frontend','Change Requested to Your Meeting'),
+        'heading' => Yii::t('frontend','Requested Change to Your Meeting'),
+        'p1' => $subject,
+        'p2' => $this->note,
+        'plain_text' => $subject.' '.$this->note.'...'.Yii::t('frontend','Respond to the request by visiting this link: '),
+      ];
+      $button= [
+        'text' => Yii::t('frontend','Respond to Request'),
+        'command' => Meeting::COMMAND_VIEW_REQUEST,
+        'obj_id' => $this->id,
+      ];
+      $this->notify($user_id,$meeting_id, $content,$button);
+      // add to log
+      MeetingLog::add($meeting_id,MeetingLog::ACTION_REQUEST_SENT,$user_id,0);
+    }
+
+    public static function notify($user_id,$meeting_id,$content,$button = false) {
+      // sends a generic message based on arguments
+      $mtg = Meeting::findOne($meeting_id);
+      // build an attendees array for all participants without contact information
+      $cnt =0;
+      $attendees = array();
+      foreach ($mtg->participants as $p) {
+          $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+          'email'=>$p->participant->email,
+          'username'=>$p->participant->username];
+          $cnt+=1;
+      }
+      // add organizer
+      $auth_key=\common\models\User::find()->where(['id'=>$mtg->owner_id])->one()->auth_key;
+      $attendees[$cnt]=['user_id'=>$mtg->owner_id,'auth_key'=>$auth_key,
+        'email'=>$mtg->owner->email,
+        'username'=>$mtg->owner->username];
+    // use this code to send
+    foreach ($attendees as $cnt=>$a) {
+      // check if email is okay and okay from this sender_id
+      if ($user_id != $a['user_id'] && User::checkEmailDelivery($a['user_id'],$user_id)) {
+        Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
+          // Build the absolute links to the meeting and commands
+          $links=[
+            'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+            'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+            'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+            'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key']),
+            'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+          ];
+          if ($button!==false) {
+            $links['button_url']=MiscHelpers::buildCommand($mtg->id,$button['command'],$button['obj_id'],$a['user_id'],$a['auth_key']);
+            $content['button_text']=$button['text'];
+          }
+          // send the message
+          $message = Yii::$app->mailer->compose([
+            'html' => 'generic-html',
+            'text' => 'generic-text'
+          ],
+          [
+            'meeting_id' => $mtg->id,
+            'sender_id'=> $user_id,
+            'user_id' => $a['user_id'],
+            'auth_key' => $a['auth_key'],
+            'links' => $links,
+            'content'=>$content,
+            'meetingSettings' => $mtg->meetingSettings,
+        ]);
+          // to do - add full name
+        $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+        $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
+        $message->setTo($a['email'])
+            ->setSubject($content['subject'])
+            ->send();
+        }
+      }
     }
 
     public static function countRequestorOpen($meeting_id,$requestor_id) {
@@ -225,4 +364,5 @@ class Request extends \yii\db\ActiveRecord
     {
         return new RequestQuery(get_called_class());
     }
+
 }

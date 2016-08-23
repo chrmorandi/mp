@@ -56,6 +56,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_REOPEN = 230;
 	const ACTION_RESCHEDULE = 232;
 	const ACTION_REQUEST_CREATE = 240;
+	const ACTION_REQUEST_SENT = 242;
 	const ACTION_REQUEST_WITHDRAW = 250;
 	const ACTION_REQUEST_ORGANIZER_ACCEPT = 260;
 	const ACTION_REQUEST_ACCEPT = 265;
@@ -71,9 +72,14 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_FINALIZE_INVITE,
 			MeetingLog::ACTION_ABANDON_MEETING,
 			MeetingLog::ACTION_COMPLETE_MEETING,
-			MeetingLog::ACTION_REQUEST_CREATE,
 			MeetingLog::ACTION_RESEND,
 			MeetingLog::ACTION_REPEAT,
+			MeetingLog::ACTION_REQUEST_CREATE,
+			MeetingLog::ACTION_REQUEST_SENT,
+			MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT,
+			MeetingLog::ACTION_REQUEST_ACCEPT,
+			MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT,
+			MeetingLog::ACTION_REQUEST_REJECT,
 		];
 
 	// not yet implemented
@@ -264,6 +270,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REQUEST_CREATE:
 					$label = Yii::t('frontend','Requested change');
 				break;
+				case MeetingLog::ACTION_REQUEST_SENT:
+					$label = Yii::t('frontend','Requested change email sent');
+				break;
 				case MeetingLog::ACTION_REQUEST_ACCEPT:
 				$label = Yii::t('frontend','Accepted the requested change');
 				break;
@@ -389,20 +398,14 @@ class MeetingLog extends \yii\db\ActiveRecord
 					}
 				break;
 				case MeetingLog::ACTION_REQUEST_CREATE:
-					$label = '';
-				break;
+				case MeetingLog::ACTION_REQUEST_SENT:
+				case MeetingLog::ACTION_REQUEST_WITHDRAW:
 				case MeetingLog::ACTION_REQUEST_ACCEPT:
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT:
-					$label = '';
-				break;
-				case MeetingLog::ACTION_REQUEST_WITHDRAW:
-					$label = '';
-				break;
 				case MeetingLog::ACTION_REQUEST_REJECT:
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT:
-					$label = '';
+					$label = \frontend\models\Request::buildSubject($this->item_id);
 				break;
-
 				default:
 					$label = Yii::t('frontend','n/a');
 				break;
