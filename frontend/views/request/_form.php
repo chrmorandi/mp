@@ -29,11 +29,14 @@ use yii\widgets\ActiveForm;
           ?>
     <div id="choose_earlier" class="">
     <?php
-    echo $form->field($model, 'alternate_time')->label(Yii::t('frontend','Choose a time slightly earlier or later:'))
+    echo $form->field($model, 'alternate_time')->label(Yii::t('frontend','Choose a time slightly earlier or later than {currentStartStr}',['currentStartStr'=>$currentStartStr]))
       ->dropDownList(
-          $altTimesList           // Flat array ('id'=>'label')
+          $altTimesList,
+          ['options' => [$currentStart => ['disabled' => true]]]
+                     // Flat array ('id'=>'label')
           //,['prompt'=>'select an alternate time']
               // options
+
       );
       ?>
     </div>

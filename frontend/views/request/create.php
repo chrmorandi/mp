@@ -23,6 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'altTimesList'=>$altTimesList,
         'countPlaces' => $countPlaces,
         'countTimes' => $countTimes,
+        'currentStart' => $currentStart,
+        'currentStartStr' => $currentStartStr,
     ]) ?>
 
 </div>

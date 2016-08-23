@@ -134,6 +134,7 @@ class RequestController extends Controller
             $altTimesList[$chosenTime->start+($earlierIndex*60)]=Meeting::friendlyDateFromTimestamp($chosenTime->start+($earlierIndex*60),$timezone,false);
           }
         }
+        $altTimesList[$chosenTime->start]='────────────────────';
         $altTimesList[-1000]=Yii::t('frontend','Select an alternate time below');
         ksort($altTimesList);
         $places[0]=Yii::t('frontend','No, keep the same place');
@@ -161,6 +162,8 @@ class RequestController extends Controller
                 'altTimesList' => $altTimesList,
                 'countPlaces' => $countPlaces,
                 'countTimes' => $countTimes,
+                'currentStart' => $chosenTime->start,
+                'currentStartStr' => Meeting::friendlyDateFromTimestamp($chosenTime->start,$timezone,false),
             ]);
           } else {
             $model->save();
@@ -177,6 +180,8 @@ class RequestController extends Controller
                 'altTimesList' => $altTimesList,
                 'countPlaces' => $countPlaces,
                 'countTimes' => $countTimes,
+                'currentStart' => $chosenTime->start,
+                'currentStartStr' => Meeting::friendlyDateFromTimestamp($chosenTime->start,$timezone,false),
             ]);
         }
     }
