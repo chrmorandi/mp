@@ -26,7 +26,7 @@ use dosamigos\datetimepicker\DateTimePicker;
 <div class="meeting-time-form">
 
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-xs-8 col-lg-4">
     <?php $form = ActiveForm::begin();?>
     <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
     <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
@@ -50,11 +50,11 @@ use dosamigos\datetimepicker\DateTimePicker;
     ]);?>
     <p></p>
   </div>
-  <div class="col-lg-8">
+  <div class="col-xs-4 col-lg-8">
   </div>
 </div>
 <div class="row">
-  <div class="col-lg-4">
+  <div class="col-xs-8 col-lg-4">
     <strong><?php echo Yii::t('frontend','Time') ?></strong>
     <?= DateTimePicker::widget([
         'model' => $model,
@@ -78,11 +78,11 @@ use dosamigos\datetimepicker\DateTimePicker;
     ]);?>
     <p></p>
     </div>
-    <div class="col-lg-8">
+    <div class="col-xs-4 col-lg-8">
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-xs-8 col-lg-4">
       <?php
       //$durationList = [1,2,3,4,5,6,12,24,48,72];
       $durationList = [1=>'1 hour',2=>'2 hours',3=>'3 hours',4=>'4 hours',5=>'5 hours',6=>'6 hours',12=>'12 hours',24=>'24 hours',48=>'48 hours',72=>'72 hours'];
@@ -92,13 +92,13 @@ use dosamigos\datetimepicker\DateTimePicker;
             ['prompt'=>'select a duration']    // options
         );
         ?>
-        <div class="col-lg-8">
+        <div class="col-xs-4 col-lg-8">
         </div>
       </div>
   </div>
   <div class="clearfix"><p></div>
   <div class="row">
-      <div class="col-md-4">
+      <div class="col-xs-12 col-lg-4">
      <div class="form-group">
        <span class="button-pad">
          <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
