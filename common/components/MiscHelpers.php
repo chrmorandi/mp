@@ -144,6 +144,26 @@ class MiscHelpers  {
     }
   }
 
+  public static function listNames($items,$everyone=false,$total_count=0) {
+    $temp ='';
+    $x=1;
+    $cnt = count($items);
+    if ($everyone && $total_count == $cnt) {
+      $temp = Yii::t('frontend','everyone else');
+    } else {
+      foreach ($items as $i) {
+          $temp.= MiscHelpers::getDisplayName($i);
+          if ($x == ($cnt-1)) {
+            $temp.=' and ';
+          } else if ($x < ($cnt-1)) {
+            $temp.=', ';
+          }
+          $x+=1;
+      }
+    }
+    return $temp;
+  }
+
   public static function isIphone() {
     $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
     return (strpos($user_agent, 'iPhone') !== FALSE || strpos($user_agent, 'iPad') !== FALSE);

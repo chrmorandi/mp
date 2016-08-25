@@ -12,6 +12,7 @@ use common\components\MiscHelpers;
  * @property integer $place_id
  * @property integer $suggested_by
  * @property integer $status
+ * @property integer $availability
  * @property integer $created_at
  * @property integer $updated_at
  * @property MeetingPlaceChoice[] $meetingPlaceChoices
@@ -24,6 +25,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
 {
     const STATUS_SUGGESTED =0;
     const STATUS_SELECTED =10;  // the chosen place
+    const STATUS_REMOVED =20;
 
     const MEETING_LIMIT = 7;
 
@@ -51,7 +53,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     {
         return [
             [['meeting_id', 'place_id', 'suggested_by'], 'required'],
-            [['meeting_id', 'place_id', 'suggested_by', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['meeting_id', 'place_id', 'suggested_by', 'status', 'availability','created_at', 'updated_at'], 'integer'],
             [['place_id'], 'unique', 'targetAttribute' => ['place_id','meeting_id'], 'message'=>Yii::t('frontend','This place has already been suggested.')],
             //[['google_place_id'], 'validate_chosen_place'], // ,'skipOnEmpty'=> false
         ];
@@ -121,6 +123,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
             'place_id' => Yii::t('frontend', 'Place ID'),
             'suggested_by' => Yii::t('frontend', 'Suggested By'),
             'status' => Yii::t('frontend', 'Status'),
+            'availability' => Yii::t('frontend', 'Availability'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
@@ -183,17 +186,18 @@ class MeetingPlace extends \yii\db\ActiveRecord
             break;
           }
         }
-        $temp ='';
-        // to do - update for multiple participants
         // to do - integrate current setting for this user in style setting
+        $temp ='';
         if (count($acceptableChoice)>0) {
-          $temp.='Acceptable to '.MiscHelpers::getDisplayName($acceptableChoice[0]);
+          $temp.='Acceptable to '.MiscHelpers::listNames($acceptableChoice,true,count($meeting->participants)).'. ';
           $whereStatus['style'][$mp->place_id]='success';
-        } else if (count($rejectedChoice)>0) {
-          $temp.='Rejected by '.MiscHelpers::getDisplayName($rejectedChoice[0]);
+        }
+        if (count($rejectedChoice)>0) {
+          $temp.='Rejected by '.MiscHelpers::listNames($rejectedChoice).'. ';
           $whereStatus['style'][$mp->place_id]='danger';
-        } else if (count($unknownChoice)>0) {
-          $temp.='No response from '.MiscHelpers::getDisplayName($unknownChoice[0]);
+        }
+        if (count($unknownChoice)>0) {
+          $temp.='No response from '.MiscHelpers::listNames($unknownChoice).'.';
           $whereStatus['style'][$mp->place_id]='warning';
         }
         $whereStatus['text'][$mp->place_id]=$temp;
@@ -230,7 +234,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
       return true;
     }
 
-    public function addFromRequest($request_id) {      
+    public function addFromRequest($request_id) {
       // load the request
       $r = \frontend\models\Request::findOne($request_id);
       $m = Meeting::findOne($r->meeting_id);
@@ -242,5 +246,10 @@ class MeetingPlace extends \yii\db\ActiveRecord
       $mp->status = MeetingPlace::STATUS_SELECTED;
       $mp->save();
       MeetingPlace::setChoice($r->meeting_id,$mp->id,$r->completed_by);
+    }
+
+    public function adjustAvailability($amount) {
+      $this->availability+=$amount;
+      $this->update();
     }
 }

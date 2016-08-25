@@ -81,6 +81,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_REQUEST_ACCEPT,
 			MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT,
 			MeetingLog::ACTION_REQUEST_REJECT,
+			MeetingLog::ACTION_CANCEL_MEETING,
+			MeetingLog::ACTION_DELETE_MEETING
 		];
 
 	// not yet implemented

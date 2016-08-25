@@ -175,11 +175,31 @@ class Meeting extends \yii\db\ActiveRecord
         ];
     }
 
-    public function isOwner($viewer_id) {
-      if ($viewer_id==$this->owner_id)
+    public function isOrganizer() {
+      $user_id = Yii::$app->user->getId();
+      if ($user_id == $this->owner_id) {
+        // to do - or if they are a participant set as an organizer
         return true;
-      else
+      } else {
         return false;
+      }
+    }
+
+
+    public function isOwner($viewer_id) {
+      if ($viewer_id==$this->owner_id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function isGroup() {
+      if (count($this->participants)>2) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     public function initializeMeetingSetting($meeting_id,$owner_id) {
@@ -334,18 +354,45 @@ class Meeting extends \yii\db\ActiveRecord
        */
      }
 
-     public function getMeetingParticipants($prefix = false) {
+     public function getMeetingParticipants($prefix = false,$buttons=false) {
        // get a string of the participants other than the viewer
        $str='';
-       if ($this->isOwner(Yii::$app->user->getId())) {
-         if (count($this->participants)>0) {
-           $str=MiscHelpers::getDisplayName($this->participants[0]->participant->id);
-         }
+       $listPeople=[];
+       if (!$this->isOwner(Yii::$app->user->getId())) {
+         $listPeople[]=$this->owner_id;
+         $buttons = false;
        } else {
-         //$owner = \common\models\User::findIdentity($this->owner_id);
-         $str=MiscHelpers::getDisplayName($this->owner_id);
+         $buttons = true;
        }
-       return (($prefix && strlen($str)>0)?'with '.$str:$str);
+       if (count($this->participants)>0) {
+         foreach ($this->participants as $p) {
+           if ($p->participant->id<>Yii::$app->user->getId()) {
+             $listPeople[]=$p->participant->id;
+           }
+           if ($buttons) {
+         $str.='<div class="btn-group btn-participant">
+  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    '.MiscHelpers::getDisplayName($p->participant->id).' <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#">Set as Organizer</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Send a message</a></li>
+    <li><a href="#">Remove</a></li>
+  </ul>
+</div>';
+}
+}
+if (!$buttons) {
+          $str.=MiscHelpers::listNames($listPeople);
+          return (($prefix && strlen($str)>0)?'with '.$str:$str);
+} else {
+  return $str;
+}
+
+
+       }
+
      }
 
      public static function getSubject($id) {
@@ -608,6 +655,21 @@ class Meeting extends \yii\db\ActiveRecord
           $this->update();
           $this->increaseSequence();
           MeetingLog::add($this->id,MeetingLog::ACTION_CANCEL_MEETING,$user_id);
+          $subject = $this->getMeetingHeader('cancelation');
+          $p1 = MiscHelpers::getDisplayName($user_id).Yii::t('frontend',' canceled the meeting: ').$subject;
+          $content=[
+            'subject' => Yii::t('frontend','Your Meeting Has Been Canceled'),
+            'heading' => Yii::t('frontend','Meeting Canceled'),
+            'p1' => $p1,
+            'p2' => '',
+            'plain_text' => $p1.'...'.Yii::t('frontend','View the meeting here: '),
+          ];
+          $button= [
+            'text' => Yii::t('frontend','View the Meeting'),
+            'command' => Meeting::COMMAND_VIEW,
+            'obj_id' => 0,
+          ];
+          $this->generic_notify($user_id,$this->id, $content,$button,true);
           return true;
         } else {
           return false;
@@ -819,7 +881,7 @@ class Meeting extends \yii\db\ActiveRecord
         $invite
          	->setSubject($meeting->subject)
          	->setDescription($description)
-           ->setStart($sdate)
+          ->setStart($sdate)
          	->setEnd($edate)
          	->setLocation($location)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username)
@@ -840,8 +902,13 @@ class Meeting extends \yii\db\ActiveRecord
                 }
             }
           }
-            $invite->setComment($commentStr);
+          $invite->setComment($commentStr);
           $invite->setUrl(MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
+          if ($meeting->status ==Meeting::STATUS_CANCELED) {
+            $invite->setStatus('CANCELLED');
+          } else {
+            $invite->setStatus('CONFIRMED');
+          }
           $invite->generate() // generate the invite
 	         ->save('./invites/','cal_'.$attendee['user_id'].'_'.Yii::$app->getSecurity()->generateRandomString(12).'.ics'); // save it to a file;
            $downloadLink = $invite->getSavedPath();
@@ -964,7 +1031,7 @@ class Meeting extends \yii\db\ActiveRecord
             $up_id = MiscHelpers::isProfileEmpty($user_id);
             // returns UserProfile->id if available
             if ($up_id!==false) {
-              Yii::$app->getSession()->setFlash('info', '<a href="' .Url::to(['/user-profile/update','id'=>$up_id],true).'">'.Yii::t('frontend','Please fill in your name so we can tell people what to call you.').'</a>');
+              Yii::$app->getSession()->setFlash('info', Yii::t('frontend','Please ').'<a href="' .Url::to(['/user-profile/update','id'=>$up_id],true).'">'.Yii::t('frontend','click here to add your full name').'</a>'.Yii::t('frontend',' so we can share it with meeting participants.'));
             }
          }
        }
@@ -1110,7 +1177,7 @@ class Meeting extends \yii\db\ActiveRecord
        if (empty($u->auth_key)) {
          return false;
        }
-       echo $u->email;
+       //echo $u->email;
        $a=['user_id'=>$user_id,
         'auth_key'=>$u->auth_key,
         'email'=>$u->email,
@@ -1155,6 +1222,82 @@ class Meeting extends \yii\db\ActiveRecord
                  ->send();
            }
         }
+     }
+
+     public static function generic_notify($user_id,$meeting_id,$content,$button = false,$ics = false) {
+       // sends a generic message based on arguments
+       $mtg = Meeting::findOne($meeting_id);
+       // build an attendees array for all participants without contact information
+       $cnt =0;
+       $attendees = array();
+       foreach ($mtg->participants as $p) {
+           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+           'email'=>$p->participant->email,
+           'username'=>$p->participant->username];
+           $cnt+=1;
+       }
+       // add organizer
+       $auth_key=\common\models\User::find()->where(['id'=>$mtg->owner_id])->one()->auth_key;
+       $attendees[$cnt]=['user_id'=>$mtg->owner_id,'auth_key'=>$auth_key,
+         'email'=>$mtg->owner->email,
+         'username'=>$mtg->owner->username];
+        if ($ics) {
+          // chosen place
+          if ($mtg->meeting_type==Meeting::TYPE_PHONE || $mtg->meeting_type==Meeting::TYPE_VIDEO || $mtg->meeting_type == Meeting::TYPE_VIRTUAL) {
+            $noPlaces = true;
+            $chosenPlace=false;
+          } else {
+            $noPlaces = false;
+            $chosenPlace = $mtg->getChosenPlace($meeting_id);
+          }
+          // chosen time
+          $chosenTime=$mtg->getChosenTime($meeting_id);
+        }
+       // use this code to send
+       foreach ($attendees as $cnt=>$a) {
+         // check if email is okay and okay from this sender_id
+         if ($user_id != $a['user_id'] && User::checkEmailDelivery($a['user_id'],$user_id)) {
+           Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
+             // Build the absolute links to the meeting and commands
+             $links=[
+               'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
+               'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
+               'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
+               'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key']),
+               'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+             ];
+             if ($button!==false) {
+               $links['button_url']=MiscHelpers::buildCommand($mtg->id,$button['command'],$button['obj_id'],$a['user_id'],$a['auth_key']);
+               $content['button_text']=$button['text'];
+             }
+             // send the message
+             $message = Yii::$app->mailer->compose([
+               'html' => 'generic-html',
+               'text' => 'generic-text'
+             ],
+             [
+               'meeting_id' => $mtg->id,
+               'sender_id'=> $user_id,
+               'user_id' => $a['user_id'],
+               'auth_key' => $a['auth_key'],
+               'links' => $links,
+               'content'=>$content,
+               'meetingSettings' => $mtg->meetingSettings,
+           ]);
+           if ($ics) {
+             // include iCalFile for meeting
+            $icsPath = Meeting::buildCalendar($meeting_id,$chosenPlace,$chosenTime,$a,$attendees);
+            $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
+            }
+             // to do - add full name
+           $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+           $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
+           $message->setTo($a['email'])
+               ->setSubject($content['subject'])
+               ->send();
+           }
+         }
      }
 
      public static function isAttendee($meeting_id,$user_id) {

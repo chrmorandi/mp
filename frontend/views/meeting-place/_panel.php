@@ -17,23 +17,23 @@ use \kartik\switchinput\SwitchInput;
         <?php if ($placeProvider->count<=1) { ?>
           <?= Yii::t('frontend','add places for participants or switch to \'virtual\'') ?>
       <?php } elseif ($placeProvider->count>1) { ?>
-          <?= Yii::t('frontend','accept or reject places below&nbsp;') ?>
+          <?= Yii::t('frontend','are listed places okay?&nbsp;') ?>
         <?php
           }
         ?>
-        <?php if ($placeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_place'])) { ?>
-          <?= Yii::t('frontend','- you can also choose the place') ?>
+        <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+          <?= Yii::t('frontend','you can also choose the place') ?>
         <?php }?>
       </div></div>
 
 <?php
-  if (!$isOwner) {
+  if (!$model->isOrganizer()) {
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
       <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;">
         <?php
-          if ($isOwner || $model->meetingSettings->participant_add_place) {
+          if ($model->isOrganizer() || $model->meetingSettings->participant_add_place) {
           ?>
           <table><tr style="vertical-align:top;"><td class="virtualThing" style="padding-left:10px;">
             <?php
@@ -43,7 +43,7 @@ use \kartik\switchinput\SwitchInput;
                 'value' => $model->switchVirtual,
                 'pluginOptions' => [
                   'handleWidth'=>75,
-                  'size'=>'mini','onText' => '<i class="glyphicon glyphicon-user"></i>&nbsp;in person','offText'=>'<i class="glyphicon glyphicon-earphone"></i>&nbsp;virtual'], // 'onColor' => 'success','offColor' => 'danger'
+                  'size'=>'small','onText' => '<i class="glyphicon glyphicon-user"></i>&nbsp;in person','offText'=>'<i class="glyphicon glyphicon-earphone"></i>&nbsp;virtual'], // 'onColor' => 'success','offColor' => 'danger'
                 'labelOptions' => ['style' => 'font-size: 8px;'],
             ]);
             ?>
@@ -77,7 +77,7 @@ use \kartik\switchinput\SwitchInput;
            'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
            'itemView' => '_list',
-           'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
+           'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$model->isOrganizer(),'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
        ]) ?>
   </table>
   <?php else: ?>
@@ -182,16 +182,17 @@ $this->registerJs($script, $position);
           'id'=>'mpc-'.$mpc->id,
           'value' => $value,
           'disabled' => !$isOwner,
-          'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
+          // prev: 75, acceptable
+          'pluginOptions' => ['size' => 'small','handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
           ]);
       }
     }
   }
 
-  function showParticipantStatus($model,$isOwner) {
+  function showParticipantStatus($model,$isOwner,$user_id) {
     foreach ($model->meetingPlaceChoices as $mpc) {
       if (count($model->meeting->participants)==0) break;
-      if ($mpc->user_id == $model->meeting->participants[0]->participant_id) {
+      if ($mpc->user_id == $user_id) {
           if ($mpc->status == $mpc::STATUS_YES)
             $value = 1;
           else if ($mpc->status == $mpc::STATUS_NO)
@@ -207,7 +208,7 @@ $this->registerJs($script, $position);
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
-            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size' => 'small','handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
         ]);
       }
     }

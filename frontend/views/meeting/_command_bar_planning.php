@@ -12,7 +12,7 @@ use yii\helpers\Html;
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <?php
-          if ($isOwner) {
+          if ($model->isOrganizer()) {
             ?>
             <li>
             <?php
@@ -23,10 +23,10 @@ use yii\helpers\Html;
             ]);
             ?>
             </li>
+            <li role="separator" class="divider"></li>
           <?php
           }
           ?>
-        <li role="separator" class="divider"></li>
         <?php
           if ($model->status >= $model::STATUS_SENT && $model->viewer == $model::VIEWER_ORGANIZER) {
             ?>
@@ -42,7 +42,7 @@ use yii\helpers\Html;
          'title'=>Yii::t('frontend','View the historical log of meeting adjustments'),
         ]); ?></li>
         <?php
-        if ($isOwner) {
+        if ($model->isOrganizer()) {
           ?>
           <li>
           <?= Html::a(Yii::t('frontend', 'Preferences'), ['/meeting-setting/update', 'id' => $model->id],
@@ -61,7 +61,7 @@ use yii\helpers\Html;
           <!--  to do - check meeting settings if participant can send/finalize -->
           <span class="button-pad">
     <?php
-    if ($isOwner && $model->status < $model::STATUS_SENT)
+    if ($model->isOrganizer() && $model->status < $model::STATUS_SENT)
      {
     echo Html::a('<i class="glyphicon glyphicon-send"></i>&nbsp;'.Yii::t('frontend', 'Send'), ['send', 'id' => $model->id], ['id'=>'actionSend','class' => 'btn btn-primary '.(!$model->isReadyToSend?'disabled':'')]);
     }
@@ -69,14 +69,14 @@ use yii\helpers\Html;
     </span>
     <span class="button-pad">
         <?php
-        if (($isOwner || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
+        if (($model->isOrganizer() || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
           echo Html::a('<i class="glyphicon glyphicon-time"></i>&nbsp;'.Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
         }
          ?>
          </span>
          <span class="button-pad">
         <?php
-          if (!$isOwner) {
+          if (!$model->isOrganizer()) {
             echo Html::a(Yii::t('frontend', 'Decline'), ['decline', 'id' => $model->id],
              ['class' => 'btn btn-primary  btn-danger',
              'title'=>Yii::t('frontend','Decline invitation'),

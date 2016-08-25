@@ -15,6 +15,7 @@ use common\components\MiscHelpers;
  * @property integer $end
  * @property integer $suggested_by
  * @property integer $status
+ * @property integer $availability
  * @property integer $created_at
  * @property integer $updated_at
  * @property MeetingTimeChoice[] $meetingTimeChoices
@@ -26,6 +27,7 @@ class MeetingTime extends \yii\db\ActiveRecord
 {
   const STATUS_SUGGESTED =0;
   const STATUS_SELECTED =10; // the chosen date time
+  const STATUS_REMOVED =20;
 
   const MEETING_LIMIT = 7;
 
@@ -52,7 +54,7 @@ class MeetingTime extends \yii\db\ActiveRecord
     {
         return [
             [['meeting_id',  'start','duration','suggested_by'], 'required'],
-            [['meeting_id', 'start','duration','end', 'suggested_by', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['meeting_id', 'start','duration','end', 'suggested_by', 'status', 'availability','created_at', 'updated_at'], 'integer'],
             [['start'], 'unique', 'targetAttribute' => ['start','meeting_id'], 'message'=>Yii::t('frontend','This date and time has already been suggested.')],
         ];
     }
@@ -81,6 +83,7 @@ class MeetingTime extends \yii\db\ActiveRecord
             'start' => Yii::t('frontend', 'Start'),
             'suggested_by' => Yii::t('frontend', 'Suggested By'),
             'status' => Yii::t('frontend', 'Status'),
+             'availability' => Yii::t('frontend', 'Availability'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
@@ -176,17 +179,21 @@ class MeetingTime extends \yii\db\ActiveRecord
             break;
           }
         }
-        $temp ='';
-        // to do - update for multiple participants
         // to do - integrate current setting for this user in style setting
+        $temp ='';
         if (count($acceptableChoice)>0) {
-          $temp.='Acceptable to '.MiscHelpers::getDisplayName($acceptableChoice[0]);
+          $temp=Yii::t('frontend','Acceptable to ');
+          $temp.=MiscHelpers::listNames($acceptableChoice,true,count($meeting->participants)).'. ';
           $whenStatus['style'][$mt->id]='success';
-        } else if (count($rejectedChoice)>0) {
-          $temp.='Rejected by '.MiscHelpers::getDisplayName($rejectedChoice[0]);
+        }
+         if (count($rejectedChoice)>0) {
+          $temp.='Rejected by ';
+          $temp.=MiscHelpers::listNames($rejectedChoice).'. ';
           $whenStatus['style'][$mt->id]='danger';
-        } else if (count($unknownChoice)>0) {
-          $temp.='No response from '.MiscHelpers::getDisplayName($unknownChoice[0]);
+        }
+        if (count($unknownChoice)>0) {
+          $temp.='No response from ';
+          $temp.=MiscHelpers::listNames($unknownChoice).'. ';
           $whenStatus['style'][$mt->id]='warning';
         }
         $whenStatus['text'][$mt->id]=$temp;
@@ -288,5 +295,10 @@ class MeetingTime extends \yii\db\ActiveRecord
       $mt->updated_at = $mt->created_at = time();
       $mt->save();
       return $mt->id;
+    }
+
+    public function adjustAvailability($amount) {
+      $this->availability+=$amount;
+      $this->update();
     }
 }

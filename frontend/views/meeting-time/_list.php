@@ -8,7 +8,7 @@ use \kartik\switchinput\SwitchInput;
     <table class="table-list"> <!-- list of times -->
       <tr>
         <td class="table-list-first"> <!-- time & status -->
-          <?= Meeting::friendlyDateFromTimestamp($model->start,$timezone) ?>
+          <?= Html::a(Meeting::friendlyDateFromTimestamp($model->start,$timezone),['meeting-time/update', 'id' => $model->id]) ?>
           <?php
             if ($whenStatus['text'][$model->id]<>'') {
             ?>
@@ -29,7 +29,7 @@ use \kartik\switchinput\SwitchInput;
                    if ($isOwner) {
                      showTimeOwnerStatus($model,$isOwner);
                    } else {
-                     showTimeParticipantStatus($model,$isOwner);
+                     showTimeParticipantStatus($model,$isOwner,Yii::$app->user->getId());
                    }
                 ?>
               </td>
@@ -50,7 +50,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
+                          'pluginOptions' => [  'size' => 'small','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
                           //'labelOptions' => ['style' => 'font-size: 10px'],
                       ]);
                     }

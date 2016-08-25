@@ -8,24 +8,21 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Place */
-$this->title = $model->getMeetingHeader();
+$this->title = $place->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs'][] = $place->name;
 ?>
 <h1><?php echo Html::encode($this->title) ?></h1>
 
-<p>
-  <?php echo Html::a(Yii::t('frontend', 'Return to Meeting'), ['view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-</p>
 
-<div class="col-md-6">
+<div class="col-xs-12 col-lg-6">
 <div class="place-view">
 
     <?php echo DetailView::widget([
         'model' => $place,
         'attributes' => [
-            'name',
+            
             ['label' => 'website',
      'value' => Html::a($place->website, $place->website),
      'format' => 'raw'],
@@ -36,7 +33,7 @@ $this->params['breadcrumbs'][] = $place->name;
 
 </div>
 </div> <!-- end first col -->
-<div class="col-md-6">
+<div class="col-xs-12 col-lg-6">
   <?php
   if ($gps!==false) {
     $coord = new LatLng(['lat' => $gps->lat, 'lng' => $gps->lng]);
@@ -59,3 +56,6 @@ $this->params['breadcrumbs'][] = $place->name;
   ?>
 
 </div> <!-- end second col -->
+<p>
+  <?php echo Html::a(Yii::t('frontend', 'Return to Meeting'), ['view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+</p>

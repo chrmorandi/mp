@@ -52,12 +52,12 @@ echo $this->render('_timezone_alerts');
       ]);
     }
   ?>
-  <?php if ($isOwner) {
+
+  <?php
     echo $this->render('../participant/_panel', [
         'model'=>$model,
         'participantProvider' => $participantProvider,
     ]);
-  }
    ?>
 
    <div class="panel panel-default">

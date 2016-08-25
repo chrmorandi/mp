@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use frontend\models\MeetingTime;
 
 /**
  * This is the model class for table "meeting_time_choice".
@@ -106,6 +107,7 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
       // set initial choice status based if they suggested it themselves
        if ($suggested_by == $user_id) {
           $model->status = self::STATUS_YES;
+          MeetingTime::findOne($meeting_time_id)->adjustAvailability(1);
         } else {
           $model->status = self::STATUS_UNKNOWN;
         }
@@ -121,10 +123,12 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
         if (!$bulkMode) {
           // log only when not in bulk mode i.e. accept all
           // see setAll for more details
-          if ($status==MeetingTimeChoice::STATUS_YES) {
+          if ($mtc->status==MeetingTimeChoice::STATUS_YES) {
             $command = MeetingLog::ACTION_ACCEPT_TIME;
+            MeetingTime::findOne($mtc->meeting_time_id)->adjustAvailability(1);
           } else {
             $command = MeetingLog::ACTION_REJECT_TIME;
+            MeetingTime::findOne($mtc->meeting_time_id)->adjustAvailability(-1);
           }
           MeetingLog::add($mtc->meetingTime->meeting_id,$command,$mtc->user_id,$mtc->meeting_time_id);
         }
@@ -142,7 +146,10 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
         // find mpc for this meetingTime and user_id
         $mtchoices = MeetingTimeChoice::find()->where(['meeting_time_id'=>$mt->id,'user_id'=>$user_id])->all();
         foreach ($mtchoices as $mtc) {
-          MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES,$user_id,true);
+          if ($mtc->status != MeetingTimeChoice::STATUS_YES) {
+            MeetingTimeChoice::set($mtc->id,MeetingTimeChoice::STATUS_YES,$user_id,true);
+            MeetingTime::findOne($mt->id)->adjustAvailability(1);
+          }
         }
         // add one log entry in bulk mode
         MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_TIMES,$user_id);

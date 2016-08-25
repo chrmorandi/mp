@@ -1,7 +1,7 @@
 <?php
 return [
     'adminEmail' => 'jeff@meetingplanner.io',
-    'maximumPeople'=>1,
+    'maximumPeople'=>15,
     'maximumPlaces'=>12,
     'maximumTimes'=>12,
     'maximumNotes'=>100,

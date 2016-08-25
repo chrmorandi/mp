@@ -139,9 +139,19 @@ class MeetingController extends Controller
         $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
+            'sort' => [
+              'defaultOrder' => [
+                'availability'=>SORT_DESC
+              ]
+            ],
         ]);
         $placeProvider = new ActiveDataProvider([
             'query' => MeetingPlace::find()->where(['meeting_id'=>$id]),
+            'sort' => [
+              'defaultOrder' => [
+                'availability'=>SORT_DESC
+              ]
+            ],
         ]);
           return $this->render('view', [
               'model' => $model,
@@ -159,7 +169,6 @@ class MeetingController extends Controller
       } else {
         // meeting is finalized or past
         if (Request::countOpen($id)) {
-
             Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Changes have been requested for this meeting. <a href="{url}">View them</a>.',['url'=>Url::to(['/request/index/','meeting_id'=>$id])]));
         }
         $isOwner = $model->isOwner(Yii::$app->user->getId());

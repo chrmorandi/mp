@@ -3,6 +3,7 @@
 namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
+use frontend\models\MeetingPlace;
 
 /**
  * This is the model class for table "meeting_place_choice".
@@ -104,6 +105,7 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
       // set initial choice status based if they suggested it themselves
        if ($suggested_by == $user_id) {
           $model->status = self::STATUS_YES;
+          MeetingPlace::findOne($meeting_place_id)->adjustAvailability(1);
         } else {
           $model->status = self::STATUS_UNKNOWN;
         }
@@ -119,10 +121,12 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
         if (!$bulkMode) {
           // log only when not in bulk mode i.e. accept all
           // see setAll for more details
-          if ($status==MeetingPlaceChoice::STATUS_YES) {
+          if ($mpc->status==MeetingPlaceChoice::STATUS_YES) {
             $command = MeetingLog::ACTION_ACCEPT_PLACE;
+            MeetingPlace::findOne($mpc->meeting_place_id)->adjustAvailability(1);
           } else {
             $command = MeetingLog::ACTION_REJECT_PLACE;
+            MeetingPlace::findOne($mpc->meeting_place_id)->adjustAvailability(-1);
           }
           MeetingLog::add($mpc->meetingPlace->meeting_id,$command,$mpc->user_id,$mpc->meeting_place_id);
         }
@@ -140,7 +144,10 @@ class MeetingPlaceChoice extends \yii\db\ActiveRecord
         // find mpc for this meetingPlace and user_id
         $mpchoices = MeetingPlaceChoice::find()->where(['meeting_place_id'=>$mp->id,'user_id'=>$user_id])->all();
         foreach ($mpchoices as $mpc) {
-          MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,$user_id,true);
+          if ($mpc->status != MeetingPlaceChoice::STATUS_YES) {
+            MeetingPlaceChoice::set($mpc->id,MeetingPlaceChoice::STATUS_YES,$user_id,true);
+            MeetingPlace::findOne($mp->id)->adjustAvailability(+1);
+          }
         }
         // add one log entry in bulk mode
         MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_PLACES,$user_id);

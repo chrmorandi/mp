@@ -31,7 +31,7 @@ use \kartik\switchinput\SwitchInput;
                    if ($isOwner) {
                      showOwnerStatus($model,$isOwner);
                    } else {
-                     showParticipantStatus($model,$isOwner);
+                     showParticipantStatus($model,$isOwner,Yii::$app->user->getId());
                    }
                 ?>
               </td>
@@ -52,7 +52,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'mini','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->place_id],
+                          'pluginOptions' => [  'size' => 'small','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->place_id],
                           //'labelOptions' => ['style' => 'font-size: 10px'],
                       ]);
                     }

@@ -15,16 +15,16 @@ use \kartik\switchinput\SwitchInput;
       <?php if ($timeProvider->count<=1) { ?>
         <?= Yii::t('frontend','add one or more dates and times for participants to choose from') ?>
     <?php } elseif ($timeProvider->count>1) { ?>
-      <?= Yii::t('frontend','accept or reject times below'); ?>
+      <?= Yii::t('frontend','are listed times okay?'); ?>
     <?php
       }
     ?>
-    <?php if ($timeProvider->count>1 && ($isOwner || $model->meetingSettings['participant_choose_date_time'])) { ?>
-      <?= Yii::t('frontend','- you can also choose the time') ?>
+    <?php if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) { ?>
+      <?= Yii::t('frontend','you can also choose the time') ?>
     <?php }?>
   </span></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
-      if ($isOwner || $model->meetingSettings->participant_add_date_time) {
+      if ($model->isOrganizer() || $model->meetingSettings->participant_add_date_time) {
         /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/
         echo Html::a('', ['meeting-time/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);
       }
@@ -47,7 +47,7 @@ use \kartik\switchinput\SwitchInput;
            'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
            'itemView' => '_list',
-           'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],'whenStatus'=>$whenStatus],
+           'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$model->isOrganizer(),'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],'whenStatus'=>$whenStatus],
        ]) ?>
   </table>
   <?php else: ?>
@@ -69,16 +69,16 @@ use \kartik\switchinput\SwitchInput;
             'id'=>'mtc-'.$mtc->id,
             'value' => $value,
             'disabled' => !$isOwner,
-            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size' => 'small','handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
             ]);
       }
     }
   }
 
-  function showTimeParticipantStatus($model,$isOwner) {
+  function showTimeParticipantStatus($model,$isOwner,$user_id) {
     foreach ($model->meetingTimeChoices as $mtc) {
       if (count($model->meeting->participants)==0) break;
-      if ($mtc->user_id == $model->meeting->participants[0]->participant_id) {
+      if ($mtc->user_id == $user_id) {
           if ($mtc->status == $mtc::STATUS_YES)
             $value = 1;
           else if ($mtc->status == $mtc::STATUS_NO)
@@ -94,7 +94,7 @@ use \kartik\switchinput\SwitchInput;
             'indeterminateToggle'=>false,
             'disabled'=>$isOwner,
             'value' => $value,
-            'pluginOptions' => ['size' => 'mini','handleWidth'=>75,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;acceptable','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;reject','onColor' => 'success','offColor' => 'danger',],
+            'pluginOptions' => ['size' => 'small','handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
         ]);
       }
     }

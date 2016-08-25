@@ -10,7 +10,8 @@ use common\components\MiscHelpers;
 /* @var $searchModel frontend\models\MeetingLogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('frontend', 'Meeting History for '.$subject);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting'), 'url' => ['/meeting/view','id'=>$meeting_id]];
+$this->title = Yii::t('frontend', 'History for '.$subject);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

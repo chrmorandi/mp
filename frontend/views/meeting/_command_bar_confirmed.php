@@ -1,8 +1,9 @@
-
 <?php
 use yii\helpers\Html;
 use frontend\models\Meeting;
 use frontend\models\MeetingSetting;
+global $cnt_items;
+$cnt_items=0;
 ?>
   <div class="command-bar">
     <div class="row">
@@ -14,7 +15,8 @@ use frontend\models\MeetingSetting;
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <?php
-            if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_reopen)) {
+            if (!$isPast && ($model->isOrganizer() || $meetingSettings->participant_reopen)) {
+              $cnt_items+=1;
               ?>
               <li><?= Html::a(Yii::t('frontend', 'Make changes'), ['reopen','id'=>$model->id],
                ['title'=>Yii::t('frontend','Change the time and place of the meeting by returning it to planning mode.')]); ?></li>
@@ -22,7 +24,8 @@ use frontend\models\MeetingSetting;
             }
            ?>
            <?php
-             if (!$isPast && ($model->viewer == Meeting::VIEWER_ORGANIZER || $meetingSettings->participant_request_change)) {
+             if (!$isPast && ($model->isOrganizer() || $meetingSettings->participant_request_change)) {
+               $cnt_items+=1;
                ?>
                <li><?= Html::a(Yii::t('frontend', 'Request changes'), ['/request/create','meeting_id'=>$model->id],
                 ['title'=>Yii::t('frontend','Request a change to the time and place of other participant(s)')]); ?></li>
@@ -30,7 +33,8 @@ use frontend\models\MeetingSetting;
              }
              ?>
              <?php
-               if (!$isPast && $model->viewer == Meeting::VIEWER_ORGANIZER) {
+               if (!$isPast && $model->isOrganizer()) {
+                 $cnt_items+=1;
                  ?>
                  <li><?= Html::a(Yii::t('frontend', 'Reschedule'), ['reschedule','id'=>$model->id],
                   [
@@ -39,6 +43,7 @@ use frontend\models\MeetingSetting;
                  ]); ?></li>
                <?php
              } elseif ($isPast) {
+               $cnt_items+=1;
                // to do - should we allow confirmed meeting to be repeated before its past
                ?>
                <li><?= Html::a(Yii::t('frontend', 'Repeat'), ['repeat','id'=>$model->id],
@@ -48,7 +53,12 @@ use frontend\models\MeetingSetting;
                <?php
              }
                ?>
-        <li role="separator" class="divider"></li>
+        <?php if ($cnt_items>0) {
+          ?>
+          <li role="separator" class="divider"></li>
+          <?php
+        }
+        ?>
         <?php
           if (!$isPast && $model->status >= $model::STATUS_SENT && $model->viewer == $model::VIEWER_ORGANIZER) {
             ?>
@@ -64,7 +74,7 @@ use frontend\models\MeetingSetting;
          'title'=>Yii::t('frontend','View the historical log of meeting adjustments'),
         ]); ?></li>
         <?php
-        if ($isOwner) {
+        if ($model->isOrganizer()) {
           ?>
           <li>
           <?= Html::a(Yii::t('frontend', 'Preferences'), ['/meeting-setting/update', 'id' => $model->id],
@@ -97,7 +107,7 @@ use frontend\models\MeetingSetting;
           </span>
           <span class="button-pad">
             <?php
-            if ( !$isPast) {
+            if (!$isPast && $model->isOrganizer()) {
               echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
              ['class' => 'btn btn-primary btn-danger',
              'title'=>Yii::t('frontend','Cancel'),

@@ -13,7 +13,6 @@ use frontend\models\MeetingSetting;
         <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-
         <!-- <li role="separator" class="divider"></li>-->
         <li><?= Html::a(Yii::t('frontend', 'History'), ['/meeting-log/view', 'id' => $model->id],
          [

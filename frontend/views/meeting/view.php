@@ -13,12 +13,10 @@ echo $this->render('_timezone_alerts');
 ?>
 <div class="meeting-view">
         <?php //who
-        if ($isOwner) {
           echo $this->render('../participant/_panel', [
               'model'=>$model,
               'participantProvider' => $participantProvider,
           ]);
-        }
          ?>
 
          <?php  // what

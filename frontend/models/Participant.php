@@ -26,9 +26,10 @@ use frontend\models\Friend;
 class Participant extends \yii\db\ActiveRecord
 {
     const STATUS_DEFAULT = 0;
+    const STATUS_REMOVED = 20;
     const STATUS_DECLINED = 100;
 
-    const MEETING_LIMIT = 12;
+    const MEETING_LIMIT = 15;
 
     public $email;
     public $username;
@@ -69,7 +70,7 @@ class Participant extends \yii\db\ActiveRecord
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
               ['new_email','email'],
-              ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],              
+              ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
               //['new_email','mailgunValidator'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],
 

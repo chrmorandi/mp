@@ -178,6 +178,9 @@ table.table-list td.table-switches {
   visible:false;
 }
 
+.btn-participant {
+  margin: 0 7px 7px 0;
+}
 /* ----------- mobile displays ----------- */
 
 @media only screen

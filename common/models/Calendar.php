@@ -47,6 +47,8 @@ class Calendar {
 
     private $_url;
 
+    private $_status;
+
     /**
      * Sender's email
      * @var string
@@ -120,7 +122,7 @@ class Calendar {
 
     public function getUID()
     {
-	return $this->_uid;
+	     return $this->_uid;
     }
 
     /**
@@ -148,6 +150,14 @@ class Calendar {
     {
 	$this->_start = $start;
 	return $this;
+    }
+
+    public function setStatus($status='CONFIRMED') {
+      $this->_status = $status;
+    }
+
+    public function getStatus() {
+      return $this->_status;
     }
 
     public function setSequence($sequence_id)
@@ -688,7 +698,7 @@ class Calendar {
       $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
 	    $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "SEQUENCE:{$this->getSequence()}\n";
-	    $content .= "STATUS:CONFIRMED\n";
+	    $content .= "STATUS:{$this->getStatus()}\n";
 	    $content .= "TRANSP:OPAQUE\n";
 	    $content .= "END:VEVENT\n";
 	    $content .= "END:VCALENDAR";
