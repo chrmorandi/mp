@@ -35,7 +35,7 @@ class ParticipantController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['create','delete'],
+                       'actions'=>['create','delete','toggleorganizer','toggleparticipant'],
                        'roles' => ['@'],
                    ],
                   [
@@ -124,6 +124,51 @@ class ParticipantController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionToggleorganizer($id,$val) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      // change setting
+      $p=Participant::findOne($id);
+      if ($p->meeting->isOrganizer()) {
+        $p->email = $p->participant->email;
+        if ($val==1) {
+          $p->participant_type=Participant::TYPE_ORGANIZER;
+        } else {
+          $p->participant_type=Participant::TYPE_DEFAULT;
+        }
+        $p->update();
+        return true;
+      } else {
+        return false;
+      }
+
+    }
+
+    public function actionToggleparticipant($id,$val) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;      
+      // change setting
+      $p=Participant::findOne($id);
+      if ($p->meeting->isOrganizer()) {
+        $p->email = $p->participant->email;
+        if ($val==0) {
+          if ($p->status == Participant::STATUS_DECLINED) {
+              $p->status=Participant::STATUS_DECLINED_REMOVED;
+          } else {
+            $p->status=Participant::STATUS_REMOVED;
+          }
+        } else {
+          if ($p->status == Participant::STATUS_DECLINED_REMOVED) {
+              $p->status=Participant::STATUS_DECLINED;
+          } else {
+            $p->status=Participant::STATUS_DEFAULT;
+          }
+        }
+        $p->update();
+        return true;
+      } else {
+        return false;
+      }
     }
 
     /**

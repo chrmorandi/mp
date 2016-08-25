@@ -23,14 +23,12 @@ use yii\bootstrap\Collapse;
     <?php
     if (!empty($participantProvider) and $participantProvider->getCount()>0):
     ?>
-          <?= $model->getMeetingParticipants('view',true);
-      /* old row by row was within a table
-        = ListView::widget([
-             'dataProvider' => $participantProvider,
-             'itemOptions' => ['class' => 'item'],
-             'layout' => '{items}',
-             'itemView' => '_list',
-         ]) */ ?>
+    <?php //who
+      echo $this->render('../participant/_buttons', [
+          'model'=>$model,
+          'participantProvider' => $participantProvider,
+      ]);
+     ?>
     <?php else: ?>
     <?php endif; ?>
   </div>

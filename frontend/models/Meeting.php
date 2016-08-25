@@ -360,39 +360,16 @@ class Meeting extends \yii\db\ActiveRecord
        $listPeople=[];
        if (!$this->isOwner(Yii::$app->user->getId())) {
          $listPeople[]=$this->owner_id;
-         $buttons = false;
-       } else {
-         $buttons = true;
        }
        if (count($this->participants)>0) {
          foreach ($this->participants as $p) {
            if ($p->participant->id<>Yii::$app->user->getId()) {
              $listPeople[]=$p->participant->id;
            }
-           if ($buttons) {
-         $str.='<div class="btn-group btn-participant">
-  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-star red-star" aria-hidden="true"></span>
-    '.MiscHelpers::getDisplayName($p->participant->id).' <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Set as Organizer</a></li>
-    <li role="separator" class="divider"></li>
-    <li><a href="#">Send a message</a></li>
-    <li><a href="#">Remove</a></li>
-  </ul>
-</div>';
-}
-}
-if (!$buttons) {
+          }
           $str.=MiscHelpers::listNames($listPeople);
           return (($prefix && strlen($str)>0)?'with '.$str:$str);
-} else {
-  return $str;
-}
-
-
        }
-
      }
 
      public static function getSubject($id) {

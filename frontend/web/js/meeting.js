@@ -22,3 +22,62 @@ function setTimezone(timezone) {
      }
   });
 }
+
+function toggleOrganizer(id, val) {
+  if (val === true) {
+    arg2 = 1;
+  } else {
+    arg2 =0;
+  }
+  $.ajax({
+     url: $('#url_prefix').val()+'/participant/toggleorganizer',
+     data: {id: id, val: arg2},
+     success: function(data) {
+       if (data) {
+         if (val===false) {
+            $('#star_'+id).addClass("hidden");
+            $('#ro_'+id).addClass("hidden");
+            $('#mo_'+id).removeClass("hidden");
+         } else {
+           $('#star_'+id).removeClass("hidden");
+           $('#ro_'+id).removeClass("hidden");
+           $('#mo_'+id).addClass("hidden");
+         }
+       }
+        return true;
+     }
+  });
+}
+
+function toggleParticipant(id, val, original_status) {
+  if (val === true) {
+    arg2 = 1;
+  } else {
+    arg2 =0;
+  }
+  $.ajax({
+     url: $('#url_prefix').val()+'/participant/toggleparticipant',
+     data: {id: id, val: arg2, original_status: original_status},
+     success: function(data) {
+       if (data) {
+         if (val===false) {
+            $('#rp_'+id).addClass("hidden");
+            $('#rstp_'+id).removeClass("hidden");
+            $('#btn_'+id).addClass("btn-danger");
+            $('#btn_'+id).removeClass("btn-default");
+         } else {
+           $('#rp_'+id).removeClass("hidden");
+           $('#rstp_'+id).addClass("hidden");
+           if (original_status==100) {
+             $('#btn_'+id).addClass("btn-warning");
+             $('#btn_'+id).removeClass("btn-danger");
+           } else {
+             $('#btn_'+id).addClass("btn-default");
+             $('#btn_'+id).removeClass("btn-danger");
+           }
+         }
+       }
+        return true;
+     }
+  });
+}
