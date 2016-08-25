@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\bootstrap\Collapse;
 use \kartik\switchinput\SwitchInput;
 ?>
 <div id="notifierTime" class="alert-info alert fade in" style="display:none;">
@@ -10,7 +11,8 @@ use \kartik\switchinput\SwitchInput;
 
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','When') ?></h4>
+  <div class="panel-heading" role="tab" id="headingWhen">
+    <div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"><?= Yii::t('frontend','When') ?></a></h4>
     <span class="hint-text">
       <?php if ($timeProvider->count<=1) { ?>
         <?= Yii::t('frontend','add one or more dates and times for participants to choose from') ?>
@@ -37,6 +39,8 @@ use \kartik\switchinput\SwitchInput;
     <!-- hidden add time form -->
   <br />
   </div>
+  <div id="collapseWhen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhen">
+    <div class="panel-body">
   <?php
    if ($timeProvider->count>0):
   ?>
@@ -52,6 +56,8 @@ use \kartik\switchinput\SwitchInput;
   </table>
   <?php else: ?>
   <?php endif; ?>
+  </div>
+  </div>
 </div>
 
 <?php

@@ -15,6 +15,8 @@ use frontend\models\Friend;
  * @property integer $meeting_id
  * @property integer $participant_id
  * @property integer $invited_by
+ * @property integer $participant_type
+ * @property integer $notify
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -25,8 +27,14 @@ use frontend\models\Friend;
  */
 class Participant extends \yii\db\ActiveRecord
 {
+    const TYPE_DEFAULT = 0;
+    const TYPE_ORGANIZER = 10;
+
+    const NOTIFY_ON = 0;
+    const NOTIFY_OFF = 1;
+
     const STATUS_DEFAULT = 0;
-    const STATUS_REMOVED = 20;
+    const STATUS_REMOVED = 90;
     const STATUS_DECLINED = 100;
 
     const MEETING_LIMIT = 15;
@@ -66,7 +74,7 @@ class Participant extends \yii\db\ActiveRecord
             [['meeting_id'], 'required'],
           // the email attribute should be a valid email address
             ['email', 'email'],
-            [['meeting_id', 'participant_id', 'invited_by', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['meeting_id', 'participant_id', 'invited_by', 'status','participant_type', 'notify','created_at', 'updated_at'], 'integer'],
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
               ['new_email','email'],
@@ -128,6 +136,8 @@ class Participant extends \yii\db\ActiveRecord
             'participant_id' => Yii::t('frontend', 'Participant ID'),
             'invited_by' => Yii::t('frontend', 'Invited By'),
             'status' => Yii::t('frontend', 'Status'),
+            'participant_type' => Yii::t('frontend', 'Organizer?'),
+            'notify' => Yii::t('frontend', 'Notifications?'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];

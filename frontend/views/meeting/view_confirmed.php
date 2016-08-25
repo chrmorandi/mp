@@ -59,71 +59,60 @@ echo $this->render('_timezone_alerts');
         'participantProvider' => $participantProvider,
     ]);
    ?>
-
-   <div class="panel panel-default">
-     <!-- Default panel contents -->
-     <div class="panel-heading">
-       <div class="row">
-         <div class="col-lg-9"><h4>What</h4></div>
-         <div class="col-lg-3" ><div style="float:right;">
-
-         </div>
-       </div>
-       </div>
-     </div>
-     <div class="panel-body">
-       <?php echo Html::encode($this->title) ?>
-     <?php echo $model->message.'&nbsp;'; ?>
-     </div>
-   </div>
-
+   <?php  // what
+   echo $this->render('./_panel_what', [
+       'model'=>$model,
+       'isOwner' => $isOwner,
+   ]) ?>
 
     <div class="panel panel-default">
       <!-- Default panel contents -->
-      <div class="panel-heading">
+      <div class="panel-heading" role="tab" id="headingWhen">
         <div class="row">
-          <div class="col-lg-9"><h4><?= Yii::t('frontend','When') ?></h4><p><em>
+          <div class="col-lg-9"><h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"><?= Yii::t('frontend','When') ?></a></h4><p><em>
           </div>
         </div>
       </div>
-        <div class="panel-body">
-          <p><?php echo $time; ?></p>
-
+        <div id="collapseWhen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhen">
+          <div class="panel-body">
+            <p><?php echo $time; ?></p>
+          </div>
         </div>
       </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">
+      <div class="panel-heading" role="tab" id="headingWhere">
         <div class="row">
-          <div class="col-lg-12"><h4>Where</h4></div>
+          <div class="col-lg-12"><h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"><?= Yii::t('frontend','Where') ?></a></h4></div>
         </div>
       </div>
-      <div class="panel-body">
-    <?php
-      if ($noPlace) { ?>
-        <div class="col-lg-12">
-      <?php
-        // show conference contact info
-        if (count($contacts)>0) {
-          foreach ($contacts as $c) {
-
-          ?>
-          <p>
+      <div id="collapseWhere" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhere">
+        <div class="panel-body">
           <?php
-            echo $contactTypes[$c['contact_type']].': '.$c['info'];
-          ?>
-        </p>
-        <?php
-          }
-        } else {
-          echo '<p>'.Yii::t('frontend','No contact information available for your meeting partner yet.').'</p>';
-        }
-        ?>
-  </div>
-  <?php
-      } else {
-        // show place and map
-?>
+            if ($noPlace) { ?>
+              <div class="col-lg-12">
+            <?php
+              // show conference contact info
+              if (count($contacts)>0) {
+                foreach ($contacts as $c) {
+
+                ?>
+                <p>
+                <?php
+                  echo $contactTypes[$c['contact_type']].': '.$c['info'];
+                ?>
+              </p>
+              <?php
+                }
+              } else {
+                echo '<p>'.Yii::t('frontend','No contact information available for your meeting partner yet.').'</p>';
+              }
+              ?>
+            </div>
+      <?php
+          } else {
+            // show place and map
+            ?>
 <?php if (empty(!$place)) {
   ?>
 
@@ -163,6 +152,7 @@ echo $this->render('_timezone_alerts');
   }
    ?>
   </div> <!-- end panel body -->
+  </div>
 </div> <!-- end panel -->
     <?php echo $this->render('../meeting-note/_panel', [
             'model'=>$model,

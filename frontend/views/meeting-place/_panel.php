@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use \kartik\switchinput\SwitchInput;
-
 ?>
 <div id="notifierPlace" class="alert-info alert fade in" style="display:none;">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -10,9 +9,9 @@ use \kartik\switchinput\SwitchInput;
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">
+  <div class="panel-heading" role="tab" id="headingWhere">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10" ><h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4><p>
+      <div class="col-lg-10 col-md-10 col-xs-10" ><h4 class="meeting-place"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"><?= Yii::t('frontend','Where') ?></a></h4><p>
         <div class="hint-text heading-pad">
         <?php if ($placeProvider->count<=1) { ?>
           <?= Yii::t('frontend','add places for participants or switch to \'virtual\'') ?>
@@ -64,24 +63,28 @@ use \kartik\switchinput\SwitchInput;
     </div>
   </div>
   </div>
-  <?php
-    $style = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'none':'block');
-   ?>
-  <div id ="meeting-place-list" style="display:<?php echo $style; ?>">
-  <?php
-   if ($placeProvider->count>0):
-  ?>
-  <table class="table">
-    <?= ListView::widget([
-           'dataProvider' => $placeProvider,
-           'itemOptions' => ['class' => 'item'],
-           'layout' => '{items}',
-           'itemView' => '_list',
-           'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$model->isOrganizer(),'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
-       ]) ?>
-  </table>
-  <?php else: ?>
-  <?php endif; ?>
+  <div id="collapseWhere" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhere">
+    <div class="panel-body">
+      <?php
+        $style = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'none':'block');
+       ?>
+      <div id ="meeting-place-list" style="display:<?php echo $style; ?>">
+      <?php
+       if ($placeProvider->count>0):
+      ?>
+      <table class="table">
+        <?= ListView::widget([
+               'dataProvider' => $placeProvider,
+               'itemOptions' => ['class' => 'item'],
+               'layout' => '{items}',
+               'itemView' => '_list',
+               'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$model->isOrganizer(),'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
+           ]) ?>
+      </table>
+      <?php else: ?>
+      <?php endif; ?>
+    </div>
+  </div>
 </div>
 
 </div>

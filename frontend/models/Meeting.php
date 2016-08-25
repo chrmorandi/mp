@@ -371,7 +371,7 @@ class Meeting extends \yii\db\ActiveRecord
            }
            if ($buttons) {
          $str.='<div class="btn-group btn-participant">
-  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-star red-star" aria-hidden="true"></span>
     '.MiscHelpers::getDisplayName($p->participant->id).' <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
