@@ -425,7 +425,7 @@ class Meeting extends \yii\db\ActiveRecord
           }
           if ($this->owner_id == $user_id ||
           $this->meetingSettings->participant_finalize) {
-            if ($chosenPlace && $chosenTime && $this->checkParticipantsAvailability()) {
+            if ($chosenPlace && $chosenTime && $this->isSomeoneAvailable()) {
               $this->isReadyToFinalize = true;
             }
           }
@@ -1591,7 +1591,7 @@ class Meeting extends \yii\db\ActiveRecord
         }
     }
 
-    public function checkParticipantsAvailability() {
+    public function isSomeoneAvailable() {
       // if all participants declined, removed - then no meeting or finalization possible
       // alternately count participants with STATUS_DEFAULT
       $okay=false;
@@ -1602,6 +1602,11 @@ class Meeting extends \yii\db\ActiveRecord
         }
       }
       return $okay;
+    }
+
+    public static function isEveryoneAvailable($meeting_id) {
+      // check that one place works for everyone attending
+      // and one time works for everyone attending
     }
 
 }

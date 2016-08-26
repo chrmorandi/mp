@@ -146,7 +146,7 @@ class MeetingController extends Controller
       // fetch user timezone
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
-        if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && $model->checkParticipantsAvailability()) {
+        if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
         }
         $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
@@ -181,7 +181,7 @@ class MeetingController extends Controller
               'timezone' => $timezone,
           ]);
       } else {
-        if ($model->isOrganizer() && !$model->checkParticipantsAvailability()) {
+        if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for this meeting.'));
         }
         // meeting is finalized or past
