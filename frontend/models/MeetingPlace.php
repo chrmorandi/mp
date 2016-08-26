@@ -3,7 +3,7 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\components\MiscHelpers;
-
+use frontend\models\Participant;
 /**
  * This is the model class for table "meeting_place".
  *
@@ -188,16 +188,21 @@ class MeetingPlace extends \yii\db\ActiveRecord
         }
         // to do - integrate current setting for this user in style setting
         $temp ='';
+        // count those still in attendance
+        $cntP = Participant::find()
+  				->where(['meeting_id'=>$meeting->id])
+          ->andWhere(['status'=>Participant::STATUS_DEFAULT])
+  				->count()+1;
         if (count($acceptableChoice)>0) {
-          $temp.='Acceptable to '.MiscHelpers::listNames($acceptableChoice,true,count($meeting->participants)).'. ';
+          $temp.='Acceptable to '.MiscHelpers::listNames($acceptableChoice,true,$cntP).'. ';
           $whereStatus['style'][$mp->place_id]='success';
         }
         if (count($rejectedChoice)>0) {
-          $temp.='Rejected by '.MiscHelpers::listNames($rejectedChoice).'. ';
+          $temp.='Rejected by '.MiscHelpers::listNames($rejectedChoice,true,$cntP).'. ';
           $whereStatus['style'][$mp->place_id]='danger';
         }
         if (count($unknownChoice)>0) {
-          $temp.='No response from '.MiscHelpers::listNames($unknownChoice).'.';
+          $temp.='No response from '.MiscHelpers::listNames($unknownChoice,true,$cntP,true).'.';
           $whereStatus['style'][$mp->place_id]='warning';
         }
         $whereStatus['text'][$mp->place_id]=$temp;

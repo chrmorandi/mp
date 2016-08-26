@@ -144,12 +144,16 @@ class MiscHelpers  {
     }
   }
 
-  public static function listNames($items,$everyone=false,$total_count=0) {
+  public static function listNames($items,$everyone=false,$total_count=0,$anyoneElse=false) {
     $temp ='';
     $x=1;
     $cnt = count($items);
-    if ($everyone && $total_count == $cnt) {
-      $temp = Yii::t('frontend','everyone else');
+    if ($everyone && $cnt >= $total_count) {
+      if (!$anyoneElse) {
+          $temp = Yii::t('frontend','everyone else');
+      } else {
+        $temp = Yii::t('frontend','anyone else');
+      }
     } else {
       foreach ($items as $i) {
           $temp.= MiscHelpers::getDisplayName($i);

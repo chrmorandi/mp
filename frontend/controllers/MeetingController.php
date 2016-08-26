@@ -122,6 +122,16 @@ class MeetingController extends Controller
         $this->redirect(['site/authfailure']);
       }
       $model->prepareView();
+      $pStatus = $model->getParticipantStatus(Yii::$app->user->getId());
+      if (!$model->isOrganizer() && $pStatus!=Participant::STATUS_DEFAULT) {
+        if ($pStatus == Participant::STATUS_DECLINED || $pStatus ==Participant::STATUS_DECLINED_REMOVED) {
+            Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','You declined participation in this meeting.'));
+        } else {
+          Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','You were removed from this meeting.'));
+        }
+
+      }
+
       // notes always used on view panel
       $noteProvider = new ActiveDataProvider([
           'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
@@ -129,12 +139,16 @@ class MeetingController extends Controller
       ]);
       $participantProvider = new ActiveDataProvider([
           'query' => Participant::find()->where(['meeting_id'=>$id]),
+          'sort'=> ['defaultOrder' => ['participant_type'=>SORT_DESC,'status'=>SORT_ASC]],
       ]);
       //$x = Participant::find()->where(['meeting_id'=>$id])->one();
       //var_dump($x->participant->email);exit;
       // fetch user timezone
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
+        if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && $model->checkParticipantsAvailability()) {
+          Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
+        }
         $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
         $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
         $timeProvider = new ActiveDataProvider([
@@ -167,6 +181,9 @@ class MeetingController extends Controller
               'timezone' => $timezone,
           ]);
       } else {
+        if ($model->isOrganizer() && !$model->checkParticipantsAvailability()) {
+          Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for this meeting.'));
+        }
         // meeting is finalized or past
         if (Request::countOpen($id)) {
             Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Changes have been requested for this meeting. <a href="{url}">View them</a>.',['url'=>Url::to(['/request/index/','meeting_id'=>$id])]));
@@ -175,6 +192,7 @@ class MeetingController extends Controller
         if (($model->meeting_type == Meeting::TYPE_PHONE || $model->meeting_type == Meeting::TYPE_VIDEO || $model->meeting_type == Meeting::TYPE_VIRTUAL)) {
           $noPlace = true;
           if ($isOwner) {
+            // to do - fix for multiple participants
             // display participants contact info
             $participant = Participant::find()->where(['meeting_id'=>$id])->one();
             $contacts = UserContact::get($participant->participant_id);

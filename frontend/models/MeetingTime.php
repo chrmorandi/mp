@@ -1,10 +1,10 @@
 <?php
 
 namespace frontend\models;
-
 use Yii;
 use yii\db\ActiveRecord;
 use common\components\MiscHelpers;
+use frontend\models\Participant;
 /**
  * This is the model class for table "meeting_time".
  *
@@ -181,19 +181,24 @@ class MeetingTime extends \yii\db\ActiveRecord
         }
         // to do - integrate current setting for this user in style setting
         $temp ='';
+        $cntP = Participant::find()
+  				->where(['meeting_id'=>$meeting->id])
+          ->andWhere(['status'=>Participant::STATUS_DEFAULT])
+  				->count()+1;
+
         if (count($acceptableChoice)>0) {
           $temp=Yii::t('frontend','Acceptable to ');
-          $temp.=MiscHelpers::listNames($acceptableChoice,true,count($meeting->participants)).'. ';
+          $temp.=MiscHelpers::listNames($acceptableChoice,true,$cntP).'. ';
           $whenStatus['style'][$mt->id]='success';
         }
          if (count($rejectedChoice)>0) {
           $temp.='Rejected by ';
-          $temp.=MiscHelpers::listNames($rejectedChoice).'. ';
+          $temp.=MiscHelpers::listNames($rejectedChoice,true,$cntP).'. ';
           $whenStatus['style'][$mt->id]='danger';
         }
         if (count($unknownChoice)>0) {
           $temp.='No response from ';
-          $temp.=MiscHelpers::listNames($unknownChoice).'. ';
+          $temp.=MiscHelpers::listNames($unknownChoice,true,$cntP,true).'. ';
           $whenStatus['style'][$mt->id]='warning';
         }
         $whenStatus['text'][$mt->id]=$temp;

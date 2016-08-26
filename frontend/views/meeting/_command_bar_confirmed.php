@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use frontend\models\Meeting;
 use frontend\models\MeetingSetting;
+use frontend\models\Participant;
 global $cnt_items;
 $cnt_items=0;
 ?>
@@ -107,14 +108,27 @@ $cnt_items=0;
           </span>
           <span class="button-pad">
             <?php
-            if (!$isPast && $model->isOrganizer()) {
-              echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
-             ['class' => 'btn btn-primary btn-danger',
-             'title'=>Yii::t('frontend','Cancel'),
-             'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
-             ]) ;
+            if (!$isPast) {
+              if ($model->isOrganizer()) {
+                echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
+               ['class' => 'btn btn-primary btn-danger',
+               'title'=>Yii::t('frontend','Cancel'),
+               'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
+               ]) ;
               }
-         ?>
+              else {                
+                if ($model->getParticipantStatus(Yii::$app->user->getId())==Participant::STATUS_DEFAULT) {
+                  echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Withdraw'), ['decline', 'id' => $model->id],
+                 ['class' => 'btn btn-primary btn-danger',
+                 'title'=>Yii::t('frontend','Withdraw from the meeting'),
+                 'data-confirm' => Yii::t('frontend', 'Are you sure you want to decline attendance to this meeting?')
+                 ]) ;
+               } else {
+                 // to do - offer rejoin meeting option
+               }
+              }
+             }
+            ?>
           </span>
         </div>
       </div>

@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use frontend\models\Meeting;
+use frontend\models\Participant;
 use common\models\User;
 use common\components\MiscHelpers;
 
@@ -85,10 +86,14 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_DELETE_MEETING
 		];
 
-	// not yet implemented
-	//	const ACTION_ = ;
-	//	const ACTION_ = ;
-
+	public static $groupSkip=[
+		MeetingLog::ACTION_ACCEPT_ALL_PLACES,
+		MeetingLog::ACTION_ACCEPT_PLACE,
+		MeetingLog::ACTION_REJECT_PLACE,
+		MeetingLog::ACTION_ACCEPT_ALL_TIMES,
+		MeetingLog::ACTION_ACCEPT_TIME,
+		MeetingLog::ACTION_REJECT_TIME
+	];
     /**
      * @inheritdoc
      */
@@ -419,12 +424,37 @@ class MeetingLog extends \yii\db\ActiveRecord
 		public static function getHistory($meeting_id,$user_id,$cleared_at) {
 			// build a textual history of events for this meeting
 			// not performed by this user_id and since cleared_at
+			// first, identify role of user
+			$isOrganizer=false;
+			if ($e->meeting->owner_id == $user_id) {
+				$isOrganizer=true;
+			} else {
+				$p = Participant::find()
+					->where(['meeting_id'=>$meeting_id])
+					->andWhere(['participant_id'=>$user_id])
+					->one();
+				if ($p->participant_type == Participant::TYPE_ORGANIZER) {
+					$isOrganizer=true;
+				}
+			}
+			// is it a group Meeting
+			$isGroup = false;
+			$cntP = Participant::find()
+				->where(['meeting_id'=>$meeting_id])
+				->count();
+			if ($cntP>1) {
+				$isGroup=true;
+			}
 			$str ='';
-			$events = MeetingLog::find()->where(['meeting_id'=>$meeting_id])
+			$events = MeetingLog::find()
+				->where(['meeting_id'=>$meeting_id])
 				->andWhere('actor_id<>'.$user_id)
 				->andWhere('created_at>'.$cleared_at)
 				->orderBy(['created_at' => SORT_DESC,'actor_id'=>SORT_ASC])->all();
 			$num_events = count($events);
+			if ($num_events==0) {
+				return false;
+			}
 			$cnt =1;
 			$current_actor = 0;
 			$current_str='';
@@ -449,7 +479,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 					// check if this participant was invited
 					($e->action == MeetingLog::ACTION_INVITE_PARTICIPANT && $e->item_id == $user_id) ||
 					// check if it was finalized, meaning a confirmation will appear next
-					(in_array($e->action,MeetingLog::$ignorable))
+					(in_array($e->action,MeetingLog::$ignorable)) ||
+					// skip over availability response events in multi participant meetings
+					($isGroup && !$isOrganizer && in_array($e->action,MeetingLog::$groupSkip))
 					) {
 						$num_events-=1; // skip event, reduce number of events
 						continue;

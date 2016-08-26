@@ -363,6 +363,10 @@ class Meeting extends \yii\db\ActiveRecord
        }
        if (count($this->participants)>0) {
          foreach ($this->participants as $p) {
+           if ($p->status != Participant::STATUS_DEFAULT) {
+             // skip those that have canceled or been removed
+             continue;
+           }
            if ($p->participant->id<>Yii::$app->user->getId()) {
              $listPeople[]=$p->participant->id;
            }
@@ -421,7 +425,7 @@ class Meeting extends \yii\db\ActiveRecord
           }
           if ($this->owner_id == $user_id ||
           $this->meetingSettings->participant_finalize) {
-            if ($chosenPlace && $chosenTime) {
+            if ($chosenPlace && $chosenTime && $this->checkParticipantsAvailability()) {
               $this->isReadyToFinalize = true;
             }
           }
@@ -438,6 +442,9 @@ class Meeting extends \yii\db\ActiveRecord
     // Get message header
     $header = $this->getMeetingHeader();
   foreach ($this->participants as $p) {
+    if ($p->status !=Participant::STATUS_DEFAULT) {
+      continue;
+    }
     // Build the absolute links to the meeting and commands
     $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
     $links=[
@@ -542,16 +549,17 @@ class Meeting extends \yii\db\ActiveRecord
       $cnt =0;
       $attendees = array();
       foreach ($this->participants as $p) {
-        if ($p->status ==Participant::STATUS_DEFAULT) {
-          $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-          $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
-          'email'=>$p->participant->email,
-          'username'=>$p->participant->username];
-          $cnt+=1;
-          // reciprocate friendship to organizer
-          \frontend\models\Friend::add($p->participant_id,$p->invited_by);
-          // to do - reciprocate friendship in multi participant meetings
+        if ($p->status !=Participant::STATUS_DEFAULT) {
+          continue;
         }
+        $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+        $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+        'email'=>$p->participant->email,
+        'username'=>$p->participant->username];
+        $cnt+=1;
+        // reciprocate friendship to organizer
+        \frontend\models\Friend::add($p->participant_id,$p->invited_by);
+        // to do - reciprocate friendship in multi participant meetings
       }
       $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
       $attendees[$cnt]=['user_id'=>$this->owner_id,
@@ -679,7 +687,8 @@ class Meeting extends \yii\db\ActiveRecord
           }
         }
         MeetingLog::add($this->id,MeetingLog::ACTION_DECLINE_MEETING,$user_id);
-        if (count($this->participants)==1) {
+        // if meeting is confirmed and only person withdraws, then cancel it
+        if (count($this->participants)==1 && $this->status == Meeting::STATUS_CONFIRMED) {
           // if there's only one participant, cancel the meeting
             $this->cancel($user_id);
         }
@@ -917,41 +926,25 @@ class Meeting extends \yii\db\ActiveRecord
              // to do - consider clearing out these old ones
              continue;
            }
-           echo 'M-id: '.$m->id.'<br />';
+           //echo 'M-id: '.$m->id.'<br />';
            // uncleared log entry older than TIMELAPSE, and past planning stage
            if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE && $m->status>=Meeting::STATUS_SENT) { //
              // get logged items which occured after last cleared_at
-             $logs = MeetingLog::find()->where(['meeting_id'=>$m->id])->andWhere('created_at>'.$m->cleared_at)->groupBy('actor_id')->all();
-             $current_actor=0;
-             foreach ($logs as $log) {
-               echo 'ML-id: '.$log->id.'<br />';
-               if ($log->actor_id<>$current_actor) {
-                  $current_actor = $log->actor_id;
-                 // new actor, let's notify others
-                 if ($log->actor_id==$m->owner_id) {
-                   // this is the organizer
-                   // notify the participants
-                   //echo 'notify participants';
-                   foreach ($m->participants as $p) {
-                     echo 'Notify P-id: '.$p->participant_id.'<br />';
-                      $m->notify($m->id,$p->participant_id);
-                   }
-                 } else {
-                   // this is a participant
-                   // notify the organizer and
-                   // to do - when there are multiple participants
-                   $m->notify($m->id,$m->owner_id);
-                 }
-               } else {
-                 // this log entry by same actor as last
-                 continue;
+              $m->notify($m->id,$m->owner_id);
+               // notify the participants
+               foreach ($m->participants as $p) {
+                 // don't update removed and declined participants
+                 if ($p->status!=Participant::STATUS_DEFAULT) {
+                    continue;
+                  }
+                  //echo 'Notify P-id: '.$p->participant_id.'<br />';
+                  $m->notify($m->id,$p->participant_id);
                }
              }
              // clear the log for this meeting
              Meeting::clearLog($m->id);
            }
-         }
-       }
+        }
 
        public static function checkAbandoned() {
          // converts sent and planned meetings beyond ABANDONED_AGE to Expired
@@ -1173,7 +1166,7 @@ class Meeting extends \yii\db\ActiveRecord
            ];
            // build the english language notification
            $history = MeetingLog::getHistory($meeting_id,$user_id,$mtg->cleared_at);
-           if ($history=='') {
+           if ($history===false or $history=='') {
              // no recorded events were reportable, skip the email
              return;
            }
@@ -1589,4 +1582,26 @@ class Meeting extends \yii\db\ActiveRecord
         return true;
       }
     }
+
+    public function getParticipantStatus($participant_id) {
+        foreach ($this->participants as $p) {
+          if ($p->participant_id == $participant_id) {
+            return $p->status;
+          }
+        }
+    }
+
+    public function checkParticipantsAvailability() {
+      // if all participants declined, removed - then no meeting or finalization possible
+      // alternately count participants with STATUS_DEFAULT
+      $okay=false;
+      foreach ($this->participants as $p) {
+        if ($p->status ==Participant::STATUS_DEFAULT) {
+          // one person is available, all is okay
+          $okay = true;
+        }
+      }
+      return $okay;
+    }
+
 }

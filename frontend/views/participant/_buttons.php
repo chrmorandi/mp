@@ -3,6 +3,23 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use common\components\MiscHelpers;
 use frontend\models\Participant;
+// show organizer
+if (!$model->isOwner(Yii::$app->user->getId())) {
+?>
+<div class="btn-group btn-participant">
+  <button type="button" class="btn btn-default btn-sm dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-star red-star aria-hidden="true"></span>
+    <?= MiscHelpers::getDisplayName($model->owner_id) ?>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+      <li><?= Html::a(Yii::t('frontend','Send a message'),Url::to('mailto:'.$model->owner->email))?></li>
+  </ul>
+</div>
+<?php
+}
+?>
+<?php
 if (count($model->participants)>0) {
   foreach ($model->participants as $p) {
     if ($p->participant->id==Yii::$app->user->getId()) {
@@ -26,10 +43,10 @@ if (count($model->participants)>0) {
         <?php if ($model->isOrganizer()) {
           ?>
           <li role="separator" class="divider"></li>
-            <li id="mo_<?= $p->id ?>" class="<?= ($p->isOrganizer())?'hidden':''?>"><?= Html::a(Yii::t('frontend','Make Organizer'),'javascript:void(0);',['onclick' => "toggleOrganizer($p->id,true);return false;"]); ?></li>
-            <li id="ro_<?= $p->id ?>" class="<?= (!$p->isOrganizer())?'hidden':''?>"><?= Html::a(Yii::t('frontend','Revoke Organizer Role'),'javascript:void(0);',['onclick' => "toggleOrganizer($p->id,false);return false;"]); ?></li>
-          <li id="rp_<?= $p->id ?>" class="<?= ($p->status == Participant::STATUS_REMOVED || $p->status == Participant::STATUS_DECLINED_REMOVED)?'hidden':''?>"><?= Html::a(Yii::t('frontend','Remove Participant'),'javascript:void(0);',['onclick' => "toggleParticipant($p->id,false,$p->status);return false;"]); ?></li>
-          <li id="rstp_<?= $p->id ?>" class="<?= ($p->status != Participant::STATUS_REMOVED && $p->status != Participant::STATUS_DECLINED_REMOVED)?'hidden':''?>"><?= Html::a(Yii::t('frontend','Restore Participant'),'javascript:void(0);',['onclick' => "toggleParticipant($p->id,true,$p->status);return false;"]); ?></li>
+            <li id="mo_<?= $p->id ?>" class="<?= ($p->isOrganizer())?'hidden':''?>"><?= Html::a(Yii::t('frontend','Make organizer'),'javascript:void(0);',['onclick' => "toggleOrganizer($p->id,true);return false;"]); ?></li>
+            <li id="ro_<?= $p->id ?>" class="<?= (!$p->isOrganizer())?'hidden':''?>"><?= Html::a(Yii::t('frontend','Revoke organizer role'),'javascript:void(0);',['onclick' => "toggleOrganizer($p->id,false);return false;"]); ?></li>
+          <li id="rp_<?= $p->id ?>" class="<?= ($p->status == Participant::STATUS_REMOVED || $p->status == Participant::STATUS_DECLINED_REMOVED)?'hidden':''?>"><?= Html::a(Yii::t('frontend','Remove participant'),'javascript:void(0);',['onclick' => "toggleParticipant($p->id,false,$p->status);return false;"]); ?></li>
+          <li id="rstp_<?= $p->id ?>" class="<?= ($p->status != Participant::STATUS_REMOVED && $p->status != Participant::STATUS_DECLINED_REMOVED)?'hidden':''?>"><?= Html::a(Yii::t('frontend','Restore participant'),'javascript:void(0);',['onclick' => "toggleParticipant($p->id,true,$p->status);return false;"]); ?></li>
           <?php
           }
           ?>

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use frontend\models\Participant;
 ?>
 <div class="command-bar">
   <!-- Default panel contents -->
@@ -76,7 +77,7 @@ use yii\helpers\Html;
          </span>
          <span class="button-pad">
         <?php
-          if (!$model->isOrganizer()) {
+          if (!$model->isOrganizer() && $model->getParticipantStatus(Yii::$app->user->getId())==Participant::STATUS_DEFAULT) {
             echo Html::a(Yii::t('frontend', 'Decline'), ['decline', 'id' => $model->id],
              ['class' => 'btn btn-primary  btn-danger',
              'title'=>Yii::t('frontend','Decline invitation'),

@@ -13,9 +13,7 @@ use yii\bootstrap\Collapse;
       </div>
     <div class="col-lg-2 col-md-2 col-xs-2">
       <div style="float:right;">
-        <?= Html::a(Yii::t('frontend', ''), ['/participant/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus'])
-        // .((!empty($participantProvider) && ($participantProvider->getCount()>0) )?' disabled':'')
-        ?>
+        <?= Html::a(Yii::t('frontend', ''), ['/participant/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary '.($model->status>=$model::STATUS_CONFIRMED?'disabled':'').' glyphicon glyphicon-plus']) ?>
       </div>
     </div></div></div>
     <div id="collapseWho" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWho">
