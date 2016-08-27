@@ -51,7 +51,7 @@ use \kartik\switchinput\SwitchInput;
            'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
            'itemView' => '_list',
-           'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$model->isOrganizer(),'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],'whenStatus'=>$whenStatus],
+           'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],'whenStatus'=>$whenStatus],
        ]) ?>
   </table>
   <?php else: ?>
