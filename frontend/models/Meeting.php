@@ -194,8 +194,8 @@ class Meeting extends \yii\db\ActiveRecord
   }
 
 
-    public function isOwner($viewer_id) {
-      if ($viewer_id==$this->owner_id) {
+    public function isOwner($user_id) {
+      if ($user_id==$this->owner_id) {
         return true;
       } else {
         return false;
