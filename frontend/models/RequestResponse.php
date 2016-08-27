@@ -20,6 +20,9 @@ class RequestResponse extends \yii\db\ActiveRecord
   const RESPONSE_NONE = 0;
   const RESPONSE_ACCEPT = 10;
   const RESPONSE_REJECT = 20;
+  const RESPONSE_LIKE = 30;
+  const RESPONSE_DISLIKE = 40;
+  const RESPONSE_NEUTRAL = 50;
 
     /**
      * @inheritdoc
@@ -69,4 +72,18 @@ class RequestResponse extends \yii\db\ActiveRecord
         ];
     }
 
+    public function lookupOpinion() {
+      switch ($this->response) {
+        case RequestResponse::RESPONSE_LIKE:
+          $str = 'likes';
+        break;
+        case RequestResponse::RESPONSE_DISLIKE:
+          $str = 'dislikes';
+        break;
+        case RequestResponse::RESPONSE_NEUTRAL:
+          $str = 'is neutral';
+        break;
+      }
+      return $str;
+    }
 }

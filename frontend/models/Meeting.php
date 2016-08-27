@@ -178,12 +178,20 @@ class Meeting extends \yii\db\ActiveRecord
     public function isOrganizer() {
       $user_id = Yii::$app->user->getId();
       if ($user_id == $this->owner_id) {
-        // to do - or if they are a participant set as an organizer
         return true;
       } else {
-        return false;
+        foreach ($this->participants as $p) {
+          if ($user_id == $p->participant_id) {
+            if ($p->participant_type == Participant::TYPE_ORGANIZER) {
+              return true;
+            } else {
+              return false;
+            }
+          }
       }
     }
+    return false;
+  }
 
 
     public function isOwner($viewer_id) {
@@ -493,7 +501,7 @@ class Meeting extends \yii\db\ActiveRecord
         'meetingSettings' => $this->meetingSettings,
       ]);
       // to do - add full name
-      $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+      $message->setFrom(array('support@meetingplanner.io'=>$this->owner->email));
       $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
       $message->setTo($p->participant->email)
           ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
@@ -612,7 +620,7 @@ class Meeting extends \yii\db\ActiveRecord
       ]);
         // to do - add full name
       $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$a,$attendees);
-      $message->setFrom(array('support@meetingplanner.com'=>$this->owner->email));
+      $message->setFrom(array('support@meetingplanner.io'=>$this->owner->email));
       $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
       $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
       $message->setTo($a['email'])
@@ -921,7 +929,6 @@ class Meeting extends \yii\db\ActiveRecord
          // identify all meetings with log entries not yet cleared
          $meetings = Meeting::find()->where('logged_at-cleared_at>0')->all();
          foreach ($meetings as $m) {
-           echo $m->id.' - '.(time()-$m->logged_at).'<br />';
            // to do - choose a different safe gap, for now an hour
            if ((time()-$m->logged_at)>3600) {
              // to do - consider clearing out these old ones
@@ -1093,7 +1100,7 @@ class Meeting extends \yii\db\ActiveRecord
                'contacts_html' => $contacts_html,
            ]);
              if (!empty($a['email'])) {
-               $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
+               $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner']);
                $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
                $message->setTo($a['email'])
                    ->setSubject(Yii::t('frontend','Meeting Update: '.$sender_name.' is Running Late'))
@@ -1162,7 +1169,7 @@ class Meeting extends \yii\db\ActiveRecord
              'meetingSettings' => $mtg->meetingSettings,
          ]);
            // to do - add full name
-         $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+         $message->setFrom(array('support@meetingplanner.io'=>$mtg->owner->email));
          $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
          $message->setTo($a['email'])
              ->setSubject(Yii::t('frontend','Meeting Request: Please provide your contact information.'))
@@ -1218,7 +1225,7 @@ class Meeting extends \yii\db\ActiveRecord
              'history'=>$history,
          ]);
            if (!empty($a['email'])) {
-             $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner']);
+             $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner']);
              $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
              $message->setTo($a['email'])
                  ->setSubject(Yii::t('frontend','Meeting Update: ').$mtg->subject)
@@ -1300,7 +1307,7 @@ class Meeting extends \yii\db\ActiveRecord
             $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
             }
              // to do - add full name
-           $message->setFrom(array('support@meetingplanner.com'=>'Meeting Planner'));
+           $message->setFrom(array('support@meetingplanner.io'=>'Meeting Planner'));
            $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
            $message->setTo($a['email'])
                ->setSubject($content['subject'])
@@ -1623,6 +1630,8 @@ class Meeting extends \yii\db\ActiveRecord
     }
 
     public function getParticipantStatus($participant_id) {
+      // note: shows if participant has declined or been removed
+      // does not indicate if they are an organizer
         foreach ($this->participants as $p) {
           if ($p->participant_id == $participant_id) {
             return $p->status;

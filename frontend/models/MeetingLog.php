@@ -64,6 +64,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_REQUEST_ACCEPT = 265;
 	const ACTION_REQUEST_ORGANIZER_REJECT = 270;
 	const ACTION_REQUEST_REJECT = 275;
+	const ACTION_REQUEST_LIKE = 280;
+	const ACTION_REQUEST_DISLIKE = 281;
+	const ACTION_REQUEST_NEUTRAL = 282;
 	const ACTION_RESEND = 300;
 	const ACTION_REPEAT = 310;
 
@@ -304,6 +307,15 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REQUEST_REJECT:
 				$label = Yii::t('frontend','Declined the requested change');
 				break;
+				case MeetingLog::ACTION_REQUEST_LIKE:
+					$label = Yii::t('frontend','likes the suggested change');
+				break;
+				case MeetingLog::ACTION_REQUEST_DISLIKE:
+					$label = Yii::t('frontend','dislikes the suggested change');
+				break;
+				case MeetingLog::ACTION_REQUEST_NEUTRAL:
+					$label = Yii::t('frontend','is neutral about the suggested change');
+				break;
 				case MeetingLog::ACTION_RESEND:
 				$label = Yii::t('frontend','Resent meeting invitation');
 				break;
@@ -421,6 +433,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_ACCEPT:
 				case MeetingLog::ACTION_REQUEST_REJECT:
 				case MeetingLog::ACTION_REQUEST_ORGANIZER_REJECT:
+				case MeetingLog::ACTION_REQUEST_LIKE:
+				case MeetingLog::ACTION_REQUEST_DISLIKE:
+				case MeetingLog::ACTION_REQUEST_NEUTRAL:
 					$label = \frontend\models\Request::buildSubject($this->item_id);
 				break;
 				default:

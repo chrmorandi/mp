@@ -174,7 +174,7 @@ class Message extends \yii\db\ActiveRecord
 
     }
 
-    public function sendOne($msg,$u) {      
+    public function sendOne($msg,$u) {
       // ensure there is an auth key for the recipient user
       $user_id = $u->id;
       if (empty($u->auth_key) || empty($u->email)) {
@@ -211,7 +211,7 @@ class Message extends \yii\db\ActiveRecord
             'msg'=>$msg,
         ]);
           if (!empty($a['email'])) {
-            $message->setFrom(['support@meetingplanner.com'=>'Meeting Planner'])
+            $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner'])
               ->setTo($a['email'])
               ->setSubject(Yii::t('backend','').$msg->subject)
               ->send();

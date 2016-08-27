@@ -5,10 +5,12 @@ namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\components\MiscHelpers;
+use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\MeetingTime;
 use frontend\models\MeetingPlace;
-use common\models\User;
+use frontend\models\RequestResponse;
+
 /**
  * This is the model class for table "request".
  *
@@ -242,7 +244,24 @@ class Request extends \yii\db\ActiveRecord
         'command' => Meeting::COMMAND_VIEW,
         'obj_id' => 0,
       ];
+      // to do - consider if organizersOnly - and would need to build that in local notify()
+      // note - or could migrate notify() here to Meeting::generic_notify
       $this->notify($user_id,$meeting_id, $content,$button);
+    }
+
+    public function opinion($opinion) {
+      switch ($opinion) {
+        case RequestResponse::RESPONSE_LIKE:
+          $log_action = MeetingLog::ACTION_REQUEST_LIKE;
+        break;
+        case RequestResponse::RESPONSE_DISLIKE:
+          $log_action = MeetingLog::ACTION_REQUEST_DISLIKE;
+        break;
+        case RequestResponse::RESPONSE_NEUTRAL:
+          $log_action = MeetingLog::ACTION_REQUEST_NEUTRAL;
+        break;
+      }
+      MeetingLog::add($this->meeting_id,$log_action,Yii::$app->user->getId(),$this->id);
     }
 
     public function withdraw($id) {
@@ -340,7 +359,7 @@ class Request extends \yii\db\ActiveRecord
             'meetingSettings' => $mtg->meetingSettings,
         ]);
           // to do - add full name
-        $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+        $message->setFrom(array('support@meetingplanner.io'=>$mtg->owner->email));
         $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
         $message->setTo($a['email'])
             ->setSubject($content['subject'])

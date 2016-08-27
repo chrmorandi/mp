@@ -15,7 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
+        'responseProvider' => $responseProvider,
         'model' => $model,
+        'isOrganizer'=>$isOrganizer,
+        'isOwner'=>$isOwner,
         'subject'=>$subject,
     ]) ?>
 

@@ -69,6 +69,13 @@ class RequestResponseController extends Controller
           Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, can not respond to your own request.'));
           return $this->redirect(['meeting/view', 'id' => $request->meeting_id]);
         }
+        $m = Meeting::findOne($request->meeting_id);
+        $isOrganizer = $m->isOrganizer();
+        if ($m->owner_id == Yii::$app->user->getId()) {
+          $isOwner = true;
+        } else {
+          $isOwner = false;
+        }
         $subject = Request::buildSubject($id);
         $model = new RequestResponse();
         $model->request_id = $id;
@@ -81,17 +88,45 @@ class RequestResponseController extends Controller
             $model->save();
             $request->accept($model);
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Request accepted. We will update the meeting details and inform other participants.'));
-          } else {
+          } else if (isset($posted['reject'])) {
             // reject
             $model->response = RequestResponse::RESPONSE_REJECT;
             $model->save();
             $request->reject($model);
             Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your decline has been recorded. We will let other participants know.'));
+          } else if (isset($posted['like'])) {
+            // accept
+            $model->response = RequestResponse::RESPONSE_LIKE;
+            $model->save();
+            $request->opinion(RequestResponse::RESPONSE_LIKE);
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your response has been recorded. We will share with the organizers.'));
+          } else if (isset($posted['neutral'])) {
+            // reject
+            $model->response = RequestResponse::RESPONSE_NEUTRAL;
+            $model->save();
+            $request->opinion(RequestResponse::RESPONSE_NEUTRAL);
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your response has been recorded. We will share with the organizers.'));
+          } else if (isset($posted['neutral'])) {
+            // accept
+            $model->response = RequestResponse::RESPONSE_DISLIKE;
+            $model->save();
+            $request->opinion(RequestResponse::RESPONSE_DISLIKE);
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your response has been recorded. We will share with the organizers.'));
           }
           return $this->redirect(['/meeting/view', 'id' => $request->meeting_id]);
         } else {
+          $responseProvider = new ActiveDataProvider([
+                'query' => RequestResponse::find()->where(['request_id'=>$id])->andWhere('responder_id<>'.Yii::$app->user->getId()),
+                'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+                'pagination' => [
+                    'pageSize' => 7,
+                  ],
+            ]);
             return $this->render('create', [
                 'model' => $model,
+                'responseProvider' => $responseProvider,
+                'isOwner'=>$isOwner,
+                'isOrganizer'=>$isOrganizer,
                 'subject' => $subject,
                 'meeting_id' => $request->meeting_id,
             ]);
