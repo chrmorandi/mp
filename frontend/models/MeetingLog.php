@@ -44,6 +44,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_INVITE_PARTICIPANT = 30;
 	const ACTION_ADD_NOTE = 40;
 	const ACTION_SEND_INVITE = 50;
+	const ACTION_SEND_EVERYONE_AVAILABLE = 55;
 	const ACTION_FINALIZE_INVITE = 60;
 	const ACTION_COMPLETE_MEETING = 100;
 	const ACTION_CHOOSE_PLACE = 110;
@@ -75,6 +76,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 			MeetingLog::ACTION_COMPLETE_MEETING,
 			MeetingLog::ACTION_RESEND,
 			MeetingLog::ACTION_REPEAT,
+			MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE,
 			MeetingLog::ACTION_REQUEST_WITHDRAW,
 			MeetingLog::ACTION_REQUEST_CREATE,
 			MeetingLog::ACTION_REQUEST_SENT,
@@ -161,8 +163,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 
     // add to log
     public static function add($meeting_id,$action,$actor_id=0,$item_id=0,$extra_id=0) {
+				$m=Meeting::findOne($meeting_id);
 				if ($action==MeetingLog::ACTION_MAKE_VIRTUAL) {
-					$m=Meeting::findOne($meeting_id);
 					if ($m->meeting_type == Meeting::TYPE_VIRTUAL || $m->meeting_type == Meeting::TYPE_PHONE || $m->meeting_type == Meeting::TYPE_VIDEO) {
 						// already virtual
 						return;
@@ -173,6 +175,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 						// already in person
 						return;
 					}
+				}
+				if ($actor_id ==0) {
+					$actor_id = $m->owner_id;
 				}
          $log = new MeetingLog;
          $log->meeting_id=$meeting_id;
@@ -244,6 +249,9 @@ class MeetingLog extends \yii\db\ActiveRecord
 				break;
 				case MeetingLog::ACTION_SEND_INVITE:
 				$label = Yii::t('frontend','Sent');
+				break;
+				case MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE:
+					$label = Yii::t('frontend','Notify organizers everyone is available');
 				break;
 				case MeetingLog::ACTION_FINALIZE_INVITE:
 				$label = Yii::t('frontend','Finalized');
@@ -330,6 +338,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REOPEN:
 				case MeetingLog::ACTION_RESCHEDULE:
 				case MeetingLog::ACTION_REPEAT:
+				case MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE:
 					$label = Yii::t('frontend','-');
 				break;
 				case MeetingLog::ACTION_SEND_INVITE:
@@ -421,12 +430,25 @@ class MeetingLog extends \yii\db\ActiveRecord
 			return $label;
 		}
 
+		public static function hasEventOccurred($meeting_id,$action) {
+			$cnt = MeetingLog::find()
+				->where(['meeting_id'=>$meeting_id])
+				->andWhere(['action'=>$action])
+				->count();
+			if ($cnt>0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		public static function getHistory($meeting_id,$user_id,$cleared_at) {
 			// build a textual history of events for this meeting
 			// not performed by this user_id and since cleared_at
 			// first, identify role of user
+			$m=Meeting::findOne($meeting_id);
 			$isOrganizer=false;
-			if ($e->meeting->owner_id == $user_id) {
+			if ($m->owner_id == $user_id) {
 				$isOrganizer=true;
 			} else {
 				$p = Participant::find()
@@ -462,7 +484,10 @@ class MeetingLog extends \yii\db\ActiveRecord
 			foreach ($events as $e) {
 				if ($e->actor_id <> $current_actor) {
 					// new actor, update the overall string
-					$str.=$current_str.'<br />';
+					if ($current_str!='') {
+						// add line break if not first entry
+						$str.=$current_str.'<br />';
+					}
 					// reset the current actor's event string
 					$current_str='';
 					$current_actor = $e->actor_id;

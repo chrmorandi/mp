@@ -144,11 +144,11 @@ class MiscHelpers  {
     }
   }
 
-  public static function listNames($items,$everyone=false,$total_count=0,$anyoneElse=false) {
+  public static function listNames($items,$everyoneElse=false,$total_count=0,$anyoneElse=false) {
     $temp ='';
     $x=1;
     $cnt = count($items);
-    if ($everyone && $cnt >= $total_count) {
+    if ($everyoneElse && $cnt >= ($total_count-1)) {
       if (!$anyoneElse) {
           $temp = Yii::t('frontend','everyone else');
       } else {

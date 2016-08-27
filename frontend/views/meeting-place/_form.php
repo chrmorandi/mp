@@ -30,7 +30,7 @@ ComboAsset::register($this);
     ?>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-12">
         <h3>From your places</h3>
 <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
   <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
@@ -46,7 +46,7 @@ ComboAsset::register($this);
   </div>
 </div> <!-- end row -->
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-xs-12">
     <h4><center>- or -</center></h4>
   </div>
 </div>
@@ -54,7 +54,7 @@ ComboAsset::register($this);
 <?php
   }
     ?>
-    <div class="col-md-6">
+    <div class="col-xs-12 col-lg-6">
     <h3>Use Google Maps</h3>
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in an address, place or business known to Google Maps') ?>
       </div>
@@ -66,6 +66,7 @@ ComboAsset::register($this);
         <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
   </div> <!-- end row -->
     <div class="row vertical-pad">
+      <div class="col-xs-12 col-lg-6">
       <div class="form-group">
           <span class="button-pad">
             <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -74,8 +75,9 @@ ComboAsset::register($this);
           </span>
       </div>
     </div>
+    </div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-xs-12 col-lg-6">
         <div id="map-canvas">
           <article></article>
         </div>

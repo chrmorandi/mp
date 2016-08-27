@@ -921,6 +921,7 @@ class Meeting extends \yii\db\ActiveRecord
          // identify all meetings with log entries not yet cleared
          $meetings = Meeting::find()->where('logged_at-cleared_at>0')->all();
          foreach ($meetings as $m) {
+           echo $m->id.' - '.(time()-$m->logged_at).'<br />';
            // to do - choose a different safe gap, for now an hour
            if ((time()-$m->logged_at)>3600) {
              // to do - consider clearing out these old ones
@@ -940,10 +941,42 @@ class Meeting extends \yii\db\ActiveRecord
                   //echo 'Notify P-id: '.$p->participant_id.'<br />';
                   $m->notify($m->id,$p->participant_id);
                }
+               // check if meeting has place and time for everyone now
+               if (count($m->participants)>1 && !MeetingLog::hasEventOccurred($m->id,MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE) && Meeting::isEveryoneAvailable($m->id)) {
+                 Meeting::notifyOrganizers($m->id,MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE);
+                 MeetingLog::add($m->id,MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE,0);
+               }
+               // clear the log for this meeting
+               Meeting::clearLog($m->id);
              }
-             // clear the log for this meeting
-             Meeting::clearLog($m->id);
            }
+        }
+
+        public static function notifyOrganizers($meeting_id,$event) {
+          $m=Meeting::findOne($meeting_id);
+          switch ($event) {
+            case MeetingLog::ACTION_SEND_EVERYONE_AVAILABLE:
+              $subject = $m->getMeetingHeader();
+              $p1 = Yii::t('frontend','At least one meeting date time and one place are agreeable to all your meeting participants. You can choose them and finalize the meeting now.');
+              $content=[
+                'subject' => Yii::t('frontend','Your Meeting is Ready to Finalize'),
+                'heading' => Yii::t('frontend','Everyone is Available'),
+                'p1' => $p1,
+                'p2' => '',
+                'plain_text' => $p1.'...'.Yii::t('frontend','Visit the meeting here: '),
+              ];
+              $button= [
+                'text' => Yii::t('frontend','View the Meeting'),
+                'command' => Meeting::COMMAND_VIEW,
+                'obj_id' => 0,
+              ];
+            break;
+            default;
+            // do nothing
+              return false;
+            break;
+          }
+          $m->generic_notify(0,$meeting_id,$content,$button,false,true);
         }
 
        public static function checkAbandoned() {
@@ -1194,13 +1227,19 @@ class Meeting extends \yii\db\ActiveRecord
         }
      }
 
-     public static function generic_notify($user_id,$meeting_id,$content,$button = false,$ics = false) {
+     public static function generic_notify($user_id=0,$meeting_id,$content,$button = false,$ics = false,$organizersOnly=true) {
+       // user_id is sender
+       // sends to all participants unless $organizersOnly is true
        // sends a generic message based on arguments
        $mtg = Meeting::findOne($meeting_id);
        // build an attendees array for all participants without contact information
        $cnt =0;
        $attendees = array();
        foreach ($mtg->participants as $p) {
+           if ($organizersOnly && $p->participant_type != Participant::TYPE_ORGANIZER) {
+             // skip non-organizers
+             continue;
+           }
            $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
            $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
            'email'=>$p->participant->email,
@@ -1261,7 +1300,7 @@ class Meeting extends \yii\db\ActiveRecord
             $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
             }
              // to do - add full name
-           $message->setFrom(array('support@meetingplanner.com'=>$mtg->owner->email));
+           $message->setFrom(array('support@meetingplanner.com'=>'Meeting Planner'));
            $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
            $message->setTo($a['email'])
                ->setSubject($content['subject'])
@@ -1589,6 +1628,8 @@ class Meeting extends \yii\db\ActiveRecord
             return $p->status;
           }
         }
+        // participant not found
+        return false;
     }
 
     public function isSomeoneAvailable() {
@@ -1604,9 +1645,65 @@ class Meeting extends \yii\db\ActiveRecord
       return $okay;
     }
 
+    public function countAttendingParticipants($includeOrganizer = false) {
+      $cnt=0;
+      // organizer included
+      if ($includeOrganizer) {
+          $cnt = 1;
+      }
+      foreach ($this->participants as $p) {
+        if ($p->status==Participant::STATUS_DEFAULT) {
+          $cnt+=1;
+        }
+      }
+      return $cnt;
+    }
+
     public static function isEveryoneAvailable($meeting_id) {
       // check that one place works for everyone attending
-      // and one time works for everyone attending
+      $m = Meeting::findOne($meeting_id);
+      $cntAll = $m->countAttendingParticipants(true);
+      // count organizer + attending participants
+      $mpExists=false;
+      $mtExists=true;
+      $mps = \frontend\models\MeetingPlace::find()->where(['meeting_id'=>$meeting_id])->all();
+      foreach ($mps as $mp) {
+        $cnt=0;
+        foreach ($mp->meetingPlaceChoices as $mpc) {
+          if ($m->getParticipantStatus($mpc->user_id)!=Participant::STATUS_DEFAULT) {
+            // skip withdrawn, declined, removed participants
+            continue;
+          }
+          if ($mpc->status == \frontend\models\MeetingPlaceChoice::STATUS_YES) {
+            $cnt+=1;
+          }
+        }
+        if ($cnt >=$cntAll) {
+          $mpExists = true;
+        }
+      }
+      $mts = \frontend\models\MeetingTime::find()->where(['meeting_id'=>$meeting_id])->all();
+      foreach ($mts as $mt) {
+        $cnt=0;
+        foreach ($mt->meetingTimeChoices as $mtc) {
+          if ($m->getParticipantStatus($mtc->user_id)!=Participant::STATUS_DEFAULT) {
+            // skip withdrawn, declined, removed participants
+            continue;
+          }
+          if ($mtc->status == \frontend\models\MeetingTimeChoice::STATUS_YES) {
+            $cnt+=1;
+          }
+        }
+        if ($cnt >=$cntAll) {
+          $mtExists = true;
+        }
+      }
+      // at least one time and one place works for everyone attending
+      if ($mpExists && $mtExists) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
 }
