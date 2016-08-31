@@ -44,12 +44,17 @@ AppAsset::register($this);
                     'url' => ['/meeting'],
                     'options'=>['class'=>'menuHide'],
                   ],
+                  [
+                    'label' => Yii::t('frontend','Help'),
+                    'url'=>Url::to('https://meetingplanner.freshdesk.com/support/home'),
+                  ],
 	            ];
             }
       			if (Yii::$app->user->isGuest) {
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
                   ['label' => Yii::t('frontend','Support'), 'url' => 'https://meetingplanner.freshdesk.com/support/home'], // 'http://support.meetingplanner.io'
+                  ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
                   ['label' => Yii::t('frontend','About'), 'url' => ['/site/about']],
                 ],
               ];
@@ -58,9 +63,8 @@ AppAsset::register($this);
                   'items' => $menuItems,
               ]);
             } else {
-
       				$menuItems[] = [
-      				            'label' => 'Account',
+                          'label' => 'Account',
       				            'items' => [
                             [
                               'label' => Yii::t('frontend','Places'),
@@ -72,26 +76,25 @@ AppAsset::register($this);
     				                    'url' => ['/friend'],
                                 'options'=>['class'=>'menuHide'],
     				                ],
-      				                 [
-                                 'label' => Yii::t('frontend','Profile'),
-                                 'url' => ['/user-profile'],
-                                 'options'=>['class'=>'menuHide'],
-                             ],
-                             [
-                                'label' => Yii::t('frontend','Contact information'),
+                            [
+                               'label' => Yii::t('frontend','Reminders'),
+                               'url' => ['/reminder'],
+                               'options'=>['class'=>'menuHide'],
+                           ],[
+                                'label' => Yii::t('frontend','Contact details'),
                                 'url' => ['/user-contact'],
                                 'options'=>['class'=>'menuHide'],
                             ],
-                            [
+       				                 [
+                                  'label' => Yii::t('frontend','Profile details'),
+                                  'url' => ['/user-profile'],
+                                  'options'=>['class'=>'menuHide'],
+                              ],
+                              [
                                'label' => Yii::t('frontend','Settings'),
                                'url' => ['/user-setting'],
                                //'options'=>['class'=>'menuHide'],
-                           ],
-                           [
-                              'label' => Yii::t('frontend','Reminders'),
-                              'url' => ['/reminder'],
-                              'options'=>['class'=>'menuHide'],
-                          ],
+                             ],
       				                 [
       				                    'label' => Yii::t('frontend','Logout').' (' . \common\components\MiscHelpers::getDisplayName(Yii::$app->user->id) . ')',
       				                    'url' => ['/site/logout'],
@@ -120,18 +123,19 @@ AppAsset::register($this);
     <footer class="footer">
         <div class="container">
           <p class="pull-left">
-          <?php
-          if (!Yii::$app->user->isGuest) {
-            echo Html::a(Yii::t('frontend','Support'),Url::to('https://meetingplanner.freshdesk.com/support/home')).Html::tag('span',' | ',['class'=>'itemHide']); // 'http://support.meetingplanner.io'
-            echo Html::a(Yii::t('frontend','About'),Url::to(['/site/about']),['class'=>'itemHide']);
-          }
-           ?>
+            <?php
+
+              echo Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']).'';
+
+            ?>
         <p class="pull-right">
-        <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?><?php
+        <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
+        <?php
         if (!Yii::$app->user->isGuest) {
-          echo Html::tag('span',' | ',['class'=>'itemHide']).Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']).'';
+          echo Html::tag('span',' . ',['class'=>'itemHide']).Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io',['class'=>'itemHide']));
+          echo Html::tag('span',' . ',['class'=>'itemHide']).Html::a(Yii::t('frontend','about'),Url::to(['/site/about']),['class'=>'itemHide']);
         }
-        ?>
+         ?>
         </p>
         </div>
     </footer>
