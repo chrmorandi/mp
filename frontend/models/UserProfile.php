@@ -72,6 +72,10 @@ class UserProfile extends \yii\db\ActiveRecord
           // to do - caution - this requires the user be logged in
           // wherever we're initializing this model
           $username = $this->$attribute;
+          // workaround for applySocialNames
+          if (is_null(Yii::$app->user->getId())) {
+            return true;
+          }
           $u = User::find()
             ->where(['username'=>$username])
             ->andWhere('id<>'.Yii::$app->user->getId())

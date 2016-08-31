@@ -56,14 +56,14 @@ class ParticipantController extends Controller
      */
     public function actionCreate($meeting_id)
     {
-      /*$yg = new \common\models\Yiigun();
-      $result = $yg->validate('rob@gmai.com');
-      var_dump($result);
-      exit; */
       if (!Participant::withinLimit($meeting_id)) {
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of participants per meeting. Contact support if you need additional help or want to offer feedback.'));
         return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
       }
+      /*$yg = new \common\models\Yiigun();
+      $result = $yg->validate('rob@gmai.com');
+      var_dump($result);
+      exit; */
         $mtg = new Meeting();
         $title = $mtg->getMeetingTitle($meeting_id);
           $model = new Participant();
@@ -146,7 +146,7 @@ class ParticipantController extends Controller
     }
 
     public function actionToggleparticipant($id,$val) {
-      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;      
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       // change setting
       $p=Participant::findOne($id);
       if ($p->meeting->isOrganizer()) {

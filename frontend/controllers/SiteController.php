@@ -209,7 +209,7 @@ class SiteController extends Controller
     {
         return $this->render('error');
     }
-    
+
     public function onAuthSuccess($client)
       {
         // mode via login or signup
@@ -317,7 +317,8 @@ class SiteController extends Controller
                               'source_id' => $serviceId, // (string)$attributes['id'],
                           ]);
                           if ($auth->save()) {
-                              User::completeInitialize($user->id);
+
+                              User::completeInitialize($user->id);                              
                               UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
                               $transaction->commit();
                               Yii::$app->user->login($user);

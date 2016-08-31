@@ -203,7 +203,7 @@ class Meeting extends \yii\db\ActiveRecord
     }
 
     public function isGroup() {
-      if (count($this->participants)>2) {
+      if (count($this->participants)>=2) {
         return true;
       } else {
         return false;

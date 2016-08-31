@@ -22,6 +22,7 @@ if (!$model->isOwner(Yii::$app->user->getId())) {
 <?php
 if (count($model->participants)>0) {
   foreach ($model->participants as $p) {
+    // note participant is the user model, so id okay here
     if ($p->participant->id==Yii::$app->user->getId()) {
       continue;
     }
