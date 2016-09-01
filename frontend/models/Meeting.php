@@ -323,10 +323,8 @@ class Meeting extends \yii\db\ActiveRecord
 
      public function getMeetingTitle($meeting_id) {
         $m = Meeting::find()->where(['id' => $meeting_id])->one();
-        //$title = $this->getMeetingType($meeting->meeting_type);
-        //$title.=' Meeting';
-        if (empty($m->subject) || ($m->subject == Meeting::DEFAULT_SUBJECT)) {
-          $str = Meeting::DEFAULT_NEW_MEETING;
+        if (empty($m->subject)) {
+          $str = Yii::t('frontend',Meeting::DEFAULT_SUBJECT);
         } else {
           $str = $m->subject;
         }
@@ -335,31 +333,14 @@ class Meeting extends \yii\db\ActiveRecord
 
      public function getMeetingHeader($source='index') {
        // returns a subject to display
-       if (empty($this->subject) || ($this->subject ==Meeting::DEFAULT_SUBJECT)) {
-         if ($source!='index') {
-           $str = Meeting::DEFAULT_SUBJECT; // 'Schedule a meeting'
-         } else {
-           $str = Meeting::DEFAULT_NEW_MEETING;
-         }
+       if (empty($this->subject)) {
+         $str = Yii::t('frontend',Meeting::DEFAULT_SUBJECT); // 'Our Upcoming Meeting'
          $this->has_subject = false;
        } else {
          $this->has_subject = true;
          $str = $this->subject;
        }
        return $str;
-       /*
-       $str = $this->getMeetingType($this->meeting_type);
-       if ($this->isOwner(Yii::$app->user->getId())) {
-         if (count($this->participants)>0) {
-           $str.=Yii::t('frontend',' with ');
-           $str.=MiscHelpers::getDisplayName($this->participants[0]->participant->id);
-         }
-       } else {
-         $owner = \common\models\User::findIdentity($this->owner_id);
-         $str.=Yii::t('frontend',' with ');
-         $str.=MiscHelpers::getDisplayName($this->owner_id);
-       }
-       */
      }
 
      public function getMeetingParticipants($prefix = false,$buttons=false) {

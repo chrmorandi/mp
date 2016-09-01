@@ -159,6 +159,12 @@ table.table-list td.table-switches {
     display: inline;
     padding-top: 10px;
   }
+
+#headingNote
+{
+    border: 0px;
+}
+
 .switch-pad {
     padding-left:7px;
   }
@@ -185,6 +191,13 @@ table.table-list td.table-switches {
 
 .red-star {
   color:red;
+}
+.emright {
+  float:right;
+  font-style:italic;
+}
+.nopadding {
+  padding:0px;
 }
 /* ----------- mobile displays ----------- */
 

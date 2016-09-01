@@ -80,7 +80,7 @@ class SiteController extends Controller
           return $this->render('index');
       } else {
         // user is logged in
-        $this->redirect('meeting/index');
+        $this->redirect('meeting');
       }
     }
 
@@ -318,7 +318,7 @@ class SiteController extends Controller
                           ]);
                           if ($auth->save()) {
 
-                              User::completeInitialize($user->id);                              
+                              User::completeInitialize($user->id);
                               UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
                               $transaction->commit();
                               Yii::$app->user->login($user);

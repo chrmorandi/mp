@@ -9,7 +9,7 @@ use yii\bootstrap\Collapse;
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading" role="tab" id="headingNote">
+  <div class="panel-heading" role="tab" id="headingNote" >
     <div class="row">
       <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view">
         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNote" aria-expanded="true" aria-controls="collapseNote"><?= Yii::t('frontend','Notes') ?></a></h4>
@@ -20,15 +20,15 @@ use yii\bootstrap\Collapse;
     </div>
   </div>
   </div>
-  <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote">
-    <div class="panel-body">
+  <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote"  >
+    <div class="panel-body nopadding">
       <?php
       if ($noteProvider->count>0):
       ?>
       <table class="table">
         <?= ListView::widget([
                'dataProvider' => $noteProvider,
-               'itemOptions' => ['class' => 'item'],
+               //'itemOptions' => ['class' => 'item'],
                'layout' => '{items}',
                'itemView' => '_list',
            ]) ?>
