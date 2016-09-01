@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\MeetingTime */
 $this->title = Yii::t('frontend', 'Suggest Time');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['/meeting/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['/meeting']];
 $this->params['breadcrumbs'][] = ['label' => $title, 'url' => ['/meeting/view?id='.$model->meeting_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
