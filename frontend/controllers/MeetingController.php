@@ -587,7 +587,7 @@ class MeetingController extends Controller
             $this->redirect(['meeting-note/create','meeting_id'=>$id]);
           break;
           case Meeting::COMMAND_ADD_CONTACT:
-            $this->redirect(['user-contact/index']);
+            $this->redirect(['user-contact']);
           break;
 
           case Meeting::COMMAND_ACCEPT_PLACE:
@@ -636,7 +636,7 @@ class MeetingController extends Controller
             } else {
               Yii::$app->getSession()->setFlash('error', 'Sorry, there was a problem. Please visit our support page and tell us what you were doing.');
             }
-            $this->redirect(['user-block/index']);
+            $this->redirect(['user-block']);
           break;
           case Meeting::COMMAND_FOOTER_BLOCK_ALL:
             // change setting to block all email
@@ -673,7 +673,7 @@ class MeetingController extends Controller
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_GO_REMINDERS:
-            $this->redirect(['reminder/index']);
+            $this->redirect(['reminder']);
           break;
           case Meeting::COMMAND_RESPOND_MESSAGE:
             $this->redirect(\backend\models\Message::respond($obj_id,$actor_id,\backend\models\Message::RESPONSE_YES));

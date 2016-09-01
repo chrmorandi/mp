@@ -36,7 +36,7 @@ MapAsset::register($this);
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('frontend','Cancel'), ['/place/index'], ['class' => 'btn btn-danger']) ?>
+        <?= Html::a(Yii::t('frontend','Cancel'), ['/place'], ['class' => 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

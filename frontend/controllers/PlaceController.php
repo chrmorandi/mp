@@ -47,7 +47,7 @@ class PlaceController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect('user-place/index');
+        return $this->redirect('user-place');
     }
 
     public function actionYours()
@@ -86,7 +86,7 @@ class PlaceController extends Controller
               'gps'=> $gps,
           ]);
       } else {
-        return $this->redirect('/user-place/index');
+        return $this->redirect('/user-place');
       }
     }
 

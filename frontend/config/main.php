@@ -21,7 +21,7 @@ return [
             'showScriptName' => false,
             //'enableStrictParsing' => false,
             'rules' => [
-              'place' => 'place/index',
+              'place' => 'place',
               'place/yours' => 'place/yours',
               'place/create' => 'place/create',
               'place/create_geo' => 'place/create_geo',
@@ -61,7 +61,7 @@ return [
           ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,            
+            'enableAutoLogin' => true,
         ],
         'Yii2Twilio' => [
           'class' => 'filipajdacic\yiitwilio\YiiTwilio',

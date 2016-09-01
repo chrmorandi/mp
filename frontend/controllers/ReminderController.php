@@ -135,7 +135,7 @@ class ReminderController extends Controller
               // to do set flash
               Yii::$app->getSession()->setFlash('error', Yii::t('frontend','There was a problem creating your reminder.'));
             }
-            return $this->redirect(['/reminder/index']);
+            return $this->redirect(['/reminder']);
           // update all the meeting reminders for this reminder
         } else {
             return $this->render('update', [

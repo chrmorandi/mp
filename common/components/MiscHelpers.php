@@ -16,7 +16,7 @@ class MiscHelpers  {
      // to do - build string of local or remote destination
      // note: if change made, change in Message.php
      $url = Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,]);
-     $url = str_ireplace('/mpa/index.php/','',$url);
+     $url = str_ireplace('/mpa/','',$url);
      return MiscHelpers::buildUrl().$url;
     }
 
