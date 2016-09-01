@@ -365,11 +365,6 @@ class Meeting extends \yii\db\ActiveRecord
        }
      }
 
-     public static function getSubject($id) {
-       $meeting = Meeting::find()->where(['id' => $id])->one();
-       return $meeting->subject;
-     }
-
      public function canSend($sender_id) {
        // check if an invite can be sent
        // req: a participant, at least one place, at least one time
@@ -684,55 +679,6 @@ class Meeting extends \yii\db\ActiveRecord
         return true;
       }
 
-      // these next two functions are for when only a single place and time exist
-      // but none is officially chosen to finalize
-      public static function getChosenPlace($meeting_id) {
-          $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
-          if ($meeting->isVirtual()) {
-            return false;
-          }
-          $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
-          if (is_null($chosenPlace)) {
-            // no chosen place, set it as chosen
-            $place = MeetingPlace::find()->where(['meeting_id' => $meeting_id])->one();
-            if (is_null($place)) {
-              return false;
-            }
-            $place->status = MeetingPlace::STATUS_SELECTED;
-            $place->update();
-            $chosenPlace = $place;
-          }
-          return $chosenPlace;
-      }
-
-      public static function getChosenTime($meeting_id) {
-          $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingTime::STATUS_SELECTED])->one();
-          if (is_null($chosenTime)) {
-            // no chosen Time, set first one as chosen
-            $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id])->one();
-            if (is_null($chosenTime)) {
-              // patches old testing platform in real time (meeting time might not exist)
-              $mtg = Meeting::findOne($meeting_id);
-              if (is_null($mtg)) return;
-              $chosenTime = new MeetingTime;
-              $chosenTime->meeting_id = $meeting_id;
-              $chosenTime->start = time()+48*3600;
-              $chosenTime->duration = 3600;
-              $chosenTime->end = $chosenTime->start + 3600;
-              $chosenTime->status = MeetingTime::STATUS_SELECTED;
-              $chosenTime->suggested_by = $mtg->owner_id;
-              $chosenTime->created_at = time();
-              $chosenTime->updated_at= time();
-              $chosenTime->save();
-              // need to create entry
-            } else {
-              $chosenTime->status = MeetingTime::STATUS_SELECTED;
-              $chosenTime->update();
-            }
-          }
-          return $chosenTime;
-      }
-
       public function prepareView() {
         $this->setViewer();
         // check for meeting_settings
@@ -754,31 +700,6 @@ class Meeting extends \yii\db\ActiveRecord
         // to do - if not finalized, is it within 72 hrs, 48 hrs
       }
 
-      public static function friendlyDateFromTimeString($time_str) {
-        $tstamp = strtotime($time_str);
-        return $this->friendlyDateFromTimeString($tstamp);
-      }
-
-       // formatting helpers
-       public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles',$dateOrder=true) {
-         // adjust for timezone
-         if (empty($timezone)) {
-           $timezone = 'America/Los_Angeles';
-         }
-         Yii::$app->formatter->timeZone=$timezone;
-         // same day as today?
-         if ($dateOrder) {
-           if (date('z')==date('z',$tstamp)) {
-            $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
-          }   else {
-            $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
-          }
-        } else {
-          $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a \' '.Yii::t('frontend','on').'\' E MMM d');
-        }
-         return $date_str;
-       }
-
        public function afterSave($insert,$changedAttributes)
        {
            parent::afterSave($insert,$changedAttributes);
@@ -787,6 +708,267 @@ class Meeting extends \yii\db\ActiveRecord
              MeetingLog::add($this->id,MeetingLog::ACTION_CREATE_MEETING,$this->owner_id);
            }
        }
+
+       public function buildAttendeeList() {
+         // build an attendees array of both the organizer and the participants
+         $cnt =0;
+         $attendees = array();
+         foreach ($this->participants as $p) {
+           if ($p->status ==Participant::STATUS_DEFAULT) {
+             $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
+             $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
+             'email'=>$p->participant->email,
+             'username'=>$p->participant->username];
+             $cnt+=1;
+           }
+         }
+         $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
+         $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
+           'email'=>$this->owner->email,
+           'username'=>$this->owner->username];
+        return $attendees;
+       }
+
+
+           public function reopen() {
+             // when organizer or participant with permission asks to make changes
+             if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
+               $this->status = Meeting::STATUS_SENT;
+               $this->update();
+               $this->increaseSequence();
+               MeetingLog::add($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId());
+               return true;
+             } else {
+               // over limit per meeting
+               return false;
+             }
+           }
+
+           public function reschedule() {
+             $newOwner = $user_id = Yii::$app->user->getId();
+             // user can only cancel their own Meeting
+             if ($this->owner_id == $user_id) {
+               $addParticipant = false;
+               $this->cancel($user_id);
+               MeetingLog::add($this->id,MeetingLog::ACTION_RESCHEDULE,$user_id);
+             } else {
+                 // if user is participant - needs to reverse
+                 if (!isAttendee($this->id,$user_id)) {
+                   // user isn't owner or participant - error
+                   return false;
+                 } else {
+                   // reverse the owner and participant
+                   $addParticipant = $this->owner_id;
+                 }
+             }
+             // create new meeting - as copy of old meeting
+             $m = new Meeting();
+             $m->attributes = $this->attributes;
+             $m->owner_id = $newOwner;
+             $m->status = Meeting::STATUS_PLANNING;
+             $m->created_at = time();
+             $m->updated_at = time();
+             $m->logged_at = 0;
+             $m->cleared_at = 0;
+             $m->sequence_id = 0;
+             $m->save();
+             // clone the selected place (not all of them)
+             $chosenPlace = $this->getChosenPlace($this->id);
+             if ($chosenPlace!==false) {
+               $mp = new MeetingPlace;
+               $mp->suggested_by = $newOwner;
+               $mp->attributes = $chosenPlace->attributes;
+               $mp->meeting_id = $m->id;
+               $mp->created_at = time();
+               $mp->updated_at = time();
+               $mp->save();
+             }
+             // clone the participants
+             foreach ($this->participants as $p) {
+               // skip if reschedule new owner was a participant
+               if ($p->participant_id==$user_id) {
+                 continue;
+               }
+               // note Participant afterSave will create choices for place
+               $clone_p = new Participant();
+               $clone_p->attributes = $p->attributes;
+               $clone_p->email = User::findOne($p->participant_id)->email;
+               $clone_p->meeting_id = $m->id;
+               $clone_p->invited_by = $newOwner;
+               $clone_p->status = Participant::STATUS_DEFAULT;
+               $clone_p->created_at = time();
+               $clone_p->updated_at = time();
+               $clone_p->save();
+             }
+             // if participant asked to reschedule - not yet allowed
+             if ($addParticipant!==false) {
+               $newP = new Participant();
+               $newP->meeting_id = $m->id;
+               $newP->participant_id = $addParticipant;
+               $newP->invited_by = $user_id;
+               $newP->status = Participant::STATUS_DEFAULT;
+               $newP->created_at = time();
+               $newP->updated_at = time();
+               $newP->save();
+             }
+             return $m->id;
+           }
+
+           public function repeat() {
+             // to do - expand repeat meeting to have more options
+             // e.g. pick same dow and time in future week or two
+             // e.g. duplicate chosenplace or all places
+             // e.g. duplicate all participants or just some (complicated if particpant duplicates)
+             $newOwner = $user_id = Yii::$app->user->getId();
+             // if user is participant - needs to reverse
+             if ($this->owner_id == $user_id) {
+               $addParticipant = false;
+             } else {
+               if (!isAttendee($this->id,$user_id)) {
+                 // user isn't owner or participant - error
+                 return false;
+               } else {
+                 // reverse the owner and participant
+                 $addParticipant = $this->owner_id;
+               }
+             }
+             // create new meeting - as copy of old meeting
+             $m = new Meeting();
+             $m->attributes = $this->attributes;
+             $m->owner_id = $newOwner;
+             $m->status = Meeting::STATUS_PLANNING;
+             $m->created_at = time();
+             $m->updated_at = time();
+             $m->logged_at = 0;
+             $m->cleared_at = 0;
+             $m->sequence_id = 0;
+             $m->save();
+             // get prior meetings selected time and create two future times for the next two weeks
+             $chosenTime=$this->getChosenTime($this->id);
+             $mt1 = MeetingTime::createTimePlus($m->id,$m->owner_id,$chosenTime->start,$chosenTime->duration);
+             $mt2 = MeetingTime::createTimePlus($m->id,$m->owner_id,$mt1->start,$chosenTime->duration);
+             // clone the selected place (not all of them)
+             $chosenPlace = $this->getChosenPlace($this->id);
+             if ($chosenPlace!==false) {
+               $mp = new MeetingPlace;
+               $mp->suggested_by = $newOwner;
+               $mp->attributes = $chosenPlace->attributes;
+               $mp->meeting_id = $m->id;
+               $mp->created_at = time();
+               $mp->updated_at = time();
+               $mp->save();
+             }
+             // clone the participants
+             foreach ($this->participants as $p) {
+               // skip if reschedule new owner was a participant
+               if ($p->participant_id==$user_id) {
+                 continue;
+               }
+               // note Participant afterSave will create choices for place
+               $clone_p = new Participant();
+               $clone_p->attributes = $p->attributes;
+               $clone_p->email = User::findOne($p->participant_id)->email;
+               $clone_p->meeting_id = $m->id;
+               $clone_p->status = Participant::STATUS_DEFAULT;
+               $clone_p->created_at = time();
+               $clone_p->updated_at = time();
+               $clone_p->save();
+             }
+             // if participant asked to repeat
+             // add the prior owner as a participant
+             if ($addParticipant!==false) {
+               $newP = new Participant();
+               $newP->meeting_id = $m->id;
+               $newP->participant_id = $addParticipant;
+               $newP->invited_by = $user_id;
+               $newP->status = Participant::STATUS_DEFAULT;
+               $newP->created_at = time();
+               $newP->updated_at = time();
+               $newP->save();
+             }
+             MeetingLog::add($this->id,MeetingLog::ACTION_REPEAT,$user_id,0);
+             return $m->id;
+           }
+
+           public function increaseSequence() {
+             // increase the meeting sequence_id for iCal ics files
+             $this->sequence_id+=1;
+             $this->update();
+           }
+
+           public function getParticipantStatus($participant_id) {
+             // note: shows if participant has declined or been removed
+             // does not indicate if they are an organizer
+               foreach ($this->participants as $p) {
+                 if ($p->participant_id == $participant_id) {
+                   return $p->status;
+                 }
+               }
+               // participant not found
+               return false;
+           }
+
+           public function isSomeoneAvailable() {
+             // if all participants declined, removed - then no meeting or finalization possible
+             // alternately count participants with STATUS_DEFAULT
+             $okay=false;
+             foreach ($this->participants as $p) {
+               if ($p->status ==Participant::STATUS_DEFAULT) {
+                 // one person is available, all is okay
+                 $okay = true;
+               }
+             }
+             return $okay;
+           }
+
+           public function countAttendingParticipants($includeOrganizer = false) {
+             $cnt=0;
+             // organizer included
+             if ($includeOrganizer) {
+                 $cnt = 1;
+             }
+             foreach ($this->participants as $p) {
+               if ($p->status==Participant::STATUS_DEFAULT) {
+                 $cnt+=1;
+               }
+             }
+             return $cnt;
+           }
+
+       public function isVirtual() {
+         if ($this->meeting_type == Meeting::TYPE_PHONE ||
+             $this->meeting_type == Meeting::TYPE_VIDEO ||
+             $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+           return true;
+         } else {
+           return false;
+         }
+       }
+
+       public static function friendlyDateFromTimeString($time_str) {
+         $tstamp = strtotime($time_str);
+         return $this->friendlyDateFromTimeString($tstamp);
+       }
+
+        // formatting helpers
+        public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles',$dateOrder=true) {
+          // adjust for timezone
+          if (empty($timezone)) {
+            $timezone = 'America/Los_Angeles';
+          }
+          Yii::$app->formatter->timeZone=$timezone;
+          // same day as today?
+          if ($dateOrder) {
+            if (date('z')==date('z',$tstamp)) {
+             $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
+           }   else {
+             $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
+           }
+         } else {
+           $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a \' '.Yii::t('frontend','on').'\' E MMM d');
+         }
+          return $date_str;
+        }
 
        public static function prepareDownloadIcs($meeting_id,$actor_id) {
          $m = Meeting::findOne($meeting_id);
@@ -1311,26 +1493,6 @@ class Meeting extends \yii\db\ActiveRecord
        return false;
      }
 
-     public function buildAttendeeList() {
-       // build an attendees array of both the organizer and the participants
-       $cnt =0;
-       $attendees = array();
-       foreach ($this->participants as $p) {
-         if ($p->status ==Participant::STATUS_DEFAULT) {
-           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
-           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
-           'email'=>$p->participant->email,
-           'username'=>$p->participant->username];
-           $cnt+=1;
-         }
-       }
-       $auth_key=\common\models\User::find()->where(['id'=>$this->owner_id])->one()->auth_key;
-       $attendees[$cnt]=['user_id'=>$this->owner_id,'auth_key'=>$auth_key,
-         'email'=>$this->owner->email,
-         'username'=>$this->owner->username];
-      return $attendees;
-     }
-
     public static function findEmptyMeeting($user_id) {
       // looks for empty meeting in last seven
       $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
@@ -1420,172 +1582,6 @@ class Meeting extends \yii\db\ActiveRecord
       return true;
     }
 
-    public function reopen() {
-      // when organizer or participant with permission asks to make changes
-      if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
-        $this->status = Meeting::STATUS_SENT;
-        $this->update();
-        $this->increaseSequence();
-        MeetingLog::add($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId());
-        return true;
-      } else {
-        // over limit per meeting
-        return false;
-      }
-    }
-
-    public function reschedule() {
-      $newOwner = $user_id = Yii::$app->user->getId();
-      // user can only cancel their own Meeting
-      if ($this->owner_id == $user_id) {
-        $addParticipant = false;
-        $this->cancel($user_id);
-        MeetingLog::add($this->id,MeetingLog::ACTION_RESCHEDULE,$user_id);
-      } else {
-          // if user is participant - needs to reverse
-          if (!isAttendee($this->id,$user_id)) {
-            // user isn't owner or participant - error
-            return false;
-          } else {
-            // reverse the owner and participant
-            $addParticipant = $this->owner_id;
-          }
-      }
-      // create new meeting - as copy of old meeting
-      $m = new Meeting();
-      $m->attributes = $this->attributes;
-      $m->owner_id = $newOwner;
-      $m->status = Meeting::STATUS_PLANNING;
-      $m->created_at = time();
-      $m->updated_at = time();
-      $m->logged_at = 0;
-      $m->cleared_at = 0;
-      $m->sequence_id = 0;
-      $m->save();
-      // clone the selected place (not all of them)
-      $chosenPlace = $this->getChosenPlace($this->id);
-      if ($chosenPlace!==false) {
-        $mp = new MeetingPlace;
-        $mp->suggested_by = $newOwner;
-        $mp->attributes = $chosenPlace->attributes;
-        $mp->meeting_id = $m->id;
-        $mp->created_at = time();
-        $mp->updated_at = time();
-        $mp->save();
-      }
-      // clone the participants
-      foreach ($this->participants as $p) {
-        // skip if reschedule new owner was a participant
-        if ($p->participant_id==$user_id) {
-          continue;
-        }
-        // note Participant afterSave will create choices for place
-        $clone_p = new Participant();
-        $clone_p->attributes = $p->attributes;
-        $clone_p->email = User::findOne($p->participant_id)->email;
-        $clone_p->meeting_id = $m->id;
-        $clone_p->invited_by = $newOwner;
-        $clone_p->status = Participant::STATUS_DEFAULT;
-        $clone_p->created_at = time();
-        $clone_p->updated_at = time();
-        $clone_p->save();
-      }
-      // if participant asked to reschedule - not yet allowed
-      if ($addParticipant!==false) {
-        $newP = new Participant();
-        $newP->meeting_id = $m->id;
-        $newP->participant_id = $addParticipant;
-        $newP->invited_by = $user_id;
-        $newP->status = Participant::STATUS_DEFAULT;
-        $newP->created_at = time();
-        $newP->updated_at = time();
-        $newP->save();
-      }
-      return $m->id;
-    }
-
-    public function repeat() {
-      // to do - expand repeat meeting to have more options
-      // e.g. pick same dow and time in future week or two
-      // e.g. duplicate chosenplace or all places
-      // e.g. duplicate all participants or just some (complicated if particpant duplicates)
-      $newOwner = $user_id = Yii::$app->user->getId();
-      // if user is participant - needs to reverse
-      if ($this->owner_id == $user_id) {
-        $addParticipant = false;
-      } else {
-        if (!isAttendee($this->id,$user_id)) {
-          // user isn't owner or participant - error
-          return false;
-        } else {
-          // reverse the owner and participant
-          $addParticipant = $this->owner_id;
-        }
-      }
-      // create new meeting - as copy of old meeting
-      $m = new Meeting();
-      $m->attributes = $this->attributes;
-      $m->owner_id = $newOwner;
-      $m->status = Meeting::STATUS_PLANNING;
-      $m->created_at = time();
-      $m->updated_at = time();
-      $m->logged_at = 0;
-      $m->cleared_at = 0;
-      $m->sequence_id = 0;
-      $m->save();
-      // get prior meetings selected time and create two future times for the next two weeks
-      $chosenTime=$this->getChosenTime($this->id);
-      $mt1 = MeetingTime::createTimePlus($m->id,$m->owner_id,$chosenTime->start,$chosenTime->duration);
-      $mt2 = MeetingTime::createTimePlus($m->id,$m->owner_id,$mt1->start,$chosenTime->duration);
-      // clone the selected place (not all of them)
-      $chosenPlace = $this->getChosenPlace($this->id);
-      if ($chosenPlace!==false) {
-        $mp = new MeetingPlace;
-        $mp->suggested_by = $newOwner;
-        $mp->attributes = $chosenPlace->attributes;
-        $mp->meeting_id = $m->id;
-        $mp->created_at = time();
-        $mp->updated_at = time();
-        $mp->save();
-      }
-      // clone the participants
-      foreach ($this->participants as $p) {
-        // skip if reschedule new owner was a participant
-        if ($p->participant_id==$user_id) {
-          continue;
-        }
-        // note Participant afterSave will create choices for place
-        $clone_p = new Participant();
-        $clone_p->attributes = $p->attributes;
-        $clone_p->email = User::findOne($p->participant_id)->email;
-        $clone_p->meeting_id = $m->id;
-        $clone_p->status = Participant::STATUS_DEFAULT;
-        $clone_p->created_at = time();
-        $clone_p->updated_at = time();
-        $clone_p->save();
-      }
-      // if participant asked to repeat
-      // add the prior owner as a participant
-      if ($addParticipant!==false) {
-        $newP = new Participant();
-        $newP->meeting_id = $m->id;
-        $newP->participant_id = $addParticipant;
-        $newP->invited_by = $user_id;
-        $newP->status = Participant::STATUS_DEFAULT;
-        $newP->created_at = time();
-        $newP->updated_at = time();
-        $newP->save();
-      }
-      MeetingLog::add($this->id,MeetingLog::ACTION_REPEAT,$user_id,0);
-      return $m->id;
-    }
-
-    public function increaseSequence() {
-      // increase the meeting sequence_id for iCal ics files
-      $this->sequence_id+=1;
-      $this->update();
-    }
-
     public static function resend($id) {
       $sender_id = Yii::$app->user->getId();
       // check if within resend limit
@@ -1608,45 +1604,6 @@ class Meeting extends \yii\db\ActiveRecord
         MeetingLog::add($id,MeetingLog::ACTION_RESEND,$sender_id,0);
         return true;
       }
-    }
-
-    public function getParticipantStatus($participant_id) {
-      // note: shows if participant has declined or been removed
-      // does not indicate if they are an organizer
-        foreach ($this->participants as $p) {
-          if ($p->participant_id == $participant_id) {
-            return $p->status;
-          }
-        }
-        // participant not found
-        return false;
-    }
-
-    public function isSomeoneAvailable() {
-      // if all participants declined, removed - then no meeting or finalization possible
-      // alternately count participants with STATUS_DEFAULT
-      $okay=false;
-      foreach ($this->participants as $p) {
-        if ($p->status ==Participant::STATUS_DEFAULT) {
-          // one person is available, all is okay
-          $okay = true;
-        }
-      }
-      return $okay;
-    }
-
-    public function countAttendingParticipants($includeOrganizer = false) {
-      $cnt=0;
-      // organizer included
-      if ($includeOrganizer) {
-          $cnt = 1;
-      }
-      foreach ($this->participants as $p) {
-        if ($p->status==Participant::STATUS_DEFAULT) {
-          $cnt+=1;
-        }
-      }
-      return $cnt;
     }
 
     public static function isEveryoneAvailable($meeting_id) {
@@ -1696,14 +1653,58 @@ class Meeting extends \yii\db\ActiveRecord
       }
     }
 
-    public function isVirtual() {
-      if ($this->meeting_type == Meeting::TYPE_PHONE ||
-          $this->meeting_type == Meeting::TYPE_VIDEO ||
-          $this->meeting_type == Meeting::TYPE_VIRTUAL) {
-        return true;
-      } else {
-        return false;
-      }
+    public static function getSubject($id) {
+      $meeting = Meeting::find()->where(['id' => $id])->one();
+      return $meeting->subject;
+    }
+
+    // these next two functions are for when only a single place and time exist
+    // but none is officially chosen to finalize
+    public static function getChosenPlace($meeting_id) {
+        $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
+        if ($meeting->isVirtual()) {
+          return false;
+        }
+        $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
+        if (is_null($chosenPlace)) {
+          // no chosen place, set it as chosen
+          $place = MeetingPlace::find()->where(['meeting_id' => $meeting_id])->one();
+          if (is_null($place)) {
+            return false;
+          }
+          $place->status = MeetingPlace::STATUS_SELECTED;
+          $place->update();
+          $chosenPlace = $place;
+        }
+        return $chosenPlace;
+    }
+
+    public static function getChosenTime($meeting_id) {
+        $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingTime::STATUS_SELECTED])->one();
+        if (is_null($chosenTime)) {
+          // no chosen Time, set first one as chosen
+          $chosenTime = MeetingTime::find()->where(['meeting_id' => $meeting_id])->one();
+          if (is_null($chosenTime)) {
+            // patches old testing platform in real time (meeting time might not exist)
+            $mtg = Meeting::findOne($meeting_id);
+            if (is_null($mtg)) return;
+            $chosenTime = new MeetingTime;
+            $chosenTime->meeting_id = $meeting_id;
+            $chosenTime->start = time()+48*3600;
+            $chosenTime->duration = 3600;
+            $chosenTime->end = $chosenTime->start + 3600;
+            $chosenTime->status = MeetingTime::STATUS_SELECTED;
+            $chosenTime->suggested_by = $mtg->owner_id;
+            $chosenTime->created_at = time();
+            $chosenTime->updated_at= time();
+            $chosenTime->save();
+            // need to create entry
+          } else {
+            $chosenTime->status = MeetingTime::STATUS_SELECTED;
+            $chosenTime->update();
+          }
+        }
+        return $chosenTime;
     }
 
 }
