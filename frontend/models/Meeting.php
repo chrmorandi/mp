@@ -375,7 +375,7 @@ class Meeting extends \yii\db\ActiveRecord
        // req: a participant, at least one place, at least one time
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
-        && (count($this->meetingPlaces)>0 || ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL))
+        && (count($this->meetingPlaces)>0 || $this->isVirtual())
         && count($this->meetingTimes)>0
         ) {
          $this->isReadyToSend = true;
@@ -391,7 +391,7 @@ class Meeting extends \yii\db\ActiveRecord
         // check if overall meeting state can be sent by owner
          if (!$this->canSend($this->owner_id)) return false;
           $chosenPlace = false;
-          if (count($this->meetingPlaces)==1 || $this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL ) {
+          if (count($this->meetingPlaces)==1 || $this->isVirtual()) {
             $chosenPlace = true;
           } else {
             foreach ($this->meetingPlaces as $mp) {
@@ -452,7 +452,7 @@ class Meeting extends \yii\db\ActiveRecord
       'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$this->owner_id,$p->participant_id,$auth_key),
       'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$p->participant_id,$auth_key),
     ];
-    if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+    if ($this->isVirtual()) {
       $noPlaces = true;
     } else {
       $noPlaces = false;
@@ -523,7 +523,7 @@ class Meeting extends \yii\db\ActiveRecord
       // to do - not all those links are needed in the view of a finalized meeting
       $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
       // chosen place
-      if ($this->meeting_type==Meeting::TYPE_PHONE || $this->meeting_type==Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+      if ($this->isVirtual()) {
         $noPlaces = true;
         $chosenPlace=false;
       } else {
@@ -618,7 +618,7 @@ class Meeting extends \yii\db\ActiveRecord
         MeetingLog::add($this->id,MeetingLog::ACTION_FINALIZE_INVITE,$user_id,0);
         Meeting::clearLog($this->id);
       }
-      if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+      if ($this->isVirtual()) {
         Meeting::checkContactInformation($this->id);
       }
     }
@@ -688,7 +688,7 @@ class Meeting extends \yii\db\ActiveRecord
       // but none is officially chosen to finalize
       public static function getChosenPlace($meeting_id) {
           $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
-          if (($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO || $meeting->meeting_type == Meeting::TYPE_VIRTUAL)) {
+          if ($meeting->isVirtual()) {
             return false;
           }
           $chosenPlace = MeetingPlace::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingPlace::STATUS_SELECTED])->one();
@@ -737,7 +737,7 @@ class Meeting extends \yii\db\ActiveRecord
         $this->setViewer();
         // check for meeting_settings
         $this->initializeMeetingSetting($this->id,$this->owner_id);
-        if ($this->meeting_type == Meeting::TYPE_PHONE || $this->meeting_type == Meeting::TYPE_VIDEO || $this->meeting_type == Meeting::TYPE_VIRTUAL) {
+        if ($this->isVirtual()) {
           $this->switchVirtual = Meeting::SWITCH_VIRTUAL;
           //echo 'here';exit;
         } else {
@@ -790,7 +790,7 @@ class Meeting extends \yii\db\ActiveRecord
 
        public static function prepareDownloadIcs($meeting_id,$actor_id) {
          $m = Meeting::findOne($meeting_id);
-         if ($m->meeting_type==Meeting::TYPE_PHONE || $m->meeting_type==Meeting::TYPE_VIDEO || $m->meeting_type == Meeting::TYPE_VIRTUAL) {
+         if ($m->isVirtual()) {
            $noPlaces = true;
            $chosenPlace=false;
          } else {
@@ -867,7 +867,7 @@ class Meeting extends \yii\db\ActiveRecord
             ->addAttendee($a['email'], $a['username']);
             // if building for organizer, attach attendee contact info
             // otherwise, attach organizer contact info
-              if ($meeting->meeting_type == Meeting::TYPE_PHONE || $meeting->meeting_type == Meeting::TYPE_VIDEO || $meeting->meeting_type == Meeting::TYPE_VIRTUAL) {
+              if ($meeting->isVirtual()) {
                 if ($a['user_id']<>$meeting->owner_id) {
                   // send organizer contact
                   $commentStr.=UserContact::buildContactString($meeting->owner_id,'ical');
@@ -1241,7 +1241,7 @@ class Meeting extends \yii\db\ActiveRecord
          'username'=>$mtg->owner->username];
         if ($ics) {
           // chosen place
-          if ($mtg->meeting_type==Meeting::TYPE_PHONE || $mtg->meeting_type==Meeting::TYPE_VIDEO || $mtg->meeting_type == Meeting::TYPE_VIRTUAL) {
+          if ($mtg->isVirtual()) {
             $noPlaces = true;
             $chosenPlace=false;
           } else {
@@ -1690,6 +1690,16 @@ class Meeting extends \yii\db\ActiveRecord
       }
       // at least one time and one place works for everyone attending
       if ($mpExists && $mtExists) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function isVirtual() {
+      if ($this->meeting_type == Meeting::TYPE_PHONE ||
+          $this->meeting_type == Meeting::TYPE_VIDEO ||
+          $this->meeting_type == Meeting::TYPE_VIRTUAL) {
         return true;
       } else {
         return false;

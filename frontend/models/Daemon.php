@@ -108,4 +108,5 @@ class Daemon extends \yii\db\ActiveRecord
       // empties daemon table
       Daemon::deleteAll();
     }
+
 }

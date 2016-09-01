@@ -168,13 +168,13 @@ class MeetingLog extends \yii\db\ActiveRecord
     public static function add($meeting_id,$action,$actor_id=0,$item_id=0,$extra_id=0) {
 				$m=Meeting::findOne($meeting_id);
 				if ($action==MeetingLog::ACTION_MAKE_VIRTUAL) {
-					if ($m->meeting_type == Meeting::TYPE_VIRTUAL || $m->meeting_type == Meeting::TYPE_PHONE || $m->meeting_type == Meeting::TYPE_VIDEO) {
+					if ($m->isVirtual()) {
 						// already virtual
 						return;
 					}
 				} else if ($action==MeetingLog::ACTION_MAKE_INPERSON) {
 					$m=Meeting::findOne($meeting_id);
-					if ($m->meeting_type != Meeting::TYPE_VIRTUAL && $m->meeting_type != Meeting::TYPE_PHONE && $m->meeting_type != Meeting::TYPE_VIDEO) {
+					if (!$m->isVirtual()) {
 						// already in person
 						return;
 					}
