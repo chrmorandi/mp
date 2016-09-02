@@ -29,7 +29,7 @@ class MonitorController extends Controller
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>[''],
+                   'actions'=>['init','reminders'],
                    'roles' => ['@'],
                ],
               [
@@ -73,10 +73,12 @@ class MonitorController extends Controller
     }
 
     public function actionDb() {
+        // check database
         Monitor::reportOk();
     }
 
     public function actionWeb() {
+        // echo a known string
         Monitor::reportError();
     }
 
@@ -88,7 +90,7 @@ class MonitorController extends Controller
           Monitor::reportError();
           echo MiscHelpers::br(2);
           foreach ($fullReport->errors as $e) {
-            echo $e;
+            //echo $e;
             echo MiscHelpers::br();
           }
         }
@@ -107,7 +109,5 @@ class MonitorController extends Controller
        }
       }
     }
-
-
 
 }
