@@ -9,8 +9,8 @@ $this->title = Yii::t('frontend', 'Update {modelClass}', [
     'modelClass' => 'Contact',
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'User Contacts'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->info, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Update ').$model->info];
+
 ?>
 <div class="user-contact-update">
 
