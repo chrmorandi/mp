@@ -29,7 +29,7 @@ class MonitorController extends Controller
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>['init','reminders'],
+                   'actions'=>[''],
                    'roles' => ['@'],
                ],
               [
