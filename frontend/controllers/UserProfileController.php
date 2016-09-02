@@ -52,8 +52,13 @@ class UserProfileController extends Controller
     {
       // returns record id not user_id
       //echo Yii::$app->user->getId();
+      if (isset(Yii::$app->request->queryParams['tab'])) {
+          $tab =Yii::$app->request->queryParams['tab'];
+      } else {
+        $tab='name';
+      }
       $id = UserProfile::initialize(Yii::$app->user->getId());
-      return $this->redirect(['update', 'id' => $id]);
+      return $this->redirect(['update', 'id' => $id,'tab'=>$tab]);
     }
 
     /**
@@ -77,6 +82,12 @@ class UserProfileController extends Controller
       }
       $u = User::findOne(Yii::$app->user->getId());
       $model->username = $u->username;
+      $model->tab ='name';
+      if (isset(Yii::$app->request->post()['UserProfile']['tab'])) {
+        $model->tab =Yii::$app->request->post()['UserProfile']['tab'];
+      } else if (isset(Yii::$app->request->queryParams['tab'])) {
+          $model->tab =Yii::$app->request->queryParams['tab'];
+      }
       if ($model->load(Yii::$app->request->post())) {
         $image = UploadedFile::getInstance($model, 'image');
         if (!is_null($image)) {

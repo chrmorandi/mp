@@ -24,6 +24,7 @@ class UserProfile extends \yii\db\ActiveRecord
 
   public $image;
   public $username;
+  public $tab;
     /**
      * @inheritdoc
      */

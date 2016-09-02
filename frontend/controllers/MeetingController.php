@@ -102,7 +102,7 @@ class MeetingController extends Controller
                 'pageSize' => 7,
                 'params' => array_merge($_GET, ['tab' => 'canceled']),
               ],
-        ]);
+        ]);        
         Meeting::displayProfileHints();
         return $this->render('index', [
             'planningProvider' => $planningProvider,
