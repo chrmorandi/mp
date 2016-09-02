@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_timezone_alerts');
 ?>
 <div class="meeting-view">
-
   <?php
     if ( $model->status >= $model::STATUS_COMPLETED) {
       switch ($model->status) {

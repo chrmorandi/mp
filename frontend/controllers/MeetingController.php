@@ -67,11 +67,16 @@ class MeetingController extends Controller
       if (Meeting::countUserMeetings(Yii::$app->user->getId())==0) {
         $this->redirect(['create']);
       }
+      $tab ='planning';
+      if (isset(Yii::$app->request->queryParams['tab'])) {
+        $tab =Yii::$app->request->queryParams['tab'];
+      }
       $planningProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]]),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
+                'params' => array_merge($_GET, ['tab' => 'planning']),
               ],
         ]);
       $upcomingProvider = new ActiveDataProvider([
@@ -79,6 +84,7 @@ class MeetingController extends Controller
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
+                'params' => array_merge($_GET, ['tab' => 'upcoming']),
               ],
         ]);
         $pastProvider = new ActiveDataProvider([
@@ -86,6 +92,7 @@ class MeetingController extends Controller
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
+                'params' => array_merge($_GET, ['tab' => 'past']),
               ],
         ]);
         $canceledProvider = new ActiveDataProvider([
@@ -93,6 +100,7 @@ class MeetingController extends Controller
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
+                'params' => array_merge($_GET, ['tab' => 'canceled']),
               ],
         ]);
         Meeting::displayProfileHints();
@@ -101,6 +109,7 @@ class MeetingController extends Controller
             'upcomingProvider' => $upcomingProvider,
             'pastProvider' => $pastProvider,
             'canceledProvider' => $canceledProvider,
+            'tab' => $tab,
         ]);
     }
 
