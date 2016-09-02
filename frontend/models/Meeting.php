@@ -24,6 +24,7 @@ use frontend\models\MeetingLog;
  * @property integer $meeting_type
  * @property string $subject
  * @property string $message
+ * @property string $identifier
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -154,7 +155,7 @@ class Meeting extends \yii\db\ActiveRecord
         return [
             [['owner_id'], 'required'],
             [['owner_id', 'meeting_type', 'status', 'created_at', 'updated_at','sequence_id'], 'integer'],
-            [['message','subject'], 'string']
+            [['message','subject','identifier'], 'string']
         ];
     }
 
@@ -170,6 +171,7 @@ class Meeting extends \yii\db\ActiveRecord
             'subject' => Yii::t('frontend', 'Subject'),
             'message' => Yii::t('frontend', 'Message'),
             'status' => Yii::t('frontend', 'Status'),
+            'identifier' => Yii::t('frontend', 'Identifier'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
@@ -698,6 +700,16 @@ class Meeting extends \yii\db\ActiveRecord
          }
         // to do - if sent, has invitation been opened
         // to do - if not finalized, is it within 72 hrs, 48 hrs
+      }
+
+      public function beforeSave($insert)
+      {
+          if (parent::beforeSave($insert)) {
+            if ($insert) {
+              $this->identifier = Yii::$app->security->generateRandomString(8);
+            }
+          }
+          return true;
       }
 
        public function afterSave($insert,$changedAttributes)

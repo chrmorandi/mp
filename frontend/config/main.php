@@ -14,6 +14,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'catchAll' => (($params['offline'])?['site/offline']:null),
     'components' => [
       'urlManager' => [
             'class' => 'yii\web\UrlManager',
@@ -29,9 +30,10 @@ return [
               'place/view/<id:\d+>' => 'place/view',
               'place/update/<id:\d+>' => 'place/update',
               'place/<slug>' => 'place/slug',
+              '<username>/<identity:\w{8}>' => 'meeting/identity',
               '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+              '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+              '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
       'authClientCollection' => [

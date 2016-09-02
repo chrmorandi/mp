@@ -17,7 +17,7 @@ use frontend\models\Auth;
 use yii\authclient\ClientInterface;
 use yii\helpers\ArrayHelper;
 use common\models\User;
-use common\components\SocialHelpers;
+
 /**
  * Site controller
  */
@@ -60,9 +60,9 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'error' => [
+            /*'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
+            ],*/
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -72,6 +72,17 @@ class SiteController extends Controller
                 'successCallback' => [$this, 'onAuthSuccess'],
             ],
         ];
+    }
+
+    public function actionError()
+    {
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception instanceof \yii\web\NotFoundHttpException) {
+            // all non existing controllers+actions will end up here
+            return $this->render('pnf'); // page not found
+        } else {
+          return $this->render('error', ['exception' => $exception]);
+        }
     }
 
     public function actionIndex()
@@ -203,11 +214,6 @@ class SiteController extends Controller
     public function actionUnavailable()
     {
         return $this->render('unavailable');
-    }
-
-    public function actionError()
-    {
-        return $this->render('error');
     }
 
     public function onAuthSuccess($client)

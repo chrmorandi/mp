@@ -9,11 +9,15 @@ use yii\filters\VerbFilter;
 use yii\base\Security;
 use yii\bootstrap\ActiveForm;
 use yii\web\Response;
+use yii\web\BadRequestHttpException;
+use yii\authclient\ClientInterface;
 use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\Participant;
 use frontend\models\ParticipantSearch;
 use frontend\models\Friend;
+use frontend\models\Auth;
+use frontend\models\UserProfile;
 
 /**
  * ParticipantController implements the CRUD actions for Participant model.
@@ -35,12 +39,12 @@ class ParticipantController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['create','delete','toggleorganizer','toggleparticipant'],
+                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join'],
                        'roles' => ['@'],
                    ],
                   [
                       'allow' => true,
-                      'actions'=>[''],
+                      'actions'=>['join','auth'],
                       'roles' => ['?'],
                   ],
                   // everything else is denied
@@ -111,6 +115,28 @@ class ParticipantController extends Controller
             'friends'=>$friends,
           ]);
         }
+    }
+
+    public function actionJoin($meeting_id,$identifier) {
+      $model = new Participant;
+      if ($model->load(Yii::$app->request->post())) {
+        var_dump ($model);
+        exit;
+      } else {
+        Yii::$app->user->setReturnUrl(Yii::$app->request->url);
+        //exit;
+        // to do - check mtg identifier is present
+        $meeting = Meeting::find()
+          ->where(['identifier'=>$identifier])
+          ->andWhere(['id'=>$meeting_id])
+          ->one();
+
+        // to do - check that these are valid
+        return $this->render('join', [
+            'model' => $model,
+        ]);
+      }
+
     }
 
     /**

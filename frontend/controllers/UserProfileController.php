@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
+use yii\helpers\Url;
 
 /**
  * UserProfileController implements the CRUD actions for UserProfile model.
@@ -71,6 +72,10 @@ class UserProfileController extends Controller
     {
       // the path to save file, you can set an uploadPath
       // in Yii::$app->params (as used in example below)
+      if (!Yii::$app->request->post() && isset(Yii::$app->request->queryParams['success'])) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your account is now linked.'));
+      }
+      Yii::$app->user->setReturnUrl(Url::to(['/user-profile/update','id'=>$id,'tab'=>'social','success'=>true]));
       Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/avatar/';
       $model = $this->findModel($id);
       if (is_null($model)) {

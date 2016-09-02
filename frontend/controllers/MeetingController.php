@@ -44,12 +44,12 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend'], // 'wizard'
+                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity'],
                                'roles' => ['@'],
                            ],
                           [
                               'allow' => true,
-                              'actions'=>['command'],
+                              'actions'=>['command','identity'],
                               'roles' => ['?'],
                           ],
                           // everything else is denied
@@ -102,7 +102,7 @@ class MeetingController extends Controller
                 'pageSize' => 7,
                 'params' => array_merge($_GET, ['tab' => 'canceled']),
               ],
-        ]);        
+        ]);
         Meeting::displayProfileHints();
         return $this->render('index', [
             'planningProvider' => $planningProvider,
@@ -117,6 +117,33 @@ class MeetingController extends Controller
       return $this->render('wizard', [
       ]);
     }*/
+
+    public function actionIdentity()
+    {
+      // fetch path
+      list($username,$identifier) = explode("/",Yii::$app->request->getPathInfo());
+      if (Yii::$app->user->isGuest) {
+        // ask them to sign up or login and then return here
+        // check maximum number of invites
+        // place a form for name & email and set them up as a passive participant
+        return;
+      } else {
+          $m = Meeting::find()
+            ->where(['identifier'=>$identifier])
+            ->one();
+            if (is_null($m) || ($m->owner->username != $username)) {
+              // access failure
+              return $this->redirect(['site/authfailure']);              
+            }
+        }
+        // path is authenticated
+        $user_id = Yii::$app->user->getId();
+        // are they a member of the meeting
+        // if they are - redirect them to the view below
+        // if not -- add them as a participant
+        // then redirect them to the view
+        return $this->actionView($m->id);
+    }
 
     /**
      * Displays a single Meeting model.
@@ -138,9 +165,7 @@ class MeetingController extends Controller
         } else {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','You were removed from this meeting.'));
         }
-
       }
-
       // notes always used on view panel
       $noteProvider = new ActiveDataProvider([
           'query' => MeetingNote::find()->where(['meeting_id'=>$id]),

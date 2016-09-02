@@ -41,6 +41,8 @@ class Participant extends \yii\db\ActiveRecord
     const MEETING_LIMIT = 15;
 
     public $email;
+    public $firstname;
+    public $lastname;
     public $username;
     public $password;
     public $new_email;
