@@ -32,8 +32,12 @@ use frontend\models\Meeting;
       ?>
       <div id="collapseWhat" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhat">
         <div class="panel-body">
-        <?php echo Html::encode($this->title) ?>
-      <?php echo $model->message.'&nbsp;'; ?>
+        <?php if (empty($model->message)) {
+          echo Html::encode($this->title);
+          // note: required because couldn't prevent extra space
+        } else {
+          echo Html::encode($this->title).': '.Html::encode($model->message).'&nbsp;';
+        } ?>
         </div>
       </div>
       <?php

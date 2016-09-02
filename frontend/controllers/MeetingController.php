@@ -587,7 +587,7 @@ class MeetingController extends Controller
             $this->redirect(['meeting-note/create','meeting_id'=>$id]);
           break;
           case Meeting::COMMAND_ADD_CONTACT:
-            $this->redirect(['user-contact']);
+            $this->redirect(['/user-contact/create']);
           break;
 
           case Meeting::COMMAND_ACCEPT_PLACE:

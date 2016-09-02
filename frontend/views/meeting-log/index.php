@@ -23,36 +23,37 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     //'filterModel' => $searchModel,
     'columns' => [
+      [
+        'label'=>'Description',
+          'attribute' => 'actor_id',
+          'format' => 'raw',
+          'value' => function ($model) {
+                  $command = $model->getMeetingLogCommand();
+                  /*if ($command == 'Sent' || $command =='Finalized') {
+                    $actor = 'Meeting';
+                  } else {
+                  }*/
+                  $actor = MiscHelpers::getDisplayName($model->actor_id);
+                  $item = $model->getMeetingLogItem();
+                  if ($item == '-') {
+                    $item ='';
+                  }
+                  return '<div>'
+                  .$actor
+                  .' '.$command
+                  .' '.$item
+                  .'</div>';
+              },
+      ],
         [
-          'label'=>'Actor',
-            'attribute' => 'actor_id',
-            'format' => 'raw',
-            'value' => function ($model) {
-                    return '<div>'.MiscHelpers::getDisplayName($model->actor_id).'</div>';
-                },
-        ],
-        [
-          'label'=>'Action',
-            'attribute' => 'action',
-            'format' => 'raw',
-            'value' => function ($model) {
-                  return '<div>'.$model->getMeetingLogCommand().'</div>';
-                },
-        ],
-        [
-          'label'=>'Item',
-            'attribute' => 'item_id',
-            'format' => 'raw',
-            'value' => function ($model) {
-                        return '<div>'.$model->getMeetingLogItem().'</div>';
-                },
-        ],
-        [
-          'label'=>'Created',
+          'label'=>'When',
+          'headerOptions' => ['class' => 'itemHide'],
+          'contentOptions' => ['class' => 'itemHide'],          
             'attribute' => 'created_at',
             'format' => 'raw',
+            'options' => ['class'=>'itemHide'],
             'value' => function ($model) {
-                        return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"hh:ss MMM d").'</div>';
+                        return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"MMM d, h:ss a").'</div>';
                 },
         ],
     ],

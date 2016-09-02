@@ -1097,7 +1097,7 @@ class Meeting extends \yii\db\ActiveRecord
              // to do - consider clearing out these old ones
              continue;
            }
-           //echo 'M-id: '.$m->id.'<br />';
+           //echo 'M-id: '.$m->id.' '.(time()-$m->logged_at).' <br />';
            // uncleared log entry older than TIMELAPSE, and past planning stage
            if ((time()-$m->logged_at) > MeetingLog::TIMELAPSE && $m->status>=Meeting::STATUS_SENT) { //
              // get logged items which occured after last cleared_at

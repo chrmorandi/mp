@@ -21,10 +21,10 @@ use yii\bootstrap\Collapse;
   </div>
   </div>
   <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote"  >
-    <div class="panel-body nopadding">
       <?php
       if ($noteProvider->count>0):
       ?>
+      <div class="panel-body nopadding">
       <table class="table">
         <?= ListView::widget([
                'dataProvider' => $noteProvider,
@@ -33,10 +33,13 @@ use yii\bootstrap\Collapse;
                'itemView' => '_list',
            ]) ?>
       </table>
+      </div>
       <?php else: ?>
+        <div class="panel-body">
         <?= Yii::t('frontend','No notes yet.') ?>
         <?= Html::a(Yii::t('frontend', 'Send a note to other participants.'), ['meeting-note/create', 'meeting_id' => $model->id]); ?>
+        </div>
       <?php endif; ?>
-    </div>
+
   </div>
 </div>

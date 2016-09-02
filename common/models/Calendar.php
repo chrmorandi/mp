@@ -687,7 +687,7 @@ class Calendar {
 
 	    foreach ($this->getAttendees() as $email => $name)
 	    {
-		$content .= "ATTENDEE;PARTSTAT=ACCEPTED;RSVP=FALSE;CN={$name};X-NUM-GUESTS=0:mailto:{$email}\n";
+		   $content .= "ATTENDEE;PARTSTAT=ACCEPTED;RSVP=FALSE;CN={$name};X-NUM-GUESTS=0:mailto:{$email}\n";
 	    }
 	    $content .= "CREATED:\n";
       $content .= "SUMMARY:{$this->getName()}\n";
