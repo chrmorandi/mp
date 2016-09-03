@@ -207,6 +207,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
         ]);
           if (!empty($a['email'])) {
             $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner']);
+            $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
             $message->setTo($a['email'])
                 ->setSubject(Yii::t('frontend','Meeting Reminder: ').$mtg->subject)
                 ->send();
