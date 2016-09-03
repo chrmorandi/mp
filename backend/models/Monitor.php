@@ -100,10 +100,24 @@ public function checkDb() {
     // if all cleared_at are zero
     if ($allzero) {
       $m->reportWarn(Yii::t('backend','ten recent meetings cleared_at = 0'));
-    }
-    // or if any cleared_at older than a day
-    if ($lag) {
+    } else if ($lag) {
+      // or if any cleared_at older than a day
       $m->reportWarn(Yii::t('backend','one or more meetings not cleared_at in 24 hours'));
+    } else {
+        $m->reportOk();
+    }
+  }
+
+  public function list() {
+    $m = new Monitor();
+    $cnt = 0;
+    $class_methods = get_class_methods($m);
+    foreach ($class_methods as $method_name) {
+      if ($cnt>10) {
+        break;
+      }
+      echo "$method_name".'<br />';
+      $cnt+=1;
     }
   }
 

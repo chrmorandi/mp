@@ -76,6 +76,11 @@ class MonitorController extends Controller
       return false; // or false to not run the action
     }
 
+    public function actionList() {
+      $m = new Monitor;
+      $m->list();
+    }
+
     public function actionDb() {
       // check database
       $m = new Monitor;
@@ -85,6 +90,11 @@ class MonitorController extends Controller
     public function actionWeb() {
         $m = new Monitor;
         $m->checkWeb();
+    }
+
+    public function actionUsers() {
+        $m = new Monitor;
+        $m->checkUsers();
     }
 
     public function actionDaemon() {
