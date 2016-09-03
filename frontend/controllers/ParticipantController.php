@@ -131,6 +131,7 @@ class ParticipantController extends Controller
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry we could not find the meeting that you requested to join. Please contact support.'));
         return $this->goHome();
       }
+      Yii::$app->user->setReturnUrl($m->getSharingUrl());
       if (!Participant::withinLimit($meeting_id)) {
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this meeting has reached the maximum number of participants per meeting. Please let the organizer know or contact support.'));
         return $this->goHome();
@@ -142,7 +143,7 @@ class ParticipantController extends Controller
       $model->meeting_id = $meeting_id;
       if ($model->load(Yii::$app->request->post())) {
         if (User::find()->where(['email'=>$model->email])->one()) {
-            Yii::$app->user->setReturnUrl($m->getSharingUrl());
+            //Yii::$app->user->setReturnUrl($m->getSharingUrl());
             Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Since you have an account already, please login below.'));
             return $this->redirect(['/site/login']);
         }
@@ -174,10 +175,9 @@ class ParticipantController extends Controller
           return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
         }
       }
-        Yii::$app->user->setReturnUrl(Yii::$app->request->url);
-        return $this->render('join', [
-            'model' => $model,
-        ]);
+      return $this->render('join', [
+          'model' => $model,
+      ]);
     }
 
     /**

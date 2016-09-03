@@ -741,7 +741,6 @@ class Meeting extends \yii\db\ActiveRecord
         return $attendees;
        }
 
-
            public function reopen() {
              // when organizer or participant with permission asks to make changes
              if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
