@@ -63,9 +63,13 @@ class MonitorController extends Controller
       if (!parent::beforeAction($action)) {
           return false;
       }
+      // list of monitoring servers
+      $monitors[] = '107.170.233.73';
       // other custom code here
       if (( $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'] ) ||
-          (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()))
+          in_array($_SERVER['REMOTE_ADDR'], $monitors) ||
+          (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin())
+          )
        {
          return true;
        }
@@ -73,41 +77,34 @@ class MonitorController extends Controller
     }
 
     public function actionDb() {
-        // check database
-        Monitor::reportOk();
+      // check database
+      $m = new Monitor;
+      $m->checkDb();
     }
 
     public function actionWeb() {
-        // echo a known string
-        Monitor::reportError();
+        $m = new Monitor;
+        $m->checkWeb();
+    }
+
+    public function actionDaemon() {
+      $m = new Monitor;
+      $m->checkDaemon();
+
     }
 
     public function actionInit() {
-        $fullReport = \common\models\User::checkAllUsers();
-        if ($fullReport->result) {
-          Monitor::reportOk();
-        } else {
-          Monitor::reportError();
-          echo MiscHelpers::br(2);
-          foreach ($fullReport->errors as $e) {
-            //echo $e;
-            echo MiscHelpers::br();
-          }
-        }
+      $m = new Monitor;
+      $m->checkUsers();
     }
 
     public function actionReminders() {
-      $report = \frontend\models\Reminder::statusCheck(false);
-      if ($report->result) {
-        Monitor::reportOk();
-        echo MiscHelpers::br(2);
-      } else {
-        Monitor::reportError();
-        echo MiscHelpers::br(2);
-        foreach ($report->errors as $e) {
-         echo $e.MiscHelpers::br();
-       }
-      }
+      $m = new Monitor;
+      $m->checkReminders();
     }
 
+    public function actionStats() {
+      $m = new Monitor;
+      $m->checkStats();
+    }
 }

@@ -33,7 +33,7 @@ class DaemonController extends Controller
             ],
           'access' => [
               'class' => \yii\filters\AccessControl::className(),
-              'only' => ['index','fix','recalc','firewall','diagnostics'],
+              'only' => ['index','fix','recalc','firewall','diagnostics','cleanup'],
               'rules' => [
                 // allow authenticated users
                  [
