@@ -59,10 +59,10 @@ class UserProfile extends \yii\db\ActiveRecord
             [['firstname', 'lastname', 'fullname', 'username', 'filename', 'avatar'], 'string', 'max' => 255],
             [['image'], 'safe'],
             [['image'], 'file', 'extensions'=>'jpg, gif, png'],
-            [['image'], 'file', 'maxSize'=>'100000'],
+            [['image'], 'file', 'maxSize'=>'260000'],
             ['image', 'image', 'extensions' => 'png, jpg, gif',
-                    'minWidth' => 100, 'maxWidth' => 400,
-                    'minHeight' => 100, 'maxHeight' => 400,
+                    'minWidth' => 200, 'maxWidth' => 1200,
+                    'minHeight' => 200, 'maxHeight' => 1200,
                 ],
              [['filename', 'avatar'], 'string', 'max' => 255],
         ];
