@@ -100,9 +100,13 @@ public function actionFrequent() {
   // send meeting reminders that are due
   MeetingReminder::check();
   Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_REMINDER_CHECK);
+  echo 'complete';
+}
+
+public function actionFreqmail() {
   // process new notifications in the store
-  //MailgunNotification::process();
-  //Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_MAILGUN_PROCESS);
+  MailgunNotification::process();
+  Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_MAILGUN_PROCESS);
 }
 
 public function actionQuarter() {

@@ -94,6 +94,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
       foreach ($items as $m) {
         $error = false;
         // echo $m->id.'<br />';
+        // to do - error handling here
         $raw_response = $yg->get($m->url);
         if (is_null($raw_response)) {
           $m->status = MailgunNotification::STATUS_NOT_FOUND;
