@@ -211,6 +211,7 @@ class Place extends \yii\db\ActiveRecord
        $gc = new GeocodingClient();
        try {
          $result = $gc->lookup(array('address'=>$full_address,'components'=>1));
+         // error is in next line
          $location = $result['results'][0]['geometry']['location'];
           if (!is_null($location)) {
      				$lat = $location['lat'];
@@ -244,7 +245,7 @@ class Place extends \yii\db\ActiveRecord
     public function getLocation($place_id) {
       $sql = 'Select AsText(gps) as gps from {{%place_gps}} where place_id = '.$place_id;
       $model = PlaceGPS::findBySql($sql)->one();
-      $gps = new \stdClass;
+      $gps = new \stdClass();
       if (is_null($model)) {
         return false;
       } else {
@@ -268,7 +269,7 @@ class Place extends \yii\db\ActiveRecord
         // TO DO: Fix this later
         return false;
       }
-      $center = new stdClass;
+      $center = new \stdClass();
       Yii::import('ext.gmap.*');
       $gMap = new EGMap();
       $gMap->setJsName('map_region');

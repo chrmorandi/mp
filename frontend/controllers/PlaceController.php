@@ -145,7 +145,7 @@ class PlaceController extends Controller
                 // all inputs are valid
                 $model->save();
                 // lookup gps location from address
-                // to do - reactivate location add
+                // to do - reactivate location add - geotodo
                 // $model->addLocationFromAddress($model,$form['Place']['full_address']);
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {

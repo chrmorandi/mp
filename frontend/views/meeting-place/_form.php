@@ -28,9 +28,8 @@ ComboAsset::register($this);
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
   if (count($up)>0) {
     ?>
-
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-lg-6">
         <h3>From your places</h3>
 <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
   <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
@@ -46,7 +45,7 @@ ComboAsset::register($this);
   </div>
 </div> <!-- end row -->
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-lg-6">
     <h4><center>- or -</center></h4>
   </div>
 </div>
