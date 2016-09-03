@@ -101,8 +101,8 @@ public function actionFrequent() {
   //MeetingReminder::check();
   //Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_REMINDER_CHECK);
   // process new notifications in the store
-  //MailgunNotification::process();
-  //Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_MAILGUN_PROCESS);
+  MailgunNotification::process();
+  Daemon::add(Daemon::ACTION_FREQUENT,Daemon::TASK_MAILGUN_PROCESS);
 }
 
 public function actionQuarter() {
