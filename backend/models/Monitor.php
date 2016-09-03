@@ -108,15 +108,16 @@ public function checkDb() {
     }
   }
 
-  public function list() {
+  public function checkList() {
     $m = new Monitor();
     $cnt = 0;
-    $class_methods = \get_class_methods($m);
+    $class_methods=[];
+    // $class_methods = \get_class_methods($m);
     foreach ($class_methods as $method_name) {
       if ($cnt>10) {
         break;
       }
-      echo "$method_name".'<br />';
+      echo $method_name.'<br />';
       $cnt+=1;
     }
   }

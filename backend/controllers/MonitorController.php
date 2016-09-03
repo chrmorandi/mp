@@ -81,7 +81,7 @@ class MonitorController extends Controller
 
     public function actionList() {
       $m = new Monitor;
-      $m->list();
+      $m->checkList();
     }
 
     public function actionDb() {
