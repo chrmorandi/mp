@@ -13,7 +13,7 @@ use yii\bootstrap\Collapse;
       </div>
     <div class="col-lg-2 col-md-2 col-xs-2">
       <div style="float:right;">
-        <?= Html::a(Yii::t('frontend', ''), ['/participant/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary '.($model->status>=$model::STATUS_CONFIRMED?'disabled':'').' glyphicon glyphicon-plus']) ?>
+        <?= Html::a(Yii::t('frontend', ''), ['/participant/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-plus']) ?>
       </div>
     </div></div></div>
     <div id="collapseWho" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWho">
@@ -30,6 +30,15 @@ use yii\bootstrap\Collapse;
     <?php else: ?>
     <?php endif; ?>
   </div>
+  <?php if ($model->isOrganizer()) { ?>
+  <div class="panel-footer short-footer">
+    <span class="hint-text">
+      You can also share
+    <?= Html::a($model->getSharingUrl(),$model->getSharingUrl()); ?>
+    to invite participants.
+  </span>
+  </div>
+  <?php } ?>
 </div>
 
 </div>

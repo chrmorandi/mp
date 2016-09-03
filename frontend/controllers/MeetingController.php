@@ -72,7 +72,7 @@ class MeetingController extends Controller
         $tab =Yii::$app->request->queryParams['tab'];
       }
       $planningProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]]),
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]])->distinct(),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
@@ -80,7 +80,7 @@ class MeetingController extends Controller
               ],
         ]);
       $upcomingProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_CONFIRMED]]),
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_CONFIRMED]])->distinct(),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
@@ -88,7 +88,7 @@ class MeetingController extends Controller
               ],
         ]);
         $pastProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_COMPLETED,Meeting::STATUS_EXPIRED]]),
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_COMPLETED,Meeting::STATUS_EXPIRED]])->distinct(),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
@@ -96,7 +96,7 @@ class MeetingController extends Controller
               ],
         ]);
         $canceledProvider = new ActiveDataProvider([
-            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_CANCELED]),
+            'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>Meeting::STATUS_CANCELED])->distinct(),
             'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
             'pagination' => [
                 'pageSize' => 7,
@@ -113,36 +113,37 @@ class MeetingController extends Controller
         ]);
     }
 
-    /*public function actionWizard() {
-      return $this->render('wizard', [
-      ]);
-    }*/
-
     public function actionIdentity()
     {
       // fetch path
       list($username,$identifier) = explode("/",Yii::$app->request->getPathInfo());
+      // verify the meeting identifier
+      $m = Meeting::find()
+        ->where(['identifier'=>$identifier])
+        ->one();
+      if (is_null($m) || ($m->owner->username != $username)) {
+        // access failure
+        return $this->redirect(['site/authfailure']);
+      }
+      // identifier is authentic
       if (Yii::$app->user->isGuest) {
-        // ask them to sign up or login and then return here
-        // check maximum number of invites
-        // place a form for name & email and set them up as a passive participant
-        return;
+        // redir to Participant join form
+        return $this->redirect(['/participant/join','meeting_id'=>$m->id,'identifier'=>$identifier]);
       } else {
-          $m = Meeting::find()
-            ->where(['identifier'=>$identifier])
-            ->one();
-            if (is_null($m) || ($m->owner->username != $username)) {
-              // access failure
-              return $this->redirect(['site/authfailure']);              
-            }
-        }
-        // path is authenticated
         $user_id = Yii::$app->user->getId();
-        // are they a member of the meeting
-        // if they are - redirect them to the view below
-        // if not -- add them as a participant
-        // then redirect them to the view
+        if (!Meeting::isAttendee($m->id,$user_id)) {
+            // if not an attendee -- add them as a participant
+            Participant::add($m->id,$user_id,$m->owner_id);
+        }
         return $this->actionView($m->id);
+      }
+
+
+
+        // if they are - redirect them to the view below
+
+        // then redirect them to the view
+
     }
 
     /**

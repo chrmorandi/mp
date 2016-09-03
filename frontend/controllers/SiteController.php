@@ -323,7 +323,6 @@ class SiteController extends Controller
                               'source_id' => $serviceId, // (string)$attributes['id'],
                           ]);
                           if ($auth->save()) {
-
                               User::completeInitialize($user->id);
                               UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
                               $transaction->commit();

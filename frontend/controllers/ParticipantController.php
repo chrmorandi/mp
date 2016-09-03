@@ -118,25 +118,66 @@ class ParticipantController extends Controller
     }
 
     public function actionJoin($meeting_id,$identifier) {
+      if (!Yii::$app->user->isGuest) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry you should not have access to the page you requested. Please contact support.'));
+        return $this->goHome();
+      }
+      // to do - check mtg identifier is present
+      $m = Meeting::find()
+        ->where(['identifier'=>$identifier])
+        ->andWhere(['id'=>$meeting_id])
+        ->one();
+      if (is_null($m)) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry we could not find the meeting that you requested to join. Please contact support.'));
+        return $this->goHome();
+      }
+      if (!Participant::withinLimit($meeting_id)) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this meeting has reached the maximum number of participants per meeting. Please let the organizer know or contact support.'));
+        return $this->goHome();
+      }
+      // ask them to sign up or login and then return here
+      // check maximum number of invites
+      // place a form for name & email and set them up as a passive participant
       $model = new Participant;
+      $model->meeting_id = $meeting_id;
       if ($model->load(Yii::$app->request->post())) {
-        var_dump ($model);
-        exit;
-      } else {
+        if (User::find()->where(['email'=>$model->email])->one()) {
+            Yii::$app->user->setReturnUrl($m->getSharingUrl());
+            Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Since you have an account already, please login below.'));
+            return $this->redirect(['/site/login']);
+        }
+        $postedVars = Yii::$app->request->post();
+        // store first and last fields
+        // if no first or last name - flash
+        $validationError = false;
+        if (!empty($postedVars['Participant']['firstname'])) {
+            $model->firstname = $postedVars['Participant']['firstname'];
+        } else {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Please provide your first name below.'));
+          $validationError=true;
+        }
+        if (!empty($postedVars['Participant']['lastname'])) {
+            $model->lastname = $postedVars['Participant']['lastname'];
+        } else {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Please provide your last name below.'));
+          $validationError=true;
+        }
+        $model->invited_by = $m->owner_id;
+        $model->status = Participant::STATUS_DEFAULT;
+        if (!$validationError && $model->validate()) {
+          $model->participant_id = User::addUserFromEmail($model->email);
+          $model->save();
+          // look up email to see if they exist
+          Meeting::displayNotificationHint($meeting_id);
+          $user = User::findOne($model->participant_id);
+          Yii::$app->user->login($user);
+          return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
+        }
+      }
         Yii::$app->user->setReturnUrl(Yii::$app->request->url);
-        //exit;
-        // to do - check mtg identifier is present
-        $meeting = Meeting::find()
-          ->where(['identifier'=>$identifier])
-          ->andWhere(['id'=>$meeting_id])
-          ->one();
-
-        // to do - check that these are valid
         return $this->render('join', [
             'model' => $model,
         ]);
-      }
-
     }
 
     /**

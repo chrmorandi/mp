@@ -84,7 +84,6 @@ class Participant extends \yii\db\ActiveRecord
               ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
               //['new_email','mailgunValidator'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],
-
         ];
     }
 
@@ -186,6 +185,16 @@ class Participant extends \yii\db\ActiveRecord
             }
             $this->addError($attribute, $str);
           }
+    }
+
+    public static function add($meeting_id,$participant_id,$invited_by) {      
+      $newP = new Participant();
+      $newP->meeting_id = $meeting_id;
+      $newP->participant_id = $participant_id;
+      $newP->invited_by = $invited_by;
+      $newP->status = Participant::STATUS_DEFAULT;
+      $newP->email = User::findOne($participant_id)->email;
+      $newP->save();
     }
 
     public static function withinLimit($meeting_id) {

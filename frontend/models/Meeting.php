@@ -813,14 +813,14 @@ class Meeting extends \yii\db\ActiveRecord
                $clone_p->save();
              }
              // if participant asked to reschedule - not yet allowed
+             // to do - review this code and finish this feature
              if ($addParticipant!==false) {
                $newP = new Participant();
+               $newP->email = User::findOne($addParticipant)->email;
                $newP->meeting_id = $m->id;
                $newP->participant_id = $addParticipant;
                $newP->invited_by = $user_id;
                $newP->status = Participant::STATUS_DEFAULT;
-               $newP->created_at = time();
-               $newP->updated_at = time();
                $newP->save();
              }
              return $m->id;
@@ -955,6 +955,10 @@ class Meeting extends \yii\db\ActiveRecord
          } else {
            return false;
          }
+       }
+
+       public function getSharingUrl() {
+         return Url::base(true).'/'.Html::encode($this->owner->username).'/'.$this->identifier;
        }
 
        public static function friendlyDateFromTimeString($time_str) {
@@ -1494,7 +1498,7 @@ class Meeting extends \yii\db\ActiveRecord
      public static function isAttendee($meeting_id,$user_id) {
        $m = Meeting::findOne($meeting_id);
        // are they the organizer?
-       if ($m->owner_id = $user_id) {
+       if ($m->owner_id == $user_id) {
          return true;
        }
        // are they a participant?
