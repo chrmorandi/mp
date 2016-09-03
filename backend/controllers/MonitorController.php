@@ -72,8 +72,11 @@ class MonitorController extends Controller
           )
        {
          return true;
+       } else {
+         echo 'Access failure';
+        return false; // or false to not run the action
        }
-      return false; // or false to not run the action
+
     }
 
     public function actionList() {
