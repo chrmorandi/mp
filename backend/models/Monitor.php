@@ -108,11 +108,11 @@ public function checkDb() {
     }
   }
 
-  public function checkList() {
+  public function checkMethodList() {
     $m = new Monitor();
     $cnt = 0;
-    $class_methods=[];
-    // $class_methods = \get_class_methods($m);
+    //$class_methods=[];
+    $class_methods = \get_class_methods($m);
     foreach ($class_methods as $method_name) {
       if ($cnt>10) {
         break;
@@ -120,6 +120,7 @@ public function checkDb() {
       echo $method_name.'<br />';
       $cnt+=1;
     }
+    $m->reportOk();
   }
 
   public static function reportOk() {
