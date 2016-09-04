@@ -34,6 +34,7 @@ class Friend extends \yii\db\ActiveRecord
     const DAY_LIMIT = 50;
 
     public $email;
+    public $fullname;
 
     /**
      * @inheritdoc

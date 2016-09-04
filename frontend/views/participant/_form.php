@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use frontend\models\Friend;
+use frontend\models\Address;
 use yii\widgets\ActiveForm;
 //use \kartik\typeahead\Typeahead;
 use frontend\assets\ComboAsset;
@@ -30,8 +31,18 @@ ComboAsset::register($this);
     $friendsEmail=[];
     $friendsId=[];
     $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
+    // to do - add a display name field for right side of input
+    $fa = Address::find()
+      ->select(['id','email'])
+      ->where(['user_id'=>Yii::$app->user->getId()])
+      ->limit(1000)
+      ->all();
     foreach ($fq as $f) {
       $friendsEmail[]=$f->friend->email; // get constructed name fields
+      $friendsId[]=$f->id;
+    }
+    foreach ($fa as $f) {
+      $friendsEmail[]=$f->email; // get constructed name fields
       $friendsId[]=$f->id;
     }
     if (count($friendsEmail)>0) {

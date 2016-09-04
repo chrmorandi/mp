@@ -6,6 +6,9 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use frontend\models\Friend;
+use frontend\models\UserProfile;
+use yii\db\Query;
+use yii\db\Expression;
 
 /**
  * FriendSearch represents the model behind the search form about `frontend\models\Friend`.
@@ -40,10 +43,20 @@ class FriendSearch extends Friend
      */
     public function search($params)
     {
-        $query = Friend::find();
-
+        //$query = Friend::find();
+$query = (new Query())
+    ->select(['friend.id','friend.user_id','user.email','user_profile.fullname',"lower('f') as address_type"])
+    ->from('friend')
+    ->join('LEFT JOIN', 'user', 'user.id = friend.friend_id')
+    ->join('RIGHT JOIN', 'user_profile', 'user_profile.user_id = friend.friend_id')
+    ->where(['friend.user_id'=>Yii::$app->user->getId()]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            //'sort'=> ['defaultOrder' => ['friend.email'=>SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 7,
+                'params' => array_merge($_GET, ['tab' => 'friend']),
+              ],
         ]);
 
         $this->load($params);
@@ -55,6 +68,8 @@ class FriendSearch extends Friend
         }
 
         $query->andFilterWhere([
+            'email' => $this->email,
+            'fullname' =>$this->fullname,
             'id' => $this->id,
             'user_id' => $this->user_id,
             'friend_id' => $this->friend_id,

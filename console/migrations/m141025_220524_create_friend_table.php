@@ -22,15 +22,14 @@ class m141025_220524_create_friend_table extends Migration
           'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
           'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
       ], $tableOptions);
-      $this->addForeignKey('fk_friend_user_id', '{{%friend}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');     
-      $this->addForeignKey('fk_friend_friend_id', '{{%friend}}', 'friend_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');     
-
+      $this->addForeignKey('fk_friend_user_id', '{{%friend}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
+      $this->addForeignKey('fk_friend_friend_id', '{{%friend}}', 'friend_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
   }
 
   public function down()
   {
-    $this->dropForeignKey('fk_friend_friend_id', '{{%friend}}');    
-    $this->dropForeignKey('fk_friend_user_id', '{{%friend}}');        
-      $this->dropTable('{{%friend}}');
+    $this->dropForeignKey('fk_friend_friend_id', '{{%friend}}');
+    $this->dropForeignKey('fk_friend_user_id', '{{%friend}}');
+    $this->dropTable('{{%friend}}');
   }
 }

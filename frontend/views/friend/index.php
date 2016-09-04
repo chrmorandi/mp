@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\models\Address;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\FriendSearch */
@@ -15,45 +16,67 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="<?= ($tab=='friend'?'active':'tabHide') ?>"><a href="#friend" role="tab" data-toggle="tab">Friends</a></li>
+      <li class="<?= ($tab=='address'?'active':'tabHide') ?>"><a href="#address" role="tab" data-toggle="tab">Contacts</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane <?= ($tab=='friend'?'active':'') ?>" id="friend">
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'dataProvider' => $friendProvider,
+        'filterModel' => $friendSearchModel,
         'columns' => [
-          [
-            'label'=>'Name',
-              'attribute' => 'friend_id',
-              'format' => 'raw',
-              'value' => function ($model) {
-                          return '<div>'.\common\components\MiscHelpers::getDisplayName($model->friend_id,true).'</div>';
-                  },
-          ],
-          [
-            'label'=>'Email',
-              'attribute' => 'friend_id',
-              'format' => 'raw',
-                'value' => function ($model) {
-                          return '<div>'.\common\models\User::find()->where(['id'=>$model->friend_id])->one()->email.'</div>';
-                  },
-          ],
-            //'number_meetings',
-            // 'is_favorite',
-            //'status',
+          'fullname',
+          'email',
             ['class' => 'yii\grid\ActionColumn',
 				      'template'=>'{delete}',
 					    'buttons'=>[
-                /*'delete' => function ($url, $model) {
-                  return Html::a('<span class="glyphicon glyphicon-trash"></span>', $model->id, ['title' => Yii::t('yii', 'Delete'),]);
-                }*/
+                'delete' => function ($url, $model) {
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'delete/'.$model['id'], ['title' => Yii::t('yii', 'Delete'),]);
+                }
 							],
 			      ],
         ],
     ]); ?>
+      </div>
+
+      <div class="tab-pane <?= ($tab=='address'?'active':'') ?>" id="address">
+        <?= GridView::widget([
+            'dataProvider' => $addressProvider,
+            'filterModel'=>$addressSearchModel,
+            'columns' => [
+              'fullname',
+              'email',
+                ['class' => 'yii\grid\ActionColumn',
+    				      'template'=>'{delete}',
+    					    'buttons'=>[
+                    'delete' => function ($url, $model) {
+                      if ($model['address_type']=='f') {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'delete/'.$model['id'], ['title' => Yii::t('yii', 'Delete'),]);
+                      } else {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'addrdel/'.$model['id'], ['title' => Yii::t('yii', 'Delete'),]);
+                      }
+
+                    }
+    							],
+    			      ],
+            ],
+        ]); ?>
+
+      </div>
+    </div>
+
     <p>
         <?= Html::a(Yii::t('frontend', Yii::t('frontend','Add a Friend'), [
     'modelClass' => 'Friend',
     ]), ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a(Yii::t('frontend', Yii::t('frontend','Import Google Contacts'), [
+        'modelClass' => 'Address',
+      ]), ['/address/import'], ['class' => 'btn btn-success']) ?>
     </p>
-
 
 </div>

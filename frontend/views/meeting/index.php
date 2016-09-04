@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_grid', [
         'mode'=>'past',
-        'dataProvider' => $pastProvider,
+        'dataProvider' => $pastProvider,        
     ]) ?>
   </div> <!-- end of past meetings tab -->
   <div class="tab-pane <?= ($tab=='canceled'?'active':'') ?>" id="canceled">
