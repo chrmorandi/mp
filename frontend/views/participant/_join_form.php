@@ -9,13 +9,13 @@ use common\components\MiscHelpers;
 ?>
 <div class="row">
   <div class="col-xs-12 col-lg-6">
-<p><?= Yii::t('frontend','You can join using any one of the following services:');?></p>
+<p><?= Yii::t('frontend','You can connect with any one of the following services:');?></p>
 <?= yii\authclient\widgets\AuthChoice::widget([
      'baseAuthUrl' => ['site/auth'],
      'popupMode' => false,
 ]) ?>
 
-<p>Or, you can join using the sign up form below:</p>
+<p><?= Yii::t('frontend','Or, you can use the form below:');?></p>
  <div class="participant-join-form">
      <?= $form->field($model, 'firstname')->textInput()->label(Yii::t('frontend','First Name')) ?>
      <?= $form->field($model, 'lastname')->textInput()->label(Yii::t('frontend','Last Name')) ?>

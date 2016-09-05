@@ -154,6 +154,8 @@ class ParticipantController extends Controller
               // to do - update user profile with first and last name
               $this->redirect(['meeting/view','id'=>$model->meeting_id]);
             } else {
+              // caution - don't turn off this requirement
+              // a person could add a celebrity to a meeting by using their email with any meeting code
               Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Since you have an account already, please login below.'));
               return $this->redirect(['/site/login']);
             }
@@ -177,7 +179,7 @@ class ParticipantController extends Controller
         $model->invited_by = $m->owner_id;
         $model->status = Participant::STATUS_DEFAULT;
         if (!$validationError && $model->validate()) {
-          $model->participant_id = User::addUserFromEmail($model->email);          
+          $model->participant_id = User::addUserFromEmail($model->email);
           $model->save();
           // look up email to see if they exist
           Meeting::displayNotificationHint($meeting_id);
