@@ -443,7 +443,7 @@ class MeetingController extends Controller
       if ($meeting->canFinalize(Yii::$app->user->getId())) {
         $meeting->finalize(Yii::$app->user->getId());
         Yii::$app->getSession()->setFlash('success', 'Your meeting has been finalized.');
-        return $this->redirect(['index']);
+        return $this->redirect(['/meeting/?tab=upcoming']);
       } else {
         // failed
         Yii::$app->getSession()->setFlash('error', 'Sorry, your meeting invitation cannot be finalized yet.');
