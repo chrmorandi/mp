@@ -131,6 +131,7 @@ class ParticipantController extends Controller
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry we could not find the meeting that you requested to join. Please contact support.'));
         return $this->goHome();
       }
+      // set return Url
       Yii::$app->user->setReturnUrl($m->getSharingUrl());
       if (!Participant::withinLimit($meeting_id)) {
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this meeting has reached the maximum number of participants per meeting. Please let the organizer know or contact support.'));
@@ -142,11 +143,21 @@ class ParticipantController extends Controller
       $model = new Participant;
       $model->meeting_id = $meeting_id;
       if ($model->load(Yii::$app->request->post())) {
-        if (User::find()->where(['email'=>$model->email])->one()) {
-            //Yii::$app->user->setReturnUrl($m->getSharingUrl());
-            Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Since you have an account already, please login below.'));
-            return $this->redirect(['/site/login']);
-        }
+        // asking does the person joining already exist in User table
+        // might have been added to invitation by organizer or might already be a registered user
+        $person = User::find()->where(['email'=>$model->email])->one();
+        if (!is_null($person)) {
+            // are they an attendee
+          if (Meeting::isAttendee($model->meeting_id,$person->id)) {
+              $identity = $person->findIdentity($person->id);
+              Yii::$app->user->login($identity);
+              // to do - update user profile with first and last name
+              $this->redirect(['meeting/view','id'=>$model->meeting_id]);
+            } else {
+              Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Since you have an account already, please login below.'));
+              return $this->redirect(['/site/login']);
+            }
+          }
         $postedVars = Yii::$app->request->post();
         // store first and last fields
         // if no first or last name - flash
