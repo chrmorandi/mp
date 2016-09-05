@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use common\models\User;
 use common\models\Yiigun;
 use frontend\models\Friend;
+use frontend\models\Meeting;
 
 /**
  * This is the model class for table "participant".
@@ -104,6 +105,10 @@ class Participant extends \yii\db\ActiveRecord
               Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, no more participants are allowed for this meeting.'));
               return false;
             }
+            // check for already attending - prevent dup
+            if (Meeting::isAttendee($this->meeting_id,$this->participant_id)) {
+              return true;
+            }
           }
           return true;
         } else {
@@ -187,7 +192,7 @@ class Participant extends \yii\db\ActiveRecord
           }
     }
 
-    public static function add($meeting_id,$participant_id,$invited_by) {      
+    public static function add($meeting_id,$participant_id,$invited_by) {
       $newP = new Participant();
       $newP->meeting_id = $meeting_id;
       $newP->participant_id = $participant_id;

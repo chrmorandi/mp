@@ -177,7 +177,7 @@ class ParticipantController extends Controller
         $model->invited_by = $m->owner_id;
         $model->status = Participant::STATUS_DEFAULT;
         if (!$validationError && $model->validate()) {
-          $model->participant_id = User::addUserFromEmail($model->email);
+          $model->participant_id = User::addUserFromEmail($model->email);          
           $model->save();
           // look up email to see if they exist
           Meeting::displayNotificationHint($meeting_id);
