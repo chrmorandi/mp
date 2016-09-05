@@ -53,7 +53,7 @@ if ($mode =='upcoming' || $mode =='past') {
           ],*/
               ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {download}  {decline}  {cancel}',
               'headerOptions' => ['class' => 'itemHide'],
-              'contentOptions' => ['class' => 'itemHide col-lg-1 col-xs-2'],
+              'contentOptions' => ['class' => 'itemHide'],
               'buttons'=>[
                   'view' => function ($url, $model) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url,
@@ -133,7 +133,7 @@ if ($mode =='upcoming' || $mode =='past') {
       ],*/
           ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {settings} {trash}',
           'headerOptions' => ['class' => 'itemHide'],
-          'contentOptions' => ['class' => 'itemHide col-lg-1 col-xs-2'],
+          'contentOptions' => ['class' => 'itemHide'],
           'buttons'=>[
               'view' => function ($url, $model) {
                 return $model->status<=$model::STATUS_SENT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [

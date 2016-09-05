@@ -12,10 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-  <li class="<?= ($tab=='planning'?'active':'tabHide') ?>"><a href="#planning" role="tab" data-toggle="tab">Planning</a></li>
-  <li class="<?= ($tab=='upcoming'?'active':'tabHide') ?>"><a href="#upcoming" role="tab" data-toggle="tab">Confirmed</a></li>
-  <li class="<?= ($tab=='past'?'active':'tabHide') ?>"><a href="#past" role="tab" data-toggle="tab" >Past</a></li>
-  <li class="<?= ($tab=='canceled'?'active':'tabHide') ?>"><a href="#canceled" role="tab" data-toggle="tab">Canceled</a></li>
+  <li class="<?= ($tab=='planning'?'active':'inactive') ?>"><a href="#planning" role="tab" data-toggle="tab">Planning</a></li>
+  <li class="<?= ($tab=='upcoming'?'active':'inactive') ?>"><a href="#upcoming" role="tab" data-toggle="tab">Confirmed</a></li>
+  <li class=" <?= ($tab=='past'?'active':'inactive') ?>"><a href="#past" role="tab" data-toggle="tab" >Past</a></li>
+  <li class="tabHide <?= ($tab=='canceled'?'active':'inactive') ?>"><a href="#canceled" role="tab" data-toggle="tab">Canceled</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_grid', [
         'mode'=>'past',
-        'dataProvider' => $pastProvider,        
+        'dataProvider' => $pastProvider,
     ]) ?>
   </div> <!-- end of past meetings tab -->
   <div class="tab-pane <?= ($tab=='canceled'?'active':'') ?>" id="canceled">

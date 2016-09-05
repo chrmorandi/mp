@@ -13,7 +13,9 @@ use yii\web\Response;
 use yii\helpers\Html;
 use common\models\User;
 use frontend\models\Friend;
+use frontend\models\Address;
 use frontend\models\FriendSearch;
+use frontend\models\AddressSearch;
 
 
 /**
@@ -56,21 +58,30 @@ class FriendController extends Controller
      */
     public function actionIndex()
     {
-      $friendProvider = new ActiveDataProvider([
-            // to do - sort this by best display name
-            //'sort'=> ['defaultOrder' => ['email?'=>SORT_DESC]],
-            'query' => Friend::find()->joinWith('user')->where(['user_id'=>Yii::$app->user->getId()]),
-            'pagination' => [
-                'pageSize' => 10,
-              ],
-        ]);
+        $tab ='friend';
+        if (isset(Yii::$app->request->queryParams['tab'])) {
+          $tab =Yii::$app->request->queryParams['tab'];
+        }
+      /*  $friends = (new Query())
+          ->select(['friend.id','friend.user_id','user.email','user_profile.fullname',"lower('f') as address_type"])
+          ->from('friend')
+          ->join('LEFT JOIN', 'user', 'user.id = friend.friend_id')
+          ->join('RIGHT JOIN', 'user_profile', 'user_profile.user_id = friend.friend_id')
+          ->where(['friend.user_id'=>Yii::$app->user->getId()]);*/
+        $friendSearchModel = new FriendSearch();
+        $friendProvider = $friendSearchModel->search(Yii::$app->request->queryParams);
 
-        $searchModel = new FriendSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $addressSearchModel = new AddressSearch();
+        $addressProvider = $addressSearchModel->search(Yii::$app->request->queryParams);
+
+
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $friendProvider,
+            'friendProvider' => $friendProvider,
+            'addressProvider' => $addressProvider,
+            'addressSearchModel' => $addressSearchModel,
+            'friendSearchModel'=>$friendSearchModel,
+            'tab'=>$tab,
         ]);
     }
 
@@ -171,111 +182,5 @@ class FriendController extends Controller
         }
     }
 
-    public function actionImport() {
-      $session = Yii::$app->session;
-      if (isset($_GET['reset'])) {
-        $session->remove('google_code');
-        $this->redirect('/mp/friend/import');
-      }
 
-      //$session->remove('google_code');
-      //exit;
-      $redirect_uri='http://localhost:8888/mp/friend/import';
-      $session->open();
-      $client = new \Google_Client();
-      $client -> setApplicationName('Meeting Planner');
-      $client -> setClientid( Yii::$app->components['authClientCollection']['clients']['google']['clientId']);
-      $client -> setClientSecret(Yii::$app->components['authClientCollection']['clients']['google']['clientSecret']);
-      $client -> setRedirectUri($redirect_uri);
-      $client -> setAccessType('online');
-      $client -> setScopes('https://www.google.com/m8/feeds');
-      $googleImportUrl = $client -> createAuthUrl();
-
-      // moves returned code to session variables and returns here
-      if (isset($_GET['code']))
-    	{
-    		$auth_code = $_GET['code'];
-        $session->set('google_code',$auth_code);
-    		header('Location: http://localhost:8888/mp/friend/import');
-        exit;
-    	} else {
-        $session_code = $session->get('google_code');
-        if (!isset($session_code)) {
-            echo Html::a($googleImportUrl,$googleImportUrl);
-            exit;
-        }
-      }
-
-      //$client -> setRedirectUri('https://meetingplanner.io/friend/import');
-
-      if (isset($session_code)) {
-        $auth_code = $session_code;
-		      $max_results = 5000;
-	         $fields=array(
-	        'code'=>  urlencode($auth_code),
-	        'client_id'=>  urlencode(Yii::$app->components['authClientCollection']['clients']['google']['clientId']),
-	        'client_secret'=>  urlencode(Yii::$app->components['authClientCollection']['clients']['google']['clientSecret']),
-	        'redirect_uri'=>  urlencode($redirect_uri),
-	        'grant_type'=>  urlencode('authorization_code'),
-	    );
-	    $post = '';
-	    foreach($fields as $key=>$value)
-	    {
-	        $post .= $key.'='.$value.'&';
-	    }
-	    $post = rtrim($post,'&');
-	    $result = $this->curl('https://accounts.google.com/o/oauth2/token',$post);
-	    $response =  json_decode($result);
-	    //var_dump($response);
-	    $accesstoken = $response->access_token;
-	    $url = 'https://www.google.com/m8/feeds/contacts/default/full?max-results='.$max_results.'&alt=json&v=3.0&oauth_token='.$accesstoken;
-	    $xmlresponse =  $this->curl($url);
-	    $contacts = json_decode($xmlresponse,true);
-		    //var_dump ( $contacts);
-		      $return = array();
-  		if (!empty($contacts['feed']['entry'])) {
-  			foreach($contacts['feed']['entry'] as $contact) {
-          if (isset($contact['gd$email'])) {
-            $return[] = array (
-    					'name'=> $contact['title']['$t'],
-    					'email' => $contact['gd$email'][0]['address'],
-    				);
-          } else {
-          continue;
-          }
-  			}
-		  }
-		$google_contacts = $return;
-    var_dump($google_contacts);
-		$session->remove('google_code');
-	}
-}
-
-    public static function curl($url, $post = "") {
-       $curl = curl_init();
-       $userAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)';
-       curl_setopt($curl, CURLOPT_URL, $url);
-       //The URL to fetch. This can also be set when initializing a session with curl_init().
-       curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-       //TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly.
-       curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-       //The number of seconds to wait while trying to connect.
-       if ($post != "") {
-       curl_setopt($curl, CURLOPT_POST, 5);
-       curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
-       }
-       curl_setopt($curl, CURLOPT_USERAGENT, $userAgent);
-       //The contents of the "User-Agent: " header to be used in a HTTP request.
-       curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-       //To follow any "Location: " header that the server sends as part of the HTTP header.
-       curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
-       //To automatically set the Referer: field in requests where it follows a Location: redirect.
-       curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-       //The maximum number of seconds to allow cURL functions to execute.
-       curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-       //To stop cURL from verifying the peer's certificate.
-       $contents = curl_exec($curl);
-       curl_close($curl);
-       return $contents;
-     }
 }

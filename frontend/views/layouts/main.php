@@ -132,8 +132,8 @@ AppAsset::register($this);
         <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
         <?php
         if (!Yii::$app->user->isGuest) {
-          echo Html::tag('span',' . ',['class'=>'itemHide']).Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io',['class'=>'itemHide']));
-          echo Html::tag('span',' . ',['class'=>'itemHide']).Html::a(Yii::t('frontend','about'),Url::to(['/site/about']),['class'=>'itemHide']);
+          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io')),['class'=>'itemHide']);
+          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/site/about'])),['class'=>'itemHide']);
         }
          ?>
         </p>

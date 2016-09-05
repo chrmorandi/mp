@@ -18,17 +18,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-      <li class="<?= ($tab=='friend'?'active':'tabHide') ?>"><a href="#friend" role="tab" data-toggle="tab">Friends</a></li>
-      <li class="<?= ($tab=='address'?'active':'tabHide') ?>"><a href="#address" role="tab" data-toggle="tab">Contacts</a></li>
+      <li class="<?= ($tab=='friend'?'active':'') ?>"><a href="#friend" role="tab" data-toggle="tab">Friends</a></li>
+      <li class="hidden <?= ($tab=='address'?'active':'') ?>"><a href="#address" role="tab" data-toggle="tab">Contacts</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-      <div class="tab-pane <?= ($tab=='friend'?'active':'') ?>" id="friend">
+      <div class="tab-pane  <?= ($tab=='friend'?'active':'') ?>" id="friend">
 
     <?= GridView::widget([
         'dataProvider' => $friendProvider,
-        'filterModel' => $friendSearchModel,
+        //'filterModel' => $friendSearchModel,
         'columns' => [
           'fullname',
           'email',
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
       </div>
 
-      <div class="tab-pane <?= ($tab=='address'?'active':'') ?>" id="address">
+      <div class="tab-pane hidden <?= ($tab=='address'?'active':'') ?>" id="address">
         <?= GridView::widget([
             'dataProvider' => $addressProvider,
             'filterModel'=>$addressSearchModel,
@@ -74,9 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('frontend', Yii::t('frontend','Add a Friend'), [
     'modelClass' => 'Friend',
     ]), ['create'], ['class' => 'btn btn-success']) ?>
-    <?= Html::a(Yii::t('frontend', Yii::t('frontend','Import Google Contacts'), [
+    <? /*= Html::a(Yii::t('frontend', Yii::t('frontend','Import Google Contacts'), [
         'modelClass' => 'Address',
-      ]), ['/address/import'], ['class' => 'btn btn-success']) ?>
+      ]), ['/address/import'], ['class' => 'btn btn-success']) */ ?>
     </p>
 
 </div>
