@@ -107,7 +107,7 @@ class Participant extends \yii\db\ActiveRecord
             }
             // check for already attending - prevent dup
             if (Meeting::isAttendee($this->meeting_id,$this->participant_id)) {
-              return true;
+              return false;
             }
           }
           return true;
