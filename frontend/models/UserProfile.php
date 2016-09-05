@@ -181,4 +181,29 @@ class UserProfile extends \yii\db\ActiveRecord
         return false;
       }
     }
+
+    public static function improve($user_id,$firstname='',$lastname='') {
+      // nondestructively adds firstname and last name to user profile if either are empty
+      // initially used from participant url join to capture user provided name
+      $u = User::find()
+        ->where(['id'=>$user_id])
+        ->one();
+      if (is_null($u)) {
+        return false;
+      }
+      $up = UserProfile::find()->where(['user_id'=>$user_id])->one();
+      if (is_null($up)) {
+        // initialize profile if not yet exist
+        $up_id = UserProfile::initialize($user_id);
+        $up=UserProfile::findOne($up_id);
+      }
+        if ($up->firstname=='') {
+          $up->firstname = $firstname;
+        }
+        if ($up->lastname=='') {
+          $up->lastname = $lastname;
+        }
+        $up->update();
+        return true;
+    }
 }
