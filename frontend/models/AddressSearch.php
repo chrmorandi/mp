@@ -41,15 +41,15 @@ class AddressSearch extends Address
      */
     public function search($params)
     {
-        $query = Address::find();
+        $query = Address::find()->where(['user_id'=>Yii::$app->user->getId()]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+            'sort'=> ['defaultOrder' => ['firstname'=>SORT_ASC]],
             'pagination' => [
-                'pageSize' => 7,
+                'pageSize' => 20,
                 'params' => array_merge($_GET, ['tab' => 'address']),
               ],
         ]);
