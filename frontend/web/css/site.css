@@ -114,6 +114,15 @@ tr.small-header {
   font-style:italic;
 }
 
+.centered {
+  text-align:center;
+  margin: auto; max-width: 300px;
+}
+
+.marketing h4 {
+  padding:10px 0 0px;
+
+}
 /* Custom styles */
 
 /* virtual or in person switch */
