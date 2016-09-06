@@ -32,7 +32,7 @@ class MeetingNoteController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions'=>['create','update','view','delete'],
+                                'actions'=>['create','update','view','delete','updatenote'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -122,6 +122,21 @@ class MeetingNoteController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionUpdatenote($id,$note='') {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $m=Meeting::findOne($id);      
+      $model = new MeetingNote();
+      $title = $m->getMeetingTitle($id);
+      $model->meeting_id= $id;
+      $model->posted_by= Yii::$app->user->getId();
+      $model->status = self::STATUS_POSTED;
+      $model->note = $note;
+      $m->update();
+      $model->save();
+      //Meeting::displayNotificationHint($meeting_id);
+      return true;
     }
 
     /**

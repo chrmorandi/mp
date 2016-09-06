@@ -157,25 +157,25 @@ echo $this->render('_timezone_alerts');
             'model'=>$model,
             'noteProvider' => $noteProvider,
         ]) ?>
-        <?php
-          if ( $model->status >= $model::STATUS_COMPLETED) {
-            echo $this->render('_command_bar_past', [
-                'model'=>$model,
-                'isPast'=>true,
-                'dropclass'=>'dropup',
-                'isOwner' => $isOwner,
-            ]);
-          } else {
-            echo $this->render('_command_bar_confirmed', [
-                'model'=>$model,
-                'meetingSettings' => $meetingSettings,
-                'showRunningLate'=>$showRunningLate,
-                'isPast'=>$isPast,
-                'dropclass'=>'dropup',
-                'isOwner' => $isOwner,
-            ]);
-          }
-        ?>
+    <?php
+      if ( $model->status >= $model::STATUS_COMPLETED) {
+        echo $this->render('_command_bar_past', [
+            'model'=>$model,
+            'isPast'=>true,
+            'dropclass'=>'dropup',
+            'isOwner' => $isOwner,
+        ]);
+      } else {
+        echo $this->render('_command_bar_confirmed', [
+            'model'=>$model,
+            'meetingSettings' => $meetingSettings,
+            'showRunningLate'=>$showRunningLate,
+            'isPast'=>$isPast,
+            'dropclass'=>'dropup',
+            'isOwner' => $isOwner,
+        ]);
+      }
+    ?>
 
 </div> <!-- end meeting view -->
 <?php

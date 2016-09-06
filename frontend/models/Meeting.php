@@ -113,6 +113,7 @@ class Meeting extends \yii\db\ActiveRecord
 
   public $has_subject = false;
   public $title;
+  public $note;
   public $viewer;
   public $viewer_id;
   public $isReadyToSend = false;

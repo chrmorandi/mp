@@ -15,16 +15,24 @@ use yii\bootstrap\Collapse;
         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNote" aria-expanded="true" aria-controls="collapseNote"><?= Yii::t('frontend','Notes') ?></a></h4>
         <span class="hint-text"><?= Yii::t('frontend','send a message to others') ?></span>
       </div>
-      <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;"><?= Html::a(Yii::t('frontend', ''), ['meeting-note/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus']) ?>
+      <div class="col-lg-2 col-md-2 col-xs-2" >
+        <div style="float:right;">
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Edit','onclick'=>'showNote();']); ?>
+      </div>
       </div>
     </div>
   </div>
-  </div>
   <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote"  >
+    <div class="panel-body nopadding">
+      <div id="editNote" class="hidden">
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
+      </div>
+    </div>
       <?php
       if ($noteProvider->count>0):
       ?>
-      <div class="panel-body nopadding">
       <table class="table">
         <?= ListView::widget([
                'dataProvider' => $noteProvider,
@@ -33,13 +41,12 @@ use yii\bootstrap\Collapse;
                'itemView' => '_list',
            ]) ?>
       </table>
+  </div>
+    <?php else: ?>
+      <div class="panel-body">
+      <?= Yii::t('frontend','No notes yet.') ?>
+      <?= Html::a(Yii::t('frontend', 'Send a note to other participants.'), ['meeting-note/create', 'meeting_id' => $model->id]); ?>
       </div>
-      <?php else: ?>
-        <div class="panel-body">
-        <?= Yii::t('frontend','No notes yet.') ?>
-        <?= Html::a(Yii::t('frontend', 'Send a note to other participants.'), ['meeting-note/create', 'meeting_id' => $model->id]); ?>
-        </div>
-      <?php endif; ?>
-
+    <?php endif; ?>
   </div>
 </div>

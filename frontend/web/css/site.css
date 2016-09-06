@@ -199,6 +199,9 @@ table.table-list td.table-switches {
 .nopadding {
   padding:0px;
 }
+#editNote {
+  padding:15px;
+}
 .short-footer {
   padding:3px 15px;
 }

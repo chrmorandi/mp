@@ -101,6 +101,18 @@ function cancelWhat() {
   showWhat();
 }
 
+function showNote() {
+  if ($('#editNote').hasClass( "hidden")) {
+    $('#editNote').removeClass("hidden");
+  }else {
+    $('#editNote').addClass("hidden");
+  }
+};
+
+function cancelNote() {
+  $('#editNote').addClass("hidden");
+}
+
 function updateWhat(id) {
   // ajax submit subject and message
   $.ajax({
@@ -111,6 +123,20 @@ function updateWhat(id) {
      success: function(data) {
        $('#showWhat').text($('#meeting-subject').val());
        showWhat();
+       return true;
+     }
+     // to do - error display flash
+  });
+}
+
+function updateNote(id) {
+  // ajax submit subject and message
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-note/updatenote',
+     data: {id: id,
+        note: $('#meeting-note').val()},
+     success: function(data) {       
+       $('#editNote').addClass("hidden");
        return true;
      }
      // to do - error display flash
