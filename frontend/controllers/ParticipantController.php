@@ -159,12 +159,14 @@ class ParticipantController extends Controller
             UserProfile::improve($person->id,$model->firstname,$model->lastname);
             // are they an attendee
           if (Meeting::isAttendee($model->meeting_id,$person->id)) {
+            /*
               // to do note - this has to be changed to restricted access mode or removed
               $identity = $person->findIdentity($person->id);
               Yii::$app->user->login($identity);
               // to do - update user profile with first and last name
               $this->redirect(['meeting/view','id'=>$model->meeting_id]);
             } else {
+            */
               // caution - don't turn off this requirement
               // a person could add a celebrity to a meeting by using their email with any meeting code and login with their account
               Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Since you have an account already, please login below.'));
