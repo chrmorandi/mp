@@ -1,19 +1,19 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
-
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title).' '.Yii::t('frontend','with Meeting Planner') ?></h1>
+<div class="row ">
+  <div class="col-xs-6 col-xs-offset-3">
 
+<div class="site-signup">
+    <h2><?= Html::encode($this->title).' '.Yii::t('frontend','with Meeting Planner') ?></h2>
     <div class="row">
-        <div class="col-lg-5">
+      <div class="col-xs-12">
           <p><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
           <?= yii\authclient\widgets\AuthChoice::widget([
                'baseAuthUrl' => ['site/auth','mode'=>'signup'],
@@ -34,10 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
                       // configure additional widget properties here
                   ]) ?>
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Signup Now', ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
         </div>
     </div>
 
+</div>
+</div>
 </div>

@@ -214,6 +214,26 @@ table.table-list td.table-switches {
 .short-footer {
   padding:3px 15px;
 }
+
+.container6 {
+  height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
 /* ----------- mobile displays ----------- */
 
 @media only screen

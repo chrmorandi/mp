@@ -207,6 +207,7 @@ class SiteController extends Controller
     }
 
     public function actionFeature() {
+      
         return $this->render('feature');
     }
 
