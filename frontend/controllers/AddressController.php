@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use frontend\models\Address;
 use frontend\models\AddressSearch;
 use yii\web\Controller;
@@ -140,16 +141,23 @@ class AddressController extends Controller
     }
 
     public function actionImport() {
+      // imports contacts from the google api
       $address = new Address();
+      // create session cookies
       $session = Yii::$app->session;
-      if (isset($_GET['reset'])) {
+      // if we request code reset, then remove the google_code cookie
+      // i.e. if google_code expires
+      if (isset($_GET['reset']) && !$session->has('google_code_reset')) {
+        // prevent loops
+        $session->set('google_code_reset');
+        // reset the google_code
         $session->remove('google_code');
-        $this->redirect('/mp/address/import');
+        $this->redirect(['import']);
       }
-
-      //$session->remove('google_code');
-      //exit;
-      $redirect_uri='http://localhost:8888/mp/address/import';
+      // always remove the reset request cookie
+      $session->remove('google_code_reset');
+      // build the API request
+      $redirect_uri=Url::home(true).'address/import';
       $session->open();
       $client = new \Google_Client();
       $client -> setApplicationName('Meeting Planner');
@@ -165,22 +173,20 @@ class AddressController extends Controller
     	{
     		$auth_code = $_GET['code'];
         $session->set('google_code',$auth_code);
-    		header('Location: http://localhost:8888/mp/address/import');
-        exit;
+    		header('Location: '.Url::home(true).'address/import');
+        // do not remove - breaks the API
+        exit; // do not replace with yii app end
+        // do not remove above exit
     	} else {
         $session_code = $session->get('google_code');
         if (!isset($session_code)) {
-          //Html::a($googleImportUrl,$googleImportUrl)
             $this->redirect( $googleImportUrl);
-            //exit;
         }
       }
-
-      //$client -> setRedirectUri('https://meetingplanner.io/address/import');
-
+      // Requests the user authentication
       if (isset($session_code)) {
         $auth_code = $session_code;
-		      $max_results = 1000;
+
 	         $fields=array(
 	        'code'=>  urlencode($auth_code),
 	        'client_id'=>  urlencode(Yii::$app->components['authClientCollection']['clients']['google']['clientId']),
@@ -188,6 +194,8 @@ class AddressController extends Controller
 	        'redirect_uri'=>  urlencode($redirect_uri),
 	        'grant_type'=>  urlencode('authorization_code'),
 	    );
+
+      // Requests the access token
 	    $post = '';
 	    foreach($fields as $key=>$value)
 	    {
@@ -197,37 +205,68 @@ class AddressController extends Controller
 	    $result = $address->curl('https://accounts.google.com/o/oauth2/token',$post);
 	    $response =  json_decode($result);
       if (isset($response->error)) {
-          var_dump($response);
-          exit;
-      }
-	    $accesstoken = $response->access_token;
-	    $url = 'https://www.google.com/m8/feeds/contacts/default/full?max-results='.$max_results.'&alt=json&v=3.0&oauth_token='.$accesstoken;
-	    $xmlresponse =  $address->curl($url);
-	    $contacts = json_decode($xmlresponse,true);
-		    //var_dump ( $contacts);
-		      $return = array();
-  		if (!empty($contacts['feed']['entry'])) {
-  			foreach($contacts['feed']['entry'] as $contact) {
-          if (isset($contact['gd$email'])) {
-            //var_dump($contact);
-            $temp = array (
-              'firstname' => (isset($contact['gd$name']['gd$givenName']['$t'])?$contact['gd$name']['gd$givenName']['$t']:''),
-              'lastname' => (isset($contact['gd$name']['gd$familyName']['$t'])?$contact['gd$name']['gd$familyName']['$t']:''),
-    					'fullname'=> $contact['title']['$t'],
-    					'email' => $contact['gd$email'][0]['address'],
-    				);
-            $return[]=$temp;
-            $address->add($temp);
-          } else {
-          continue;
+        // to do - remove this
+          if ($response->error_description == 'Code was already redeemed.') {
+            $session->remove('google_code');
+            return $this->redirect(['import']);
           }
-  			}
-		  }
-		$google_contacts = $return;
-    var_dump($google_contacts);
-		$session->remove('google_code');
-	}
-}
-
-
+          if ($response->error_description == 'Invalid code.') {
+            $session->remove('google_code');
+            return $this->redirect(['import']);
+          }
+          var_dump($response);
+          echo Yii::t('frontend','There was an error. Please contact support.');
+      }
+      if (isset($response->access_token) || empty($response->access_token)) {
+          $accesstoken = $response->access_token;
+      } else {
+        echo Yii::t('frontend','There was an error. No access token. Please contact support.');
+      }
+      // Requests the data
+      $startIndex = 1;
+      $request_data = true;
+      $max_results = Address::CONTACTS_PAGE_SIZE;
+      $numberPages = 0;
+      while ($request_data && $numberPages <5) {
+         //echo 'calling with startIndex: '.$startIndex.'<br />';
+         $url = 'https://www.google.com/m8/feeds/contacts/default/full?max-results='.$max_results.'&start-index='.$startIndex.'&alt=json&v=3.0&oauth_token='.$accesstoken;
+         $xmlresponse =  $address->curl($url);
+         $contacts = json_decode($xmlresponse,true);
+         if (!isset($contacts['feed']['entry'])) {
+           var_dump ($url);
+           var_dump ($xmlresponse);
+           exit;
+         }
+        $resultsCount =count($contacts['feed']['entry']);
+        //echo 'count: '.$resultsCount.'<br />';
+         //var_dump (count($contacts['feed']['entry']));
+         // process out contacts without email adddresses
+         //$return = array();
+         if ($resultsCount>0) {
+           foreach($contacts['feed']['entry'] as $contact) {
+             if (isset($contact['gd$email'])) {
+               $temp = array (
+                 'firstname' => (isset($contact['gd$name']['gd$givenName']['$t'])?$contact['gd$name']['gd$givenName']['$t']:''),
+                 'lastname' => (isset($contact['gd$name']['gd$familyName']['$t'])?$contact['gd$name']['gd$familyName']['$t']:''),
+                 'fullname'=> $contact['title']['$t'],
+                 'email' => $contact['gd$email'][0]['address'],
+               );
+               //$return[]=$temp;
+               $address->add($temp);
+             } else {
+               continue;
+             }
+           }
+           if ($resultsCount<$max_results) {
+             Yii::$app->getSession()->setFlash('success', Yii::t('backend','Your contacts have been imported.'));
+             return $this->redirect(['/friend','tab'=>'address']);
+           }
+         }
+         //var_dump($return);
+         $numberPages++;
+         $startIndex+=$max_results;
+       }
+       $session->remove('google_code');
+	 }
+  }
 }

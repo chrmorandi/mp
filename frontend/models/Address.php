@@ -22,9 +22,10 @@ use yii\db\ActiveRecord;
 class Address extends \yii\db\ActiveRecord
 {
     const STATUS_RAW = 0;
+    const CONTACTS_PAGE_SIZE = 2500;
 
     public $address_type;
-    
+
     /**
      * @inheritdoc
      */

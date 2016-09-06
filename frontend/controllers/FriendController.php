@@ -59,23 +59,17 @@ class FriendController extends Controller
     public function actionIndex()
     {
         $tab ='friend';
+        if (!isset(Yii::$app->request->queryParams['tab']) && isset(Yii::$app->request->queryParams['AddressSearch'])) {
+            $tab = 'address';
+        }
         if (isset(Yii::$app->request->queryParams['tab'])) {
           $tab =Yii::$app->request->queryParams['tab'];
         }
-      /*  $friends = (new Query())
-          ->select(['friend.id','friend.user_id','user.email','user_profile.fullname',"lower('f') as address_type"])
-          ->from('friend')
-          ->join('LEFT JOIN', 'user', 'user.id = friend.friend_id')
-          ->join('RIGHT JOIN', 'user_profile', 'user_profile.user_id = friend.friend_id')
-          ->where(['friend.user_id'=>Yii::$app->user->getId()]);*/
         $friendSearchModel = new FriendSearch();
         $friendProvider = $friendSearchModel->search(Yii::$app->request->queryParams);
 
         $addressSearchModel = new AddressSearch();
         $addressProvider = $addressSearchModel->search(Yii::$app->request->queryParams);
-
-
-
         return $this->render('index', [
             'friendProvider' => $friendProvider,
             'addressProvider' => $addressProvider,
