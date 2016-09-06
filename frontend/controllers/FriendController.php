@@ -61,7 +61,7 @@ class FriendController extends Controller
         $tab ='friend';
         if (!isset(Yii::$app->request->queryParams['tab']) && isset(Yii::$app->request->queryParams['AddressSearch'])) {
             $tab = 'address';
-        }
+            }
         if (isset(Yii::$app->request->queryParams['tab'])) {
           $tab =Yii::$app->request->queryParams['tab'];
         }
@@ -70,6 +70,7 @@ class FriendController extends Controller
 
         $addressSearchModel = new AddressSearch();
         $addressProvider = $addressSearchModel->search(Yii::$app->request->queryParams);
+        $addressProvider->pagination->pageSize=20;
         return $this->render('index', [
             'friendProvider' => $friendProvider,
             'addressProvider' => $addressProvider,

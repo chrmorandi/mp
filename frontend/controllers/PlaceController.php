@@ -54,7 +54,6 @@ class PlaceController extends Controller
     {
       $query = Place::find()->joinWith('userPlaces')->where(['user_id' => Yii::$app->user->getId()]);
       $searchModel = new PlaceSearch();
-
          $dataProvider = new ActiveDataProvider([
              'query' => $query,
              'pagination' => ['pageSize' => 7],
