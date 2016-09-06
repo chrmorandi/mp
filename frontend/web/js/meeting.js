@@ -89,7 +89,7 @@ function showWhat() {
   }else {
     $('#showWhat').addClass("hidden");
     $('#editWhat').removeClass("hidden");
-    $('#meeting-subject').select();
+    $('#meeting-subject').select().setSelectionRange(0, 9999);
   }
 };
 
