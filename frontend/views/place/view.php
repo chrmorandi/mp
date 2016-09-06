@@ -28,13 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="col-md-6">
 <div class="place-view">
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'name',
             //'place_type',
-            ['label' => 'website',
+            ['label' => Yii::t('frontend','Website'),
      'value' => Html::a($model->website, $model->website),
      'format' => 'raw'],
             'full_address',

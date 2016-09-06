@@ -99,6 +99,21 @@ class MeetingPlace extends \yii\db\ActiveRecord
       }
     }
 
+    public static function removePlace($meeting_id,$place_id)
+    {
+      $mp = MeetingPlace::find()
+        ->where(['meeting_id'=>$meeting_id,'place_id'=>$place_id])
+        ->one();
+      $m = Meeting::findOne($meeting_id);
+      if ($m->isOrganizer() || $mp->suggested_by == Yii::$app->user->getId()) {
+        $mp->status = MeetingPlace::STATUS_REMOVED;
+        $mp->update();
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     public function behaviors()
     {
         return [

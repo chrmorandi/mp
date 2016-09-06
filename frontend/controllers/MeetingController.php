@@ -44,7 +44,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity'],
+                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity'],
                                'roles' => ['@'],
                            ],
                           [
@@ -187,7 +187,8 @@ class MeetingController extends Controller
         $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
         $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
         $timeProvider = new ActiveDataProvider([
-            'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
+            'query' => MeetingTime::find()->where(['meeting_id'=>$id])
+              ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
             'sort' => [
               'defaultOrder' => [
                 'availability'=>SORT_DESC
@@ -195,7 +196,8 @@ class MeetingController extends Controller
             ],
         ]);
         $placeProvider = new ActiveDataProvider([
-            'query' => MeetingPlace::find()->where(['meeting_id'=>$id]),
+            'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
+              ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
             'sort' => [
               'defaultOrder' => [
                 'availability'=>SORT_DESC
@@ -280,6 +282,17 @@ class MeetingController extends Controller
             'place' => $meeting_place->place,
             'gps'=>$meeting_place->place->getLocation($place_id),
         ]);
+    }
+
+    public function actionRemoveplace($meeting_id,$place_id)
+    {
+      $result= MeetingPlace::removePlace($meeting_id,$place_id);
+      if ($result) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting place has been removed.'));
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you may not have access to removing meeting places.'));
+      }
+      return $this->redirect(['view','id'=>$meeting_id]);
     }
 
     /**

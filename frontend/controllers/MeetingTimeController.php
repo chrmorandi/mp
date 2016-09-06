@@ -28,18 +28,7 @@ class MeetingTimeController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'rules' => [
-                    // allow authenticated users
-                    [
-                        'allow' => true,
-                        'actions'=>['create','delete','choose'],
-                        'roles' => ['@'],
-                    ],
-                    // everything else is denied
+                    'remove' => ['post'],
                 ],
             ],
             'access' => [
@@ -48,7 +37,7 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','view','delete','choose'],
+                                'actions' => ['create','update','delete','choose','view','remove'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -64,8 +53,10 @@ class MeetingTimeController extends Controller
      */
     public function actionView($id)
     {
+        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'timezone'=>$timezone,
         ]);
     }
 
@@ -164,7 +155,7 @@ class MeetingTimeController extends Controller
         return $this->redirect(['index']);
     }
 
-  
+
     public function actionChoose($id,$val) {
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
@@ -183,6 +174,18 @@ class MeetingTimeController extends Controller
         $mt->save();
       }
       return true;
+    }
+
+    public function actionRemove($id)
+    {
+      $result=MeetingTime::removeTime($id);
+      // successful result returns $meeting_id to return to
+      if ($result!==false) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting time option has been removed.'));
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you may not have the right to remove meeting time options.'));
+      }
+      return $this->redirect(['/meeting/view','id'=>$result]);
     }
 
 

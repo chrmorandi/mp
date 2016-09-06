@@ -302,6 +302,20 @@ class MeetingTime extends \yii\db\ActiveRecord
       return $mt->id;
     }
 
+    public static function removeTime($id)
+    {
+      $mt = MeetingTime::findOne($id);
+      $m = Meeting::findOne($mt->meeting_id);
+      if ($m->isOrganizer() || $mt->suggested_by == Yii::$app->user->getId()) {
+        $mt->status = MeetingTime::STATUS_REMOVED;
+        $mt->update();
+        // successful result returns $meeting_id to return to
+        return $m->id;
+      } else {
+        return false;
+      }
+    }
+
     public function adjustAvailability($amount) {
       $this->availability+=$amount;
       $this->update();

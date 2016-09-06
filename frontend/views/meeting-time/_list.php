@@ -8,7 +8,7 @@ use \kartik\switchinput\SwitchInput;
     <table class="table-list"> <!-- list of times -->
       <tr>
         <td class="table-list-first"> <!-- time & status -->
-          <?= Meeting::friendlyDateFromTimestamp($model->start,$timezone); ?>
+          <?= Html::a(Meeting::friendlyDateFromTimestamp($model->start,$timezone),['/meeting-time/view','id'=>$model->id]); ?>
           <?php
             if ($whenStatus['text'][$model->id]<>'') {
             ?>

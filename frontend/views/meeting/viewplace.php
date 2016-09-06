@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = $place->name;
     <?php echo DetailView::widget([
         'model' => $place,
         'attributes' => [
-            
-            ['label' => 'website',
+
+            ['label' => Yii::t('frontend','Website'),
      'value' => Html::a($place->website, $place->website),
      'format' => 'raw'],
             //'place_type',
@@ -58,4 +58,9 @@ $this->params['breadcrumbs'][] = $place->name;
 </div> <!-- end second col -->
 <p>
   <?php echo Html::a(Yii::t('frontend', 'Return to Meeting'), ['view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+  <?php echo Html::a(Yii::t('frontend', 'Remove Place'), ['removeplace', 'meeting_id'=>$model->id,'place_id' => $place->id], ['class' => 'btn btn-danger',
+  'data' => [
+      'confirm' => Yii::t('frontend', 'Are you sure you want to delete this item?'),
+      'method' => 'post',
+  ],]) ?>
 </p>
