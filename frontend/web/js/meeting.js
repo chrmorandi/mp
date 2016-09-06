@@ -9,6 +9,10 @@ $(document).ready(function(){
       $('#tz_new').html('<a onclick="setTimezone(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
       $('#tz_alert').show();
     }
+    $('input[type="text"]').on('focus',function(){
+      $(this).get(0).selectionStart=0;
+      $(this).get(0).selectionEnd=999;
+  })
   });
 
 function setTimezone(timezone) {
@@ -89,7 +93,7 @@ function showWhat() {
   }else {
     $('#showWhat').addClass("hidden");
     $('#editWhat').removeClass("hidden");
-    $('#meeting-subject').select().setSelectionRange(0, 9999);
+    $('#meeting-subject').select();
   }
 };
 
