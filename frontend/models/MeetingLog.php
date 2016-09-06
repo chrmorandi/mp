@@ -36,10 +36,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_SUGGEST_PLACE = 10;
 	const ACTION_ACCEPT_ALL_PLACES = 11;
 	const ACTION_ACCEPT_PLACE = 12;
+	const ACTION_REMOVE_PLACE = 13;
 	const ACTION_REJECT_PLACE = 15;
 	const ACTION_SUGGEST_TIME = 20;
 	const ACTION_ACCEPT_ALL_TIMES = 21;
 	const ACTION_ACCEPT_TIME = 22;
+	const ACTION_REMOVE_TIME = 23;
 	const ACTION_REJECT_TIME = 25;
 	const ACTION_INVITE_PARTICIPANT = 30;
 	const ACTION_ADD_NOTE = 40;
@@ -220,6 +222,12 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SUGGEST_TIME:
 				$label = Yii::t('frontend','added time');
 				break;
+				case MeetingLog::ACTION_REMOVE_PLACE:
+				$label = Yii::t('frontend','removed place');
+				break;
+				case MeetingLog::ACTION_REMOVE_TIME:
+				$label = Yii::t('frontend','removed time');
+				break;
 				case MeetingLog::ACTION_ADD_NOTE:
 				$label = Yii::t('frontend','added note');
 				break;
@@ -365,6 +373,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 						}
 					}
 				break;
+				case MeetingLog::ACTION_REMOVE_PLACE:
 				case MeetingLog::ACTION_SUGGEST_PLACE:
 				$label = Place::find()->where(['id'=>$this->item_id])->one();
 				if (is_null($label)) {
@@ -409,6 +418,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
 				case MeetingLog::ACTION_SUGGEST_TIME:
+				case MeetingLog::ACTION_REMOVE_TIME:
 				case MeetingLog::ACTION_ACCEPT_TIME:
 				case MeetingLog::ACTION_REJECT_TIME:
 					// get the start time

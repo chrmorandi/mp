@@ -309,6 +309,7 @@ class MeetingTime extends \yii\db\ActiveRecord
       if ($m->isOrganizer() || $mt->suggested_by == Yii::$app->user->getId()) {
         $mt->status = MeetingTime::STATUS_REMOVED;
         $mt->update();
+        MeetingLog::add($m->id,MeetingLog::ACTION_REMOVE_TIME,$mt->suggested_by,$id);
         // successful result returns $meeting_id to return to
         return $m->id;
       } else {

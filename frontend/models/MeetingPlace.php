@@ -108,6 +108,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
       if ($m->isOrganizer() || $mp->suggested_by == Yii::$app->user->getId()) {
         $mp->status = MeetingPlace::STATUS_REMOVED;
         $mp->update();
+        MeetingLog::add($meeting_id,MeetingLog::ACTION_REMOVE_PLACE,$mp->suggested_by,$place_id);
         return true;
       } else {
         return false;
