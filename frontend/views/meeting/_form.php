@@ -37,8 +37,7 @@ use common\components\MiscHelpers;
     </div>
     <div class="form-group">
       <span class="button-pad">
-        <?= Html::a(Yii::t('frontend','Update'), 'javascript:void(0);', ['class' => 'btn btn-primary','onclick'=>'updateWhat('.$model->id.');']) ?>
-        <?//= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('frontend','Update'), 'javascript:void(0);', ['class' => 'btn btn-primary','onclick'=>'updateWhat('.$model->id.');']) ?>        
       </span><span class="button-pad">
 
         <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelWhat();']) // ['/meeting/view', 'id' => $model->id] ?>
