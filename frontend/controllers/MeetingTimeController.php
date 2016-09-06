@@ -169,8 +169,11 @@ class MeetingTimeController extends Controller
           $mt->status = MeetingTime::STATUS_SELECTED;
           MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),intval($val));
         }
-        else
-          $mt->status = MeetingTime::STATUS_SUGGESTED;
+        else {
+          if ($mt->status == MeetingTime::STATUS_SELECTED) {
+              $mt->status = MeetingTime::STATUS_SUGGESTED;
+          }
+        }
         $mt->save();
       }
       return true;

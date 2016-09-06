@@ -370,10 +370,22 @@ class Meeting extends \yii\db\ActiveRecord
      public function canSend($sender_id) {
        // check if an invite can be sent
        // req: a participant, at least one place, at least one time
+       $cntPlaces = 0;
+       foreach($this->meetingPlaces as $mp) {
+         if ($mp->status!=MeetingPlace::STATUS_REMOVED) {
+           $cntPlaces+=1;
+         }
+       }
+       $cntTimes = 0;
+       foreach($this->meetingTimes as $mt) {
+         if ($mt->status!=MeetingTime::STATUS_REMOVED) {
+           $cntTimes+=1;
+         }
+       }
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
-        && (count($this->meetingPlaces)>0 || $this->isVirtual())
-        && count($this->meetingTimes)>0
+        && ($cntPlaces>0 || $this->isVirtual())
+        && $cntTimes>0
         ) {
          $this->isReadyToSend = true;
        } else {
@@ -386,28 +398,33 @@ class Meeting extends \yii\db\ActiveRecord
         $this->isReadyToFinalize = false;
         // check if meeting can be finalized by viewer
         // check if overall meeting state can be sent by owner
-         if (!$this->canSend($this->owner_id)) return false;
-          $chosenPlace = false;
-          if (count($this->meetingPlaces)==1 || $this->isVirtual()) {
-            $chosenPlace = true;
-          } else {
-            foreach ($this->meetingPlaces as $mp) {
-              if ($mp->status == MeetingPlace::STATUS_SELECTED) {
-                $chosenPlace = true;
-                break;
-              }
+        $chosenPlace = false;
+        $chosenTime = false;
+        $cntPlaces = 0;
+        foreach($this->meetingPlaces as $mp) {
+          if ($mp->status!=MeetingPlace::STATUS_REMOVED) {
+            $cntPlaces+=1;
+            if ($mp->status == MeetingPlace::STATUS_SELECTED) {
+              $chosenPlace = true;
             }
           }
-          $chosenTime = false;
-          if (count($this->meetingTimes)==1) {
-            $chosenTime = true;
-          } else {
-            foreach ($this->meetingTimes as $mt) {
-              if ($mt->status == MeetingTime::STATUS_SELECTED) {
-                  $chosenTime = true;
-                  break;
-              }
+
+        }
+        $cntTimes = 0;
+        foreach($this->meetingTimes as $mt) {
+          if ($mt->status!=MeetingTime::STATUS_REMOVED) {
+            $cntTimes+=1;
+            if ($mt->status == MeetingTime::STATUS_SELECTED) {
+                $chosenTime = true;
             }
+          }
+        }
+         if (!$this->canSend($this->owner_id)) return false;
+          if ($cntPlaces==1 || $this->isVirtual()) {
+            $chosenPlace = true;
+          }
+          if ($cntTimes==1) {
+            $chosenTime = true;
           }
           if ($this->owner_id == $user_id ||
           $this->meetingSettings->participant_finalize) {

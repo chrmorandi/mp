@@ -123,7 +123,9 @@ class MeetingPlaceController extends Controller
           MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),intval($val));
         }
         else {
-          $mp->status = MeetingPlace::STATUS_SUGGESTED;
+          if ($mp->status == MeetingPlace::STATUS_SELECTED) {
+              $mp->status = MeetingPlace::STATUS_SUGGESTED;
+          }
         }
         $mp->save();
       }
