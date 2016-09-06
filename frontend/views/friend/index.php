@@ -47,7 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				      'template'=>'{delete}',
 					    'buttons'=>[
                 'delete' => function ($url, $model) {
-                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'delete/'.$model['id'], ['title' => Yii::t('yii', 'Delete'),]);
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete','id'=>$model['id']],
+                      ['title' => Yii::t('yii', 'Delete'),
+                      'data' => [
+                        'confirm' => Yii::t('frontend', 'Are you sure you want to delete this friend?'),
+                        'method' => 'post',],
+                    'class' => 'icon-pad']
+                    );
                 }
 							],
 			      ],
@@ -77,12 +83,13 @@ $this->params['breadcrumbs'][] = $this->title;
     				      'template'=>'{delete}',
     					    'buttons'=>[
                     'delete' => function ($url, $model) {
-                      if ($model['address_type']=='f') {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'delete/'.$model['id'], ['title' => Yii::t('yii', 'Delete'),]);
-                      } else {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'addrdel/'.$model['id'], ['title' => Yii::t('yii', 'Delete'),]);
-                      }
-
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['address/delete','id'=>$model['id']],
+                          ['title' => Yii::t('yii', 'Delete'),
+                          'data' => [
+                            'confirm' => Yii::t('frontend', 'Are you sure you want to delete this contact?'),
+                            'method' => 'post',],
+                        'class' => 'icon-pad']
+                        );
                     }
     							],
     			      ],

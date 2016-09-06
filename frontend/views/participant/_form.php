@@ -35,7 +35,7 @@ ComboAsset::register($this);
     $fa = Address::find()
       ->select(['id','email'])
       ->where(['user_id'=>Yii::$app->user->getId()])
-      ->limit(1000)
+      ->limit(5000)
       ->all();
     foreach ($fq as $f) {
       $friendsEmail[]=$f->friend->email; // get constructed name fields

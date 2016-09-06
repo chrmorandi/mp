@@ -33,7 +33,7 @@ class AddressController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['import'],
+                       'actions'=>['import','delete'],
                        'roles' => ['@'],
                    ],
                   [
@@ -120,8 +120,7 @@ class AddressController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->redirect(['/friend/index','tab'=>'address']);
     }
 
     /**
