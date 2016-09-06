@@ -30,8 +30,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $friendProvider,
         //'filterModel' => $friendSearchModel,
         'columns' => [
-          'fullname',
-          'email',
+          [
+            'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
+            'label'=>'Name',
+              'attribute' => 'fullname',
+              'format' => 'raw',
+              'value' => function ($model) {
+                  if (trim($model['fullname'])=='') {
+                    return '<div>'.$model['email'].'</div>';
+                  } else {
+                      return '<div>'.$model['fullname'].' &lt;'.$model['email'].'&gt;</div>';
+                  }
+                  },
+          ],
             ['class' => 'yii\grid\ActionColumn',
 				      'template'=>'{delete}',
 					    'buttons'=>[
@@ -49,8 +60,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $addressProvider,
             'filterModel'=>$addressSearchModel,
             'columns' => [
-              'fullname',
-              'email',
+            [
+              'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
+              'label'=>'Name',
+                'attribute' => 'fullname',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if (trim($model->fullname)=='') {
+                          return '<div>'.$model->email.'</div>';
+                    } else {
+                          return '<div>'.$model->fullname.' &lt;'.$model->email.'&gt;</div>';
+                    }
+                  },
+            ],
                 ['class' => 'yii\grid\ActionColumn',
     				      'template'=>'{delete}',
     					    'buttons'=>[
