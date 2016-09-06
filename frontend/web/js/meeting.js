@@ -81,3 +81,34 @@ function toggleParticipant(id, val, original_status) {
      }
   });
 }
+
+function showWhat() {
+  if ($('#showWhat').hasClass( "hidden")) {
+    $('#showWhat').removeClass("hidden");
+    $('#editWhat').addClass("hidden");
+  }else {
+    $('#showWhat').addClass("hidden");
+    $('#editWhat').removeClass("hidden");
+    $('#meeting-subject').select();
+  }
+};
+
+function cancelWhat() {
+  showWhat();
+}
+
+function updateWhat(id) {
+  // ajax submit subject and message
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting/updatewhat',
+     data: {id: id,
+        subject: $('#meeting-subject').val(),
+        message: $('#meeting-message').val()},
+     success: function(data) {
+       $('#showWhat').text($('#meeting-subject').val());
+       showWhat();
+       return true;
+     }
+     // to do - error display flash
+  });
+}

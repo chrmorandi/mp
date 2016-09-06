@@ -33,13 +33,15 @@ use common\components\MiscHelpers;
 </div>
     <?php // $form->field($model, 'subject')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Subject')) ?>
     <div class="itemHide">
-    <?= $form->field($model, 'message')->textarea(['rows' => 6])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')) ?>
+    <?= $form->field($model, 'message')->textarea(['rows' => 6,'id'=>'meeting-message'])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')); ?>
     </div>
     <div class="form-group">
       <span class="button-pad">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('frontend','Update'), 'javascript:void(0);', ['class' => 'btn btn-primary','onclick'=>'updateWhat('.$model->id.');']) ?>
+        <?//= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
       </span><span class="button-pad">
-        <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
+
+        <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelWhat();']) // ['/meeting/view', 'id' => $model->id] ?>
       </span>
     </div>
     <?php ActiveForm::end();

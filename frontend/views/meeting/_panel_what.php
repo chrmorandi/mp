@@ -20,7 +20,8 @@ use frontend\models\Meeting;
       <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;">
       <?php
         if ($model->isOrganizer() && $model->status <= Meeting::STATUS_CONFIRMED) {
-            echo Html::a('', ['update', 'id' => $model->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil','title'=>'Edit']);
+          //['update', 'id' => $model->id]
+            echo Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-pencil','title'=>'Edit','onclick'=>'showWhat();']);
           }
         ?>
       </div>
@@ -32,12 +33,20 @@ use frontend\models\Meeting;
       ?>
       <div id="collapseWhat" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhat">
         <div class="panel-body">
-        <?php if (empty($model->message)) {
-          echo Html::encode($this->title);
-          // note: required because couldn't prevent extra space
-        } else {
-          echo Html::encode($this->title).': '.Html::encode($model->message).'&nbsp;';
-        } ?>
+          <div id="showWhat">
+          <?php if (empty($model->message)) {
+            echo Html::encode($this->title);
+            // note: required because couldn't prevent extra space
+          } else {
+            echo Html::encode($this->title).': '.Html::encode($model->message).'&nbsp;';
+          } ?>
+          </div>
+          <div id="editWhat" class="hidden">
+            <?= $this->render('_form', [
+                'model' => $model,
+                'subjects' =>  $model->defaultSubjectList(),
+            ]) ?>
+          </div>
         </div>
       </div>
       <?php

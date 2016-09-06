@@ -44,7 +44,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity'],
+                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat'],
                                'roles' => ['@'],
                            ],
                           [
@@ -734,6 +734,15 @@ class MeetingController extends Controller
             break;
         }
       }
+    }
+
+    public function actionUpdatewhat($id,$subject='',$message='') {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $m=Meeting::findOne($id);
+      $m->subject = $subject;
+      $m->message = $message;
+      $m->update();
+      return true;
     }
 
     /**
