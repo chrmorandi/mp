@@ -8,6 +8,8 @@ use common\components\MiscHelpers;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\Marker;
+use frontend\assets\MeetingAsset;
+MeetingAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
@@ -56,6 +58,8 @@ echo $this->render('_timezone_alerts');
     echo $this->render('../participant/_panel', [
         'model'=>$model,
         'participantProvider' => $participantProvider,
+        'participant'=>$participant,
+        'friends'=>$friends,
     ]);
    ?>
    <?php  // what
@@ -178,10 +182,6 @@ echo $this->render('_timezone_alerts');
     ?>
 
 </div> <!-- end meeting view -->
-<?php
-$this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-?>
 <?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
 <?= BaseHtml::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>

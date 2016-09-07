@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use common\components\MiscHelpers;
+use frontend\assets\MeetingAsset;
+MeetingAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 $this->title = $model->getMeetingHeader('view');
@@ -16,6 +18,8 @@ echo $this->render('_timezone_alerts');
           echo $this->render('../participant/_panel', [
               'model'=>$model,
               'participantProvider' => $participantProvider,
+              'participant'=>$participant,
+              'friends'=>$friends,
           ]);
          ?>
 
@@ -136,8 +140,6 @@ function refreshFinalize() {
 JS;
 $position = \yii\web\View::POS_READY;
 $this->registerJs($script, $position);
-$this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
