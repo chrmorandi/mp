@@ -15,13 +15,6 @@ $this->title = 'Meeting Planner';
 
             <p class="lead"><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
 
-  <style>
-  div.container6 {
-height: 10em;
-display: flex;
-align-items: center;
-justify-content: center }
-    </style>
 <div class="container6">
   <?php $authAuthChoice = AuthChoice::begin([
     'baseAuthUrl' => ['site/auth','mode'=>'signup'],

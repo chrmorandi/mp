@@ -1,11 +1,10 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
 ?>
 <div id="notifierNote" class="alert-info alert fade in" style="display:none;">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
+<?php echo Yii::t('frontend',"Thanks for your note. We'll automatically share it with other participants."); ?>
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -15,31 +14,26 @@ use yii\bootstrap\Collapse;
         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNote" aria-expanded="true" aria-controls="collapseNote"><?= Yii::t('frontend','Notes') ?></a></h4>
         <span class="hint-text"><?= Yii::t('frontend','send a message to others') ?></span>
       </div>
-      <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;"><?= Html::a(Yii::t('frontend', ''), ['meeting-note/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus']) ?>
+      <div class="col-lg-2 col-md-2 col-xs-2" >
+        <div style="float:right;">
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Edit','onclick'=>'showNote();']); ?>
+      </div>
       </div>
     </div>
   </div>
-  </div>
   <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote"  >
-      <?php
-      if ($noteProvider->count>0):
-      ?>
-      <div class="panel-body nopadding">
-      <table class="table">
-        <?= ListView::widget([
-               'dataProvider' => $noteProvider,
-               //'itemOptions' => ['class' => 'item'],
-               'layout' => '{items}',
-               'itemView' => '_list',
-           ]) ?>
-      </table>
+    <div class="panel-body nopadding">
+      <div id="editNote" class="hidden">
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
       </div>
-      <?php else: ?>
-        <div class="panel-body">
-        <?= Yii::t('frontend','No notes yet.') ?>
-        <?= Html::a(Yii::t('frontend', 'Send a note to other participants.'), ['meeting-note/create', 'meeting_id' => $model->id]); ?>
-        </div>
-      <?php endif; ?>
-
+    </div>
+    <div id ="noteThread" class="nopadding">
+      <?= $this->render('_thread', [
+          'model' => $model,
+          'noteProvider'=>$noteProvider,
+      ]) ?>
   </div>
+</div>
 </div>

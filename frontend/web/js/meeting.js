@@ -9,6 +9,7 @@ $(document).ready(function(){
       $('#tz_new').html('<a onclick="setTimezone(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
       $('#tz_alert').show();
     }
+
     $('input[type="text"]').on('focus',function(){
       $(this).get(0).selectionStart=0;
       $(this).get(0).selectionEnd=999;
@@ -101,6 +102,18 @@ function cancelWhat() {
   showWhat();
 }
 
+function showNote() {
+  if ($('#editNote').hasClass( "hidden")) {
+    $('#editNote').removeClass("hidden");
+  }else {
+    $('#editNote').addClass("hidden");
+  }
+};
+
+function cancelNote() {
+  $('#editNote').addClass("hidden");
+}
+
 function updateWhat(id) {
   // ajax submit subject and message
   $.ajax({
@@ -115,4 +128,35 @@ function updateWhat(id) {
      }
      // to do - error display flash
   });
+}
+
+function updateNote(id) {
+  // ajax submit subject and message
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-note/updatenote',
+     data: {id: id,
+        note: $('#meeting-note').val()},
+     success: function(data) {
+       $('#editNote').addClass("hidden");
+       $('#meeting-note').val('');
+       updateNoteThread(id);
+       return true;
+     }
+     // to do - error display flash
+  });
+}
+
+function updateNoteThread(id) {
+  // ajax submit subject and message
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-note/updatethread',
+     data: {id: id},
+     type: 'GET',
+     success: function(data){
+        $('#noteThread').html(data); // data['responseText']
+    },
+    error: function(error){
+    }
+  });
+  $('#notifierNote').show();
 }

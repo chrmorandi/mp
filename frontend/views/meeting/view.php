@@ -68,9 +68,9 @@ echo $this->render('_timezone_alerts');
 <?php
 if (isset(Yii::$app->params['urlPrefix'])) {
   $urlPrefix = Yii::$app->params['urlPrefix'];
-  } else {
-    $urlPrefix ='';
-  }
+} else {
+  $urlPrefix ='';
+}
 
 $session = Yii::$app->session;
 if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING ) {
@@ -79,7 +79,6 @@ if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING )
 } else {
   $notifierOkay='on';
 }
-
 ?>
 <input id="notifierOkay" value="<?= $notifierOkay ?>" type="hidden">
 <input id="meeting_id" value="<?= $model->id; ?>" type="hidden">
@@ -99,7 +98,7 @@ function displayNotifier(mode) {
       $('#notifierTime').show();
     } else if (mode == 'place') {
        $('#notifierPlace').show();
-    } else {
+     } else {
       alert("We\'ll automatically notify the organizer when you're done making changes.");
     }
     notifierOkay=false;

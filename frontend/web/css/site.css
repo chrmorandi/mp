@@ -114,6 +114,15 @@ tr.small-header {
   font-style:italic;
 }
 
+.centered {
+  text-align:center;
+  margin: auto; max-width: 300px;
+}
+
+.marketing h4 {
+  padding:10px 0 0px;
+
+}
 /* Custom styles */
 
 /* virtual or in person switch */
@@ -199,8 +208,31 @@ table.table-list td.table-switches {
 .nopadding {
   padding:0px;
 }
+#editNote {
+  padding:15px;
+}
 .short-footer {
   padding:3px 15px;
+}
+
+.container6 {
+  height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
 }
 /* ----------- mobile displays ----------- */
 

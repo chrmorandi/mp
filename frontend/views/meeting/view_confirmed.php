@@ -157,30 +157,30 @@ echo $this->render('_timezone_alerts');
             'model'=>$model,
             'noteProvider' => $noteProvider,
         ]) ?>
-        <?php
-          if ( $model->status >= $model::STATUS_COMPLETED) {
-            echo $this->render('_command_bar_past', [
-                'model'=>$model,
-                'isPast'=>true,
-                'dropclass'=>'dropup',
-                'isOwner' => $isOwner,
-            ]);
-          } else {
-            echo $this->render('_command_bar_confirmed', [
-                'model'=>$model,
-                'meetingSettings' => $meetingSettings,
-                'showRunningLate'=>$showRunningLate,
-                'isPast'=>$isPast,
-                'dropclass'=>'dropup',
-                'isOwner' => $isOwner,
-            ]);
-          }
-        ?>
+    <?php
+      if ( $model->status >= $model::STATUS_COMPLETED) {
+        echo $this->render('_command_bar_past', [
+            'model'=>$model,
+            'isPast'=>true,
+            'dropclass'=>'dropup',
+            'isOwner' => $isOwner,
+        ]);
+      } else {
+        echo $this->render('_command_bar_confirmed', [
+            'model'=>$model,
+            'meetingSettings' => $meetingSettings,
+            'showRunningLate'=>$showRunningLate,
+            'isPast'=>$isPast,
+            'dropclass'=>'dropup',
+            'isOwner' => $isOwner,
+        ]);
+      }
+    ?>
 
 </div> <!-- end meeting view -->
 <?php
-  $this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-  $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>

@@ -206,6 +206,11 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionFeature() {
+      
+        return $this->render('feature');
+    }
+
     public function actionAuthfailure()
     {
         return $this->render('authfailure');
