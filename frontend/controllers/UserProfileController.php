@@ -78,6 +78,8 @@ class UserProfileController extends Controller
       Yii::$app->user->setReturnUrl(Url::to(['/user-profile/update','id'=>$id,'tab'=>'social','success'=>true]));
       Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/avatar/';
       $model = $this->findModel($id);
+      // user profile id for the jscript
+      $model->up_id = $id;
       if (is_null($model)) {
         // create the user profile for this User if it doesn't exist
         $up_id = UserProfile::initialize(Yii::$app->user->getId());

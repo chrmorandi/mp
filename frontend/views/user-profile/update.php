@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\BaseHtml;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserProfile */
@@ -14,9 +15,7 @@ $this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
 <div class="user-profile-update">
 
     <h1><?= Yii::t('frontend', 'Update Your Profile') ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,        
     ]) ?>
-
 </div>

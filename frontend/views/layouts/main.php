@@ -17,7 +17,7 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -88,7 +88,7 @@ AppAsset::register($this);
        				                 [
                                   'label' => Yii::t('frontend','Profile details'),
                                   'url' => ['/user-profile'],
-                                  'options'=>['class'=>'menuHide'],
+                                  //'options'=>['class'=>'menuHide'],
                               ],
                               [
                                'label' => Yii::t('frontend','Settings'),

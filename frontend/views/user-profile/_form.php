@@ -11,12 +11,12 @@ use common\components\MiscHelpers;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="col-md-8">
+<div class="col-md-12">
  <!-- Nav tabs -->
  <ul class="nav nav-tabs" role="tablist">
-   <li id="tabname" class="<?= ($model->tab=='name'?'active':'tabHide') ?>"><a href="#name" role="tab" data-toggle="tab"><?= Yii::t('frontend','Your name') ?></a></li>
-   <li id="tabsocial" class="<?= ($model->tab=='social'?'active':'tabHide') ?>"><a href="#social" role="tab" data-toggle="tab"><?= Yii::t('frontend','Link Social accounts') ?></a></li>
-   <li id="tabphoto" class="<?= ($model->tab=='photo'?'active':'tabHide') ?>"><a href="#photo" role="tab" data-toggle="tab"><?= Yii::t('frontend','Upload Photo') ?></a></li>
+   <li id="tabname" class="<?= ($model->tab=='name'?'active':'tabHide') ?>"><a href="#name" role="tab" data-toggle="tab"><?= Yii::t('frontend','Name') ?></a></li>
+   <li id="tabsocial" class="<?= ($model->tab=='social'?'active':'tabHide') ?>"><a href="#social" role="tab" data-toggle="tab"><?= Yii::t('frontend','Social') ?></a></li>
+   <li id="tabphoto" class="<?= ($model->tab=='photo'?'active':'tabHide') ?>"><a href="#photo" role="tab" data-toggle="tab"><?= Yii::t('frontend','Photo') ?></a></li>
    <li id="tabusername" class="<?= ($model->tab=='username'?'active':'tabHide') ?>"><a href="#username" role="tab" data-toggle="tab"><?= Yii::t('frontend','Username') ?></a></li>
  </ul>
  <!-- Tab panes -->
@@ -45,10 +45,30 @@ use common\components\MiscHelpers;
       <?= $form->field($model, 'username')->textInput(['maxlength' => true])->label(Yii::t('frontend','Username'))->hint(Yii::t('frontend','Used for meeting links (URLs), signing in, et al.')) ?>
     </div>  <!-- end tab content -->
     <div class="tab-pane <?= ($model->tab=='photo'?'active':'') ?> vertical-pad" id="photo">
+      <div class="row">
+      <div class="col-md-8">
       <?=$form->field($model, 'image')->widget(FileInput::classname(), [
           'options' => ['accept' => 'image/*','data-show-upload'=>'false'],
            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']],
       ]);   ?>
+    </div>
+      <div class="col-md-4">
+        <?php
+         if ($model->avatar<>'') {
+           echo '<img src="'.Yii::getAlias('@web').'/uploads/avatar/sqr_'.$model->avatar.'" class="profile-image"/>';
+         } else {
+           echo \cebe\gravatar\Gravatar::widget([
+                'email' => common\models\User::find()->where(['id'=>Yii::$app->user->getId()])->one()->email,
+                'options' => [
+                    'class'=>'profile-image',
+                    'alt' => common\models\User::find()->where(['id'=>Yii::$app->user->getId()])->one()->username,
+                ],
+                'size' => 128,
+            ]);
+         }
+        ?>
+      </div> <!--end rt col -->
+    </div>
     </div> <!-- end of upload photo tab -->
 </div> <!-- end tab content -->
 <div class="form-group">
@@ -60,19 +80,4 @@ $this->registerJsFile(MiscHelpers::buildUrl().'/js/user_profile.js',['depends' =
 ActiveForm::end();
 ?>
 </div> <!-- end left col -->
-<div class="col-md-4">
-  <?php
-   if ($model->avatar<>'') {
-     echo '<img src="'.Yii::getAlias('@web').'/uploads/avatar/sqr_'.$model->avatar.'" class="profile-image"/>';
-   } else {
-     echo \cebe\gravatar\Gravatar::widget([
-          'email' => common\models\User::find()->where(['id'=>Yii::$app->user->getId()])->one()->email,
-          'options' => [
-              'class'=>'profile-image',
-              'alt' => common\models\User::find()->where(['id'=>Yii::$app->user->getId()])->one()->username,
-          ],
-          'size' => 128,
-      ]);
-   }
-  ?>
-</div> <!--end rt col -->
+<?= BaseHtml::activeHiddenInput($model, 'up_id',['id'=>'up_id']); ?>
