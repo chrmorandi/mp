@@ -12,7 +12,7 @@ use yii\bootstrap\Collapse;
         <span class="hint-text"><?= Yii::t('frontend','add meeting participants') ?></span>
       </div>
     <div class="col-lg-2 col-md-2 col-xs-2">
-      <div style="float:right;">        
+      <div style="float:right;">
         <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user','title'=>'Add participants','onclick'=>'showParticipant();']); ?>
       </div>
     </div>
@@ -20,10 +20,12 @@ use yii\bootstrap\Collapse;
 </div>
     <div id="collapseWho" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWho">
       <div class="panel-body">
-        <div id="participantNotifier" class="alert-info alert fade in hidden">
+        <div id="participantMessage" class="alert-info alert fade in hidden">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span id="participantNotifierTell"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
-        <span id="participantNotifierError"><?= Yii::t('frontend','Sorry, there were errors with your email address.')?></span>
+        <span id="participantMessageTell"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
+        <span id="participantMessageError"><?= Yii::t('frontend','Sorry, there were errors with your email address.')?></span>
+        <span id="participantMessageNoEmail"><?= Yii::t('frontend','Please provide at least one email.')?></span>
+        <span id="participantMessageOnlyOne"><?= Yii::t('frontend','Please choose to add one or the other.')?></span>        
         </div>
         <div id="addParticipantPanel" class="hidden">
               <?= $this->render('_form', [

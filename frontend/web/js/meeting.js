@@ -119,18 +119,18 @@ function addParticipant(id) {
   // ajax add participant
   // adding someone from new_email
   new_email = $('#new_email').val();
-  friend_id = $('#participant-email').val();
-  friend_email = $('#participant-email :selected').text();
+  friend_id = $('#participant-email').val(); // also an email. blank before selection
+  friend_email = $('#participant-email :selected').text();  // placeholder text before select
   // adding from friends
-  if ((new_email!='') && (friend_email!='type or click to choose friends' && friend_email!='')) {
-      alert('Please choose to add one or the other.');
+  if ((new_email!='') && (friend_id!='')) {
+      displayAlert('participantMessage','participantMessageOnlyOne');
       return false;
   } else if (new_email!='' && new_email!==undefined) {
     add_email = new_email;
-  } else if (friend_email!='type or click to choose friends' && friend_email!='') {
+  } else if (friend_id!='') {
     add_email = friend_email;
   } else {
-    alert('Please provide at least one email.');
+    displayAlert('participantMessage','participantMessageNoEmail');
     return false;
   }
     $.ajax({
@@ -147,24 +147,21 @@ function addParticipant(id) {
        $('#addParticipantPanel').addClass("hidden");
        if (data === false) {
          // show error, hide tell
-         $('#participantNotifierTell').addClass("hidden");
-         $('#participantNotifierError').removeClass("hidden");
-         $('#participantNotifier').removeClass("hidden");
+         displayAlert('participantMessage','participantMessageError');
+         return false;
        } else {
          // clear form
          $('#new_email').val('');
-         $('#participant-email').val('');
          // odd issue with resetting the combo box
-         $('#participant-emailundefined').val('');
-         // // show tell, hide error
-         $('#participantNotifierTell').removeClass("hidden");
-         $('#participantNotifierError').addClass("hidden");
-         $('#participantNotifier').removeClass("hidden");
+         $("#participant-email:selected").removeAttr("selected");
+         $("#participant-email").val('');
+         $("#participant-emailundefined").val('');
+        // show tell, hide error
          getParticipantButtons(id);
+         displayAlert('participantMessage','participantMessageTell');
+         return true;
       }
-       return true;
      }
-     // to do - error display flash
   });
 }
 
@@ -264,15 +261,21 @@ function updateWhat(id) {
 }
 
 function updateNote(id) {
+  note = $('#meeting-note').val();
+  if (note =='') {
+    displayAlert('noteMessage','noteMessage2');
+    return false;
+  }
   // ajax submit subject and message
   $.ajax({
      url: $('#url_prefix').val()+'/meeting-note/updatenote',
      data: {id: id,
-        note: $('#meeting-note').val()},
+      note: note},
      success: function(data) {
        $('#editNote').addClass("hidden");
        $('#meeting-note').val('');
        updateNoteThread(id);
+       displayAlert('noteMessage','noteMessage1');
        return true;
      }
      // to do - error display flash
@@ -291,5 +294,49 @@ function updateNoteThread(id) {
     error: function(error){
     }
   });
-  $('#notifierNote').show();
 }
+  function displayAlert(alert_id,msg_id) {
+    // which alert box i.e. which panel alert
+    switch (alert_id) {
+      case 'noteMessage':
+        // which msg to display
+        switch (msg_id) {
+          case 'noteMessage1':
+          $('#noteMessage1').removeClass('hidden'); // will share the note
+          $('#noteMessage2').addClass('hidden');
+          $('#noteMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+          break;
+          case 'noteMessage2':
+          $('#noteMessage1').addClass('hidden');
+          $('#noteMessage2').removeClass('hidden'); // no note
+          $('#noteMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+          break;
+        }
+      break;
+      case 'participantMessage':
+        // which msg to display
+        $('#participantMessageTell').addClass('hidden'); // will share the note
+        $('#participantMessageError').addClass('hidden');
+        $('#participantMessageOnlyOne').addClass("hidden");
+        $('#participantMessageNoEmail').addClass("hidden");
+        switch (msg_id) {
+          case 'participantMessageTell':
+          $('#participantMessageTell').removeClass('hidden'); // will share the note
+          $('#participantMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+          break;
+          case 'participantMessageError':
+          $('#participantMessageError').removeClass("hidden");
+          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          break;
+          case 'participantMessageNoEmail':
+          $('#participantMessageNoEmail').removeClass("hidden");
+          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          break;
+          case 'participantMessageOnlyOne':
+          $('#participantMessageOnlyOne').removeClass("hidden");
+          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          break;
+        }
+      break;
+    }
+  }

@@ -39,11 +39,17 @@ use \kartik\switchinput\SwitchInput;
 </div> <!-- end heading -->
   <div id="addTime" class="hidden">
     <!-- hidden add time form -->
-    
+
   <br />
   </div>
   <div id="collapseWhen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhen">
     <div class="panel-body">
+      <div id="timeMessage" class="alert-info alert fade in hidden">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span id="timeMsg"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
+        <span id="timeMsg2"><?= Yii::t('frontend','Sorry, there were errors with your email address.')?></span>
+      </div>
+
   <?php
    if ($timeProvider->count>0):
   ?>

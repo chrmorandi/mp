@@ -2,9 +2,10 @@
 use yii\helpers\Html;
 use yii\bootstrap\Collapse;
 ?>
-<div id="notifierNote" class="alert-info alert fade in" style="display:none;">
+<div id="noteMessage" class="alert-info alert fade in hidden">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<?php echo Yii::t('frontend',"Thanks for your note. We'll automatically share it with other participants."); ?>
+<span id="noteMessage1"><?= Yii::t('frontend',"Thanks for your note. We'll automatically share it with other participants.")?></span>
+<span id="noteMessage2"><?= Yii::t('frontend','Please be sure to type a note.')?></span>
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->

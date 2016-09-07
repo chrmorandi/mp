@@ -227,6 +227,9 @@ table.table-list td.table-switches {
   justify-content: center
 }
 
+.panel-what {
+  padding-bottom: 25px;
+}
 /* centered columns styles */
 .row-centered {
     text-align:center;
@@ -243,7 +246,7 @@ table.table-list td.table-switches {
 
 @media only screen
   and (min-device-width: 320px)
-  and (max-device-width: 4667px)
+  and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2) {
 
     /* hides drop down menu items and footer items */
@@ -275,4 +278,8 @@ table.table-list td.table-switches {
     .heading-pad {
       margin-top:5px;
     }
+  
+      .panel-what-buttons {
+        padding-top:30px;
+      }
 }

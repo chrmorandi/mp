@@ -35,9 +35,9 @@ use common\components\MiscHelpers;
     <div class="itemHide">
     <?= $form->field($model, 'message')->textarea(['rows' => 6,'id'=>'meeting-message'])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')); ?>
     </div>
-    <div class="form-group">
+    <div class="form-group panel-what-buttons">
       <span class="button-pad">
-        <?= Html::a(Yii::t('frontend','Update'), 'javascript:void(0);', ['class' => 'btn btn-primary','onclick'=>'updateWhat('.$model->id.');']) ?>        
+        <?= Html::a(Yii::t('frontend','Update'), 'javascript:void(0);', ['class' => 'btn btn-primary','onclick'=>'updateWhat('.$model->id.');']) ?>
       </span><span class="button-pad">
 
         <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelWhat();']) // ['/meeting/view', 'id' => $model->id] ?>
