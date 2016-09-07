@@ -14,10 +14,10 @@ use common\components\MiscHelpers;
 <div class="col-md-12">
  <!-- Nav tabs -->
  <ul class="nav nav-tabs" role="tablist">
-   <li id="tabname" class="<?= ($model->tab=='name'?'active':'tabHide') ?>"><a href="#name" role="tab" data-toggle="tab"><?= Yii::t('frontend','Name') ?></a></li>
-   <li id="tabsocial" class="<?= ($model->tab=='social'?'active':'tabHide') ?>"><a href="#social" role="tab" data-toggle="tab"><?= Yii::t('frontend','Social') ?></a></li>
-   <li id="tabphoto" class="<?= ($model->tab=='photo'?'active':'tabHide') ?>"><a href="#photo" role="tab" data-toggle="tab"><?= Yii::t('frontend','Photo') ?></a></li>
-   <li id="tabusername" class="<?= ($model->tab=='username'?'active':'tabHide') ?>"><a href="#username" role="tab" data-toggle="tab"><?= Yii::t('frontend','Username') ?></a></li>
+   <li id="tabname" class="<?= ($model->tab=='name'?'active':'') ?>"><a href="#name" role="tab" data-toggle="tab"><?= Yii::t('frontend','Name') ?></a></li>
+   <li id="tabsocial" class="<?= ($model->tab=='social'?'active':'') ?>"><a href="#social" role="tab" data-toggle="tab"><?= Yii::t('frontend','Social') ?></a></li>
+   <li id="tabphoto" class="<?= ($model->tab=='photo'?'active':'') ?>"><a href="#photo" role="tab" data-toggle="tab"><?= Yii::t('frontend','Photo') ?></a></li>
+   <li id="tabusername" class="<?= ($model->tab=='username'?'active':'') ?>"><a href="#username" role="tab" data-toggle="tab"><?= Yii::t('frontend','Username') ?></a></li>
  </ul>
  <!-- Tab panes -->
  <?php
