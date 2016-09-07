@@ -146,6 +146,7 @@ function addParticipant(id) {
        // hide panel
        $('#addParticipantPanel').addClass("hidden");
        if (data === false) {
+         // show error, hide tell
          $('#participantNotifierTell').addClass("hidden");
          $('#participantNotifierError').removeClass("hidden");
          $('#participantNotifier').removeClass("hidden");
@@ -153,7 +154,9 @@ function addParticipant(id) {
          // clear form
          $('#new_email').val('');
          $('#participant-email').val('');
-         // display notification
+         // odd issue with resetting the combo box
+         $('#participant-emailundefined').val('');
+         // // show tell, hide error
          $('#participantNotifierTell').removeClass("hidden");
          $('#participantNotifierError').addClass("hidden");
          $('#participantNotifier').removeClass("hidden");
