@@ -27,7 +27,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
                 NavBar::begin([
-                'brandLabel' => Yii::t('frontend','MeetingPlanner.io'), //
+                'brandLabel' => Yii::t('frontend','MeetingPlanner.io').'&nbsp;<span class="badge">preview</span>', //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -124,9 +124,7 @@ AppAsset::register($this);
         <div class="container">
           <p class="pull-left">
             <?php
-
               echo Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']).'';
-
             ?>
         <p class="pull-right">
         <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>

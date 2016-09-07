@@ -27,6 +27,11 @@ body {
     background-color: transparent;
 }
 
+.jumbo-novert {
+  padding-top:0px;
+padding-bottom:0px;
+}
+
 .jumbotron .btn {
     font-size: 21px;
     padding: 14px 24px;
@@ -145,7 +150,7 @@ a.icon-pad {
 }
 
 /* meeting participant in index view */
-.index-participant {
+.index-participant,.index-time {
   font-style:italic;
   font-size: 90%;
   color: grey;
@@ -238,7 +243,7 @@ table.table-list td.table-switches {
 
 @media only screen
   and (min-device-width: 320px)
-  and (max-device-width: 667px)
+  and (max-device-width: 4667px)
   and (-webkit-min-device-pixel-ratio: 2) {
 
     /* hides drop down menu items and footer items */
@@ -260,7 +265,9 @@ table.table-list td.table-switches {
     }
     .button-pad {
       padding: 7px 0 7px 0;
-
+    }
+    .btn {
+      min-width: 55px;
     }
     .rwd-break {
       display:block;

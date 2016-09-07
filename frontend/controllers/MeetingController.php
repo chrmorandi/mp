@@ -82,7 +82,7 @@ class MeetingController extends Controller
         ]);
       $upcomingProvider = new ActiveDataProvider([
             'query' => Meeting::find()->joinWith('participants')->where(['owner_id'=>Yii::$app->user->getId()])->orWhere(['participant_id'=>Yii::$app->user->getId()])->andWhere(['meeting.status'=>[Meeting::STATUS_CONFIRMED]])->distinct(),
-            'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+            'sort'=> ['defaultOrder' => ['created_at'=>SORT_ASC]],
             'pagination' => [
                 'pageSize' => 7,
                 'params' => array_merge($_GET, ['tab' => 'upcoming']),
@@ -104,6 +104,8 @@ class MeetingController extends Controller
                 'params' => array_merge($_GET, ['tab' => 'canceled']),
               ],
         ]);
+        // fetch user timezone
+        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
         Meeting::displayProfileHints();
         return $this->render('index', [
             'planningProvider' => $planningProvider,
@@ -111,6 +113,7 @@ class MeetingController extends Controller
             'pastProvider' => $pastProvider,
             'canceledProvider' => $canceledProvider,
             'tab' => $tab,
+            'timezone'=>$timezone,
         ]);
     }
 
@@ -195,7 +198,7 @@ class MeetingController extends Controller
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       // prepare participant format
       $participant = new Participant();
-      $participant->meeting_id= $model->id;      
+      $participant->meeting_id= $model->id;
       $friends = Friend::getFriendList(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {

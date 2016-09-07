@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\authclient\widgets\AuthChoice;
+use frontend\assets\HomeAsset;
+HomeAsset::register($this);
+
 //use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -8,7 +11,7 @@ $this->title = 'Meeting Planner';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
+    <div class="jumbotron jumbo-novert">
         <h1><?php echo Yii::t('frontend','Scheduling'); ?><br class="rwd-break" /><span class="itemHide">&nbsp;</span><?php echo Yii::t('frontend','Made Easy') ?></h1>
 
       <h3><?= Yii::t('frontend','Want to sign up now?') ?></h3>
@@ -29,14 +32,8 @@ $this->title = 'Meeting Planner';
 <?php echo Yii::t('frontend','or ').HTML::a(Yii::t('frontend','sign up old school'),['site/signup']); ?>
 <?php AuthChoice::end(); ?>
 </div>
-
-
-
-
-
             <p><a class="btn btn-lg btn-success" href="./site/about"><?= Yii::t('frontend','Learn More') ?></a></p>
-
-      </div> <!-- end jumbo -->
-
-
+          </div> <!-- end jumbo -->
+<hr />
+<?= $this->render('launch');?>
 </div>

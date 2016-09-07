@@ -12,7 +12,7 @@ use yii\bootstrap\Collapse;
         <span class="hint-text"><?= Yii::t('frontend','add meeting participants') ?></span>
       </div>
     <div class="col-lg-2 col-md-2 col-xs-2">
-      <div style="float:right;">
+      <div style="float:right;">        
         <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user','title'=>'Add participants','onclick'=>'showParticipant();']); ?>
       </div>
     </div>

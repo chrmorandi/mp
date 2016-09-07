@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 $this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row ">
   <div class="col-xs-6 col-xs-offset-3">
@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
       <p>Or, fill out the following fields to register manually:</p>
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-                <?= $form->field($model, 'username') ?>
+                <?= $form->field($model, 'username')->textInput(['placeholder' => 'JaneSmith']) ?>
                 <?=
-                $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->textInput() ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->textInput(['placeholder' => 'you@youremail.com']) ?>
+                <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********']) ?>
                 <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname(), [
                       // configure additional widget properties here
                   ]) ?>

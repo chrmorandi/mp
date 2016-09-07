@@ -6,13 +6,15 @@ use yii\authclient\widgets\AuthChoice;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 $this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row ">
   <div class="col-xs-6 col-xs-offset-3">
     <h2><?= Html::encode($this->title).' '.Yii::t('frontend','to Meeting Planner') ?></h2>
+  </div>
+</div>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-8 col-xs-offset-3">
           <p>It's easiest to login using one of the following services:</p>
           <?= yii\authclient\widgets\AuthChoice::widget([
                'baseAuthUrl' => ['site/auth','mode'=>'login'],
@@ -22,11 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
       </div> <!-- end row -->
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-4 col-xs-offset-3">
           <p>Or, fill out the following fields to login:</p>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-                <?= $form->field($model, 'username')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Email address'))->hint(Yii::t('frontend','Or, use your username to log in.')) ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'username')->textInput(['maxlength' => 255,'placeholder' => 'you@youremail.com'])->label(Yii::t('frontend','Email'))->hint(Yii::t('frontend','Or, use your username to log in.')) ?>
+                <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********']) ?>
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
                 <div style="color:#999;margin:1em 0">
                     <?= Html::a('Don\'t have a password or wish to change yours?', ['site/request-password-reset']) ?>

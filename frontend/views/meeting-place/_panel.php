@@ -48,13 +48,11 @@ use \kartik\switchinput\SwitchInput;
             ?>
             </td><td style="padding-left:10px;">
             <?php
-              if ($model->switchVirtual == $model::SWITCH_INPERSON) {
-                  echo Html::a('', ['meeting-place/create', 'meeting_id' => $model->id], ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus']);
-              } else {
-                echo Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true]);
-              }
-
-            ?>
+              if ($model->switchVirtual == $model::SWITCH_INPERSON) { ?>
+                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add posssible places','onclick'=>'showPlace();']); ?>
+              <?php } else { ?>
+                <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true]); ?>
+              <?php } ?>
             </td></tr></table>
           <?php
           }
@@ -82,6 +80,7 @@ use \kartik\switchinput\SwitchInput;
            ]) ?>
       </table>
       <?php else: ?>
+
       <?php endif; ?>
     </div>
   </div>
@@ -149,7 +148,7 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
     // change to in person
     $('#meeting-add-place').prop("disabled",false);
     $('a#meeting-add-place').attr('disabled', false);
-    $('a#meeting-add-place').prop('href', '$urlPrefix/meeting-place/create/?meeting_id=$model->id');
+    //$('a#meeting-add-place').prop('href', '$urlPrefix/meeting-place/create/?meeting_id=$model->id');
     $('#meeting-place-list').prop('style','display:block;');
     state =0; // state of these are backwards: true is 0, 1 is false
   }

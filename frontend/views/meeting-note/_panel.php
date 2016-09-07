@@ -21,7 +21,7 @@ use yii\bootstrap\Collapse;
       </div>
     </div>
   </div>
-  <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote"  >
+  <div id="collapseNote" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNote">
     <div class="panel-body nopadding">
       <div id="editNote" class="hidden">
         <?= $this->render('_form', [

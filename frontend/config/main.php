@@ -32,9 +32,10 @@ return [
               'place/<slug>' => 'place/slug',
               '<controller:\w+>/<id:\d+>' => '<controller>/view',
               '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-              'daemon/<action>' => 'daemon/<action>', // eight char action
+              'daemon/<action>' => 'daemon/<action>', // incl eight char action
+              'site/<action>' => 'site/<action>', // incl eight char action
               '<username>/<identity:[A-Za-z0-9_-]{8}>' => 'meeting/identity',
-              // note - currently actions with 8 letters will fail
+              // note - currently actions with 8 letters and no params will fail
               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],

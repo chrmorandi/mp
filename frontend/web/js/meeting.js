@@ -185,6 +185,55 @@ function closeParticipant() {
   $('#addParticipantPanel').addClass("hidden");
 }
 
+function showTime() {
+  if ($('#addTime').hasClass( "hidden")) {
+    $('#addTime').removeClass("hidden");
+  }else {
+    $('#addTime').addClass("hidden");
+  }
+};
+
+function cancelTime() {
+  $('#addTime').addClass("hidden");
+}
+
+function getTimes(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-time/gettimes',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#timeList').html(data);
+   },
+ });
+}
+
+function showPlace() {
+  if ($('#meeting-place-list').hasClass( "hidden")) {
+    $('#meeting-place-list').removeClass("hidden");
+  }else {
+    $('#meeting-place-list').addClass("hidden");
+  }
+};
+
+function cancelPlace() {
+  $('#addPlace').addClass("hidden");
+}
+
+function getPlaces(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-place/getplaces',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#placeList').html(data);
+   },
+ });
+}
 
 function showNote() {
   if ($('#editNote').hasClass( "hidden")) {

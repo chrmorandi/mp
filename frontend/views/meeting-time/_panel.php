@@ -12,7 +12,9 @@ use \kartik\switchinput\SwitchInput;
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhen">
-    <div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"><?= Yii::t('frontend','When') ?></a></h4>
+    <div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view">
+      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"><?= Yii::t('frontend','When') ?></a>
+    </h4>
     <span class="hint-text">
       <?php if ($timeProvider->count<=1) { ?>
         <?= Yii::t('frontend','add one or more dates and times for participants to choose from') ?>
@@ -26,17 +28,18 @@ use \kartik\switchinput\SwitchInput;
     <?php }?>
   </span></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
-      if ($model->isOrganizer() || $model->meetingSettings->participant_add_date_time) {
-        /*echo Html::a('', 'javascript:function ajax() {return false;}', ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);*/
-        echo Html::a('', ['meeting-time/create', 'meeting_id' => $model->id], ['class' => 'btn btn-primary  glyphicon glyphicon-plus','id'=>'buttonTime']);
+      if ($model->isOrganizer() || $model->meetingSettings->participant_add_date_time) { ?>
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Add posssible times','id'=>'buttonTime','onclick'=>'showTime();']); ?>
+        <?php
       }
     ?>
       </div>
     </div>
   </div> <!-- end row -->
 </div> <!-- end heading -->
-  <div id="addTime" style="display:none;">
+  <div id="addTime" class="hidden">
     <!-- hidden add time form -->
+    
   <br />
   </div>
   <div id="collapseWhen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhen">

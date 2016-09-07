@@ -11,6 +11,7 @@ use frontend\models\MeetingTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 //use yii\web\Response;
 
 /**
@@ -37,7 +38,7 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','delete','choose','view','remove'],
+                                'actions' => ['create','update','delete','choose','view','remove','gettimes'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -191,7 +192,21 @@ class MeetingTimeController extends Controller
       return $this->redirect(['/meeting/view','id'=>$result]);
     }
 
+    public function actionGettimes($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $m=Meeting::findOne($id);
 
+      $noteProvider = new ActiveDataProvider([
+          'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
+          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+      ]);
+      $result =  $this->renderPartial('_thread', [
+          'model' =>$m,
+          'noteProvider' => $noteProvider,
+      ]);
+
+      return $result;
+    }
     /**
      * Finds the MeetingTime model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

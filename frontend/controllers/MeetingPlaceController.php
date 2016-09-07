@@ -11,6 +11,7 @@ use frontend\models\Place;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * MeetingPlaceController implements the CRUD actions for MeetingPlace model.
@@ -32,7 +33,7 @@ class MeetingPlaceController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions'=>['create','delete','choose'],
+                        'actions'=>['create','delete','choose','getplaces'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -132,6 +133,21 @@ class MeetingPlaceController extends Controller
       return true;
     }
 
+    public function actionGetplaces($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $m=Meeting::findOne($id);
+
+      $noteProvider = new ActiveDataProvider([
+          'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
+          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+      ]);
+      $result =  $this->renderPartial('_thread', [
+          'model' =>$m,
+          'noteProvider' => $noteProvider,
+      ]);
+
+      return $result;
+    }
     /**
      * Finds the MeetingPlace model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

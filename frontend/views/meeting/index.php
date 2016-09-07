@@ -27,17 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= $this->render('_grid', [
           'mode'=>'planning',
           'dataProvider' => $planningProvider,
+          'timezone'=>$timezone,
       ]) ?>
 
     </div> <!-- end of planning meetings tab -->
   </div>
   <div class="tab-pane <?= ($tab=='upcoming'?'active':'') ?>" id="upcoming">
     <div class="meeting-index">
-      <?php
-      ?>
       <?= $this->render('_grid', [
           'mode'=>'upcoming',
           'dataProvider' => $upcomingProvider,
+          'timezone'=>$timezone,
       ]) ?>
 
       </div> <!-- end of upcoming meetings tab -->
@@ -47,12 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_grid', [
         'mode'=>'past',
         'dataProvider' => $pastProvider,
+        'timezone'=>$timezone,
     ]) ?>
   </div> <!-- end of past meetings tab -->
   <div class="tab-pane <?= ($tab=='canceled'?'active':'') ?>" id="canceled">
     <?= $this->render('_grid', [
         'mode'=>'canceled',
         'dataProvider' => $canceledProvider,
+        'timezone'=>$timezone,
     ]) ?>
 
   </div> <!-- end of canceled meetings tab -->
