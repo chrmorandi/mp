@@ -1,11 +1,10 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
 ?>
 <div id="notifierNote" class="alert-info alert fade in" style="display:none;">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
+<?php echo Yii::t('frontend',"Thanks for your note. We'll automatically share it with other participants."); ?>
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -30,23 +29,11 @@ use yii\bootstrap\Collapse;
         ]) ?>
       </div>
     </div>
-      <?php
-      if ($noteProvider->count>0):
-      ?>
-      <table class="table">
-        <?= ListView::widget([
-               'dataProvider' => $noteProvider,
-               //'itemOptions' => ['class' => 'item'],
-               'layout' => '{items}',
-               'itemView' => '_list',
-           ]) ?>
-      </table>
+    <div id ="noteThread" class="nopadding">
+      <?= $this->render('_thread', [
+          'model' => $model,
+          'noteProvider'=>$noteProvider,
+      ]) ?>
   </div>
-    <?php else: ?>
-      <div class="panel-body">
-      <?= Yii::t('frontend','No notes yet.') ?>
-      <?= Html::a(Yii::t('frontend', 'Send a note to other participants.'), ['meeting-note/create', 'meeting_id' => $model->id]); ?>
-      </div>
-    <?php endif; ?>
-  </div>
+</div>
 </div>

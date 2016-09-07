@@ -6,6 +6,7 @@ use Yii;
 use frontend\models\Meeting;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingNoteSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,7 +33,7 @@ class MeetingNoteController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions'=>['create','update','view','delete','updatenote'],
+                                'actions'=>['create','update','view','delete','updatenote','updatethread'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -126,7 +127,7 @@ class MeetingNoteController extends Controller
 
     public function actionUpdatenote($id,$note='') {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $m=Meeting::findOne($id);      
+      $m=Meeting::findOne($id);
       $model = new MeetingNote();
       $title = $m->getMeetingTitle($id);
       $model->meeting_id= $id;
@@ -137,6 +138,20 @@ class MeetingNoteController extends Controller
       $model->save();
       //Meeting::displayNotificationHint($meeting_id);
       return true;
+    }
+
+    public function actionUpdatethread($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $m=Meeting::findOne($id);
+      $noteProvider = new ActiveDataProvider([
+          'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
+          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+      ]);
+      $result =  $this->renderPartial('_thread', [
+          'model' =>$m,
+          'noteProvider' => $noteProvider,
+      ]);
+      return $result;
     }
 
     /**

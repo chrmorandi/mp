@@ -6,5 +6,5 @@
       <div class="emright">
         <?= Yii::t('frontend','By ').$model->postedBy->email ?>
       </div>
-</td>
+    </td>
 </tr>
