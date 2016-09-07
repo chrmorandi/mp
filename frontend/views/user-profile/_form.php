@@ -49,7 +49,7 @@ use common\components\MiscHelpers;
       <div class="col-md-8">
       <?=$form->field($model, 'image')->widget(FileInput::classname(), [
           'options' => ['accept' => 'image/*','data-show-upload'=>'false'],
-           'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']],
+           'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png','jpeg']],
       ]);   ?>
     </div>
       <div class="col-md-4">

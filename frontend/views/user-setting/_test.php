@@ -10,9 +10,9 @@ use kartik\file\FileInput;
 ?>
 
 <div class="user-setting-form">
-    <?php 
+    <?php
     $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data']]); // important         
+        'options'=>['enctype'=>'multipart/form-data']]); // important
          ?>
 
         <div class="col-md-8">
@@ -24,33 +24,33 @@ use kartik\file\FileInput;
          <!-- Tab panes -->
          <div class="tab-content">
            <div class="tab-pane active vertical-pad" id="general">
-               <?= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+               <?= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
                <?= $form->field($model, 'reminder_hours')
                        ->dropDownList(
-                           $model->getEarlyReminderOptions(),   
-           	                ['prompt'=>Yii::t('frontend','When would you like your early reminder?')] 
+                           $model->getEarlyReminderOptions(),
+           	                ['prompt'=>Yii::t('frontend','When would you like your early reminder?')]
            	            )->label(Yii::t('frontend','Early reminders')) ?>
 
-                  <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?> 
+                  <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
                   <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
                 </div>
            <div class="tab-pane vertical-pad" id="photo">
              <?= $form->field($model, 'image')->widget(FileInput::classname(), [
                  'options' => ['accept' => 'image/*'],
-             ]);   
+             ]);
               ?>
              <?php
            try {
              $test = $form->field($model, 'image')->widget(FileInput::classname(), [
                  'options' => ['accept' => 'image/*'],
-                  'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']],
+                  'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png','jpeg']],
              ]);
            } catch (Exception $e) {
                echo 'Caught exception: ',  $e->getMessage(), "\n";
            }
-             
+
              ?>
            </div> <!-- end of upload photo tab -->
            <div class="form-group">
@@ -70,10 +70,10 @@ use kartik\file\FileInput;
                        'alt' => common\models\User::find()->where(['id'=>Yii::$app->user->getId()])->one()->username,
                    ],
                    'size' => 128,
-               ]);              
+               ]);
             }
-           ?>           
-           
+           ?>
+
          </div> <!--end rt col -->
     <?php ActiveForm::end(); ?>
 
