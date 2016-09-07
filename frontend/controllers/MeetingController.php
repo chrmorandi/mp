@@ -9,6 +9,7 @@ use common\components\MiscHelpers;
 use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\MeetingSearch;
+use frontend\models\Friend;
 use frontend\models\Participant;
 use frontend\models\Request;
 use frontend\models\MeetingNote;
@@ -153,6 +154,18 @@ class MeetingController extends Controller
      */
     public function actionView($id)
     {
+      /*$p = new Participant;
+    $p->email = $p->new_email ='t@lookahead.me';
+    $p->meeting_id = $id;
+    $p->status=Participant::STATUS_DEFAULT;
+    $p->participant_type=Participant::TYPE_DEFAULT;
+    $p->participant_id = User::addUserFromEmail($p->email);
+    $p->invited_by = Yii::$app->user->getId();
+    // to do - get validation errors and return them
+    $p->validate();
+    var_dump($p->getErrors());
+    $p->save();
+    exit;*/
       $model = $this->findModel($id);
       $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$id])->one();
       if (!$model->isAttendee($id,Yii::$app->user->getId())) {
@@ -180,6 +193,10 @@ class MeetingController extends Controller
       //var_dump($x->participant->email);exit;
       // fetch user timezone
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      // prepare participant format
+      $participant = new Participant();
+      $participant->meeting_id= $model->id;      
+      $friends = Friend::getFriendList(Yii::$app->user->getId());
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
@@ -216,6 +233,8 @@ class MeetingController extends Controller
               'viewer' => Yii::$app->user->getId(),
               'isOwner' => $model->isOwner(Yii::$app->user->getId()),
               'timezone' => $timezone,
+              'participant'=>$participant,
+              'friends'=>$friends,
           ]);
       } else {
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {
@@ -266,6 +285,8 @@ class MeetingController extends Controller
             'contacts' => $contacts,
             'contactTypes'=>UserContact::getUserContactTypeOptions(),
             'timezone'=>$timezone,
+            'participant'=>$participant,
+            'friends'=>$friends,
         ]);
       }
     }

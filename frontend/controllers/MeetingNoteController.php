@@ -136,7 +136,6 @@ class MeetingNoteController extends Controller
       $model->note = $note;
       $m->update();
       $model->save();
-      //Meeting::displayNotificationHint($meeting_id);
       return true;
     }
 

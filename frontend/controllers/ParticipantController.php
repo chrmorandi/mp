@@ -18,6 +18,7 @@ use frontend\models\ParticipantSearch;
 use frontend\models\Friend;
 use frontend\models\Auth;
 use frontend\models\UserProfile;
+use yii\data\ActiveDataProvider;
 
 /**
  * ParticipantController implements the CRUD actions for Participant model.
@@ -39,7 +40,7 @@ class ParticipantController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join'],
+                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join','add','getbuttons'],
                        'roles' => ['@'],
                    ],
                   [
@@ -278,5 +279,40 @@ class ParticipantController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionAdd($id,$add_email='') {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      // save participant
+      $p = new Participant;
+      $p->email = $add_email;
+      $p->meeting_id = $id;
+      $p->status=Participant::STATUS_DEFAULT;
+      $p->participant_type=Participant::TYPE_DEFAULT;
+      $p->participant_id = User::addUserFromEmail($p->email);
+      $p->invited_by = Yii::$app->user->getId();
+      // to do - get validation errors and return them
+      $p->validate();
+      if (count($p->getErrors())==0) {
+          $p->save();
+          return true;
+      } else {
+        return false;
+      }
+
+
+    }
+
+    public function actionGetbuttons($id) {
+      $m=Meeting::findOne($id);
+      $participantProvider = new ActiveDataProvider([
+          'query' => Participant::find()->where(['meeting_id'=>$id]),
+          'sort'=> ['defaultOrder' => ['participant_type'=>SORT_DESC,'status'=>SORT_ASC]],
+      ]);
+      $result = $this->renderPartial('_buttons', [
+          'model'=>$m,
+          'participantProvider' => $participantProvider,
+      ]);
+      return $result;
     }
 }

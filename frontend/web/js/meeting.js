@@ -16,6 +16,7 @@ $(document).ready(function(){
   })
   });
 
+// automatic timezones
 function setTimezone(timezone) {
   $.ajax({
      url: $('#url_prefix').val()+'/user-setting/timezone',
@@ -28,6 +29,7 @@ function setTimezone(timezone) {
   });
 }
 
+// participant button commands
 function toggleOrganizer(id, val) {
   if (val === true) {
     arg2 = 1;
@@ -54,6 +56,7 @@ function toggleOrganizer(id, val) {
   });
 }
 
+// change participant status
 function toggleParticipant(id, val, original_status) {
   if (val === true) {
     arg2 = 1;
@@ -87,6 +90,7 @@ function toggleParticipant(id, val, original_status) {
   });
 }
 
+// show the panel subject/message panel
 function showWhat() {
   if ($('#showWhat').hasClass( "hidden")) {
     $('#showWhat').removeClass("hidden");
@@ -101,6 +105,83 @@ function showWhat() {
 function cancelWhat() {
   showWhat();
 }
+
+// toggle add participant panel
+function showParticipant() {
+  if ($('#addParticipantPanel').hasClass( "hidden")) {
+    $('#addParticipantPanel').removeClass("hidden");
+  }else {
+    $('#addParticipantPanel').addClass("hidden");
+  }
+};
+
+function addParticipant(id) {
+  // ajax add participant
+  // adding someone from new_email
+  new_email = $('#new_email').val();
+  friend_id = $('#participant-email').val();
+  friend_email = $('#participant-email :selected').text();
+  // adding from friends
+  if ((new_email!='') && (friend_email!='type or click to choose friends' && friend_email!='')) {
+      alert('Please choose to add one or the other.');
+      return false;
+  } else if (new_email!='' && new_email!==undefined) {
+    add_email = new_email;
+  } else if (friend_email!='type or click to choose friends' && friend_email!='') {
+    add_email = friend_email;
+  } else {
+    alert('Please provide at least one email.');
+    return false;
+  }
+    $.ajax({
+     url: $('#url_prefix').val()+'/participant/add',
+     data: {
+       id: id,
+       add_email:add_email,
+      },
+     success: function(data) {
+       // see remove below
+       // to do - display acknowledgement
+       // update participant buttons - id = meeting_id
+       // hide panel
+       $('#addParticipantPanel').addClass("hidden");
+       if (data === false) {
+         $('#participantNotifierTell').addClass("hidden");
+         $('#participantNotifierError').removeClass("hidden");
+         $('#participantNotifier').removeClass("hidden");
+       } else {
+         // clear form
+         $('#new_email').val('');
+         $('#participant-email').val('');
+         // display notification
+         $('#participantNotifierTell').removeClass("hidden");
+         $('#participantNotifierError').addClass("hidden");
+         $('#participantNotifier').removeClass("hidden");
+         getParticipantButtons(id);
+      }
+       return true;
+     }
+     // to do - error display flash
+  });
+}
+
+function getParticipantButtons(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/participant/getbuttons',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#participantButtons').html(data);
+   },
+ });
+}
+
+function closeParticipant() {
+  $('#addParticipantPanel').addClass("hidden");
+}
+
 
 function showNote() {
   if ($('#editNote').hasClass( "hidden")) {
