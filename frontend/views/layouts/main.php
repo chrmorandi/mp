@@ -79,7 +79,7 @@ AppAsset::register($this);
                             [
                                'label' => Yii::t('frontend','Reminders'),
                                'url' => ['/reminder'],
-                               'options'=>['class'=>'menuHide'],
+                               //'options'=>['class'=>'menuHide'],
                            ],[
                                 'label' => Yii::t('frontend','Contact details'),
                                 'url' => ['/user-contact'],

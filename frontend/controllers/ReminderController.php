@@ -25,7 +25,6 @@ class ReminderController extends Controller
              'verbs' => [
                  'class' => VerbFilter::className(),
                  'actions' => [
-                     'delete' => ['post'],
                  ],
              ],
            'access' => [
@@ -152,8 +151,12 @@ class ReminderController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        MeetingReminder::deleteAll(['reminder_id'=>$id]);
+        $r = Reminder::findOne($id);
+        if ($r->user_id == Yii::$app->user->getId()) {
+            $this->findModel($id)->delete();
+            MeetingReminder::deleteAll(['reminder_id'=>$id]);
+            Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Your reminder has been deleted.'));
+        }
         return $this->redirect(['index']);
     }
 

@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Reminder */
 
-$this->title = Yii::t('frontend', 'Update {modelClass}: ', [
+$this->title = Yii::t('frontend', 'Update {modelClass}', [
     'modelClass' => 'Reminder',
-]) . $model->id;
+]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Reminders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
 ?>

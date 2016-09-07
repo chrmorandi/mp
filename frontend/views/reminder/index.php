@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\ReminderSearch */
@@ -21,25 +22,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             [
-              'label'=>'Time Before',
+              'label'=>'Time Before Meeting',
                 'attribute' => 'duration_friendly',
                 'format' => 'raw',
                 'value' => function ($model) {
-                        return '<div>'.$model->duration_friendly.' '.$model->displayUnits($model->unit).'</div>';
+                        return '<div><a href="'.Url::to(['reminder/update', 'id' => $model->id]).'">'.$model->duration_friendly.' '.$model->displayUnits($model->unit).' via '.$model->displayType($model->reminder_type).'</a></div>';
                     },
             ],
-            [
-              'label'=>'Delivery',
-                'attribute' => 'reminder_type',
-                'format' => 'raw',
-                'value' => function ($model) {
-                        return '<div>via '.$model->displayType($model->reminder_type).'</div>';
-                    },
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update}  {delete}',
+            'headerOptions' => ['class' => 'itemHide'],
+            'contentOptions' => ['class' => 'itemHide'],
+            'buttons'=>[
+                'update' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url,
+                  [
+                          'title' => Yii::t('frontend', 'update'),
+                          'class' => 'icon-pad',
+                  ]);
+                },
+                'delete' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                          'title' => Yii::t('frontend', 'delete'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this reminder?'),
+                          'class' => 'icon-pad',
+                          'method' => 'post',
+                  ]);
+                },
             ],
-            ['class' => 'yii\grid\ActionColumn',
-              'template'=>'{update}&nbsp;&nbsp;{delete}',
-            ],
-
+          ],
         ],
     ]); ?>
 <p>
