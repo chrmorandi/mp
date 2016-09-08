@@ -5,10 +5,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\models\UserPlace;
 use \kartik\typeahead\Typeahead;
-use frontend\assets\MapAsset;
-MapAsset::register($this);
-use frontend\assets\ComboAsset;
-ComboAsset::register($this);
 //use frontend\assets\ComboboxAsset;
 //Combobox::register($this);
 
@@ -67,11 +63,12 @@ ComboAsset::register($this);
     <div class="row vertical-pad">
       <div class="col-xs-12 col-lg-6">
       <div class="form-group">
-          <span class="button-pad">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-          </span><span class="button-pad">
-            <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
-          </span>
+        <span class="button-pad">
+          <?= Html::a(Yii::t('frontend','Add Meeting Place'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addPlace('.$model->meeting_id.');'])  ?>
+        </span><span class="button-pad">
+          <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelPlace();'])  ?>
+       </span>
+
       </div>
     </div>
     </div>
@@ -85,3 +82,20 @@ ComboAsset::register($this);
     <?php ActiveForm::end(); ?>
 
 </div> <!-- end form -->
+<?php
+  $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query(array(
+                          'libraries' => 'places',
+                          'key' => Yii::$app->params['google_maps_key'],
+                  ));
+  echo $this->registerJsFile($gpJsLink);
+
+  $options = '{"componentRestrictions":{"country":"us"}}';
+  // turned off "types":["establishment"]
+  echo $this->registerJs("(function(){
+        var input = document.getElementById('meetingplace-searchbox');
+        var options = $options;
+        searchbox = new google.maps.places.Autocomplete(input, options);
+        setupListeners('meetingplace');
+})();" , \yii\web\View::POS_END );
+// 'setupBounds('.$bound_bl.','.$bound_tr.');
+?>

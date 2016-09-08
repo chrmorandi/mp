@@ -101,16 +101,14 @@ use dosamigos\datetimepicker\DateTimePicker;
       <div class="col-xs-12 col-lg-4">
      <div class="form-group">
        <span class="button-pad">
-         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+         <?= Html::a(Yii::t('frontend','Add Meeting Time'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addTime('.$model->meeting_id.');'])  ?>
        </span><span class="button-pad">
-        <?= Html::a(Yii::t('frontend','Cancel'), ['/meeting/view', 'id' => $model->meeting_id], ['class' => 'btn btn-danger']) ?>
+         <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelTime();'])  ?>
       </span>
      </div>
     </div>
   </div>
   <?php ActiveForm::end();
-   $this->registerJsFile(MiscHelpers::buildUrl().'/js/jstz.min.js',['depends' => [\yii\web\JqueryAsset::className()]]);
-   $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting_time.js',['depends' => [\yii\web\JqueryAsset::className()]]);
    ?>
 
 </div> <!-- end container -->

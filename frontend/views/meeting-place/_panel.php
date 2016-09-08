@@ -68,10 +68,16 @@ use \kartik\switchinput\SwitchInput;
         <span id="placeMsg"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
         <span id="placeMsg2"><?= Yii::t('frontend','Sorry, there were errors with your email address.')?></span>
       </div>
+      <div id="addPlace" class="hidden">
+        <!-- hidden add time form -->
+        <?= $this->render('_form', [
+            'model' => $meetingPlace,
+        ]) ?>
+      </div>
       <?php
-        $style = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'none':'block');
+        $dclass = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'hidden':'');
        ?>
-      <div id ="meeting-place-list" style="display:<?php echo $style; ?>">
+      <div id ="meeting-place-list" class="<?= $dclass; ?>">
       <?php
        if ($placeProvider->count>0):
       ?>
@@ -147,14 +153,16 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
     $('#meeting-add-place').prop("disabled",true);
     $('a#meeting-add-place').attr('disabled', true);
     $('a#meeting-add-place').prop('href', 'javascript:void(0);');
-    $('#meeting-place-list').prop('style','display:none;');
+    //$('#meeting-place-list').prop('style','display:none;');
+    $('#meeting-place-list').addClass("hidden");
     state = 1; // state of these are backwards: true is 0, 1 is false
   } else {
     // change to in person
     $('#meeting-add-place').prop("disabled",false);
     $('a#meeting-add-place').attr('disabled', false);
     //$('a#meeting-add-place').prop('href', '$urlPrefix/meeting-place/create/?meeting_id=$model->id');
-    $('#meeting-place-list').prop('style','display:block;');
+    $('#meeting-place-list').removeClass("hidden");
+    //$('#meeting-place-list').prop('style','display:block;');
     state =0; // state of these are backwards: true is 0, 1 is false
   }
   $.ajax({

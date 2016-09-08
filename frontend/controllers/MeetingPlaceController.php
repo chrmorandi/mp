@@ -53,7 +53,6 @@ class MeetingPlaceController extends Controller
          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of places per meeting. Contact support if you need additional help or want to offer feedback.'));
          return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
        }
-
        $mtg = new Meeting();
        $title = $mtg->getMeetingTitle($meeting_id);
          $model = new MeetingPlace();

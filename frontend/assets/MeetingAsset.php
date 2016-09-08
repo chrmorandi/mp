@@ -11,8 +11,10 @@ class MeetingAsset extends AssetBundle
     ];
     public $js = [
       'js/meeting.js',
+      'js/meeting_time.js',
       'js/jstz.min.js',
       'js/bootstrap-combobox.js',
+      'js/create_place.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

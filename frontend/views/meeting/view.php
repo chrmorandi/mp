@@ -37,6 +37,7 @@ echo $this->render('_timezone_alerts');
              'isOwner' => $isOwner,
              'viewer' => $viewer,
              'timezone'=> $timezone,
+             'meetingTime'=>$meetingTime,
          ]) ?>
 
         <?php
@@ -47,6 +48,7 @@ echo $this->render('_timezone_alerts');
               'whereStatus'=> $whereStatus,
               'isOwner' => $isOwner,
               'viewer' => $viewer,
+              'meetingPlace'=>$meetingPlace,
           ]);
            ?>
 

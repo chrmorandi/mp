@@ -157,18 +157,6 @@ class MeetingController extends Controller
      */
     public function actionView($id)
     {
-      /*$p = new Participant;
-    $p->email = $p->new_email ='t@lookahead.me';
-    $p->meeting_id = $id;
-    $p->status=Participant::STATUS_DEFAULT;
-    $p->participant_type=Participant::TYPE_DEFAULT;
-    $p->participant_id = User::addUserFromEmail($p->email);
-    $p->invited_by = Yii::$app->user->getId();
-    // to do - get validation errors and return them
-    $p->validate();
-    var_dump($p->getErrors());
-    $p->save();
-    exit;*/
       $model = $this->findModel($id);
       $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$id])->one();
       if (!$model->isAttendee($id,Yii::$app->user->getId())) {
@@ -196,10 +184,22 @@ class MeetingController extends Controller
       //var_dump($x->participant->email);exit;
       // fetch user timezone
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
-      // prepare participant format
+      // prepare participant form
       $participant = new Participant();
       $participant->meeting_id= $model->id;
       $friends = Friend::getFriendList(Yii::$app->user->getId());
+      // prepare meeting time form
+      $meetingTime = new MeetingTime();
+      $meetingTime->tz_current = $timezone;
+      $meetingTime->duration = 1;
+      $meetingTime->meeting_id= $model->id;
+      $meetingTime->suggested_by= Yii::$app->user->getId();
+      $meetingTime->status = MeetingTime::STATUS_SUGGESTED;
+      // prepare meeting place form
+      $meetingPlace = new MeetingPlace();
+      $meetingPlace->meeting_id= $model->id;
+      $meetingPlace->suggested_by= Yii::$app->user->getId();
+      $meetingPlace->status = MeetingPlace::STATUS_SUGGESTED;
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
@@ -238,6 +238,8 @@ class MeetingController extends Controller
               'timezone' => $timezone,
               'participant'=>$participant,
               'friends'=>$friends,
+              'meetingTime'=>$meetingTime,
+              'meetingPlace'=>$meetingPlace,
           ]);
       } else {
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {

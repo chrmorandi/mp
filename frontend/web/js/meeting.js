@@ -194,6 +194,27 @@ function cancelTime() {
   $('#addTime').addClass("hidden");
 }
 
+function addTime(id) {
+    note = $('#meeting-to').val();
+    if (note =='') {
+      displayAlert('timeMessage','timeMessage2');
+      return false;
+    }
+    // ajax submit subject and message
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-time/add',
+       data: {id: id,
+        note: note},
+       success: function(data) {
+         $('#editNote').addClass("hidden");
+         $('#meeting-note').val('');
+         //updateNoteThread(id);
+        displayAlert('timeMessage','timeMessage2');
+         return true;
+       }
+    });
+  }
+
 function getTimes(id) {
   $.ajax({
    url: $('#url_prefix').val()+'/meeting-time/gettimes',
@@ -202,22 +223,42 @@ function getTimes(id) {
     },
     type: 'GET',
    success: function(data) {
-     $('#timeList').html(data);
+     $('#meeting-time-list').html(data);
    },
  });
 }
 
 function showPlace() {
-  if ($('#meeting-place-list').hasClass( "hidden")) {
-    $('#meeting-place-list').removeClass("hidden");
+  if ($('#addPlace').hasClass( "hidden")) {
+    $('#addPlace').removeClass("hidden");
   }else {
-    $('#meeting-place-list').addClass("hidden");
+    $('#addPlace').addClass("hidden");
   }
 };
 
 function cancelPlace() {
   $('#addPlace').addClass("hidden");
 }
+
+function addPlace(id) {
+    note = $('#meeting-note').val();
+    if (note =='') {
+      displayAlert('placeMessage','placeMessage2');
+      return false;
+    }
+    // ajax submit subject and message
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-place/add',
+       data: {id: id        },
+       success: function(data) {
+         //$('#editNote').addClass("hidden");
+         //$('#meeting-note').val('');
+         //updateNoteThread(id);
+         displayAlert('placeMessage','placeMessage1');
+         return true;
+       }
+    });
+  }
 
 function getPlaces(id) {
   $.ajax({
@@ -227,7 +268,7 @@ function getPlaces(id) {
     },
     type: 'GET',
    success: function(data) {
-     $('#placeList').html(data);
+     $('#meeting-place-list').html(data);
    },
  });
 }
