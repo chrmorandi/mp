@@ -416,6 +416,8 @@ function addTime(id) {
         });
      },
    });
+   refreshSend();
+   refreshFinalize();
   }
 
 function getTimes(id) {
@@ -501,7 +503,6 @@ function addPlace(id) {
          $('#meetingplace-google_place_undefined').val('');
          displayAlert('placeMessage','placeMsg1');
        }
-
     });
   }
 
@@ -538,6 +539,8 @@ function insertPlace(id) {
       });
    },
  });
+ refreshSend();
+ refreshFinalize();
 }
 
 // meeting notes

@@ -409,7 +409,6 @@ class Meeting extends \yii\db\ActiveRecord
               $chosenPlace = true;
             }
           }
-
         }
         $cntTimes = 0;
         foreach($this->meetingTimes as $mt) {
