@@ -40,9 +40,8 @@ echo $this->render('_timezone_alerts');
              'meetingTime'=>$meetingTime,
          ]) ?>
 
-        <?php
-          // where
-            echo $this->render('../meeting-place/_panel', [
+
+        <?= $this->render('../meeting-place/_panel', [
               'model'=>$model,
               'placeProvider' => $placeProvider,
               'whereStatus'=> $whereStatus,
@@ -72,77 +71,18 @@ echo $this->render('_timezone_alerts');
   ]);
  ?>
 <?php
-if (isset(Yii::$app->params['urlPrefix'])) {
-  $urlPrefix = Yii::$app->params['urlPrefix'];
-} else {
-  $urlPrefix ='';
-}
-
-$session = Yii::$app->session;
-if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING ) {
-  $notifierOkay='off';
-  $session->remove('displayHint');
-} else {
-  $notifierOkay='on';
-}
+  $session = Yii::$app->session;
+  if ($session['displayHint']=='on' || $model->status == $model::STATUS_PLANNING ) {
+    $notifierOkay='off';
+    $session->remove('displayHint');
+  } else {
+    $notifierOkay='on';
+  }
 ?>
 <input id="notifierOkay" value="<?= $notifierOkay ?>" type="hidden">
 <input id="meeting_id" value="<?= $model->id; ?>" type="hidden">
-<?php
-$script = <<< JS
-var notifierOkay; // meeting sent already and no page change session flash
-
-if  ($('#notifierOkay').val() == 'on') {
-  notifierOkay = true;
-} else {
-  notifierOkay = false;
-}
-
-function displayNotifier(mode) {
-  if (notifierOkay) {
-    if (mode == 'time') {
-      $('#notifierTime').show();
-    } else if (mode == 'place') {
-       $('#notifierPlace').show();
-     } else {
-      alert("We\'ll automatically notify the organizer when you're done making changes.");
-    }
-    notifierOkay=false;
-  }
-}
-
-function refreshSend() {
-  $.ajax({
-     url: '$urlPrefix/meeting/cansend',
-     data: {id: $model->id, 'viewer_id': $viewer},
-     success: function(data) {
-       if (data)
-         $('#actionSend').removeClass("disabled");
-        else
-        $('#actionSend').addClass("disabled");
-       return true;
-     }
-  });
-}
-
-function refreshFinalize() {
-  $.ajax({
-     url: '$urlPrefix/meeting/canfinalize',
-     data: {id: $model->id, 'viewer_id': $viewer},
-     success: function(data) {
-       if (data)
-         $('#actionFinalize').removeClass("disabled");
-        else
-        $('#actionFinalize').addClass("disabled");
-       return true;
-     }
-  });
-}
-
-JS;
-$position = \yii\web\View::POS_READY;
-$this->registerJs($script, $position);
-?>
+<input id="viewer" value="<?= Yii::$app->user->getId(); ?>" type="hidden">
 <?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
 <?= BaseHtml::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
+</div>

@@ -178,6 +178,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
     }
 
     public static function getWhereStatus($meeting,$viewer_id) {
+      // measures availability
       // get an array of textual status of meeting places for $viewer_id
       // Acceptable / Rejected / No response:
       $whereStatus['style'] = [];

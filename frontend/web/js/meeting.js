@@ -16,20 +16,143 @@ $(document).ready(function(){
   })
   });
 
-// automatic timezones
-function setTimezone(timezone) {
+  // automatic timezones
+  function setTimezone(timezone) {
+    $.ajax({
+       url: $('#url_prefix').val()+'/user-setting/timezone',
+       data: {'timezone': timezone},
+       success: function(data) {
+         $('#tz_alert').hide();
+         $('#tz_success').show();
+         return true;
+       }
+    });
+  }
+
+// notifier code
+  var notifierOkay; // meeting sent already and no page change session flash
+  if  ($('#notifierOkay').val() == 'on') {
+    notifierOkay = true;
+  } else {
+    notifierOkay = false;
+  }
+
+  function displayNotifier(mode) {
+    if (notifierOkay) {
+      if (mode == 'time') {
+        $('#notifierTime').show();
+      } else if (mode == 'place') {
+         $('#notifierPlace').show();
+       } else {
+        alert("We\'ll automatically notify the organizer when you're done making changes.");
+      }
+      notifierOkay=false;
+    }
+  }
+
+// refresh Send and Finalize
+
+  function refreshSend() {
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting/cansend',
+       data: {id: $('#meeting_id').val(), 'viewer_id':$('#viewer').val() },
+       success: function(data) {
+         if (data)
+           $('#actionSend').removeClass("disabled");
+          else
+          $('#actionSend').addClass("disabled");
+         return true;
+       }
+    });
+  }
+
+  function refreshFinalize() {
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting/canfinalize',
+       data: {id: $('#meeting_id').val(), 'viewer_id': $('#viewer').val()},
+       success: function(data) {
+         if (data)
+           $('#actionFinalize').removeClass("disabled");
+          else
+          $('#actionFinalize').addClass("disabled");
+         return true;
+       }
+    });
+  }
+
+// meeting places
+
+// switch virtual or in person
+// users can say if a place is an option for them
+$('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', function(e, s) {
+  //console.log(e.target.id,s); // true | false
+  // set intval to pass via AJAX from boolean state
+  if (!s) {
+    // change to virtual
+    $('#meeting-add-place').prop("disabled",true);
+    $('a#meeting-add-place').attr('disabled', true);
+    $('a#meeting-add-place').prop('href', 'javascript:void(0);');
+    $('#meeting-place-list').addClass("hidden");
+    state = 1; // state of these are backwards: true is 0, 1 is false
+  } else {
+    // change to in person
+    $('#meeting-add-place').prop("disabled",false);
+    $('a#meeting-add-place').attr('disabled', false);
+    $('#meeting-place-list').removeClass("hidden");
+    state =0; // state of these are backwards: true is 0, 1 is false
+  }
   $.ajax({
-     url: $('#url_prefix').val()+'/user-setting/timezone',
-     data: {'timezone': timezone},
+     url: $('#url_prefix').val()+'/meeting/virtual',
+     data: {id: $('#meeting_id').val(), 'state': state},
      success: function(data) {
-       $('#tz_alert').hide();
-       $('#tz_success').show();
+       displayNotifier('place');
+       refreshSend();
+       refreshFinalize();
        return true;
      }
   });
-}
+});
+
+// delegated events
+  $(document).on('switchChange.bootstrapSwitch', function(e, s) {
+    // console.log(e.target.value); // true | false
+    // turn on mpc for user
+    if (!e.target.id.match("^mpc-") ) {
+      // mpc- prefix is for meeting place choices
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-place/choose',
+         data: {id: $('#meeting_id').val(), 'val': e.target.value},
+         // e.target.value is selected MeetingPlaceChoice model
+         success: function(data) {
+           displayNotifier('place');
+           refreshSend();
+           refreshFinalize();
+           return true;
+         }
+      });
+    } else if (e.target.name.match("^meeting-place-choice")) {
+      if (s) {
+        state = 1;
+      } else
+      {
+        state =0;
+      }
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-place-choice/set',
+         data: {id: e.target.id, 'state': state},
+         success: function(data) {
+           displayNotifier('place');
+           refreshSend();
+           refreshFinalize();
+           return true;
+         }
+      });
+    }
+  });
 
 // participant button commands
+
+// toggle a participant as an organizer
 function toggleOrganizer(id, val) {
   if (val === true) {
     arg2 = 1;
@@ -56,7 +179,7 @@ function toggleOrganizer(id, val) {
   });
 }
 
-// change participant status
+// change participant status between remove, withdraw, attending
 function toggleParticipant(id, val, original_status) {
   if (val === true) {
     arg2 = 1;
@@ -90,7 +213,7 @@ function toggleParticipant(id, val, original_status) {
   });
 }
 
-// show the panel subject/message panel
+// show the message at top of what subject panel
 function showWhat() {
   if ($('#showWhat').hasClass( "hidden")) {
     $('#showWhat').removeClass("hidden");
@@ -182,6 +305,8 @@ function closeParticipant() {
   $('#addParticipantPanel').addClass("hidden");
 }
 
+// meeting time
+//show the panel
 function showTime() {
   if ($('#addTime').hasClass( "hidden")) {
     $('#addTime').removeClass("hidden");
@@ -228,10 +353,12 @@ function getTimes(id) {
  });
 }
 
+// meeting place panel
+// show place panel
 function showPlace() {
   if ($('#addPlace').hasClass( "hidden")) {
     $('#addPlace').removeClass("hidden");
-  }else {
+  } else {
     $('#addPlace').addClass("hidden");
   }
 };
@@ -241,38 +368,105 @@ function cancelPlace() {
 }
 
 function addPlace(id) {
-    note = $('#meeting-note').val();
-    if (note =='') {
-      displayAlert('placeMessage','placeMessage2');
+  //var clonedRow = $("#placeTable>tbody tr:last").clone(); //this will grab the lasttable row.
+  //$("#placeTable tbody>tr:last").append(clonedRow);
+  //return;
+  place_id = $('#meetingplace-place_id').val();
+  gp_id = $('#meetingplace-google_place_id').val();
+  if ((place_id=='') && (gp_id=='')) {
+      displayAlert('placeMessage','placeMsg2');
       return false;
-    }
-    // ajax submit subject and message
+  }
+  if (place_id!='' && place_id!=0) {
     $.ajax({
        url: $('#url_prefix').val()+'/meeting-place/add',
-       data: {id: id        },
+       data: {
+         id: id,
+         place_id:place_id,
+       },
        success: function(data) {
-         //$('#editNote').addClass("hidden");
-         //$('#meeting-note').val('');
-         //updateNoteThread(id);
-         displayAlert('placeMessage','placeMessage1');
-         return true;
+         // clear fields
+         // odd issue with resetting the combo box
+         $('#meetingplace-place_id:selected').removeAttr("selected");
+         $('#meetingplace-place_id').val('');
+         $('#meetingplace-place_idundefined').val('');
+         insertPlace(id);
+         displayAlert('placeMessage','placeMsg1');
        }
+
+    });
+  }
+  if (gp_id!='') {
+    gp=[];
+    gp['name']= $('#meetingplace-name').val();
+    gp['location']= $('#meetingplace-location').val();
+    gp['website']= $('#meetingplace-website').val();
+    gp['vicinity']= $('#meetingplace-vicinity').val();
+    gp['full_address']= $('#meetingplace-full_address').val();
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-place/addgp',
+       data: {
+         id:id,
+         gp_id:encodeURIComponent(gp_id),
+         name:encodeURIComponent(gp['name']),
+         location:encodeURIComponent(gp['location']),
+         website:encodeURIComponent(gp['website']),
+         vicinity:encodeURIComponent(gp['vicinity']),
+         full_address:encodeURIComponent(gp['full_address']),
+       },
+       success: function(data) {
+         // clear fields
+         // odd issue with resetting the combo box
+         insertPlace(id);
+         $('#meetingplace-google_place_id:selected').removeAttr("selected");
+         $('#meetingplace-google_place_id').val('');
+         $('#meetingplace-google_place_undefined').val('');
+
+         displayAlert('placeMessage','placeMsg1');
+       }
+
     });
   }
 
-function getPlaces(id) {
+  $('#addPlace').addClass('hidden');
+}
+
+function insertPlace(id) {
   $.ajax({
-   url: $('#url_prefix').val()+'/meeting-place/getplaces',
+   url: $('#url_prefix').val()+'/meeting-place/insertplace',
    data: {
      id: id,
     },
     type: 'GET',
    success: function(data) {
-     $('#meeting-place-list').html(data);
+    $("#placeTable").html(data).removeClass('hidden');
+     $("input[name='place-chooser']").map(function(){
+        //$(this).bootstrapSwitch();
+        $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-ok"></i>&nbsp;choose');
+        $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
+        $(this).bootstrapSwitch('onColor','success');
+        $(this).bootstrapSwitch('handleWidth',70);
+        $(this).bootstrapSwitch('labelWidth',10);
+        $(this).bootstrapSwitch('size','small');
+        // QUESTION to do - select the chosen one again
+        // QUESTION add label width
+      });
+      $("input[name='meeting-place-choice']").map(function(){
+        //$(this).bootstrapSwitch();
+        $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes');
+        $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no');
+        $(this).bootstrapSwitch('onColor','success');
+        $(this).bootstrapSwitch('offColor','danger');
+        $(this).bootstrapSwitch('handleWidth',50);
+        $(this).bootstrapSwitch('labelWidth',10);
+        $(this).bootstrapSwitch('size','small');
+      });
    },
  });
 }
 
+// meeting notes
+// add panel
 function showNote() {
   if ($('#editNote').hasClass( "hidden")) {
     $('#editNote').removeClass("hidden");
@@ -285,19 +479,20 @@ function cancelNote() {
   $('#editNote').addClass("hidden");
 }
 
+// meeting subject panel
 function updateWhat(id) {
   // ajax submit subject and message
   $.ajax({
      url: $('#url_prefix').val()+'/meeting/updatewhat',
      data: {id: id,
         subject: $('#meeting-subject').val(),
-        message: $('#meeting-message').val()},
+        message: $('#meeting-message').val()
+      },
      success: function(data) {
        $('#showWhat').text($('#meeting-subject').val());
        showWhat();
-       return true;
      }
-     // to do - error display flash
+
   });
 }
 
@@ -336,6 +531,7 @@ function updateNoteThread(id) {
     }
   });
 }
+
   function displayAlert(alert_id,msg_id) {
     // which alert box i.e. which panel alert
     switch (alert_id) {
@@ -376,6 +572,38 @@ function updateNoteThread(id) {
           case 'participantMessageOnlyOne':
           $('#participantMessageOnlyOne').removeClass("hidden");
           $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          break;
+        }
+      break;
+      case 'placeMessage':
+        // which msg to display
+        $('#placeMsg1').addClass('hidden'); // will share the note
+        $('#placeMsg2').addClass('hidden'); // will share the note
+        //$('#placeMsg3').addClass('hidden'); // will share the note
+        switch (msg_id) {
+          case 'placeMsg1':
+            $('#placeMsg1').removeClass('hidden'); // will share the note
+            $('#placeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+          break;
+          case 'placeMsg2':
+            $('#placeMsg2').removeClass('hidden'); // will share the note
+            $('#placeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+          break;
+        }
+      break;
+      case 'timeMessage':
+        // which msg to display
+        $('#timeMsg1').addClass('hidden'); // will share the note
+        $('#timeMsg2').addClass('hidden'); // will share the note
+        //$('#timeMsg3').addClass('hidden'); // will share the note
+        switch (msg_id) {
+          case 'timeMsg1':
+            $('#timeMsg1').removeClass('hidden'); // will share the note
+            $('#timeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+          break;
+          case 'timeMsg2':
+            $('#timeMsg2').removeClass('hidden'); // will share the note
+            $('#timeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
           break;
         }
       break;

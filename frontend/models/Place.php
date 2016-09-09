@@ -129,7 +129,20 @@ class Place extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getGooglePlaceId($google_place_id='',$name='',$website='',$vicinity='',$full_address='',$location='') {
+      //constructs array from AJAX call
+      $form=[];
+      $form['google_place_id']=$google_place_id;
+      $form['name']=$name;
+      $form['website']=$website;
+      $form['vicinity']=$vicinity;
+      $form['full_address']=$full_address;
+      $form['location']=$location;
+      return Place::googlePlaceSuggested($form);
+    }
+
     public static function googlePlaceSuggested($form) {
+
       // check if this google place already exists
       if (Place::find()->where(['google_place_id'=>$form['google_place_id']])->exists()) {
         $model = Place::find()->where(['google_place_id'=>$form['google_place_id']])->one();
@@ -145,10 +158,13 @@ class Place extends \yii\db\ActiveRecord
         $model->full_address = $form['full_address'];
         $model->created_by = Yii::$app->user->getId();
         if ($model->validate()) {
+
              // all inputs are valid
              $model->save();
+
              // add GPS entry in PlaceGeometry
              $model->addGeometry($model,$form['location']);
+             
              return $model->id;
         } else {
           return false;

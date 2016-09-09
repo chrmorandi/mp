@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use \kartik\switchinput\SwitchInput;
-
 ?>
 <tr > <!-- panel row -->
   <td >
@@ -29,10 +28,49 @@ use \kartik\switchinput\SwitchInput;
                 <?php
                 // show meeting owner in first column
                    if ($isOwner) {
-                     showOwnerStatus($model,$isOwner);
+                     //showOwnerStatus($model,$isOwner);
+                     foreach ($model->meetingPlaceChoices as $mpc) {
+                       if ($mpc->user_id == $model->meeting->owner_id) {
+                           if ($mpc->status == $mpc::STATUS_YES)
+                             $value = 1;
+                           else
+                             $value =0;
+                           echo SwitchInput::widget([
+                           'type'=>SwitchInput::CHECKBOX,
+                           'name' => 'meeting-place-choice',
+                           'id'=>'mpc-'.$mpc->id,
+                           'value' => $value,
+                           'disabled' => !$isOwner,
+                           // prev: 75, acceptable
+                           'pluginOptions' => ['size' => 'small','labelWidth'=>10,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                           ]);
+                       }
+                     }
                    } else {
-                     showParticipantStatus($model,$isOwner,Yii::$app->user->getId());
+                     //showParticipantStatus($model,$isOwner,Yii::$app->user->getId());
+                     foreach ($model->meetingPlaceChoices as $mpc) {
+                       if (count($model->meeting->participants)==0) break;
+                       if ($mpc->user_id == $user_id) {
+                           if ($mpc->status == $mpc::STATUS_YES)
+                             $value = 1;
+                           else if ($mpc->status == $mpc::STATUS_NO)
+                             $value =0;
+                           else if ($mpc->status == $mpc::STATUS_UNKNOWN)
+                             $value =-1;
+                           echo SwitchInput::widget([
+                             'type'=>SwitchInput::CHECKBOX,
+                             'name' => 'meeting-place-choice',
+                             'id'=>'mpc-'.$mpc->id,
+                             'tristate'=>true,
+                             'indeterminateValue'=>-1,
+                             'indeterminateToggle'=>false,
+                             'disabled'=>$isOwner,
+                             'value' => $value,
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>10,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                         ]);
+                       }
                    }
+                 }
                 ?>
               </td>
               <td class="switch-pad">
@@ -52,8 +90,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'small','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->place_id],
-                          //'labelOptions' => ['style' => 'font-size: 10px'],
+                          'pluginOptions' => [  'size' => 'small','labelWidth'=>10,'handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->place_id],
                       ]);
                     }
                   }

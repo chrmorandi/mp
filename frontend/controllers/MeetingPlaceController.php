@@ -12,7 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
-
+use yii\widgets\ListView;
 /**
  * MeetingPlaceController implements the CRUD actions for MeetingPlace model.
  */
@@ -33,7 +33,7 @@ class MeetingPlaceController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions'=>['create','delete','choose','getplaces'],
+                        'actions'=>['create','delete','choose','insertplace','add','addgp'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -132,20 +132,58 @@ class MeetingPlaceController extends Controller
       return true;
     }
 
-    public function actionGetplaces($id) {
+    public function actionAdd($id,$place_id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $m=Meeting::findOne($id);
+      $model = new MeetingPlace();
+      $model->meeting_id= $id;
+      $model->place_id=$place_id;
+      $model->suggested_by= Yii::$app->user->getId();
+      $model->availability = 0;
+      $model->status = MeetingPlace::STATUS_SUGGESTED;
+      $model->save();
+      return true;
+    }
 
-      $noteProvider = new ActiveDataProvider([
-          'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
-          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+    public function actionInsertplace($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $meeting_id = $id;
+      $model=Meeting::findOne($id);
+      $placeProvider = new ActiveDataProvider([
+          'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
+          'sort' => [
+            'defaultOrder' => [
+              'availability'=>SORT_DESC
+            ]
+          ],
       ]);
-      $result =  $this->renderPartial('_thread', [
-          'model' =>$m,
-          'noteProvider' => $noteProvider,
-      ]);
+      $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
+      $result = ListView::widget([
+             'dataProvider' => $placeProvider,
+             'itemOptions' => ['class' => 'item'],
+             'layout' => '{items}',
+             'itemView' => '/meeting-place/_list',
+             'viewParams' => ['placeCount'=>$placeProvider->count,
+             'isOwner'=>$model->isOwner(Yii::$app->user->getId()),
+             'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],
+             'whereStatus'=>$whereStatus],
+         ]) ;        
+         return $result;
+    }
 
-      return $result;
+    public function actionAddgp($id=0,$gp_id='',$name='',$website='',$vicinity='',$full_address='',$location='') {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $place_id = Place::getGooglePlaceId(urldecode($gp_id),urldecode($name),urldecode($website),urldecode($vicinity),urldecode($full_address),urldecode($location));
+      if ($place_id!==false) {
+        $model = new MeetingPlace();
+        $model->meeting_id= $id;
+        $model->place_id=$place_id;
+        $model->suggested_by= Yii::$app->user->getId();
+        $model->availability = 0;
+        $model->status = MeetingPlace::STATUS_SUGGESTED;
+        $model->save();
+      }
+    return true;
     }
     /**
      * Finds the MeetingPlace model based on its primary key value.

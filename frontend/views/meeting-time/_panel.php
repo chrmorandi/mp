@@ -48,7 +48,7 @@ use \kartik\switchinput\SwitchInput;
         <!-- hidden add time form -->
         <?= $this->render('_form', [
             'model' => $meetingTime,
-        ]) ?>              
+        ]) ?>
       </div>
   <div id="meeting-time-list">
   <?php
