@@ -24,7 +24,6 @@ use dosamigos\datetimepicker\DateTimePicker;
 </div>
 </div>
 <div class="meeting-time-form">
-
   <div class="row">
     <div class="col-xs-8 col-lg-4">
     <?php $form = ActiveForm::begin();?>

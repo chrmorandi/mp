@@ -130,7 +130,21 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
            return true;
          }
       });
-    } else if (e.target.name.match("^meeting-place-choice")) {
+    } else if (!e.target.id.match("^mtc-") ) {
+      // mtc- prefix is for meeting time choices
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-time/choose',
+         data: {id: $('#meeting_id').val(), 'val': e.target.value},
+         // e.target.value is selected MeetingPlaceChoice model
+         success: function(data) {
+           displayNotifier('time');
+           refreshSend();
+           refreshFinalize();
+           return true;
+         }
+      });
+    }
+    else if (e.target.name.match("^meeting-place-choice")) {
       if (s) {
         state = 1;
       } else
@@ -142,6 +156,23 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
          data: {id: e.target.id, 'state': state},
          success: function(data) {
            displayNotifier('place');
+           refreshSend();
+           refreshFinalize();
+           return true;
+         }
+      });
+    } else if (e.target.name.match("^meeting-time-choice")) {
+      if (s) {
+        state = 1;
+      } else
+      {
+        state =0;
+      }
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-time-choice/set',
+         data: {id: e.target.id, 'state': state},
+         success: function(data) {
+           displayNotifier('time');
            refreshSend();
            refreshFinalize();
            return true;
@@ -320,24 +351,57 @@ function cancelTime() {
 }
 
 function addTime(id) {
-    note = $('#meeting-to').val();
-    if (note =='') {
+    start_time = $('#meetingtime-start_time').val();
+    if (start_time =='') {
       displayAlert('timeMessage','timeMessage2');
       return false;
     }
     // ajax submit subject and message
     $.ajax({
        url: $('#url_prefix').val()+'/meeting-time/add',
-       data: {id: id,
-        note: note},
+       data: {
+         id: id,
+        start_time: start_time
+      },
        success: function(data) {
-         $('#editNote').addClass("hidden");
-         $('#meeting-note').val('');
-         //updateNoteThread(id);
+         //$('#meeting-note').val('');
+         insertTime($id);
         displayAlert('timeMessage','timeMessage2');
          return true;
        }
     });
+  }
+
+  function insertTime(id) {
+    $.ajax({
+     url: $('#url_prefix').val()+'/meeting-time/inserttime',
+     data: {
+       id: id,
+      },
+      type: 'GET',
+     success: function(data) {
+      $("#meeting-time-list").html(data).removeClass('hidden');
+       $("input[name='time-chooser']").map(function(){
+          //$(this).bootstrapSwitch();
+          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-ok"></i>&nbsp;choose');
+          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
+          $(this).bootstrapSwitch('onColor','success');
+          $(this).bootstrapSwitch('handleWidth',70);
+          $(this).bootstrapSwitch('labelWidth',10);
+          $(this).bootstrapSwitch('size','small');
+        });
+        $("input[name='meeting-time-choice']").map(function(){
+          //$(this).bootstrapSwitch();
+          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes');
+          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no');
+          $(this).bootstrapSwitch('onColor','success');
+          $(this).bootstrapSwitch('offColor','danger');
+          $(this).bootstrapSwitch('handleWidth',50);
+          $(this).bootstrapSwitch('labelWidth',10);
+          $(this).bootstrapSwitch('size','small');
+        });
+     },
+   });
   }
 
 function getTimes(id) {
@@ -448,8 +512,6 @@ function insertPlace(id) {
         $(this).bootstrapSwitch('handleWidth',70);
         $(this).bootstrapSwitch('labelWidth',10);
         $(this).bootstrapSwitch('size','small');
-        // QUESTION to do - select the chosen one again
-        // QUESTION add label width
       });
       $("input[name='meeting-place-choice']").map(function(){
         //$(this).bootstrapSwitch();

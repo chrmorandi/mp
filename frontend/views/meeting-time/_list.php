@@ -27,9 +27,45 @@ use \kartik\switchinput\SwitchInput;
               <td >
                 <?php
                    if ($isOwner) {
-                     showTimeOwnerStatus($model,$isOwner);
+                     foreach ($model->meetingTimeChoices as $mtc) {
+                       if ($mtc->user_id == $model->meeting->owner_id) {
+                           if ($mtc->status == $mtc::STATUS_YES)
+                             $value = 1;
+                           else
+                             $value =0;
+                             echo SwitchInput::widget([
+                             'type' => SwitchInput::CHECKBOX,
+                             'name' => 'meeting-time-choice',
+                             'id'=>'mtc-'.$mtc->id,
+                             'value' => $value,
+                             'disabled' => !$isOwner,
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>10,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                             ]);
+                       }
+                     }
                    } else {
-                     showTimeParticipantStatus($model,$isOwner,Yii::$app->user->getId());
+                     foreach ($model->meetingTimeChoices as $mtc) {
+                       if (count($model->meeting->participants)==0) break;
+                       if ($mtc->user_id == $user_id) {
+                           if ($mtc->status == $mtc::STATUS_YES)
+                             $value = 1;
+                           else if ($mtc->status == $mtc::STATUS_NO)
+                             $value =0;
+                           else if ($mtc->status == $mtc::STATUS_UNKNOWN)
+                             $value =-1;
+                           echo SwitchInput::widget([
+                             'type' => SwitchInput::CHECKBOX,
+                             'name' => 'meeting-time-choice',
+                             'id'=>'mtc-'.$mtc->id,
+                             'tristate'=>true,
+                             'indeterminateValue'=>-1,
+                             'indeterminateToggle'=>false,
+                             'disabled'=>$isOwner,
+                             'value' => $value,
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>10,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                         ]);
+                       }
+                     }
                    }
                 ?>
               </td>
@@ -50,8 +86,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'small','handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
-                          //'labelOptions' => ['style' => 'font-size: 10px'],
+                          'pluginOptions' => [  'size' => 'small','labelWidth'=>10,'handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
                       ]);
                     }
                   }

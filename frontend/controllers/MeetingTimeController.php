@@ -38,7 +38,7 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','delete','choose','view','remove','gettimes'],
+                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','insertTime'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -192,12 +192,54 @@ class MeetingTimeController extends Controller
       return $this->redirect(['/meeting/view','id'=>$result]);
     }
 
+    public function actionAdd($id,$start_time) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $model = new MeetingTime();
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      date_default_timezone_set($timezone);
+      $model->tz_current = $timezone;
+      $model->duration = 1;
+      $model->meeting_id= $id;
+      $model->suggested_by= Yii::$app->user->getId();
+      $model->status = MeetingTime::STATUS_SUGGESTED;
+      $model->save();
+      return true;
+    }
+
+    public function actionInsertplace($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $meeting_id = $id;
+      $model=Meeting::findOne($id);
+      $placeProvider = new ActiveDataProvider([
+          'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
+          'sort' => [
+            'defaultOrder' => [
+              'availability'=>SORT_DESC
+            ]
+          ],
+      ]);
+      $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
+      $result = ListView::widget([
+             'dataProvider' => $placeProvider,
+             'itemOptions' => ['class' => 'item'],
+             'layout' => '{items}',
+             'itemView' => '/meeting-place/_list',
+             'viewParams' => ['placeCount'=>$placeProvider->count,
+             'isOwner'=>$model->isOwner(Yii::$app->user->getId()),
+             'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],
+             'whereStatus'=>$whereStatus],
+         ]) ;
+         return $result;
+    }
+
     public function actionGettimes($id) {
+      // to do may not be used
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $m=Meeting::findOne($id);
 
-      $noteProvider = new ActiveDataProvider([
-          'query' => MeetingNote::find()->where(['meeting_id'=>$id]),
+      $timeProvider = new ActiveDataProvider([
+          'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
           'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
       $result =  $this->renderPartial('_thread', [

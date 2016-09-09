@@ -42,7 +42,7 @@ use \common\components\MiscHelpers;
               'name' => 'meeting-switch-virtual',
                 'value' => $model->switchVirtual,
                 'pluginOptions' => [
-                  'handleWidth'=>75,                  
+                  'handleWidth'=>75,
                   'size'=>'small','onText' => '<i class="glyphicon glyphicon-user"></i>&nbsp;in person','offText'=>'<i class="glyphicon glyphicon-earphone"></i>&nbsp;virtual'], // 'onColor' => 'success','offColor' => 'danger'
                 'labelOptions' => ['style' => 'font-size: 8px;'],
             ]);
