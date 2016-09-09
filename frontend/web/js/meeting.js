@@ -116,13 +116,16 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
 // delegated events
   $(document).on('switchChange.bootstrapSwitch', function(e, s) {
     // console.log(e.target.value); // true | false
-    // turn on mpc for user
-    if (!e.target.id.match("^mpc-") ) {
-      // mpc- prefix is for meeting place choices
+    if (e.target.name=="place-chooser") {
+      if (s) {
+        state = 1;
+      } else
+      {
+        state =0;
+      }
       $.ajax({
          url: $('#url_prefix').val()+'/meeting-place/choose',
-         data: {id: $('#meeting_id').val(), 'val': e.target.value},
-         // e.target.value is selected MeetingPlaceChoice model
+         data: {id:   $('#meeting_id').val(), 'val': e.target.value},
          success: function(data) {
            displayNotifier('place');
            refreshSend();
@@ -130,12 +133,16 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
            return true;
          }
       });
-    } else if (!e.target.id.match("^mtc-") ) {
-      // mtc- prefix is for meeting time choices
+    } else if (e.target.name=="time-chooser") {
+      if (s) {
+        state = 1;
+      } else
+      {
+        state =0;
+      }
       $.ajax({
          url: $('#url_prefix').val()+'/meeting-time/choose',
-         data: {id: $('#meeting_id').val(), 'val': e.target.value},
-         // e.target.value is selected MeetingPlaceChoice model
+         data: {id:   $('#meeting_id').val(), 'val': e.target.value},
          success: function(data) {
            displayNotifier('time');
            refreshSend();
@@ -143,8 +150,9 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
            return true;
          }
       });
-    }
-    else if (e.target.name.match("^meeting-place-choice")) {
+    } else if (e.target.id.match("^mpc-") ) {
+      // turn on mpc for user
+      // mpc- prefix is for meeting place choices
       if (s) {
         state = 1;
       } else
@@ -154,6 +162,7 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
       $.ajax({
          url: $('#url_prefix').val()+'/meeting-place-choice/set',
          data: {id: e.target.id, 'state': state},
+         // e.target.value is selected MeetingPlaceChoice model
          success: function(data) {
            displayNotifier('place');
            refreshSend();
@@ -161,16 +170,18 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
            return true;
          }
       });
-    } else if (e.target.name.match("^meeting-time-choice")) {
+    } else if (e.target.id.match("^mtc-") ) {
       if (s) {
         state = 1;
       } else
       {
         state =0;
       }
+      // mtc- prefix is for meeting time choices
       $.ajax({
          url: $('#url_prefix').val()+'/meeting-time-choice/set',
          data: {id: e.target.id, 'state': state},
+         // e.target.value is selected MeetingPlaceChoice model
          success: function(data) {
            displayNotifier('time');
            refreshSend();
@@ -352,8 +363,9 @@ function cancelTime() {
 
 function addTime(id) {
     start_time = $('#meetingtime-start_time').val();
-    if (start_time =='') {
-      displayAlert('timeMessage','timeMessage2');
+    start = $('#meetingtime-start').val();
+    if (start_time =='' || start=='') {
+      displayAlert('timeMessage','timeMsg2');
       return false;
     }
     // ajax submit subject and message
@@ -361,15 +373,17 @@ function addTime(id) {
        url: $('#url_prefix').val()+'/meeting-time/add',
        data: {
          id: id,
-        start_time: start_time
+        start_time: encodeURIComponent(start_time),
+        start:encodeURIComponent(start),
       },
        success: function(data) {
          //$('#meeting-note').val('');
-         insertTime($id);
-        displayAlert('timeMessage','timeMessage2');
+         insertTime(id);
+         displayAlert('timeMessage','timeMsg1');
          return true;
        }
     });
+    $('#addTime').addClass('hidden');
   }
 
   function insertTime(id) {
@@ -485,7 +499,6 @@ function addPlace(id) {
          $('#meetingplace-google_place_id:selected').removeAttr("selected");
          $('#meetingplace-google_place_id').val('');
          $('#meetingplace-google_place_undefined').val('');
-
          displayAlert('placeMessage','placeMsg1');
        }
 
@@ -641,7 +654,7 @@ function updateNoteThread(id) {
         // which msg to display
         $('#placeMsg1').addClass('hidden'); // will share the note
         $('#placeMsg2').addClass('hidden'); // will share the note
-        //$('#placeMsg3').addClass('hidden'); // will share the note
+        $('#placeMsg3').addClass('hidden'); // will share the note
         switch (msg_id) {
           case 'placeMsg1':
             $('#placeMsg1').removeClass('hidden'); // will share the note

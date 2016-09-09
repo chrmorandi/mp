@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\widgets\ListView;
 //use yii\web\Response;
 
 /**
@@ -38,7 +39,7 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','insertTime'],
+                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','inserttime'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -192,44 +193,62 @@ class MeetingTimeController extends Controller
       return $this->redirect(['/meeting/view','id'=>$result]);
     }
 
-    public function actionAdd($id,$start_time) {
+    public function actionAdd($id,$start,$start_time) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $model = new MeetingTime();
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       date_default_timezone_set($timezone);
+      $model = new MeetingTime();
+      $model->start = urldecode($start);
+      $model->start_time = urldecode($start_time);
+      if (empty($model->start)) {
+        $model->start = Date('M d, Y',time()+3*24*3600);
+      }
       $model->tz_current = $timezone;
       $model->duration = 1;
       $model->meeting_id= $id;
       $model->suggested_by= Yii::$app->user->getId();
       $model->status = MeetingTime::STATUS_SUGGESTED;
+      $selected_time = date_parse($model->start_time);
+      if ($selected_time['hour'] === false) {
+        $selected_time['hour'] =9;
+        $selected_time['minute'] =0;
+      }
+      // convert date time to timestamp
+      $model->start = strtotime($model->start) +  $selected_time['hour']*3600+ $selected_time['minute']*60;
+      $model->end = $model->start + (3600*$model->duration);
       $model->save();
       return true;
     }
 
-    public function actionInsertplace($id) {
+    public function actionInserttime($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = $id;
       $model=Meeting::findOne($id);
-      $placeProvider = new ActiveDataProvider([
-          'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
-            ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
+      $timeProvider = new ActiveDataProvider([
+          'query' => MeetingTime::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
           'sort' => [
             'defaultOrder' => [
               'availability'=>SORT_DESC
             ]
           ],
       ]);
-      $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
+
+      $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+
       $result = ListView::widget([
-             'dataProvider' => $placeProvider,
+             'dataProvider' => $timeProvider,
              'itemOptions' => ['class' => 'item'],
              'layout' => '{items}',
-             'itemView' => '/meeting-place/_list',
-             'viewParams' => ['placeCount'=>$placeProvider->count,
+             'itemView' => '/meeting-time/_list',
+             'viewParams' => ['timeCount'=>$timeProvider->count,
+             'timezone'=>$timezone,
              'isOwner'=>$model->isOwner(Yii::$app->user->getId()),
-             'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],
-             'whereStatus'=>$whereStatus],
+             'participant_choose_time'=>$model->meetingSettings['participant_choose_date_time'],
+             'whenStatus'=>$whenStatus],
          ]) ;
+
          return $result;
     }
 

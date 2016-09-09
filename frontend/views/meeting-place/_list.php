@@ -28,7 +28,6 @@ use \kartik\switchinput\SwitchInput;
                 <?php
                 // show meeting owner in first column
                    if ($isOwner) {
-                     //showOwnerStatus($model,$isOwner);
                      foreach ($model->meetingPlaceChoices as $mpc) {
                        if ($mpc->user_id == $model->meeting->owner_id) {
                            if ($mpc->status == $mpc::STATUS_YES)
@@ -47,7 +46,6 @@ use \kartik\switchinput\SwitchInput;
                        }
                      }
                    } else {
-                     //showParticipantStatus($model,$isOwner,Yii::$app->user->getId());
                      foreach ($model->meetingPlaceChoices as $mpc) {
                        if (count($model->meeting->participants)==0) break;
                        if ($mpc->user_id == $user_id) {

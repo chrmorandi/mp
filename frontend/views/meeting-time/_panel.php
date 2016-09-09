@@ -41,8 +41,8 @@ use \kartik\switchinput\SwitchInput;
     <div class="panel-body">
       <div id="timeMessage" class="alert-info alert fade in hidden">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span id="timeMsg"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
-        <span id="timeMsg2"><?= Yii::t('frontend','Sorry, there were errors.')?></span>
+        <span id="timeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
+        <span id="timeMsg2"><?= Yii::t('frontend','Please pick a date and time.')?></span>
       </div>
       <div id="addTime" class="hidden">
         <!-- hidden add time form -->
