@@ -48,7 +48,7 @@ use \kartik\switchinput\SwitchInput;
                    } else {
                      foreach ($model->meetingPlaceChoices as $mpc) {
                        if (count($model->meeting->participants)==0) break;
-                       if ($mpc->user_id == $user_id) {
+                       if ($mpc->user_id == Yii::$app->user->getId()) {
                            if ($mpc->status == $mpc::STATUS_YES)
                              $value = 1;
                            else if ($mpc->status == $mpc::STATUS_NO)

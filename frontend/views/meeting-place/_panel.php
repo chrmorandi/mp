@@ -89,7 +89,7 @@ use \common\components\MiscHelpers;
              'dataProvider' => $placeProvider,
              'itemOptions' => ['class' => 'item'],
              'layout' => '{items}',
-             'itemView' => '_list',
+             'itemView' => '_list',             
              'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
          ]) ?>
        <?php endif; ?>

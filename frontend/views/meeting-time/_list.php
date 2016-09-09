@@ -47,7 +47,7 @@ use \kartik\switchinput\SwitchInput;
                    } else {
                      foreach ($model->meetingTimeChoices as $mtc) {
                        if (count($model->meeting->participants)==0) break;
-                       if ($mtc->user_id == $user_id) {
+                       if ($mtc->user_id == Yii::$app->user->getId())  {
                            if ($mtc->status == $mtc::STATUS_YES)
                              $value = 1;
                            else if ($mtc->status == $mtc::STATUS_NO)
