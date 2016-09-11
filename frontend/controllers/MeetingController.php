@@ -195,6 +195,8 @@ class MeetingController extends Controller
       $meetingTime->meeting_id= $model->id;
       $meetingTime->suggested_by= Yii::$app->user->getId();
       $meetingTime->status = MeetingTime::STATUS_SUGGESTED;
+      $meetingTime->start = Date('M d, Y',time()+3*24*3600);
+      $meetingTime->start_time = '9:00 am';
       // prepare meeting place form
       $meetingPlace = new MeetingPlace();
       $meetingPlace->meeting_id= $model->id;

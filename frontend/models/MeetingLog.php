@@ -471,6 +471,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 			// build a textual history of events for this meeting
 			// not performed by this user_id and since cleared_at
 			// first, identify role of user
+			$cntActorsMentioned =0;
+			$actorsMentioned=[];
 			$m=Meeting::findOne($meeting_id);
 			$isOrganizer=false;
 			if ($m->owner_id == $user_id) {
@@ -516,6 +518,8 @@ class MeetingLog extends \yii\db\ActiveRecord
 					// reset the current actor's event string
 					$current_str='';
 					$current_actor = $e->actor_id;
+					$cntActorsMentioned +=1;
+					$actorsMentioned[]=$current_actor;
 					$actor = MiscHelpers::getDisplayName($e->actor_id);
 				} else {
 						$actor = '';
@@ -553,6 +557,10 @@ class MeetingLog extends \yii\db\ActiveRecord
 			$str.=$current_str.'<br />';
 			if (count($items_mentioned)==0) {
 				$str='';
+			}
+			// if this user_id is the only actor mentioned, they don't the email
+			if ($cntActorsMentioned==1 && $actorsMentioned[0]==$user_id) {
+				return false;
 			}
 			return $str;
 		}

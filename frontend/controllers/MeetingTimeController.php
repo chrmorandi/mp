@@ -256,14 +256,13 @@ class MeetingTimeController extends Controller
       // to do may not be used
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $m=Meeting::findOne($id);
-
       $timeProvider = new ActiveDataProvider([
           'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
           'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
       $result =  $this->renderPartial('_thread', [
           'model' =>$m,
-          'noteProvider' => $noteProvider,
+          'timeProvider' => $timeProvider,
       ]);
 
       return $result;
