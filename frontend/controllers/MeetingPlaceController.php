@@ -146,6 +146,9 @@ class MeetingPlaceController extends Controller
 
     public function actionInsertplace($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
+        return false;
+      }
       $meeting_id = $id;
       $model=Meeting::findOne($id);
       $placeProvider = new ActiveDataProvider([
@@ -167,7 +170,7 @@ class MeetingPlaceController extends Controller
              'isOwner'=>$model->isOwner(Yii::$app->user->getId()),
              'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],
              'whereStatus'=>$whereStatus],
-         ]) ;        
+         ]) ;
          return $result;
     }
 

@@ -34,6 +34,7 @@ AppAsset::register($this);
                 ],
             ]);
             if (Yii::$app->user->isGuest) {
+                $menuItems[] = ['label' => Yii::t('frontend','Features'), 'url' => ['/features']];
                 $menuItems[] = ['label' => Yii::t('frontend','Signup'), 'url' => ['/site/signup']];
                 $menuItems[] = ['label' => Yii::t('frontend','Login'), 'url' => ['/site/login']];
             } else {
@@ -55,7 +56,7 @@ AppAsset::register($this);
                 'items' => [
                   ['label' => Yii::t('frontend','Support'), 'url' => 'https://meetingplanner.freshdesk.com/support/home'], // 'http://support.meetingplanner.io'
                   ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
-                  ['label' => Yii::t('frontend','About'), 'url' => ['/site/about']],
+                  ['label' => Yii::t('frontend','About'), 'url' => ['/about']],
                 ],
               ];
               echo Nav::widget([
@@ -131,7 +132,8 @@ AppAsset::register($this);
         <?php
         if (!Yii::$app->user->isGuest) {
           echo Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io')),['class'=>'itemHide']);
-          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/site/about'])),['class'=>'itemHide']);
+          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','features'),Url::to(['/features'])),['class'=>'itemHide']);
+          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/about'])),['class'=>'itemHide']);
         }
          ?>
         </p>

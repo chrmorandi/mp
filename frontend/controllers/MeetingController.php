@@ -764,6 +764,9 @@ class MeetingController extends Controller
 
     public function actionUpdatewhat($id,$subject='',$message='') {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
+        return false;
+      }
       $m=Meeting::findOne($id);
       $m->subject = $subject;
       $m->message = $message;

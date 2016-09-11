@@ -283,6 +283,9 @@ class ParticipantController extends Controller
 
     public function actionAdd($id,$add_email='') {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
+        return false;
+      }      
       // save participant
       $p = new Participant;
       $p->email = $add_email;

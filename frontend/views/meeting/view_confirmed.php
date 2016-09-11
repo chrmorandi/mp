@@ -27,7 +27,7 @@ echo $this->render('_timezone_alerts');
           Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','This meeting expired due to inactivity.'));
         break;
         case $model::STATUS_COMPLETED:
-          Yii::$app->getSession()->setFlash('info', Yii::t('frontend','This meeting has past.'));
+          Yii::$app->getSession()->setFlash('info', Yii::t('frontend','This meeting has passed.'));
         break;
         case $model::STATUS_CANCELED:
           Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','This meeting was canceled.'));

@@ -223,6 +223,9 @@ class MeetingTimeController extends Controller
     public function actionInserttime($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = $id;
+      if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
+        return false;
+      }
       $model=Meeting::findOne($id);
       $timeProvider = new ActiveDataProvider([
           'query' => MeetingTime::find()->where(['meeting_id'=>$id])
@@ -233,10 +236,8 @@ class MeetingTimeController extends Controller
             ]
           ],
       ]);
-
       $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
-
       $result = ListView::widget([
              'dataProvider' => $timeProvider,
              'itemOptions' => ['class' => 'item'],
@@ -245,10 +246,9 @@ class MeetingTimeController extends Controller
              'viewParams' => ['timeCount'=>$timeProvider->count,
              'timezone'=>$timezone,
              'isOwner'=>$model->isOwner(Yii::$app->user->getId()),
-             'participant_choose_time'=>$model->meetingSettings['participant_choose_date_time'],
+             'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],
              'whenStatus'=>$whenStatus],
          ]) ;
-
          return $result;
     }
 

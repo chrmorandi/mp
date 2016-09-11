@@ -127,6 +127,9 @@ class MeetingNoteController extends Controller
 
     public function actionUpdatenote($id,$note='') {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
+        return false;
+      }
       $m=Meeting::findOne($id);
       $model = new MeetingNote();
       $title = $m->getMeetingTitle($id);
