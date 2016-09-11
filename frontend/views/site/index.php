@@ -32,7 +32,7 @@ $this->title = 'Meeting Planner';
 <?php echo Yii::t('frontend','or ').HTML::a(Yii::t('frontend','sign up old school'),['site/signup']); ?>
 <?php AuthChoice::end(); ?>
 </div>
-            <p><a class="btn btn-lg btn-success" href="./site/about"><?= Yii::t('frontend','Learn More') ?></a></p>
+            <p><a class="btn btn-lg btn-success" href="features"><?= Yii::t('frontend','Learn More') ?></a></p>
           </div> <!-- end jumbo -->
 <hr />
 <?= $this->render('launch');?>
