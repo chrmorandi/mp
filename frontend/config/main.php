@@ -16,6 +16,20 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'catchAll' => (($params['offline'])?['site/offline']:null),
     'components' => [
+      'session' => [
+            'name' => 'PHPBACKSESSID',
+            'savePath' => __DIR__ . '/../runtime/sessions   ',
+        ],
+        'user' => [
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => true,
+            'identityCookie' => [
+              'name' => '_frontendUser', // unique for frontend
+              'path'=>'/frontend/web',  // correct path for the frontend app.
+              'expire'=>time() + 86400 * 30,
+              'secure'=>true,
+            ]
+          ],
       'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
@@ -35,7 +49,7 @@ return [
               'daemon/<action>' => 'daemon/<action>', // incl eight char action
               'site/<action>' => 'site/<action>', // incl eight char action
               'features' => 'site/features',
-              'about' => 'site/about',              
+              'about' => 'site/about',
               '<username>/<identity:[A-Za-z0-9_-]{8}>' => 'meeting/identity',
               // note - currently actions with 8 letters and no params will fail
               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -66,10 +80,7 @@ return [
                               ],*/
               ],
           ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-        ],
+
         'Yii2Twilio' => [
           'class' => 'filipajdacic\yiitwilio\YiiTwilio',
           'account_sid' => $config['twilio_sid'],

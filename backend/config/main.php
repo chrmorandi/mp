@@ -13,6 +13,21 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+      'session' => [
+            'name' => 'PHPBACKSESSID',
+            'savePath' => __DIR__ . '/../runtime/sessions',
+        ],
+        'user' => [
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => true,
+            'identityCookie' => [
+              'name' => '_backendUser',
+              'path'=>'/backend/web',
+              'domain'=>'office.meetingplanner.io',
+              'expire'=>time() + 86400 * 7,
+              'secure'=>true,
+            ]
+        ],
       'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
@@ -22,10 +37,6 @@ return [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
-        ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
