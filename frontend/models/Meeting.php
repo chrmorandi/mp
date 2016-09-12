@@ -578,6 +578,7 @@ class Meeting extends \yii\db\ActiveRecord
     foreach ($attendees as $cnt=>$a) {
       // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
+        $participantList = $this->getMeetingParticipants($a['user_id'],true,true);
         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
         // Build the absolute links to the meeting and commands
         $links=[
@@ -605,6 +606,7 @@ class Meeting extends \yii\db\ActiveRecord
           'meeting_id' => $this->id,
           'noPlaces' => $noPlaces,
           'participant_id' => 0,
+          'participantList'=>$participantList,
           'owner' => MiscHelpers::getDisplayName($this->owner_id),
           'sender_id'=> $user_id,
           'user_id' => $a['user_id'],
