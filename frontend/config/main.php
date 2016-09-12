@@ -17,8 +17,8 @@ return [
     'catchAll' => (($params['offline'])?['site/offline']:null),
     'components' => [
       'session' => [
-            'name' => 'PHPBACKSESSID',
-            'savePath' => __DIR__ . '/../runtime/sessions   ',
+            'name' => 'PHPFRONTSESSID',
+            'savePath' => __DIR__ . '/../runtime/sessions',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
