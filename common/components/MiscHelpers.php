@@ -52,29 +52,20 @@ class MiscHelpers  {
      // returns best display name
      $displayName ='';
      $u = User::findOne($user_id);
-     $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
-     if (is_null($profile)) {
-       if (!$no_email)
-       {
-         $displayName = $u->email;
-       } else {
-         $displayName = 'n/a';
-       }
+     if (!$no_email)
+     {
+       $displayName = $u->email;
      } else {
+       $displayName = $u->username;
+     }
+     $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
+     if (!is_null($profile)) {
        $calcName = $profile->firstname.' '.$profile->lastname;
        if ($profile->fullname<>'' and $profile->fullname<>' ') {
          $displayName = $profile->fullname;
        } else if ($calcName<>' ') {
          // note check for middle space
          $displayName = $calcName;
-       } else {
-         // profile names are Empty
-         if (!$no_email)
-         {
-           $displayName = $u->email;
-         } else {
-           $displayName = 'n/a';
-         }
        }
      }
      return $displayName;

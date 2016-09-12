@@ -346,11 +346,14 @@ class Meeting extends \yii\db\ActiveRecord
        return $str;
      }
 
-     public function getMeetingParticipants($prefix = false,$buttons=false) {
+     public function getMeetingParticipants($user_id=0, $prefix = true, $exclude_owner = false) {
        // get a string of the participants other than the viewer
+       if ($user_id == 0) {
+         $user_id = Yii::$app->user->getId();
+       }
        $str='';
        $listPeople=[];
-       if (!$this->isOwner(Yii::$app->user->getId())) {
+       if (!$exclude_owner && !$this->isOwner($user_id)) {
          $listPeople[]=$this->owner_id;
        }
        if (count($this->participants)>0) {
@@ -359,12 +362,12 @@ class Meeting extends \yii\db\ActiveRecord
              // skip those that have canceled or been removed
              continue;
            }
-           if ($p->participant->id<>Yii::$app->user->getId()) {
+           if ($p->participant->id<>$user_id) {
              $listPeople[]=$p->participant->id;
            }
-          }
-          $str.=MiscHelpers::listNames($listPeople);
-          return (($prefix && strlen($str)>0)?'with '.$str:$str);
+        }
+        $str.=MiscHelpers::listNames($listPeople);
+        return (($prefix && strlen($str)>0)?'with '.$str:$str);
        }
      }
 
@@ -466,6 +469,7 @@ class Meeting extends \yii\db\ActiveRecord
       'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$this->owner_id,$p->participant_id,$auth_key),
       'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$p->participant_id,$auth_key),
     ];
+    $participantList = $this->getMeetingParticipants($p->participant_id,true,true);
     if ($this->isVirtual()) {
       $noPlaces = true;
     } else {
@@ -483,7 +487,8 @@ class Meeting extends \yii\db\ActiveRecord
         'meeting_id' => $this->id,
         'noPlaces' => $noPlaces,
         'participant_id' => 0,
-        'owner' => $this->owner->username,
+        'participantList'=>$participantList,
+        'owner' => MiscHelpers::getDisplayName($this->owner_id),
         'sender_id'=> $this->owner_id,
         'user_id' => $p->participant_id,
         'auth_key' => $auth_key,
@@ -600,7 +605,7 @@ class Meeting extends \yii\db\ActiveRecord
           'meeting_id' => $this->id,
           'noPlaces' => $noPlaces,
           'participant_id' => 0,
-          'owner' => $this->owner->username,
+          'owner' => MiscHelpers::getDisplayName($this->owner_id),
           'sender_id'=> $user_id,
           'user_id' => $a['user_id'],
           'auth_key' => $a['auth_key'],

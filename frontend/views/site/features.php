@@ -37,7 +37,7 @@ $this->title = 'Meeting Planner';
 
        <div class="col-lg-4">
          <h4><?= Yii::t('frontend','Groups'); ?></h4>
-         <p><?= Yii::t('frontend','Invite many people and easily find the most available times and places.'); ?></p>
+         <p><?= Yii::t('frontend','Invite more people and easily find the most available times and places.'); ?></p>
 
          <h4><?= Yii::t('frontend','Invite by Secure Link'); ?></h4>
          <p><?= Yii::t('frontend','If you wish, you can share a secure URL with participants via email.'); ?></p>
@@ -78,6 +78,13 @@ $this->title = 'Meeting Planner';
                 </div>
                 <div class="pricing-plan-period">month</div>
                   </th>
+                  <th class="plan-header plan-header-blue">
+                  <div class="pricing-plan-name">Enterprise</div>
+                  <div class="pricing-plan-price">
+                    <sup>$</sup>24<span>.99</span>
+                </div>
+                <div class="pricing-plan-period">month</div>
+                  </th>
                   </tr>
                   <tr>
                       <td></td>
@@ -93,14 +100,22 @@ $this->title = 'Meeting Planner';
                           </a>-->
                           <em>coming soon</em>
                       </td>
+                      <td class="action-header">
+                          <!--<a class="btn btn-info">
+                              Upgrade
+                          </a>-->
+                          <em>coming soon</em>
+                      </td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','1:1 Meetings') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
-                      <td><?= Yii::t('frontend','Small group meetings') ?></td>
+                      <td><?= Yii::t('frontend','Small group meetings (up to 5)') ?></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
@@ -108,9 +123,11 @@ $this->title = 'Meeting Planner';
                       <td><?= Yii::t('frontend','Participant messaging') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Downloadable calendar files') ?></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
@@ -118,9 +135,11 @@ $this->title = 'Meeting Planner';
                       <td><?= Yii::t('frontend','Email reminders') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Request changes, reschedule & repeat meetings') ?></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
@@ -128,33 +147,45 @@ $this->title = 'Meeting Planner';
                       <td><?= Yii::t('frontend','Schedule with me landing page') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
-                  </tr>
-                  <tr>
-                      <td><?= Yii::t('frontend','Large group meetings') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
-                      <td><?= Yii::t('frontend','Multiple organizers') ?></td>
+                      <td><?= Yii::t('frontend','Group meetings (up to 12)') ?></td>
                       <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Extended planning options') ?></td>
                       <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Google Contacts import') ?></td>
                       <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
-
                   <tr>
                       <td><?= Yii::t('frontend','SMS reminders and notifications') ?></td>
                       <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
+                  <tr>
+                      <td><?= Yii::t('frontend','Multiple organizers') ?></td>
+                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                  </tr>
+                  <tr>
+                      <td><?= Yii::t('frontend','Large group meetings (25+)') ?></td>
+                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                  </tr>
+
               </tbody></table>
           </div>
       </div>
@@ -169,7 +200,7 @@ $this->title = 'Meeting Planner';
   </div>
       <div class="row  ">
         <div class="col-md-12 text-center">
-          <p></p>          
+          <p></p>
           <?= Html::a(Yii::t('frontend','Sign Up Now'),['site/signup'],['class'=>'btn btn-lg btn-success']); ?>
           <a class="btn btn-lg btn-primary" href="http://support.meetingplanner.io" role="button">Questions?</a>
         </div>

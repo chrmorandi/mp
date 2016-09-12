@@ -22,9 +22,9 @@ if ($mode =='upcoming' || $mode =='past') {
                   $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
                   // to do - remove legacy code when subject didn't exist
                     if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT) {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader('pastplanning').'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader('pastplanning').'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                     } else {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                     }
                   },
           ],
@@ -78,36 +78,12 @@ if ($mode =='upcoming' || $mode =='past') {
           'value' => function ($model) {
               // to do - remove legacy code when subject didn't exist
                 if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT) {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                 } else {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants($model->id).'</span></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                 }
               },
-      ],
-      /*[
-        'label'=>'Participant(s)',
-          'attribute' => 'id',
-          'format' => 'raw',
-          'value' => function ($model) {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingParticipants($model->id).'</a></div>';
-              },
-      ],
-      [
-        'label'=>'Type',
-          'attribute' => 'meeting_type',
-          'format' => 'raw',
-          'value' => function ($model) {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingType($model->meeting_type).'</a></div>';
-              },
-      ],
-      [
-        'label'=>'Created',
-          'attribute' => 'created_at',
-          'format' => 'raw',
-          'value' => function ($model) {
-                return '<div>'.Yii::$app->formatter->asDatetime($model->created_at,"MMM d").'</div>';
-              },
-      ],*/
+      ],      
           ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {settings} {trash}',
           'headerOptions' => ['class' => 'itemHide'],
           'contentOptions' => ['class' => 'itemHide'],

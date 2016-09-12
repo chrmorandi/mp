@@ -82,7 +82,7 @@ return [
           ],
           'errorHandler' => [
                  'class' => 'baibaratsky\yii\rollbar\web\ErrorHandler',
-                 //'errorAction' => 'site/error',
+                 'errorAction' => 'site/error',
              ],
         'Yii2Twilio' => [
           'class' => 'filipajdacic\yiitwilio\YiiTwilio',
