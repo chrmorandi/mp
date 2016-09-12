@@ -91,13 +91,15 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
     // change to virtual
     $('#meeting-add-place').prop("disabled",true);
     $('a#meeting-add-place').attr('disabled', true);
-    $('a#meeting-add-place').prop('href', 'javascript:void(0);');
+    $('a#meeting-add-place').prop('onclick', 'return false;');
     $('#meeting-place-list').addClass("hidden");
     state = 1; // state of these are backwards: true is 0, 1 is false
   } else {
     // change to in person
     $('#meeting-add-place').prop("disabled",false);
     $('a#meeting-add-place').attr('disabled', false);
+    $('a#meeting-add-place').prop('onclick', 'showPlace();');
+    $('a#meeting-add-place').attr('onclick', 'showPlace();');
     $('#meeting-place-list').removeClass("hidden");
     state =0; // state of these are backwards: true is 0, 1 is false
   }

@@ -52,7 +52,7 @@ use \common\components\MiscHelpers;
               if ($model->switchVirtual == $model::SWITCH_INPERSON) { ?>
                   <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add posssible places','onclick'=>'showPlace();']); ?>
               <?php } else { ?>
-                <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true]); ?>
+                <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true,'onclick'=>'return false;']); ?>
               <?php } ?>
             </td></tr></table>
           <?php
@@ -89,7 +89,7 @@ use \common\components\MiscHelpers;
              'dataProvider' => $placeProvider,
              'itemOptions' => ['class' => 'item'],
              'layout' => '{items}',
-             'itemView' => '_list',             
+             'itemView' => '_list',
              'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
          ]) ?>
        <?php endif; ?>
