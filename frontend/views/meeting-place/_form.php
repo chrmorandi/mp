@@ -89,7 +89,8 @@ use \kartik\typeahead\Typeahead;
                   ));
   echo $this->registerJsFile($gpJsLink);
 
-  $options = '{"componentRestrictions":{"country":"us"}}';
+  $options = '{"componentRestrictions":{}}';
+  // turned off "country":"us"
   // turned off "types":["establishment"]
   echo $this->registerJs("(function(){
         var input = document.getElementById('meetingplace-searchbox');
