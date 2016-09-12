@@ -12,9 +12,9 @@ return [
     'id' => 'mp-frontend',
     'name' => 'Meeting Planner',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['rollbar','log'],
     'controllerNamespace' => 'frontend\controllers',
-    'catchAll' => (($params['offline'])?['site/offline']:null),
+    'catchAll' => (($params['offline'])?['site/offline']:[]),
     'components' => [
       'session' => [
             'name' => 'PHPFRONTSESSID',
@@ -80,7 +80,10 @@ return [
                               ],*/
               ],
           ],
-
+          'errorHandler' => [
+                 'class' => 'baibaratsky\yii\rollbar\web\ErrorHandler',
+                 //'errorAction' => 'site/error',
+             ],
         'Yii2Twilio' => [
           'class' => 'filipajdacic\yiitwilio\YiiTwilio',
           'account_sid' => $config['twilio_sid'],
@@ -93,10 +96,15 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                  'class' => 'baibaratsky\yii\rollbar\log\Target',
+                  'levels' => ['error', 'warning', 'info'], // Log levels you want to appear in Rollbar
+
+             // It is highly recommended that you specify certain categories.
+             // Otherwise, the exceptions and errors handled by the error handlers will be duplicated.
+                'categories' => ['application'],
+                ],
             ],
-        ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
         ],
     ],
     'params' => $params,

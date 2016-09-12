@@ -22,7 +22,9 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],
+        ],'errorHandler' => [
+          'class' => 'baibaratsky\yii\rollbar\console\ErrorHandler',
+          ],
     ],
     'params' => $params,
 ];
