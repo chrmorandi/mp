@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\BaseHtml;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
+use frontend\models\Meeting;
 use common\components\MiscHelpers;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\LatLng;
@@ -94,23 +95,8 @@ echo $this->render('_timezone_alerts');
           <?php
             if ($noPlace) { ?>
               <div class="col-lg-12">
-            <?php
-              // show conference contact info
-              if (count($contacts)>0) {
-                foreach ($contacts as $c) {
-
-                ?>
-                <p>
-                <?php
-                  echo $contactTypes[$c['contact_type']].': '.$c['info'];
-                ?>
-              </p>
-              <?php
-                }
-              } else {
-                echo '<p>'.Yii::t('frontend','No contact information available for your meeting partner yet.').'</p>';
-              }
-              ?>
+                <?= '<strong>'.Yii::t('frontend','Virtual meeting').'</strong><br /><br />';?>
+                <?= Meeting::buildContactListHtml($contactListObj); ?>
             </div>
       <?php
           } else {

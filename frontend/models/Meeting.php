@@ -711,10 +711,8 @@ class Meeting extends \yii\db\ActiveRecord
         $this->initializeMeetingSetting($this->id,$this->owner_id);
         if ($this->isVirtual()) {
           $this->switchVirtual = Meeting::SWITCH_VIRTUAL;
-          //echo 'here';exit;
         } else {
           $this->switchVirtual = Meeting::SWITCH_INPERSON;
-          //echo 'here- live';exit;
         }
         $canSend = $this->canSend($this->viewer_id);
         $this->canFinalize($this->viewer_id);
@@ -1760,5 +1758,70 @@ class Meeting extends \yii\db\ActiveRecord
         }
         return $chosenTime;
     }
+
+    public function getContactListObj($user_id,$isOwner) {
+      // creates an array of available contact information for all participants
+      $c=0;
+      $nc=0;
+      $contacts=[];
+      $noContacts=[];
+      if (!$isOwner) {
+        // add owner as a contact
+          $items = UserContact::get($this->owner_id);
+          if (count($items)>0) {
+            $contacts[$c]['contacts'] =$items;
+            $contacts[$c]['name'] = MiscHelpers::getDisplayName($this->owner_id);
+            $c++;
+          } else {
+            $noContacts[$nc]=MiscHelpers::getDisplayName($p->participant_id);
+            $nc++;
+          }
+      }
+      $participants = Participant::find()->where(['meeting_id'=>$this->id])->all();
+      foreach ($participants as $p) {
+        if ($p->participant_id == $user_id) {
+          // skip this user
+          continue;
+        } else {
+            $items = UserContact::get($p->participant_id);
+            if (count($items)>0) {
+              $contacts[$c]['contacts'] =$items;
+              $contacts[$c]['name']= MiscHelpers::getDisplayName($p->participant_id);
+              $c++;
+            } else {
+              $noContacts[$nc]=$p->participant_id;
+              $nc++;
+            }
+        }
+      }
+      if ($nc>0) {
+        $noContactList = MiscHelpers::listNames($noContacts,false);
+      } else {
+        $noContactList = '';
+      }
+    $result= new \stdClass();
+    $result->contacts = $contacts;
+    $result->noContactListStr = $noContactList;
+    return $result;
+  }
+
+  public static function buildContactListHtml($contactListObj) {
+    $contactTypes = UserContact::getUserContactTypeOptions();
+    $result ='';
+    // show conference contact info
+    if (count($contactListObj->contacts)>0) {
+      foreach ($contactListObj->contacts as $item) {
+        $result.='<p>'.$item['name'].' (';
+        foreach ($item['contacts'] as $c) {
+          $result.= trim($contactTypes[$c['contact_type']]).': '.trim($c['info']);
+          }
+          $result.=')</p>';
+      }
+    }
+    if ($contactListObj->noContactListStr!='') {
+      $result.= '<p>'.Yii::t('frontend','No contact information available from: ').$contactListObj->noContactListStr.'</p>';
+    }
+    return $result;
+  }
 
 }

@@ -232,8 +232,8 @@ class AddressController extends Controller
          $xmlresponse =  $address->curl($url);
          $contacts = json_decode($xmlresponse,true);
          if (!isset($contacts['feed']['entry'])) {
-           var_dump ($url);
-           var_dump ($xmlresponse);
+           //var_dump ($url);
+           //var_dump ($xmlresponse);
            exit;
          }
         $resultsCount =count($contacts['feed']['entry']);

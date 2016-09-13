@@ -253,26 +253,16 @@ class MeetingController extends Controller
         }
         $isOwner = $model->isOwner(Yii::$app->user->getId());
         if (($model->isVirtual())) {
-          $noPlace = true;
-          if ($isOwner) {
-            // to do - fix for multiple participants
-            // display participants contact info
-            $participant = Participant::find()->where(['meeting_id'=>$id])->one();
-            $contacts = UserContact::get($participant->participant_id);
-          } else {
-            // display organizers contact info
-            $contacts = UserContact::get($model->owner_id);
-          }
-        } else {
-          $noPlace=false;
-          $contacts=[];
+          $contactListObj = $model->getContactListObj(Yii::$app->user->getId(),$isOwner);
         }
         $chosenPlace = Meeting::getChosenPlace($id);
         if ($chosenPlace!==false) {
           $place = $chosenPlace->place;
           $gps = $chosenPlace->place->getLocation($chosenPlace->place->id);
+          $noPlace = false;
         } else {
           $place = false;
+          $noPlace = true;
           $gps = false;
         }
         $chosenTime = Meeting::getChosenTime($id);
@@ -289,8 +279,8 @@ class MeetingController extends Controller
             'isPast'=>($chosenTime->start - time() < 0)?true:false,
             'gps'=>$gps,
             'noPlace'=>$noPlace,
-            'contacts' => $contacts,
-            'contactTypes'=>UserContact::getUserContactTypeOptions(),
+            'contactListObj' => $contactListObj,
+            //'contactTypes'=>UserContact::getUserContactTypeOptions(),
             'timezone'=>$timezone,
             'participant'=>$participant,
             'friends'=>$friends,
