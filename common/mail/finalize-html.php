@@ -79,10 +79,12 @@ use frontend\models\MeetingTime;
                               <?php
                               if (!$noPlaces) {
                               ?>
-                                <?php echo $chosenPlace->place->name; ?>
-                                <br/ >
-                                <span style="font-size:75%;"><?php echo $chosenPlace->place->vicinity; ?> <?php echo HTML::a(Yii::t('frontend','view map'),
-                                MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$chosenPlace->place->id,$user_id,$auth_key)); ?></span>
+                              <p><?= Html::a($chosenPlace->place->name.' ('.Yii::t('frontend','website').')', $chosenPlace->place->website); ?><br/ >
+                                <span style="font-size:75%;"><?= $chosenPlace->place->vicinity; ?><br />
+                                <?php echo HTML::a(Yii::t('frontend','view map'),
+                                MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$chosenPlace->place->id,$user_id,$auth_key)); ?>,
+                                <?= Html::a(Yii::t('frontend','directions'),Url::to('https://www.google.com/maps/dir//'.$chosenPlace->place->full_address)); ?>
+                              </span></p>
                                 <?php
                               } else {
                                   ?>

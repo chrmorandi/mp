@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\helpers\BaseHtml;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
@@ -104,12 +105,12 @@ echo $this->render('_timezone_alerts');
             ?>
 <?php if (empty(!$place)) {
   ?>
-
   <div class="col-lg-6">
         <div class="place-view">
-        <p><?php echo $place->name; ?></p>
-        <p><?php echo Html::a($place->website, $place->website); ?></p>
-        <p><?php echo $place->full_address; ?></p>
+        <p><?= Html::a($place->name.' ('.$place->website.')', $place->website); ?></p>
+        <p><?= $place->vicinity; ?></p>
+        <p><?= Html::a(Yii::t('frontend','view map'),Url::to('https://www.google.com/maps/place/'.$place->full_address)); ?>,
+        <?= Html::a(Yii::t('frontend','directions to here'),Url::to('https://www.google.com/maps/dir//'.$place->full_address)); ?></p>
           </div>
     </div> <!-- end first col -->
     <div class="col-lg-6">

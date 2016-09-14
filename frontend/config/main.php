@@ -16,6 +16,14 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'catchAll' => (($params['offline'])?['site/offline']:[]),
     'components' => [
+      'rollbar' => [
+        'class' => 'baibaratsky\yii\rollbar\Rollbar',
+        'accessToken' => $_config['rollbar_key'],
+          // 'ignoreExceptions' => [
+            //         ['yii\web\HttpException', 'statusCode' => [400, 404]],
+              //         ['yii\web\HttpException', 'statusCode' => [403], 'message' => ['This action is forbidden']],
+              // ],
+      ],
       'session' => [
             'name' => 'PHPFRONTSESSID',
             'savePath' => __DIR__ . '/../runtime/sessions',

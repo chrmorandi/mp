@@ -23,8 +23,8 @@ use frontend\models\UserContact;
             // this code is similar to code in finalize-html
             if ($chosen_place!==false) {
             ?>
-            &nbsp;at <?php echo $chosen_place->place->name; ?>&nbsp;
-              (<?php echo $chosen_place->place->vicinity; ?>, <?php echo HTML::a(Yii::t('frontend','map'),$links['view_map']); ?>)
+            &nbsp;at <?= Html::a($chosenPlace->place->name,$chosenPlace->place->website); ?>&nbsp;
+              (<?php echo $chosen_place->place->vicinity; ?>, <?php echo HTML::a(Yii::t('frontend','view map'),$links['view_map']); ?> <?= Yii::t('frontend','or'); ?> <?= Html::a(Yii::t('frontend','directions to here'),Url::to('https://www.google.com/maps/dir//'.$chosenPlace->place->full_address)); ?>)
               <?php
             } else {
             ?>

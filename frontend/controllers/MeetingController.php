@@ -254,6 +254,8 @@ class MeetingController extends Controller
         $isOwner = $model->isOwner(Yii::$app->user->getId());
         if (($model->isVirtual())) {
           $contactListObj = $model->getContactListObj(Yii::$app->user->getId(),$isOwner);
+        } else {
+          $contactListObj = null;
         }
         $chosenPlace = Meeting::getChosenPlace($id);
         if ($chosenPlace!==false) {
