@@ -580,6 +580,7 @@ class Meeting extends \yii\db\ActiveRecord
       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
         $participantList = $this->getMeetingParticipants($a['user_id'],true,true);
         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
+        $contactListObj = $this->getContactListObj($a['user_id'],$this->isOwner($a['user_id']));
         // Build the absolute links to the meeting and commands
         $links=[
           'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
@@ -615,6 +616,7 @@ class Meeting extends \yii\db\ActiveRecord
           'links' => $links,
           'header' => $header,
           'chosenPlace' => $chosenPlace,
+          'contactListObj'=>$contactListObj,
           'chosenTime' => $chosenTime,
           'notes' => $notes,
           'meetingSettings' => $this->meetingSettings,
@@ -1813,9 +1815,9 @@ class Meeting extends \yii\db\ActiveRecord
       foreach ($contactListObj->contacts as $item) {
         $result.='<p>'.$item['name'].' (';
         foreach ($item['contacts'] as $c) {
-          $result.= trim($contactTypes[$c['contact_type']]).': '.trim($c['info']);
+          $result.= trim($contactTypes[$c['contact_type']]).': '.trim($c['info']).' ';
           }
-          $result.=')</p>';
+          $result=trim($result).')</p>';
       }
     }
     if ($contactListObj->noContactListStr!='') {

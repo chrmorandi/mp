@@ -108,7 +108,7 @@ echo $this->render('_timezone_alerts');
   <div class="col-lg-6">
         <div class="place-view">
         <p><?= Html::a($place->name.' ('.$place->website.')', $place->website); ?></p>
-        <p><?= $place->vicinity; ?></p>
+        <p><?= $place->vicinity; ?><br />
         <p><?= Html::a(Yii::t('frontend','view map'),Url::to('https://www.google.com/maps/place/'.$place->full_address)); ?>,
         <?= Html::a(Yii::t('frontend','directions to here'),Url::to('https://www.google.com/maps/dir//'.$place->full_address)); ?></p>
           </div>

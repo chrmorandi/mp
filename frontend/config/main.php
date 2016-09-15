@@ -90,7 +90,7 @@ return [
           ],
           'errorHandler' => [
                  'class' => 'baibaratsky\yii\rollbar\web\ErrorHandler',
-                 //'errorAction' => 'site/error',
+                 'errorAction' => 'site/error',
              ],
         'Yii2Twilio' => [
           'class' => 'filipajdacic\yiitwilio\YiiTwilio',
@@ -105,9 +105,9 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
                 [
+                  'enabled' => YII_DEBUG ? false : true,
                   'class' => 'baibaratsky\yii\rollbar\log\Target',
                   'levels' => ['error', 'warning', 'info'], // Log levels you want to appear in Rollbar
-
              // It is highly recommended that you specify certain categories.
              // Otherwise, the exceptions and errors handled by the error handlers will be duplicated.
                 'categories' => ['application'],

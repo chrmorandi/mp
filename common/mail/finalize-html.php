@@ -80,16 +80,26 @@ use frontend\models\MeetingTime;
                               if (!$noPlaces) {
                               ?>
                               <p><?= Html::a($chosenPlace->place->name.' ('.Yii::t('frontend','website').')', $chosenPlace->place->website); ?><br/ >
-                                <span style="font-size:75%;"><?= $chosenPlace->place->vicinity; ?><br />
-                                <?php echo HTML::a(Yii::t('frontend','view map'),
-                                MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$chosenPlace->place->id,$user_id,$auth_key)); ?>,
-                                <?= Html::a(Yii::t('frontend','directions'),Url::to('https://www.google.com/maps/dir//'.$chosenPlace->place->full_address)); ?>
-                              </span></p>
+                                  <span style="font-size:75%;">
+                                    <?php if (!empty($place->vicinity)) {
+                                      ?>
+                                  <?= $chosenPlace->place->vicinity; ?><br />
+                                  <?php
+                                }
+                                ?>
+                                <?php if (!empty($place->full_address)) {
+                                  ?>
+                                  <?php echo HTML::a(Yii::t('frontend','view map'),
+                                  MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$chosenPlace->place->id,$user_id,$auth_key)); ?>,
+                                  <?= Html::a(Yii::t('frontend','directions'),Url::to('https://www.google.com/maps/dir//'.$chosenPlace->place->full_address)); ?>
+                                  <?php
+                                }
+                                ?>
+                                </span></p>
                                 <?php
                               } else {
                                   ?>
-                                  Phone or video <br />
-                                  Contact info will appear here in the future<br />
+                                  <?= Meeting::buildContactListHtml($contactListObj); ?>
                               <?php
                                 }
                               ?>

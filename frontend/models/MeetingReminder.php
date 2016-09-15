@@ -174,6 +174,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
      } else {
        $setViewMap = MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,$chosen_place->place_id,$a['user_id'],$a['auth_key']);
      }
+     $isOwner = ($a['user_id']==$mtg->owner_id?true:false);
+     $contactListObj = $mtg->getContactListObj($a['user_id'],$isOwner);
        // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
           Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
@@ -200,7 +202,8 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'auth_key' => $a['auth_key'],
             'display_time' => $display_time,
             'chosen_place' => $chosen_place,
-            'contacts_html'=>$contacts_html,
+            'contacts_html'=>$contacts_html, // to do - remove this now
+            'contactListObj' => $contactListObj,
             'links' => $links,
             'showRunningLate'=>($chosen_time->start -time() <10800 )?true:false,
             'meetingSettings' => $mtg->meetingSettings,

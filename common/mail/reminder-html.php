@@ -23,8 +23,8 @@ use frontend\models\UserContact;
             // this code is similar to code in finalize-html
             if ($chosen_place!==false) {
             ?>
-            &nbsp;at <?= Html::a($chosenPlace->place->name,$chosenPlace->place->website); ?>&nbsp;
-              (<?php echo $chosen_place->place->vicinity; ?>, <?php echo HTML::a(Yii::t('frontend','view map'),$links['view_map']); ?> <?= Yii::t('frontend','or'); ?> <?= Html::a(Yii::t('frontend','directions to here'),Url::to('https://www.google.com/maps/dir//'.$chosenPlace->place->full_address)); ?>)
+            &nbsp;at <?= Html::a($chosen_place->place->name,$chosen_place->place->website); ?>&nbsp;
+              (<?php echo $chosen_place->place->vicinity; ?>, <?php echo HTML::a(Yii::t('frontend','view map'),$links['view_map']); ?> <?= Yii::t('frontend','or'); ?> <?= Html::a(Yii::t('frontend','directions to here'),Url::to('https://www.google.com/maps/dir//'.$chosen_place->place->full_address)); ?>)
               <?php
             } else {
             ?>
@@ -66,11 +66,9 @@ use frontend\models\UserContact;
                       </p>
                         <?php if ($contacts_html <>'') {
                         ?>
-                        <strong>Contact details:</strong>
+                        <strong><?= Yii::t('frontend','Contacts:'); ?></strong>
                         <p>
-                        <?php
-                          echo $contacts_html;
-                         ?>
+                          <?= Meeting::buildContactListHtml($contactListObj); ?>
                        </p>
                       <?php }
                       ?>

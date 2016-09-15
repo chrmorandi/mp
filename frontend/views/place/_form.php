@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'full_address')->textInput(['maxlength' => 255])->label('Address') ?>
 
-    <?= $form->field($model, 'website')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'website')->textInput(['maxlength' => 255,'placeholder'=>'http://']) ?>
 
     <?= $form->field($model, 'place_type')
             ->dropDownList(

@@ -10,21 +10,10 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Place */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Places'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Places'), 'url' => ['/user-place']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
-
-<p>
-  <?= Html::a(Yii::t('frontend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-         <?php /* Html::a(Yii::t('frontend', 'Delete'), ['delete', 'id' => $model->id], [
-             'class' => 'btn btn-danger',
-             'data' => [
-                 'confirm' => Yii::t('frontend', 'Are you sure you want to delete this item?'),
-                 'method' => 'post',
-             ],
-         ]) */ ?>
-</p>
 
 <div class="col-md-6">
 <div class="place-view">
@@ -39,6 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'full_address',
         ],
     ]) ?>
+    <p>
+      <?= Html::a(Yii::t('frontend', 'Edit'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+      <?= Html::a(Yii::t('frontend', 'Return to Places'), ['/user-place'], ['class' => 'btn btn-primary']) ?>
+             <?php /* Html::a(Yii::t('frontend', 'Delete'), ['delete', 'id' => $model->id], [
+                 'class' => 'btn btn-danger',
+                 'data' => [
+                     'confirm' => Yii::t('frontend', 'Are you sure you want to delete this item?'),
+                     'method' => 'post',
+                 ],
+             ]) */ ?>
+    </p>
 
 </div>
 </div> <!-- end first col -->
