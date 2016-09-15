@@ -7,24 +7,25 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Signup';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row ">
-  <div class="col-xs-6 col-xs-offset-3">
-
 <div class="site-signup">
-    <h2><?= Html::encode($this->title).' '.Yii::t('frontend','with Meeting Planner') ?></h2>
-    <div class="row">
-      <div class="col-xs-12">
-          <p><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
-          <?= yii\authclient\widgets\AuthChoice::widget([
-               'baseAuthUrl' => ['site/auth','mode'=>'signup'],
-               'popupMode' => false,
-          ]) ?>
-        </div> <!-- end col-lg-5 -->
-      </div> <!-- end row -->
+  <div class="row ">
+    <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
+      <h2><?= Html::encode($this->title).' '.Yii::t('frontend','with Meeting Planner') ?></h2>
+      <p><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+        <?= yii\authclient\widgets\AuthChoice::widget([
+             'baseAuthUrl' => ['site/auth','mode'=>'signup'],
+             'popupMode' => false,
+        ]) ?>
+      </div> <!-- end col-lg-5 -->
+    </div> <!-- end row -->
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+          <p><?=Yii::t('frontend','Or, fill out the following fields to register manually:');?></p>
 
-    <div class="row">
-      <p>Or, fill out the following fields to register manually:</p>
-        <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <?= $form->field($model, 'username')->textInput(['placeholder' => 'JaneSmith']) ?>
                 <?=
@@ -37,9 +38,6 @@ $this->title = 'Signup';
                     <?= Html::submitButton('Signup Now', ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
-        </div>
     </div>
-
-</div>
-</div>
+  </div>
 </div>
