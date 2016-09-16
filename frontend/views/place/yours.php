@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -17,12 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
-          //  ['class' => 'yii\grid\SerialColumn'],
-            'name',
             [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function ($model) {
+                            return '<div><a href="'.Url::to(['place/view', 'id' => $model->id]).'">'.$model->name.'</a></div>';
+                    },
+            ],[
                 'attribute' => 'place_type',
+                'headerOptions' => ['class' => 'itemHide'],
+                'contentOptions' => ['class' => 'itemHide'],
                 'format' => 'raw',
                 'value' => function ($model) {
                             return '<div>'.$model->getPlaceType($model->place_type).'</div>';
@@ -30,6 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['class' => 'yii\grid\ActionColumn',
 				      'template'=>'{view} {update} ',
+              'headerOptions' => ['class' => 'itemHide'],
+              'contentOptions' => ['class' => 'itemHide'],
 					    'buttons'=>[
                 'view' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',$model->slug, ['title' => Yii::t('yii', 'View'),]);
@@ -40,14 +49,13 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <p>
-         <?= Html::a(Yii::t('frontend', 'Create {modelClass}', [
+         <?= Html::a(Yii::t('frontend', 'Add {modelClass}', [
            'modelClass' => 'Place',
         ]), ['create'], ['class' => 'btn btn-success']) ?>
-
-        <?= Html::a(Yii::t('frontend','Add Current Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('frontend','Add a Google {modelClass}',[
+        <?= Html::a(Yii::t('frontend','Add via Google',[
            'modelClass' => 'Place'
         ]), ['create_place_google'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('frontend','Add My Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
     </p>
 
 </div>

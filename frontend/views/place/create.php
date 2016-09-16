@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('frontend', 'Create {modelClass}', [
     'modelClass' => 'Place',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Your Places'), 'url' => ['/user-place']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Your Places'), 'url' => ['place/yours']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="place-create">

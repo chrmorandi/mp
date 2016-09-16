@@ -35,7 +35,7 @@ MapAsset::register($this);
             )->label('Type of Place') ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Submit' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('frontend','Cancel'), ['/place'], ['class' => 'btn btn-danger']) ?>
     </div>
 
