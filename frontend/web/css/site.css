@@ -230,6 +230,10 @@ table.table-list td.table-switches {
 .panel-what {
   padding-bottom: 25px;
 }
+
+.panel-where, .panel-when {
+  padding: 0 3px 0 3px;
+}
 /* centered columns styles */
 .row-centered {
     text-align:center;

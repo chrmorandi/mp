@@ -69,8 +69,7 @@ AppAsset::register($this);
       				            'items' => [
                             [
                               'label' => Yii::t('frontend','Places'),
-                               'url' => ['/place/yours'],
-                               'options'=>['class'=>'menuHide'],
+                               'url' => ['/place/yours'],                               
                              ],
     				                 [
     				                    'label' => Yii::t('frontend','Friends'),

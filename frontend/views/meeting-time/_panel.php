@@ -38,7 +38,7 @@ use \kartik\switchinput\SwitchInput;
   </div> <!-- end row -->
 </div> <!-- end heading -->
   <div id="collapseWhen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhen">
-    <div class="panel-body">
+    <div class="panel-when">
       <div id="timeMessage" class="alert-info alert fade in hidden">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <span id="timeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>

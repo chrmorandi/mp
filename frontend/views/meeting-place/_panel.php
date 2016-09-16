@@ -63,7 +63,7 @@ use \common\components\MiscHelpers;
   </div>
   </div>
   <div id="collapseWhere" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhere">
-    <div class="panel-body">
+    <div class="panel-where">
       <div id="placeMessage" class="alert-info alert fade in hidden">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <span id="placeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
