@@ -39,16 +39,18 @@ use \kartik\switchinput\SwitchInput;
 </div> <!-- end heading -->
   <div id="collapseWhen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhen">
     <div class="panel-when">
-      <div id="timeMessage" class="alert-info alert fade in hidden">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span id="timeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
-        <span id="timeMsg2"><?= Yii::t('frontend','Please pick a date and time.')?></span>
-      </div>
-      <div id="addTime" class="hidden">
-        <!-- hidden add time form -->
-        <?= $this->render('_form', [
-            'model' => $meetingTime,
-        ]) ?>
+      <div class="when-form hidden">
+        <div id="timeMessage" class="alert-info alert fade in hidden">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <span id="timeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
+          <span id="timeMsg2"><?= Yii::t('frontend','Please pick a date and time.')?></span>
+        </div>
+        <div id="addTime" class="hidden">
+          <!-- hidden add time form -->
+          <?= $this->render('_form', [
+              'model' => $meetingTime,
+          ]) ?>
+        </div>
       </div>
     <table class="table" id="meeting-time-list" class="hidden">
   <?php

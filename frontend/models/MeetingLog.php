@@ -495,6 +495,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				$isGroup=true;
 			}
 			$str ='';
+			// find events not created by this person
 			$events = MeetingLog::find()
 				->where(['meeting_id'=>$meeting_id])
 				->andWhere('actor_id<>'.$user_id)

@@ -67,19 +67,21 @@ use \common\components\MiscHelpers;
 </div> <!-- end panel heading -->
   <div id="collapseWhere" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhere">
     <div class="panel-where">
-      <div id="placeMessage" class="alert-info alert fade in hidden">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span id="placeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
-        <span id="placeMsg2"><?= Yii::t('frontend','Please pick at least one place.')?></span>
-        <span id="placeMsg3"><?= Yii::t('frontend','Sorry, there were errors.')?></span>
+      <div class="where-form hidden">
+        <div id="placeMessage" class="alert-info alert fade in hidden">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <span id="placeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
+          <span id="placeMsg2"><?= Yii::t('frontend','Please pick at least one place.')?></span>
+          <span id="placeMsg3"><?= Yii::t('frontend','Sorry, there were errors.')?></span>
+        </div>
+        <div id="addPlace" class="hidden">
+          <!-- hidden add time form -->
+          <?= $this->render('_form', [
+              'model' => $meetingPlace,
+          ]) ?>
+        </div>
       </div>
-      <div id="addPlace" class="hidden">
-        <!-- hidden add time form -->
-        <?= $this->render('_form', [
-            'model' => $meetingPlace,
-        ]) ?>
-      </div>
-      <?php
+        <?php
       $dclass = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'hidden':'');
      ?>
     <div id ="meeting-place-list" class="<?= $dclass; ?>">

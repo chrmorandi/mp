@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Place */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Places'), 'url' => ['/user-place']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Places'), 'url' => ['yours']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <p>
       <?= Html::a(Yii::t('frontend', 'Edit'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-      <?= Html::a(Yii::t('frontend', 'Return to Places'), ['/user-place'], ['class' => 'btn btn-primary']) ?>
+      <?= Html::a(Yii::t('frontend', 'Return to Places'), ['yours'], ['class' => 'btn btn-primary']) ?>
              <?php /* Html::a(Yii::t('frontend', 'Delete'), ['delete', 'id' => $model->id], [
                  'class' => 'btn btn-danger',
                  'data' => [

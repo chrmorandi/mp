@@ -234,6 +234,11 @@ table.table-list td.table-switches {
 .panel-where, .panel-when {
   padding: 0 3px 0 3px;
 }
+
+.where-form, .when-form {
+  padding: 10px;
+}
+
 /* centered columns styles */
 .row-centered {
     text-align:center;

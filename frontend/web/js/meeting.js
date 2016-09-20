@@ -326,6 +326,8 @@ function addParticipant(id) {
         // show tell, hide error
          getParticipantButtons(id);
          displayAlert('participantMessage','participantMessageTell');
+         refreshSend();
+         refreshFinalize();
          return true;
       }
      }
@@ -354,13 +356,16 @@ function closeParticipant() {
 function showTime() {
   if ($('#addTime').hasClass( "hidden")) {
     $('#addTime').removeClass("hidden");
+    $('.when-form').removeClass("hidden");
   }else {
     $('#addTime').addClass("hidden");
+    $('.when-form').addClass("hidden");
   }
 };
 
 function cancelTime() {
   $('#addTime').addClass("hidden");
+  $('.when-form').addClass("hidden");
 }
 
 function addTime(id) {
@@ -440,13 +445,16 @@ function getTimes(id) {
 function showPlace() {
   if ($('#addPlace').hasClass( "hidden")) {
     $('#addPlace').removeClass("hidden");
+    $('.where-form').removeClass("hidden");
   } else {
     $('#addPlace').addClass("hidden");
+    $('.where-form').addClass("hidden");
   }
 };
 
 function cancelPlace() {
   $('#addPlace').addClass("hidden");
+  $('.where-form').addClass("hidden");
 }
 
 function addPlace(id) {
