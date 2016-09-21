@@ -1780,15 +1780,19 @@ class Meeting extends \yii\db\ActiveRecord
           }
       }
       $participants = Participant::find()->where(['meeting_id'=>$this->id])->all();
+      if ($this->id == 308) {
+        var_dump ($participants);
+        var_dump ($user_id);
+        exit;
+      }
       foreach ($participants as $p) {
         if ($p->participant_id == $user_id) {
           // skip this user
           continue;
         } else {
-            if (is_null($p)) {
-              Yii::warning('$p not set in UserContact m:'.$this->id.' u:'.$user_id,__METHOD__);
-            } else {
+          
               $items = UserContact::get($p->participant_id);
+
               if (count($items)>0) {
                 $contacts[$c]['contacts'] =$items;
                 $contacts[$c]['name']= 'temp';//MiscHelpers::getDisplayName($p->participant_id);
@@ -1797,7 +1801,6 @@ class Meeting extends \yii\db\ActiveRecord
                 $noContacts[$nc]=$p->participant_id;
                 $nc++;
               }
-            }
         }
       }
       if ($nc>0) {
