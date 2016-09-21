@@ -1775,7 +1775,7 @@ class Meeting extends \yii\db\ActiveRecord
             $contacts[$c]['name'] = MiscHelpers::getDisplayName($this->owner_id);
             $c++;
           } else {
-            $noContacts[$nc]=MiscHelpers::getDisplayName($this->owner_id);
+            $noContacts[$nc]=$this->owner_id;
             $nc++;
           }
       }
@@ -1796,10 +1796,7 @@ class Meeting extends \yii\db\ActiveRecord
               }
         }
       }
-      if ($this->id == 308) {
-        var_dump ($noContacts);
-        exit;
-      }
+  
       if ($nc>0) {
         $noContactList = MiscHelpers::listNames($noContacts,false);
       } else {
