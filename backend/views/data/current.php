@@ -27,6 +27,7 @@ $this->title = Yii::t('backend','Meeting Planner');
         ]); ?>
 
 <h3>People</h3>
+<p><strong>Total users: </strong> <?= $data->totalUsers ?></p>
         <?= GridView::widget([
             'dataProvider' => $data->users,
             'columns' => [

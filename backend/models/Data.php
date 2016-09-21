@@ -47,6 +47,7 @@ class Data extends Model
       ],
       ]);
 
+    $data->totalUsers = User::find()->count();
     $data->users = new ActiveDataProvider([
       'query' => User::find()
       ->select(['status,COUNT(*) AS dataCount'])

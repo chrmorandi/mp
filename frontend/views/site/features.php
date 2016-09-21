@@ -151,38 +151,38 @@ $this->title = 'Meeting Planner';
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Group meetings (up to 12)') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Extended planning options') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Google Contacts import') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','SMS reminders and notifications') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Multiple organizers') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td></td>
+                      <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Large group meetings (25+)') ?></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
-                      <td><span class="icon-no glyphicon glyphicon-remove-circle"></span></td>
+                      <td></td>
+                      <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
 
