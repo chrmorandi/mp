@@ -1796,6 +1796,10 @@ class Meeting extends \yii\db\ActiveRecord
               }
         }
       }
+      if ($this->id == 308) {
+        var_dump ($noContacts);
+        exit;
+      }
       if ($nc>0) {
         $noContactList = MiscHelpers::listNames($noContacts,false);
       } else {
