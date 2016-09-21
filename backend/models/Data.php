@@ -60,6 +60,7 @@ class Data extends Model
     $data->userPlaces = new ActiveDataProvider([
       'query' => UserPlace::find()
       ->select(['user_id,count(*) AS dataCount'])
+      ->where('user_id>1')
       ->groupBy(['user_id'])
       ->limit(5),
       'pagination' => false,
@@ -68,6 +69,7 @@ class Data extends Model
     // calculate average # of places per user
     $user_places = UserPlace::find()
       ->select(['user_id,count(*) AS dataCount'])
+      ->where('user_id>1')
       ->groupBy(['user_id'])
       ->all();
 
