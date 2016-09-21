@@ -545,9 +545,6 @@ class Meeting extends \yii\db\ActiveRecord
       if ($this->isVirtual()) {
         $noPlaces = true;
         $chosenPlace=false;
-        if ($this->id == 308) {
-          echo 'is virtual';
-        }
       } else {
         $noPlaces = false;
         $chosenPlace = $this->getChosenPlace($this->id);
@@ -557,9 +554,6 @@ class Meeting extends \yii\db\ActiveRecord
       // build an attendees array of both the organizer and the participants
       // to do - this can be replaced by buildAttendeeList
       // but friendship reciprocate needs to be reviewed and included
-      if ($this->id == 308) {
-        echo 'ready';
-      }
       $cnt =0;
       $attendees = array();
       foreach ($this->participants as $p) {
@@ -584,14 +578,8 @@ class Meeting extends \yii\db\ActiveRecord
     foreach ($attendees as $cnt=>$a) {
       // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
-        if ($this->id == 308) {
-          echo 'getting pList'.'a:'.$a['user_id'];
-        }
         $participantList = $this->getMeetingParticipants($a['user_id'],true,true);
         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
-        if ($this->id == 308) {
-          echo 'getting cList'.'a:'.$a['user_id'];
-        }
         $contactListObj = $this->getContactListObj($a['user_id'],$this->isOwner($a['user_id']));
         // Build the absolute links to the meeting and commands
         $links=[
@@ -611,10 +599,6 @@ class Meeting extends \yii\db\ActiveRecord
           'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
         ];
         // send the message
-        if ($this->id == 308) {
-          echo 'getting cList'.'a:'.$a['user_id'];
-        }
-
         $message = Yii::$app->mailer->compose([
           'html' => 'finalize-html',
           'text' => 'finalize-text'
