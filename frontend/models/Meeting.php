@@ -1785,14 +1785,18 @@ class Meeting extends \yii\db\ActiveRecord
           // skip this user
           continue;
         } else {
-            $items = UserContact::get($p->participant_id);
-            if (count($items)>0) {
-              $contacts[$c]['contacts'] =$items;
-              $contacts[$c]['name']= MiscHelpers::getDisplayName($p->participant_id);
-              $c++;
+            if (!isset($p)) {
+              Yii::warning('$p not set in UserContact m:'.$this->id.' u:'.$user_id,__METHOD__);
             } else {
-              $noContacts[$nc]=$p->participant_id;
-              $nc++;
+              $items = UserContact::get($p->participant_id);
+              if (count($items)>0) {
+                $contacts[$c]['contacts'] =$items;
+                $contacts[$c]['name']= MiscHelpers::getDisplayName($p->participant_id);
+                $c++;
+              } else {
+                $noContacts[$nc]=$p->participant_id;
+                $nc++;
+              }
             }
         }
       }
