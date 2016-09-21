@@ -463,10 +463,6 @@ class MeetingController extends Controller
     }
 
     public function actionFinalize($id) {
-      if ($id == 308) {
-        echo 'in actionfinalize';
-        exit;
-      }
       $meeting = $this->findModel($id);
       // check if owner is finalizing and they are verified
       if ($meeting->owner_id == Yii::$app->user->getId()) {

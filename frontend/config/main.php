@@ -14,11 +14,12 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['rollbar','log'],
     'controllerNamespace' => 'frontend\controllers',
-    'catchAll' => (($params['offline'])?['site/offline']:[]),
+    //'catchAll' => (($params['offline'])?['site/offline']:[]),
+    'catchAll'=> [],
     'components' => [
       'rollbar' => [
         'class' => 'baibaratsky\yii\rollbar\Rollbar',
-        'accessToken' => $_config['rollbar_key'],
+        'accessToken' => $config['rollbar_key'],
           // 'ignoreExceptions' => [
             //         ['yii\web\HttpException', 'statusCode' => [400, 404]],
               //         ['yii\web\HttpException', 'statusCode' => [403], 'message' => ['This action is forbidden']],
