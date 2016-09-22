@@ -467,12 +467,12 @@ function addPlace(id) {
       displayAlert('placeMessage','placeMsg2');
       return false;
   }
-  if (place_id!='' && place_id!=0) {
+  if (typeof place_id !== 'undefined' && place_id) {
     $.ajax({
        url: $('#url_prefix').val()+'/meeting-place/add',
        data: {
          id: id,
-         place_id:place_id,
+         place_id: place_id,
        },
        success: function(data) {
          // clear fields
@@ -496,13 +496,13 @@ function addPlace(id) {
     $.ajax({
        url: $('#url_prefix').val()+'/meeting-place/addgp',
        data: {
-         id:id,
-         gp_id:encodeURIComponent(gp_id),
-         name:encodeURIComponent(gp['name']),
-         location:encodeURIComponent(gp['location']),
-         website:encodeURIComponent(gp['website']),
-         vicinity:encodeURIComponent(gp['vicinity']),
-         full_address:encodeURIComponent(gp['full_address']),
+         id: id,
+         gp_id: encodeURIComponent(gp_id),
+         name: encodeURIComponent(gp['name']),
+         location: encodeURIComponent(gp['location']),
+         website: encodeURIComponent(gp['website']),
+         vicinity: encodeURIComponent(gp['vicinity']),
+         full_address: encodeURIComponent(gp['full_address']),
        },
        success: function(data) {
          // clear fields

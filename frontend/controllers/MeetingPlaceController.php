@@ -132,16 +132,20 @@ class MeetingPlaceController extends Controller
       return true;
     }
 
-    public function actionAdd($id,$place_id) {
+    public function actionAdd($id,$place_id=0) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $model = new MeetingPlace();
-      $model->meeting_id= $id;
-      $model->place_id=$place_id;
-      $model->suggested_by= Yii::$app->user->getId();
-      $model->availability = 0;
-      $model->status = MeetingPlace::STATUS_SUGGESTED;
-      $model->save();
-      return true;
+      if ($place_id>0) {
+        $model = new MeetingPlace();
+        $model->meeting_id= $id;
+        $model->place_id=$place_id;
+        $model->suggested_by= Yii::$app->user->getId();
+        $model->availability = 0;
+        $model->status = MeetingPlace::STATUS_SUGGESTED;
+        $model->save();
+        return true;
+      } else {
+        return false;
+      }
     }
 
     public function actionInsertplace($id) {
