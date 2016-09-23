@@ -289,7 +289,7 @@ function addParticipant(id) {
   friend_id = $('#participant-email').val(); // also an email. blank before selection
   friend_email = $('#participant-email :selected').text();  // placeholder text before select
   // adding from friends
-  if ((new_email!='') && (friend_id!='')) {
+  if (new_email!='' && (friend_id !== undefined && friend_id!='')) {
       displayAlert('participantMessage','participantMessageOnlyOne');
       return false;
   } else if (new_email!='' && new_email!==undefined) {
