@@ -16,8 +16,8 @@ $(document).ready(function(){
 
 function setTimezone(timezone) {
   $.ajax({
-     url: $('#url_prefix').val()+'/user-setting/timezone',
-     data: {'timezone': timezone},
+     url: $('#url_prefix').val()+'/user-setting/timezone/',
+     data: {'timezone' : timezone},
      success: function(data) {
        $('#tz_alert').hide();
        $('#tz_success').show();

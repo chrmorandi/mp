@@ -6,7 +6,7 @@ $(document).ready(function(){
     // compare to current setting
     if (timezone != $('#tz_current').val()) {
       // set the text span alert
-      $('#tz_new').html('<a onclick="setTimezone(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
+      $('#tz_new').html('<a onclick="setTimezoneInMtg(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
       $('#tz_alert').show();
     }
 
@@ -17,9 +17,10 @@ $(document).ready(function(){
   });
 
   // automatic timezones
-  function setTimezone(timezone) {
+  function setTimezoneInMtg(timezone) {
+    // function suffix inMtg to distinguish from meeting_time.js
     $.ajax({
-       url: $('#url_prefix').val()+'/user-setting/timezone',
+       url: $('#url_prefix').val()+'/user-setting/timezone/',
        data: {'timezone': timezone},
        success: function(data) {
          $('#tz_alert').hide();

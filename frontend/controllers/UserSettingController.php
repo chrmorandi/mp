@@ -92,7 +92,7 @@ class UserSettingController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionTimezone($timezone) {
+    public function actionTimezone($timezone='') {
       // set current logged in user timezone than return
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $user_id = Yii::$app->user->getId();
