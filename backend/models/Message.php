@@ -154,6 +154,8 @@ class Message extends \yii\db\ActiveRecord
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
         $msg = Message::findOne($id);
         $users = $this->findNextGroup($limit);
+        var_dump($users);
+        exit;      
         if (is_null($users)) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {
