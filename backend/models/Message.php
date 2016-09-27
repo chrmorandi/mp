@@ -169,6 +169,7 @@ class Message extends \yii\db\ActiveRecord
           }
           echo 'exit loop';
         }
+        exit;
         //$msg->update();
       } else {
         echo 'not admin';exit;
