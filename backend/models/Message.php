@@ -159,15 +159,15 @@ class Message extends \yii\db\ActiveRecord
         } else {
           $msg->status=Message::STATUS_IN_PROGRESS;
           foreach ($users as $u) {
-            //echo 'Email: '.$u->email.'<br />';
+            echo 'Email: '.$u->email.'<br />';
             try {
-      		      $this->sendOne($msg,$u);
+      		      //$this->sendOne($msg,$u);
       	    } catch (Exception $e) {
       		      echo 'Exception '.$e.'<br />';
       	    }
           }
         }
-        $msg->update();
+        //$msg->update();
       } else {
         echo 'not admin';exit;
       }

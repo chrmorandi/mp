@@ -38,7 +38,7 @@ class FriendController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['create','index','view','update','delete', 'import'],
+                       'actions'=>['create','index','view','update','delete'],
                        'roles' => ['@'],
                    ],
                   [

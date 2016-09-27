@@ -2,7 +2,6 @@
 <?php
 use yii\widgets\ListView;
 use yii\helpers\Html;
-
 if ($noteProvider->count>0):
 ?>
 <table class="table">

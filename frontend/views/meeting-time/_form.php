@@ -5,12 +5,10 @@ use yii\helpers\BaseHtml;
 use yii\widgets\ActiveForm;
 use common\components\MiscHelpers;
 use dosamigos\datetimepicker\DateTimePicker;
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\MeetingTime */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="tz_success" id="tz_success">
 <div id="w4-tz-success" class="alert-success alert fade in">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

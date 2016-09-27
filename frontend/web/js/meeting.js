@@ -581,7 +581,6 @@ function updateWhat(id) {
        $('#showWhat').text($('#meeting-subject').val());
        showWhat();
      }
-
   });
 }
 

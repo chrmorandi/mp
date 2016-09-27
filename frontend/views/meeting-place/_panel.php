@@ -85,7 +85,6 @@ use \common\components\MiscHelpers;
       $dclass = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'hidden':'');
      ?>
     <div id ="meeting-place-list" class="<?= $dclass; ?>">
-
     <table class="table" id="placeTable" class="hidden">
       <?php
        if ($placeProvider->count>0):
@@ -98,9 +97,8 @@ use \common\components\MiscHelpers;
              'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
          ]) ?>
        <?php endif; ?>
-
     </table>
-      </div>
+    </div> <!-- end meeting-place-list -->
     </div> <!-- end class panel-where -->
   </div> <!-- end collapse panel where -->
 </div> <!-- end panel -->

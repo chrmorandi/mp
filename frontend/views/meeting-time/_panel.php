@@ -8,7 +8,6 @@ use \kartik\switchinput\SwitchInput;
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 <?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
 </div>
-
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhen">
@@ -64,7 +63,6 @@ use \kartik\switchinput\SwitchInput;
            'itemView' => '_list',
            'viewParams' => ['timezone'=>$timezone,'timeCount'=>$timeProvider->count,'isOwner'=>$isOwner,'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],'whenStatus'=>$whenStatus],
        ]) ?>
-
   <?php endif; ?>
   </table>
   </div>
