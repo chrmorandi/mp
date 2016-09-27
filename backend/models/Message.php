@@ -162,7 +162,7 @@ class Message extends \yii\db\ActiveRecord
             echo 'inloop';
             try {
               echo 'Email: '.$u->email.'<br />';
-      		      $this->sendOne($msg,$u);
+      		    $this->sendOne($msg,$u);
       	    } catch (Exception $e) {
       		      echo 'Exception '.$e.'<br />';
       	    }
