@@ -7,7 +7,6 @@ $params = array_merge(
     require(__DIR__ . '/params.php'),
     require(__DIR__ . '/params-local.php')
 );
-
 return [
     'id' => 'mp-frontend',
     'name' => 'Meeting Planner',
@@ -105,9 +104,15 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
+                    'class' => 'notamedia\sentry\SentryTarget',
+                    'dsn' => 'http://'.$config['sentry_key_public'].':'.$config['sentry_key_private'].'@sentry.io/'.$config['sentry_id'],
+                    'levels' => ['error', 'warning'],
+                    'context' => true, // Write the context information. The default is true.
+                ],
+                /*[
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                ],
+                ],*/
                 /*[
                   'enabled' => YII_DEBUG ? false : true,
                   'class' => 'baibaratsky\yii\rollbar\log\Target',
