@@ -95,6 +95,12 @@ class SiteController extends Controller
       }
     }
 
+    public function actionNeverland()
+    {
+      // for abusive scripts like wp-login probes
+      Yii::$app->end();
+    }
+
     public function actionOffline()
     {
       return $this->render('offline');

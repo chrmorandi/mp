@@ -60,6 +60,7 @@ return [
               'site/<action>' => 'site/<action>', // incl eight char action
               'features' => 'site/features',
               'about' => 'site/about',
+              'wp-login|wp-admin' => 'site/neverland',
               '<username>/<identity:[A-Za-z0-9_-]{8}>' => 'meeting/identity',
               // note - currently actions with 8 letters and no params will fail
               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
