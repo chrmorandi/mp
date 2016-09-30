@@ -42,3 +42,4 @@ phpunit.phar
 /environments/prod/backend/config/main-local.php
 /frontend/config/params-local.php
 /frontend/config/main-local.php
+environments/prod/backend/config/main-local.php
