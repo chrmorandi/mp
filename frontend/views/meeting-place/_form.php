@@ -14,11 +14,8 @@ use \kartik\typeahead\Typeahead;
 ?>
 
 <div class="meeting-place-form">
-
     <?php $form = ActiveForm::begin(); ?>
-
     <?= $form->errorSummary($model); ?>
-
 <?php
   $ups=[];
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
@@ -52,25 +49,24 @@ use \kartik\typeahead\Typeahead;
     <div class="col-xs-12 col-lg-6">
     <h3>Use Google Maps</h3>
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in an address, place or business known to Google Maps') ?>
-      </div>
         <?= BaseHtml::activeHiddenInput($model, 'name'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'google_place_id'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'location'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'website'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'vicinity'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
+      </div>
   </div> <!-- end row -->
     <div class="row vertical-pad">
       <div class="col-xs-12 col-lg-6">
-      <div class="form-group">
-        <span class="button-pad">
-          <?= Html::a(Yii::t('frontend','Add Meeting Place'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addPlace('.$model->meeting_id.');'])  ?>
-        </span><span class="button-pad">
-          <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelPlace();'])  ?>
-       </span>
-
+        <div class="form-group">
+          <span class="button-pad">
+            <?= Html::a(Yii::t('frontend','Add Meeting Place'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addPlace('.$model->meeting_id.');'])  ?>
+          </span><span class="button-pad">
+            <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelPlace();'])  ?>
+         </span>
+        </div>
       </div>
-    </div>
     </div>
     <div class="row">
       <div class="col-xs-12 col-lg-6">
@@ -80,7 +76,6 @@ use \kartik\typeahead\Typeahead;
       </div>
     </div>
     <?php ActiveForm::end(); ?>
-
 </div> <!-- end form -->
 <?php
   $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query(array(

@@ -62,8 +62,6 @@ echo $this->render('_timezone_alerts');
         }
         ?>
 
-</div>
-
 <?php
   echo $this->render('_command_bar_planning', [
       'model'=>$model,
