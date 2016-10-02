@@ -52,7 +52,7 @@ class ReminderController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
+    {      
       $remProvider = new ActiveDataProvider([
             'query' => Reminder::find()->joinWith('user')->where(['user_id'=>Yii::$app->user->getId()]),
             //'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
