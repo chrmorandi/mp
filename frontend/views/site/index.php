@@ -68,7 +68,7 @@ $this->title = 'Meeting Planner';
       <img src="<?= $urlPrefix ?>/img/carousel-3.jpg" alt="Chania">
       <div class="carousel-caption">
         <h3>Choose the Date, Time and Place Together</h3>
-        <p>Organizers (or participants) can choose the time and place.</p>
+        <p>Finalize the time and place based on particpant's availability.</p>
       </div>
     </div>
 
