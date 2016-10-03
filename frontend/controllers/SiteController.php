@@ -88,7 +88,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
       if (Yii::$app->user->isGuest) {
-          return $this->render('index');
+        $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
+          return $this->render('index',['urlPrefix'=>$urlPrefix]);
       } else {
         // user is logged in
         $this->redirect('meeting');
