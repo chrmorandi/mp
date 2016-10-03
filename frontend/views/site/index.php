@@ -9,7 +9,7 @@ HomeAsset::register($this);
 /* @var $this yii\web\View */
 $this->title = 'Meeting Planner';
 ?>
-<div class="site-index">
+<div class="site-index ">
     <div class="jumbotron jumbo-novert">
         <h1><?php echo Yii::t('frontend','Scheduling'); ?><br class="rwd-break" /><span class="itemHide">&nbsp;</span><?php echo Yii::t('frontend','Made Easy') ?></h1>
 
@@ -32,7 +32,6 @@ $this->title = 'Meeting Planner';
 <?php AuthChoice::end(); ?>
 </div>
   </div> <!-- end jumbo -->
-<hr />
 <?= $this->render('launch');?>
 <hr />
 </div>
