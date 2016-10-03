@@ -4,13 +4,13 @@ body {
 }
 
 .bgimage {
-background-image: url('/img/home-group-1.jpg');
+background-image: url('/img/home-group-2.jpg');
 background-size: 100%;
 
 }
 
 .bgimage-inside {
-padding-top:50%;
+padding-top:48%;
 
 }
 
@@ -26,7 +26,7 @@ padding-top:50%;
 }
 
 .wrap > .container_home {
-    padding: 20px 15px 20px;
+    padding: 10px 15px 20px;
 }
 
 .footer {
