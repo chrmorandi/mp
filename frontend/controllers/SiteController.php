@@ -89,7 +89,10 @@ class SiteController extends Controller
     {
       if (Yii::$app->user->isGuest) {
         $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
-          return $this->render('index',['urlPrefix'=>$urlPrefix]);
+          $this->layout = 'home';
+          return $this->render('index',[
+            'urlPrefix'=>$urlPrefix,
+          ]);
       } else {
         // user is logged in
         $this->redirect('meeting');

@@ -24,6 +24,12 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
+
+     <div class="row">
+      <div class="col-md-12 bgimage">
+       <div class="bgimage-inside"></div>
+      </div>
+     </div>
         <div class="wrap">
         <?php
                 NavBar::begin([
@@ -110,7 +116,7 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container">
+        <div class="container_home">
         <?php
         echo Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

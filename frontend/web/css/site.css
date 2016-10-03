@@ -3,6 +3,17 @@ body {
     height: 100%;
 }
 
+.bgimage {
+background-image: url('/mp/img/home-group-1.jpg');
+background-size: 100%;
+
+}
+
+.bgimage-inside {
+padding-top:50%;
+
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
@@ -12,6 +23,10 @@ body {
 
 .wrap > .container {
     padding: 70px 15px 20px;
+}
+
+.wrap > .container_home {
+    padding: 20px 15px 20px;
 }
 
 .footer {
