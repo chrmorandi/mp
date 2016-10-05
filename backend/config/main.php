@@ -39,12 +39,14 @@ return [
             ],
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
+          'traceLevel' => YII_DEBUG ? 3 : 0,
+          'targets' => [
+              [
+                  'class' => 'notamedia\sentry\SentryTarget',
+                  'dsn' => 'http://'.$config['sentry_key_public'].':'.$config['sentry_key_private'].'@sentry.io/'.$config['sentry_id'],
+                  'levels' => ['error', 'warning'],
+                  'context' => true, // Write the context information. The default is true.
+              ],
             ],
         ],
         'errorHandler' => [

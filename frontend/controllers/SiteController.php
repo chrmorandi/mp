@@ -110,6 +110,11 @@ class SiteController extends Controller
       return $this->render('offline');
     }
 
+    public function actionLogo()
+    {
+      return $this->render('logo');
+    }
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

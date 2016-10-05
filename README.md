@@ -12,8 +12,7 @@ The minimum requirement by this application template that your Web server suppor
 
 INSTALLATION
 ------------
-A hosting and installation guide is coming October 3, 2016 within the Tuts+ series.
-I'll add a link here when it runs.
+A hosting and installation guide is available in this tutorial: https://code.tutsplus.com/tutorials/building-your-startup-with-php-choosing-and-configuring-production-hosting--cms-23359.
 
 QUESTIONS
 ------------
