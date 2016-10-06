@@ -1796,7 +1796,7 @@ class Meeting extends \yii\db\ActiveRecord
               }
         }
       }
-  
+
       if ($nc>0) {
         $noContactList = MiscHelpers::listNames($noContacts,false);
       } else {
@@ -1811,8 +1811,12 @@ class Meeting extends \yii\db\ActiveRecord
   public static function buildContactListHtml($contactListObj) {
     $contactTypes = UserContact::getUserContactTypeOptions();
     $result ='';
+    if (is_null($contactListObj)) {
+      $result= '<p>'.Yii::t('frontend','No contact information available.').'</p>';
+      return $result;
+    }
     // show conference contact info
-    if (count($contactListObj->contacts)>0) {
+    if (isset($contactListObj->contacts) && count($contactListObj->contacts)>0) {
       foreach ($contactListObj->contacts as $item) {
         $result.='<p>'.$item['name'].' (';
         foreach ($item['contacts'] as $c) {
@@ -1821,7 +1825,7 @@ class Meeting extends \yii\db\ActiveRecord
           $result=trim($result).')</p>';
       }
     }
-    if ($contactListObj->noContactListStr!='') {
+    if (isset($contactListObj->noContactListStr) && $contactListObj->noContactListStr!='') {
       $result.= '<p>'.Yii::t('frontend','No contact information available from: ').$contactListObj->noContactListStr.'</p>';
     }
     return $result;
