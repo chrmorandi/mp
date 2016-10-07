@@ -15,8 +15,8 @@ use frontend\models\Launch;
   </div>
 </div>
 <div class="row row-centered">
-
   <div class="col-lg-4 col-lg-offset-4 col-xs-6 col-xs-offset-3" id="launchbox">
+    <div class="centered">
     <div class="hidden" id="launchResult">
       <p><?= Yii::t('frontend','Thank you! We\'ll get in touch soon!')?></p>
     </div>
@@ -26,6 +26,7 @@ use frontend\models\Launch;
           <?= Html::a(Yii::t('frontend','notify me'), 'javascript:void(0);', ['class' => 'btn btn-primary ','title'=>'Notify me at launch','onclick'=>'addLaunchEmail();']); ?>
         </span>
     </div><!-- /input-group -->
+  </div>
 </div>
 <div class="col-xs-3 col-lg-4"></div>
 </div>

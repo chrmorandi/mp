@@ -11,6 +11,7 @@ use frontend\widgets\Alert;
 /* @var $content string */
 
 AppAsset::register($this);
+$urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -26,7 +27,7 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
 
      <div class="row">
-      <div class="col-md-12 bgimage">
+      <div class="col-md-12 bgimage" style="background-image: url('<?= $urlPrefix ?>/img/home/home-<?= rand(0,3)?>.jpg');">
        <div class="bgimage-inside"></div>
       </div>
      </div>
