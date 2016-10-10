@@ -53,7 +53,7 @@ use \common\components\MiscHelpers;
             </td><td style="padding-left:10px;">
             <?php
               if ($model->switchVirtual == $model::SWITCH_INPERSON) { ?>
-                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add posssible places','onclick'=>'showPlace();']); ?>
+                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add possible places','onclick'=>'showPlace();']); ?>
               <?php } else { ?>
                 <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true,'onclick'=>'return false;']); ?>
               <?php } ?>
