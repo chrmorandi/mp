@@ -981,7 +981,8 @@ class Meeting extends \yii\db\ActiveRecord
        }
 
        public function getSharingUrl() {
-         return Url::base(true).'/'.Html::encode($this->owner->username).'/'.$this->identifier;
+         $un = str_replace(' ', '', $this->owner->username);
+         return Url::base(true).'/'.Html::encode($un).'/'.$this->identifier;
        }
 
        public static function friendlyDateFromTimeString($time_str) {

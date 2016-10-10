@@ -125,7 +125,8 @@ class MeetingController extends Controller
       $m = Meeting::find()
         ->where(['identifier'=>$identifier])
         ->one();
-      if (is_null($m) || ($m->owner->username != $username)) {
+      $un = str_replace(' ', '', $m->owner->username);
+      if (is_null($m) || ($un != $username)) {
         // access failure
         return $this->redirect(['site/authfailure']);
       }
