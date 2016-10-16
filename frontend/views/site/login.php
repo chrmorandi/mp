@@ -11,7 +11,7 @@ $this->title = 'Login';
 <div class="site-login">
   <div class="row ">
     <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <h2><?= Html::encode($this->title).' '.Yii::t('frontend','to Meeting Planner') ?></h2>
+      <h2><?= Html::encode($this->title).' '.Yii::t('frontend','to ').Yii::$app->params['site']['title'] ?></h2>
     </div>
   </div>
   <div class="row">

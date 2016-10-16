@@ -57,7 +57,7 @@ use yii\helpers\BaseHtml;
                   <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
                   <?= $form->field($model, 'no_updates')->checkbox(['label' =>Yii::t('frontend','Turn off emails about site upgrades'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
-                  <?= $form->field($model, 'no_newsletter')->checkbox(['label' =>Yii::t('frontend','Turn off occasional newsletters about Meeting Planner'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+                  <?= $form->field($model, 'no_newsletter')->checkbox(['label' =>Yii::t('frontend','Turn off occasional newsletters about our service'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
                   <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
 </span>

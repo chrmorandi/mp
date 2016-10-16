@@ -11,7 +11,7 @@
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:25px 0 25px" align="center">
-            <strong>Meeting Planner</strong><br>
+            <strong><?php Yii::$app->params['site']['title'] ?></strong><br>
             Seattle, Washington<br>
           </td>
         </tr>

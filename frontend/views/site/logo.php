@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-$this->title = 'Maintenance - Meeting Planner';
+$this->title = 'Maintenance - '.Yii::$app->params['site']['title'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-logo">

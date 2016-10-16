@@ -27,10 +27,10 @@ AppAsset::register($this);
         <div class="wrap">
         <?php
                 NavBar::begin([
-                'brandLabel' => Yii::t('frontend','MeetingPlanner.io').'&nbsp;<span class="badge">preview</span>', //
+                'brandLabel' => Yii::$app->params['site']['title'].'&nbsp;<span class="badge">preview</span>', //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',
                 ],
             ]);
             if (Yii::$app->user->isGuest) {
@@ -41,7 +41,7 @@ AppAsset::register($this);
 	            $menuItems = [
                   ['label' => Yii::t('frontend','Schedule'), 'url' => ['/meeting/create']],
                   [
-                    'label' => Yii::t('frontend','Meetings'),
+                    'label' => Yii::$app->params['site']['mtg'],
                     'url' => ['/meeting'],
                     'options'=>['class'=>'menuHide'],
                   ],

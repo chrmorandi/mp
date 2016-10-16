@@ -4,7 +4,7 @@
 /* @var $searchModel frontend\models\MeetingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('frontend', 'Meetings');
+$this->title =Yii::$app->params['site']['mtg'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

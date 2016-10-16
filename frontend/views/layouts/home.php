@@ -27,17 +27,17 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <?php $this->beginBody() ?>
 
      <div class="row">
-      <div class="col-md-12 bgimage" style="background-image: url('<?= $urlPrefix ?>/img/home/home-<?= rand(0,3)?>.jpg');">
+      <div class="col-md-12 bgimage" style="background-image: url('<?= $urlPrefix ?>/img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg');">
        <div class="bgimage-inside"></div>
       </div>
      </div>
         <div class="wrap">
         <?php
                 NavBar::begin([
-                'brandLabel' => Yii::t('frontend','MeetingPlanner.io').'&nbsp;<span class="badge">preview</span>', //
+                'brandLabel' =>  Yii::$app->params['site']['title'].'&nbsp;<span class="badge">preview</span>', //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',
                 ],
             ]);
             if (Yii::$app->user->isGuest) {
@@ -48,7 +48,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
 	            $menuItems = [
                   ['label' => Yii::t('frontend','Schedule'), 'url' => ['/meeting/create']],
                   [
-                    'label' => Yii::t('frontend','Meetings'),
+                    'label' => Yii::$app->params['site']['mtg'],
                     'url' => ['/meeting'],
                     'options'=>['class'=>'menuHide'],
                   ],

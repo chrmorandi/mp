@@ -118,8 +118,8 @@ use yii\helpers\Html;
                 <table cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                   <tr>
                     <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:left; border-collapse:collapse; padding-left:10px; width:290px; vertical-align:middle" align="left" width="290" valign="middle">
-                      <a href="https://meetingplanner.io" style="color:#676767; text-decoration:none">
-                        <img src="https://meetingplanner.io/img/email-logo.gif" alt="logo" height="47" width="137" style="-ms-interpolation-mode:bicubic; max-width:600px; outline:none; text-decoration:none; border:none">
+                      <a href="<?php echo Yii::$app->params['site']['url'] ?>" style="color:#676767; text-decoration:none">
+                        <img src="<?php echo Yii::$app->params['site']['email_logo'] ?>" alt="logo" height="47" width="137" style="-ms-interpolation-mode:bicubic; max-width:600px; outline:none; text-decoration:none; border:none">
                       </a>
                     </td>
                     <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:right; border-collapse:collapse; padding-left:10px; width:290px" align="right" width="290">

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use common\components\MiscHelpers;
 ?>
 <?php
   if (count($notes)>0) {
@@ -16,7 +17,7 @@ use yii\helpers\Html;
                     <?php
                       foreach($notes as $n) {
                         ?>
-                            <p><em><?php echo $n->postedBy->email; ?> says: </em>
+                            <p><em><?php echo MiscHelpers::getDisplayName($n->$posted_by); ?> says: </em>
                             "<?php echo $n->note; ?>"</p>
                         <?php
                           }

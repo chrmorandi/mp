@@ -109,9 +109,9 @@ class Calendar {
     public function __construct($uid = null)
     {
 	if (null === $uid) {
-    $this->_uid = uniqid(rand(0, getmypid())) . "-faux@meetingplanner.io";
+    $this->_uid = uniqid(rand(0, getmypid())) . "-faux@".Yii::$app->params['site']['domain'];
 	} else {
-	    $this->_uid = $uid . "@meetingplanner.io";
+	    $this->_uid = $uid . "@".Yii::$app->params['site']['domain'];
 	}
 
 	if (!isset($_SESSION['calander_invite_downloaded'])) {

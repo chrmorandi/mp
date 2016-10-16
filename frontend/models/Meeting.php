@@ -1318,7 +1318,7 @@ class Meeting extends \yii\db\ActiveRecord
                'contacts_html' => $contacts_html,
            ]);
              if (!empty($a['email'])) {
-               $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner']);
+               $message->setFrom(['support@meetingplanner.io'=>Yii::$app->params['site']['title']]);
                $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
                $message->setTo($a['email'])
                    ->setSubject(Yii::t('frontend','Meeting Update: '.$sender_name.' is Running Late'))
@@ -1443,7 +1443,7 @@ class Meeting extends \yii\db\ActiveRecord
              'history'=>$history,
          ]);
            if (!empty($a['email'])) {
-             $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner']);
+             $message->setFrom(['support@meetingplanner.io'=>Yii::$app->params['site']['title']]);
              $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
              $message->setTo($a['email'])
                  ->setSubject(Yii::t('frontend','Meeting Update: ').$mtg->subject)
@@ -1525,7 +1525,7 @@ class Meeting extends \yii\db\ActiveRecord
             $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
             }
              // to do - add full name
-           $message->setFrom(array('support@meetingplanner.io'=>'Meeting Planner'));
+           $message->setFrom(array('support@meetingplanner.io'=>Yii::$app->params['site']['title']));
            $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
            $message->setTo($a['email'])
                ->setSubject($content['subject'])

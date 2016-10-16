@@ -9,7 +9,7 @@ use common\components\MiscHelpers;
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:25px 0 15px" align="center">
-            <strong><?php echo Html::a(Yii::t('frontend','Meeting Planner'), $links['home']); ?></strong><br />
+            <strong><?php echo Html::a(Yii::$app->params['site']['title'], $links['home']); ?></strong><br />
             Seattle, Washington<br>
           </td>
         </tr>

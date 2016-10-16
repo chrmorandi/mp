@@ -16,7 +16,7 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 't
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
             Hello <?php echo Html::encode(\common\components\MiscHelpers::getDisplayName($user->id)); ?>,
-            Click the button below to reset your Meeting Planner password:
+            Click the button below to reset your <?php echo Yii::$app->params['site']['title'] ?>  password:
           </td>
         </tr>
         <tr>

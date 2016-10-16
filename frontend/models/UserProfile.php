@@ -50,6 +50,24 @@ class UserProfile extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('frontend', 'ID'),
+            'user_id' => Yii::t('frontend', 'User ID'),
+            'firstname' => Yii::t('frontend', 'First name'),
+            'lastname' => Yii::t('frontend', 'Last name'),
+            'fullname' => Yii::t('frontend', 'Full name'),
+            'filename' => Yii::t('frontend', 'Filename'),
+            'avatar' => Yii::t('frontend', 'Avatar'),
+            'created_at' => Yii::t('frontend', 'Created At'),
+            'updated_at' => Yii::t('frontend', 'Updated At'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -88,24 +106,6 @@ class UserProfile extends \yii\db\ActiveRecord
                 $this->addError($attribute, 'This username already exists.');
             }
         }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('frontend', 'ID'),
-            'user_id' => Yii::t('frontend', 'User ID'),
-            'firstname' => Yii::t('frontend', 'First name'),
-            'lastname' => Yii::t('frontend', 'Last name'),
-            'fullname' => Yii::t('frontend', 'Full name'),
-            'filename' => Yii::t('frontend', 'Filename'),
-            'avatar' => Yii::t('frontend', 'Avatar'),
-            'created_at' => Yii::t('frontend', 'Created At'),
-            'updated_at' => Yii::t('frontend', 'Updated At'),
-        ];
-    }
 
     public static function initialize($user_id) {
       $up = UserProfile::find()->where(['user_id'=>$user_id])->one();

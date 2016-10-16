@@ -11,7 +11,7 @@ return [
     'id' => 'mp-frontend',
     'name' => 'Meeting Planner',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'], /*'rollbar', */
+    'bootstrap' => ['log','\common\components\SiteHelper'],
     'controllerNamespace' => 'frontend\controllers',
     //'catchAll' => (($params['offline'])?['site/offline']:[]),
     'catchAll'=> [],
@@ -66,6 +66,11 @@ return [
               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
+        /*'stripe' => [
+          'class' => 'ruskid\stripe\Stripe',
+          'privateKey' => $config['stripe_private_key'],
+          'publicKey' => $config['stripe_public_key'],
+        ],*/
       'authClientCollection' => [
               'class' => 'yii\authclient\Collection',
               'clients' => [

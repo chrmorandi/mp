@@ -9,7 +9,7 @@ MeetingAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 $this->title = $model->getMeetingHeader('view');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::$app->params['site']['mtg'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_timezone_alerts');
 ?>

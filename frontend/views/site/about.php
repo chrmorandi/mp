@@ -2,14 +2,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-$this->title = 'About Meeting Planner';
+$this->title = 'About Meeting Planner and Simple Planner';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p class="lead">Meeting Planner is an emerging new app designed to make scheduling easier and easier. The site has been developed in step with an <a href="https://code.tutsplus.com/tutorials/building-your-startup-with-php-table-of-contents--cms-23316">Envato Tuts+ tutorial series</a> by <a href="http://tutsplus.com/authors/jeff-reifman">founder Jeff Reifman</a>.</p>
-     <p class="lead">Every piece of Meeting Planner has been built out in the open, documented in the series. The application is developed in the <a href="https://code.tutsplus.com/tutorials/programming-with-yii2-getting-started--cms-22440">Yii2 Framework</a> for PHP. Learn more about Jeff or contact him at his <a href="http://jeffreifman.com">website</a>. You can also follow him on Twitter <a href="https://twitter.com/intent/user?screen_name=reifman">@reifman</a>.</p>
+    <p class="lead"><a href="https://meetingplanner.io">Meeting Planner</a> and <a href="https://simpleplanner.io">Simple Planner</a> are emerging new apps designed to make scheduling easier and easier. The site has been developed in step with an <a href="https://code.tutsplus.com/tutorials/building-your-startup-with-php-table-of-contents--cms-23316">Envato Tuts+ tutorial series</a> by <a href="http://tutsplus.com/authors/jeff-reifman">founder Jeff Reifman</a>.</p>
+     <p class="lead">Every piece of both services has been built out in the open, documented in the series. The application is developed in the <a href="https://code.tutsplus.com/tutorials/programming-with-yii2-getting-started--cms-22440">Yii2 Framework</a> for PHP. Learn more about Jeff or contact him at his <a href="http://jeffreifman.com">website</a>. You can also follow him on Twitter <a href="https://twitter.com/intent/user?screen_name=reifman">@reifman</a>.</p>
     <h2><?= Yii::t('frontend','The Building Your Startup Tutorial Series'); ?></h2>
 
     <div class="body-content">

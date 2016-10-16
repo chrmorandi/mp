@@ -6,7 +6,7 @@ use frontend\assets\FeatureAsset;
 FeatureAsset::register($this);
 
 /* @var $this yii\web\View */
-$this->title = 'Meeting Planner';
+$this->title = Yii::$app->params['site']['title'];
 ?>
 <div class="container">
   <div class="row">

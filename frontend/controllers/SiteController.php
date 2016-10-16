@@ -375,7 +375,7 @@ class SiteController extends Controller
                 $u = User::findOne(Yii::$app->user->id);
                 $u->status = User::STATUS_ACTIVE;
                 $u->update();
-                Yii::$app->session->setFlash('success', Yii::t('frontend', 'Your {serviceProvider} account has been connected to your Meeting Planner account. In the future you can log in with a single click of its logo.',
+                Yii::$app->session->setFlash('success', Yii::t('frontend', 'Your {serviceProvider} account has been connected to your account. In the future you can log in with a single click of its logo.',
 array('serviceProvider'=>$serviceTitle)));
             }
         }
