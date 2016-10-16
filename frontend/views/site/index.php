@@ -7,7 +7,7 @@ HomeAsset::register($this);
 //use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-$this->title = 'Meeting Planner';
+$this->title = Yii::$app->params['site']['title'];
 ?>
 <div class="site-index ">
     <div class="jumbotron jumbo-novert">
