@@ -284,7 +284,8 @@ class User extends ActiveRecord implements IdentityInterface
       // \Yii::$app->mailer->htmlLayout = '/common/mail/layouts/oxygen_html';
       if (User::checkEmailDelivery($user_id)) {
           $u = User::findOne($user_id);
-          $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key);
+          $site_id = \frontend\models\Meeting::getSiteFromMeeting($meeting_id);
+          $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key,$site_id);
           \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);
           return \Yii::$app->mailer->compose('verification-html', ['user' => $u,'verifyLink'=>$verifyLink])
               ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->params['site']['title'] . ' Assistant'])

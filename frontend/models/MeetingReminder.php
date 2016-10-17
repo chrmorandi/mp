@@ -172,7 +172,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
        // virtual meeting
        $setViewMap = false;
      } else {
-       $setViewMap = MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,$chosen_place->place_id,$a['user_id'],$a['auth_key']);
+       $setViewMap = MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW_MAP,$chosen_place->place_id,$a['user_id'],$a['auth_key'],$mtg->site_id);
      }
      $isOwner = ($a['user_id']==$mtg->owner_id?true:false);
      $contactListObj = $mtg->getContactListObj($a['user_id'],$isOwner);
@@ -181,14 +181,14 @@ class MeetingReminder extends \yii\db\ActiveRecord
           Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
           // Build the absolute links to the meeting and commands
           $links=[
-            'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-            'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-            'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-            //'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
-            'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
-            'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key']),
+            'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+            'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+            'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+            //'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+            'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+            'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
             'view_map'=>$setViewMap,
-            'reminders'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_GO_REMINDERS,0,$a['user_id'],$a['auth_key'])
+            'reminders'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_GO_REMINDERS,0,$a['user_id'],$a['auth_key'],$mtg->site_id)
           ];
           // send the message
           $message = Yii::$app->mailer->compose([

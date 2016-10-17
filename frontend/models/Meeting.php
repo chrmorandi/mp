@@ -31,6 +31,7 @@ use frontend\models\MeetingLog;
  * @property integer $logged_at
  * @property integer $sequence_id
  * @property integer $cleared_at
+ * @property integer $site_id
  *
  * @property User $owner
  * @property MeetingLog[] $meetingLogs
@@ -454,20 +455,20 @@ class Meeting extends \yii\db\ActiveRecord
     // Build the absolute links to the meeting and commands
     $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
     $links=[
-      'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$p->participant_id,$auth_key),
-      'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$p->participant_id,$auth_key),
-      'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$p->participant_id,$auth_key),
-      'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$p->participant_id,$auth_key),
-      'decline'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_DECLINE,0,$p->participant_id,$auth_key),
-      'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$p->participant_id,$auth_key),
-      'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$p->participant_id,$auth_key),
-      'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$p->participant_id,$auth_key),
-      'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$p->participant_id,$auth_key),
-      'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$p->participant_id,$auth_key),
-      'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$p->participant_id,$auth_key),
-      'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$p->participant_id,$auth_key),
-      'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$this->owner_id,$p->participant_id,$auth_key),
-      'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$p->participant_id,$auth_key),
+      'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$p->participant_id,$auth_key,$this->site_id),
+      'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$p->participant_id,$auth_key,$this->site_id),
+      'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$p->participant_id,$auth_key,$this->site_id),
+      'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$p->participant_id,$auth_key,$this->site_id),
+      'decline'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_DECLINE,0,$p->participant_id,$auth_key,$this->site_id),
+      'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$p->participant_id,$auth_key,$this->site_id),
+      'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$p->participant_id,$auth_key,$this->site_id),
+      'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$p->participant_id,$auth_key,$this->site_id),
+      'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$p->participant_id,$auth_key,$this->site_id),
+      'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$p->participant_id,$auth_key,$this->site_id),
+      'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$p->participant_id,$auth_key,$this->site_id),
+      'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$p->participant_id,$auth_key,$this->site_id),
+      'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$this->owner_id,$p->participant_id,$auth_key,$this->site_id),
+      'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$p->participant_id,$auth_key,$this->site_id),
     ];
     $participantList = $this->getMeetingParticipants($p->participant_id,true,true);
     if ($this->isVirtual()) {
@@ -485,6 +486,7 @@ class Meeting extends \yii\db\ActiveRecord
       ],
       [
         'meeting_id' => $this->id,
+        'site_id' => $this->site_id,
         'noPlaces' => $noPlaces,
         'participant_id' => 0,
         'participantList'=>$participantList,
@@ -583,20 +585,20 @@ class Meeting extends \yii\db\ActiveRecord
         $contactListObj = $this->getContactListObj($a['user_id'],$this->isOwner($a['user_id']));
         // Build the absolute links to the meeting and commands
         $links=[
-          'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-          'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-          'download'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_DOWNLOAD_ICS,0,$a['user_id'],$a['auth_key']),
-          'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key']),
-          'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key']),
-          'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key']),
-          'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$a['user_id'],$a['auth_key']),
-          'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key']),
-          'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key']),
-          'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key']),
-          'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key']),
-          'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-          'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key']),
-          'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+          'home'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'view'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'download'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_DOWNLOAD_ICS,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'finalize'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FINALIZE,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'cancel'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_CANCEL,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key'],$this->site_id),
+          'footer_block_all'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$this->site_id),
         ];
         // send the message
         $message = Yii::$app->mailer->compose([
@@ -605,6 +607,7 @@ class Meeting extends \yii\db\ActiveRecord
         ],
         [
           'meeting_id' => $this->id,
+          'site_id' => $this->site_id,
           'noPlaces' => $noPlaces,
           'participant_id' => 0,
           'participantList'=>$participantList,
@@ -1116,7 +1119,7 @@ class Meeting extends \yii\db\ActiveRecord
             }
           }
           $invite->setComment($commentStr);
-          $invite->setUrl(MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key']));
+          $invite->setUrl(MiscHelpers::buildCommand($id,Meeting::COMMAND_VIEW,0,$attendee['user_id'],$attendee['auth_key'],$meeting->site_id));
           if ($meeting->status ==Meeting::STATUS_CANCELED) {
             $invite->setStatus('CANCELLED');
           } else {
@@ -1296,12 +1299,12 @@ class Meeting extends \yii\db\ActiveRecord
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
              // Build the absolute links to the meeting and commands
              $links=[
-               'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-               'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-               'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key']),
-               'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-               'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$sender_id,$a['user_id'],$a['auth_key']),
-               'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+               'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'running_late'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_RUNNING_LATE,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$sender_id,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
              ];
              // send the message
              $message = Yii::$app->mailer->compose([
@@ -1367,12 +1370,12 @@ class Meeting extends \yii\db\ActiveRecord
          Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
            // Build the absolute links to the meeting and commands
            $links=[
-             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-             'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key']),
-             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
-             'add_contact'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_ADD_CONTACT,0,$a['user_id'],$auth_key)
+             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'add_contact'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_ADD_CONTACT,0,$a['user_id'],$auth_key,$mtg->site_id)
            ];
            // send the message
            $message = Yii::$app->mailer->compose([
@@ -1417,11 +1420,11 @@ class Meeting extends \yii\db\ActiveRecord
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
            // Build the absolute links to the meeting and commands
            $links=[
-             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-             'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-             //'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key']),
-             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+             'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             //'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+             'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
            ];
            // build the english language notification
            $history = MeetingLog::getHistory($meeting_id,$user_id,$mtg->cleared_at);
@@ -1496,14 +1499,14 @@ class Meeting extends \yii\db\ActiveRecord
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
              // Build the absolute links to the meeting and commands
              $links=[
-               'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key']),
-               'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key']),
-               'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key']),
-               'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key']),
-               'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key']),
+               'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'view'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_VIEW,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'footer_email'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key'],$mtg->site_id),
+               'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
              ];
              if ($button!==false) {
-               $links['button_url']=MiscHelpers::buildCommand($mtg->id,$button['command'],$button['obj_id'],$a['user_id'],$a['auth_key']);
+               $links['button_url']=MiscHelpers::buildCommand($mtg->id,$button['command'],$button['obj_id'],$a['user_id'],$a['auth_key'],$mtg->site_id);
                $content['button_text']=$button['text'];
              }
              // send the message
@@ -1833,4 +1836,8 @@ class Meeting extends \yii\db\ActiveRecord
     return $result;
   }
 
+  public static function getSiteFromMeeting($meeting_id) {
+    $m= Meeting::findOne($meeting_id);
+    return $m->site_id;
+  }
 }

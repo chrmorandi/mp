@@ -20,7 +20,7 @@ use frontend\models\MeetingTime;
         </tr>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
-            <p><em>Hi, <?= $owner; ?> has invited you to a meeting <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)); ?>.</em></p>
+            <p><em>Hi, <?= $owner; ?> has invited you to a meeting <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key,$site_id)); ?>.</em></p>
             <p><?php echo $intro; ?></p>
           </td>
         </tr>
@@ -86,7 +86,7 @@ use frontend\models\MeetingTime;
                                   ?>
                                       <?php echo $p->place->name.' '; ?>
                                       <span style="font-size:75%;"><?php echo $p->place->vicinity; ?> <?php echo HTML::a(Yii::t('frontend','map'),
-                                      MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->place->id,$user_id,$auth_key)); ?></span><br />
+                                      MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->place->id,$user_id,$auth_key,$site_id)); ?></span><br />
                                 <?php
                                     }
                                 ?>

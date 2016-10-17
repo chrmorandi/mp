@@ -26,7 +26,7 @@ use frontend\models\MeetingTime;
         </tr>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
-            <p><em>Hi, <?=  $owner; ?> has invited you to a meeting <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key)); ?>.</em></p>
+            <p><em>Hi, <?=  $owner; ?> has invited you to a meeting <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key,$site_id)); ?>.</em></p>
             <p><?php echo $intro; ?></p>
             <p>Add this event to your calendar by opening the attachment below or <?php echo HTML::a(Yii::t('frontend','download it here'),$links['download']); ?>.</p>
           </td>
@@ -90,7 +90,7 @@ use frontend\models\MeetingTime;
                                 <?php if (!empty($place->full_address)) {
                                   ?>
                                   <?php echo HTML::a(Yii::t('frontend','view map'),
-                                  MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$chosenPlace->place->id,$user_id,$auth_key)); ?>,
+                                  MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$chosenPlace->place->id,$user_id,$auth_key,$site_id)); ?>,
                                   <?= Html::a(Yii::t('frontend','directions'),Url::to('https://www.google.com/maps/dir//'.$chosenPlace->place->full_address)); ?>
                                   <?php
                                 }

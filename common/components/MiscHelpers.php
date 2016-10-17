@@ -23,16 +23,44 @@ class MiscHelpers  {
     */
   }
 
-  public static function buildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {
+  public static function getSiteUrl($site_id = 0) {
+      $baseUrl = Url::home(true);
+      switch ($site_id) {
+        case 0: // mp
+        if (stristr($baseUrl,'/mp/')!==false) {
+          // dev mp
+          $url = 'http://localhost:8888/';
+        } else {
+          $url = 'https://meetingplanner.io/';
+        }
+        break;
+        case 1: // sp
+        if (stristr($baseUrl,'/sp/')!==false) {
+         // dev sp
+         $url = 'http://localhost:8888/';
+        } else {
+          $url = 'https://simpleplanner.io/';
+        }
+        break;
+        case 2: // fd
+        if (stristr($baseUrl,'/fd/')!==false) {
+         // dev sp
+         $url = 'http://localhost:8888/';
+       } else {
+         // to do - change with fd launch
+         $url = 'https://meetingplanner.io/';
+       }
+        break;
+      }
+      return $url;
+    }
+
+  public static function buildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='',$site_id = 0) {
     // to do - build string of local or remote destination
     // note: if change made, change in Message.php
-    $url = Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,],true);
-    // to do
-    // if meeting_id >0, look up meeting and compute base url using also local or prod
-    // if meeting_id == 0, use local or prod
-    // call in \frontend\models\Meeting::
-    // build in Meeting also to set setFrom name
-    return $url;
+    $baseUrl = MiscHelpers::getSiteUrl($site_id);
+    $qs = Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,]);
+    return $baseUrl.$qs;
    }
 
    public static function backendBuildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {
