@@ -31,7 +31,7 @@ class MiscHelpers  {
           // dev mp
           $url = 'http://localhost:8888/';
         } else {
-          $url = 'https://meetingplanner.io/';
+          $url = 'https://meetingplanner.io';
         }
         break;
         case 1: // sp
@@ -39,7 +39,7 @@ class MiscHelpers  {
          // dev sp
          $url = 'http://localhost:8888/';
         } else {
-          $url = 'https://simpleplanner.io/';
+          $url = 'https://simpleplanner.io';
         }
         break;
         case 2: // fd
@@ -48,7 +48,7 @@ class MiscHelpers  {
          $url = 'http://localhost:8888/';
        } else {
          // to do - change with fd launch
-         $url = 'https://meetingplanner.io/';
+         $url = 'https://meetingplanner.io';
        }
         break;
       }
