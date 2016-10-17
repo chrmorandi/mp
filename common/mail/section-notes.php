@@ -17,7 +17,7 @@ use common\components\MiscHelpers;
                     <?php
                       foreach($notes as $n) {
                         ?>
-                            <p><em><?php echo MiscHelpers::getDisplayName($n->$posted_by); ?> says: </em>
+                            <p><em><?php echo MiscHelpers::getDisplayName($n->posted_by); ?> says: </em>
                             "<?php echo $n->note; ?>"</p>
                         <?php
                           }

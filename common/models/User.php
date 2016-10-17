@@ -287,9 +287,9 @@ class User extends ActiveRecord implements IdentityInterface
           $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key);
           \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);
           return \Yii::$app->mailer->compose('verification-html', ['user' => $u,'verifyLink'=>$verifyLink])
-              ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' Assistant'])
+              ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->params['site']['title'] . ' Assistant'])
               ->setTo($u->email)
-              ->setSubject('Verify Your Email Address for ' . \Yii::$app->name)
+              ->setSubject('Verify Your Email Address for ' . \Yii::$app->params['site']['title'])
               ->send();
       }
     }
@@ -397,5 +397,15 @@ class User extends ActiveRecord implements IdentityInterface
         $report->errors[] = 'Warning: '.$user_id.' has no Reminders';
       }
       return $report;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+          if ($insert) {
+            $this->site_id = Yii::$app->params['site']['id'];
+          }
+        }
+        return true;
     }
 }

@@ -26,7 +26,13 @@ class MiscHelpers  {
   public static function buildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {
     // to do - build string of local or remote destination
     // note: if change made, change in Message.php
-    return Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,],true);
+    $url = Url::to(['meeting/command','id'=>$meeting_id,'cmd'=>$cmd,'actor_id'=>$actor_id,'k'=>$auth_key,'obj_id'=>$obj_id,],true);
+    // to do
+    // if meeting_id >0, look up meeting and compute base url using also local or prod
+    // if meeting_id == 0, use local or prod
+    // call in \frontend\models\Meeting::
+    // build in Meeting also to set setFrom name
+    return $url;
    }
 
    public static function backendBuildCommand($meeting_id,$cmd=0,$obj_id=0,$actor_id=0,$auth_key='') {

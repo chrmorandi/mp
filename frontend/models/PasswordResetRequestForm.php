@@ -52,9 +52,9 @@ class PasswordResetRequestForm extends Model
                 // to do - add text version of reset your password
                 // \Yii::$app->mailer->htmlLayout = '/common/mail/layouts/oxygen_html';
                 return \Yii::$app->mailer->compose('passwordResetToken', ['user' => $user])
-                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' Assistant'])
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->params['site']['title'] . ' Assistant'])
                     ->setTo($this->email)
-                    ->setSubject('Password reset for ' . \Yii::$app->name)
+                    ->setSubject('Password reset for ' . \Yii::$app->params['site']['title'])
                     ->send();
             }
         }

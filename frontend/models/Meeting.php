@@ -731,6 +731,7 @@ class Meeting extends \yii\db\ActiveRecord
           if (parent::beforeSave($insert)) {
             if ($insert) {
               $this->identifier = Yii::$app->security->generateRandomString(8);
+              $this->site_id = Yii::$app->params['site']['id'];
             }
           }
           return true;

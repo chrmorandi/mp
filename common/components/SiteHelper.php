@@ -3,6 +3,10 @@ namespace common\components;
 use yii;
 use yii\helpers\Url;
 class SiteHelper extends \yii\base\Component{
+  const SITE_MP = 0;
+  const SITE_SP = 1;
+  const SITE_FD = 2;
+
     public function init() {
       $baseUrl = Url::home(true);
       if (stristr($baseUrl,'/mp/')!==false) {
@@ -26,6 +30,7 @@ class SiteHelper extends \yii\base\Component{
     }
 
     private function commonMeetingPlanner() {
+      Yii::$app->params['site']['id'] = SiteHelper::SITE_MP;
       Yii::$app->params['site']['domain'] = 'meetingplanner.io';
       Yii::$app->params['site']['url'] = 'https://meetingplanner.io';
       Yii::$app->params['site']['title'] = Yii::t('frontend', 'Meeting Planner');
@@ -37,6 +42,7 @@ class SiteHelper extends \yii\base\Component{
     }
 
     private function commonSimplePlanner() {
+      Yii::$app->params['site']['id'] = SiteHelper::SITE_SP;
       Yii::$app->params['site']['domain'] = 'simpleplanner.io';
       Yii::$app->params['site']['url'] = 'https://simpleplanner.io';
       Yii::$app->params['site']['title'] = Yii::t('frontend', 'Simple Planner');
