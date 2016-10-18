@@ -25,7 +25,6 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
 </head>
 <body>
     <?php $this->beginBody() ?>
-
      <div class="row">
       <div class="col-md-12 bgimage" style="background-image: url('<?= $urlPrefix ?>/img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg');">
        <div class="bgimage-inside"></div>
@@ -153,7 +152,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', '<?php echo Yii::$app->params['ga']; ?>', 'auto');
+  ga('create', '<?php echo Yii::$app->params['site']['ga']; ?>', 'auto');
   ga('send', 'pageview');
 </script>
 <?php $this->endBody() ?>
