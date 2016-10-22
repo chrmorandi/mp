@@ -19,9 +19,11 @@ class HomeAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/home-video.css',
     ];
     public $js = [
-      'js/home.js'
+      'js/home.js',
+      'js/froogaloop2.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

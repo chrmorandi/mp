@@ -308,7 +308,7 @@ class SiteController extends Controller
                     $auth = new Auth([
                         'user_id' => $user->id,
                         'source' => $serviceProvider, // $client->getId(),
-                        'source_id' => $serviceId, // (string)$attributes['id'],
+                        'source_id' => (string)$serviceId, // (string)$attributes['id'],
                     ]);
                     if ($auth->save()) {
                         $user->status = User::STATUS_ACTIVE;
@@ -340,7 +340,7 @@ class SiteController extends Controller
                           $auth = new Auth([
                               'user_id' => $user->id,
                               'source' => $serviceProvider, // $client->getId(),
-                              'source_id' => $serviceId, // (string)$attributes['id'],
+                              'source_id' => (string)$serviceId, // (string)$attributes['id'],
                           ]);
                           if ($auth->save()) {
                               User::completeInitialize($user->id);
@@ -368,7 +368,7 @@ class SiteController extends Controller
                 $auth = new Auth([
                     'user_id' => Yii::$app->user->id,
                     'source' => $serviceProvider,
-                    'source_id' => $serviceId,
+                    'source_id' => (string)$serviceId,
                 ]);
                 $auth->validate();
                 $auth->save();
