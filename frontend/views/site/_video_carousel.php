@@ -10,7 +10,7 @@
     <div class="item active">
       <div class="flex-video" style="margin: 0 10%;text-align:center;">
         <div class="embed-container">
-        <iframe src="http://player.vimeo.com/video/188213613?api=1" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <iframe src="https://player.vimeo.com/video/188213613?api=1" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
         </div>
       </div>
       <div class="carousel-caption">
@@ -22,7 +22,7 @@
     <div class="item">
       <div class="flex-video" style="margin: 0 10%;text-align:center;">
         <div class="embed-container">
-        <iframe src="http://player.vimeo.com/video/188218101?api=1" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <iframe src="https://player.vimeo.com/video/188218101?api=1" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
         </div>
       </div>
       <div class="carousel-caption">
