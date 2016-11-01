@@ -39,6 +39,8 @@ class Calendar {
      */
     private $_end;
 
+    private $_created;
+
     /**
      * The name of the user the invite is coming from
      * @var string
@@ -180,6 +182,12 @@ class Calendar {
     {
 	$this->_end = $end;
 	return $this;
+    }
+
+    public function setCreated(\DateTime $created)
+    {
+    $this->_created = $created;
+    return $this;
     }
 
     /**
@@ -502,16 +510,22 @@ class Calendar {
 	return $this->_fromEmail;
     }
 
+    public function getNow($formatted = null)
+    {
+      $current_time= new \DateTime(date("Y-m-d h:i:sA",(time()+(3600*7))), new \DateTimeZone('PST'));
+      return $current_time->format("Ymd\THis");
+    }
+
     /**
      * Get the start time set for the even
      * @return string
      */
     public function getStart($formatted = null)
     {
+      // to fix DST problem, I removed UTC and changed back to local time
 	if (null !== $formatted) {
-	    return $this->_start->format("Ymd\THis\Z");
+	    return $this->_start->format("Ymd\THis"); // earlier \Z created DST problem
 	}
-
 	return $this->_start;
     }
 
@@ -522,9 +536,17 @@ class Calendar {
     public function getEnd($formatted = null)
     {
 	if (null !== $formatted) {
-	    return $this->_end->format("Ymd\THis\Z");
+	    return $this->_end->format("Ymd\THis"); // earlier \Z created DST problem
 	}
 	return $this->_end;
+    }
+
+    public function getCreated($formatted = null)
+    {
+	if (null !== $formatted) {
+	    return $this->_created->format("Ymd\THis"); // earlier \Z created DST problem
+	}
+	return $this->_created;
     }
 
     /**
@@ -681,7 +703,7 @@ class Calendar {
 	    $content .= "UID:{$this->getUID()}\n";
 	    $content .= "DTSTART:{$this->getStart(true)}\n";
 	    $content .= "DTEND:{$this->getEnd(true)}\n";
-	    $content .= "DTSTAMP:{$this->getStart(true)}\n";
+	    $content .= "DTSTAMP:{$this->getNow(true)}\n";
 	    $content .= "ORGANIZER;CN={$this->getFromName()}:mailto:{$this->getFromEmail()}\n";
       $content .= "URL;VALUE=URI:{$this->getUrl()}\n";
 
@@ -689,13 +711,13 @@ class Calendar {
 	    {
 		   $content .= "ATTENDEE;PARTSTAT=ACCEPTED;RSVP=FALSE;CN={$name};X-NUM-GUESTS=0:mailto:{$email}\n";
 	    }
-	    $content .= "CREATED:\n";
+	    $content .= "CREATED:{$this->getCreated(true)}\n";
       $content .= "SUMMARY:{$this->getName()}\n";
 	    $content .= "DESCRIPTION:{$this->getDescription()}\n";
       if (!empty($this->getComment())) {
         $content .= "COMMENT:{$this->getComment()}\n";
       }
-      $content .= "LAST-MODIFIED:{$this->getStart(true)}\n";
+      $content .= "LAST-MODIFIED:{$this->getNow(true)}\n";
 	    $content .= "LOCATION:{$this->getLocation()}\n";
 	    $content .= "SEQUENCE:{$this->getSequence()}\n";
 	    $content .= "STATUS:{$this->getStatus()}\n";

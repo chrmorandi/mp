@@ -582,6 +582,7 @@ class Meeting extends \yii\db\ActiveRecord
       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
         $participantList = $this->getMeetingParticipants($a['user_id'],true,true);
         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
+        $a['timezone']=$timezone;
         $contactListObj = $this->getContactListObj($a['user_id'],$this->isOwner($a['user_id']));
         // Build the absolute links to the meeting and commands
         $links=[
@@ -1052,7 +1053,9 @@ class Meeting extends \yii\db\ActiveRecord
              $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
              $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
              'email'=>$p->participant->email,
-             'username'=>$p->participant->username];
+             'username'=>$p->participant->username,
+             'timezone'=>MiscHelpers::fetchUserTimezone($p->participant_id)
+             ];
              $cnt+=1;
              // reciprocate friendship to organizer
              \frontend\models\Friend::add($p->participant_id,$p->invited_by);
@@ -1063,7 +1066,10 @@ class Meeting extends \yii\db\ActiveRecord
          $attendees[$cnt]=['user_id'=>$m->owner_id,
            'auth_key'=>$auth_key,
            'email'=>$m->owner->email,
-           'username'=>$m->owner->username];
+           'username'=>$m->owner->username,
+           'timezone'=>MiscHelpers::fetchUserTimezone($m->owner_id)
+            ];
+
          foreach ($attendees as $cnt=>$a) {
            if ($a['user_id']==$actor_id) {
              $icsPath = Meeting::buildCalendar($m->id,$chosenPlace,$chosenTime,$a,$attendees);
@@ -1075,15 +1081,29 @@ class Meeting extends \yii\db\ActiveRecord
            }
          }
        }
+       public static function adjustTimeDST($request_time,$timezone) {
+          // built to adjust future date for DST
+          $tz = new \DateTimeZone($timezone);
+          $transition = $tz->getTransitions($request_time,$request_time);
+          # only one array should be returned into $transition. Now get the data:
+          $offset = $transition[0]['offset'];
+          $abbr = $transition[0]['abbr'];
+          $isdst = $transition[0]['isdst'];
+          $request_time+=$offset;
+          return $request_time;
+       }
 
        public static function buildCalendar($id,$chosenPlace,$chosenTime,$attendee,$attendeeList) {
+         // set Yii into UTC
+         Yii::$app->timeZone='UTC';
          $meeting = Meeting::findOne($id);
          $invite = new \common\models\Calendar($id);
-         $start_time = $chosenTime->start+(3600*7); // adjust timezone to PST
-         $end_time = $chosenTime->end+(3600*7);
-         // note below, we send PST time zone with these times
-         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone('PST'));
-         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone('PST'));
+         $start_time = Meeting::adjustTimeDST($chosenTime->start,$attendee['timezone']); // adjust for UTC
+         $end_time = Meeting::adjustTimeDST($chosenTime->end,$attendee['timezone']); // adjust for UTC
+         // format ics file start and end into user's local timezone
+         $sdate = new \DateTime(date("Y-m-d h:i:sA",$start_time), new \DateTimeZone($attendee['timezone'])); //
+         $edate = new \DateTime(date("Y-m-d h:i:sA",$end_time), new \DateTimeZone($attendee['timezone'])); // , new \DateTimeZone($attendee['timezone'])
+         $cdate = new \DateTime(date("Y-m-d h:i:sA",($meeting->created_at)));
          $description = $meeting->message;
          // check if its a confernce with no location
          if ($chosenPlace!==false) {
@@ -1099,6 +1119,7 @@ class Meeting extends \yii\db\ActiveRecord
          	->setDescription($description)
           ->setStart($sdate)
          	->setEnd($edate)
+          ->setCreated($cdate)
          	->setLocation($location)
          	->setOrganizer($meeting->owner->email, $meeting->owner->username)
           ->setSequence($meeting->sequence_id);
@@ -1497,6 +1518,7 @@ class Meeting extends \yii\db\ActiveRecord
          // check if email is okay and okay from this sender_id
          if ($user_id != $a['user_id'] && User::checkEmailDelivery($a['user_id'],$user_id)) {
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
+            $a['timezone']=$timezone;
              // Build the absolute links to the meeting and commands
              $links=[
                'home'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_HOME,0,$a['user_id'],$a['auth_key'],$mtg->site_id),

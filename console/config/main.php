@@ -23,6 +23,7 @@ return [
                 ],
             ],
         ],
+
         /*'errorHandler' => [
           'class' => 'baibaratsky\yii\rollbar\console\ErrorHandler',
         ],*/
