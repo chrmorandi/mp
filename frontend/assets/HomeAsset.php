@@ -19,6 +19,7 @@ class HomeAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/home.css',
         'css/home-video.css',
     ];
     public $js = [

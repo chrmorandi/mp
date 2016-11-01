@@ -1,0 +1,41 @@
+/* CSS used here will be applied after bootstrap.css */
+body {
+ background: url('http://localhost:8888/mp/img/home/home-0.jpg') no-repeat center 30px;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
+}
+
+.home-top {
+  margin-top:16%;
+}
+
+.panel-default {
+ opacity: 0.9;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: rgba(0,0,0,0.3);
+    color:#fff;
+    border-radius:5px;
+}
+.jumbotron .lead {
+  color:#fff;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    opacity:.8;
+    margin:25px;
+}
+
+ul.auth-clients {
+  margin-bottom:0;
+}
+
+#myCarousel {
+  margin-top:20%;
+  background-color: transparent;
+}
