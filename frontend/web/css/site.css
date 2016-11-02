@@ -268,13 +268,15 @@ table.table-list td.table-switches {
 }
 
 .carousel-indicators .active {
-
 background-color: #999;
 }
 
 .carousel-control.left, .carousel-control.right {
      background-image: none;
-    /* background: rgba(0, 0.025, 0.025, 0.025); */
+     /*background: rgba(0, 0.025, 0.025, 0.025);*/     
+}
+.carousel-control  {
+  color:#999;
 }
 /* ----------- mobile displays ----------- */
 

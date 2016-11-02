@@ -1,6 +1,5 @@
 /* CSS used here will be applied after bootstrap.css */
 body {
- background: url('http://localhost:8888/mp/img/home/home-0.jpg') no-repeat center 30px;
  -webkit-background-size: cover;
  -moz-background-size: cover;
  -o-background-size: cover;
@@ -9,6 +8,10 @@ body {
 
 .home-top {
   margin-top:16%;
+}
+
+.video-top {
+  margin-top:23%;
 }
 
 .panel-default {
@@ -33,9 +36,4 @@ body {
 
 ul.auth-clients {
   margin-bottom:0;
-}
-
-#myCarousel {
-  margin-top:20%;
-  background-color: transparent;
 }

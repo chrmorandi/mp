@@ -21,10 +21,15 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <style>
+    body {
+     background: url('./img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg') no-repeat center 30px;
+    }
+    </style>
     <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>     
+    <?php $this->beginBody() ?>
         <div class="wrap">
         <?php
                 NavBar::begin([

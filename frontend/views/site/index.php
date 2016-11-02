@@ -52,5 +52,9 @@ $this->title = Yii::$app->params['site']['title'];
           </div>
       </div>
   </div>
+  <div class="row video-top">
+      <div class="col-md-12">
+        <?= $this->render('_video_carousel.php',['urlPrefix'=>$urlPrefix]);?>
+      </div>
+  </div>
 </div>
-<?= $this->render('_video_carousel.php',['urlPrefix'=>$urlPrefix]);?>
