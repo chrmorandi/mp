@@ -40,7 +40,7 @@ use \kartik\switchinput\SwitchInput;
                              'id'=>'mtc-'.$mtc->id,
                              'value' => $value,
                              'disabled' => !$isOwner,
-                             'pluginOptions' => ['size' => 'small','labelWidth'=>10,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
                              ]);
                        }
                      }
@@ -63,7 +63,7 @@ use \kartik\switchinput\SwitchInput;
                              'indeterminateToggle'=>false,
                              'disabled'=>$isOwner,
                              'value' => $value,
-                             'pluginOptions' => ['size' => 'small','labelWidth'=>10,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
                          ]);
                        }
                      }
@@ -87,7 +87,7 @@ use \kartik\switchinput\SwitchInput;
                               [ 'value' => $model->id],
                           ],
                           'value' => $value,
-                          'pluginOptions' => [  'size' => 'small','labelWidth'=>10,'handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
+                          'pluginOptions' => [  'size' => 'small','labelWidth'=>1,'handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
                       ]);
                     }
                   }

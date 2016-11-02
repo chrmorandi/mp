@@ -21,7 +21,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <style>
+    <style type="text/css">
     body {
      background: url('./img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg') no-repeat center 30px;
     }
@@ -143,7 +143,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
           echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/about'])),['class'=>'itemHide']);
         }
          ?>
-        </p>
+        </p>        
         </div>
     </footer>
     <script>

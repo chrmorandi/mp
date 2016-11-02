@@ -2,14 +2,6 @@ html,
 body {
     height: 100%;
 }
-.bgimage {
-  background-size: 100%;
-  opacity: 0.5;
-}
-.bgimage-inside {
-padding-top:48%;
-}
-
 .wrap {
     min-height: 100%;
     height: auto;
@@ -273,7 +265,7 @@ background-color: #999;
 
 .carousel-control.left, .carousel-control.right {
      background-image: none;
-     /*background: rgba(0, 0.025, 0.025, 0.025);*/     
+     /*background: rgba(0, 0.025, 0.025, 0.025);*/
 }
 .carousel-control  {
   color:#999;

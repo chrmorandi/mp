@@ -14,7 +14,7 @@ $this->title = Yii::$app->params['site']['title'];
       <div class="col-md-6 col-md-offset-1">
         <div class="jumbotron">
             <h1><?php echo Yii::t('frontend','Simpler Scheduling'); ?></h1>
-                <p class="lead">Make planning easy.</p>
+                <p class="lead">Choose times and places together. Make planning easy.</p>
                 <div class="centered">
                 <p><a class="btn btn-lg btn-success" href="features"><?= Yii::t('frontend','Learn more') ?></a></p>
                 </div>
