@@ -1,8 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\authclient\widgets\AuthChoice;
-use frontend\assets\HomeAsset;
-HomeAsset::register($this);
 
 //use yii\bootstrap\ActiveForm;
 
@@ -16,9 +14,9 @@ $this->title = Yii::$app->params['site']['title'];
             <h1><?php echo Yii::t('frontend','Simpler Scheduling'); ?></h1>
                 <p class="lead">Choose times and places together. Make planning easy.</p>
                 <div class="centered">
-                <p><a class="btn btn-lg btn-success" href="features"><?= Yii::t('frontend','Learn more') ?></a></p>
+                  <p><a class="btn btn-lg btn-success" href="features"><?= Yii::t('frontend','Learn more') ?></a></p>
                 </div>
-      </div> <!-- end jumbo -->
+          </div> <!-- end jumbo -->
       </div>
       <div class="col-md-3 ">
           <div class="panel panel-default">
