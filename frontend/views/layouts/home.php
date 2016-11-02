@@ -24,12 +24,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>
-     <div class="row">
-      <div class="col-md-12 bgimage" style="background-image: url('<?= $urlPrefix ?>/img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg');">
-       <div class="bgimage-inside"></div>
-      </div>
-     </div>
+    <?php $this->beginBody() ?>     
         <div class="wrap">
         <?php
                 NavBar::begin([
@@ -125,7 +120,6 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
         <?= $content ?>
         </div>
     </div>
-
     <footer class="footer">
         <div class="container">
           <p class="pull-left">
