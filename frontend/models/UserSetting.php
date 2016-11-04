@@ -147,9 +147,9 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->no_updates = self::SETTING_NO;
         $us->participant_add_place = self::SETTING_ON;
         $us->participant_add_date_time = self::SETTING_ON;
-        $us->participant_choose_place = self::SETTING_ON;
-        $us->participant_choose_date_time = self::SETTING_ON;
-        $us->participant_finalize = self::SETTING_ON;
+        $us->participant_choose_place = self::SETTING_OFF;
+        $us->participant_choose_date_time = self::SETTING_OFF;
+        $us->participant_finalize = self::SETTING_OFF;
         $us->participant_request_change= self::SETTING_ON;
         $us->participant_reopen= self::SETTING_OFF;
         $us->save();
