@@ -8,7 +8,6 @@ use \kartik\switchinput\SwitchInput;
     <table class="table-list"> <!-- list of times -->
       <tr>
         <td class="table-list-first"> <!-- time & status -->
-
           <?= Html::a(Meeting::friendlyDateFromTimestamp($model->start,$timezone),['/meeting-time/view','id'=>$model->id]); ?>
           <?php
             if ($whenStatus['text'][$model->id]<>'') {
@@ -33,7 +32,7 @@ use \kartik\switchinput\SwitchInput;
                            if ($mtc->status == $mtc::STATUS_YES)
                              $value = 1;
                            else
-                             $value =0;
+                             $value =0;                             
                              echo SwitchInput::widget([
                              'type' => SwitchInput::CHECKBOX,
                              'name' => 'meeting-time-choice',

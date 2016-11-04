@@ -14,6 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_timezone_alerts');
 ?>
 <div class="meeting-view">
+
+  <?php  // what
+  echo $this->render('./_panel_what', [
+      'model'=>$model,
+      'isOwner' => $isOwner,
+  ]) ?>
         <?php //who
           echo $this->render('../participant/_panel', [
               'model'=>$model,
@@ -23,11 +29,6 @@ echo $this->render('_timezone_alerts');
           ]);
          ?>
 
-         <?php  // what
-         echo $this->render('./_panel_what', [
-             'model'=>$model,
-             'isOwner' => $isOwner,
-         ]) ?>
 
          <?php // when
           echo $this->render('../meeting-time/_panel', [

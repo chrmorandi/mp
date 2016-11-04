@@ -409,7 +409,7 @@ function addTime(id) {
           $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
           $(this).bootstrapSwitch('onColor','success');
           $(this).bootstrapSwitch('handleWidth',70);
-          $(this).bootstrapSwitch('labelWidth',10);
+          $(this).bootstrapSwitch('labelWidth',1);
           $(this).bootstrapSwitch('size','small');
         });
         $("input[name='meeting-time-choice']").map(function(){
@@ -419,7 +419,7 @@ function addTime(id) {
           $(this).bootstrapSwitch('onColor','success');
           $(this).bootstrapSwitch('offColor','danger');
           $(this).bootstrapSwitch('handleWidth',50);
-          $(this).bootstrapSwitch('labelWidth',10);
+          $(this).bootstrapSwitch('labelWidth',1);
           $(this).bootstrapSwitch('size','small');
         });
      },
@@ -535,7 +535,7 @@ function insertPlace(id) {
         $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
         $(this).bootstrapSwitch('onColor','success');
         $(this).bootstrapSwitch('handleWidth',70);
-        $(this).bootstrapSwitch('labelWidth',10);
+        $(this).bootstrapSwitch('labelWidth',1);
         $(this).bootstrapSwitch('size','small');
       });
       $("input[name='meeting-place-choice']").map(function(){
@@ -545,7 +545,7 @@ function insertPlace(id) {
         $(this).bootstrapSwitch('onColor','success');
         $(this).bootstrapSwitch('offColor','danger');
         $(this).bootstrapSwitch('handleWidth',50);
-        $(this).bootstrapSwitch('labelWidth',10);
+        $(this).bootstrapSwitch('labelWidth',1);
         $(this).bootstrapSwitch('size','small');
       });
    },

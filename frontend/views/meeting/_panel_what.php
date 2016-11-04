@@ -7,12 +7,12 @@ use frontend\models\Meeting;
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhat">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhat" aria-expanded="true" aria-controls="collapseWhat">What</a></h4>
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhat" aria-expanded="true" aria-controls="collapseWhat"><?= Yii::t('frontend','Subject')?></a></h4>
         <?php
           if ($model->status >= Meeting::STATUS_CONFIRMED) {
-            $hint = Yii::t('frontend','the subject for your meeting');
+            $hint = Yii::t('frontend','the subject of your meeting');
           } else {
-            $hint = Yii::t('frontend','edit the subject for your meeting');
+            $hint = Yii::t('frontend','the reason for your meeting');
           }
         ?>
         <span class="hint-text"><?= $hint; ?></span>
