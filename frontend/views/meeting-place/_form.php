@@ -82,7 +82,7 @@ use \kartik\typeahead\Typeahead;
                           'libraries' => 'places',
                           'key' => Yii::$app->params['google_maps_key'],
                   ));
-  echo $this->registerJsFile($gpJsLink);
+  $this->registerJsFile($gpJsLink);
 
   $options = '{"componentRestrictions":{}}';
   // turned off "country":"us"

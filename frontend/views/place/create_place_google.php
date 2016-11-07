@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                           'key' => Yii::$app->params['google_maps_key'],
                           'libraries' => 'places',
                   ));
-  echo $this->registerJsFile($gpJsLink);
+   $this->registerJsFile($gpJsLink);
 
   $options = '{"types":["establishment"],"componentRestrictions":{"country":"us"}}';
   echo $this->registerJs("(function(){

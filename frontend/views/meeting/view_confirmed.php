@@ -12,7 +12,6 @@ use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\Marker;
 use frontend\assets\MeetingAsset;
 MeetingAsset::register($this);
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 

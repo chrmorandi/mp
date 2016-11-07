@@ -16,16 +16,15 @@ return [
     //'catchAll' => (($params['offline'])?['site/offline']:[]),
     'catchAll'=> [],
     'components' => [
-      /*
-      'rollbar' => [
-        'class' => 'baibaratsky\yii\rollbar\Rollbar',
-        'accessToken' => $config['rollbar_key'],
-          // 'ignoreExceptions' => [
-            //         ['yii\web\HttpException', 'statusCode' => [400, 404]],
-              //         ['yii\web\HttpException', 'statusCode' => [403], 'message' => ['This action is forbidden']],
-              // ],
-      ],
-      */
+      'assetManager' => [
+        'bundles' => [
+            'dosamigos\google\maps\MapAsset' => [
+                'options' => [
+                    'key' => $params['google_maps_key'],                    
+                ]
+            ]
+        ]
+    ],
       'session' => [
             'name' => 'PHPFRONTSESSID',
             'savePath' => __DIR__ . '/../runtime/sessions',
@@ -119,14 +118,6 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],*/
-                /*[
-                  'enabled' => YII_DEBUG ? false : true,
-                  'class' => 'baibaratsky\yii\rollbar\log\Target',
-                  'levels' => ['error', 'warning', 'info'], // Log levels you want to appear in Rollbar
-             // It is highly recommended that you specify certain categories.
-             // Otherwise, the exceptions and errors handled by the error handlers will be duplicated.
-                'categories' => ['application'],
-              ],*/
             ],
         ],
     ],
