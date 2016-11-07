@@ -512,6 +512,8 @@ function addPlace(id) {
          $('#meetingplace-google_place_id:selected').removeAttr("selected");
          $('#meetingplace-google_place_id').val('');
          $('#meetingplace-google_place_undefined').val('');
+         $('#meetingplace-searchbox').val('');
+         $('#map-canvas').html('<article></article>');
          displayAlert('placeMessage','placeMsg1');
        }
     });
