@@ -56,11 +56,4 @@ if (count($model->participants)>0) {
 <?php
   }
 }
-/* old row by row was within a table
-= ListView::widget([
-   'dataProvider' => $participantProvider,
-   'itemOptions' => ['class' => 'item'],
-   'layout' => '{items}',
-   'itemView' => '_list',
-]) */
 ?>

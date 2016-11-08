@@ -1,10 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use \common\components\MiscHelpers;
-
 ?>
-
 <tr >
   <td style >
     <div class="meeting-participant-view">
@@ -19,5 +16,4 @@ use \common\components\MiscHelpers;
       </div>
 </td>
 </tr>
-
 </div>

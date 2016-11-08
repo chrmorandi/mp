@@ -73,6 +73,7 @@ use \kartik\switchinput\SwitchInput;
               </td>
               <td class="switch-pad">
                   <?php
+                  /*
                   if ($placeCount>1) {
                     if ($model->status == $model::STATUS_SELECTED) {
                         $value = $model->id;
@@ -92,6 +93,7 @@ use \kartik\switchinput\SwitchInput;
                       ]);
                     }
                   }
+                  */
                   ?>
               </td>
               </tr>
