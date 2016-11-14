@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules\v1\usertoken;
+namespace api\modules\v1;
 
 /**
  * user-token module definition class

@@ -1,6 +1,7 @@
 <?php
 
 namespace api\controllers;
+
 use Yii;
 use yii\filters\AccessControl;
 use common\models\User;
@@ -9,12 +10,37 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-class UserTokenController extends \yii\web\Controller
+/**
+ * UserController implements the CRUD actions for User model.
+ */
+class UserTokenController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
+    public function actionError() {
+      echo 'here';
+    }
+
+    /**
+     * Lists all User models.
+     * @return mixed
+     */
     public function actionIndex()
     {
-        //return $this->render('index');
-        echo 'index token';
+        echo 'index';
     }
 
 }
