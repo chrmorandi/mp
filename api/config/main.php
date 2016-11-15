@@ -11,12 +11,17 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
-    'modules' => [
+    /*'modules' => [
         'v1' => [
             'class' => 'api\modules\v1\Module',
         ],
-    ],
+    ],*/
     'components' => [
+      'request' => [
+        'parsers' => [
+          'application/json' => 'yii\web\JsonParser',
+        ],
+      ],
       'session' => [
             'name' => 'PHPBACKSESSID',
             'savePath' => __DIR__ . '/../runtime/sessions',
@@ -27,13 +32,29 @@ return [
             'identityCookie' => ['name' => '_identity-api', 'httpOnly' => true],
         ],
         'urlManager' => [
+              'class' => 'yii\web\UrlManager',
+              'enablePrettyUrl' => true,
+              'showScriptName' => false,
+              'rules' => [
+                  '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                  '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                  '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+              ],
+          ],
+
+        /*'urlManager' => [
+            'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['user','user-token', 'v1/user-token']],                  
+              //['class' => 'yii\rest\UrlRule', 'controller' => 'user-token'],
+              '<controller:\w+>/<id:\d+>' => '<controller>/view',
+              '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+              '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+              //['class' => 'yii\rest\UrlRule', 'controller' => 'item'],
             ],
-        ],
+        ],*/
         'log' => [
           'traceLevel' => YII_DEBUG ? 3 : 0,
           'targets' => [
@@ -46,9 +67,9 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'user/error',
+            'errorAction' => 'service/error',
         ],
     ],
     'params' => $params,
-    'defaultRoute' => '/user',
+    'defaultRoute' => '/service',
 ];

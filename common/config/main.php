@@ -20,6 +20,10 @@ return [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@common/messages',
                 ],
+                'api*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                ],
             ],
         ],
     ],

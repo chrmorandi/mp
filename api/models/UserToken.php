@@ -3,6 +3,8 @@
 namespace api\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use \common\models\User;
 
 /**
  * This is the model class for table "user_token".
@@ -25,16 +27,34 @@ class UserToken extends \yii\db\ActiveRecord
         return 'user_token';
     }
 
+    public function behaviors()
+    {
+        return [
+            /*[
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'immutable' => true,
+                'ensureUnique'=>true,
+            ],*/
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['user_id', 'created_at', 'updated_at'], 'required'],
+            [['user_id','token' ], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['token'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -52,6 +72,9 @@ class UserToken extends \yii\db\ActiveRecord
         ];
     }
 
+    public function register() {
+      return '7';
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
