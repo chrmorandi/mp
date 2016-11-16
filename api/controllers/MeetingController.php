@@ -12,6 +12,7 @@ use frontend\models\Meeting;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingTime;
 use frontend\models\Participant;
+use api\models\Service;
 
 class MeetingController extends Controller
 {

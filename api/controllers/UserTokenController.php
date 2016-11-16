@@ -12,6 +12,7 @@ use yii\web\Response;
 use common\models\User;
 use api\models\UserToken;
 use api\models\Service;
+use frontend\models\Auth;
 
 class UserTokenController extends Controller // ActiveController
 {
@@ -53,8 +54,6 @@ class UserTokenController extends Controller // ActiveController
 
     public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$token='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      echo 'here';
-      exit;
       // verify app_id and app_key
       if (!Service::verifyAccess($app_id,$app_secret)) {
         // to do - error msg
@@ -79,6 +78,28 @@ class UserTokenController extends Controller // ActiveController
       } else {
         // email already registered
         $user_id = $identityObj->user_id = $u->id;
+      }
+      switch ($source) {
+        case 'facebook':
+        case 'google':
+          // lookup oauth token
+          $auth = Auth::find()->where([
+              'source' => (string)$source,
+              'source_id' => (string)$token,
+          ])->one();
+          if (is_null($auth)) {
+            // store new oauth token
+            $auth = new Auth([
+                'user_id' => $user_id,
+                'source' => $source,
+                'source_id' => (string)$token,
+            ]);
+            $auth->save();
+          }
+          break;
+        case 'manual':
+          // do nothing
+        break;
       }
       // check if user_id already has a mobile token
       $ut = UserToken::find()
