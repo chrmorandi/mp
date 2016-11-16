@@ -4,8 +4,8 @@ namespace api\models;
 
 use Yii;
 use yii\base\Model;
-use \common\models\User;
-use \common\components\SiteHelper;
+use common\models\User;
+use common\components\SiteHelper;
 /**
  * This is the model class for table "user_token".
  *
@@ -20,12 +20,16 @@ use \common\components\SiteHelper;
 class Service extends Model
 {
     public static function verifyAccess($app_id,$app_secret) {
+      echo 'here1';
+      echo Yii::$app->params['app_id'];
       if ($app_id == Yii::$app->params['app_id']
         && $app_secret == Yii::$app->params['app_secret']) {
-            Yii::$app->params['site']['id']=SiteHelper::SITE_SP; // Site_
+          echo SiteHelper::SITE_SP;
+            Yii::$app->params['site']['id']=SiteHelper::SITE_SP;
             return true;
         } else {
           return false;
         }
+        exit;
       }
 }

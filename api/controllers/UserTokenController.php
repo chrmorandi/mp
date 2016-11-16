@@ -25,7 +25,7 @@ class UserTokenController extends Controller // ActiveController
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>['view'],
+                   'actions'=>['view','register'],
                    'roles' => ['@'],
                ],
               [
