@@ -4,8 +4,8 @@ namespace api\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use \common\models\User;
-
+use common\models\User;
+use frontend\models\UserProfile;
 /**
  * This is the model class for table "user_token".
  *
@@ -81,5 +81,41 @@ class UserToken extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public static function signupUser($email, $firstname='',$lastname='') {
+      $username = $fullname = $firstname.' '.$lastname;
+      if ($username == ' ') $username ='ios';
+      if (isset($username) && User::find()->where(['username' => $username])->exists()) {
+        $username = User::generateUniqueUsername($username,'ios');
+      }
+      $password = Yii::$app->security->generateRandomString(12);
+        $user = new User([
+            'username' => $username, // $attributes['login'],
+            'email' => $email,
+            'password' => $password,
+            'status' => User::STATUS_ACTIVE,
+        ]);
+        $user->generateAuthKey();
+        $user->generatePasswordResetToken();
+        $transaction = $user->getDb()->beginTransaction();
+        if ($user->save()) {
+            $ut = new UserToken([
+                'user_id' => $user->id,
+                'token' => Yii::$app->security->generateRandomString(40),
+            ]);
+            if ($ut->save()) {
+                User::completeInitialize($user->id);
+                UserProfile::applySocialNames($user->id,$firstname,$lastname,$fullname);
+                $transaction->commit();
+                return $user->id;
+            } else {
+                print_r($auth->getErrors());
+            }
+        } else {
+            $transaction->rollBack();
+            print_r($user->getErrors());
+        }
+
     }
 }

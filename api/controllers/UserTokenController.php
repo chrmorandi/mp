@@ -8,9 +8,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
-use common\models\User;
 //use yii\rest\ActiveController;
+use common\models\User;
 use api\models\UserToken;
+use api\models\Service;
 
 class UserTokenController extends Controller // ActiveController
 {
@@ -18,35 +19,45 @@ class UserTokenController extends Controller // ActiveController
   public function behaviors()
   {
       return [
-          'verbs' => [
-              'class' => VerbFilter::className(),
-              'actions' => [
-                  'delete' => ['post'],
-              ],
-          ],
         'access' => [
-                      'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
-                      'rules' => [
-                        // allow authenticated users
-                         [
-                             'allow' => true,
-                             'actions'=>['view'],
-                             'roles' => ['@'],
-                         ],
-                        [
-                            'allow' => true,
-                            'actions'=>['view','register'],
-                            'roles' => ['?'],
-                        ],
-                        // everything else is denied
-                      ],
-                  ],
+            'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
+            'rules' => [
+              // allow authenticated users
+               [
+                   'allow' => true,
+                   'actions'=>['view'],
+                   'roles' => ['@'],
+               ],
+              [
+                  'allow' => true,
+                  'actions'=>['view','register'],
+                  'roles' => ['?'],
+              ],
+              // everything else is denied
+            ],
+        ],
       ];
   }
 
-    public function actionRegister($app_id='', $app_key='', $source='',$email = '',$token='') {
-      // verify app_id and app_key
+    public function actionVerify($app_id='', $app_secret='', $token='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
+      $ut = UserToken::find()
+        ->where(['user_id'=>$u->id])
+        ->one();
+        if (is_null($ut)) {
+          // error
+          return false;
+        }
+      return true;
+    }
+
+    public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$token='') {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      // verify app_id and app_key
+      if (!Service::verifyAccess($app_id,$app_secret)) {
+        // to do - error msg
+        return false;
+      }
       $identityObj = new \stdClass();
       // $source = facebook, google, manual (user types it)
       // $email = the email from fb, google, manual (ideally always provided)
@@ -61,99 +72,44 @@ class UserTokenController extends Controller // ActiveController
       if (is_null($u)) {
         // email not yet registered in our system
         // register the user
-        $identityObj->user_id = $new_user_id;
-        // register a user token
-        $identityObj->token = $new_token;
+        $new_user_id = UserToken::signupUser($email, $firstname,$lastname);
+        $user_id = $identityObj->user_id = $new_user_id;
       } else {
         // email already registered
-        $identityObj->user_id = $u->id;
-        // check if user_id already has a mobile token
-        $ut = UserToken::find()
-          ->where(['user_id'=>$u->id])
-          ->one();
-          if (is_null($ut)) {
-            // create a token
-            $identityObj->token = $new_token;
-          } else {
-            $identityObj->token = $ut->token;
-          }
-          return $identityObj;
+        $user_id = $identityObj->user_id = $u->id;
       }
+      // check if user_id already has a mobile token
+      $ut = UserToken::find()
+        ->where(['user_id'=>$user_id])
+        ->one();
+        if (is_null($ut)) {
+          // create a token
+          $ut = new UserToken();
+          $ut->token = $identityObj->token = Yii::$app->security->generateRandomString(40);
+          $ut->user_id = $user_id;
+          $ut->save();
+        } else {
+          $identityObj->token = $ut->token;
+        }
+        return $identityObj;
     }
 
-    public function actionIndex()
-    {
-      exit;
-        $dataProvider = new ActiveDataProvider([
-            'query' => UserToken::find(),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Launch model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
+    public function actionDelete($app_id='', $app_secret='', $token='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      $ut = UserToken::findOne($id);
-      return $ut;
-    }
+      if (!Service::verifyAccess($app_id,$app_secret)) {
+        // to do - error msg
+        return false;
+      }
 
-    /**
-     * Creates a new Launch model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Launch();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+      $ut = UserToken::find()
+        ->where(['user_id'=>$u->id])
+        ->one();
+        if (is_null($ut)) {
+          // error
+          return false;
         }
-    }
-
-    /**
-     * Updates an existing Launch model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing Launch model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        echo 'here';exit;
-        //$this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        // mark user account as deleted
+      return true;
     }
 
     /**
