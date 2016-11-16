@@ -53,6 +53,8 @@ class UserTokenController extends Controller // ActiveController
 
     public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$token='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
+      echo 'here';
+      exit;
       // verify app_id and app_key
       if (!Service::verifyAccess($app_id,$app_secret)) {
         // to do - error msg
