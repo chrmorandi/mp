@@ -40,6 +40,11 @@ class UserTokenController extends Controller // ActiveController
       ];
   }
 
+  public function actionIndex() {
+    echo 'index';
+    Yii::$app->end();
+    }
+
     public function actionVerify($app_id='', $app_secret='', $token='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
       $ut = UserToken::find()
