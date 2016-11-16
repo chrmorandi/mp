@@ -1,4 +1,5 @@
 <?php
+$config = parse_ini_file('/var/secure/mp.ini', true);
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),

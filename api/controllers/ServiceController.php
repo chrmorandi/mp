@@ -28,12 +28,12 @@ class ServiceController extends Controller
     }
 
     public function actionIndex() {
-      echo 'nil';
+      echo 'service - index';
       Yii::$app->end();
     }
-    
+
     public function actionError() {
-      echo 'failure';
+      echo 'service - default error';
       Yii::$app->end();
     }
 
