@@ -72,10 +72,18 @@ class UserToken extends \yii\db\ActiveRecord
         ];
     }
 
-    public function register() {
-      return '7';
-    }
-    /**
+    public static function lookup($token) {
+      // lookup token for user_id
+      $ut = UserToken::find()
+        ->where(['token'=>$token])
+        ->one();
+        if (!is_null($ut)) {
+          return $ut->user_id;
+        } else {
+          return false;
+        }
+        }
+          /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()

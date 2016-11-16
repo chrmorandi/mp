@@ -44,9 +44,10 @@ class MeetingController extends Controller
         // to do - error msg
         return false;
       }
+
       $meetingsObj = new \stdClass();
       // get user_id from $token
-      $user_id =1;
+      $user_id = UserToken::lookup($token);
       $meetings = Meeting::find()
         ->joinWith('participants')
         ->where(['owner_id'=>$user_id])
