@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
+
 //use yii\rest\ActiveController;
 use common\models\User;
 use api\models\UserToken;
@@ -38,6 +38,23 @@ class UserTokenController extends Controller // ActiveController
             ],
         ],
       ];
+  }
+
+  public function beforeAction($action)
+  {
+    // your custom code here, if you want the code to run before action filters,
+    // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
+    if (!parent::beforeAction($action)) {
+        return false;
+    }
+    $app_id = Yii::$app->getRequest()->getQueryParam('app_id');
+    $app_secret = Yii::$app->getRequest()->getQueryParam('app_secret');
+    if (Service::verifyAccess($app_id,$app_secret)) {
+      return true;
+    } else {
+      echo 'your api keys are from the dark side';
+      Yii::$app->end();
+    }
   }
 
   public function actionIndex() {

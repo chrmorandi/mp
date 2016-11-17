@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use api\models\UserToken;
+use api\models\MeetingAPI;
 use frontend\models\Meeting;
 use frontend\models\MeetingPlace;
 use frontend\models\MeetingTime;
@@ -38,38 +39,33 @@ class MeetingController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+      // your custom code here, if you want the code to run before action filters,
+      // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
+      if (!parent::beforeAction($action)) {
+          return false;
+      }
+      if (Service::verifyAccess(Yii::$app->getRequest()->getQueryParam('app_id'),Yii::$app->getRequest()->getQueryParam('app_secret'))) {
+        return true;
+      } else {
+        echo 'your api keys are from the dark side';
+        Yii::$app->end();
+      }
+    }
+
     public function actionList($app_id='', $app_secret='',$token='',$status=0) {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      if (!Service::verifyAccess($app_id,$app_secret)) {
-        // to do - error msg
-        return false;
-      }
+      return MeetingAPI::list($token,$status);
+    }
 
-      $meetingsObj = new \stdClass();
-      // get user_id from $token
-      $user_id = UserToken::lookup($token);
-      $meetings = Meeting::find()
-        ->joinWith('participants')
-        ->where(['owner_id'=>$user_id])
-        ->orWhere(['participant_id'=>$user_id])
-        ->andWhere(['meeting.status'=>[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT]])
-        ->distinct()
-        ->orderBy(['created_at'=>SORT_DESC])
-        ->all();
-      $meetingsObj =[];
-      foreach($meetings as $m) {
-        $meetingsObj[]=$m;
-      }
-      return $meetingsObj;
+    public function actionHistory($app_id='', $app_secret='',$token='',$meeting_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::history($token,$meeting_id);
     }
 
     public function actionMeetingplaces($app_id='', $app_secret='',$token='',$meeting_id=0) {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      // security: check user of token is in meeting_id
-      if (!Service::verifyAccess($app_id,$app_secret)) {
-        // to do - error msg
-        return false;
-      }
       $meetingsObj = new \stdClass();
       // get user_id from $token
       $user_id =1;
@@ -95,11 +91,6 @@ class MeetingController extends Controller
 
     public function actionMeetingtimes($app_id='', $app_secret='',$token='',$meeting_id=0) {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      // security: check user of token is in meeting_id
-      if (!Service::verifyAccess($app_id,$app_secret)) {
-        // to do - error msg
-        return false;
-      }
       $meetingsObj = new \stdClass();
       // get user_id from $token
       $user_id =1;
@@ -112,5 +103,20 @@ class MeetingController extends Controller
         $timesObj[]=$t;
       }
       return $timesObj;
+    }
+
+    public function actionMeetingplacechoices($app_id='', $app_secret='',$token='',$meeting_place_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::meetingplacechoices($token,$meeting_place_id);
+    }
+
+    public function actionMeetingtimechoices($app_id='', $app_secret='',$token='',$meeting_time_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::meetingtimechoices($token,$meeting_time_id);
+    }
+
+    public function actionNotes($app_id='', $app_secret='',$token='',$meeting_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::notes($token,$meeting_id);
     }
 }

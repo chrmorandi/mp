@@ -3,18 +3,16 @@
 namespace api\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use api\models\Service;
-use api\models\UserAPI;
+use api\models\UserToken;
+use api\models\PlaceAPI;
+use frontend\models\Place;
 
-/**
- * UserController implements the CRUD actions for User model.
- */
-class UserController extends Controller
+class PlaceController extends Controller
 {
     /**
      * @inheritdoc
@@ -38,9 +36,7 @@ class UserController extends Controller
       if (!parent::beforeAction($action)) {
           return false;
       }
-      $app_id = Yii::$app->getRequest()->getQueryParam('app_id');
-      $app_secret = Yii::$app->getRequest()->getQueryParam('app_secret');
-      if (Service::verifyAccess($app_id,$app_secret)) {
+      if (Service::verifyAccess(Yii::$app->getRequest()->getQueryParam('app_id'),Yii::$app->getRequest()->getQueryParam('app_secret'))) {
         return true;
       } else {
         echo 'your api keys are from the dark side';
@@ -48,19 +44,9 @@ class UserController extends Controller
       }
     }
 
-    public function actionError() {
-      return Service::fail('unknown error');
-    }
-
-    public function actionIndex()
-    {
-        echo 'index';
-    }
-
-    public function actionTimezone($app_id='', $app_secret='',$token='')
-    {
+    public function actionGet($app_id='', $app_secret='',$token='',$place_id) {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      return UserAPI::timezone($token);
+      return PlaceAPI::get($token,$place_id);
     }
 
 }

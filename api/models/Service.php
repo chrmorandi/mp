@@ -29,4 +29,10 @@ class Service extends Model
         }
       }
 
+    public static function fail($message ='') {
+      $obj = new \stdClass();
+      $obj->result = 'failure';
+      $obj->message = $message;
+      return $obj;
+    }
 }
