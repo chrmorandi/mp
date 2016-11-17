@@ -14,7 +14,7 @@ use frontend\models\MeetingNote;
 
 class MeetingAPI extends Model
 {
-    public static function list($token,$user_id) {
+    public static function meetinglist($token,$user_id) {
       $user_id = UserToken::lookup($token);
       if (!$user_id) {
         return Service::fail('invalid token');

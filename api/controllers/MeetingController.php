@@ -56,7 +56,7 @@ class MeetingController extends Controller
 
     public function actionList($app_id='', $app_secret='',$token='',$status=0) {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      return MeetingAPI::list($token,$status);
+      return MeetingAPI::meetinglist($token,$status);
     }
 
     public function actionHistory($app_id='', $app_secret='',$token='',$meeting_id=0) {
@@ -104,7 +104,7 @@ class MeetingController extends Controller
       }
       return $timesObj;
     }
- 
+
     public function actionMeetingplacechoices($app_id='', $app_secret='',$token='',$meeting_place_id=0) {
       Yii::$app->response->format = Response::FORMAT_JSON;
       return MeetingAPI::meetingplacechoices($token,$meeting_place_id);
