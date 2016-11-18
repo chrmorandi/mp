@@ -9,6 +9,7 @@ use common\models\User as U2;
 use common\components\SiteHelper;
 use common\components\MiscHelpers;
 use frontend\models\Friend;
+use frontend\models\Reminder;
 use frontend\models\Place;
 use frontend\models\UserContact;
 use frontend\models\UserPlace;
@@ -59,11 +60,26 @@ class UserAPI extends Model
         foreach ($places as $p) {
           $x = new \stdClass();
           $x->place_id = $p->place_id;
-          $x->name = Place::findOne($p->place_id)->name;
+          $plc = Place::findOne($p->place_id);
+          if (!is_null($plc)) {
+            $x->name = $plc->name;
+            $x->place_type = $plc->place_type;
+          }
           $result[]= $x;
           unset($x);
         }
         return $result;
+    }
+
+    public static function reminders($token) {
+        $user_id = UserToken::lookup($token);
+        if (!$user_id) {
+          return Service::fail('invalid token');
+        }
+        $reminders = Reminder::find()
+        ->where(['user_id'=>$user_id])
+        ->all();
+        return $reminders;
     }
 
 }

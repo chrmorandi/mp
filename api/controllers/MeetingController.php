@@ -135,4 +135,10 @@ class MeetingController extends Controller
       return MeetingAPI::details($token,$meeting_id);
     }
 
+    public function actionReminders($app_id='', $app_secret='',$token='')
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::reminders($token);
+    }
+
 }

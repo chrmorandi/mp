@@ -86,4 +86,11 @@ class UserController extends Controller
       Yii::$app->response->format = Response::FORMAT_JSON;
       return UserAPI::places($token);
     }
+
+    public function actionReminders($app_id='', $app_secret='',$token='')
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return UserAPI::reminders($token);
+    }
+
 }

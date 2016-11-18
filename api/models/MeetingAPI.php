@@ -9,6 +9,7 @@ use common\components\MiscHelpers;
 use api\models\UserToken;
 use frontend\models\Meeting;
 use frontend\models\MeetingLog;
+use frontend\models\MeetingReminder;
 use frontend\models\MeetingSetting;
 use frontend\models\MeetingNote;
 
@@ -159,5 +160,16 @@ class MeetingAPI extends Model
         $result->places = \frontend\models\MeetingPlace::getWhereStatus($m,$user_id);
       }
       return $result;
+    }
+
+    public static function reminders($token) {
+        $user_id = UserToken::lookup($token);
+        if (!$user_id) {
+          return Service::fail('invalid token');
+        }
+        $reminders = MeetingReminder::find()
+        ->where(['user_id'=>$user_id])
+        ->all();
+        return $reminders;
     }
 }
