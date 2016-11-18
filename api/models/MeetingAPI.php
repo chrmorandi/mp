@@ -8,8 +8,6 @@ use common\models\User;
 use common\components\MiscHelpers;
 use api\models\UserToken;
 use frontend\models\Meeting;
-use frontend\models\MeetingPlaceChoice;
-use frontend\models\MeetingTimeChoice;
 use frontend\models\MeetingLog;
 use frontend\models\MeetingSetting;
 use frontend\models\MeetingNote;
@@ -104,7 +102,7 @@ class MeetingAPI extends Model
       if (!$user_id) {
         return Service::fail('invalid token');
       }
-      $mpc = MeetingPlaceChoice::find()
+      $mpc = \frontend\models\MeetingPlaceChoice::find()
         ->where(['user_id'=>$user_id])
         ->andWhere(['meeting_place_id'=>$meeting_place_id])
         ->all();
@@ -116,7 +114,7 @@ class MeetingAPI extends Model
       if (!$user_id) {
         return Service::fail('invalid token');
       }
-      $mtc = MeetingTimeChoice::find()
+      $mtc = \frontend\models\MeetingTimeChoice::find()
         ->where(['user_id'=>$user_id])
         ->andWhere(['meeting_time_id'=>$meeting_time_id])
         ->all();
@@ -144,5 +142,22 @@ class MeetingAPI extends Model
         ->where(['meeting_id'=>$meeting_id])
         ->all();
       return $settings;
+    }
+
+    public static function details($token,$meeting_id) {
+      $user_id = UserToken::lookup($token);
+      if (!$user_id) {
+        return Service::fail('invalid token');
+      }
+      $result = new \stdClass();
+      $m= Meeting::findOne($meeting_id);
+      // user_id is viewer_id
+      if (count($m->meetingTimes)>0) {
+          $result->times = \frontend\models\MeetingTime::getWhenStatus($m,$user_id);
+      }
+      if (count($m->meetingPlaces)>0) {
+        $result->places = \frontend\models\MeetingPlace::getWhereStatus($m,$user_id);
+      }
+      return $result;
     }
 }

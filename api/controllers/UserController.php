@@ -80,4 +80,10 @@ class UserController extends Controller
       Yii::$app->response->format = Response::FORMAT_JSON;
       return UserAPI::contacts($token);
     }
+
+    public function actionPlaces($app_id='', $app_secret='',$token='')
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return UserAPI::places($token);
+    }
 }

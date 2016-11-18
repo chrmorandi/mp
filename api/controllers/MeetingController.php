@@ -130,4 +130,9 @@ class MeetingController extends Controller
       return MeetingAPI::caption($token,$meeting_id);
     }
 
+    public function actionDetails($app_id='', $app_secret='',$token='',$meeting_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::details($token,$meeting_id);
+    }
+
 }
