@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
 use common\models\Yiigun;
+use common\components\MiscHelpers;
 
 /**
  * This is the model class for table "friend".
@@ -136,6 +137,21 @@ class Friend extends \yii\db\ActiveRecord
       }
       return $email_list;
     }
+
+    public static function getDetailedFriendList($user_id) {
+      // load user's friends into email list array for autocomplete
+      $friends = \frontend\models\Friend::find()->where(['user_id' => $user_id])->all();
+      $friend_list = [];
+      $cnt=0;
+      foreach ($friends as $x) {
+        $friend_list[$cnt]['id']=$x->id;
+        $friend_list[$cnt]['name']=MiscHelpers::getDisplayName($x->id);
+        $friend_list[$cnt]['email']=$x->friend->email;
+        $cnt+=1;
+      }
+      return $friend_list;
+    }
+
 
     public static function add($user_id,$user_friend_id) {
       // add user_friend_id to user_id list

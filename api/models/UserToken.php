@@ -91,6 +91,12 @@ class UserToken extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public static function newtoken($token,$user_id) {
+      // replaces user token
+      // not sure how this would work
+
+    }
+
     public static function signupUser($email, $firstname='',$lastname='') {
       $username = $fullname = $firstname.' '.$lastname;
       if ($username == ' ') $username ='ios';

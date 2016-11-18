@@ -63,4 +63,21 @@ class UserController extends Controller
       return UserAPI::timezone($token);
     }
 
+    public function actionFriends($app_id='', $app_secret='',$token='')
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return UserAPI::friends($token);
+    }
+
+    public function actionFullname($app_id='', $app_secret='',$token='',$user_id)
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return UserAPI::fullname($token,$user_id);
+    }
+
+    public function actionContacts($app_id='', $app_secret='',$token='')
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return UserAPI::contacts($token);
+    }
 }

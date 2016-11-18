@@ -119,4 +119,15 @@ class MeetingController extends Controller
       Yii::$app->response->format = Response::FORMAT_JSON;
       return MeetingAPI::notes($token,$meeting_id);
     }
+
+    public function actionSettings($app_id='', $app_secret='',$token='',$meeting_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::settings($token,$meeting_id);
+    }
+
+    public function actionCaption($app_id='', $app_secret='',$token='',$meeting_id=0) {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return MeetingAPI::caption($token,$meeting_id);
+    }
+
 }

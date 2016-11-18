@@ -88,11 +88,13 @@ class MiscHelpers  {
      // returns best display name
      $displayName ='';
      $u = User::findOne($user_id);
-     if (!$no_email)
+     if (!$no_email && isset($u->email))
      {
        $displayName = $u->email;
-     } else {
+     } else if (isset($u->username)) {
        $displayName = $u->username;
+     } else {
+       $displayName = 'Name unavailable';
      }
      $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
      if (!is_null($profile)) {
