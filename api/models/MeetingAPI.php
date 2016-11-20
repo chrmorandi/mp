@@ -9,6 +9,8 @@ use common\components\MiscHelpers;
 use api\models\UserToken;
 use frontend\models\Meeting;
 use frontend\models\MeetingLog;
+use frontend\models\MeetingPlace;
+use frontend\models\MeetingTime;
 use frontend\models\MeetingReminder;
 use frontend\models\MeetingSetting;
 use frontend\models\MeetingNote;
@@ -79,6 +81,57 @@ class MeetingAPI extends Model
         unset($x);
       }
       return $meetings;
+    }
+
+    public static function meetingplaces($token,$meeting_id) {
+      $user_id = UserToken::lookup($token);
+      if (!$user_id) {
+        return Service::fail('invalid token');
+      }
+      // check user is a participant
+      if (!Meeting::isAttendee($meeting_id,$user_id)) {
+        return Service::fail('token holder is not a meeting participant');
+      }
+      $meetingsObj = new \stdClass();
+      $places = MeetingPlace::find()
+        ->where(['meeting_id'=>$meeting_id])
+        ->orderBy(['created_at'=>SORT_DESC])
+        ->all();
+      $placesObj =[];
+      foreach($places as $p) {
+        $x = new \stdClass();
+        $x->id = $p->id;
+        $x->place_id = $p->place_id;
+        $x->suggested_by = $p->suggested_by;
+        $x->status = $p->status;
+        $x->availability = $p->availability;
+        $x->created_at = $p->created_at;
+        $x->updated_at = $p->updated_at;
+        $x->name = $p->place->name;
+        $placesObj[]=$x;
+      }
+      return $placesObj;
+    }
+
+    public static function meetingtimes($token,$meeting_id) {
+      $user_id = UserToken::lookup($token);
+      if (!$user_id) {
+        return Service::fail('invalid token');
+      }
+      // check user is a participant
+      if (!Meeting::isAttendee($meeting_id,$user_id)) {
+        return Service::fail('token holder is not a meeting participant');
+      }
+      $meetingsObj = new \stdClass();
+      $times = Meetingtime::find()
+        ->where(['meeting_id'=>$meeting_id])
+        ->orderBy(['created_at'=>SORT_DESC])
+        ->all();
+      $timesObj =[];
+      foreach($times as $t) {
+        $timesObj[]=$t;
+      }
+      return $timesObj;
     }
 
     public static function history($token,$meeting_id) {
