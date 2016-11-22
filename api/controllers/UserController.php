@@ -25,7 +25,7 @@ class UserController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                  //  'delete' => ['POST'],
                 ],
             ],
         ];
@@ -93,4 +93,9 @@ class UserController extends Controller
       return UserAPI::reminders($token);
     }
 
+    public function actionDelete($app_id='', $app_secret='',$token='')
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      return UserAPI::delete($token);
+    }
 }

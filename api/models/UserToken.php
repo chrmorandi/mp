@@ -78,8 +78,15 @@ class UserToken extends \yii\db\ActiveRecord
         ->where(['token'=>$token])
         ->one();
         if (!is_null($ut)) {
-          return $ut->user_id;
+          $u = User::findOne($ut->user_id);
+          if (!is_null($u) && $u->status>= User::STATUS_ACTIVE) {
+            return $ut->user_id;
+          } else {
+            // no user record or unverified
+            return false;
+          }
         } else {
+          // no user token
           return false;
         }
     }

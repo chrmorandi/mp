@@ -409,4 +409,10 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return true;
     }
+
+    public static function deleteAccount($user_id) {
+      $u = User::findOne($user_id);
+      $u->status = User::STATUS_DELETED;
+      $u->update();
+    }
 }

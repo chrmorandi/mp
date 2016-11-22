@@ -5,7 +5,7 @@ namespace api\models;
 use Yii;
 use yii\base\Model;
 use api\models\Service;
-use common\models\User as U2;
+use common\models\User;
 use common\components\SiteHelper;
 use common\components\MiscHelpers;
 use frontend\models\Friend;
@@ -81,5 +81,15 @@ class UserAPI extends Model
         ->all();
         return $reminders;
     }
+
+    public static function delete($token) {
+        $user_id = UserToken::lookup($token);
+        if (!$user_id) {
+          return Service::fail('invalid token');
+        }
+        User::deleteAccount($user_id);
+        return true;
+    }
+
 
 }
