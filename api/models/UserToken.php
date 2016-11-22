@@ -82,7 +82,7 @@ class UserToken extends \yii\db\ActiveRecord
         } else {
           return false;
         }
-        }
+    }
           /**
      * @return \yii\db\ActiveQuery
      */
@@ -130,6 +130,5 @@ class UserToken extends \yii\db\ActiveRecord
             $transaction->rollBack();
             print_r($user->getErrors());
         }
-
     }
 }
