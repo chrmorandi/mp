@@ -5,6 +5,9 @@ namespace frontend\controllers;
 use Yii;
 use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 use common\components\MiscHelpers;
 use common\models\User;
 use frontend\models\Meeting;
@@ -21,9 +24,6 @@ use frontend\models\MeetingSetting;
 use frontend\models\MeetingLog;
 use frontend\models\UserContact;
 use frontend\models\UserSetting;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * MeetingController implements the CRUD actions for Meeting model.
