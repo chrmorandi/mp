@@ -19,6 +19,9 @@ use \common\components\MiscHelpers;
           <?= Yii::t('frontend','add possible meeting places or switch to \'virtual\'') ?>
       <?php } elseif ($placeProvider->count>1) { ?>
           <?= Yii::t('frontend','are these places acceptable?') ?>
+          <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+            <?= Yii::t('frontend','you can also select the place below') ?>
+          <?php }?>
         <?php
           }
         ?>
@@ -104,7 +107,7 @@ use \common\components\MiscHelpers;
           'placeProvider' => $placeProvider,
           'whereStatus'=> $whereStatus,
           'isOwner' => $isOwner,
-          'viewer' => $viewer,          
+          'viewer' => $viewer,
       ]);
        ?>
   <?php }?>

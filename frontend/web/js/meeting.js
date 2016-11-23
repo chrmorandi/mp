@@ -14,7 +14,55 @@ $(document).ready(function(){
       $(this).get(0).selectionStart=0;
       $(this).get(0).selectionEnd=999;
   })
+
+  // respond to change in meeting_place
+  $('[id^=btn_mp_]').click(function() {
+    current_id = $(this).attr('id');
+    $(this).addClass("btn-primary");
+    $(this).removeClass("btn-default");
+    $('[id^=btn_mp_]').each(function(index) {
+      if ($(this).attr('id')!=current_id) {
+        $(this).addClass("btn-default");
+        $(this).removeClass("btn-primary");
+      }
+    });
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-place/choose',
+       data: {id:   $('#meeting_id').val(), 'val': current_id},
+       success: function(data) {
+         displayNotifier('chooseplace');
+         refreshSend();
+         refreshFinalize();
+         return true;
+       }
+    });
   });
+
+  // respond to change in meeting_time
+  $('[id^=btn_mt_]').click(function() {
+    current_id = $(this).attr('id');
+    $(this).addClass("btn-primary");
+    $(this).removeClass("btn-default");
+    $('[id^=btn_mt_]').each(function(index) {
+      if ($(this).attr('id')!=current_id) {
+        $(this).addClass("btn-default");
+        $(this).removeClass("btn-primary");
+      }
+    });
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-time/choose',
+       data: {id:   $('#meeting_id').val(), 'val': current_id},
+       success: function(data) {
+         displayNotifier('choosetime');
+         refreshSend();
+         refreshFinalize();
+         return true;
+       }
+    });
+  });
+
+
+});
 
   // automatic timezones
   function setTimezoneInMtg(timezone) {
@@ -44,7 +92,11 @@ $(document).ready(function(){
         $('#notifierTime').show();
       } else if (mode == 'place') {
          $('#notifierPlace').show();
-       } else {
+       } else if (mode == 'chooseplace') {
+          $('#notifierChoosePlace').show();
+        } else if (mode == 'choosetime') {
+           $('#notifierChooseTime').show();
+         } else {
         alert("We\'ll automatically notify the organizer when you're done making changes.");
       }
       notifierOkay=false;
@@ -119,24 +171,7 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
 // delegated events
   $(document).on('switchChange.bootstrapSwitch', function(e, s) {
     // console.log(e.target.value); // true | false
-    if (e.target.name=="place-chooser") {
-      if (s) {
-        state = 1;
-      } else
-      {
-        state =0;
-      }
-      $.ajax({
-         url: $('#url_prefix').val()+'/meeting-place/choose',
-         data: {id:   $('#meeting_id').val(), 'val': e.target.value},
-         success: function(data) {
-           displayNotifier('place');
-           refreshSend();
-           refreshFinalize();
-           return true;
-         }
-      });
-    } else if (e.target.name=="time-chooser") {
+    if (e.target.name=="time-chooser") {
       if (s) {
         state = 1;
       } else

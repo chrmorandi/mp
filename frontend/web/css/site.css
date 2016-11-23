@@ -186,7 +186,7 @@ table.table-list td.table-switches {
   visible:false;
 }
 
-.btn-participant {
+.btn-participant, .btn-meetingplace, .btn-meetingtime {
   margin: 0 7px 7px 0;
 }
 
@@ -237,6 +237,7 @@ table.table-list td.table-switches {
   padding: 0 0 10px 10px;
   color: #337ab7;
 }
+
 /* centered columns styles */
 .row-centered {
     text-align:center;

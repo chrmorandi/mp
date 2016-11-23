@@ -33,7 +33,7 @@ class MeetingPlaceController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions'=>['create','delete','choose','insertplace','add','addgp'],
+                        'actions'=>['create','delete','choose','choosetemp','insertplace','add','addgp'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -110,17 +110,18 @@ class MeetingPlaceController extends Controller
     }
 
     public function actionChoose($id,$val) {
-      // meeting_place_id needs to be set active
-      // other meeting_place_id for this meeting need to be set inactive
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $parts = explode('_', $val); 
+      // relies on naming of mp button id
+      $mp_id = intval($parts[2]); // get # from mp_plc_#
       $meeting_id = intval($id);
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_place']) return false;
       foreach ($mtg->meetingPlaces as $mp) {
-        if ($mp->id == intval($val)) {
+        if ($mp->id == $mp_id) {
           $mp->status = MeetingPlace::STATUS_SELECTED;
-          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),intval($val));
+          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_PLACE,Yii::$app->user->getId(),$mp_id);
         }
         else {
           if ($mp->status == MeetingPlace::STATUS_SELECTED) {

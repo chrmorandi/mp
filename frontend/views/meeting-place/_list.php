@@ -70,32 +70,7 @@ use \kartik\switchinput\SwitchInput;
                    }
                  }
                 ?>
-              </td>
-              <td class="switch-pad">
-                  <?php
-                  /*
-                  if ($placeCount>1) {
-                    if ($model->status == $model::STATUS_SELECTED) {
-                        $value = $model->id;
-                    }    else {
-                      $value = 0;
-                    }
-                    if ($isOwner || $participant_choose_place) {
-                      // value has to match for switch to be on
-                      echo SwitchInput::widget([
-                        'type' => SwitchInput::RADIO,
-                        'name' => 'place-chooser',
-                          'items' => [
-                              [ 'value' => $model->id],
-                          ],
-                          'value' => $value,
-                          'pluginOptions' => [  'size' => 'small','labelWidth'=>1,'handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->place_id],
-                      ]);
-                    }
-                  }
-                  */
-                  ?>
-              </td>
+              </td>              
               </tr>
         </table>
       </td> <!-- end col with table of switches -->

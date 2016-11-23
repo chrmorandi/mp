@@ -32,7 +32,7 @@ use \kartik\switchinput\SwitchInput;
                            if ($mtc->status == $mtc::STATUS_YES)
                              $value = 1;
                            else
-                             $value =0;                             
+                             $value =0;
                              echo SwitchInput::widget([
                              'type' => SwitchInput::CHECKBOX,
                              'name' => 'meeting-time-choice',
@@ -69,29 +69,7 @@ use \kartik\switchinput\SwitchInput;
                    }
                 ?>
               </td>
-              <td class="switch-pad">
-                  <?php
-                  if ($timeCount>1) {
-                    if ($model->status == $model::STATUS_SELECTED) {
-                        $value = $model->id;
-                    }    else {
-                      $value = 0;
-                    }
-                    if ($isOwner || $participant_choose_date_time) {
-                      // value has to match for switch to be on
-                      echo SwitchInput::widget([
-                          'type' => SwitchInput::RADIO,
-                          'name' => 'time-chooser',
-                          'items' => [
-                              [ 'value' => $model->id],
-                          ],
-                          'value' => $value,
-                          'pluginOptions' => [  'size' => 'small','labelWidth'=>1,'handleWidth'=>70,'onText' => '<i class="glyphicon glyphicon-ok"></i>&nbsp;choose','onColor'=>'success','offText'=>'<i class="glyphicon glyphicon-remove"></i>'], // $whereStatus['style'][$model->id],
-                      ]);
-                    }
-                  }
-                  ?>
-              </td>
+              
             </tr>
           </table>
         </td> <!-- end col with table of switches -->

@@ -23,7 +23,7 @@ use \kartik\switchinput\SwitchInput;
       }
     ?>
     <?php if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) { ?>
-      <?= Yii::t('frontend','you can also choose the time') ?>
+      <?= Yii::t('frontend','you can also select the time below') ?>
     <?php }?>
   </span></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
@@ -66,5 +66,16 @@ use \kartik\switchinput\SwitchInput;
   <?php endif; ?>
   </table>
   </div>
+  <?php if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) { ?>
+    <?= $this->render('../meeting-time/_choices', [
+          'model'=>$model,
+          'timezone'=>$timezone,
+          'timeProvider' => $timeProvider,
+          'whenStatus'=> $whenStatus,
+          'isOwner' => $isOwner,
+          'viewer' => $viewer,
+      ]);
+       ?>
+  <?php }?>
 </div>
 </div>
