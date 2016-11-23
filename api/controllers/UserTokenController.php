@@ -74,7 +74,7 @@ class UserTokenController extends Controller // ActiveController
       return true;
     }
 
-    public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$token='') {
+    public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$oauth_token='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
       // verify app_id and app_key
       if (!Service::verifyAccess($app_id,$app_secret)) {
@@ -107,14 +107,14 @@ class UserTokenController extends Controller // ActiveController
           // lookup oauth token
           $auth = Auth::find()->where([
               'source' => (string)$source,
-              'source_id' => (string)$token,
+              'source_id' => (string)$oauth_token,
           ])->one();
           if (is_null($auth)) {
             // store new oauth token
             $auth = new Auth([
                 'user_id' => $user_id,
                 'source' => $source,
-                'source_id' => (string)$token,
+                'source_id' => (string)$oauth_token,
             ]);
             $auth->save();
           }
