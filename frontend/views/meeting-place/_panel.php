@@ -16,15 +16,15 @@ use \common\components\MiscHelpers;
         <h4 class="meeting-place"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"><?= Yii::t('frontend','Where') ?></a></h4><p>
         <div class="hint-text heading-pad">
         <?php if ($placeProvider->count<=1) { ?>
-          <?= Yii::t('frontend','add places for participants or switch to \'virtual\'') ?>
+          <?= Yii::t('frontend','add possible meeting places or switch to \'virtual\'') ?>
       <?php } elseif ($placeProvider->count>1) { ?>
-          <?= Yii::t('frontend','are listed places okay?&nbsp;') ?>
+          <?= Yii::t('frontend','are these places acceptable?') ?>
+          <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+            <?= Yii::t('frontend','you can also select the place below') ?>
+          <?php }?>
         <?php
           }
         ?>
-        <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
-          <?= Yii::t('frontend','you can also choose the place') ?>
-        <?php }?>
       </div>
     </div>
 
@@ -100,6 +100,16 @@ use \common\components\MiscHelpers;
        <?php endif; ?>
     </table>
     </div> <!-- end meeting-place-list -->
-    </div> <!-- end class panel-where -->
-  </div> <!-- end collapse panel where -->
+  </div> <!-- end class panel-where -->
+  <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+    <?= $this->render('../meeting-place/_choices', [
+          'model'=>$model,
+          'placeProvider' => $placeProvider,
+          'whereStatus'=> $whereStatus,
+          'isOwner' => $isOwner,
+          'viewer' => $viewer,
+      ]);
+       ?>
+  <?php }?>
+</div> <!-- end collapse panel where -->
 </div> <!-- end panel -->

@@ -159,6 +159,30 @@ class MeetingTimeController extends Controller
 
 
     public function actionChoose($id,$val) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $parts = explode('_', $val);
+      // relies on naming of mt button id
+      $mt_id = intval($parts[2]); // get # from mp_plc_#
+      $meeting_id = intval($id);
+      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
+      if (Yii::$app->user->getId()!=$mtg->owner_id &&
+        !$mtg->meetingSettings['participant_choose_date_time']) return false;
+      foreach ($mtg->meetingTimes as $mt) {
+        if ($mt->id == $mt_id) {
+          $mt->status = MeetingTime::STATUS_SELECTED;
+          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),$mt_id);
+        }
+        else {
+          if ($mt->status == MeetingTime::STATUS_SELECTED) {
+              $mt->status = MeetingTime::STATUS_SUGGESTED;
+          }
+        }
+        $mt->save();
+      }
+      return true;
+    }
+/*
+    public function actionChoose($id,$val) {
       // meeting_time_id needs to be set active
       // other meeting_time_id for this meeting need to be set inactive
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -179,7 +203,7 @@ class MeetingTimeController extends Controller
         $mt->save();
       }
       return true;
-    }
+    }*/
 
     public function actionRemove($id)
     {

@@ -186,7 +186,7 @@ table.table-list td.table-switches {
   visible:false;
 }
 
-.btn-participant {
+.btn-participant, .btn-meetingplace, .btn-meetingtime {
   margin: 0 7px 7px 0;
 }
 
@@ -224,6 +224,18 @@ table.table-list td.table-switches {
 
 .where-form, .when-form {
   padding: 10px;
+}
+
+#placeTable {
+  margin-bottom:0px;
+}
+
+.choiceHead {
+  background-color:f5f5f5;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 10px 10px;
+  color: #337ab7;
 }
 
 /* centered columns styles */
