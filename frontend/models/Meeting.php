@@ -444,8 +444,14 @@ class Meeting extends \yii\db\ActiveRecord
     // has the meeting already been sent
     if (!$isResend && $this->status != Meeting::STATUS_PLANNING) return false;
     $notes=MeetingNote::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_DESC])->limit(3)->all();
-    $places = MeetingPlace::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
-    $times = MeetingTime::find()->where(['meeting_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
+    $places = MeetingPlace::find()
+      ->where(['meeting_id' => $this->id])
+      ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]])
+      ->orderBy(['id' => SORT_ASC])->all();
+    $times = MeetingTime::find()
+      ->where(['meeting_id' => $this->id])
+      ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]])
+      ->orderBy(['id' => SORT_ASC])->all();
     // Get message header
     $header = $this->getMeetingHeader();
   foreach ($this->participants as $p) {

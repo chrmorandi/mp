@@ -6,8 +6,13 @@ body {
  background-size: cover;
 }
 
+.wrap > .container_home {
+    padding: 10px 15px 20px;
+    margin-top:50px;
+}
+
 .home-top {
-  margin-top:16%;
+  margin-top:12%;
 }
 
 .video-top {

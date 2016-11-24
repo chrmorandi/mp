@@ -124,7 +124,7 @@ use yii\helpers\Html;
                     </td>
                     <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:right; border-collapse:collapse; padding-left:10px; width:290px" align="right" width="290">
                       <a href="https://twitter.com/intent/user?screen_name=meetingio" style="color:#676767; text-decoration:none">
-                        <img src="https://meetingplanner.io/img/social_twitter.gif" alt="@mp" height="47" width="57" style="-ms-interpolation-mode:bicubic; max-width:600px; outline:none; text-decoration:none; border:none">
+                        <img src="https://meetingplanner.io/img/social_twitter.gif" alt="@mp" height="32" width="38" style="-ms-interpolation-mode:bicubic; max-width:600px; outline:none; text-decoration:none; border:none">
                       </a>
                       <!-- <a href=""><img width="38" height="47" src="http://s3.amazonaws.com/swu-filepicker/LMPMj7JSRoCWypAvzaN3_social_09.gif" alt="facebook" /></a>-->
                       <!-- <a href=""><img width="40" height="47" src="http://s3.amazonaws.com/swu-filepicker/hR33ye5FQXuDDarXCGIW_social_10.gif" alt="rss" /></a>-->
