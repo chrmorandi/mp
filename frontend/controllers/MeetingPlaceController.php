@@ -33,7 +33,7 @@ class MeetingPlaceController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions'=>['create','delete','choose','choosetemp','insertplace','add','addgp'],
+                        'actions'=>['create','delete','choose','choosetemp','insertplace','add','addgp','loadchoices'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -111,7 +111,7 @@ class MeetingPlaceController extends Controller
 
     public function actionChoose($id,$val) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $parts = explode('_', $val); 
+      $parts = explode('_', $val);
       // relies on naming of mp button id
       $mp_id = intval($parts[2]); // get # from mp_plc_#
       $meeting_id = intval($id);
@@ -193,6 +193,24 @@ class MeetingPlaceController extends Controller
       }
     return true;
     }
+
+    public function actionLoadchoices($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $model=Meeting::findOne($id);
+      $placeProvider = new ActiveDataProvider([
+          'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
+          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+      ]);
+      if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) {
+        return $this->renderPartial('_choices', [
+              'model'=>$model,
+          ]);
+      } else {
+        return false;
+      }
+    }
+
     /**
      * Finds the MeetingPlace model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

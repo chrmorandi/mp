@@ -420,7 +420,7 @@ function addTime(id) {
         start:encodeURIComponent(start),
       },
        success: function(data) {
-         //$('#meeting-note').val('');
+         loadTimeChoices(id);
          insertTime(id);
          displayAlert('timeMessage','timeMsg1');
          return true;
@@ -476,6 +476,32 @@ function getTimes(id) {
  });
 }
 
+function loadTimeChoices(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-time/loadchoices',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#when-choices').html(data);
+   },
+ });
+}
+
+function loadPlaceChoices(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-place/loadchoices',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#where-choices').html(data);
+   },
+ });
+}
+
 // meeting place panel
 // show place panel
 function showPlace() {
@@ -516,8 +542,10 @@ function addPlace(id) {
          $('#meetingplace-place_id:selected').removeAttr("selected");
          $('#meetingplace-place_id').val('');
          $('#meetingplace-place_idundefined').val('');
+         loadPlaceChoices(id);
          insertPlace(id);
          displayAlert('placeMessage','placeMsg1');
+         return true;
        }
 
     });
@@ -543,6 +571,7 @@ function addPlace(id) {
        success: function(data) {
          // clear fields
          // odd issue with resetting the combo box
+         loadPlaceChoices(id);
          insertPlace(id);
          $('#meetingplace-google_place_id:selected').removeAttr("selected");
          $('#meetingplace-google_place_id').val('');

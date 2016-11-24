@@ -29,11 +29,14 @@ use dosamigos\datetimepicker\DateTimePicker;
     <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
     <?= BaseHtml::activeHiddenInput($model, 'tz_current',['id'=>'tz_current']); ?>
     <strong><?php echo Yii::t('frontend','Date') ?></strong>
+    <div class="datetimepicker-width">
     <?= DateTimePicker::widget([
         'model' => $model,
         'attribute' => 'start',
+        'template' => '{input}{button}',
         //'language' => 'en',
         'size' => 'ms',
+
         'clientOptions' => [
             'autoclose' => true,
             'format' => 'M d, yyyy',
@@ -44,7 +47,7 @@ use dosamigos\datetimepicker\DateTimePicker;
             // to do - format three day ahead
             'initialDate'=> Date('Y-m-d',time()+3600*72),
         ]
-    ]);?>
+    ]);?></div>
     <p></p>
   </div>
   <div class="col-xs-4 col-lg-8">
@@ -53,9 +56,11 @@ use dosamigos\datetimepicker\DateTimePicker;
 <div class="row">
   <div class="col-xs-8 col-lg-4">
     <strong><?php echo Yii::t('frontend','Time') ?></strong>
+    <div class="datetimepicker-width">
     <?= DateTimePicker::widget([
         'model' => $model,
         'attribute' => 'start_time',
+        'template' => '{input}{button}',
         //'language' => 'en',
         'size' => 'ms',
         'clientOptions' => [
@@ -73,6 +78,7 @@ use dosamigos\datetimepicker\DateTimePicker;
             // $( "th.switch" ).text( "Pick the time" );
         ]
     ]);?>
+  </div>
     <p></p>
     </div>
     <div class="col-xs-4 col-lg-8">
@@ -80,6 +86,7 @@ use dosamigos\datetimepicker\DateTimePicker;
   </div>
   <div class="row">
     <div class="col-xs-8 col-lg-4">
+      <div class="datetimepicker-width">
       <?php
       //$durationList = [1,2,3,4,5,6,12,24,48,72];
       $durationList = [1=>'1 hour',2=>'2 hours',3=>'3 hours',4=>'4 hours',5=>'5 hours',6=>'6 hours',12=>'12 hours',24=>'24 hours',48=>'48 hours',72=>'72 hours'];
@@ -91,6 +98,7 @@ use dosamigos\datetimepicker\DateTimePicker;
         ?>
         <div class="col-xs-4 col-lg-8">
         </div>
+      </div>
       </div>
   </div>
   <div class="clearfix"><p></div>

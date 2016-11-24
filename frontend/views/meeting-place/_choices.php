@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use \common\components\MiscHelpers;
 use \frontend\models\MeetingPlace;
 ?>
-<div class="choiceHead" style="background-color:#f5f5f5;">
+<div class="choiceHead">
   <div class="row">
     <div class="col-lg-10 col-md-10 col-xs-10" >
       <h5 ><?= Yii::t('frontend','Select the Place') ?></h5>
@@ -22,6 +22,7 @@ use \frontend\models\MeetingPlace;
       </div>
   <?php
   foreach ($model->meetingPlaces as $mp) {
+    if ($mp->status == MeetingPlace::STATUS_REMOVED) continue;
     $btn_color = 'btn-default';
     if ($mp->status == MeetingPlace::STATUS_SELECTED) {
       $btn_color = 'btn-primary';

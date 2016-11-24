@@ -66,16 +66,14 @@ use \kartik\switchinput\SwitchInput;
   <?php endif; ?>
   </table>
   </div>
+  <div id="when-choices">
   <?php if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) { ?>
     <?= $this->render('../meeting-time/_choices', [
           'model'=>$model,
           'timezone'=>$timezone,
-          'timeProvider' => $timeProvider,
-          'whenStatus'=> $whenStatus,
-          'isOwner' => $isOwner,
-          'viewer' => $viewer,
       ]);
        ?>
   <?php }?>
+  </div>
 </div>
 </div>

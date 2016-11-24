@@ -4,7 +4,7 @@ use \common\comtonents\MiscHelpers;
 use \frontend\models\Meeting;
 use \frontend\models\MeetingTime;
 ?>
-<div class="choiceHead" style="background-color:#f5f5f5;">
+<div class="choiceHead">
   <div class="row">
     <div class="col-lg-10 col-md-10 col-xs-10" >
       <h5 ><?= Yii::t('frontend','Select the Time') ?></h5>
@@ -23,6 +23,7 @@ use \frontend\models\MeetingTime;
       </div>
   <?php
   foreach ($model->meetingTimes as $mt) {
+    if ($mt->status == MeetingTime::STATUS_REMOVED) continue;
     $btn_color = 'btn-default';
     if ($mt->status == MeetingTime::STATUS_SELECTED) {
       $btn_color = 'btn-primary';

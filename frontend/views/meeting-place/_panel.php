@@ -101,15 +101,13 @@ use \common\components\MiscHelpers;
     </table>
     </div> <!-- end meeting-place-list -->
   </div> <!-- end class panel-where -->
+  <div id="where-choices">
   <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
     <?= $this->render('../meeting-place/_choices', [
           'model'=>$model,
-          'placeProvider' => $placeProvider,
-          'whereStatus'=> $whereStatus,
-          'isOwner' => $isOwner,
-          'viewer' => $viewer,
       ]);
        ?>
   <?php }?>
+  </div>
 </div> <!-- end collapse panel where -->
 </div> <!-- end panel -->

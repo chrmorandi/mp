@@ -39,7 +39,7 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','inserttime'],
+                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','inserttime','loadchoices'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -281,7 +281,8 @@ class MeetingTimeController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $m=Meeting::findOne($id);
       $timeProvider = new ActiveDataProvider([
-          'query' => MeetingTime::find()->where(['meeting_id'=>$id]),
+          'query' => MeetingTime::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
           'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
       $result =  $this->renderPartial('_thread', [
@@ -290,6 +291,25 @@ class MeetingTimeController extends Controller
       ]);
 
       return $result;
+    }
+
+    public function actionLoadchoices($id) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $model=Meeting::findOne($id);
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      $timeProvider = new ActiveDataProvider([
+          'query' => MeetingTime::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
+          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
+      ]);
+      if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) {
+        return $this->renderPartial('_choices', [
+              'model'=>$model,
+              'timezone'=>$timezone,
+          ]);
+      } else {
+        return false;
+      }
     }
     /**
      * Finds the MeetingTime model based on its primary key value.

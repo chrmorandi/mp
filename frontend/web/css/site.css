@@ -231,7 +231,7 @@ table.table-list td.table-switches {
 }
 
 .choiceHead {
-  background-color:f5f5f5;
+  background-color:#f5f5f5;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   padding: 0 0 10px 10px;
@@ -282,6 +282,10 @@ background-color: #999;
 .carousel-control  {
   color:#999;
 }
+
+.datetimepicker-width {
+  max-width:240px;
+}
 /* ----------- mobile displays ----------- */
 
 @media only screen
@@ -322,4 +326,9 @@ background-color: #999;
       .panel-what-buttons {
         padding-top:30px;
       }
+
+      .datetimepicker-width {
+        width:320px;
+      }
+
 }
