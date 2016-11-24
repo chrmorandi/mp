@@ -214,16 +214,25 @@ table.table-list td.table-switches {
   justify-content: center
 }
 
+.breadcrumb, .panel {
+   margin-bottom: 15px;
+ }
+
 .panel-what {
   padding-bottom: 25px;
 }
 
 .panel-where, .panel-when {
   padding: 0 3px 0 3px;
+  margin:0px;
 }
 
 .where-form, .when-form {
   padding: 10px;
+}
+
+.table {
+  margin-bottom:0px;
 }
 
 #placeTable {

@@ -6,7 +6,7 @@ use \frontend\models\MeetingPlace;
 <div class="choiceHead">
   <div class="row">
     <div class="col-lg-10 col-md-10 col-xs-10" >
-      <h5 ><?= Yii::t('frontend','Select the Place') ?></h5>
+      <h5 ><?= Yii::t('frontend','Finalize the Place') ?></h5>
       <div class="hint-text">
         <?= Yii::t('frontend','you\'re allowed to make the choice') ?>
       </div>

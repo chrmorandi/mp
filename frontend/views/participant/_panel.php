@@ -25,7 +25,7 @@ use yii\bootstrap\Collapse;
         <span id="participantMessageTell"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
         <span id="participantMessageError"><?= Yii::t('frontend','Sorry, there were errors with your email address.')?></span>
         <span id="participantMessageNoEmail"><?= Yii::t('frontend','Please provide at least one email.')?></span>
-        <span id="participantMessageOnlyOne"><?= Yii::t('frontend','Please choose to add one or the other.')?></span>        
+        <span id="participantMessageOnlyOne"><?= Yii::t('frontend','Please choose to add one or the other.')?></span>
         </div>
         <div id="addParticipantPanel" class="hidden">
               <?= $this->render('_form', [
@@ -52,9 +52,9 @@ use yii\bootstrap\Collapse;
   <?php if ($model->isOrganizer()) { ?>
   <div class="panel-footer short-footer">
     <span class="hint-text">
-      You can also share
+      Or, share
     <?= Html::a($model->getSharingUrl(),$model->getSharingUrl()); ?>
-    to invite participants.
+    to invite participants by email.
   </span>
   </div>
   <?php } ?>
