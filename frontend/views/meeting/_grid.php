@@ -11,6 +11,8 @@ if ($mode =='upcoming' || $mode =='past') {
       echo GridView::widget([
           'dataProvider' => $dataProvider,
           //'filterModel' => $searchModel,
+          'headerRowOptions' => ['class'=>'hidden'],
+          'layout'=>'{items}{pager}{summary}',
           'columns' => [
           [
             'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
@@ -69,10 +71,13 @@ if ($mode =='upcoming' || $mode =='past') {
   echo GridView::widget([
       'dataProvider' => $dataProvider,
       //'filterModel' => $searchModel,
+      'layout'=>'{items}{summary}{pager}',
+      'headerRowOptions' => ['class'=>'hidden'],
       'columns' => [
       [
         'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
-        'label'=>'Details',
+
+        'label'=>Yii::t('frontend','Subject'),
           'attribute' => 'meeting_type',
           'format' => 'raw',
           'value' => function ($model) {
@@ -83,7 +88,7 @@ if ($mode =='upcoming' || $mode =='past') {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                 }
               },
-      ],      
+      ],
           ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {settings} {trash}',
           'headerOptions' => ['class' => 'itemHide'],
           'contentOptions' => ['class' => 'itemHide'],
