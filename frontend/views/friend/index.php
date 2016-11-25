@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs vertical-pad" role="tablist">
       <li class="<?= ($tab=='friend'?'active':'') ?>"><a href="#friend" role="tab" data-toggle="tab">Friends</a></li>
       <li class="<?= ($tab=='address'?'active':'') ?>"><a href="#address" role="tab" data-toggle="tab">Contacts</a></li>
     </ul>
@@ -29,6 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $friendProvider,
         //'filterModel' => $friendSearchModel,
+        'layout'=>'{items}{summary}{pager}',
+        'headerRowOptions' => ['class'=>'hidden'],
         'columns' => [
           [
             'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
@@ -65,6 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= GridView::widget([
             'dataProvider' => $addressProvider,
             'filterModel'=>$addressSearchModel,
+            'headerRowOptions' => ['class'=>'hidden'],
+            'layout'=>'{items}{pager}{summary}',
             'columns' => [
             [
               'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],

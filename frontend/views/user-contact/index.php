@@ -18,7 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        
+        'headerRowOptions' => ['class'=>'hidden'],
+        'layout'=>'{items}{pager}{summary}',
+        'options' => ['class'=>'vertical-pad'],
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 		        [
