@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('frontend','Add via Google',[
            'modelClass' => 'Place'
         ]), ['create_place_google'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('frontend','Add My Location'), ['create_geo'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('frontend','Add My Location'), ['create_geo'], ['class' => 'btn btn-success vertical-pad']) ?>
     </p>
 
 </div>

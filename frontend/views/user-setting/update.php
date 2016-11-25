@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('frontend', 'Update {modelClass}', [
     'modelClass' => 'Your Settings',
 ]);
-$this->params['breadcrumbs'][] = Yii::t('frontend', 'User Settings');
+$this->params['breadcrumbs'][] = Yii::t('frontend', 'Your Settings');
 ?>
 <div class="user-setting-update">
 

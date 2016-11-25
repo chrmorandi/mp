@@ -9,13 +9,13 @@ use yii\helpers\BaseHtml;
 $this->title = Yii::t('frontend', 'Update {modelClass}', [
     'modelClass' => 'User Profile',
 ]) ;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'User Profile'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Profile'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
 ?>
 <div class="user-profile-update">
 
     <h1><?= Yii::t('frontend', 'Update Your Profile') ?></h1>
     <?= $this->render('_form', [
-        'model' => $model,        
+        'model' => $model,
     ]) ?>
 </div>
