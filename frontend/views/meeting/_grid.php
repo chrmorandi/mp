@@ -6,13 +6,14 @@
 ?>
 <p></p>
 <?php
+$pagerTemplate= ($dataProvider->count>=7 ? '{summary}{pager}':'');
 // different tabs display the date in grid form separately
 if ($mode =='upcoming' || $mode =='past') {
       echo GridView::widget([
           'dataProvider' => $dataProvider,
           //'filterModel' => $searchModel,
           'headerRowOptions' => ['class'=>'hidden'],
-          'layout'=>'{items}{pager}{summary}',
+          'layout'=>'{items}'.$pagerTemplate,
           'columns' => [
           [
             'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
@@ -71,7 +72,7 @@ if ($mode =='upcoming' || $mode =='past') {
   echo GridView::widget([
       'dataProvider' => $dataProvider,
       //'filterModel' => $searchModel,
-      'layout'=>'{items}{summary}{pager}',
+      'layout'=>'{items}'.$pagerTemplate,
       'headerRowOptions' => ['class'=>'hidden'],
       'columns' => [
       [
