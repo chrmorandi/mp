@@ -55,7 +55,7 @@ AppAsset::register($this);
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
                   ['label' => Yii::t('frontend','Support'), 'url' => 'https://meetingplanner.freshdesk.com/support/home'], // 'http://support.meetingplanner.io'
-                  ['label' => Yii::t('frontend','Blog'), 'url' => 'http://blog.meetingplanner.io'],
+                  ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
                   ['label' => Yii::t('frontend','About'), 'url' => ['/about']],
                 ],
               ];
@@ -131,7 +131,7 @@ AppAsset::register($this);
             ?>
         <p class="pull-right">
         <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
-        <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('http://blog.meetingplanner.io'))); ?>
+        <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io'))); ?>
         <?php
         if (!Yii::$app->user->isGuest) {
           echo Html::tag('span',' . '.Html::a(Yii::t('frontend','features'),Url::to(['/features'])),['class'=>'itemHide']);
