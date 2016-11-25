@@ -17,7 +17,7 @@ use common\components\MiscHelpers;
             */
             ?>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-xs-12 col-md-8 col-lg-6">
     <?php
     echo $form->field($model, 'subject')->widget(TypeaheadBasic::classname(), [
     'data' => $subjects,
@@ -28,12 +28,21 @@ use common\components\MiscHelpers;
     'pluginOptions' => ['highlight'=>true],
 ]);
 ?>
-  </div>
-</div>
+      </div>
+      <div class="col-md-4 col-lg-6">
+      </div>
+    </div>
+      <div class="row">
+      <div class="col-xs-12 col-md-8 col-lg-6">
     <?php // $form->field($model, 'subject')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Subject')) ?>
     <div class="itemHide">
     <?= $form->field($model, 'message')->textarea(['rows' => 6,'id'=>'meeting-message'])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')); ?>
     </div>
+  </div>
+  <div class="col-md-4 col-lg-6">
+  </div>
+</div>
+
     <div class="form-group panel-what-buttons">
       <span class="button-pad">
         <?= Html::a(Yii::t('frontend','Update'), 'javascript:void(0);', ['class' => 'btn btn-primary','onclick'=>'updateWhat('.$model->id.');']) ?>
@@ -42,6 +51,7 @@ use common\components\MiscHelpers;
         <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelWhat();']) // ['/meeting/view', 'id' => $model->id] ?>
       </span>
     </div>
+
     <?php ActiveForm::end();
      $this->registerJsFile(MiscHelpers::buildUrl().'/js/meeting_subject.js',['depends' => [\yii\web\JqueryAsset::className()]]);
      ?>
