@@ -75,7 +75,7 @@ echo $this->render('_timezone_alerts');
   echo $this->render('_command_bar_planning', [
       'model'=>$model,
       'isOwner'=>$isOwner,
-  ]); 
+  ]);
  ?>
 <?php
   $session = Yii::$app->session;

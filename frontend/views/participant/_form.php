@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
     <div class="row">
       <div class="col-xs-12 col-md-12 col-lg-6">
         <?php
-        echo $form->field($participant, 'new_email',['enableAjaxValidation' => true])->textInput(['placeholder' => "enter an email address to invite someone new",'id'=>'new_email'])->label(Yii::t('frontend','Invite Someone New'))
+        echo $form->field($participant, 'new_email',['enableAjaxValidation' => true])->textInput(['placeholder' => "enter an email address to invite someone new",'id'=>'new_email'])->label(Yii::t('frontend','Invite someone new'))
         ?>
       </div>
       <div class="col-xs-12 col-md-12 col-lg-6">
@@ -46,7 +46,7 @@ use yii\widgets\ActiveForm;
     }
     if (count($friendsEmail)>0) {
       ?>
-      <p><strong>Choose From Your Friends</strong></p>
+      <p><strong><?= Yii::t('frontend','Or, choose from your friends');?></strong></p>
       <select class="combobox input-large form-control" id="participant-email" name="Participant[email]">
       <option value="" selected="selected"><?= Yii::t('frontend','type or click to choose friends') // chg meetingjs if change string ?></option>
       <?php

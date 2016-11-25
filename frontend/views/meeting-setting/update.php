@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 $header = $model->meeting->getMeetingHeader();
 $this->title = Yii::t('frontend', 'Update settings for '.$header);
-$this->params['breadcrumbs'][] = ['label' => $header,'url'=>Url::home(true).'/meeting/'.$model->meeting_id];
+$this->params['breadcrumbs'][] = ['label' => $header,'url'=>Url::home(true).'meeting/'.$model->meeting_id];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting Settings')];
 
 ?>

@@ -21,34 +21,18 @@ use \kartik\typeahead\Typeahead;
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
   if (count($up)>0) {
     ?>
-    <div class="row">
-      <div class="col-xs-12 col-lg-6">
-        <h3>From your places</h3>
-<select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
-  <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
-    <?php
-    foreach ($up as $p) {
-      $ups[]=$p->place->name;
-      ?>
-      <option value="<?= $p->id;?>"><?= $p->place->name;?></option>
-      <?php
-    }
-    ?>
-</select>
-  </div>
-</div> <!-- end row -->
-<div class="row">
+<!--<div class="row">
     <div class="col-xs-12 col-lg-6">
-    <h4><center>- or -</center></h4>
+    <strong><center>- or -</center></strong>
   </div>
-</div>
-<div class="row">
+</div>-->
+
 <?php
   }
     ?>
-    <div class="col-xs-12 col-lg-6">
-    <h3>Use Google Maps</h3>
-        <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label('Type in an address, place or business known to Google Maps') ?>
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-6">
+        <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Type an address, place or business')) ?>
         <?= BaseHtml::activeHiddenInput($model, 'name'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'google_place_id'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'location'); ?>
@@ -56,7 +40,21 @@ use \kartik\typeahead\Typeahead;
         <?= BaseHtml::activeHiddenInput($model, 'vicinity'); ?>
         <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
       </div>
-  </div> <!-- end row -->
+    <div class="col-xs-12 col-md-12 col-lg-6">
+      <p><strong><?= Yii::t('frontend','Or, choose from your prior places');?></strong></p>
+<select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
+<option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
+  <?php
+  foreach ($up as $p) {
+    $ups[]=$p->place->name;
+    ?>
+    <option value="<?= $p->id;?>"><?= $p->place->name;?></option>
+    <?php
+  }
+  ?>
+</select>
+</div>
+</div> <!-- end row -->
     <div class="row vertical-pad">
       <div class="col-xs-12 col-lg-6">
         <div class="form-group">
