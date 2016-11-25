@@ -33,8 +33,7 @@ use yii\bootstrap\Collapse;
                   'friends' => $friends,
               ]) ?>
         </div>
-      </div>
-    </div>
+      
     <div id="participantButtons">
     <?php
     if (!empty($participantProvider) and $participantProvider->getCount()>0):

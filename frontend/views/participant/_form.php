@@ -19,10 +19,12 @@ use yii\widgets\ActiveForm;
     <?= $form->errorSummary($participant); ?>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-12 col-md-12 col-lg-6">
         <?php
         echo $form->field($participant, 'new_email',['enableAjaxValidation' => true])->textInput(['placeholder' => "enter an email address to invite someone new",'id'=>'new_email'])->label(Yii::t('frontend','Invite Someone New'))
         ?>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-6">
     <?php
     // to do - replace with Friend::getFriendList
     $friendsEmail=[];
@@ -59,6 +61,8 @@ use yii\widgets\ActiveForm;
     ?>
     </select>
   <p></p>
+  </div>
+</div>
     <div class="form-group">
       <span class="button-pad">
         <?= Html::a(Yii::t('frontend','Add Participant'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addParticipant('.$participant->meeting_id.');'])  ?>
