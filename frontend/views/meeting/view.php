@@ -1,5 +1,4 @@
 <?php
-use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
@@ -15,6 +14,16 @@ echo $this->render('_timezone_alerts');
 ?>
 <div class="meeting-view">
 
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Details');?></a></li>
+    <li class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Discussion');?></a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
+
   <?php  // what
   echo $this->render('./_panel_what', [
       'model'=>$model,
@@ -29,7 +38,6 @@ echo $this->render('_timezone_alerts');
           ]);
          ?>
 
-
          <?php // when
           echo $this->render('../meeting-time/_panel', [
              'model'=>$model,
@@ -41,7 +49,6 @@ echo $this->render('_timezone_alerts');
              'meetingTime'=>$meetingTime,
          ]) ?>
 
-
         <?= $this->render('../meeting-place/_panel', [
               'model'=>$model,
               'placeProvider' => $placeProvider,
@@ -51,23 +58,24 @@ echo $this->render('_timezone_alerts');
               'meetingPlace'=>$meetingPlace,
           ]);
            ?>
-
+    </div> <!-- end tab details -->
+    <div class="tab-pane <?= ($tab=='notes'?'active':'') ?> vertical-pad" id="notes">
         <?php
           // notes
-        if ( $model->status >= $model::STATUS_SENT)
-         {
+        // removed - if ( $model->status >= $model::STATUS_SENT) {}
            echo $this->render('../meeting-note/_panel', [
                'model'=>$model,
                'noteProvider' => $noteProvider,
            ]);
-        }
         ?>
+      </div> <!-- end tab notes -->
+    </div> <!-- end tab content -->
 
 <?php
   echo $this->render('_command_bar_planning', [
       'model'=>$model,
       'isOwner'=>$isOwner,
-  ]);
+  ]); 
  ?>
 <?php
   $session = Yii::$app->session;
@@ -81,7 +89,7 @@ echo $this->render('_timezone_alerts');
 <input id="notifierOkay" value="<?= $notifierOkay ?>" type="hidden">
 <input id="meeting_id" value="<?= $model->id; ?>" type="hidden">
 <input id="viewer" value="<?= Yii::$app->user->getId(); ?>" type="hidden">
-<?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
-<?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
-<?= BaseHtml::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
+<?= Html::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
+<?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
+<?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
 </div>

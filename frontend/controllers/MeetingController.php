@@ -143,10 +143,7 @@ class MeetingController extends Controller
         return $this->actionView($m->id);
       }
 
-
-
         // if they are - redirect them to the view below
-
         // then redirect them to the view
 
     }
@@ -158,6 +155,11 @@ class MeetingController extends Controller
      */
     public function actionView($id)
     {
+      if (isset(Yii::$app->request->queryParams['tab'])) {
+        $tab =Yii::$app->request->queryParams['tab'];
+      } else {
+        $tab ='details';
+      }
       $model = $this->findModel($id);
       $meetingSettings = MeetingSetting::find()->where(['meeting_id'=>$id])->one();
       if (!$model->isAttendee($id,Yii::$app->user->getId())) {
@@ -228,6 +230,7 @@ class MeetingController extends Controller
             ],
         ]);
           return $this->render('view', [
+              'tab'=>$tab,
               'model' => $model,
               'meetingSettings' => $meetingSettings,
               'participantProvider' => $participantProvider,
@@ -268,8 +271,9 @@ class MeetingController extends Controller
           $noPlace = true;
           $gps = false;
         }
-        $chosenTime = Meeting::getChosenTime($id);
+        $chosenTime = Meeting::getChosenTime($id);        
         return $this->render('view_confirmed', [
+            'tab'=>$tab,
             'model' => $model,
             'meetingSettings' => $meetingSettings,
             'participantProvider' => $participantProvider,

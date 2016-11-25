@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\BaseHtml;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use frontend\models\Meeting;
@@ -14,7 +13,6 @@ use frontend\assets\MeetingAsset;
 MeetingAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
-
 $this->title = $model->getMeetingHeader();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,13 +35,14 @@ echo $this->render('_timezone_alerts');
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','This meeting has been deleted.'));
         break;
       }
-      echo $this->render('_command_bar_past', [
+    /*  echo $this->render('_command_bar_past', [
           'model'=>$model,
           'isPast'=>true,
           'dropclass'=>'dropdown',
           'isOwner' => $isOwner,
-      ]);
+      ]);*/
     } else {
+      /*
       echo $this->render('_command_bar_confirmed', [
           'model'=>$model,
           'meetingSettings' => $meetingSettings,
@@ -51,11 +50,24 @@ echo $this->render('_timezone_alerts');
           'isPast'=>$isPast,
           'dropclass'=>'dropdown',
           'isOwner' => $isOwner,
-      ]);
+      ]);*/
     }
   ?>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Details');?></a></li>
+    <li class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Discussion');?></a></li>
+  </ul>
 
-  <?php
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
+      <?php  // what
+      echo $this->render('./_panel_what', [
+          'model'=>$model,
+          'isOwner' => $isOwner,
+      ]) ?>
+      <?php
     echo $this->render('../participant/_panel', [
         'model'=>$model,
         'participantProvider' => $participantProvider,
@@ -63,17 +75,14 @@ echo $this->render('_timezone_alerts');
         'friends'=>$friends,
     ]);
    ?>
-   <?php  // what
-   echo $this->render('./_panel_what', [
-       'model'=>$model,
-       'isOwner' => $isOwner,
-   ]) ?>
 
     <div class="panel panel-default">
       <!-- Default panel contents -->
       <div class="panel-heading" role="tab" id="headingWhen">
         <div class="row">
-          <div class="col-lg-9"><h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"><?= Yii::t('frontend','When') ?></a></h4><p><em>
+          <div class="col-lg-9">
+            <h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen">
+            <?= Yii::t('frontend','When') ?></a></h4><p>
           </div>
         </div>
       </div>
@@ -87,7 +96,8 @@ echo $this->render('_timezone_alerts');
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingWhere">
         <div class="row">
-          <div class="col-lg-12"><h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"><?= Yii::t('frontend','Where') ?></a></h4></div>
+          <div class="col-lg-12"><h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere">
+            <?= Yii::t('frontend','Where') ?></a></h4></div>
         </div>
       </div>
       <div id="collapseWhere" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhere">
@@ -143,10 +153,15 @@ echo $this->render('_timezone_alerts');
   </div> <!-- end panel body -->
   </div>
 </div> <!-- end panel -->
+</div> <!-- end tab details -->
+<div class="tab-pane <?= ($tab=='notes'?'active':'') ?> vertical-pad" id="notes">
     <?php echo $this->render('../meeting-note/_panel', [
             'model'=>$model,
             'noteProvider' => $noteProvider,
         ]) ?>
+</div> <!-- end tab notes -->
+</div> <!-- end tab content -->
+
     <?php
       if ( $model->status >= $model::STATUS_COMPLETED) {
         echo $this->render('_command_bar_past', [
@@ -168,6 +183,6 @@ echo $this->render('_timezone_alerts');
     ?>
 
 </div> <!-- end meeting view -->
-<?= BaseHtml::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
-<?= BaseHtml::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
-<?= BaseHtml::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
+<?= Html::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
+<?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
+<?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>

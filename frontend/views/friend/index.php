@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Tab panes -->
     <div class="tab-content">
-      <div class="tab-pane  <?= ($tab=='friend'?'active':'') ?>" id="friend">
+      <div class="tab-pane <?= ($tab=='friend'?'active':'') ?>" id="friend">
 
     <?= GridView::widget([
         'dataProvider' => $friendProvider,
