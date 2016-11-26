@@ -109,7 +109,6 @@ use dosamigos\datetimepicker\DateTimePicker;
               $repeat_unit
           );
         ?>
-
     </div>
   </div>
   <div class="clearfix"><p></div>
