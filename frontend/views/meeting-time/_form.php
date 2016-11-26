@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\BaseHtml;
 use yii\widgets\ActiveForm;
 use common\components\MiscHelpers;
 use dosamigos\datetimepicker\DateTimePicker;
@@ -23,11 +22,11 @@ use dosamigos\datetimepicker\DateTimePicker;
 </div>
 <div class="meeting-time-form">
   <div class="row">
-    <div class="col-xs-8 col-lg-4">
+    <div class="col-xs-12 col-md-4 col-lg-3">
     <?php $form = ActiveForm::begin();?>
-    <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
-    <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
-    <?= BaseHtml::activeHiddenInput($model, 'tz_current',['id'=>'tz_current']); ?>
+    <?= Html::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+    <?= Html::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
+    <?= Html::activeHiddenInput($model, 'tz_current',['id'=>'tz_current']); ?>
     <strong><?php echo Yii::t('frontend','Date') ?></strong>
     <div class="datetimepicker-width">
     <?= DateTimePicker::widget([
@@ -36,7 +35,6 @@ use dosamigos\datetimepicker\DateTimePicker;
         'template' => '{input}{button}',
         //'language' => 'en',
         'size' => 'ms',
-
         'clientOptions' => [
             'autoclose' => true,
             'format' => 'M d, yyyy',
@@ -50,11 +48,7 @@ use dosamigos\datetimepicker\DateTimePicker;
     ]);?></div>
     <p></p>
   </div>
-  <div class="col-xs-4 col-lg-8">
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-8 col-lg-4">
+  <div class="col-xs-12 col-md-4 col-lg-3">
     <strong><?php echo Yii::t('frontend','Time') ?></strong>
     <div class="datetimepicker-width">
     <?= DateTimePicker::widget([
@@ -78,32 +72,49 @@ use dosamigos\datetimepicker\DateTimePicker;
             // $( "th.switch" ).text( "Pick the time" );
         ]
     ]);?>
-  </div>
+    </div>
     <p></p>
     </div>
-    <div class="col-xs-4 col-lg-8">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-8 col-lg-4">
-      <div class="datetimepicker-width">
+    <div class="col-xs-6 col-md-2 col-lg-2">
       <?php
-      //$durationList = [1,2,3,4,5,6,12,24,48,72];
       $durationList = [1=>'1 hour',2=>'2 hours',3=>'3 hours',4=>'4 hours',5=>'5 hours',6=>'6 hours',12=>'12 hours',24=>'24 hours',48=>'48 hours',72=>'72 hours'];
-      echo $form->field($model, 'duration')
+      echo $form->field($model, 'duration',['options' => ['id'=>'duration','class' => 'duration-width' ]])
         ->dropDownList(
             $durationList,           // Flat array ('id'=>'label')
             ['prompt'=>'select a duration']    // options
         );
         ?>
-        <div class="col-xs-4 col-lg-8">
-        </div>
+    </div>
+      <div class="col-xs-6 col-md-2 col-lg-2" style="margin-top:3em;">
+      <?= Html::a(Yii::t('frontend','advanced options'),'javascript:void(0);', ['onclick'=>'toggleTimeAdvanced();']);?>
+    </div>
+  </div>
+  <div class="row hidden" id="timeAdvanced">
+    <div class="col-xs-12 col-md-2 col-lg-2">
+      <?php
+      $repeat_quantity = [0=>'no repeating',1=>'1 additional option',2=>'2 additional options',3=>'3 additional options',4=>'4 additional options',5=>'5 additional options'];
+      echo $form->field($model, 'repeat_quantity',['options' => ['id'=>'repeat_quantity','class' => 'repeat-width' ]])->label('Add')
+        ->dropDownList(
+            $repeat_quantity
+            ,
+            ['options'=>['1'=>['Selected'=>true]]]
+        );
+        ?>
       </div>
-      </div>
+        <div class="col-xs-12 col-md-6 col-lg-6">
+        <?php
+        $repeat_unit = ['hour'=>'successive hour e.g. 9 am, 10 am and 11 am','day'=>'successive day e.g. Monday, Tuesday & Wednesday','week'=>'successive week e.g. next Friday & Friday after'];
+        echo $form->field($model, 'repeat_unit',['options' => ['id'=>'repeat_unit','class' => 'repeat-width' ]])->label('On each')
+          ->dropDownList(
+              $repeat_unit
+          );
+        ?>
+
+    </div>
   </div>
   <div class="clearfix"><p></div>
   <div class="row">
-      <div class="col-xs-12 col-lg-4">
+      <div class="col-xs-12 col-md-12 col-lg-12">
      <div class="form-group">
        <span class="button-pad">
          <?= Html::a(Yii::t('frontend','Add Meeting Time'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addTime('.$model->meeting_id.');'])  ?>

@@ -407,6 +407,9 @@ function cancelTime() {
 function addTime(id) {
     start_time = $('#meetingtime-start_time').val();
     start = $('#meetingtime-start').val();
+    duration = $('#meetingtime-duration').val();
+    repeat_quantity = $('#meetingtime-repeat_quantity').val();
+    repeat_unit = $('#meetingtime-repeat_unit').val();    
     if (start_time =='' || start=='') {
       displayAlert('timeMessage','timeMsg2');
       return false;
@@ -418,6 +421,9 @@ function addTime(id) {
          id: id,
         start_time: encodeURIComponent(start_time),
         start:encodeURIComponent(start),
+        duration:encodeURIComponent(duration),
+        repeat_quantity:encodeURIComponent(repeat_quantity),
+        repeat_unit:encodeURIComponent(repeat_unit),
       },
        success: function(data) {
          loadTimeChoices(id);
@@ -763,3 +769,13 @@ function updateNoteThread(id) {
       break;
     }
   }
+
+ function toggleTimeAdvanced() {
+   if ($('#timeAdvanced').hasClass('hidden')) {
+      $('#timeAdvanced').removeClass('hidden');
+   } else {
+     $('#timeAdvanced').addClass('hidden');
+     $("select#meetingtime-repeat_quantity").prop('selectedIndex', 0);
+   }
+
+}

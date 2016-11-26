@@ -37,6 +37,8 @@ class MeetingTime extends \yii\db\ActiveRecord
   public $dow;
   public $hod;
   public $min;
+  public $repeat_quantity;
+  public $repeat_unit;
 
   public $start_time;
     /**
