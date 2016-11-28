@@ -21,5 +21,5 @@ class MeetingAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
     ];
 
-    public $publishOptions = ['forceCopy' => true];
+    public $publishOptions = ['linkAssets' => true];
 }
