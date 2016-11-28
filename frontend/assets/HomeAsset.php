@@ -30,4 +30,5 @@ class HomeAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+    public $publishOptions = ['forceCopy' => true];
 }

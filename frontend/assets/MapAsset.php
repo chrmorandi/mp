@@ -15,4 +15,5 @@ class MapAsset extends AssetBundle
     ];
     public $depends = [
     ];
+    public $publishOptions = ['forceCopy' => true];
 }
