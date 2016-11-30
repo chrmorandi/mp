@@ -23,9 +23,9 @@ use yii\helpers\Html;
        <h1><?= $displayName ?></h1>
        <p class="lead">
          <?php if (Yii::$app->user->isGuest) { ?>
-         <?= Html::a(Yii::t('frontend','Schedule a Meeting With Me'),['site/signup'])?>
+         <?= Html::a(Yii::t('frontend','Schedule a meeting with me'),['site/signup'])?>
          <?php } else { ?>
-           <?= Html::a(Yii::t('frontend','Schedule a Meeting With Me'),['meeting/create','with'=>$user->username])?>
+           <?= Html::a(Yii::t('frontend','Schedule a meeting with me'),['meeting/create','with'=>$user->username])?>
           <?php } ?>
          <p>
      </div>
