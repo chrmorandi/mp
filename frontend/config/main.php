@@ -67,7 +67,7 @@ return [
               'user-contact' => 'user-contact',
               'user-profile' => 'user-profile',
               'user-setting' => 'user-setting',
-              //'<username>' => 'meeting/scheduleme',
+              '<username>' => 'meeting/scheduleme',
               // note - currently actions with 8 letters and no params will fail
               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
