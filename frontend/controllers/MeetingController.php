@@ -355,8 +355,21 @@ class MeetingController extends Controller
           Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there are limits on how quickly you can create meetings. Visit support if you need assistance.'));
           return $this->redirect(['index']);
         }
+        if ($with<>'') {
+          $u = User::find()
+            ->where(['username'=>$with])
+            ->one();
+            if (!is_null($u)) {
+              $with_id =$u->id;
+            } else {
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we could not locate anyone by that name. Visit support if you need assistance.'));
+              $with_id =0;
+            }
+        } else {
+          $with_id =0;
+        }
         // prevent creation of numerous empty meetings
-        $meeting_id = Meeting::findEmptyMeeting(Yii::$app->user->getId());
+        $meeting_id = Meeting::findEmptyMeeting(Yii::$app->user->getId(),$with_id);
         /*****************************************************/
         /* NOT YET DONE ***/
         /*****************************************************/
@@ -375,15 +388,8 @@ class MeetingController extends Controller
           $model->initializeMeetingSetting($model->id,$model->owner_id);
           $meeting_id = $model->id;
         }
-        if ($with<>'') {
-          $u = User::find()
-            ->where(['username'=>$with])
-            ->one();
-          if (!is_null($u)) {
-            Participant::add($meeting_id,$u->id,Yii::$app->user->getId());
-          } else {
-            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we could not locate anyone by that name. Visit support if you need assistance.'));
-          }
+        if ($with_id!=0) {
+            Participant::add($meeting_id,$with_id,Yii::$app->user->getId());          
         }
         $this->redirect(['view', 'id' => $meeting_id]);
     }

@@ -1580,7 +1580,17 @@ class Meeting extends \yii\db\ActiveRecord
        return false;
      }
 
-    public static function findEmptyMeeting($user_id) {
+    public static function findEmptyMeeting($user_id,$with_id = 0) {
+      // if meeting with someone see if it exists already
+      if ($with_id!=0) {
+      // check for meeting with one particpant with with_id
+      $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
+        foreach ($meetings as $m) {
+          if (!is_null($m) && (count($m->participants)==1 && $m->participants[0]->participant_id==$with_id)) {
+            return $m->id;
+          }
+        }
+      }
       // looks for empty meeting in last seven
       $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
       foreach ($meetings as $m) {
@@ -1588,10 +1598,6 @@ class Meeting extends \yii\db\ActiveRecord
           return $m->id;
         }
       }
-
-      // to do - if $with_id
-      // check for meeting with one particpant with with_id
-      // return $m->id
       return false;
     }
 
