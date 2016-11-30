@@ -304,8 +304,9 @@ background-color: #999;
 
 .schedule-me {
 background-color:#f3f3f3;
-min-width:500px;;
-padding:100px 25px 75px 25px;
+min-width:500px;
+padding:100px 25px 65px 25px;
+border:1px solid #e0e0e0;
 }
 
 
@@ -352,7 +353,7 @@ padding:100px 25px 75px 25px;
       width:320px;
     }
     .schedule-me {
-      min-width:300px;;
+      min-width:75%;
       padding:60px 10px 40px 10px;
     }
 }
