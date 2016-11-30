@@ -362,6 +362,8 @@ class MeetingController extends Controller
         /*****************************************************/
         // if $with - find a meeting with only this person
         // make sure there are not already meetings between these two
+        /*****************************************************/
+        // production images broken too
         if ($meeting_id===false) {
         // otherwise, create a new meeting
           $model = new Meeting();
