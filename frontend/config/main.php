@@ -20,9 +20,9 @@ return [
         'bundles' => [
             'dosamigos\google\maps\MapAsset' => [
                 'options' => [
-                    'key' => $params['google_maps_key'],                    
+                    'key' => $params['google_maps_key'],
                 ]
-            ]
+            ],
         ]
     ],
       'session' => [
@@ -61,6 +61,12 @@ return [
               'about' => 'site/about',
               'wp-login|wp-admin' => 'site/neverland',
               '<username>/<identity:[A-Za-z0-9_-]{8}>' => 'meeting/identity',
+              'meeting' => 'meeting',
+              'friend' => 'friend',
+              'reminder' => 'reminder',
+              'user-profile' => 'user-profile',
+              'user-setting' => 'user-setting',
+              '<username>' => 'meeting/scheduleme',
               // note - currently actions with 8 letters and no params will fail
               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],

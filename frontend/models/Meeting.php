@@ -1588,6 +1588,10 @@ class Meeting extends \yii\db\ActiveRecord
           return $m->id;
         }
       }
+
+      // to do - if $with_id
+      // check for meeting with one particpant with with_id
+      // return $m->id
       return false;
     }
 

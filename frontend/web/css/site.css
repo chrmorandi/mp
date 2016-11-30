@@ -298,6 +298,17 @@ background-color: #999;
   border-bottom-width:3px;
 }
 
+.scheduleme-top {
+  margin-top:8%;
+}
+
+.schedule-me {
+background-color:#f3f3f3;
+min-width:500px;;
+padding:100px 25px 75px 25px;
+}
+
+
   /* ----------- mobile displays ----------- */
 
 @media only screen
@@ -334,13 +345,14 @@ background-color: #999;
     .heading-pad {
       margin-top:5px;
     }
-
-      .panel-what-buttons {
-        padding-top:30px;
-      }
-
-      .datetimepicker-width {
-        width:320px;
-      }
-
+    .panel-what-buttons {
+      padding-top:30px;
+    }
+    .datetimepicker-width {
+      width:320px;
+    }
+    .schedule-me {
+      min-width:300px;;
+      padding:60px 10px 40px 10px;
+    }
 }

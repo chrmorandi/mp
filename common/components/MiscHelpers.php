@@ -99,7 +99,7 @@ class MiscHelpers  {
      $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
      if (!is_null($profile)) {
        $calcName = $profile->firstname.' '.$profile->lastname;
-       if ($profile->fullname<>'' and $profile->fullname<>' ') {
+       if ($profile->fullname!='' && $profile->fullname!=' ') {      
          $displayName = $profile->fullname;
        } else if ($calcName<>' ') {
          // note check for middle space

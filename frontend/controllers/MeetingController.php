@@ -45,12 +45,12 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat'],
+                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
                                'roles' => ['@'],
                            ],
                           [
                               'allow' => true,
-                              'actions'=>['command','identity'],
+                              'actions'=>['command','identity','scheduleme'],
                               'roles' => ['?'],
                           ],
                           // everything else is denied
@@ -115,6 +115,30 @@ class MeetingController extends Controller
             'tab' => $tab,
             'timezone'=>$timezone,
         ]);
+    }
+
+    public function actionScheduleme() {
+      $username = Yii::$app->request->getPathInfo();
+      $u = User::find()
+        ->where(['username'=>$username])
+        ->one();
+      if (is_null($u)) {
+        return $this->goHome();
+      } elseif (!Yii::$app->user->isGuest) {
+          if (Yii::$app->user->getId()==$u->id) {
+            Yii::$app->getSession()->setFlash('info', Yii::t('frontend','Welcome to your public scheduling page.'));
+            echo 'here';
+          }
+      }
+      $userprofile = \frontend\models\UserProfile::find()
+        ->where(['user_id'=>$u->id])
+        ->one();
+      Yii::$app->user->setReturnUrl(['meeting/create/','with'=>$u->username]);
+      return $this->render('scheduleme', [
+        'user'=>$u,
+        'displayName'=> MiscHelpers::getDisplayName($u->id,true),
+        'userprofile' => $userprofile,
+      ]);
     }
 
     public function actionIdentity()
@@ -271,7 +295,7 @@ class MeetingController extends Controller
           $noPlace = true;
           $gps = false;
         }
-        $chosenTime = Meeting::getChosenTime($id);        
+        $chosenTime = Meeting::getChosenTime($id);
         return $this->render('view_confirmed', [
             'tab'=>$tab,
             'model' => $model,
@@ -325,7 +349,7 @@ class MeetingController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($with = '')
     {
         if (!Meeting::withinLimit(Yii::$app->user->getId())) {
           Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there are limits on how quickly you can create meetings. Visit support if you need assistance.'));
@@ -333,7 +357,11 @@ class MeetingController extends Controller
         }
         // prevent creation of numerous empty meetings
         $meeting_id = Meeting::findEmptyMeeting(Yii::$app->user->getId());
-        //echo $meeting_id;exit;
+        /*****************************************************/
+        /* NOT YET DONE ***/
+        /*****************************************************/
+        // if $with - find a meeting with only this person
+        // make sure there are not already meetings between these two
         if ($meeting_id===false) {
         // otherwise, create a new meeting
           $model = new Meeting();
@@ -344,6 +372,16 @@ class MeetingController extends Controller
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);
           $meeting_id = $model->id;
+        }
+        if ($with<>'') {
+          $u = User::find()
+            ->where(['username'=>$with])
+            ->one();
+          if (!is_null($u)) {
+            Participant::add($meeting_id,$u->id,Yii::$app->user->getId());
+          } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we could not locate anyone by that name. Visit support if you need assistance.'));
+          }
         }
         $this->redirect(['view', 'id' => $meeting_id]);
     }
