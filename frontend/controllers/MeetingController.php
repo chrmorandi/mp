@@ -127,7 +127,6 @@ class MeetingController extends Controller
       } elseif (!Yii::$app->user->isGuest) {
           if (Yii::$app->user->getId()==$u->id) {
             Yii::$app->getSession()->setFlash('info', Yii::t('frontend','Welcome to your public scheduling page.'));
-            echo 'here';
           }
       }
       $userprofile = \frontend\models\UserProfile::find()
@@ -370,13 +369,6 @@ class MeetingController extends Controller
         }
         // prevent creation of numerous empty meetings
         $meeting_id = Meeting::findEmptyMeeting(Yii::$app->user->getId(),$with_id);
-        /*****************************************************/
-        /* NOT YET DONE ***/
-        /*****************************************************/
-        // if $with - find a meeting with only this person
-        // make sure there are not already meetings between these two
-        /*****************************************************/
-        // production images broken too
         if ($meeting_id===false) {
         // otherwise, create a new meeting
           $model = new Meeting();
@@ -389,7 +381,7 @@ class MeetingController extends Controller
           $meeting_id = $model->id;
         }
         if ($with_id!=0) {
-            Participant::add($meeting_id,$with_id,Yii::$app->user->getId());          
+            Participant::add($meeting_id,$with_id,Yii::$app->user->getId());
         }
         $this->redirect(['view', 'id' => $meeting_id]);
     }
