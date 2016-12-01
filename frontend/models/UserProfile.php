@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\base\ErrorException;
 use yii\db\ActiveRecord;
 use common\models\User;
 
@@ -145,7 +146,11 @@ class UserProfile extends \yii\db\ActiveRecord
           // check if file exists on server
           if (!empty($f) && file_exists($f)) {
             // delete file
-            unlink($f);
+            try {
+              unlink($f);
+            } catch (ErrorException $e) {
+                Yii::warning("Unling failure ".$f);
+            }
           }
         }
     }

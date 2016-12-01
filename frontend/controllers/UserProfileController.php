@@ -113,9 +113,9 @@ class UserProfileController extends Controller
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
                  ->save(Yii::$app->params['uploadPath'].'sqr_'.$model->avatar, ['quality' => 50]);
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 30, 30)
-                     ->save(Yii::$app->params['uploadPath'].'sm_'.$model->avatar, ['quality' => 50]);
+                     ->save(Yii::$app->params['uploadPath'].'sm_'.$model->avatar, ['quality' => 75]);
               if (file_exists(Yii::$app->params['uploadPath'].$image_delete)) {
-                $model->deleteImage(Yii::$app->params['uploadPath'].$image_delete);
+                $model->deleteImage(Yii::$app->params['uploadPath'],$image_delete);
               }
            } else {
              // error in saving model
