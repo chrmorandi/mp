@@ -24,11 +24,24 @@ echo $this->render('_timezone_alerts');
   <div class="tab-content">
     <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
 
-  <?php  // what
-  echo $this->render('./_panel_what', [
-      'model'=>$model,
-      'isOwner' => $isOwner,
-  ]) ?>
+  <?php
+    if ($model->meeting_type == $model::TYPE_ACTIVITY) {
+      echo $this->render('../meeting-activity/_panel', [
+         'model'=>$model,
+         'isOwner' => $isOwner,
+         'viewer' => $viewer,
+         'activityProvider' => $activityProvider,
+         'meetingActivity'=>$meetingActivity,
+     ]);
+   } else {
+      // what
+     echo $this->render('./_panel_what', [
+         'model'=>$model,
+         'isOwner' => $isOwner,
+     ]);
+   }
+   ?>
+
         <?php //who
           echo $this->render('../participant/_panel', [
               'model'=>$model,

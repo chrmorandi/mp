@@ -17,6 +17,8 @@ use frontend\models\Participant;
 use frontend\models\Request;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
+use frontend\models\MeetingActivity;
+use frontend\models\MeetingActivityChoice;
 use frontend\models\MeetingTime;
 use frontend\models\MeetingPlaceChoice;
 use frontend\models\MeetingTimeChoice;
@@ -45,7 +47,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
+                               'actions'=>['create','createactivity','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
                                'roles' => ['@'],
                            ],
                           [
@@ -228,6 +230,11 @@ class MeetingController extends Controller
       $meetingPlace->meeting_id= $model->id;
       $meetingPlace->suggested_by= Yii::$app->user->getId();
       $meetingPlace->status = MeetingPlace::STATUS_SUGGESTED;
+      // prepare meeting activity form
+      $meetingActivity = new MeetingActivity();
+      $meetingActivity->meeting_id= $model->id;
+      $meetingActivity->suggested_by= Yii::$app->user->getId();
+      $meetingActivity->status = MeetingActivity::STATUS_SUGGESTED;    
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
@@ -243,6 +250,19 @@ class MeetingController extends Controller
               ]
             ],
         ]);
+        if ($model->meeting_type == Meeting::TYPE_ACTIVITY) {
+          $activityProvider = new ActiveDataProvider([
+              'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
+                ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
+              'sort' => [
+                'defaultOrder' => [
+                  'availability'=>SORT_DESC
+                ]
+              ],
+          ]);
+        } else {
+          $activityProvider = null;
+        }
         $placeProvider = new ActiveDataProvider([
             'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
               ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
@@ -258,6 +278,7 @@ class MeetingController extends Controller
               'meetingSettings' => $meetingSettings,
               'participantProvider' => $participantProvider,
               'timeProvider' => $timeProvider,
+              'activityProvider' => $activityProvider,
               'noteProvider' => $noteProvider,
               'placeProvider' => $placeProvider,
               'whereStatus' => $whereStatus,
@@ -269,6 +290,7 @@ class MeetingController extends Controller
               'friends'=>$friends,
               'meetingTime'=>$meetingTime,
               'meetingPlace'=>$meetingPlace,
+              'meetingActivity'=>$meetingActivity,
           ]);
       } else {
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {
@@ -382,6 +404,28 @@ class MeetingController extends Controller
         }
         if ($with_id!=0) {
             Participant::add($meeting_id,$with_id,Yii::$app->user->getId());
+        }
+        $this->redirect(['view', 'id' => $meeting_id]);
+    }
+
+    public function actionCreateactivity()
+    {
+        if (!Meeting::withinLimit(Yii::$app->user->getId())) {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there are limits on how quickly you can create meetings. Visit support if you need assistance.'));
+          return $this->redirect(['index']);
+        }
+        // prevent creation of numerous empty meetings
+        $meeting_id = Meeting::findEmptyActivity(Yii::$app->user->getId());
+        if ($meeting_id===false) {
+        // otherwise, create a new meeting
+          $model = new Meeting();
+          $model->owner_id= Yii::$app->user->getId();
+          $model->sequence_id = 0;
+          $model->meeting_type = Meeting::TYPE_ACTIVITY;
+          $model->subject = Meeting::DEFAULT_SUBJECT;
+          $model->save();
+          $model->initializeMeetingSetting($model->id,$model->owner_id);
+          $meeting_id = $model->id;
         }
         $this->redirect(['view', 'id' => $meeting_id]);
     }

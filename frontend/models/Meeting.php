@@ -56,7 +56,9 @@ class Meeting extends \yii\db\ActiveRecord
   const TYPE_BRUNCH = 90;
   const TYPE_OFFICE = 100;
   const TYPE_OTHER = 110;
+  const TYPE_ACTIVITY = 115;
   const TYPE_VIRTUAL = 150;
+
 
   const STATUS_PLANNING =0;
   const STATUS_SENT = 20;
@@ -1576,6 +1578,19 @@ class Meeting extends \yii\db\ActiveRecord
        $p = Participant::find()->where(['meeting_id'=>$meeting_id,'participant_id'=>$user_id])->one();
        if (!is_null($p)) {
          return true;
+       }
+       return false;
+     }
+
+     public static function findEmptyActivity($user_id) {
+       // looks for empty activity in last seven
+       $meetings = Meeting::find()
+        ->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'meeting_type'=>Meeting::TYPE_ACTIVITY])
+        ->limit(7)->orderBy(['id' => SORT_DESC])->all();
+       foreach ($meetings as $m) {
+         if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+           return $m->id;
+         }
        }
        return false;
      }

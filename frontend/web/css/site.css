@@ -89,6 +89,9 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+.horizontal-pad {
+  margin:0px 10px 0px 0px;
+}
 .vertical-pad {
   margin:15px 0px;
 }

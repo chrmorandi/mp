@@ -5,9 +5,8 @@ namespace frontend\controllers;
 use Yii;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
-use frontend\models\MeetingTime;
+use frontend\models\MeetingActivity;
 use frontend\models\MeetingLog;
-use frontend\models\MeetingTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -16,9 +15,9 @@ use yii\widgets\ListView;
 //use yii\web\Response;
 
 /**
- * MeetingTimeController implements the CRUD actions for MeetingTime model.
+ * MeetingActivityController implements the CRUD actions for MeetingActivity model.
  */
-class MeetingTimeController extends Controller
+class MeetingActivityController extends Controller
 {
     const STATUS_PROPOSED = 0;
     const STATUS_SELECTED = 10;
@@ -49,13 +48,13 @@ class MeetingTimeController extends Controller
     }
 
     /**
-     * Displays a single MeetingTime model.
+     * Displays a single MeetingActivity model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+        $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
         return $this->render('view', [
             'model' => $this->findModel($id),
             'timezone'=>$timezone,
@@ -63,22 +62,22 @@ class MeetingTimeController extends Controller
     }
 
     /**
-     * Creates a new MeetingTime model.
+     * Creates a new MeetingActivity model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate($meeting_id)
     {
-      if (!MeetingTime::withinLimit($meeting_id)) {
+      if (!MeetingActivity::withinLimit($meeting_id)) {
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of date times per meeting. Contact support if you need additional help or want to offer feedback.'));
         return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
       }
       //Yii::$app->response->format = Response::FORMAT_JSON;
-      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
       date_default_timezone_set($timezone);
       $mtg = new Meeting();
       $title = $mtg->getMeetingTitle($meeting_id);
-      $model = new MeetingTime();
+      $model = new MeetingActivity();
       $model->tz_current = $timezone;
       $model->duration = 1;
       $model->meeting_id= $meeting_id;
@@ -89,7 +88,7 @@ class MeetingTimeController extends Controller
           if (empty($model->start)) {
             $model->start = Date('M d, Y',time()+3*24*3600);
           }
-          $model->start_time = Yii::$app->request->post()['MeetingTime']['start_time'];
+          $model->start_time = Yii::$app->request->post()['MeetingActivity']['start_time'];
           $selected_time = date_parse($model->start_time);
           if ($selected_time['hour'] === false) {
             $selected_time['hour'] =9;
@@ -126,7 +125,7 @@ class MeetingTimeController extends Controller
     }
 
     /**
-     * Updates an existing MeetingTime model.
+     * Updates an existing MeetingActivity model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -145,7 +144,7 @@ class MeetingTimeController extends Controller
     }
 
     /**
-     * Deletes an existing MeetingTime model.
+     * Deletes an existing MeetingActivity model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -167,14 +166,14 @@ class MeetingTimeController extends Controller
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_date_time']) return false;
-      foreach ($mtg->meetingTimes as $mt) {
+      foreach ($mtg->meetingActivitys as $mt) {
         if ($mt->id == $mt_id) {
-          $mt->status = MeetingTime::STATUS_SELECTED;
+          $mt->status = MeetingActivity::STATUS_SELECTED;
           MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),$mt_id);
         }
         else {
-          if ($mt->status == MeetingTime::STATUS_SELECTED) {
-              $mt->status = MeetingTime::STATUS_SUGGESTED;
+          if ($mt->status == MeetingActivity::STATUS_SELECTED) {
+              $mt->status = MeetingActivity::STATUS_SUGGESTED;
           }
         }
         $mt->save();
@@ -190,14 +189,14 @@ class MeetingTimeController extends Controller
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_date_time']) return false;
-      foreach ($mtg->meetingTimes as $mt) {
+      foreach ($mtg->meetingActivitys as $mt) {
         if ($mt->id == intval($val)) {
-          $mt->status = MeetingTime::STATUS_SELECTED;
+          $mt->status = MeetingActivity::STATUS_SELECTED;
           MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),intval($val));
         }
         else {
-          if ($mt->status == MeetingTime::STATUS_SELECTED) {
-              $mt->status = MeetingTime::STATUS_SUGGESTED;
+          if ($mt->status == MeetingActivity::STATUS_SELECTED) {
+              $mt->status = MeetingActivity::STATUS_SUGGESTED;
           }
         }
         $mt->save();
@@ -207,7 +206,7 @@ class MeetingTimeController extends Controller
 
     public function actionRemove($id)
     {
-      $result=MeetingTime::removeTime($id);
+      $result=MeetingActivity::removeActivity($id);
       // successful result returns $meeting_id to return to
       if ($result!==false) {
         Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting time option has been removed.'));
@@ -219,11 +218,11 @@ class MeetingTimeController extends Controller
 
     public function actionAdd($id,$start,$start_time,$duration=1,$repeat_quantity=0,$repeat_unit='hour') {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
       date_default_timezone_set($timezone);
       $cnt=0;
       while ($cnt<=$repeat_quantity) {
-        $model = new MeetingTime();
+        $model = new MeetingActivity();
         $model->start = urldecode($start);
         $model->start_time = urldecode($start_time);
         if (empty($model->start)) {
@@ -233,7 +232,7 @@ class MeetingTimeController extends Controller
         $model->duration = $duration;
         $model->meeting_id= $id;
         $model->suggested_by= Yii::$app->user->getId();
-        $model->status = MeetingTime::STATUS_SUGGESTED;
+        $model->status = MeetingActivity::STATUS_SUGGESTED;
         $selected_time = date_parse($model->start_time);
         if ($selected_time['hour'] === false) {
           $selected_time['hour'] =9;
@@ -269,16 +268,16 @@ class MeetingTimeController extends Controller
       }
       $model=Meeting::findOne($id);
       $timeProvider = new ActiveDataProvider([
-          'query' => MeetingTime::find()->where(['meeting_id'=>$id])
-            ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
+          'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
           'sort' => [
             'defaultOrder' => [
               'availability'=>SORT_DESC
             ]
           ],
       ]);
-      $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
-      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      $whenStatus = MeetingActivity::getWhenStatus($model,Yii::$app->user->getId());
+      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
       $result = ListView::widget([
              'dataProvider' => $timeProvider,
              'itemOptions' => ['class' => 'item'],
@@ -298,8 +297,8 @@ class MeetingTimeController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $m=Meeting::findOne($id);
       $timeProvider = new ActiveDataProvider([
-          'query' => MeetingTime::find()->where(['meeting_id'=>$id])
-            ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
+          'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
           'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
       $result =  $this->renderPartial('_thread', [
@@ -313,10 +312,10 @@ class MeetingTimeController extends Controller
     public function actionLoadchoices($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $model=Meeting::findOne($id);
-      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
       $timeProvider = new ActiveDataProvider([
-          'query' => MeetingTime::find()->where(['meeting_id'=>$id])
-            ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
+          'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
+            ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
           'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
       if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) {
@@ -329,15 +328,15 @@ class MeetingTimeController extends Controller
       }
     }
     /**
-     * Finds the MeetingTime model based on its primary key value.
+     * Finds the MeetingActivity model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return MeetingTime the loaded model
+     * @return MeetingActivity the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = MeetingTime::findOne($id)) !== null) {
+        if (($model = MeetingActivity::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting'), 'url
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="meeting-time-view">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
