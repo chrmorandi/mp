@@ -103,7 +103,8 @@ class UserProfileController extends Controller
            // save new image
             // store the source file name
            $model->filename = $image->name;
-           $ext = end((explode(".", $image->name)));
+           $file_parts_arr = explode(".", $model->filename);
+           $ext = end($file_parts_arr);
            // generate a unique file name to prevent duplicate filenames
            // to do - verify this file does not exist already
            $model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
@@ -113,7 +114,7 @@ class UserProfileController extends Controller
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 120, 120)
                  ->save(Yii::$app->params['uploadPath'].'sqr_'.$model->avatar, ['quality' => 50]);
              Image::thumbnail(Yii::$app->params['uploadPath'].$model->avatar, 30, 30)
-                     ->save(Yii::$app->params['uploadPath'].'sm_'.$model->avatar, ['quality' => 75]);
+                     ->save(Yii::$app->params['uploadPath'].'sm_'.$model->avatar, ['quality' => 75]);              
               if (file_exists(Yii::$app->params['uploadPath'].$image_delete)) {
                 $model->deleteImage(Yii::$app->params['uploadPath'],$image_delete);
               }
