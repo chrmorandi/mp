@@ -22,6 +22,7 @@ use frontend\models\MeetingLog;
  * @property integer $id
  * @property integer $owner_id
  * @property integer $meeting_type
+ * @property integer $is_activity
  * @property string $subject
  * @property string $message
  * @property string $identifier
@@ -399,10 +400,20 @@ class Meeting extends \yii\db\ActiveRecord
            $cntTimes+=1;
          }
        }
+
+       if ($this->is_activity==Meeting::IS_ACTIVITY) {
+         $cntActivities =0;
+         foreach($this->meetingActivities as $ma) {
+           if ($ma->status!=MeetingActivity::STATUS_REMOVED) {
+             $cntActivities+=1;
+           }
+         }
+       }
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
         && ($cntPlaces>0 || $this->isVirtual())
         && $cntTimes>0
+        && ($this->is_activity == Meeting::NOT_ACTIVITY || ($this->is_activity == Meeting::IS_ACTIVITY && $cntActivities>0))
         ) {
          $this->isReadyToSend = true;
        } else {
@@ -417,6 +428,18 @@ class Meeting extends \yii\db\ActiveRecord
         // check if overall meeting state can be sent by owner
         $chosenPlace = false;
         $chosenTime = false;
+        $chosenActivity = false;
+        if ($this->is_activity==Meeting::IS_ACTIVITY) {
+          $cntActivities =0;
+          foreach($this->meetingActivities as $ma) {
+            if ($ma->status!=MeetingActivity::STATUS_REMOVED) {
+              $cntActivities+=1;
+              if ($ma->status == MeetingACTIVITY::STATUS_SELECTED) {
+                $chosenActivity = true;
+              }
+            }
+          }
+        }
         $cntPlaces = 0;
         foreach($this->meetingPlaces as $mp) {
           if ($mp->status!=MeetingPlace::STATUS_REMOVED) {
@@ -442,9 +465,12 @@ class Meeting extends \yii\db\ActiveRecord
           if ($cntTimes==1) {
             $chosenTime = true;
           }
+          if ($cntActivities ==1 || $this->is_activity == Meeting::NOT_ACTIVITY) {
+            $chosenActivity = true;
+          }
           if ($this->owner_id == $user_id ||
           $this->meetingSettings->participant_finalize) {
-            if ($chosenPlace && $chosenTime && $this->isSomeoneAvailable()) {
+            if ($chosenPlace && $chosenTime && $chosenActivity && $this->isSomeoneAvailable()) {
               $this->isReadyToFinalize = true;
             }
           }

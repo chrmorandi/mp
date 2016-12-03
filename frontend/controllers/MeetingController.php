@@ -47,7 +47,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','createactivity','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
+                               'actions'=>['create','createactivity','index','view','viewplace','removeplace','viewactivity','removeactivity','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
                                'roles' => ['@'],
                            ],
                           [
@@ -363,6 +363,30 @@ class MeetingController extends Controller
         Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting place has been removed.'));
       } else {
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you may not have access to removing meeting places.'));
+      }
+      return $this->redirect(['view','id'=>$meeting_id]);
+    }
+
+    public function actionViewactivity($id,$activity_id)
+    {
+      $meeting_activity= MeetingActivity::find()->where(['id'=>$activity_id,'meeting_id'=>$id])->one();
+      $model = $this->findModel($id);
+      $model->prepareView();
+        return $this->render('viewactivity', [
+            'model' => $model,
+            'viewer' => Yii::$app->user->getId(),
+            'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+            'activity' => $meeting_activity,
+        ]);
+    }
+
+    public function actionRemoveactivity($meeting_id,$activity_id)
+    {
+      $result= MeetingActivity::removeActivity($meeting_id,$activity_id);
+      if ($result) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting activity has been removed.'));
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you may not have access to removing meeting activitys.'));
       }
       return $this->redirect(['view','id'=>$meeting_id]);
     }
