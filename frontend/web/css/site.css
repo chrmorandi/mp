@@ -221,12 +221,12 @@ table.table-list td.table-switches {
   padding-bottom: 25px;
 }
 
-.panel-where, .panel-when {
+.panel-where, .panel-when, .panel_activity {
   padding: 0 3px 0 3px;
   margin:0px;
 }
 
-.where-form, .when-form {
+.where-form, .when-form, .activity-form {
   padding: 10px;
 }
 

@@ -23,9 +23,12 @@ echo $this->render('_timezone_alerts');
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
-
+  <?= $this->render('./_panel_what', [
+      'model'=>$model,
+      'isOwner' => $isOwner,
+  ]); ?>
   <?php
-    if ($model->meeting_type == $model::TYPE_ACTIVITY) {
+    if ($model->is_activity == $model::IS_ACTIVITY) {
       echo $this->render('../meeting-activity/_panel', [
          'model'=>$model,
          'isOwner' => $isOwner,
@@ -33,13 +36,7 @@ echo $this->render('_timezone_alerts');
          'activityProvider' => $activityProvider,
          'meetingActivity'=>$meetingActivity,
      ]);
-   } else {
-      // what
-     echo $this->render('./_panel_what', [
-         'model'=>$model,
-         'isOwner' => $isOwner,
-     ]);
-   }
+    }
    ?>
 
         <?php //who

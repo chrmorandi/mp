@@ -124,11 +124,6 @@ if ($mode =='upcoming' || $mode =='past') {
 'modelClass' => 'Meeting',
 ]), ['create'], ['class' => 'btn btn-success horizontal-pad']); ?>
 
-<?php
-if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_SP) {
-  echo Html::a(Yii::t('frontend', Yii::t('frontend','Schedule an Activity'), [
+<?= Html::a(Yii::t('frontend', Yii::t('frontend','Schedule an Activity'), [
 'modelClass' => 'Meeting',
-]), ['createactivity'], ['class' => 'btn btn-warning']);
-
-}
- ?>
+]), ['createactivity'], ['class' => 'btn btn-warning']); ?>

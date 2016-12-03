@@ -10,11 +10,11 @@ use \kartik\switchinput\SwitchInput;
         <td class="table-list-first"> <!-- activity & status -->
           something here
           <?php
-            if ($whenStatus['text'][$model->id]<>'') {
+            if ($activityStatus['text'][$model->id]<>'') {
             ?>
             <br /><span class="smallStatus">
             <?php
-            echo $whenStatus['text'][$model->id];
+            echo $activityStatus['text'][$model->id];
             ?>
           </span><br />
             <?php

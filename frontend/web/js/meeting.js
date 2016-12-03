@@ -96,7 +96,11 @@ $(document).ready(function(){
           $('#notifierChoosePlace').show();
         } else if (mode == 'choosetime') {
            $('#notifierChooseTime').show();
-         } else {
+     } else if (mode == 'activity') {
+        $('#notifierPlace').show();
+      } else if (mode == 'chooseactivity') {
+         $('#notifierChooseActivity').show();
+     } else {
         alert("We\'ll automatically notify the organizer when you're done making changes.");
       }
       notifierOkay=false;
@@ -309,6 +313,91 @@ function cancelWhat() {
   showWhat();
 }
 
+function showActivity() {
+  if ($('#addActivity').hasClass( "hidden")) {
+    $('#addActivity').removeClass("hidden");
+    $('.activity-form').removeClass("hidden");
+  } else {
+    $('#addActivity').addClass("hidden");
+    $('.activity-form').addClass("hidden");
+  }
+};
+
+function cancelActivity() {
+  $('#addActivity').addClass("hidden");
+  $('.activity-form').addClass("hidden");
+}
+
+function addActivity(id) {
+    activity = $('#meeting_activity').val();
+    // ajax submit subject and message
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-activity/add',
+       data: {
+         id: id,
+        activity: encodeURIComponent(activity),
+      },
+       success: function(data) {
+         loadActivityChoices(id);
+         insertActivity(id);
+         displayAlert('activityMessage','activityMsg1');
+         return true;
+       }
+    });
+    $('#addActivity').addClass('hidden');
+  }
+
+  function insertActivity(id) {
+    $.ajax({
+     url: $('#url_prefix').val()+'/meeting-activity/insertactivity',
+     data: {
+       id: id,
+      },
+      type: 'GET',
+     success: function(data) {
+      $("#meeting-activity-list").html(data).removeClass('hidden');
+        $("input[name='meeting-activity-choice']").map(function(){
+          //$(this).bootstrapSwitch();
+          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes');
+          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no');
+          $(this).bootstrapSwitch('onColor','success');
+          $(this).bootstrapSwitch('offColor','danger');
+          $(this).bootstrapSwitch('handleWidth',50);
+          $(this).bootstrapSwitch('labelWidth',1);
+          $(this).bootstrapSwitch('size','small');
+        });
+     },
+   });
+   refreshSend();
+   refreshFinalize();
+  }
+
+function getActivities(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-activity/getactivityUNKNOWN',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#meeting-activity-list').html(data);
+   },
+ });
+}
+
+function loadActivityChoices(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-activity/loadchoices',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#activity-choices').html(data);
+   },
+ });
+}
+
 // toggle add participant panel
 function showParticipant() {
   if ($('#addParticipantPanel').hasClass( "hidden")) {
@@ -409,7 +498,7 @@ function addTime(id) {
     start = $('#meetingtime-start').val();
     duration = $('#meetingtime-duration').val();
     repeat_quantity = $('#meetingtime-repeat_quantity').val();
-    repeat_unit = $('#meetingtime-repeat_unit').val();    
+    repeat_unit = $('#meetingtime-repeat_unit').val();
     if (start_time =='' || start=='') {
       displayAlert('timeMessage','timeMsg2');
       return false;
@@ -699,7 +788,7 @@ function updateNoteThread(id) {
         // which msg to display
         switch (msg_id) {
           case 'noteMessage1':
-          $('#noteMessage1').removeClass('hidden'); // will share the note
+          $('#noteMessage1').removeClass('hidden');
           $('#noteMessage2').addClass('hidden');
           $('#noteMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
           break;
@@ -712,13 +801,13 @@ function updateNoteThread(id) {
       break;
       case 'participantMessage':
         // which msg to display
-        $('#participantMessageTell').addClass('hidden'); // will share the note
+        $('#participantMessageTell').addClass('hidden');
         $('#participantMessageError').addClass('hidden');
         $('#participantMessageOnlyOne').addClass("hidden");
         $('#participantMessageNoEmail').addClass("hidden");
         switch (msg_id) {
           case 'participantMessageTell':
-          $('#participantMessageTell').removeClass('hidden'); // will share the note
+          $('#participantMessageTell').removeClass('hidden');
           $('#participantMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
           break;
           case 'participantMessageError':
@@ -737,33 +826,49 @@ function updateNoteThread(id) {
       break;
       case 'placeMessage':
         // which msg to display
-        $('#placeMsg1').addClass('hidden'); // will share the note
-        $('#placeMsg2').addClass('hidden'); // will share the note
-        $('#placeMsg3').addClass('hidden'); // will share the note
+        $('#placeMsg1').addClass('hidden');
+        $('#placeMsg2').addClass('hidden');
+        $('#placeMsg3').addClass('hidden');
         switch (msg_id) {
           case 'placeMsg1':
-            $('#placeMsg1').removeClass('hidden'); // will share the note
+            $('#placeMsg1').removeClass('hidden');
             $('#placeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
           break;
           case 'placeMsg2':
-            $('#placeMsg2').removeClass('hidden'); // will share the note
+            $('#placeMsg2').removeClass('hidden');
             $('#placeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
           break;
         }
       break;
       case 'timeMessage':
         // which msg to display
-        $('#timeMsg1').addClass('hidden'); // will share the note
-        $('#timeMsg2').addClass('hidden'); // will share the note
-        //$('#timeMsg3').addClass('hidden'); // will share the note
+        $('#timeMsg1').addClass('hidden');
+        $('#timeMsg2').addClass('hidden');
+        //$('#timeMsg3').addClass('hidden');
         switch (msg_id) {
           case 'timeMsg1':
-            $('#timeMsg1').removeClass('hidden'); // will share the note
+            $('#timeMsg1').removeClass('hidden');
             $('#timeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
           break;
           case 'timeMsg2':
-            $('#timeMsg2').removeClass('hidden'); // will share the note
+            $('#timeMsg2').removeClass('hidden');
             $('#timeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+          break;
+        }
+      break;
+      case 'activityMessage':
+        // which msg to display
+        $('#activityMsg1').addClass('hidden'); 
+        $('#activityMsg2').addClass('hidden');
+        $('#activityMsg3').addClass('hidden');
+        switch (msg_id) {
+          case 'activityMsg1':
+            $('#activityMsg1').removeClass('hidden');
+            $('#activityMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+          break;
+          case 'activityMsg2':
+            $('#activityMsg2').removeClass('hidden');
+            $('#activityMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
           break;
         }
       break;

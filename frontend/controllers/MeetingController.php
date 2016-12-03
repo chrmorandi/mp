@@ -234,7 +234,7 @@ class MeetingController extends Controller
       $meetingActivity = new MeetingActivity();
       $meetingActivity->meeting_id= $model->id;
       $meetingActivity->suggested_by= Yii::$app->user->getId();
-      $meetingActivity->status = MeetingActivity::STATUS_SUGGESTED;    
+      $meetingActivity->status = MeetingActivity::STATUS_SUGGESTED;
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
@@ -250,7 +250,7 @@ class MeetingController extends Controller
               ]
             ],
         ]);
-        if ($model->meeting_type == Meeting::TYPE_ACTIVITY) {
+        if ($model->is_activity == Meeting::IS_ACTIVITY) {
           $activityProvider = new ActiveDataProvider([
               'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
                 ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
@@ -397,6 +397,7 @@ class MeetingController extends Controller
           $model->owner_id= Yii::$app->user->getId();
           $model->sequence_id = 0;
           $model->meeting_type = 0;
+          $model->is_activity = Meeting::NOT_ACTIVITY;
           $model->subject = Meeting::DEFAULT_SUBJECT;
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);
@@ -421,7 +422,7 @@ class MeetingController extends Controller
           $model = new Meeting();
           $model->owner_id= Yii::$app->user->getId();
           $model->sequence_id = 0;
-          $model->meeting_type = Meeting::TYPE_ACTIVITY;
+          $model->is_activity = Meeting::IS_ACTIVITY;
           $model->subject = Meeting::DEFAULT_SUBJECT;
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);

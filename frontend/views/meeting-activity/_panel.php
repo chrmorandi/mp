@@ -5,7 +5,7 @@ use yii\bootstrap\Collapse;
 use \kartik\switchinput\SwitchInput;
 ?>
 <div id="notifierActivity" class="alert-info alert fade in" style="display:none;">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&activitys;</button>
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 <?php echo Yii::t('frontend',"We'll automatically notify the organizer activity you're done making changes."); ?>
 </div>
 <div class="panel panel-default">
@@ -40,9 +40,9 @@ use \kartik\switchinput\SwitchInput;
     <div class="panel-activity">
       <div class="activity-form hidden">
         <div id="activityMessage" class="alert-info alert fade in hidden">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&activitys;</button>
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <span id="activityMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
-          <span id="activityMsg2"><?= Yii::t('frontend','Please pick an activity.')?></span>
+          <span id="activityMsg2"><?= Yii::t('frontend','Please choose an activity.')?></span>
         </div>
         <div id="addActivity" class="hidden">
           <!-- hidden add activity form -->
@@ -61,12 +61,16 @@ use \kartik\switchinput\SwitchInput;
            'itemOptions' => ['class' => 'item'],
            'layout' => '{items}',
            'itemView' => '_list',
-           'viewParams' => ['activityzone'=>$activityzone,'activityCount'=>$activityProvider->count,'isOwner'=>$isOwner,'participant_choose_activity'=>$model->meetingSettings['participant_choose_activity'],'activityStatus'=>$activityStatus],
+           'viewParams' => ['activityCount'=>$activityProvider->count,
+           'isOwner'=>$isOwner,'participant_choose_activity'=>$model->meetingSettings['participant_choose_activity'],
+           //'activityStatus'=>$activityStatus
+         ],
        ]) ?>
   <?php endif; ?>
   </table>
   </div>
   <div id="activity-choices">
+    Empty text
   <?php if ($activityProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_activity'])) { ?>
     <?= $this->render('../meeting-activity/_choices', [
           'model'=>$model,

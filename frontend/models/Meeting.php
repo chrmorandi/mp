@@ -37,6 +37,7 @@ use frontend\models\MeetingLog;
  * @property MeetingLog[] $meetingLogs
  * @property MeetingNote[] $meetingNotes
  * @property MeetingPlace[] $meetingPlaces
+ * @property MeetingActivity[] $meetingActivities
  * @property MeetingTime[] $meetingTimes
  * @property MeetingSetting[] $meetingSettings
  * @property Participant[] $participants
@@ -113,6 +114,10 @@ class Meeting extends \yii\db\ActiveRecord
 
   const DEFAULT_NEW_MEETING = 'New Meeting';
   const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
+
+  const NOT_ACTIVITY =0;
+  const IS_ACTIVITY =1;
+
 
   public $has_subject = false;
   public $title;
@@ -282,6 +287,11 @@ class Meeting extends \yii\db\ActiveRecord
     public function getMeetingPlaces()
     {
         return $this->hasMany(MeetingPlace::className(), ['meeting_id' => 'id']);
+    }
+
+    public function getMeetingActivities()
+    {
+        return $this->hasMany(MeetingActivity::className(), ['meeting_id' => 'id']);
     }
 
     /**
@@ -1585,7 +1595,7 @@ class Meeting extends \yii\db\ActiveRecord
      public static function findEmptyActivity($user_id) {
        // looks for empty activity in last seven
        $meetings = Meeting::find()
-        ->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'meeting_type'=>Meeting::TYPE_ACTIVITY])
+        ->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::IS_ACTIVITY])
         ->limit(7)->orderBy(['id' => SORT_DESC])->all();
        foreach ($meetings as $m) {
          if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {

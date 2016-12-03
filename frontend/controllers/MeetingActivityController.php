@@ -216,47 +216,15 @@ class MeetingActivityController extends Controller
       return $this->redirect(['/meeting/view','id'=>$result]);
     }
 
-    public function actionAdd($id,$start,$start_time,$duration=1,$repeat_quantity=0,$repeat_unit='hour') {
+    public function actionAdd($id,$activity) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
-      date_default_timezone_set($timezone);
-      $cnt=0;
-      while ($cnt<=$repeat_quantity) {
-        $model = new MeetingActivity();
-        $model->start = urldecode($start);
-        $model->start_time = urldecode($start_time);
-        if (empty($model->start)) {
-          $model->start = Date('M d, Y',time()+3*24*3600);
-        }
-        $model->tz_current = $timezone;
-        $model->duration = $duration;
-        $model->meeting_id= $id;
-        $model->suggested_by= Yii::$app->user->getId();
-        $model->status = MeetingActivity::STATUS_SUGGESTED;
-        $selected_time = date_parse($model->start_time);
-        if ($selected_time['hour'] === false) {
-          $selected_time['hour'] =9;
-          $selected_time['minute'] =0;
-        }
-        // convert date time to timestamp
-        $model->start = strtotime($model->start) +  $selected_time['hour']*3600+ $selected_time['minute']*60;
-        if ($cnt>0) {
-          switch ($repeat_unit) {
-            case 'hour':
-              $model->start+=($cnt*3600);
-            break;
-            case 'day':
-              $model->start+=($cnt*24*3600);
-            break;
-            case 'week':
-              $model->start+=($cnt*7*24*3600);
-            break;
-          }
-        }
-        $model->end = $model->start + (3600*$model->duration);
-        $model->save();
-        $cnt+=1;
-      }
+      $model = new MeetingActivity;
+      $model->activity=$activity;
+      $model->meeting_id = $id;
+      $model->status=MeetingActivity::STATUS_SUGGESTED;
+      $model->suggested_by = Yii::$app->user->getId();      
+      $model->save();
+
       return true;
     }
 
