@@ -63,18 +63,16 @@ use \kartik\switchinput\SwitchInput;
            'itemView' => '_list',
            'viewParams' => ['activityCount'=>$activityProvider->count,
            'isOwner'=>$isOwner,'participant_choose_activity'=>$model->meetingSettings['participant_choose_activity'],
-           //'activityStatus'=>$activityStatus
+           'activityStatus'=>$activityStatus,
          ],
        ]) ?>
   <?php endif; ?>
   </table>
   </div>
-  <div id="activity-choices">
-    Empty text
+  <div id="activity-choices">    
   <?php if ($activityProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_activity'])) { ?>
     <?= $this->render('../meeting-activity/_choices', [
           'model'=>$model,
-          'activityzone'=>$activityzone,
       ]);
        ?>
   <?php }?>

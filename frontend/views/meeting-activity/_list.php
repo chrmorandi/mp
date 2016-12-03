@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use frontend\models\Meeting;
 use \kartik\switchinput\SwitchInput;
 ?>
@@ -7,8 +8,8 @@ use \kartik\switchinput\SwitchInput;
   <td >
     <table class="table-list"> <!-- list of activitys -->
       <tr>
-        <td class="table-list-first"> <!-- activity & status -->
-          something here
+        <td class="table-list-first"> <!-- activity & status -->          
+          <?= Html::a(Html::encode($model->activity),Url::to(['meeting/viewactivity','id'=>$model->meeting_id,'activity_id'=>$model->id],true)) ?>
           <?php
             if ($activityStatus['text'][$model->id]<>'') {
             ?>

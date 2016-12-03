@@ -152,4 +152,54 @@ class MeetingActivity extends \yii\db\ActiveRecord
     {
         return $this->hasMany(MeetingActivityChoice::className(), ['meeting_activity_id' => 'id']);
     }
+
+    public static function getActivityStatus($meeting,$viewer_id) {
+      // measures availability
+      // get an array of textual status of meeting places for $viewer_id
+      // Acceptable / Rejected / No response:
+      $activityStatus['style'] = [];
+      $activityStatus['text'] = [];
+      foreach ($meeting->meetingActivities as $ma) {
+        // build status for each place
+        $acceptableChoice=[];
+        $rejectedChoice=[];
+        $unknownChoice=[];
+        // to do - add meeting_id to MeetingActivityChoice for sortable queries
+        foreach ($ma->meetingActivityChoices as $mac) {
+          if ($mac->user_id == $viewer_id) continue;
+          switch ($mac->status) {
+            case MeetingActivityChoice::STATUS_UNKNOWN:
+              $unknownChoice[]=$mac->user_id;
+            break;
+            case MeetingActivityChoice::STATUS_YES:
+              $acceptableChoice[]=$mac->user_id;
+            break;
+            case MeetingActivityChoice::STATUS_NO:
+              $rejectedChoice[]=$mac->user_id;
+            break;
+          }
+        }
+        // to do - integrate current setting for this user in style setting
+        $temp ='';
+        // count those still in attendance
+        $cntP = Participant::find()
+          ->where(['meeting_id'=>$meeting->id])
+          ->andWhere(['status'=>Participant::STATUS_DEFAULT])
+          ->count()+1;
+        if (count($acceptableChoice)>0) {
+          $temp.='Acceptable to '.MiscHelpers::listNames($acceptableChoice,true,$cntP).'. ';
+          $activityStatus['style'][$ma->id]='success';
+        }
+        if (count($rejectedChoice)>0) {
+          $temp.='Rejected by '.MiscHelpers::listNames($rejectedChoice,true,$cntP).'. ';
+          $activityStatus['style'][$ma->id]='danger';
+        }
+        if (count($unknownChoice)>0) {
+          $temp.='No response from '.MiscHelpers::listNames($unknownChoice,true,$cntP,true).'.';
+          $activityStatus['style'][$ma->id]='warning';
+        }
+        $activityStatus['text'][$ma->id]=$temp;
+      }
+      return $activityStatus;
+    }
 }

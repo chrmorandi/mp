@@ -160,49 +160,26 @@ class MeetingActivityController extends Controller
     public function actionChoose($id,$val) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $parts = explode('_', $val);
-      // relies on naming of mt button id
-      $mt_id = intval($parts[2]); // get # from mp_plc_#
+      // relies on naming of mp button id
+      $ma_id = intval($parts[2]); // get # from mp_plc_#
       $meeting_id = intval($id);
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
-        !$mtg->meetingSettings['participant_choose_date_time']) return false;
-      foreach ($mtg->meetingActivitys as $mt) {
-        if ($mt->id == $mt_id) {
-          $mt->status = MeetingActivity::STATUS_SELECTED;
-          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),$mt_id);
+        !$mtg->meetingSettings['participant_choose_activity']) return false;
+      foreach ($mtg->meetingActivities as $ma) {
+        if ($ma->id == $ma_id) {
+          $ma->status = MeetingActivity::STATUS_SELECTED;
+          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_ACTIVITY,Yii::$app->user->getId(),$ma_id);
         }
         else {
-          if ($mt->status == MeetingActivity::STATUS_SELECTED) {
-              $mt->status = MeetingActivity::STATUS_SUGGESTED;
+          if ($ma->status == MeetingActivity::STATUS_SELECTED) {
+              $ma->status = MeetingActivity::STATUS_SUGGESTED;
           }
         }
-        $mt->save();
+        $ma->save();
       }
       return true;
     }
-/*
-    public function actionChoose($id,$val) {
-      // meeting_time_id needs to be set active
-      // other meeting_time_id for this meeting need to be set inactive
-      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $meeting_id = intval($id);
-      $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
-      if (Yii::$app->user->getId()!=$mtg->owner_id &&
-        !$mtg->meetingSettings['participant_choose_date_time']) return false;
-      foreach ($mtg->meetingActivitys as $mt) {
-        if ($mt->id == intval($val)) {
-          $mt->status = MeetingActivity::STATUS_SELECTED;
-          MeetingLog::add($meeting_id,MeetingLog::ACTION_CHOOSE_TIME,Yii::$app->user->getId(),intval($val));
-        }
-        else {
-          if ($mt->status == MeetingActivity::STATUS_SELECTED) {
-              $mt->status = MeetingActivity::STATUS_SUGGESTED;
-          }
-        }
-        $mt->save();
-      }
-      return true;
-    }*/
 
     public function actionRemove($id)
     {
@@ -222,7 +199,7 @@ class MeetingActivityController extends Controller
       $model->activity=$activity;
       $model->meeting_id = $id;
       $model->status=MeetingActivity::STATUS_SUGGESTED;
-      $model->suggested_by = Yii::$app->user->getId();      
+      $model->suggested_by = Yii::$app->user->getId();
       $model->save();
 
       return true;

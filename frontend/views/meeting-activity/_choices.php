@@ -22,7 +22,7 @@ use \frontend\models\MeetingActivity;
         <?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
       </div>
   <?php
-  foreach ($model->meetingActivity as $ma) {
+  foreach ($model->meetingActivities as $ma) {
     if ($ma->status == MeetingActivity::STATUS_REMOVED) continue;
       $btn_color = 'btn-default';
     if ($ma->status == MeetingActivity::STATUS_SELECTED) {
@@ -31,7 +31,7 @@ use \frontend\models\MeetingActivity;
   ?>
   <div class="btn-group btn-meetingactivity">
     <button id="btn_ma_<?= $ma->id ?>" type="button" class="btn btn-sm <?= $btn_color ?>" >
-      xxx
+      <?= $ma->activity ?>
     </button>
   </div>
 <?php

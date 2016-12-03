@@ -241,6 +241,7 @@ class MeetingController extends Controller
         }
         $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
         $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
+        $activityStatus = MeetingActivity::getActivityStatus($model,Yii::$app->user->getId());
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id])
               ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
@@ -283,6 +284,7 @@ class MeetingController extends Controller
               'placeProvider' => $placeProvider,
               'whereStatus' => $whereStatus,
               'whenStatus' => $whenStatus,
+              'activityStatus' => $activityStatus,
               'viewer' => Yii::$app->user->getId(),
               'isOwner' => $model->isOwner(Yii::$app->user->getId()),
               'timezone' => $timezone,

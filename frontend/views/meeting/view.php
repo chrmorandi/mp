@@ -34,6 +34,7 @@ echo $this->render('_timezone_alerts');
          'isOwner' => $isOwner,
          'viewer' => $viewer,
          'activityProvider' => $activityProvider,
+         'activityStatus'=>$activityStatus,
          'meetingActivity'=>$meetingActivity,
      ]);
     }

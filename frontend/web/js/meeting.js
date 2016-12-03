@@ -61,6 +61,29 @@ $(document).ready(function(){
     });
   });
 
+  // respond to change in meeting_place
+  $('[id^=btn_ma_]').click(function() {
+    current_id = $(this).attr('id');
+    $(this).addClass("btn-primary");
+    $(this).removeClass("btn-default");
+    $('[id^=btn_ma_]').each(function(index) {
+      if ($(this).attr('id')!=current_id) {
+        $(this).addClass("btn-default");
+        $(this).removeClass("btn-primary");
+      }
+    });
+    $.ajax({
+       url: $('#url_prefix').val()+'/meeting-activity/choose',
+       data: {id:   $('#meeting_id').val(), 'val': current_id},
+       success: function(data) {
+         displayNotifier('chooseactivity');
+         refreshSend();
+         refreshFinalize();
+         return true;
+       }
+    });
+  });
+
 
 });
 
@@ -858,7 +881,7 @@ function updateNoteThread(id) {
       break;
       case 'activityMessage':
         // which msg to display
-        $('#activityMsg1').addClass('hidden'); 
+        $('#activityMsg1').addClass('hidden');
         $('#activityMsg2').addClass('hidden');
         $('#activityMsg3').addClass('hidden');
         switch (msg_id) {
