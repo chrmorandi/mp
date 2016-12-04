@@ -409,7 +409,7 @@ function addTime(id) {
     start = $('#meetingtime-start').val();
     duration = $('#meetingtime-duration').val();
     repeat_quantity = $('#meetingtime-repeat_quantity').val();
-    repeat_unit = $('#meetingtime-repeat_unit').val();    
+    repeat_unit = $('#meetingtime-repeat_unit').val();
     if (start_time =='' || start=='') {
       displayAlert('timeMessage','timeMsg2');
       return false;
@@ -772,7 +772,9 @@ function updateNoteThread(id) {
 
  function toggleTimeAdvanced() {
    if ($('#timeAdvanced').hasClass('hidden')) {
+     $("select#meetingtime-repeat_quantity").prop('selectedIndex', 1);
       $('#timeAdvanced').removeClass('hidden');
+
    } else {
      $('#timeAdvanced').addClass('hidden');
      $("select#meetingtime-repeat_quantity").prop('selectedIndex', 0);
