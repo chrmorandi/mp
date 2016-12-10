@@ -26,12 +26,12 @@ class UserTokenController extends Controller // ActiveController
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>['view','register'],
+                   'actions'=>['view','register','regtest','sigtest'],
                    'roles' => ['@'],
                ],
               [
                   'allow' => true,
-                  'actions'=>['view','register'],
+                  'actions'=>['view','register','regtest','sigtest'],
                   'roles' => ['?'],
               ],
               // everything else is denied
@@ -40,7 +40,7 @@ class UserTokenController extends Controller // ActiveController
       ];
   }
 
-  public function beforeAction($action)
+  /*public function beforeAction($action)
   {
     // your custom code here, if you want the code to run before action filters,
     // which are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
@@ -55,7 +55,7 @@ class UserTokenController extends Controller // ActiveController
       echo 'your api keys are from the dark side';
       Yii::$app->end();
     }
-  }
+  }*/
 
   public function actionIndex() {
     echo 'index';
@@ -72,6 +72,22 @@ class UserTokenController extends Controller // ActiveController
           return false;
         }
       return true;
+    }
+
+    public function actionSigtest($str='jeff@lookahead.iojeffreifman7799442211xyzfacebook') {
+      $sig_target = hash_hmac('sha256',$str,Yii::$app->params['app_secret']);
+      return $sig_target;
+    }
+
+    public function actionRegtest($app_id='',$email='',$firstname ='',$lastname='',$oauth_token='',$source='',$sig='') {
+      // could move to before action by looping query params
+      // concatenate string of arguments using alphabetical order of the variable namespace and leave out $app_id and $sig
+      $sig_target = hash_hmac('sha256',$email.$firstname.$lastname.$oauth_token.$source,Yii::$app->params['app_secret']);
+      if ($app_id == Yii::$app->params['app_id'] && $sig==$sig_target) {
+        return 'it worked!';
+      } else {
+        return 'failed!';
+      }
     }
 
     public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$oauth_token='') {

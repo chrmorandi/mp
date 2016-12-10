@@ -35,4 +35,8 @@ class Service extends Model
       $obj->message = $message;
       return $obj;
     }
+
+    public static function verify() {
+
+    }
 }

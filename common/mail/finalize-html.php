@@ -55,7 +55,7 @@ use frontend\models\MeetingTime;
             <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:8px 20px; width:280px" align="center" width="280">
               <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse:separate">
                 <tr>
-                  <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; background-color:#fff; border:1px solid #ccc; border-radius:5px; padding:60px 75px; width:498px" align="center" bgcolor="#ffffff" width="498">
+                  <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; background-color:#fff; border:1px solid #ccc; border-radius:5px; padding:10px 0 10px 15px; width:498px" align="center" bgcolor="#ffffff" width="498">
                     <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                       <tr>
                         <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:left; border-collapse:collapse" align="left">

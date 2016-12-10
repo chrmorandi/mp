@@ -132,4 +132,5 @@ class UserToken extends \yii\db\ActiveRecord
             print_r($user->getErrors());
         }
     }
+
 }

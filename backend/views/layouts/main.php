@@ -57,9 +57,9 @@ AppAsset::register($this);
               $menuItems[]=[
                         'label' => 'Data',
                         'items' => [
-                          ['label' => Yii::t('frontend','Launch'), 'url' => ['/launch']],
-                          ['label' => Yii::t('frontend','Users'), 'url' => ['/user']],
-                          ['label' => Yii::t('frontend','Places'), 'url' => ['/place']],
+                          ['label' => Yii::t('frontend','Launch'), 'url' => ['/launch','sort'=>'-id']],
+                          ['label' => Yii::t('frontend','Users'), 'url' => ['/user','sort'=>'-id']],
+                          ['label' => Yii::t('frontend','Places'), 'url' => ['/place','sort'=>'-id']],
                         ],
                       ];
             if (Yii::$app->user->isGuest) {
@@ -82,7 +82,7 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container">          
+        <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
