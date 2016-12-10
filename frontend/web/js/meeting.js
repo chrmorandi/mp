@@ -902,7 +902,9 @@ function updateNoteThread(id) {
 
  function toggleTimeAdvanced() {
    if ($('#timeAdvanced').hasClass('hidden')) {
+     $("select#meetingtime-repeat_quantity").prop('selectedIndex', 1);
       $('#timeAdvanced').removeClass('hidden');
+
    } else {
      $('#timeAdvanced').addClass('hidden');
      $("select#meetingtime-repeat_quantity").prop('selectedIndex', 0);

@@ -97,7 +97,7 @@ use dosamigos\datetimepicker\DateTimePicker;
         ->dropDownList(
             $repeat_quantity
             ,
-            ['options'=>['1'=>['Selected'=>true]]]
+            ['options'=>['0'=>['Selected'=>true]]]
         );
         ?>
       </div>
