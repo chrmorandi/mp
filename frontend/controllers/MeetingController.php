@@ -320,7 +320,7 @@ class MeetingController extends Controller
         }
         $chosenTime = Meeting::getChosenTime($id);
         if ($model->is_activity == Meeting::IS_ACTIVITY) {
-            $chosenActivity = Meeting::getChosenActivity($id);
+            $chosenActivity = Meeting::getChosenActivity($id)->activity;
         } else {
           $chosenActivity = false;
         }
@@ -334,7 +334,7 @@ class MeetingController extends Controller
             'isOwner' => $isOwner,
             'place' => $place,
             'time'=>$model->friendlyDateFromTimestamp($chosenTime->start,$timezone),
-            'activity' => $chosenActivity->activity,
+            'activity' => $chosenActivity,
             'showRunningLate'=>($chosenTime->start - time() > 0 && $chosenTime->start -time() <10800 )?true:false,
             'isPast'=>($chosenTime->start - time() < 0)?true:false,
             'gps'=>$gps,

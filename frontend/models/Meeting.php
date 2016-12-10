@@ -236,8 +236,10 @@ class Meeting extends \yii\db\ActiveRecord
         $meeting_setting->meeting_id = $meeting_id;
         $meeting_setting->participant_add_place=$user_setting->participant_add_place;
         $meeting_setting->participant_add_date_time=$user_setting->participant_add_date_time;
+        $meeting_setting->participant_add_activity=$user_setting->participant_add_activity;
         $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
         $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
+        $meeting_setting->participant_choose_activity=$user_setting->participant_choose_activity;
         $meeting_setting->participant_finalize=$user_setting->participant_finalize;
         $meeting_setting->participant_reopen=$user_setting->participant_reopen;
         $meeting_setting->participant_request_change=$user_setting->participant_request_change;
@@ -414,7 +416,7 @@ class Meeting extends \yii\db\ActiveRecord
        }
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
-        && ($cntPlaces>0 || $this->isVirtual())
+        && ($cntPlaces>0 || $this->isVirtual() || ($this->is_activity == Meeting::IS_ACTIVITY && $cntActivities>0))
         && $cntTimes>0
         && ($this->is_activity == Meeting::NOT_ACTIVITY || ($this->is_activity == Meeting::IS_ACTIVITY && $cntActivities>0))
         ) {
@@ -1173,8 +1175,12 @@ class Meeting extends \yii\db\ActiveRecord
          } else {
            $location ='';
          }
+         $subject = $meeting->subject;
+        if ($meeting->is_activity == Meeting::IS_ACTIVITY) {
+          $subject.=': '.Meeting::getChosenActivity($id)->activity;
+        }
         $invite
-         	->setSubject($meeting->subject)
+         	->setSubject($subject)
          	->setDescription($description)
           ->setStart($sdate)
          	->setEnd($edate)

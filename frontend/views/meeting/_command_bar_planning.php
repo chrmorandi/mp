@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use frontend\models\Meeting;
 use frontend\models\Participant;
 ?>
 <div class="command-bar">
@@ -64,14 +65,20 @@ use frontend\models\Participant;
     <?php
     if ($model->isOrganizer() && $model->status < $model::STATUS_SENT)
      {
-    echo Html::a('<i class="glyphicon glyphicon-send"></i>&nbsp;'.Yii::t('frontend', 'Send'), ['send', 'id' => $model->id], ['id'=>'actionSend','class' => 'btn btn-primary '.(!$model->isReadyToSend?'disabled':'')]);
+    echo Html::a('<i class="glyphicon glyphicon-send"></i>&nbsp;'.Yii::t('frontend', 'Invite'),
+     ['send', 'id' => $model->id], ['id'=>'actionSend',
+     'title'=>Yii::t('frontend','emails the preliminary invitation to participant(s)'),
+     'class' => 'btn btn-primary '.(!$model->isReadyToSend?'disabled':'')]);
     }
   ?>
     </span>
     <span class="button-pad">
         <?php
         if (($model->isOrganizer() || $model->meetingSettings->participant_finalize) && $model->status<$model::STATUS_CONFIRMED) {
-          echo Html::a('<i class="glyphicon glyphicon-time"></i>&nbsp;'.Yii::t('frontend', 'Finalize'), ['finalize', 'id' => $model->id], ['id'=>'actionFinalize','class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
+          echo Html::a('<i class="glyphicon glyphicon-time"></i>&nbsp;'.Yii::t('frontend', 'Complete'),
+            ['finalize', 'id' => $model->id], ['id'=>'actionFinalize',
+            'title'=>($model->is_activity==Meeting::NOT_ACTIVITY?'finalize the schedule only after time and place are chosen':'finalize the schedule only after activity, time and place are chosen'),
+            'class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
         }
          ?>
          </span>

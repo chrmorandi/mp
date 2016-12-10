@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\components\MiscHelpers;
-use yii\helpers\BaseHtml;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserSetting */
 /* @var $form yii\widgets\ActiveForm */
@@ -25,8 +24,8 @@ use yii\helpers\BaseHtml;
     <?php
     $form = ActiveForm::begin();
          ?>
-         <?= BaseHtml::activeHiddenInput($model, 'url_prefix',['value'=>\common\components\MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
-         <?= BaseHtml::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
+         <?= Html::activeHiddenInput($model, 'url_prefix',['value'=>\common\components\MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+         <?= Html::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
         <div class="col-md-8">
          <!-- Nav tabs -->
          <ul class="nav nav-tabs" role="tablist">
@@ -67,8 +66,10 @@ use yii\helpers\BaseHtml;
              <strong><?= Yii::t('frontend','Allow participants to:'); ?></strong><br /><br />
              <?= $form->field($model, 'participant_add_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_add_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+             <?= $form->field($model, 'participant_add_activity')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_choose_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_choose_date_time')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+             <?= $form->field($model, 'participant_choose_activity')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_finalize')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_request_change')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_reopen')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>

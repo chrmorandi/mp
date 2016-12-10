@@ -37,13 +37,8 @@ class Fix
     // task resets default user settings for everyone
       $all = UserSetting::find()->all();
       foreach ($all as $us) {
-        $us->participant_add_place=UserSetting::SETTING_ON;
-        $us->participant_add_date_time=UserSetting::SETTING_ON;
-        $us->participant_choose_place=UserSetting::SETTING_ON;
-        $us->participant_choose_date_time=UserSetting::SETTING_ON;
-        $us->participant_finalize=UserSetting::SETTING_ON;
-        $us->participant_request_change=UserSetting::SETTING_ON;
-        $us->participant_reopen=UserSetting::SETTING_OFF;
+        $us->participant_add_activity=$us->participant_add_place;
+        $us->participant_choose_activity=$us->participant_choose_place;
         $us->update();
       }
   }
