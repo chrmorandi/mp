@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('frontend', 'Remove this Time Option'), ['remove', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('frontend', 'Are you sure you want remove delete this meeting time option?'),
+                'confirm' => Yii::t('frontend', 'Are you sure you want delete this meeting time option?'),
                 'method' => 'post',
             ],
         ]) ?>

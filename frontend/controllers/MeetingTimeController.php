@@ -20,7 +20,7 @@ use yii\widgets\ListView;
  */
 class MeetingTimeController extends Controller
 {
-    const STATUS_PROPOSED = 0;
+    const STATUS_SUGGESTED = 0;
     const STATUS_SELECTED = 10;
 
     public function behaviors()
@@ -83,7 +83,7 @@ class MeetingTimeController extends Controller
       $model->duration = 1;
       $model->meeting_id= $meeting_id;
       $model->suggested_by= Yii::$app->user->getId();
-      $model->status = self::STATUS_PROPOSED;
+      $model->status = self::STATUS_SUGGESTED;
       //if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {}
         if ($model->load(Yii::$app->request->post())) {
           if (empty($model->start)) {

@@ -185,7 +185,7 @@ table.table-list td.table-switches {
   visible:false;
 }
 
-.btn-participant, .btn-meetingplace, .btn-meetingtime {
+.btn-participant, .btn-meetingplace, .btn-meetingtime, .btn-meetingactivity {
   margin: 0 7px 7px 0;
 }
 

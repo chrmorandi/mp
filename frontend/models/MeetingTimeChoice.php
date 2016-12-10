@@ -40,7 +40,8 @@ class MeetingTimeChoice extends \yii\db\ActiveRecord
     {
         return [
             [['meeting_time_id', 'user_id'], 'required'],
-            [['meeting_time_id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer']
+            [['meeting_time_id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 

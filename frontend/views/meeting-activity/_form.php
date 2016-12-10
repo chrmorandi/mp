@@ -15,22 +15,17 @@ use \kartik\typeahead\TypeaheadBasic;
     <div class="col-xs-12 col-md-8 col-lg-8">
     <?php $form = ActiveForm::begin();?>
     <?= Html::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
-    <?php
-//    id="meetingplace-place_id" name="MeetingPlace[place_id]">
-    $activities=MeetingActivity::defaultActivityList();
-
-      ?>
-      <p><strong><?= Yii::t('frontend','Suggest an activity');?></strong></p>
-<select class="combobox input-large form-control" id="meeting_activity" name="Meeting[activity]">
-<option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see suggestions or suggest a different one')?></option>
-  <?php
-  foreach ($activities as $activity) {
-    ?>
-    <option value="<?= $activity;?>"><?= $activity;?></option>
-    <?php
-  }
-  ?>
-</select>
+<?php
+$activities=MeetingActivity::defaultActivityList();
+echo $form->field($model, 'activity')->label(Yii::t('frontend','Suggest an activity'))->widget(TypeaheadBasic::classname(), [
+'data' => $activities,
+'options' => ['placeholder' => Yii::t('frontend','enter your suggestions'),
+'id'=>'meeting_activity',
+  //'class'=>'input-large form-control'
+],
+'pluginOptions' => ['highlight'=>true],
+]);
+?>
   </div>
   </div>
   <div class="clearfix"><p></div>

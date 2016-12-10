@@ -400,9 +400,8 @@ class Meeting extends \yii\db\ActiveRecord
            $cntTimes+=1;
          }
        }
-
+       $cntActivities =0; // for either type of meeting
        if ($this->is_activity==Meeting::IS_ACTIVITY) {
-         $cntActivities =0;
          foreach($this->meetingActivities as $ma) {
            if ($ma->status!=MeetingActivity::STATUS_REMOVED) {
              $cntActivities+=1;
@@ -429,8 +428,8 @@ class Meeting extends \yii\db\ActiveRecord
         $chosenPlace = false;
         $chosenTime = false;
         $chosenActivity = false;
+        $cntActivities =0; // for either type of meeting
         if ($this->is_activity==Meeting::IS_ACTIVITY) {
-          $cntActivities =0;
           foreach($this->meetingActivities as $ma) {
             if ($ma->status!=MeetingActivity::STATUS_REMOVED) {
               $cntActivities+=1;

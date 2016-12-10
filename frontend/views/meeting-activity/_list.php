@@ -8,21 +8,20 @@ use \kartik\switchinput\SwitchInput;
   <td >
     <table class="table-list"> <!-- list of activitys -->
       <tr>
-        <td class="table-list-first"> <!-- activity & status -->          
+        <td class="table-list-first"> <!-- activity & status -->
           <?= Html::a(Html::encode($model->activity),Url::to(['meeting/viewactivity','id'=>$model->meeting_id,'activity_id'=>$model->id],true)) ?>
           <?php
             if ($activityStatus['text'][$model->id]<>'') {
             ?>
             <br /><span class="smallStatus">
-            <?php
-            echo $activityStatus['text'][$model->id];
+            <?= HTML::decode($activityStatus['text'][$model->id]);
             ?>
           </span><br />
             <?php
             }
           ?>
       </td>
-      <td class="table-switches"> <!-- col of switches to float right -->
+      <td class="table-switches"> <!-- col of switches to float right -->        
         <table >
           <tr>
               <td >
@@ -70,7 +69,6 @@ use \kartik\switchinput\SwitchInput;
                    }
                 ?>
               </td>
-
             </tr>
           </table>
         </td> <!-- end col with table of switches -->

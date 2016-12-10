@@ -9,7 +9,7 @@ use common\components\MiscHelpers;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\MeetingActivity */
 
-$this->title = 'activity view';
+$this->title = Html::decode($title);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting'), 'url' => ['/meeting/view','id'=>$model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('frontend', 'Return to Meeting'), ['/meeting/view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('frontend', 'Remove this Activity Option'), ['remove', 'id' => $model->id], [
+        <?= Html::a(Yii::t('frontend', 'Remove this Activity Option'), ['/meeting-activity/remove', 'meeting_id'=>$model->id,'activity_id' => $activity->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('frontend', 'Are you sure you want remove delete this meeting activity option?'),
+                'confirm' => Yii::t('frontend', 'Are you sure you want delete this meeting activity option?'),
                 'method' => 'post',
             ],
         ]) ?>

@@ -1,3 +1,72 @@
+// respond to change in meeting_place
+$(document).on("click", '[id^=btn_mp_]', function(event) {
+  current_id = $(this).attr('id');
+  $(this).addClass("btn-primary");
+  $(this).removeClass("btn-default");
+  $('[id^=btn_mp_]').each(function(index) {
+    if ($(this).attr('id')!=current_id) {
+      $(this).addClass("btn-default");
+      $(this).removeClass("btn-primary");
+    }
+  });
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-place/choose',
+     data: {id:   $('#meeting_id').val(), 'val': current_id},
+     success: function(data) {
+       displayNotifier('chooseplace');
+       refreshSend();
+       refreshFinalize();
+       return true;
+     }
+  });
+});
+
+// respond to change in meeting_time
+$(document).on("click", '[id^=btn_mt_]', function(event) {
+  current_id = $(this).attr('id');
+  $(this).addClass("btn-primary");
+  $(this).removeClass("btn-default");
+  $('[id^=btn_mt_]').each(function(index) {
+    if ($(this).attr('id')!=current_id) {
+      $(this).addClass("btn-default");
+      $(this).removeClass("btn-primary");
+    }
+  });
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-time/choose',
+     data: {id:   $('#meeting_id').val(), 'val': current_id},
+     success: function(data) {
+       displayNotifier('choosetime');
+       refreshSend();
+       refreshFinalize();
+       return true;
+     }
+  });
+});
+
+// respond to change in meeting_activity
+$(document).on("click", '[id^=btn_ma_]', function(event) {
+  current_id = $(this).attr('id');
+  $(this).addClass("btn-primary");
+  $(this).removeClass("btn-default");
+  $('[id^=btn_ma_]').each(function(index) {
+    if ($(this).attr('id')!=current_id) {
+      $(this).addClass("btn-default");
+      $(this).removeClass("btn-primary");
+    }
+  });
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-activity/choose',
+     data: {id:   $('#meeting_id').val(), 'val': current_id},
+     success: function(data) {
+       displayNotifier('chooseactivity');
+       refreshSend();
+       refreshFinalize();
+       return true;
+     }
+  });
+});
+
 $(document).ready(function(){
     // detect user timezone
     var tz = jstz.determine(); // Determines the time zone of the browser client
@@ -14,77 +83,6 @@ $(document).ready(function(){
       $(this).get(0).selectionStart=0;
       $(this).get(0).selectionEnd=999;
   })
-
-  // respond to change in meeting_place
-  $('[id^=btn_mp_]').click(function() {
-    current_id = $(this).attr('id');
-    $(this).addClass("btn-primary");
-    $(this).removeClass("btn-default");
-    $('[id^=btn_mp_]').each(function(index) {
-      if ($(this).attr('id')!=current_id) {
-        $(this).addClass("btn-default");
-        $(this).removeClass("btn-primary");
-      }
-    });
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting-place/choose',
-       data: {id:   $('#meeting_id').val(), 'val': current_id},
-       success: function(data) {
-         displayNotifier('chooseplace');
-         refreshSend();
-         refreshFinalize();
-         return true;
-       }
-    });
-  });
-
-  // respond to change in meeting_time
-  $('[id^=btn_mt_]').click(function() {
-    current_id = $(this).attr('id');
-    $(this).addClass("btn-primary");
-    $(this).removeClass("btn-default");
-    $('[id^=btn_mt_]').each(function(index) {
-      if ($(this).attr('id')!=current_id) {
-        $(this).addClass("btn-default");
-        $(this).removeClass("btn-primary");
-      }
-    });
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting-time/choose',
-       data: {id:   $('#meeting_id').val(), 'val': current_id},
-       success: function(data) {
-         displayNotifier('choosetime');
-         refreshSend();
-         refreshFinalize();
-         return true;
-       }
-    });
-  });
-
-  // respond to change in meeting_place
-  $('[id^=btn_ma_]').click(function() {
-    current_id = $(this).attr('id');
-    $(this).addClass("btn-primary");
-    $(this).removeClass("btn-default");
-    $('[id^=btn_ma_]').each(function(index) {
-      if ($(this).attr('id')!=current_id) {
-        $(this).addClass("btn-default");
-        $(this).removeClass("btn-primary");
-      }
-    });
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting-activity/choose',
-       data: {id:   $('#meeting_id').val(), 'val': current_id},
-       success: function(data) {
-         displayNotifier('chooseactivity');
-         refreshSend();
-         refreshFinalize();
-         return true;
-       }
-    });
-  });
-
-
 });
 
   // automatic timezones
@@ -254,6 +252,25 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
            return true;
          }
       });
+    } else if (e.target.id.match("^mac-") ) {
+      if (s) {
+        state = 1;
+      } else
+      {
+        state =0;
+      }
+      // mac- prefix is for meeting activity choices
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-activity-choice/set',
+         data: {id: e.target.id, 'state': state},
+         // e.target.value is selected MeetingActivityChoice model
+         success: function(data) {
+           displayNotifier('activity');
+           refreshSend();
+           refreshFinalize();
+           return true;
+         }
+      });
     }
   });
 
@@ -361,6 +378,7 @@ function addActivity(id) {
         activity: encodeURIComponent(activity),
       },
        success: function(data) {
+         $('#meeting_activity').val('');
          loadActivityChoices(id);
          insertActivity(id);
          displayAlert('activityMessage','activityMsg1');
@@ -404,19 +422,6 @@ function getActivities(id) {
     type: 'GET',
    success: function(data) {
      $('#meeting-activity-list').html(data);
-   },
- });
-}
-
-function loadActivityChoices(id) {
-  $.ajax({
-   url: $('#url_prefix').val()+'/meeting-activity/loadchoices',
-   data: {
-     id: id,
-    },
-    type: 'GET',
-   success: function(data) {
-     $('#activity-choices').html(data);
    },
  });
 }
@@ -561,6 +566,7 @@ function addTime(id) {
           $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-ok"></i>&nbsp;choose');
           $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
           $(this).bootstrapSwitch('onColor','success');
+          $(this).bootstrapSwitch('offColor','danger');
           $(this).bootstrapSwitch('handleWidth',70);
           $(this).bootstrapSwitch('labelWidth',1);
           $(this).bootstrapSwitch('size','small');
@@ -616,6 +622,19 @@ function loadPlaceChoices(id) {
     type: 'GET',
    success: function(data) {
      $('#where-choices').html(data);
+   },
+ });
+}
+
+function loadActivityChoices(id) {
+  $.ajax({
+   url: $('#url_prefix').val()+'/meeting-activity/loadchoices',
+   data: {
+     id: id,
+    },
+    type: 'GET',
+   success: function(data) {
+     $('#activity-choices').html(data);
    },
  });
 }

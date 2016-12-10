@@ -1,5 +1,4 @@
 <?php
-
 namespace frontend\models;
 
 use Yii;
@@ -11,6 +10,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $meeting_id
  * @property string $activity
+ * @property integer $availability
  * @property integer $suggested_by
  * @property integer $status
  * @property integer $created_at
@@ -81,15 +81,15 @@ class MeetingActivity extends \yii\db\ActiveRecord
         Yii::t('frontend','Dessert'),
         Yii::t('frontend','Dinner'),
         Yii::t('frontend','Drinks'),
-        Yii::t('frontend','Go dancing'),
-        Yii::t('frontend','Go for a walk'),
-        Yii::t('frontend','Go to counseling'),
-        Yii::t('frontend','Go to a concert'),
-        Yii::t('frontend','Go to a party'),
-        Yii::t('frontend','Go to a protest'),
-        Yii::t('frontend','Go to a show'),
-        Yii::t('frontend','Go to the bar'),
-        Yii::t('frontend','Go to the movies'),
+        Yii::t('frontend','Dancing'),
+        Yii::t('frontend','Walking'),
+        Yii::t('frontend','Counseling'),
+        Yii::t('frontend','Concert'),
+        Yii::t('frontend','Party'),
+        Yii::t('frontend','Protest'),
+        Yii::t('frontend','Theater'),
+        Yii::t('frontend','Bar'),
+        Yii::t('frontend','Movies'),
         Yii::t('frontend','Happy hour'),
         Yii::t('frontend','Hiking'),
         Yii::t('frontend','Lunch'),
@@ -103,7 +103,7 @@ class MeetingActivity extends \yii\db\ActiveRecord
         Yii::t('frontend','Snowboarding'),
         Yii::t('frontend','Snowshoeing'),
         Yii::t('frontend','Stand up comedy'),
-        Yii::t('frontend','Walk the dogs'),
+        Yii::t('frontend','Dog walking'),
         Yii::t('frontend','Watch movies'),
         Yii::t('frontend','Watch sports'),
         Yii::t('frontend','Volunteer'),
@@ -202,4 +202,57 @@ class MeetingActivity extends \yii\db\ActiveRecord
       }
       return $activityStatus;
     }
+
+    public static function withinLimit($meeting_id) {
+      // how many meetingtimes added to this meeting
+      $cnt = MeetingActivity::find()
+        ->where(['meeting_id'=>$meeting_id])
+        ->count();
+        // per user limit option: ->where(['suggested_by'=>$user_id])
+      if ($cnt >= MeetingActivity::MEETING_LIMIT ) {
+        return false;
+      }
+      return true;
+    }
+
+    public function afterSave($insert,$changedAttributes)
+    {
+        parent::afterSave($insert,$changedAttributes);
+        if ($insert) {
+          // if MeetingActivity is added
+          // add MeetingActivityChoice for owner and participants
+          $mac = new MeetingActivityChoice;
+          $mac->addForNewMeetingActivity($this->meeting_id,$this->suggested_by,$this->id);
+          MeetingLog::add($this->meeting_id,MeetingLog::ACTION_SUGGEST_ACTIVITY,$this->suggested_by,$this->id);
+        }
+    }
+
+    public function adjustAvailability($amount) {
+      $this->availability+=$amount;
+      $this->update();
+    }
+
+    public static function removeActivity($meeting_id,$activity_id)
+    {
+      $ma = MeetingActivity::find()
+        ->where(['meeting_id'=>$meeting_id,'id'=>$activity_id])
+        ->one();
+      $m = Meeting::findOne($meeting_id);
+      if ($m->isOrganizer() || $ma->suggested_by == Yii::$app->user->getId()) {
+        $ma->status = MeetingActivity::STATUS_REMOVED;
+        $ma->update();
+        MeetingLog::add($meeting_id,MeetingLog::ACTION_REMOVE_ACTIVITY,$ma->suggested_by,$activity_id);
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public static function addChoices($meeting_id,$participant_id) {
+      $allactivities = MeetingActivity::find()->where(['meeting_id'=>$meeting_id])->all();
+      foreach ($allactivities as $ma) {
+        MeetingActivityChoice::add($ma->id,$participant_id,0);
+      }
+    }
+
 }

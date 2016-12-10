@@ -3,23 +3,24 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\components\MiscHelpers;
-use frontend\models\Meeting;
-use frontend\models\MeetingActivity;
-use frontend\models\MeetingLog;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
+use yii\helpers\HTML;
 //use yii\web\Response;
+use common\components\MiscHelpers;
+use frontend\models\Meeting;
+use frontend\models\MeetingActivity;
+use frontend\models\MeetingLog;
 
 /**
  * MeetingActivityController implements the CRUD actions for MeetingActivity model.
  */
 class MeetingActivityController extends Controller
 {
-    const STATUS_PROPOSED = 0;
+    const STATUS_SUGGESTED = 0;
     const STATUS_SELECTED = 10;
 
     public function behaviors()
@@ -38,7 +39,7 @@ class MeetingActivityController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','inserttime','loadchoices'],
+                                'actions' => ['create','update','delete','choose','view','remove','add','insertactivity','loadchoices'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -72,31 +73,14 @@ class MeetingActivityController extends Controller
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of date times per meeting. Contact support if you need additional help or want to offer feedback.'));
         return $this->redirect(['/meeting/view', 'id' => $meeting_id]);
       }
-      //Yii::$app->response->format = Response::FORMAT_JSON;
-      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
-      date_default_timezone_set($timezone);
+      Yii::$app->response->format = Response::FORMAT_JSON;
       $mtg = new Meeting();
       $title = $mtg->getMeetingTitle($meeting_id);
       $model = new MeetingActivity();
-      $model->tz_current = $timezone;
-      $model->duration = 1;
       $model->meeting_id= $meeting_id;
       $model->suggested_by= Yii::$app->user->getId();
-      $model->status = self::STATUS_PROPOSED;
-      //if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {}
+      $model->status = self::STATUS_SUGGESTED;
         if ($model->load(Yii::$app->request->post())) {
-          if (empty($model->start)) {
-            $model->start = Date('M d, Y',time()+3*24*3600);
-          }
-          $model->start_time = Yii::$app->request->post()['MeetingActivity']['start_time'];
-          $selected_time = date_parse($model->start_time);
-          if ($selected_time['hour'] === false) {
-            $selected_time['hour'] =9;
-            $selected_time['minute'] =0;
-          }
-          // convert date time to timestamp
-          $model->start = strtotime($model->start) +  $selected_time['hour']*3600+ $selected_time['minute']*60;
-          $model->end = $model->start + (3600*$model->duration);
           // validate the form against model rules
           if ($model->validate()) {
               // all inputs are valid
@@ -104,9 +88,7 @@ class MeetingActivityController extends Controller
               Meeting::displayNotificationHint($meeting_id);
               return $this->redirect(['/meeting/view', 'id' => $model->meeting_id]);
           } else {
-              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this date time may be a duplicate or there is some other problem.'));
-              $model->start = Date('M d, Y',time()+3*24*3600);
-              $model->start_time = '9:00 am';
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this activity may be a duplicate or there is some other problem.'));
                 // validation failed
               return $this->render('create', [
                   'model' => $model,
@@ -114,9 +96,6 @@ class MeetingActivityController extends Controller
               ]);
           }
         } else {
-          $model->start = Date('M d, Y',strtotime('today midnight')+3600*24*3);
-          $model->start_time = '';//Date('g:i a',time()+3*24*3600+9*60);
-
           return $this->render('create', [
               'model' => $model,
             'title' => $title,
@@ -181,38 +160,50 @@ class MeetingActivityController extends Controller
       return true;
     }
 
-    public function actionRemove($id)
+    public function actionRemove($meeting_id,$activity_id)
     {
-      $result=MeetingActivity::removeActivity($id);
+      $result=MeetingActivity::removeActivity($meeting_id,$activity_id);
       // successful result returns $meeting_id to return to
       if ($result!==false) {
-        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting time option has been removed.'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting activity option has been removed.'));
       } else {
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you may not have the right to remove meeting time options.'));
       }
-      return $this->redirect(['/meeting/view','id'=>$result]);
+      return $this->redirect(['/meeting/view','id'=>$meeting_id]);
     }
 
     public function actionAdd($id,$activity) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $model = new MeetingActivity;
-      $model->activity=$activity;
-      $model->meeting_id = $id;
-      $model->status=MeetingActivity::STATUS_SUGGESTED;
-      $model->suggested_by = Yii::$app->user->getId();
-      $model->save();
-
-      return true;
+      if (!MeetingActivity::withinLimit($id)) {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of activities per meeting. Contact support if you need additional help or want to offer feedback.'));
+        return $this->redirect(['/meeting/view', 'id' => $id]);
+      }
+      $activity_str = urldecode($activity);
+      $chk=MeetingActivity::find()
+        ->where(['meeting_id'=>$id])
+        ->andWhere(['activity'=>$activity_str])
+        ->count();
+      if ($chk==0) {
+        $model = new MeetingActivity;
+        $model->activity=$activity_str;
+        $model->meeting_id = $id;
+        $model->status=MeetingActivity::STATUS_SUGGESTED;
+        $model->suggested_by = Yii::$app->user->getId();
+        $model->save();
+        return true;
+      } else {
+        return false;
+      }
     }
 
-    public function actionInserttime($id) {
+    public function actionInsertactivity($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = $id;
       if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
         return false;
       }
       $model=Meeting::findOne($id);
-      $timeProvider = new ActiveDataProvider([
+      $activityProvider = new ActiveDataProvider([
           'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
             ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
           'sort' => [
@@ -221,52 +212,32 @@ class MeetingActivityController extends Controller
             ]
           ],
       ]);
-      $whenStatus = MeetingActivity::getWhenStatus($model,Yii::$app->user->getId());
-      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
+      $activityStatus = MeetingActivity::getActivityStatus($model,Yii::$app->user->getId());
       $result = ListView::widget([
-             'dataProvider' => $timeProvider,
+             'dataProvider' => $activityProvider,
              'itemOptions' => ['class' => 'item'],
              'layout' => '{items}',
-             'itemView' => '/meeting-time/_list',
-             'viewParams' => ['timeCount'=>$timeProvider->count,
-             'timezone'=>$timezone,
+             'itemView' => '/meeting-activity/_list',
+             'viewParams' => ['activityCount'=>$activityProvider->count,
              'isOwner'=>$model->isOwner(Yii::$app->user->getId()),
-             'participant_choose_date_time'=>$model->meetingSettings['participant_choose_date_time'],
-             'whenStatus'=>$whenStatus],
+             'participant_choose_activity'=>$model->meetingSettings['participant_choose_activity'],
+             'activityStatus'=>$activityStatus],
          ]) ;
          return $result;
     }
 
-    public function actionGettimes($id) {
-      // to do may not be used
-      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $m=Meeting::findOne($id);
-      $timeProvider = new ActiveDataProvider([
-          'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
-            ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
-          'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
-      ]);
-      $result =  $this->renderPartial('_thread', [
-          'model' =>$m,
-          'timeProvider' => $timeProvider,
-      ]);
-
-      return $result;
-    }
 
     public function actionLoadchoices($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $model=Meeting::findOne($id);
-      $timezone = MiscHelpers::fetchUserActivityzone(Yii::$app->user->getId());
-      $timeProvider = new ActiveDataProvider([
+      $activityProvider = new ActiveDataProvider([
           'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
             ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
           'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
       ]);
-      if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) {
+      if ($activityProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_activity'])) {
         return $this->renderPartial('_choices', [
               'model'=>$model,
-              'timezone'=>$timezone,
           ]);
       } else {
         return false;

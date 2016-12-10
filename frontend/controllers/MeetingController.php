@@ -377,6 +377,7 @@ class MeetingController extends Controller
             'viewer' => Yii::$app->user->getId(),
             'isOwner' => $model->isOwner(Yii::$app->user->getId()),
             'activity' => $meeting_activity,
+            'title'=>$meeting_activity->activity,
         ]);
     }
 
