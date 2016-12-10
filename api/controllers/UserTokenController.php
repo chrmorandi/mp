@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\HeaderCollection;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -26,12 +27,12 @@ class UserTokenController extends Controller // ActiveController
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>['view','register','regtest','sigtest'],
+                   'actions'=>['view','register','regtest','sigtest','headertest'],
                    'roles' => ['@'],
                ],
               [
                   'allow' => true,
-                  'actions'=>['view','register','regtest','sigtest'],
+                  'actions'=>['view','register','regtest','sigtest','headertest'],
                   'roles' => ['?'],
               ],
               // everything else is denied
@@ -82,6 +83,27 @@ class UserTokenController extends Controller // ActiveController
     public function actionRegtest($app_id='',$email='',$firstname ='',$lastname='',$oauth_token='',$source='',$sig='') {
       // could move to before action by looping query params
       // concatenate string of arguments using alphabetical order of the variable namespace and leave out $app_id and $sig
+      $sig_target = hash_hmac('sha256',$email.$firstname.$lastname.$oauth_token.$source,Yii::$app->params['app_secret']);
+      if ($app_id == Yii::$app->params['app_id'] && $sig==$sig_target) {
+        return 'it worked!';
+      } else {
+        return 'failed!';
+      }
+    }
+
+    public function actionHeadertest($sig='') {
+      // could move to before action by looping query params
+      // concatenate string of arguments using alphabetical order of the variable namespace and leave out $app_id and $sig
+      //$app_id='',$email='',$firstname ='',$lastname='',$oauth_token='',$source='',
+      $headers = Yii::$app->request->headers;
+      $email= $headers->get('email');
+      $firstname= $headers->get('firstname');
+      $lastname= $headers->get('lastname');
+      $oauth_token= $headers->get('oauth_token');
+      $source = $headers->get('source');
+      if ($headers->has('app_id')) {
+        $app_id = $headers->get('app_id');
+      }      
       $sig_target = hash_hmac('sha256',$email.$firstname.$lastname.$oauth_token.$source,Yii::$app->params['app_secret']);
       if ($app_id == Yii::$app->params['app_id'] && $sig==$sig_target) {
         return 'it worked!';
