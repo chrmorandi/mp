@@ -15,5 +15,5 @@ class MapAsset extends AssetBundle
     ];
     public $depends = [
     ];
-    public $publishOptions = ['linkAssets' => true];
+    public $publishOptions = [];
 }
