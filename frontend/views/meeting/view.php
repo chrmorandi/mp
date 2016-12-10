@@ -23,12 +23,23 @@ echo $this->render('_timezone_alerts');
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
-
-  <?php  // what
-  echo $this->render('./_panel_what', [
+  <?= $this->render('./_panel_what', [
       'model'=>$model,
       'isOwner' => $isOwner,
-  ]) ?>
+  ]); ?>
+  <?php
+    if ($model->is_activity == $model::IS_ACTIVITY) {
+      echo $this->render('../meeting-activity/_panel', [
+         'model'=>$model,
+         'isOwner' => $isOwner,
+         'viewer' => $viewer,
+         'activityProvider' => $activityProvider,
+         'activityStatus'=>$activityStatus,
+         'meetingActivity'=>$meetingActivity,
+     ]);
+    }
+   ?>
+
         <?php //who
           echo $this->render('../participant/_panel', [
               'model'=>$model,
@@ -37,7 +48,7 @@ echo $this->render('_timezone_alerts');
               'friends'=>$friends,
           ]);
          ?>
-
+         
          <?php // when
           echo $this->render('../meeting-time/_panel', [
              'model'=>$model,
@@ -49,6 +60,7 @@ echo $this->render('_timezone_alerts');
              'meetingTime'=>$meetingTime,
          ]) ?>
 
+        <div id="jumpPlace"></div>
         <?= $this->render('../meeting-place/_panel', [
               'model'=>$model,
               'placeProvider' => $placeProvider,

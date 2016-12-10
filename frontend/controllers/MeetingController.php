@@ -17,6 +17,8 @@ use frontend\models\Participant;
 use frontend\models\Request;
 use frontend\models\MeetingNote;
 use frontend\models\MeetingPlace;
+use frontend\models\MeetingActivity;
+use frontend\models\MeetingActivityChoice;
 use frontend\models\MeetingTime;
 use frontend\models\MeetingPlaceChoice;
 use frontend\models\MeetingTimeChoice;
@@ -45,7 +47,7 @@ class MeetingController extends Controller
                           // allow authenticated users
                            [
                                'allow' => true,
-                               'actions'=>['create','index','view','viewplace','removeplace','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
+                               'actions'=>['create','createactivity','index','view','viewplace','removeplace','viewactivity','removeactivity','update','delete', 'decline','cancel','cancelask','command','download','trash','late','cansend','canfinalize','send','finalize','virtual','reopen','reschedule','repeat','resend','identity','updatewhat','scheduleme'],
                                'roles' => ['@'],
                            ],
                           [
@@ -228,12 +230,18 @@ class MeetingController extends Controller
       $meetingPlace->meeting_id= $model->id;
       $meetingPlace->suggested_by= Yii::$app->user->getId();
       $meetingPlace->status = MeetingPlace::STATUS_SUGGESTED;
+      // prepare meeting activity form
+      $meetingActivity = new MeetingActivity();
+      $meetingActivity->meeting_id= $model->id;
+      $meetingActivity->suggested_by= Yii::$app->user->getId();
+      $meetingActivity->status = MeetingActivity::STATUS_SUGGESTED;
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
         }
         $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
         $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
+        $activityStatus = MeetingActivity::getActivityStatus($model,Yii::$app->user->getId());
         $timeProvider = new ActiveDataProvider([
             'query' => MeetingTime::find()->where(['meeting_id'=>$id])
               ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]]),
@@ -243,6 +251,19 @@ class MeetingController extends Controller
               ]
             ],
         ]);
+        if ($model->is_activity == Meeting::IS_ACTIVITY) {
+          $activityProvider = new ActiveDataProvider([
+              'query' => MeetingActivity::find()->where(['meeting_id'=>$id])
+                ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]]),
+              'sort' => [
+                'defaultOrder' => [
+                  'availability'=>SORT_DESC
+                ]
+              ],
+          ]);
+        } else {
+          $activityProvider = null;
+        }
         $placeProvider = new ActiveDataProvider([
             'query' => MeetingPlace::find()->where(['meeting_id'=>$id])
               ->andWhere(['status'=>[MeetingPlace::STATUS_SUGGESTED,MeetingPlace::STATUS_SELECTED]]),
@@ -258,10 +279,12 @@ class MeetingController extends Controller
               'meetingSettings' => $meetingSettings,
               'participantProvider' => $participantProvider,
               'timeProvider' => $timeProvider,
+              'activityProvider' => $activityProvider,
               'noteProvider' => $noteProvider,
               'placeProvider' => $placeProvider,
               'whereStatus' => $whereStatus,
               'whenStatus' => $whenStatus,
+              'activityStatus' => $activityStatus,
               'viewer' => Yii::$app->user->getId(),
               'isOwner' => $model->isOwner(Yii::$app->user->getId()),
               'timezone' => $timezone,
@@ -269,6 +292,7 @@ class MeetingController extends Controller
               'friends'=>$friends,
               'meetingTime'=>$meetingTime,
               'meetingPlace'=>$meetingPlace,
+              'meetingActivity'=>$meetingActivity,
           ]);
       } else {
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {
@@ -295,6 +319,11 @@ class MeetingController extends Controller
           $gps = false;
         }
         $chosenTime = Meeting::getChosenTime($id);
+        if ($model->is_activity == Meeting::IS_ACTIVITY) {
+            $chosenActivity = Meeting::getChosenActivity($id)->activity;
+        } else {
+          $chosenActivity = false;
+        }
         return $this->render('view_confirmed', [
             'tab'=>$tab,
             'model' => $model,
@@ -305,6 +334,7 @@ class MeetingController extends Controller
             'isOwner' => $isOwner,
             'place' => $place,
             'time'=>$model->friendlyDateFromTimestamp($chosenTime->start,$timezone),
+            'activity' => $chosenActivity,
             'showRunningLate'=>($chosenTime->start - time() > 0 && $chosenTime->start -time() <10800 )?true:false,
             'isPast'=>($chosenTime->start - time() < 0)?true:false,
             'gps'=>$gps,
@@ -343,6 +373,31 @@ class MeetingController extends Controller
       return $this->redirect(['view','id'=>$meeting_id]);
     }
 
+    public function actionViewactivity($id,$activity_id)
+    {
+      $meeting_activity= MeetingActivity::find()->where(['id'=>$activity_id,'meeting_id'=>$id])->one();
+      $model = $this->findModel($id);
+      $model->prepareView();
+        return $this->render('viewactivity', [
+            'model' => $model,
+            'viewer' => Yii::$app->user->getId(),
+            'isOwner' => $model->isOwner(Yii::$app->user->getId()),
+            'activity' => $meeting_activity,
+            'title'=>$meeting_activity->activity,
+        ]);
+    }
+
+    public function actionRemoveactivity($meeting_id,$activity_id)
+    {
+      $result= MeetingActivity::removeActivity($meeting_id,$activity_id);
+      if ($result) {
+        Yii::$app->getSession()->setFlash('success', Yii::t('frontend','The meeting activity has been removed.'));
+      } else {
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you may not have access to removing meeting activitys.'));
+      }
+      return $this->redirect(['view','id'=>$meeting_id]);
+    }
+
     /**
      * Creates a new Meeting model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -375,6 +430,7 @@ class MeetingController extends Controller
           $model->owner_id= Yii::$app->user->getId();
           $model->sequence_id = 0;
           $model->meeting_type = 0;
+          $model->is_activity = Meeting::NOT_ACTIVITY;
           $model->subject = Meeting::DEFAULT_SUBJECT;
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);
@@ -382,6 +438,28 @@ class MeetingController extends Controller
         }
         if ($with_id!=0) {
             Participant::add($meeting_id,$with_id,Yii::$app->user->getId());
+        }
+        $this->redirect(['view', 'id' => $meeting_id]);
+    }
+
+    public function actionCreateactivity()
+    {
+        if (!Meeting::withinLimit(Yii::$app->user->getId())) {
+          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, there are limits on how quickly you can create meetings. Visit support if you need assistance.'));
+          return $this->redirect(['index']);
+        }
+        // prevent creation of numerous empty meetings
+        $meeting_id = Meeting::findEmptyActivity(Yii::$app->user->getId());
+        if ($meeting_id===false) {
+        // otherwise, create a new meeting
+          $model = new Meeting();
+          $model->owner_id= Yii::$app->user->getId();
+          $model->sequence_id = 0;
+          $model->is_activity = Meeting::IS_ACTIVITY;
+          $model->subject = Meeting::DEFAULT_SUBJECT;
+          $model->save();
+          $model->initializeMeetingSetting($model->id,$model->owner_id);
+          $meeting_id = $model->id;
         }
         $this->redirect(['view', 'id' => $meeting_id]);
     }
@@ -678,6 +756,7 @@ class MeetingController extends Controller
           case Meeting::COMMAND_ACCEPT_ALL:
             MeetingTimeChoice::setAll($id,$actor_id);
             MeetingPlaceChoice::setAll($id,$actor_id);
+            MeetingActivityChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_ACCEPT_ALL_PLACES:
@@ -688,14 +767,21 @@ class MeetingController extends Controller
             MeetingTimeChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
+          case Meeting::COMMAND_ACCEPT_ALL_ACTIVITIES:
+            MeetingActivityChoice::setAll($id,$actor_id);
+            $this->redirect(['meeting/view','id'=>$id]);
+            break;
           case Meeting::COMMAND_ADD_PLACE:
-            $this->redirect(['meeting-place/create','meeting_id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id,'#' =>'jumpPlace']); // TO DO - ADD # links for each
           break;
           case Meeting::COMMAND_ADD_TIME:
-            $this->redirect(['meeting-time/create','meeting_id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id,'#' =>'jumpTime']);
+          break;
+          case Meeting::COMMAND_ADD_ACTIVITY:
+            $this->redirect(['meeting/view','id'=>$id,'#' =>'jumpActivity']);
           break;
           case Meeting::COMMAND_ADD_NOTE:
-            $this->redirect(['meeting-note/create','meeting_id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id,'tab' =>'notes']);
           break;
           case Meeting::COMMAND_ADD_CONTACT:
             $this->redirect(['/user-contact/create']);

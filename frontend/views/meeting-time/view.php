@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meeting'), 'url
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="meeting-time-view">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -33,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('frontend', 'Remove this Time Option'), ['remove', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('frontend', 'Are you sure you want remove delete this meeting time option?'),
+                'confirm' => Yii::t('frontend', 'Are you sure you want delete this meeting time option?'),
                 'method' => 'post',
             ],
         ]) ?>

@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
 ?>
+<div id="jumpTime"></div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading"  role="tab" id="headingWho">
@@ -33,7 +34,7 @@ use yii\bootstrap\Collapse;
                   'friends' => $friends,
               ]) ?>
         </div>
-      
+
     <div id="participantButtons">
     <?php
     if (!empty($participantProvider) and $participantProvider->getCount()>0):
@@ -57,7 +58,6 @@ use yii\bootstrap\Collapse;
   </span>
   </div>
   <?php } ?>
-
 </div>
 
 </div>

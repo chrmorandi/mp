@@ -5,6 +5,7 @@ use frontend\models\Meeting;
 ?>
 <div class="panel panel-default">
   <!-- Default panel contents -->
+  <div id="jumpActivity"></div>
   <div class="panel-heading" role="tab" id="headingWhat">
     <div class="row">
       <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhat" aria-expanded="true" aria-controls="collapseWhat"><?= Yii::t('frontend','Subject')?></a></h4>

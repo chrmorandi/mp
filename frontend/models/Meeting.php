@@ -22,6 +22,7 @@ use frontend\models\MeetingLog;
  * @property integer $id
  * @property integer $owner_id
  * @property integer $meeting_type
+ * @property integer $is_activity
  * @property string $subject
  * @property string $message
  * @property string $identifier
@@ -37,6 +38,7 @@ use frontend\models\MeetingLog;
  * @property MeetingLog[] $meetingLogs
  * @property MeetingNote[] $meetingNotes
  * @property MeetingPlace[] $meetingPlaces
+ * @property MeetingActivity[] $meetingActivities
  * @property MeetingTime[] $meetingTimes
  * @property MeetingSetting[] $meetingSettings
  * @property Participant[] $participants
@@ -56,6 +58,7 @@ class Meeting extends \yii\db\ActiveRecord
   const TYPE_BRUNCH = 90;
   const TYPE_OFFICE = 100;
   const TYPE_OTHER = 110;
+  const TYPE_ACTIVITY = 115;
   const TYPE_VIRTUAL = 150;
 
   const STATUS_PLANNING =0;
@@ -85,8 +88,13 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_REJECT_TIME = 210;
   const COMMAND_ACCEPT_ALL_TIMES = 220;
   const COMMAND_CHOOSE_TIME = 250;
+  const COMMAND_ACCEPT_ACTIVITY = 260;
+  const COMMAND_REJECT_ACTIVITY = 270;
+  const COMMAND_ACCEPT_ALL_ACTIVITIES = 280;
+  const COMMAND_CHOOSE_ACTIVITY = 290;
   const COMMAND_ADD_PLACE = 300;
   const COMMAND_ADD_TIME = 310;
+  const COMMAND_ADD_ACTIVITY = 315;
   const COMMAND_ADD_NOTE = 320;
   const COMMAND_ADD_CONTACT = 330;
   const COMMAND_RUNNING_LATE = 350;
@@ -111,6 +119,10 @@ class Meeting extends \yii\db\ActiveRecord
 
   const DEFAULT_NEW_MEETING = 'New Meeting';
   const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
+
+  const NOT_ACTIVITY =0;
+  const IS_ACTIVITY =1;
+
 
   public $has_subject = false;
   public $title;
@@ -224,8 +236,10 @@ class Meeting extends \yii\db\ActiveRecord
         $meeting_setting->meeting_id = $meeting_id;
         $meeting_setting->participant_add_place=$user_setting->participant_add_place;
         $meeting_setting->participant_add_date_time=$user_setting->participant_add_date_time;
+        $meeting_setting->participant_add_activity=$user_setting->participant_add_activity;
         $meeting_setting->participant_choose_place=$user_setting->participant_choose_place;
         $meeting_setting->participant_choose_date_time=$user_setting->participant_choose_date_time;
+        $meeting_setting->participant_choose_activity=$user_setting->participant_choose_activity;
         $meeting_setting->participant_finalize=$user_setting->participant_finalize;
         $meeting_setting->participant_reopen=$user_setting->participant_reopen;
         $meeting_setting->participant_request_change=$user_setting->participant_request_change;
@@ -280,6 +294,11 @@ class Meeting extends \yii\db\ActiveRecord
     public function getMeetingPlaces()
     {
         return $this->hasMany(MeetingPlace::className(), ['meeting_id' => 'id']);
+    }
+
+    public function getMeetingActivities()
+    {
+        return $this->hasMany(MeetingActivity::className(), ['meeting_id' => 'id']);
     }
 
     /**
@@ -387,10 +406,19 @@ class Meeting extends \yii\db\ActiveRecord
            $cntTimes+=1;
          }
        }
+       $cntActivities =0; // for either type of meeting
+       if ($this->is_activity==Meeting::IS_ACTIVITY) {
+         foreach($this->meetingActivities as $ma) {
+           if ($ma->status!=MeetingActivity::STATUS_REMOVED) {
+             $cntActivities+=1;
+           }
+         }
+       }
        if ($this->owner_id == $sender_id
         && count($this->participants)>0
-        && ($cntPlaces>0 || $this->isVirtual())
+        && ($cntPlaces>0 || $this->isVirtual() || ($this->is_activity == Meeting::IS_ACTIVITY && $cntActivities>0))
         && $cntTimes>0
+        && ($this->is_activity == Meeting::NOT_ACTIVITY || ($this->is_activity == Meeting::IS_ACTIVITY && $cntActivities>0))
         ) {
          $this->isReadyToSend = true;
        } else {
@@ -405,6 +433,18 @@ class Meeting extends \yii\db\ActiveRecord
         // check if overall meeting state can be sent by owner
         $chosenPlace = false;
         $chosenTime = false;
+        $chosenActivity = false;
+        $cntActivities =0; // for either type of meeting
+        if ($this->is_activity==Meeting::IS_ACTIVITY) {
+          foreach($this->meetingActivities as $ma) {
+            if ($ma->status!=MeetingActivity::STATUS_REMOVED) {
+              $cntActivities+=1;
+              if ($ma->status == MeetingACTIVITY::STATUS_SELECTED) {
+                $chosenActivity = true;
+              }
+            }
+          }
+        }
         $cntPlaces = 0;
         foreach($this->meetingPlaces as $mp) {
           if ($mp->status!=MeetingPlace::STATUS_REMOVED) {
@@ -430,9 +470,12 @@ class Meeting extends \yii\db\ActiveRecord
           if ($cntTimes==1) {
             $chosenTime = true;
           }
+          if ($cntActivities ==1 || $this->is_activity == Meeting::NOT_ACTIVITY) {
+            $chosenActivity = true;
+          }
           if ($this->owner_id == $user_id ||
           $this->meetingSettings->participant_finalize) {
-            if ($chosenPlace && $chosenTime && $this->isSomeoneAvailable()) {
+            if ($chosenPlace && $chosenTime && $chosenActivity && $this->isSomeoneAvailable()) {
               $this->isReadyToFinalize = true;
             }
           }
@@ -452,6 +495,10 @@ class Meeting extends \yii\db\ActiveRecord
       ->where(['meeting_id' => $this->id])
       ->andWhere(['status'=>[MeetingTime::STATUS_SUGGESTED,MeetingTime::STATUS_SELECTED]])
       ->orderBy(['id' => SORT_ASC])->all();
+    $activities = MeetingActivity::find()
+      ->where(['meeting_id' => $this->id])
+      ->andWhere(['status'=>[MeetingActivity::STATUS_SUGGESTED,MeetingActivity::STATUS_SELECTED]])
+      ->orderBy(['id' => SORT_ASC])->all();
     // Get message header
     $header = $this->getMeetingHeader();
   foreach ($this->participants as $p) {
@@ -469,6 +516,7 @@ class Meeting extends \yii\db\ActiveRecord
       'acceptall'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL,0,$p->participant_id,$auth_key,$this->site_id),
       'acceptplaces'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_PLACES,0,$p->participant_id,$auth_key,$this->site_id),
       'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$p->participant_id,$auth_key,$this->site_id),
+      'addactivity'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_ACTIVITY,0,$p->participant_id,$auth_key,$this->site_id),
       'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$p->participant_id,$auth_key,$this->site_id),
       'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$p->participant_id,$auth_key,$this->site_id),
       'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$p->participant_id,$auth_key,$this->site_id),
@@ -505,8 +553,10 @@ class Meeting extends \yii\db\ActiveRecord
         'header' => $header,
         'places' => $places,
         'times' => $times,
+        'activities'=>$activities,
         'notes' => $notes,
         'meetingSettings' => $this->meetingSettings,
+        'is_activity'=>$this->is_activity,
       ]);
       // to do - add full name
       $message->setFrom(array('support@meetingplanner.io'=>$this->owner->email));
@@ -559,6 +609,8 @@ class Meeting extends \yii\db\ActiveRecord
       }
       // chosen time
       $chosenTime=$this->getChosenTime($this->id);
+      // chosen Activity
+      $chosenActivity=$this->getChosenActivity($this->id);
       // build an attendees array of both the organizer and the participants
       // to do - this can be replaced by buildAttendeeList
       // but friendship reciprocate needs to be reviewed and included
@@ -602,6 +654,7 @@ class Meeting extends \yii\db\ActiveRecord
           'accepttimes'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ACCEPT_ALL_TIMES,0,$a['user_id'],$a['auth_key'],$this->site_id),
           'addplace'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_PLACE,0,$a['user_id'],$a['auth_key'],$this->site_id),
           'addtime'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_TIME,0,$a['user_id'],$a['auth_key'],$this->site_id),
+          'addactivity'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_ACTIVITY,0,$p->participant_id,$auth_key,$this->site_id),
           'addnote'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_ADD_NOTE,0,$a['user_id'],$a['auth_key'],$this->site_id),
           'footer_email'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_EMAIL,0,$a['user_id'],$a['auth_key'],$this->site_id),
           'footer_block'=>MiscHelpers::buildCommand($this->id,Meeting::COMMAND_FOOTER_BLOCK,$user_id,$a['user_id'],$a['auth_key'],$this->site_id),
@@ -628,8 +681,10 @@ class Meeting extends \yii\db\ActiveRecord
           'chosenPlace' => $chosenPlace,
           'contactListObj'=>$contactListObj,
           'chosenTime' => $chosenTime,
+          'chosenActivity' => $chosenActivity,
           'notes' => $notes,
           'meetingSettings' => $this->meetingSettings,
+          'is_activity'=>$this->is_activity,
           'reopened' => $reopened,
       ]);
         // to do - add full name
@@ -776,19 +831,19 @@ class Meeting extends \yii\db\ActiveRecord
         return $attendees;
        }
 
-           public function reopen() {
-             // when organizer or participant with permission asks to make changes
-             if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
-               $this->status = Meeting::STATUS_SENT;
-               $this->update();
-               $this->increaseSequence();
-               MeetingLog::add($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId());
-               return true;
-             } else {
-               // over limit per meeting
-               return false;
-             }
-           }
+       public function reopen() {
+         // when organizer or participant with permission asks to make changes
+         if (MeetingLog::withinActionLimit($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId(),7)) {
+           $this->status = Meeting::STATUS_SENT;
+           $this->update();
+           $this->increaseSequence();
+           MeetingLog::add($this->id,MeetingLog::ACTION_REOPEN,Yii::$app->user->getId());
+           return true;
+         } else {
+           // over limit per meeting
+           return false;
+         }
+       }
 
            public function reschedule() {
              $newOwner = $user_id = Yii::$app->user->getId();
@@ -1120,8 +1175,12 @@ class Meeting extends \yii\db\ActiveRecord
          } else {
            $location ='';
          }
+         $subject = $meeting->subject;
+        if ($meeting->is_activity == Meeting::IS_ACTIVITY) {
+          $subject.=': '.Meeting::getChosenActivity($id)->activity;
+        }
         $invite
-         	->setSubject($meeting->subject)
+         	->setSubject($subject)
          	->setDescription($description)
           ->setStart($sdate)
          	->setEnd($edate)
@@ -1580,6 +1639,19 @@ class Meeting extends \yii\db\ActiveRecord
        return false;
      }
 
+     public static function findEmptyActivity($user_id) {
+       // looks for empty activity in last seven
+       $meetings = Meeting::find()
+        ->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::IS_ACTIVITY])
+        ->limit(7)->orderBy(['id' => SORT_DESC])->all();
+       foreach ($meetings as $m) {
+         if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+           return $m->id;
+         }
+       }
+       return false;
+     }
+
     public static function findEmptyMeeting($user_id,$with_id = 0) {
       // if meeting with someone see if it exists already
       if ($with_id!=0) {
@@ -1755,7 +1827,7 @@ class Meeting extends \yii\db\ActiveRecord
       return $meeting->subject;
     }
 
-    // these next two functions are for when only a single place and time exist
+    // these next three functions are for when only a single place and time exist
     // but none is officially chosen to finalize
     public static function getChosenPlace($meeting_id) {
         $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
@@ -1802,6 +1874,25 @@ class Meeting extends \yii\db\ActiveRecord
           }
         }
         return $chosenTime;
+    }
+
+    public static function getChosenActivity($meeting_id) {
+        $meeting = Meeting::find()->where(['id'=>$meeting_id])->one();
+        if ($meeting->is_activity==Meeting::NOT_ACTIVITY) {
+          return false;
+        }
+        $chosenActivity = MeetingActivity::find()->where(['meeting_id' => $meeting_id,'status'=>MeetingActivity::STATUS_SELECTED])->one();
+        if (is_null($chosenActivity)) {
+          // no chosen Activity, set it as chosen
+          $activity = MeetingActivity::find()->where(['meeting_id' => $meeting_id])->one();
+          if (is_null($activity)) {
+            return false;
+          }
+          $activity->status = MeetingActivity::STATUS_SELECTED;
+          $activity->update();
+          $chosenActivity = $activity;
+        }
+        return $chosenActivity;
     }
 
     public function getContactListObj($user_id,$isOwner) {

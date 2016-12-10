@@ -15,12 +15,12 @@ use frontend\models\MeetingTime;
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:32px; line-height:normal; text-align:center; border-collapse:collapse; font-weight:700; padding:35px 0 0" align="center">
-            Your Meeting Request
+            Your <?= ($is_activity==Meeting::IS_ACTIVITY?'Activity':'Meeting')?> Request
           </td>
         </tr>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
-            <p><em>Hi, <?= $owner; ?> has invited you to a meeting <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key,$site_id)); ?>.</em></p>
+            <p><em>Hi, <?= $owner; ?> has invited you to a <?= ($is_activity==Meeting::IS_ACTIVITY?'activity':'meeting')?> <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key,$site_id)); ?>.</em></p>
             <p><?php echo $intro; ?></p>
           </td>
         </tr>
@@ -36,6 +36,39 @@ use frontend\models\MeetingTime;
           </div>
           </td>
         </tr>
+        <?php if ($is_activity==Meeting::IS_ACTIVITY) {?>
+          <tr>
+            <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:8px 20px; width:280px" align="center" width="280">
+              <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse:separate">
+                <tr>
+                  <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; background-color:#fff; border:1px solid #ccc; border-radius:5px; padding:12px 15px 15px; width:498px" align="center" bgcolor="#ffffff" width="498">
+                    <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                      <tr>
+                        <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:left; border-collapse:collapse" align="left">
+                          <span style="color:#4d4d4d; font-size:18px; font-weight:700; line-height:1.3; padding:5px 0">Possible Activities</span><br>
+                          <?php
+                            foreach($activities as $activity) {
+                              ?>
+                                  <?php echo $activity->activity; ?><br />
+                                  <?php
+                                }
+                            ?>
+                            <br />
+                            <?php
+                            if ($meetingSettings->participant_add_activity) { ?>
+                            <?php echo HTML::a(Yii::t('frontend','suggest an activity'),$links['addactivity']); ?><br />
+                            <?php
+                            }
+                            ?>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        <?php } ?>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse" align="center">
             <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
@@ -86,7 +119,7 @@ use frontend\models\MeetingTime;
                                   ?>
                                       <?php echo $p->place->name.' '; ?>
                                       <span style="font-size:75%;"><?php echo $p->place->vicinity; ?> <?php echo HTML::a(Yii::t('frontend','map'),
-                                      MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->place->id,$user_id,$auth_key,$site_id)); ?></span><br />
+                                      MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_VIEW_MAP,$p->place->id,$user_id,$auth_key,$site_id)); ?></span>
                                 <?php
                                     }
                                 ?>

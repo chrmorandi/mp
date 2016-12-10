@@ -44,6 +44,11 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_REMOVE_TIME = 23;
 	const ACTION_REJECT_TIME = 25;
 	const ACTION_INVITE_PARTICIPANT = 30;
+	const ACTION_SUGGEST_ACTIVITY = 70;
+	const ACTION_ACCEPT_ALL_ACTIVITIES =71;
+	const ACTION_ACCEPT_ACTIVITY = 72;
+	const ACTION_REMOVE_ACTIVITY = 73;
+	const ACTION_REJECT_ACTIVITY = 75;
 	const ACTION_ADD_NOTE = 40;
 	const ACTION_SEND_INVITE = 50;
 	const ACTION_SEND_EVERYONE_AVAILABLE = 55;
@@ -51,6 +56,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 	const ACTION_COMPLETE_MEETING = 100;
 	const ACTION_CHOOSE_PLACE = 110;
 	const ACTION_CHOOSE_TIME = 120;
+	const ACTION_CHOOSE_ACTIVITY = 130;
 	const ACTION_SENT_CONTACT_REQUEST = 150;
 	const ACTION_SENT_RUNNING_LATE = 160;
 	const ACTION_ABANDON_MEETING = 200;
@@ -99,7 +105,10 @@ class MeetingLog extends \yii\db\ActiveRecord
 		MeetingLog::ACTION_REJECT_PLACE,
 		MeetingLog::ACTION_ACCEPT_ALL_TIMES,
 		MeetingLog::ACTION_ACCEPT_TIME,
-		MeetingLog::ACTION_REJECT_TIME
+		MeetingLog::ACTION_REJECT_TIME,
+		MeetingLog::ACTION_ACCEPT_ALL_ACTIVITIES,
+		MeetingLog::ACTION_ACCEPT_ACTIVITY,
+		MeetingLog::ACTION_REJECT_ACTIVITY
 	];
     /**
      * @inheritdoc
@@ -222,10 +231,16 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_SUGGEST_TIME:
 				$label = Yii::t('frontend','added time');
 				break;
+				case MeetingLog::ACTION_SUGGEST_ACTIVITY:
+				$label = Yii::t('frontend','added activity');
+				break;
 				case MeetingLog::ACTION_REMOVE_PLACE:
 				$label = Yii::t('frontend','removed place');
 				break;
 				case MeetingLog::ACTION_REMOVE_TIME:
+				$label = Yii::t('frontend','removed time');
+				break;
+				case MeetingLog::ACTION_REMOVE_ACTIVITY:
 				$label = Yii::t('frontend','removed time');
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:
@@ -252,11 +267,23 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_REJECT_TIME:
 					$label = Yii::t('frontend','rejected time');
 				break;
+				case MeetingLog::ACTION_ACCEPT_ALL_ACTIVITIES:
+					$label = Yii::t('frontend','accepted all activities');
+				break;
+				case MeetingLog::ACTION_ACCEPT_ACTIVITY:
+					$label = Yii::t('frontend','accepted ACTIVITY');
+				break;
+				case MeetingLog::ACTION_REJECT_ACTIVITY:
+					$label = Yii::t('frontend','rejected ACTIVITY');
+				break;
 				case MeetingLog::ACTION_CHOOSE_PLACE:
 					$label = Yii::t('frontend','chose place');
 				break;
 				case MeetingLog::ACTION_CHOOSE_TIME:
 					$label = Yii::t('frontend','chose time');
+				break;
+				case MeetingLog::ACTION_CHOOSE_ACTIVITY:
+					$label = Yii::t('frontend','chose activity');
 				break;
 				case MeetingLog::ACTION_SEND_INVITE:
 				$label = Yii::t('frontend','Sent');
@@ -347,6 +374,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 				case MeetingLog::ACTION_RESEND:
 				case MeetingLog::ACTION_ACCEPT_ALL_PLACES:
 				case MeetingLog::ACTION_ACCEPT_ALL_TIMES:
+				case MeetingLog::ACTION_ACCEPT_ALL_ACTIVITIES:
 				case MeetingLog::ACTION_FINALIZE_INVITE:
 				case MeetingLog::ACTION_COMPLETE_MEETING:
 				case MeetingLog::ACTION_ABANDON_MEETING:
@@ -427,6 +455,19 @@ class MeetingLog extends \yii\db\ActiveRecord
 						$label = 'Error meeting time unknown';
 					} else {
 						$label = Meeting::friendlyDateFromTimestamp($mt->start);
+					}
+				break;
+				case MeetingLog::ACTION_CHOOSE_ACTIVITY:
+				case MeetingLog::ACTION_SUGGEST_ACTIVITY:
+				case MeetingLog::ACTION_REMOVE_ACTIVITY:
+				case MeetingLog::ACTION_ACCEPT_ACTIVITY:
+				case MeetingLog::ACTION_REJECT_ACTIVITY:
+					// get the start ACTIVITY
+					$ma = MeetingActivity::find()->where(['id'=>$this->item_id])->one();
+					if (is_null($ma)) {
+						$label = 'Error meeting activity unknown';
+					} else {
+						$label = $ma->activity;
 					}
 				break;
 				case MeetingLog::ACTION_ADD_NOTE:

@@ -29,7 +29,7 @@ class MiscHelpers  {
         case 0: // mp
         if (stristr($baseUrl,'/mp/')!==false) {
           // dev mp
-          $url = 'http://localhost:8888/';
+          $url = 'http://localhost:8888';
         } else {
           $url = 'https://meetingplanner.io';
         }
@@ -37,7 +37,7 @@ class MiscHelpers  {
         case 1: // sp
         if (stristr($baseUrl,'/sp/')!==false) {
          // dev sp
-         $url = 'http://localhost:8888/';
+         $url = 'http://localhost:8888';
         } else {
           $url = 'https://simpleplanner.io';
         }
@@ -45,7 +45,7 @@ class MiscHelpers  {
         case 2: // fd
         if (stristr($baseUrl,'/fd/')!==false) {
          // dev sp
-         $url = 'http://localhost:8888/';
+         $url = 'http://localhost:8888';
        } else {
          // to do - change with fd launch
          $url = 'https://meetingplanner.io';
@@ -99,7 +99,7 @@ class MiscHelpers  {
      $profile = \frontend\models\UserProfile::find()->where(['user_id'=>$user_id])->one();
      if (!is_null($profile)) {
        $calcName = $profile->firstname.' '.$profile->lastname;
-       if ($profile->fullname!='' && $profile->fullname!=' ') {      
+       if ($profile->fullname!='' && $profile->fullname!=' ') {
          $displayName = $profile->fullname;
        } else if ($calcName<>' ') {
          // note check for middle space
