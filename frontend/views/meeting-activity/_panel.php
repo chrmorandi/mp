@@ -69,7 +69,7 @@ use \kartik\switchinput\SwitchInput;
   <?php endif; ?>
   </table>
   </div>
-  <div id="activity-choices">    
+  <div id="activity-choices">
   <?php if ($activityProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_activity'])) { ?>
     <?= $this->render('../meeting-activity/_choices', [
           'model'=>$model,

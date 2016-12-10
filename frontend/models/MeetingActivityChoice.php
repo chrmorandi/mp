@@ -141,18 +141,18 @@ class MeetingActivityChoice extends \yii\db\ActiveRecord
     public static function setAll($meeting_id,$user_id)
     {
       // fetch all meetingActivitys for this meeting
-      $meetingActivitys = MeetingActivity::find()->where(['meeting_id'=>$meeting_id])->all();
-      foreach ($meetingActivitys as $mt) {
+      $meetingActivities = MeetingActivity::find()->where(['meeting_id'=>$meeting_id])->all();
+      foreach ($meetingActivities as $ma) {
         // find mpc for this meetingActivity and user_id
-        $machoices = MeetingActivityChoice::find()->where(['meeting_activity_id'=>$mt->id,'user_id'=>$user_id])->all();
+        $machoices = MeetingActivityChoice::find()->where(['meeting_activity_id'=>$ma->id,'user_id'=>$user_id])->all();
         foreach ($machoices as $mac) {
           if ($mac->status != MeetingActivityChoice::STATUS_YES) {
             MeetingActivityChoice::set($mac->id,MeetingActivityChoice::STATUS_YES,$user_id,true);
-            MeetingActivity::findOne($mt->id)->adjustAvailability(1);
+            MeetingActivity::findOne($ma->id)->adjustAvailability(1);
           }
         }
         // add one log entry in bulk mode
-        MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_ACTIVITYS,$user_id);
+        MeetingLog::add($meeting_id,MeetingLog::ACTION_ACCEPT_ALL_ACTIVITIES,$user_id);
       }
     }
 }

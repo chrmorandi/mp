@@ -196,24 +196,7 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
 // delegated events
   $(document).on('switchChange.bootstrapSwitch', function(e, s) {
     // console.log(e.target.value); // true | false
-    if (e.target.name=="time-chooser") {
-      if (s) {
-        state = 1;
-      } else
-      {
-        state =0;
-      }
-      $.ajax({
-         url: $('#url_prefix').val()+'/meeting-time/choose',
-         data: {id:   $('#meeting_id').val(), 'val': e.target.value},
-         success: function(data) {
-           displayNotifier('time');
-           refreshSend();
-           refreshFinalize();
-           return true;
-         }
-      });
-    } else if (e.target.id.match("^mpc-") ) {
+    if (e.target.id.match("^mpc-") ) {
       // turn on mpc for user
       // mpc- prefix is for meeting place choices
       if (s) {

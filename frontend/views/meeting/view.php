@@ -48,7 +48,7 @@ echo $this->render('_timezone_alerts');
               'friends'=>$friends,
           ]);
          ?>
-
+         
          <?php // when
           echo $this->render('../meeting-time/_panel', [
              'model'=>$model,
@@ -60,6 +60,7 @@ echo $this->render('_timezone_alerts');
              'meetingTime'=>$meetingTime,
          ]) ?>
 
+        <div id="jumpPlace"></div>
         <?= $this->render('../meeting-place/_panel', [
               'model'=>$model,
               'placeProvider' => $placeProvider,

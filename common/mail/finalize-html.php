@@ -15,18 +15,20 @@ use frontend\models\MeetingTime;
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:32px; line-height:normal; text-align:center; border-collapse:collapse; font-weight:700; padding:35px 0 0" align="center">
+
             <?php
+              $meeting_label=($is_activity==Meeting::IS_ACTIVITY?'Activity':'Meeting');
               if (!$reopened) {
-                  echo Yii::t('frontend','Your Meeting is Planned!');
+                  echo Yii::t('frontend','Your '.$meeting_label.' is Planned!');
               } else {
-                echo Yii::t('frontend','Your Meeting Has Been Modified!');
+                  echo Yii::t('frontend','Your '.$meeting_label.' Has Been Modified!');
               }
               ?>
           </td>
         </tr>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:10px 60px 0; width:100%" align="center" width="100%">
-            <p><em>Hi, <?=  $owner; ?> has invited you to a meeting <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key,$site_id)); ?>.</em></p>
+            <p><em>Hi, <?=  $owner; ?> has invited you to a <?= $meeting_label ?> <?= $participantList ?> via <?php echo HTML::a(Yii::$app->params['site']['title'],MiscHelpers::buildCommand($meeting_id,Meeting::COMMAND_HOME,0,$user_id,$auth_key,$site_id)); ?>.</em></p>
             <p><?php echo $intro; ?></p>
             <p>Add this event to your calendar by opening the attachment below or <?php echo HTML::a(Yii::t('frontend','download it here'),$links['download']); ?>.</p>
           </td>
@@ -48,6 +50,26 @@ use frontend\models\MeetingTime;
             Alternately, you can <?php echo HTML::a(Yii::t('frontend','cancel the meeting'),$links['cancel']); ?>.
           </td>
         </tr>
+        <?php if ($is_activity==Meeting::IS_ACTIVITY) {?>
+          <tr>
+            <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; padding:8px 20px; width:280px" align="center" width="280">
+              <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse:separate">
+                <tr>
+                  <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse; background-color:#fff; border:1px solid #ccc; border-radius:5px; padding:60px 75px; width:498px" align="center" bgcolor="#ffffff" width="498">
+                    <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                      <tr>
+                        <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:left; border-collapse:collapse" align="left">
+                          <span style="color:#4d4d4d; font-size:18px; font-weight:700; line-height:1.3; padding:5px 0">Activity</span><br>
+                          <?= $chosenActivity->activity ?>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        <?php } ?>
         <tr>
           <td style="color:#777; font-family:Helvetica, Arial, sans-serif; font-size:14px; line-height:21px; text-align:center; border-collapse:collapse" align="center">
             <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">

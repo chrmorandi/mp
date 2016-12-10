@@ -319,6 +319,11 @@ class MeetingController extends Controller
           $gps = false;
         }
         $chosenTime = Meeting::getChosenTime($id);
+        if ($model->is_activity == Meeting::IS_ACTIVITY) {
+            $chosenActivity = Meeting::getChosenActivity($id);
+        } else {
+          $chosenActivity = false;
+        }
         return $this->render('view_confirmed', [
             'tab'=>$tab,
             'model' => $model,
@@ -329,6 +334,7 @@ class MeetingController extends Controller
             'isOwner' => $isOwner,
             'place' => $place,
             'time'=>$model->friendlyDateFromTimestamp($chosenTime->start,$timezone),
+            'activity' => $chosenActivity->activity,
             'showRunningLate'=>($chosenTime->start - time() > 0 && $chosenTime->start -time() <10800 )?true:false,
             'isPast'=>($chosenTime->start - time() < 0)?true:false,
             'gps'=>$gps,
@@ -750,6 +756,7 @@ class MeetingController extends Controller
           case Meeting::COMMAND_ACCEPT_ALL:
             MeetingTimeChoice::setAll($id,$actor_id);
             MeetingPlaceChoice::setAll($id,$actor_id);
+            MeetingActivityChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
           break;
           case Meeting::COMMAND_ACCEPT_ALL_PLACES:
@@ -760,14 +767,21 @@ class MeetingController extends Controller
             MeetingTimeChoice::setAll($id,$actor_id);
             $this->redirect(['meeting/view','id'=>$id]);
             break;
+          case Meeting::COMMAND_ACCEPT_ALL_ACTIVITIES:
+            MeetingActivityChoice::setAll($id,$actor_id);
+            $this->redirect(['meeting/view','id'=>$id]);
+            break;
           case Meeting::COMMAND_ADD_PLACE:
-            $this->redirect(['meeting-place/create','meeting_id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id,'#' =>'jumpPlace']); // TO DO - ADD # links for each
           break;
           case Meeting::COMMAND_ADD_TIME:
-            $this->redirect(['meeting-time/create','meeting_id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id,'#' =>'jumpTime']);
+          break;
+          case Meeting::COMMAND_ADD_ACTIVITY:
+            $this->redirect(['meeting/view','id'=>$id,'#' =>'jumpActivity']);
           break;
           case Meeting::COMMAND_ADD_NOTE:
-            $this->redirect(['meeting-note/create','meeting_id'=>$id]);
+            $this->redirect(['meeting/view','id'=>$id,'tab' =>'notes']);
           break;
           case Meeting::COMMAND_ADD_CONTACT:
             $this->redirect(['/user-contact/create']);

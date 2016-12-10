@@ -76,6 +76,25 @@ echo $this->render('_timezone_alerts');
     ]);
    ?>
 
+   <?php if ($activity!==false) { ?>
+     <div class="panel panel-default">
+       <!-- Default panel contents -->
+       <div class="panel-heading" role="tab" id="headingActivity">
+         <div class="row">
+           <div class="col-lg-9">
+             <h4><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" aria-expanded="true" aria-controls="collapseWhen">
+             <?= Yii::t('frontend','Activity') ?></a></h4><p>
+           </div>
+         </div>
+       </div>
+         <div id="collapseActivity" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingActivity">
+           <div class="panel-body">
+             <p><?= $activity ?></p>
+           </div>
+         </div>
+       </div>
+    <?php } ?>
+
     <div class="panel panel-default">
       <!-- Default panel contents -->
       <div class="panel-heading" role="tab" id="headingWhen">
