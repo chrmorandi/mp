@@ -76,6 +76,7 @@ class UserTokenController extends Controller // ActiveController
     }
 
     public function actionSigtest($str='jeff@lookahead.iojeffreifman7799442211xyzfacebook') {
+      // jeff@lookahead.iojeffreifman7799442211xyzfacebook
       $sig_target = hash_hmac('sha256',$str,Yii::$app->params['app_secret']);
       return $sig_target;
     }
@@ -103,8 +104,31 @@ class UserTokenController extends Controller // ActiveController
       $source = $headers->get('source');
       if ($headers->has('app_id')) {
         $app_id = $headers->get('app_id');
-      }      
+      }
       $sig_target = hash_hmac('sha256',$email.$firstname.$lastname.$oauth_token.$source,Yii::$app->params['app_secret']);
+      if ($app_id == Yii::$app->params['app_id'] && $sig==$sig_target) {
+        return 'it worked!';
+      } else {
+        return 'failed!';
+      }
+    }
+
+    public function actionHeaderusertest($user_id=0,$sig='') {
+      // could move to before action by looping query params
+      // concatenate string of arguments using alphabetical order of the variable namespace and leave out $app_id and $sig
+      //$app_id='',$email='',$firstname ='',$lastname='',$oauth_token='',$source='',
+      $headers = Yii::$app->request->headers;
+      $email= $headers->get('email');
+      $firstname= $headers->get('firstname');
+      $lastname= $headers->get('lastname');
+      $oauth_token= $headers->get('oauth_token');
+      $source = $headers->get('source');
+      if ($headers->has('app_id')) {
+        $app_id = $headers->get('app_id');
+      }
+      // fetch token using user_id into $user_token
+
+      $sig_target = hash_hmac('sha256',$email.$firstname.$lastname.$oauth_token.$source,$user_token);
       if ($app_id == Yii::$app->params['app_id'] && $sig==$sig_target) {
         return 'it worked!';
       } else {
