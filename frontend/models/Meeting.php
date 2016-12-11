@@ -1066,27 +1066,27 @@ class Meeting extends \yii\db\ActiveRecord
           // same day as today?
           if ($dateOrder) {
             if (date('z')==date('z',$tstamp)) {
-             $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a');
+             $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a z');
            }   else {
              $oneWeek = 7 * 24 *3600;
              // start time in future
              if (($tstamp>time()) && $futureTimeless) {
                if (($tstamp-time())< $oneWeek) {
                  // this date at
-                 $date_str =Yii::t('frontend','This ').Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
+                 $date_str =Yii::t('frontend','This ').Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
                } else if (($tstamp-time())<($oneWeek*2) && (date('w')< date('w',$tstamp))) {
-                 $date_str =Yii::t('frontend','Next ').Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
+                 $date_str =Yii::t('frontend','Next ').Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
                } else {
                  // date only
                  $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d');
                }
              } else {
-                $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a');
+                $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
              }
 
            }
          } else {
-           $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a \' '.Yii::t('frontend','on').'\' E MMM d');
+           $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a z\' '.Yii::t('frontend','on').'\' E MMM d');
          }
           return $date_str;
         }
