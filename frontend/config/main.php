@@ -65,6 +65,7 @@ return [
               'meeting' => 'meeting',
               'friend' => 'friend',
               'reminder' => 'reminder',
+              'ticket' => 'ticket',
               'user-contact' => 'user-contact',
               'user-profile' => 'user-profile',
               'user-setting' => 'user-setting',

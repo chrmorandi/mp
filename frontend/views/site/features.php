@@ -25,15 +25,15 @@ $this->title = Yii::$app->params['site']['title'];
          <h4><?= Yii::t('frontend','Scheduling'); ?></h4>
          <p><?= Yii::t('frontend','Plan meetings with friends and colleagues in minutes, without the needless back and forth email chains.'); ?></p>
 
+         <h4><?= Yii::t('frontend','Activities'); ?></h4>
+         <p><?= Yii::t('frontend','Organize social meetups with friends and collaboratively choose what to do e.g. dancing, movies, skiing, et al.'); ?></p>
+
          <h4><?= Yii::t('frontend','Choosing Dates, Times & Places'); ?></h4>
          <p><?= Yii::t('frontend','Participants select times and dates that work well for them. Organizers choose the best.'); ?></p>
 
          <h4><?= Yii::t('frontend','Calendar Integration'); ?></h4>
          <p><?= Yii::t('frontend','Downloadable calendar files make it easy to add meetings to your calendar of choice.'); ?></p>
-
-         <h4><?= Yii::t('frontend',''); ?></h4>
-         <p><?= Yii::t('frontend','.'); ?></p>
-       </div>
+         </div>
 
        <div class="col-lg-4">
          <h4><?= Yii::t('frontend','Groups'); ?></h4>
@@ -45,8 +45,9 @@ $this->title = Yii::$app->params['site']['title'];
          <h4><?= Yii::t('frontend','Multiple Organizers'); ?></h4>
          <p><?= Yii::t('frontend','Grant any participant organizing powers.'); ?></p>
 
-         <h4><?= Yii::t('frontend',''); ?></h4>
-         <p><?= Yii::t('frontend','.'); ?></p>
+         <h4><?= Yii::t('frontend','Schedule With Me'); ?></h4>
+         <p><?= Yii::t('frontend','Share your Schedule With Me page to make it easy for friends, colleagues, clients et al.'); ?></p>
+
        </div>
      </div>
 
@@ -108,13 +109,19 @@ $this->title = Yii::$app->params['site']['title'];
                       </td>
                   </tr>
                   <tr>
-                      <td><?= Yii::t('frontend','1:1 Meetings') ?></td>
+                      <td><?= Yii::t('frontend','1:1 Meeting and Activity Planning') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
                       <td><?= Yii::t('frontend','Small group meetings (up to 5)') ?></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
+                  </tr>
+                  <tr>
+                      <td><?= Yii::t('frontend','Schedule With Me Page') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>

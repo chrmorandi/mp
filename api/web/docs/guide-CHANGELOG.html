@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="language" content="en" />
+        <link href="./assets/cc1063cb/css/bootstrap.css" rel="stylesheet">
+<link href="./assets/c462a151/solarized_light.css" rel="stylesheet">
+<link href="./assets/3df46844/style.css" rel="stylesheet">
+<script src="./assets/84222ffe/jquery.js"></script>
+<script src="./assets/cc1063cb/js/bootstrap.js"></script>
+<script src="./assets/d88bf6bf/jssearch.js"></script>    <title>MeetingPlanner</title>
+</head>
+<body>
+
+<div class="wrap">
+    <nav id="w67" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w67-collapse"><span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">MeetingPlanner</a></div><div id="w67-collapse" class="collapse navbar-collapse"><ul id="w68" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+<li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <input id="searchbox" type="text" class="form-control" placeholder="Search">
+  </div>
+</div>
+</div></nav>
+    <div id="search-resultbox" style="display: none;" class="modal-content">
+        <ul id="search-results">
+        </ul>
+    </div>
+
+    
+<div class="row">
+    <div class="col-md-2">
+                <div id="navigation" class="list-group"><a class="list-group-item" href="#navigation-46" data-toggle="collapse" data-parent="#navigation">Introduction <b class="caret"></b></a><div id="navigation-46" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-47" data-toggle="collapse" data-parent="#navigation">Overview <b class="caret"></b></a><div id="navigation-47" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-48" data-toggle="collapse" data-parent="#navigation">Installation <b class="caret"></b></a><div id="navigation-48" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-49" data-toggle="collapse" data-parent="#navigation">Yii 2.0 <b class="caret"></b></a><div id="navigation-49" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-50" data-toggle="collapse" data-parent="#navigation">bower <b class="caret"></b></a><div id="navigation-50" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-51" data-toggle="collapse" data-parent="#navigation">standalone <b class="caret"></b></a><div id="navigation-51" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-52" data-toggle="collapse" data-parent="#navigation">Dependencies <b class="caret"></b></a><div id="navigation-52" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-53" data-toggle="collapse" data-parent="#navigation">Compatibility <b class="caret"></b></a><div id="navigation-53" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-54" data-toggle="collapse" data-parent="#navigation">Usage <b class="caret"></b></a><div id="navigation-54" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-55" data-toggle="collapse" data-parent="#navigation">&lt;code&gt;$.fn.pjax&lt;/code&gt; <b class="caret"></b></a><div id="navigation-55" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-56" data-toggle="collapse" data-parent="#navigation">Arguments <b class="caret"></b></a><div id="navigation-56" class="submenu panel-collapse collapse"><a class="list-group-item" href="./guide-.html">event delegation</a></div>
+<a class="list-group-item" href="#navigation-57" data-toggle="collapse" data-parent="#navigation">pjax options <b class="caret"></b></a><div id="navigation-57" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-58" data-toggle="collapse" data-parent="#navigation">&lt;code&gt;$.pjax.click&lt;/code&gt; <b class="caret"></b></a><div id="navigation-58" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-59" data-toggle="collapse" data-parent="#navigation">&lt;code&gt;$.pjax.submit&lt;/code&gt; <b class="caret"></b></a><div id="navigation-59" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-60" data-toggle="collapse" data-parent="#navigation">&lt;code&gt;$.pjax.reload&lt;/code&gt; <b class="caret"></b></a><div id="navigation-60" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-61" data-toggle="collapse" data-parent="#navigation">&lt;code&gt;$.pjax&lt;/code&gt; <b class="caret"></b></a><div id="navigation-61" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-62" data-toggle="collapse" data-parent="#navigation">Events <b class="caret"></b></a><div id="navigation-62" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-63" data-toggle="collapse" data-parent="#navigation">Server side <b class="caret"></b></a><div id="navigation-63" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-64" data-toggle="collapse" data-parent="#navigation">Response types that force a reload <b class="caret"></b></a><div id="navigation-64" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-65" data-toggle="collapse" data-parent="#navigation">Affecting the browser URL <b class="caret"></b></a><div id="navigation-65" class="submenu panel-collapse collapse"></div>
+<a class="list-group-item" href="#navigation-66" data-toggle="collapse" data-parent="#navigation">Layout Reloading <b class="caret"></b></a><div id="navigation-66" class="submenu panel-collapse collapse"></div></div>    </div>
+    <div class="col-md-9 guide-content" role="main">
+        <h1>yii-pjax Change Log <span id="yii-pjax-change-log"></span><a href="#yii-pjax-change-log" class="hashlink">&para;</a></h1>
+<div class="toc"><ol><li><a href="#206-mar-4-2015">2.0.6 Mar 4, 2015</a></li>
+<li><a href="#203-mar-7-2015">2.0.3 Mar 7, 2015</a></li>
+<li><a href="#202-dec-4-2014">2.0.2 Dec 4, 2014</a></li>
+<li><a href="#201-oct-10-2014">2.0.1 Oct 10, 2014</a></li>
+<li><a href="#200-mar-20-2014">2.0.0 Mar 20, 2014</a></li></ol></div>
+<h2>2.0.6 Mar 4, 2015 <span id="206-mar-4-2015"></span><a href="#206-mar-4-2015" class="hashlink">&para;</a></h2><ul>
+<li>Bug #15: Fixed duplication of <code>_pjax</code> GET variable (Alex-Code)</li>
+<li>Bug #21: Fixed non-persistence of <code>cache</code> option after backward navigation (nkovacs)</li>
+<li>Bug #23: Fixed loading of scripts in pjax containers (nkovacs, silverfire)</li>
+<li>Bug #37: Added <code>X-Ie-Redirect-Compatibility</code> header for IE. Fixes error on 302 redirect without <code>Location</code> header (silverfire)</li>
+<li>Enh #25: Blur the focused element if it's inside Pjax container (GeorgeGardiner)</li>
+<li>Enh #27: Added <code>pushRedirect</code>, <code>replaceRedirectOptions</code> options (beowulfenator)</li>
+<li>Chg: JavaScripts load through PJAX will be processed by <code>jQuery.ajaxPrefiler</code> when it's configured (silverfire)</li>
+<li>New: Added <code>skipOuterContainers</code> option (silverfire)</li>
+</ul>
+<h2>2.0.3 Mar 7, 2015 <span id="203-mar-7-2015"></span><a href="#203-mar-7-2015" class="hashlink">&para;</a></h2><ul>
+<li>Chg: Merged changes from upstream (samdark)</li>
+</ul>
+<h2>2.0.2 Dec 4, 2014 <span id="202-dec-4-2014"></span><a href="#202-dec-4-2014" class="hashlink">&para;</a></h2><ul>
+<li>Chg #12: Merged changes from upstream (samdark)</li>
+</ul>
+<h2>2.0.1 Oct 10, 2014 <span id="201-oct-10-2014"></span><a href="#201-oct-10-2014" class="hashlink">&para;</a></h2><ul>
+<li>Bug #9: Fixed missing history option in default settings (tonydspaniard)</li>
+<li>New #11: add new option "cache" (macklay)</li>
+</ul>
+<h2>2.0.0 Mar 20, 2014 <span id="200-mar-20-2014"></span><a href="#200-mar-20-2014" class="hashlink">&para;</a></h2><ul>
+<li>Bug: Fixed avoid duplicates of _pjax parameter (tof06)</li>
+<li>Bug: Fixed Pjax/GridView and back button (klevron, tof06, tonydspaniard)</li>
+</ul>
+        <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
+    </div>
+</div>
+
+
+</div>
+
+<footer class="footer">
+        <p class="pull-right"><small>Page generated on Sun, 11 Dec 2016 23:20:35 +0100</small></p>
+    Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
+
+<script type="text/javascript">jQuery(document).ready(function () {
+    var shiftWindow = function () { scrollBy(0, -50) };
+    if (location.hash) setTimeout(shiftWindow, 1);
+    window.addEventListener("hashchange", shiftWindow);
+var element = document.createElement("script");
+element.src = "./jssearch.index.js";
+document.body.appendChild(element);
+
+var searchBox = $('#searchbox');
+
+// search when typing in search field
+searchBox.on("keyup", function(event) {
+    var query = $(this).val();
+
+    if (query == '' || event.which == 27) {
+        $('#search-resultbox').hide();
+        return;
+    } else if (event.which == 13) {
+        var selectedLink = $('#search-resultbox a.selected');
+        if (selectedLink.length != 0) {
+            document.location = selectedLink.attr('href');
+            return;
+        }
+    } else if (event.which == 38 || event.which == 40) {
+        $('#search-resultbox').show();
+
+        var selected = $('#search-resultbox a.selected');
+        if (selected.length == 0) {
+            $('#search-results').find('a').first().addClass('selected');
+        } else {
+            var next;
+            if (event.which == 40) {
+                next = selected.parent().next().find('a').first();
+            } else {
+                next = selected.parent().prev().find('a').first();
+            }
+            if (next.length != 0) {
+                var resultbox = $('#search-results');
+                var position = next.position();
+
+//              TODO scrolling is buggy and jumps around
+//                resultbox.scrollTop(Math.floor(position.top));
+//                console.log(position.top);
+
+                selected.removeClass('selected');
+                next.addClass('selected');
+            }
+        }
+
+        return;
+    }
+    $('#search-resultbox').show();
+    $('#search-results').html('<li><span class="no-results">No results</span></li>');
+
+    var result = jssearch.search(query);
+
+    if (result.length > 0) {
+        var i = 0;
+        var resHtml = '';
+
+        for (var key in result) {
+            if (i++ > 20) {
+                break;
+            }
+            resHtml = resHtml +
+            '<li><a href="' + result[key].file.u.substr(3) +'"><span class="title">' + result[key].file.t + '</span>' +
+            '<span class="description">' + result[key].file.d + '</span></a></li>';
+        }
+        $('#search-results').html(resHtml);
+    }
+});
+
+// hide the search results on ESC
+$(document).on("keyup", function(event) { if (event.which == 27) { $('#search-resultbox').hide(); } });
+// hide search results on click to document
+$(document).bind('click', function (e) { $('#search-resultbox').hide(); });
+// except the following:
+searchBox.bind('click', function(e) { e.stopPropagation(); });
+$('#search-resultbox').bind('click', function(e) { e.stopPropagation(); });
+
+});</script></body>
+</html>

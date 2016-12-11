@@ -53,7 +53,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
                   ],
                   [
                     'label' => Yii::t('frontend','Help'),
-                    'url'=>Url::to('https://meetingplanner.freshdesk.com/support/home'),
+                    'url'=>Url::to('https://meetingplanner.freshdesk.com/support/home'), //=> ['/ticket'],
                   ],
 	            ];
             }
