@@ -30,7 +30,7 @@ use frontend\models\Meeting;
     </div>
   </div>
   <?php
-    if ($model->has_subject || $model->subject == \frontend\models\Meeting::DEFAULT_SUBJECT) {
+    if ($model->has_subject || $model->subject == \frontend\models\Meeting::DEFAULT_SUBJECT || $model->subject == \frontend\models\Meeting::DEFAULT_ACTIVITY_SUBJECT) {
       ?>
       <div id="collapseWhat" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhat">
         <div class="panel-body">

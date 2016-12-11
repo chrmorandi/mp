@@ -35,14 +35,13 @@ echo $this->render('_timezone_alerts');
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','This meeting has been deleted.'));
         break;
       }
-    /*  echo $this->render('_command_bar_past', [
+     echo $this->render('_command_bar_past', [
           'model'=>$model,
           'isPast'=>true,
           'dropclass'=>'dropdown',
           'isOwner' => $isOwner,
-      ]);*/
+      ]);
     } else {
-      /*
       echo $this->render('_command_bar_confirmed', [
           'model'=>$model,
           'meetingSettings' => $meetingSettings,
@@ -50,7 +49,7 @@ echo $this->render('_timezone_alerts');
           'isPast'=>$isPast,
           'dropclass'=>'dropdown',
           'isOwner' => $isOwner,
-      ]);*/
+      ]);
     }
   ?>
   <!-- Nav tabs -->

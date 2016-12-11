@@ -119,6 +119,7 @@ class Meeting extends \yii\db\ActiveRecord
 
   const DEFAULT_NEW_MEETING = 'New Meeting';
   const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
+  const DEFAULT_ACTIVITY_SUBJECT = 'Our Upcoming Meetup';
 
   const NOT_ACTIVITY =0;
   const IS_ACTIVITY =1;
@@ -1645,7 +1646,7 @@ class Meeting extends \yii\db\ActiveRecord
         ->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::IS_ACTIVITY])
         ->limit(7)->orderBy(['id' => SORT_DESC])->all();
        foreach ($meetings as $m) {
-         if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+         if (!is_null($m) and ($m->subject==Meeting::DEFAULT_ACTIVITY_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
            return $m->id;
          }
        }
@@ -1656,7 +1657,7 @@ class Meeting extends \yii\db\ActiveRecord
       // if meeting with someone see if it exists already
       if ($with_id!=0) {
       // check for meeting with one particpant with with_id
-      $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
+      $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::NOT_ACTIVITY])->limit(7)->orderBy(['id' => SORT_DESC])->all();
         foreach ($meetings as $m) {
           if (!is_null($m) && (count($m->participants)==1 && $m->participants[0]->participant_id==$with_id)) {
             return $m->id;
@@ -1664,7 +1665,7 @@ class Meeting extends \yii\db\ActiveRecord
         }
       }
       // looks for empty meeting in last seven
-      $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING])->limit(7)->orderBy(['id' => SORT_DESC])->all();
+      $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::NOT_ACTIVITY])->limit(7)->orderBy(['id' => SORT_DESC])->all();
       foreach ($meetings as $m) {
         if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
           return $m->id;
