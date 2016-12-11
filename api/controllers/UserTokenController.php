@@ -81,6 +81,23 @@ class UserTokenController extends Controller // ActiveController
       return $sig_target;
     }
 
+    /**
+     * Used for testing new API transfer method
+     * For example,
+     *
+     * ```
+     * $component->getEventHandlers($eventName)->insertAt(0, $eventHandler);
+     * ```
+     *
+     * @param string $app_id the shared secret application id
+     * @param string $email email address
+     * @param string $firstname first name
+     * @param string $lastname last name
+     * @param string $oauth_token the token returned from Facebook during OAuth for this user
+     * @param string $source the source that the $oauth_token is from e.g. 'facebook' e.g. [$oauth_token]
+     * @return string says if it worked or not
+     * @throws Exception not yet implemented
+     */
     public function actionRegtest($app_id='',$email='',$firstname ='',$lastname='',$oauth_token='',$source='',$sig='') {
       // could move to before action by looping query params
       // concatenate string of arguments using alphabetical order of the variable namespace and leave out $app_id and $sig

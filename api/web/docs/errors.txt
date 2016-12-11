@@ -1,0 +1,66 @@
+Array
+(
+    [0] => Array
+        (
+            [line] => 20
+            [file] => api/controllers/ParticipantController.php
+            [message] => Method behaviors has no parent to inherit from in api\controllers\ParticipantController.
+        )
+
+    [1] => Array
+        (
+            [line] => 20
+            [file] => api/controllers/PlaceController.php
+            [message] => Method behaviors has no parent to inherit from in api\controllers\PlaceController.
+        )
+
+    [2] => Array
+        (
+            [line] => 18
+            [file] => api/controllers/ServiceController.php
+            [message] => Method behaviors has no parent to inherit from in api\controllers\ServiceController.
+        )
+
+    [3] => Array
+        (
+            [line] => 22
+            [file] => api/controllers/UserController.php
+            [message] => Method behaviors has no parent to inherit from in api\controllers\UserController.
+        )
+
+    [4] => Array
+        (
+            [line] => 25
+            [file] => api/models/UserToken.php
+            [message] => Method tableName has no parent to inherit from in api\models\UserToken.
+        )
+
+    [5] => Array
+        (
+            [line] => 51
+            [file] => api/models/UserToken.php
+            [message] => Method rules has no parent to inherit from in api\models\UserToken.
+        )
+
+    [6] => Array
+        (
+            [line] => 64
+            [file] => api/models/UserToken.php
+            [message] => Method attributeLabels has no parent to inherit from in api\models\UserToken.
+        )
+
+    [7] => Array
+        (
+            [line] => 13
+            [file] => api/modules/v1/Module.php
+            [message] => Method $controllerNamespace has no parent to inherit from in api\modules\v1\Module.
+        )
+
+    [8] => Array
+        (
+            [line] => 18
+            [file] => api/modules/v1/Module.php
+            [message] => Method init has no parent to inherit from in api\modules\v1\Module.
+        )
+
+)

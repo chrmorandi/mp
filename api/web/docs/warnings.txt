@@ -1,0 +1,626 @@
+Array
+(
+    [0] => Array
+        (
+            [line] => 18
+            [file] => api/assets/AppAsset.php
+            [message] => No docblock for element '$basePath'
+        )
+
+    [1] => Array
+        (
+            [line] => 18
+            [file] => api/assets/AppAsset.php
+            [message] => No short description for element '$basePath'
+        )
+
+    [2] => Array
+        (
+            [line] => 19
+            [file] => api/assets/AppAsset.php
+            [message] => No docblock for element '$baseUrl'
+        )
+
+    [3] => Array
+        (
+            [line] => 19
+            [file] => api/assets/AppAsset.php
+            [message] => No short description for element '$baseUrl'
+        )
+
+    [4] => Array
+        (
+            [line] => 20
+            [file] => api/assets/AppAsset.php
+            [message] => No docblock for element '$css'
+        )
+
+    [5] => Array
+        (
+            [line] => 20
+            [file] => api/assets/AppAsset.php
+            [message] => No short description for element '$css'
+        )
+
+    [6] => Array
+        (
+            [line] => 23
+            [file] => api/assets/AppAsset.php
+            [message] => No docblock for element '$js'
+        )
+
+    [7] => Array
+        (
+            [line] => 23
+            [file] => api/assets/AppAsset.php
+            [message] => No short description for element '$js'
+        )
+
+    [8] => Array
+        (
+            [line] => 25
+            [file] => api/assets/AppAsset.php
+            [message] => No docblock for element '$depends'
+        )
+
+    [9] => Array
+        (
+            [line] => 25
+            [file] => api/assets/AppAsset.php
+            [message] => No short description for element '$depends'
+        )
+
+    [10] => Array
+        (
+            [line] => 13
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'api\controllers\MeetingController'
+        )
+
+    [11] => Array
+        (
+            [line] => 15
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [12] => Array
+        (
+            [line] => 27
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'beforeAction'
+        )
+
+    [13] => Array
+        (
+            [line] => 42
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionList'
+        )
+
+    [14] => Array
+        (
+            [line] => 47
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionHistory'
+        )
+
+    [15] => Array
+        (
+            [line] => 52
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionMeetingplaces'
+        )
+
+    [16] => Array
+        (
+            [line] => 57
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionMeetingtimes'
+        )
+
+    [17] => Array
+        (
+            [line] => 62
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionMeetingplacechoices'
+        )
+
+    [18] => Array
+        (
+            [line] => 67
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionMeetingtimechoices'
+        )
+
+    [19] => Array
+        (
+            [line] => 72
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionNotes'
+        )
+
+    [20] => Array
+        (
+            [line] => 77
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionSettings'
+        )
+
+    [21] => Array
+        (
+            [line] => 82
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionCaption'
+        )
+
+    [22] => Array
+        (
+            [line] => 87
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionDetails'
+        )
+
+    [23] => Array
+        (
+            [line] => 92
+            [file] => api/controllers/MeetingController.php
+            [message] => No docblock for element 'actionReminders'
+        )
+
+    [24] => Array
+        (
+            [line] => 15
+            [file] => api/controllers/ParticipantController.php
+            [message] => No docblock for element 'api\controllers\ParticipantController'
+        )
+
+    [25] => Array
+        (
+            [line] => 32
+            [file] => api/controllers/ParticipantController.php
+            [message] => No docblock for element 'beforeAction'
+        )
+
+    [26] => Array
+        (
+            [line] => 49
+            [file] => api/controllers/ParticipantController.php
+            [message] => No docblock for element 'actionList'
+        )
+
+    [27] => Array
+        (
+            [line] => 15
+            [file] => api/controllers/PlaceController.php
+            [message] => No docblock for element 'api\controllers\PlaceController'
+        )
+
+    [28] => Array
+        (
+            [line] => 32
+            [file] => api/controllers/PlaceController.php
+            [message] => No docblock for element 'beforeAction'
+        )
+
+    [29] => Array
+        (
+            [line] => 47
+            [file] => api/controllers/PlaceController.php
+            [message] => No docblock for element 'actionGet'
+        )
+
+    [30] => Array
+        (
+            [line] => 30
+            [file] => api/controllers/ServiceController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [31] => Array
+        (
+            [line] => 35
+            [file] => api/controllers/ServiceController.php
+            [message] => No docblock for element 'actionError'
+        )
+
+    [32] => Array
+        (
+            [line] => 34
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'beforeAction'
+        )
+
+    [33] => Array
+        (
+            [line] => 51
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionError'
+        )
+
+    [34] => Array
+        (
+            [line] => 55
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [35] => Array
+        (
+            [line] => 60
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionTimezone'
+        )
+
+    [36] => Array
+        (
+            [line] => 66
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionFriends'
+        )
+
+    [37] => Array
+        (
+            [line] => 72
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionFullname'
+        )
+
+    [38] => Array
+        (
+            [line] => 78
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionContacts'
+        )
+
+    [39] => Array
+        (
+            [line] => 84
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionPlaces'
+        )
+
+    [40] => Array
+        (
+            [line] => 90
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionReminders'
+        )
+
+    [41] => Array
+        (
+            [line] => 96
+            [file] => api/controllers/UserController.php
+            [message] => No docblock for element 'actionDelete'
+        )
+
+    [42] => Array
+        (
+            [line] => 18
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'api\controllers\UserTokenController'
+        )
+
+    [43] => Array
+        (
+            [line] => 21
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [44] => Array
+        (
+            [line] => 61
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [45] => Array
+        (
+            [line] => 66
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionVerify'
+        )
+
+    [46] => Array
+        (
+            [line] => 78
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionSigtest'
+        )
+
+    [47] => Array
+        (
+            [line] => 84
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionRegtest'
+        )
+
+    [48] => Array
+        (
+            [line] => 95
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionHeadertest'
+        )
+
+    [49] => Array
+        (
+            [line] => 116
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionHeaderusertest'
+        )
+
+    [50] => Array
+        (
+            [line] => 139
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionRegister'
+        )
+
+    [51] => Array
+        (
+            [line] => 204
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionDelete'
+        )
+
+    [52] => Array
+        (
+            [line] => 18
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'api\controllers\UserTokenController'
+        )
+
+    [53] => Array
+        (
+            [line] => 21
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [54] => Array
+        (
+            [line] => 61
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [55] => Array
+        (
+            [line] => 66
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionVerify'
+        )
+
+    [56] => Array
+        (
+            [line] => 78
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionSigtest'
+        )
+
+    [57] => Array
+        (
+            [line] => 112
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionHeadertest'
+        )
+
+    [58] => Array
+        (
+            [line] => 133
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionHeaderusertest'
+        )
+
+    [59] => Array
+        (
+            [line] => 156
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionRegister'
+        )
+
+    [60] => Array
+        (
+            [line] => 221
+            [file] => api/controllers/UserTokenController.php
+            [message] => No docblock for element 'actionDelete'
+        )
+
+    [61] => Array
+        (
+            [line] => 18
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'api\models\MeetingAPI'
+        )
+
+    [62] => Array
+        (
+            [line] => 20
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'meetinglist'
+        )
+
+    [63] => Array
+        (
+            [line] => 86
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'meetingplaces'
+        )
+
+    [64] => Array
+        (
+            [line] => 116
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'meetingtimes'
+        )
+
+    [65] => Array
+        (
+            [line] => 137
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'history'
+        )
+
+    [66] => Array
+        (
+            [line] => 154
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'meetingplacechoices'
+        )
+
+    [67] => Array
+        (
+            [line] => 166
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'meetingtimechoices'
+        )
+
+    [68] => Array
+        (
+            [line] => 178
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'notes'
+        )
+
+    [69] => Array
+        (
+            [line] => 190
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'settings'
+        )
+
+    [70] => Array
+        (
+            [line] => 201
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'details'
+        )
+
+    [71] => Array
+        (
+            [line] => 218
+            [file] => api/models/MeetingAPI.php
+            [message] => No docblock for element 'reminders'
+        )
+
+    [72] => Array
+        (
+            [line] => 13
+            [file] => api/models/PlaceAPI.php
+            [message] => No docblock for element 'api\models\PlaceAPI'
+        )
+
+    [73] => Array
+        (
+            [line] => 15
+            [file] => api/models/PlaceAPI.php
+            [message] => No docblock for element 'get'
+        )
+
+    [74] => Array
+        (
+            [line] => 22
+            [file] => api/models/Service.php
+            [message] => No docblock for element 'verifyAccess'
+        )
+
+    [75] => Array
+        (
+            [line] => 32
+            [file] => api/models/Service.php
+            [message] => No docblock for element 'fail'
+        )
+
+    [76] => Array
+        (
+            [line] => 39
+            [file] => api/models/Service.php
+            [message] => No docblock for element 'verify'
+        )
+
+    [77] => Array
+        (
+            [line] => 17
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'api\models\UserAPI'
+        )
+
+    [78] => Array
+        (
+            [line] => 19
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'timezone'
+        )
+
+    [79] => Array
+        (
+            [line] => 27
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'friends'
+        )
+
+    [80] => Array
+        (
+            [line] => 35
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'fullname'
+        )
+
+    [81] => Array
+        (
+            [line] => 43
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'contacts'
+        )
+
+    [82] => Array
+        (
+            [line] => 51
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'places'
+        )
+
+    [83] => Array
+        (
+            [line] => 74
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'reminders'
+        )
+
+    [84] => Array
+        (
+            [line] => 85
+            [file] => api/models/UserAPI.php
+            [message] => No docblock for element 'delete'
+        )
+
+    [85] => Array
+        (
+            [line] => 30
+            [file] => api/models/UserToken.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [86] => Array
+        (
+            [line] => 75
+            [file] => api/models/UserToken.php
+            [message] => No docblock for element 'lookup'
+        )
+
+    [87] => Array
+        (
+            [line] => 95
+            [file] => api/models/UserToken.php
+            [message] => No docblock for element 'newtoken'
+        )
+
+    [88] => Array
+        (
+            [line] => 101
+            [file] => api/models/UserToken.php
+            [message] => No docblock for element 'signupUser'
+        )
+
+)
