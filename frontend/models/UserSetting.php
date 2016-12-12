@@ -27,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property integer $no_newsletter
  * @property integer $no_updates
  * @property integer $has_updated_timezone
+ * @property integer $schedule_with_me
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -77,7 +78,7 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             [['user_id', ], 'required'],
             [['user_id', ], 'unique'],
-            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change'], 'integer'],
+            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change','schedule_with_me'], 'integer'],
         ];
     }
 
@@ -106,6 +107,7 @@ class UserSetting extends \yii\db\ActiveRecord
              'no_email' => Yii::t('frontend', 'No Email'),
              'no_newsletter' => Yii::t('frontend', 'No newsletters'),
              'no_updates' => Yii::t('frontend', 'No updates'),
+             'schedule_with_me' => Yii::t('frontend', 'Display your schedule with me page'),
              'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
@@ -152,6 +154,7 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->participant_finalize = self::SETTING_OFF;
         $us->participant_request_change= self::SETTING_ON;
         $us->participant_reopen= self::SETTING_OFF;
+        $us->schedule_with_me= self::SETTING_ON;
         $us->save();
       }
       return $us->id;

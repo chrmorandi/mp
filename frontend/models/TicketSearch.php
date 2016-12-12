@@ -19,7 +19,7 @@ class TicketSearch extends Ticket
     {
         return [
             [['id', 'posted_by', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['question'], 'safe'],
+            [['details','subject'], 'safe'],
         ];
     }
 
@@ -66,7 +66,7 @@ class TicketSearch extends Ticket
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'question', $this->question]);
+        $query->andFilterWhere(['like', 'details', $this->details]);
 
         return $dataProvider;
     }

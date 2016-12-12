@@ -19,6 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'posted_by') ?>
 
+    <?= $form->field($model, 'subject') ?>
     <?= $form->field($model, 'question') ?>
 
     <?= $form->field($model, 'status') ?>

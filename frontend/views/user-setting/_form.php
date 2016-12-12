@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use common\components\MiscHelpers;
 /* @var $this yii\web\View */
@@ -53,12 +54,12 @@ use common\components\MiscHelpers;
                                 );
                                 ?>
                       <span class="setting-label">
-                  <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+                      <?= $form->field($model, 'schedule_with_me')->checkbox(['label' =>Yii::t('frontend','Display your ').Html::a(Yii::t('frontend','schedule with me page'),['/'.$user->username]),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+                      <?= $form->field($model, 'contact_share')->checkbox(['label' =>Yii::t('frontend','Share my contact information with meeting participants'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
-                  <?= $form->field($model, 'no_updates')->checkbox(['label' =>Yii::t('frontend','Turn off emails about site upgrades'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
-                  <?= $form->field($model, 'no_newsletter')->checkbox(['label' =>Yii::t('frontend','Turn off occasional newsletters about our service'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
-                  <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
-
+                      <?= $form->field($model, 'no_updates')->checkbox(['label' =>Yii::t('frontend','Turn off emails about site upgrades'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+                      <?= $form->field($model, 'no_newsletter')->checkbox(['label' =>Yii::t('frontend','Turn off occasional newsletters about our service'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+                      <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 </span>
                 </div>
            <div class="tab-pane vertical-pad" id="preferences">

@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\components\MiscHelpers;
+use common\models\User;
 use frontend\models\UserSetting;
 use frontend\models\UserSettingSearch;
 use yii\web\Controller;
@@ -61,6 +62,7 @@ class UserSettingController extends Controller
     {
         $model = $this->findModel($id);
         $model->user_id = Yii::$app->user->getId();
+        $u=User::findOne(Yii::$app->user->getId());
         // set default timezone if not initialized in earlier users
         if ($model->load(Yii::$app->request->post())) {
           $model->timezone =Yii::$app->request->post()['UserSetting']['timezone'];
@@ -75,6 +77,7 @@ class UserSettingController extends Controller
         $timezoneList=MiscHelpers::getTimezoneList();
         return $this->render('update', [
             'model' => $model,
+            'user'=>$u,
             'timezoneList' => $timezoneList,
         ]);
     }

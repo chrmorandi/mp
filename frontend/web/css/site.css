@@ -312,7 +312,12 @@ padding:100px 25px 65px 25px;
 border:1px solid #e0e0e0;
 }
 
-
+.ticket-reply {
+  margin-left:25px;
+}
+.ticket-reply em {
+color:#a0a0a0;
+}
   /* ----------- mobile displays ----------- */
 
 @media only screen

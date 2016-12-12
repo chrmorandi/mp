@@ -16,12 +16,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 <?php Pjax::begin(); ?>    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $ticketProvider,
         //'filterModel' => $searchModel,
         'columns' => [
-            'question:ntext',
-            'status',
-            ['class' => 'yii\grid\ActionColumn','header'=>Yii::t('frontend','Options')],
+          [
+            'label'=>'Subject',
+              'attribute' => 'subject',
+              'format' => 'raw',
+              'value' => function ($model) {                
+                return '<div>'.Html::a($model->subject,['ticket/view/','id'=>$model->id]).'</div>';
+                  },
+          ],
+            [
+              'label'=>'Status',
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($model) {
+                  return '<div>'.$model->getStatus().'</div>';
+                    },
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

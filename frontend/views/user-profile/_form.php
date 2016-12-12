@@ -43,6 +43,8 @@ use common\components\MiscHelpers;
     </div> <!-- end of social tab -->
     <div class="tab-pane <?= ($model->tab=='username'?'active':'') ?> vertical-pad" id="username">
       <?= $form->field($model, 'username')->textInput(['maxlength' => true])->label(Yii::t('frontend','Username'))->hint(Yii::t('frontend','Used for meeting links (URLs), signing in, et al.')) ?>
+      <p><?= Yii::t('frontend','Your username also directs people to your ').Html::a(Yii::t('frontend','schedule with me page'),['/'.$model->username]).Yii::t('frontend',' which you can turn off in ').Html::a(Yii::t('frontend','settings'),['/user-setting']).'.'?></p>
+
     </div>  <!-- end tab content -->
     <div class="tab-pane <?= ($model->tab=='photo'?'active':'') ?> vertical-pad" id="photo">
       <div class="row">

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\data\ActiveDataProvider;
 use frontend\models\Ticket;
+use frontend\models\TicketReply;
 use frontend\models\TicketSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,22 +36,21 @@ class TicketController extends Controller
      */
     public function actionIndex()
     {
-      if (Yii::$app->user->isGuest) {
-        $session = Yii::$app->session;
-        $session->open();
-        if (!$session->has('guest_id')) {
-          $session->set('guest_id', Yii::$app->security->generateRandomString(32));
-        }
-        $guest_id = $session->get('guest_id');
-
-        echo '<br /><br /><br /><br /><br /><br />'.$guest_id;
-
+      if (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()) {
+        // admin
+        $guest_id = Yii::$app->user->getId();
+        $query = Ticket::find()
+          ->where(['status'=>[Ticket::STATUS_OPEN,Ticket::STATUS_PENDING]]);
       } else {
-        $guest_id = 0;
+        // user
+        $guest_id = Ticket::getGuestId();
+        $query = Ticket::find()
+          ->where(['posted_by'=>Yii::$app->user->getId()])
+          ->orWhere(['posted_by'=>$guest_id])
+          ->andWhere(['status'=>[Ticket::STATUS_OPEN,Ticket::STATUS_PENDING]]);
       }
-      //andWhere(['status'=>[Ticket::STATUS_PLANNING,Meeting::STATUS_SENT]])
         $ticketProvider = new ActiveDataProvider([
-              'query' => Ticket::find()->where(['posted_by'=>Yii::$app->user->getId()])->orWhere(['posted_by'=>$guest_id]),
+              'query' => $query,
               'sort'=> ['defaultOrder' => ['created_at'=>SORT_DESC]],
               'pagination' => [
                   'pageSize' => 7,
@@ -58,11 +58,11 @@ class TicketController extends Controller
           ]);
         if ($ticketProvider->getTotalCount()==0) {
           return $this->redirect(['ticket/create']);
+        } else {
+          return $this->render('index', [
+              'ticketProvider' => $ticketProvider,
+          ]);
         }
-        exit;
-        return $this->render('index', [
-            'ticketProvider' => $ticketProvider,
-        ]);
     }
 
     /**
@@ -72,9 +72,33 @@ class TicketController extends Controller
      */
     public function actionView($id)
     {
+      if (!\Yii::$app->user->isGuest && \common\models\User::findOne(Yii::$app->user->getId())->isAdmin()) {
+        $mode = 'admin';
+      } else {
+        $mode = 'user';
+      }
+      $model = $this->findModel($id);
+      $reply = new TicketReply();
+      if ($reply->load(Yii::$app->request->post())) {
+          $reply->ticket_id = $id;
+          if ($mode=='admin') {
+            $model->status = Ticket::STATUS_PENDING_USER;
+            $reply->posted_by = Yii::$app->user->getId();
+            Yii::$app->session->setFlash('success', 'Thank you, we\'ve notified the user of your update.');
+          } else {
+            $model->status = Ticket::STATUS_PENDING;
+            $reply->posted_by = Ticket::getGuestId();
+            Yii::$app->session->setFlash('success', 'Thank you, we\'ve notified our staff of your update. We\'ll get back to you as soon as possible.');
+          }
+          $reply->save();
+          $model->update();
+          return $this->redirect(['view','id'=>$id]);
+      } else {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'reply' => $reply,
         ]);
+      }
     }
 
     /**
@@ -85,14 +109,26 @@ class TicketController extends Controller
     public function actionCreate()
     {
         $model = new Ticket();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->posted_by = Ticket::getGuestId();
+            $model->status = Ticket::STATUS_OPEN;
+            $model->save();
+            Yii::$app->session->setFlash('success', 'Thank you, we\'ve created a new ticket and notified our staff. We\'ll get back to you as soon as possible.');
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionClose($id)
+    {
+        $t = Ticket::findOne($id);
+        $t->status = Ticket::STATUS_CLOSED;
+        $t->update();
+        Yii::$app->session->setFlash('success', 'Thank you, we\'ve closed this ticket. Let us know when we can help you again.');
+        return $this->redirect(['index']);
     }
 
     /**
@@ -104,7 +140,6 @@ class TicketController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

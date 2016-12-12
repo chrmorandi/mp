@@ -10,7 +10,8 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $posted_by
- * @property string $question
+ * @property string $subject
+ * @property string $details
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -19,6 +20,10 @@ use yii\db\ActiveRecord;
  */
 class Ticket extends \yii\db\ActiveRecord
 {
+  const STATUS_OPEN = 10;
+  const STATUS_PENDING = 20;
+  const STATUS_PENDING_USER = 20;
+  const STATUS_CLOSED = 30;
     /**
      * @inheritdoc
      */
@@ -51,9 +56,9 @@ class Ticket extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['posted_by', 'question'], 'required'],
+            [['posted_by', 'subject','details'], 'required'],
             [['posted_by', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['question'], 'string'],
+            [['details','subject'], 'string'],
         ];
     }
 
@@ -65,7 +70,8 @@ class Ticket extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('frontend', 'ID'),
             'posted_by' => Yii::t('frontend', 'Posted By'),
-            'question' => Yii::t('frontend', 'Question'),
+            'subject' => Yii::t('frontend', 'subject'),
+            'details' => Yii::t('frontend', 'details'),
             'status' => Yii::t('frontend', 'Status'),
             'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
@@ -87,5 +93,36 @@ class Ticket extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TicketQuery(get_called_class());
+    }
+
+    public static function getGuestId() {
+      if (Yii::$app->user->isGuest) {
+        $session = Yii::$app->session;
+        $session->open();
+        if (!$session->has('guest_id')) {
+          $session->set('guest_id', Yii::$app->security->generateRandomString(32));
+        }
+        $guest_id = $session->get('guest_id');
+      } else {
+        $guest_id =Yii::$app->user->getId();
+      }
+      return $guest_id;
+    }
+
+    public function getStatus() {
+      switch ($this->status) {
+        case Ticket::STATUS_OPEN:
+          return Yii::t('frontend','Open');
+        break;
+        case Ticket::STATUS_PENDING:
+          return Yii::t('frontend','Awaiting staff response');
+        break;
+        case Ticket::STATUS_PENDING_USER:
+          return Yii::t('frontend','Awaiting your response');
+        break;
+        case Ticket::STATUS_CLOSED:
+          return Yii::t('frontend','Closed');
+        break;
+      }
     }
 }
