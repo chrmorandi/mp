@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'label'=>'Subject',
               'attribute' => 'subject',
               'format' => 'raw',
-              'value' => function ($model) {                
+              'value' => function ($model) {
                 return '<div>'.Html::a($model->subject,['ticket/view/','id'=>$model->id]).'</div>';
                   },
           ],
@@ -39,5 +39,5 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 <?php Pjax::end(); ?></div>
 <p>
-    <?= Html::a(Yii::t('frontend', 'Create Ticket'), ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a(Yii::t('frontend', 'Create a New Ticket'), ['create'], ['class' => 'btn btn-success']) ?>
 </p>

@@ -878,6 +878,9 @@ class MeetingController extends Controller
           case Meeting::COMMAND_DOWNLOAD_ICS:
             $this->redirect(['meeting/download','id'=>$id,'actor_id'=>$actor_id]);
             break;
+          case Meeting::COMMAND_VIEW_TICKET:
+            $this->redirect(['ticket/view','id'=>$id]);
+            break;
           default:
             $this->redirect(['site\error','meeting_id'=>$id]);
             break;

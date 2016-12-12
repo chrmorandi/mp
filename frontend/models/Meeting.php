@@ -107,6 +107,7 @@ class Meeting extends \yii\db\ActiveRecord
   const COMMAND_VERIFY_EMAIL = 460;
   const COMMAND_RESPOND_MESSAGE = 470;
   const COMMAND_DOWNLOAD_ICS = 480;
+  const COMMAND_VIEW_TICKET = 500;
 
   const ABANDONED_AGE = 3; // weeks
 
