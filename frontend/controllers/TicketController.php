@@ -31,6 +31,23 @@ class TicketController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+              'class' => \yii\filters\AccessControl::className(), // \common\filters\MeetingControl::className(),
+              'rules' => [
+                // allow authenticated users
+                 [
+                     'allow' => true,
+                     'actions'=>['create','index','view','close','update'],
+                     'roles' => ['@'],
+                 ],
+                [
+                    'allow' => true,
+                    'actions'=>['create','index','view','close'],
+                    'roles' => ['?'],
+                ],
+                // everything else is denied
+              ],
+          ],
         ];
     }
 
@@ -89,10 +106,12 @@ class TicketController extends Controller
             $model->status = Ticket::STATUS_PENDING_USER;
             $reply->posted_by = Yii::$app->user->getId();
             Yii::$app->session->setFlash('success', 'Thank you, we\'ve notified the user of your update.');
+            Ticket::deliver('reply',$id,$model->posted_by,$model->email,'Reply to your ticket is available',$reply->reply);
           } else {
             $model->status = Ticket::STATUS_PENDING;
             $reply->posted_by = Ticket::getGuestId();
             Yii::$app->session->setFlash('success', 'Thank you, we\'ve notified our staff of your update. We\'ll get back to you as soon as possible.');
+            Ticket::deliver('update',$id,$model->posted_by,$model->email,'Receipt of your ticket update',$reply->reply);
           }
           $reply->save();
           $model->update();
@@ -112,76 +131,28 @@ class TicketController extends Controller
      */
     public function actionCreate()
     {
-        // to dos
-        // posted_by needs to be a string
-        // also need to ask for email address
-
+        // allow tickets without account
+        // command links need to work without auth key
+        // admin needs to get copies of new tickets
         $model = new Ticket();
+        $model->email ='';
         if ($model->load(Yii::$app->request->post())) {
             $model->posted_by = Ticket::getGuestId();
-            $model->status = Ticket::STATUS_OPEN;
-            $model->save();
-            if (!Yii::$app->user->isGuest) {
-                $u=User::findOne($model->posted_by);
-                $link = MiscHelpers::buildCommand($model->id,Meeting::COMMAND_VIEW_TICKET,0,$u->id,$u->auth_key);
+            if (Yii::$app->user->isGuest && !isset($model->email)) {
+                  Yii::$app->session->setFlash('error', 'Email address is required so we can respond to you. If you already have an account, please sign in.');
             } else {
-              $link='';
+              // note - not efficient, gets User in guestId()
+              $model->email = User::findOne($model->posted_by)->email;
+              $model->status = Ticket::STATUS_OPEN;
+              $model->save();
+              Yii::$app->session->setFlash('success', 'Thank you, we\'ve created a new ticket and notified our staff. We\'ll get back to you as soon as possible.');
+              Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
+              return $this->redirect(['index']);
             }
-            Yii::$app->session->setFlash('success', 'Thank you, we\'ve created a new ticket and notified our staff. We\'ll get back to you as soon as possible.');
-            $content=[
-              'subject' => Yii::t('frontend','New support ticket: {subject}',['subject'=>$model->subject]),
-              'heading' => Yii::t('frontend','Support Request'),
-              'p1' => $model->subject,
-              'p2' => $model->details,
-              'plain_text' => $model->subject.'...'.Html::a(Yii::t('frontend','Open the ticket'),$link)
-            ];
-            $button= [
-              'text' => Yii::t('frontend','Open the Ticket'),
-              'command' => Meeting::COMMAND_VIEW_TICKET,
-              'obj_id' => $model->id,
-            ];
-            // Build the absolute links to the meeting and commands
-            $links=[
-              'home'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_HOME,0,$u->id,$u->auth_key,0),
-              'view'=>MiscHelpers::buildCommand($model->id,Meeting::COMMAND_VIEW_TICKET,$model->id,$u->id,$u->auth_key,0),
-              'footer_email'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_EMAIL,0,$u->id,$u->auth_key,0),
-              'footer_block'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK,$u->id,$u->id,$u->auth_key,0),
-              'footer_block_all'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$u->id,$u->auth_key,0),
-            ];
-
-            if ($button!==false) {
-              $links['button_url']=MiscHelpers::buildCommand(0,$button['command'],$button['obj_id'],$u->id,$u->auth_key);
-
-              $content['button_text']=$button['text'];
-            }
-            if ($link<>'') {
-                // send the message
-                $message = Yii::$app->mailer->compose([
-                  'html' => 'generic-html',
-                  'text' => 'generic-text'
-                ],
-                [
-                  'meeting_id' => 0,
-                  'sender_id'=> $model->posted_by,
-                  'user_id' => $model->posted_by,
-                  'auth_key' => $u->auth_key,
-                  'content'=>$content,
-                  'links'=>$links,
-                  'button'=>$button,
-              ]);
-                // to do - add full name
-              $message->setFrom(array('support@meetingplanner.io'=>'Support'));
-              $message->setReplyTo('support@meetingplanner.io');
-              $message->setTo($u->email)
-                  ->setSubject($content['subject'])
-                  ->send();
-            }
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     public function actionClose($id)
