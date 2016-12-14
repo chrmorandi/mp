@@ -9,7 +9,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
  * UserContactController implements the CRUD actions for UserContact model.
  */
@@ -30,7 +29,7 @@ class UserContactController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['index','create','update','view','delete'],
+                                'actions' => ['index','create','update','view','delete','verify'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
@@ -152,5 +151,28 @@ class UserContactController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionVerify($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+          //
+            echo '';
+        } else {
+          $canRequest = $model->canRequest();
+          if ($canRequest) {
+            // send a text to this number
+            $model->requestCode();
+            return $this->render('verify', [
+                'model' => $model,
+            ]);
+          } else {
+            Yii::$app->getSession()->setFlash('error', $canRequest);
+            return $this->redirect(['/user-contact']);
+          }
+        }
+
+
     }
 }

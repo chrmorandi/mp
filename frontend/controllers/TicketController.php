@@ -132,8 +132,12 @@ class TicketController extends Controller
     public function actionCreate()
     {
         // allow tickets without account
+        // add a ticket_type for account holders vs. non account holders
+        // if they command link in with an account and have a cookie, update all to user_id
         // command links need to work without auth key
         // admin needs to get copies of new tickets
+        // filter tickets by posted_by
+        // guard against duplicates
         $model = new Ticket();
         $model->email ='';
         if ($model->load(Yii::$app->request->post())) {

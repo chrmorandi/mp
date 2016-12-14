@@ -139,9 +139,7 @@ class Ticket extends \yii\db\ActiveRecord
           'footer_email'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_EMAIL,0,$recipient_id,$u->auth_key,0),
           'footer_block'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK,$u->id,$recipient_id,$u->auth_key,0),
           'footer_block_all'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$recipient_id,$u->auth_key,0),
-        ];
-        echo $links['view'];
-        exit;
+        ];        
       } else {
         $auth_key=0;
         $links=[

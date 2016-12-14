@@ -4,6 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use filipajdacic\yiitwilio\YiiTwilio;
+use common\models\Sms;
 
 /**
  * This is the model class for table "user_contact".
@@ -13,10 +15,13 @@ use yii\db\ActiveRecord;
  * @property integer $contact_type
  * @property string $info
  * @property string $details
+ * @property integer $verify_code
  * @property integer $status
  * @property integer $accept_sms
+ * @property integer $request_count
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $requested_at
  *
  * @property User $user
  */
@@ -38,6 +43,7 @@ class UserContact extends \yii\db\ActiveRecord
     const TYPE_GADU = 110;
 
 	const STATUS_ACTIVE = 0;
+  const STATUS_VERIFIED = 5;
 	const STATUS_INACTIVE = 10;
 
   const SETTING_NO = 0;
@@ -45,6 +51,9 @@ class UserContact extends \yii\db\ActiveRecord
 
   const MAX_LIMIT = 7;
 
+  const MAX_REQUEST_COUNT = 3;
+
+  public $verify;
     /**
      * @inheritdoc
      */
@@ -192,6 +201,39 @@ class UserContact extends \yii\db\ActiveRecord
       return false;
     }
     return true;
+  }
+
+  public function canRequest() {
+    if ($this->request_count<UserContact::MAX_REQUEST_COUNT) {
+      if (time() - $this->requested_at>=300) {
+        return true;
+      } else {
+          return Yii::t('frontend','Sorry, you must wait five minutes between requests.');
+      }
+    } else {
+      return Yii::t('frontend','You have exceeded the maximum number of attempts.');
+    }
+  }
+
+  public function requestCode() {
+    $this->verify_code = sprintf("%04d",rand(0,9999));
+    $this->update();
+    $sms = new Sms;
+    $sms->transmit($this->info,Yii::t('frontend','Please return to the site and type in {code}',['code'=>$this->verify_code]));
+  }
+
+  public function findUserNumber($user_id) {
+    $uc = UserContact::find()
+      ->where(['user_id'=>$user_id])
+      ->andWhere(['contact_type'=>UserContact::TYPE_PHONE])
+      ->andWhere(['accept_sms'=>1])
+      ->andWhere(['status'=>UserContact::STATUS_VERIFIED])
+      ->one();
+    if (is_null($uc) || count($uc)==0) {
+      return false;
+    } else {
+      return $uc->info;
+    }
   }
 
 }

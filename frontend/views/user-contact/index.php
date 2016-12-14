@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\models\UserContact;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserContactSearch */
@@ -38,9 +39,31 @@ $this->params['breadcrumbs'][] = $this->title;
 		                },
 		        ],
             // 'status',
-            ['class' => 'yii\grid\ActionColumn',
-				      'template'=>'{update} {delete}',
-			      ],
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{verify}  {update} {delete}',
+            'headerOptions' => ['class' => 'itemHide'],
+            'contentOptions' => ['class' => 'itemHide'],
+            'buttons'=>[
+                'verify' => function ($url, $model) {
+                  if ($model->contact_type == UserContact::TYPE_PHONE
+                    && $model->status==UserContact::STATUS_ACTIVE) {
+
+                  return Html::a('<span class="glyphicon glyphicon-check"></span>', $url,
+                  [
+                          'title' => Yii::t('frontend', 'verify'),
+                          'class' => 'icon-pad',
+                  ]);
+                }
+
+                },
+                /*'cancel' => function ($url, $model) {
+                  return ($model->status==$model::STATUS_SENT || $model->status==$model::STATUS_CONFIRMED ) ? Html::a('<span class="glyphicon glyphicon-remove-circle"></span>', $url, [
+                          'title' => Yii::t('frontend', 'cancel'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?'),
+                          'class' => 'icon-pad',
+                  ]) : '';
+                },*/
+              ]
+            ],
         ],
     ]); ?>
     <p>
