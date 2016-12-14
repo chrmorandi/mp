@@ -19,22 +19,24 @@ class Sms
      $this->test_number = Yii::$app->params['twilio_test_number'];
   }
 
-  public function transmit($user_id,$body='') {
+  public function transmit($to_number,$body='') {
     // to do - lookup usercontact to sms
     // see if they have a usercontact entry that accepts sms
     // transmit
-    $to_number = $this->test_number;
-    $to_number = $this->findUserNumber($user_id);
-    if (!$to_number)
+    //$to_number = $this->test_number;
+    //$to_number = $this->findUserNumber($user_id);
+    /*if (!$to_number)
     {
       return false;
-    }
+    }*/
+    //echo $this->mp_number;exit;
+
     try {
         $message = $this->sms->account->messages->create(array(
-            "From" => $this->mp_number,
-            "To" => $to_number,   // Text this number
-            'MessagingServiceSid' => $this->service_id,
-            "Body" => $body,
+            "From" => '+15036765100',//$this->mp_number,
+            "To" => '+12067067770',   // Text this number
+            
+            "Body" => 'this is a test',
         ));
     } catch (\Services_Twilio_RestException $e) {
             echo $e->getMessage();

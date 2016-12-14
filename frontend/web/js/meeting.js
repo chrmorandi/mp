@@ -398,7 +398,7 @@ function addActivity(id) {
 
 function getActivities(id) {
   $.ajax({
-   url: $('#url_prefix').val()+'/meeting-activity/getactivityUNKNOWN',
+   url: $('#url_prefix').val()+'/meeting-activity/getactivity',
    data: {
      id: id,
     },
