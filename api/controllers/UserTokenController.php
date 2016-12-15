@@ -27,12 +27,12 @@ class UserTokenController extends Controller // ActiveController
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>['view','register','regtest','sigtest','headertest'],
+                   'actions'=>['view','register','regtest','sigtest','headertest','curl'],
                    'roles' => ['@'],
                ],
               [
                   'allow' => true,
-                  'actions'=>['view','register','regtest','sigtest','headertest'],
+                  'actions'=>['view','register','regtest','sigtest','headertest','curl'],
                   'roles' => ['?'],
               ],
               // everything else is denied
@@ -75,7 +75,8 @@ class UserTokenController extends Controller // ActiveController
       return true;
     }
 
-    public function actionSigtest($str='jeff@lookahead.iojeffreifman7799442211xyzfacebook') {
+    public function actionSigtest($str='tom@macfarlins.comthomasmacfarlinszuckerburger') {
+      //'jeff@lookahead.iojeffreifman7799442211xyzfacebook'
       // jeff@lookahead.iojeffreifman7799442211xyzfacebook
       $sig_target = hash_hmac('sha256',$str,Yii::$app->params['app_secret']);
       return $sig_target;
@@ -153,12 +154,43 @@ class UserTokenController extends Controller // ActiveController
       }
     }
 
-    public function actionRegister($app_id='', $app_secret='', $source='',$firstname ='',$lastname='',$email = '',$oauth_token='') {
+    //curl_setopt($ch, CURLOPT_POST, 1);
+    //curl_setopt($ch, CURLOPT_POSTFIELDS,$vars);  //Post Fields
+    public function actionCurl($sig) {
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL,"http://localhost:8888/mp-api/user-token/register?sig=".$sig);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $headers = [
+        'app_id: '.'imwithher',
+        'email: '.'tom@macfarlins.com',
+        'firstname: '.'thomas',
+        'lastname: '.'macfarlins',
+        'oauth_token: '.'zuckerburger',
+        'source: '.'facebook',
+      ];
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      $server_output = curl_exec ($ch);
+      var_dump($server_output);
+      curl_close ($ch);
+    }
+
+    //$source='',$firstname ='',$lastname='',$email = '',$oauth_token='',
+    public function actionRegister($sig='') {
       Yii::$app->response->format = Response::FORMAT_JSON;
-      // verify app_id and app_key
-      if (!Service::verifyAccess($app_id,$app_secret)) {
-        // to do - error msg
-        return false;
+      $headers = Yii::$app->request->headers;
+      $email= $headers->get('email');
+      $firstname= $headers->get('firstname');
+      $lastname= $headers->get('lastname');
+      $oauth_token= $headers->get('oauth_token');
+      $source = $headers->get('source');
+      if ($headers->has('app_id')) {
+        $app_id = $headers->get('app_id');
+      }
+      $sig_target = hash_hmac('sha256',$email.$firstname.$lastname.$oauth_token.$source,Yii::$app->params['app_secret']);
+      if ($app_id != Yii::$app->params['app_id'] && $sig==$sig_target) {
+        return 'it worked!';
+      } else {
+        return 'failed!';
       }
       $identityObj = new \stdClass();
       // $source = facebook, google, manual (user types it)
