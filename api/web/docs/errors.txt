@@ -2,61 +2,243 @@ Array
 (
     [0] => Array
         (
-            [line] => 20
+            [line] => 31
             [file] => api/controllers/ParticipantController.php
             [message] => Method behaviors has no parent to inherit from in api\controllers\ParticipantController.
         )
 
     [1] => Array
         (
-            [line] => 20
+            [line] => 32
             [file] => api/controllers/PlaceController.php
             [message] => Method behaviors has no parent to inherit from in api\controllers\PlaceController.
         )
 
     [2] => Array
         (
-            [line] => 18
+            [line] => 22
             [file] => api/controllers/ServiceController.php
             [message] => Method behaviors has no parent to inherit from in api\controllers\ServiceController.
         )
 
     [3] => Array
         (
-            [line] => 22
+            [line] => 30
             [file] => api/controllers/UserController.php
-            [message] => Method behaviors has no parent to inherit from in api\controllers\UserController.
+            [message] => Method $headers has no parent to inherit from in api\controllers\UserController.
         )
 
     [4] => Array
         (
-            [line] => 25
-            [file] => api/models/UserToken.php
-            [message] => Method tableName has no parent to inherit from in api\models\UserToken.
+            [line] => 34
+            [file] => api/controllers/UserController.php
+            [message] => Method behaviors has no parent to inherit from in api\controllers\UserController.
         )
 
     [5] => Array
         (
-            [line] => 51
-            [file] => api/models/UserToken.php
-            [message] => Method rules has no parent to inherit from in api\models\UserToken.
+            [line] => 128
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
         )
 
     [6] => Array
         (
-            [line] => 64
+            [line] => 128
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [7] => Array
+        (
+            [line] => 128
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [8] => Array
+        (
+            [line] => 128
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [9] => Array
+        (
+            [line] => 128
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [10] => Array
+        (
+            [line] => 128
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [11] => Array
+        (
+            [line] => 211
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionDelete().
+        )
+
+    [12] => Array
+        (
+            [line] => 211
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionDelete().
+        )
+
+    [13] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [14] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [15] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [16] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [17] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [18] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [19] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [20] => Array
+        (
+            [line] => 213
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionDelete().
+        )
+
+    [21] => Array
+        (
+            [line] => 213
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionDelete().
+        )
+
+    [22] => Array
+        (
+            [line] => 213
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionDelete().
+        )
+
+    [23] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [24] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [25] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [26] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [27] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [28] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [29] => Array
+        (
+            [line] => 129
+            [file] => api/controllers/UserTokenController.php
+            [message] => Undefined parameter documented:  in actionRegister().
+        )
+
+    [30] => Array
+        (
+            [line] => 29
+            [file] => api/models/UserToken.php
+            [message] => Method tableName has no parent to inherit from in api\models\UserToken.
+        )
+
+    [31] => Array
+        (
+            [line] => 55
+            [file] => api/models/UserToken.php
+            [message] => Method rules has no parent to inherit from in api\models\UserToken.
+        )
+
+    [32] => Array
+        (
+            [line] => 68
             [file] => api/models/UserToken.php
             [message] => Method attributeLabels has no parent to inherit from in api\models\UserToken.
         )
 
-    [7] => Array
+    [33] => Array
         (
             [line] => 13
             [file] => api/modules/v1/Module.php
             [message] => Method $controllerNamespace has no parent to inherit from in api\modules\v1\Module.
         )
 
-    [8] => Array
+    [34] => Array
         (
             [line] => 18
             [file] => api/modules/v1/Module.php

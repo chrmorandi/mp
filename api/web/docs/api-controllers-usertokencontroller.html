@@ -9,7 +9,7 @@
 <link href="./assets/3df46844/style.css" rel="stylesheet">
 <script src="./assets/84222ffe/jquery.js"></script>
 <script src="./assets/cc1063cb/js/bootstrap.js"></script>
-<script src="./assets/d88bf6bf/jssearch.js"></script>    <title>UserTokenController, api\controllers\UserTokenController - Meetin</title>
+<script src="./assets/2aa2d221/jssearch.js"></script>    <title>UserTokenController, api\controllers\UserTokenController - MeetingPlanner</title>
 </head>
 <body>
 
@@ -17,7 +17,7 @@
     <nav id="w47" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w47-collapse"><span class="sr-only">Toggle navigation</span>
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
-<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Meetin</a></div><div id="w47-collapse" class="collapse navbar-collapse"><ul id="w48" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">MeetingPlanner</a></div><div id="w47-collapse" class="collapse navbar-collapse"><ul id="w48" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
 <li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
   <div class="form-group">
     <input id="searchbox" type="text" class="form-control" placeholder="Search">
@@ -50,6 +50,7 @@
         <h1>Class api\controllers\UserTokenController</h1>
 <div class="top-nav">
     <a href="index.html">All Classes</a>
+            | <a href="#properties">Properties</a>
                 | <a href="#methods">Methods</a>
             </div>
 
@@ -60,14 +61,39 @@
     </colgroup>
             <tr><th>Inheritance</th><td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a> &raquo;
 yii\web\Controller</td></tr>
-                                        </table>
+                                        <tr><th>Available since version</th><td>0.1</td></tr>
+            </table>
 
 <div class="class-description">
-    <p><strong></strong></p>
+    <p><strong>UserTokenController provides API functionality for registration, delete and verify</strong></p>
     
     </div>
 
 <a id="properties"></a>
+
+<div class="summary doc-property">
+<h2>Public Properties</h2>
+
+<p><a href="#" class="toggle">Hide inherited properties</a></p>
+
+<table class="summary-table table table-striped table-bordered table-hover">
+<colgroup>
+    <col class="col-property" />
+    <col class="col-type" />
+    <col class="col-description" />
+    <col class="col-defined" />
+</colgroup>
+<tr>
+  <th>Property</th><th>Type</th><th>Description</th><th>Defined By</th>
+</tr>
+        <tr id="$headers">
+        <td><a href="api-controllers-usertokencontroller.html#$headers-detail">$headers</a></td>
+        <td></td>
+        <td></td>
+        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
+    </tr>
+    </table>
+</div>
 
 <a id="methods"></a>
 
@@ -87,70 +113,34 @@ yii\web\Controller</td></tr>
 </tr>
         <tr id="actionDelete()">
         <td><a href="api-controllers-usertokencontroller.html#actionDelete()-detail">actionDelete()</a></td>
-        <td></td>
-        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
-    </tr>
-            <tr id="actionHeadertest()">
-        <td><a href="api-controllers-usertokencontroller.html#actionHeadertest()-detail">actionHeadertest()</a></td>
-        <td></td>
-        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
-    </tr>
-            <tr id="actionHeaderusertest()">
-        <td><a href="api-controllers-usertokencontroller.html#actionHeaderusertest()-detail">actionHeaderusertest()</a></td>
-        <td></td>
-        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
-    </tr>
-            <tr id="actionIndex()">
-        <td><a href="api-controllers-usertokencontroller.html#actionIndex()-detail">actionIndex()</a></td>
-        <td></td>
+        <td>Delete a user by user_id</td>
         <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
     </tr>
             <tr id="actionRegister()">
         <td><a href="api-controllers-usertokencontroller.html#actionRegister()-detail">actionRegister()</a></td>
-        <td></td>
-        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
-    </tr>
-            <tr id="actionRegtest()">
-        <td><a href="api-controllers-usertokencontroller.html#actionRegtest()-detail">actionRegtest()</a></td>
-        <td>Used for testing new API transfer method
-For example,</td>
+        <td>Register a new user with an external social Oauth_token</td>
         <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
     </tr>
             <tr id="actionSigtest()">
         <td><a href="api-controllers-usertokencontroller.html#actionSigtest()-detail">actionSigtest()</a></td>
-        <td></td>
+        <td>Used for testing to generate a signature with app_secret from parameter string</td>
         <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
     </tr>
             <tr id="actionVerify()">
         <td><a href="api-controllers-usertokencontroller.html#actionVerify()-detail">actionVerify()</a></td>
-        <td></td>
+        <td>Verifies validity of a user token</td>
+        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
+    </tr>
+            <tr id="beforeAction()">
+        <td><a href="api-controllers-usertokencontroller.html#beforeAction()-detail">beforeAction()</a></td>
+        <td>Called beforeAction for each public API method
+ captures $this-&gt;header from http_get_request_headers
+ checks if app_id is correct</td>
         <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
     </tr>
             <tr id="behaviors()">
         <td><a href="api-controllers-usertokencontroller.html#behaviors()-detail">behaviors()</a></td>
         <td></td>
-        <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
-    </tr>
-        </table>
-</div>
-
-<div class="summary doc-method">
-<h2>Protected Methods</h2>
-
-<p><a href="#" class="toggle">Hide inherited methods</a></p>
-
-<table class="summary-table table table-striped table-bordered table-hover">
-<colgroup>
-    <col class="col-method" />
-    <col class="col-description" />
-    <col class="col-defined" />
-</colgroup>
-<tr>
-  <th>Method</th><th>Description</th><th>Defined By</th>
-</tr>
-                                            <tr id="findModel()">
-        <td><a href="api-controllers-usertokencontroller.html#findModel()-detail">findModel()</a></td>
-        <td>Finds the Launch model based on its primary key value.</td>
         <td><a href="api-controllers-usertokencontroller.html">api\controllers\UserTokenController</a></td>
     </tr>
     </table>
@@ -160,6 +150,27 @@ For example,</td>
 
 <a id="constants"></a>
 
+<h2>Property Details</h2>
+
+<div class="property-doc">
+
+    <div class="detail-header h3" id="$headers-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#$headers-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        $headers        <span class="detail-header-tag small">
+            public                                                property
+                    </span>
+    </div>
+
+    
+    <div class="doc-description">
+        
+            </div>
+
+    <div class="signature"><span class="signature-defs">public</span> <span class="signature-type"></span> <a href="api-controllers-usertokencontroller.html#$headers-detail">$headers</a> <span style="color: #0000BB"></span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">null</span></div>
+
+</div>
 <h2>Method Details</h2>
 
 <div class="method-doc">
@@ -176,113 +187,44 @@ For example,</td>
 
     
     <div class="doc-description">
-        <p><strong></strong></p>
+        <p><strong>Delete a user by user_id</strong></p>
 
         
             </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionDelete()-detail">actionDelete</a></strong> ( <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$app_secret&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type"><a href="http://www.php.net/language.types.boolean">boolean</a></span> <strong><a href="api-controllers-usertokencontroller.html#actionDelete()-detail">actionDelete</a></strong> ( <span style="color: #0000BB">$signature&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$user_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span> )</td></tr>
                                     <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$signature</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>In header, the generated hash using the user's own token</p>
+</td>
+                </tr>
+                            <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$app_id</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>In header, the shared secret application id</p>
+</td>
                 </tr>
                             <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$app_secret</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$token</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                                                </table>
-
-<!--	-->
-
-    <div class="detail-header h3" id="actionHeadertest()-detail">
-        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
-        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#actionHeadertest()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
-        
-        actionHeadertest()
-        <span class="detail-header-tag small">
-            public                                    method
-                    </span>
-    </div>
-
-    
-    <div class="doc-description">
-        <p><strong></strong></p>
-
-        
-            </div>
-
-    <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionHeadertest()-detail">actionHeadertest</a></strong> ( <span style="color: #0000BB">$sig&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
-                                    <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$sig</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                                                </table>
-
-<!--	-->
-
-    <div class="detail-header h3" id="actionHeaderusertest()-detail">
-        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
-        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#actionHeaderusertest()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
-        
-        actionHeaderusertest()
-        <span class="detail-header-tag small">
-            public                                    method
-                    </span>
-    </div>
-
-    
-    <div class="doc-description">
-        <p><strong></strong></p>
-
-        
-            </div>
-
-    <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionHeaderusertest()-detail">actionHeaderusertest</a></strong> ( <span style="color: #0000BB">$user_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span>, <span style="color: #0000BB">$sig&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
-                                    <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$user_id</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>In header, of account</p>
+</td>
                 </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$sig</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                                        <tr>
+                  <th class="param-name-col">return</th>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.boolean">boolean</a></td>
+                  <td class="param-desc-col"><p>True if deleted, false if not</p>
+</td>
                 </tr>
-                                                </table>
-
-<!--	-->
-
-    <div class="detail-header h3" id="actionIndex()-detail">
-        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
-        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#actionIndex()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
-        
-        actionIndex()
-        <span class="detail-header-tag small">
-            public                                    method
-                    </span>
-    </div>
-
-    
-    <div class="doc-description">
-        <p><strong></strong></p>
-
-        
-            </div>
-
-    <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionIndex()-detail">actionIndex</a></strong> ( )</td></tr>
-            </table>
+                                        <tr>
+                  <th class="param-name-col">throws</th>
+                  <td class="param-type-col">\api\controllers\Exception</td>
+                  <td class="param-desc-col"><p>not yet implemented</p>
+</td>
+                </tr>
+                        </table>
 
 <!--	-->
 
@@ -298,119 +240,59 @@ For example,</td>
 
     
     <div class="doc-description">
-        <p><strong></strong></p>
+        <p><strong>Register a new user with an external social Oauth_token</strong></p>
 
         
             </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionRegister()-detail">actionRegister</a></strong> ( <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$app_secret&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$source&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$firstname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$lastname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$email&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$oauth_token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">\api\controllers\obj</span> <strong><a href="api-controllers-usertokencontroller.html#actionRegister()-detail">actionRegister</a></strong> ( <span style="color: #0000BB">$signature</span>, <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$email&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$firstname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$lastname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$oauth_token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$source&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
                                     <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$app_id</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-name-col"><span style="color: #0000BB">$signature</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>The hash generated with app_secret</p>
+</td>
                 </tr>
                             <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$app_secret</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$source</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$firstname</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$lastname</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$email</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$oauth_token</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                                                </table>
-
-<!--	-->
-
-    <div class="detail-header h3" id="actionRegtest()-detail">
-        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
-        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#actionRegtest()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
-        
-        actionRegtest()
-        <span class="detail-header-tag small">
-            public                                    method
-                    </span>
-    </div>
-
-    
-    <div class="doc-description">
-        <p><strong>Used for testing new API transfer method
-For example,</strong></p>
-
-        <pre><code class="hljs scss"><span class="hljs-variable">$component</span>-&gt;<span class="hljs-function">getEventHandlers</span>(<span class="hljs-variable">$eventName</span>)-&gt;<span class="hljs-function">insertAt</span>(0, <span class="hljs-variable">$eventHandler</span>);
-</code></pre>
-
-            </div>
-
-    <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type"><a href="http://www.php.net/language.types.string">string</a></span> <strong><a href="api-controllers-usertokencontroller.html#actionRegtest()-detail">actionRegtest</a></strong> ( <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$email&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$firstname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$lastname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$oauth_token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$source&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$sig&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
-                                    <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$app_id</span></td>
                   <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>The shared secret application id</p>
+                  <td class="param-desc-col"><p>In header, the shared secret application id</p>
 </td>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$email</span></td>
                   <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>Email address</p>
+                  <td class="param-desc-col"><p>In header, email address</p>
 </td>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$firstname</span></td>
                   <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>First name</p>
+                  <td class="param-desc-col"><p>In header, first name</p>
 </td>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$lastname</span></td>
                   <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>Last name</p>
+                  <td class="param-desc-col"><p>In header, last name</p>
 </td>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$oauth_token</span></td>
                   <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>The token returned from Facebook during OAuth for this user</p>
+                  <td class="param-desc-col"><p>In header, the token returned from Facebook during OAuth for this user</p>
 </td>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$source</span></td>
                   <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>The source that the $oauth_token is from e.g. 'facebook' e.g. [$oauth_token]</p>
+                  <td class="param-desc-col"><p>In header, the source that the $oauth_token is from e.g. 'facebook' e.g. [$oauth_token]</p>
 </td>
-                </tr>
-                            <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$sig</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
                 </tr>
                                         <tr>
                   <th class="param-name-col">return</th>
-                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
-                  <td class="param-desc-col"><p>Says if it worked or not</p>
+                  <td class="param-type-col">\api\controllers\obj</td>
+                  <td class="param-desc-col"><p>$identityObj with user_id and user_token</p>
 </td>
                 </tr>
                                         <tr>
@@ -435,19 +317,32 @@ For example,</strong></p>
 
     
     <div class="doc-description">
-        <p><strong></strong></p>
+        <p><strong>Used for testing to generate a signature with app_secret from parameter string</strong></p>
 
         
             </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionSigtest()-detail">actionSigtest</a></strong> ( <span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'jeff@lookahead.iojeffreifman7799442211xyzfacebook'</span> )</td></tr>
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type"><a href="http://www.php.net/language.types.string">string</a></span> <strong><a href="api-controllers-usertokencontroller.html#actionSigtest()-detail">actionSigtest</a></strong> ( <span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'tom@macfarlins.comthomasmacfarlinszuckerburger'</span> )</td></tr>
                                     <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$str</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>String of combined parameters</p>
+</td>
                 </tr>
-                                                </table>
+                                        <tr>
+                  <th class="param-name-col">return</th>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>$sig_target hashed signature that should be used</p>
+</td>
+                </tr>
+                                        <tr>
+                  <th class="param-name-col">throws</th>
+                  <td class="param-type-col">\api\controllers\Exception</td>
+                  <td class="param-desc-col"><p>not yet implemented</p>
+</td>
+                </tr>
+                        </table>
 
 <!--	-->
 
@@ -463,29 +358,93 @@ For example,</strong></p>
 
     
     <div class="doc-description">
-        <p><strong></strong></p>
+        <p><strong>Verifies validity of a user token</strong></p>
 
         
             </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#actionVerify()-detail">actionVerify</a></strong> ( <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$app_secret&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type"><a href="http://www.php.net/language.types.boolean">boolean</a></span> <strong><a href="api-controllers-usertokencontroller.html#actionVerify()-detail">actionVerify</a></strong> ( <span style="color: #0000BB">$signature</span>, <span style="color: #0000BB">$app_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span>, <span style="color: #0000BB">$user_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span>, <span style="color: #0000BB">$user_token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span> )</td></tr>
                                     <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$signature</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>The hash signature for this request, uses app_secret</p>
+</td>
+                </tr>
+                            <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$app_id</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>In header, application id</p>
+</td>
                 </tr>
                             <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$app_secret</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-name-col"><span style="color: #0000BB">$user_id</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.integer">integer</a></td>
+                  <td class="param-desc-col"><p>In header, refers to owner of user_token to be validated</p>
+</td>
                 </tr>
                             <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$token</span></td>
-                  <td class="param-type-col"></td>
-                  <td class="param-desc-col"></td>
+                  <td class="param-name-col"><span style="color: #0000BB">$user_token</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"><p>In header, the token to be validated for this user_id</p>
+</td>
                 </tr>
-                                                </table>
+                                        <tr>
+                  <th class="param-name-col">return</th>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.boolean">boolean</a></td>
+                  <td class="param-desc-col"><p>True on success</p>
+</td>
+                </tr>
+                                        <tr>
+                  <th class="param-name-col">throws</th>
+                  <td class="param-type-col">\api\controllers\Exception</td>
+                  <td class="param-desc-col"><p>not yet implemented</p>
+</td>
+                </tr>
+                        </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="beforeAction()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#beforeAction()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        beforeAction()
+        <span class="detail-header-tag small">
+            public                                    method
+                    </span>
+    </div>
+
+    
+    <div class="doc-description">
+        <p><strong>Called beforeAction for each public API method
+ captures $this-&gt;header from http_get_request_headers
+ checks if app_id is correct</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type"><a href="http://www.php.net/language.types.boolean">boolean</a></span> <strong><a href="api-controllers-usertokencontroller.html#beforeAction()-detail">beforeAction</a></strong> ( <span style="color: #0000BB">$action</span> )</td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$action</span></td>
+                  <td class="param-type-col">\api\controllers\action</td>
+                  <td class="param-desc-col"><p>The controller action</p>
+</td>
+                </tr>
+                                        <tr>
+                  <th class="param-name-col">return</th>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.boolean">boolean</a></td>
+                  <td class="param-desc-col"><p>True if app_id matches, false if it doesn't</p>
+</td>
+                </tr>
+                                        <tr>
+                  <th class="param-name-col">throws</th>
+                  <td class="param-type-col">\api\controllers\Exception</td>
+                  <td class="param-desc-col"><p>not yet implemented</p>
+</td>
+                </tr>
+                        </table>
 
 <!--	-->
 
@@ -509,47 +468,6 @@ For example,</strong></p>
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="api-controllers-usertokencontroller.html#behaviors()-detail">behaviors</a></strong> ( )</td></tr>
             </table>
-
-<!--	-->
-
-    <div class="detail-header h3" id="findModel()-detail">
-        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
-        <a class="tool-link hash" href="api-controllers-usertokencontroller.html#findModel()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
-        
-        findModel()
-        <span class="detail-header-tag small">
-            protected                                    method
-                    </span>
-    </div>
-
-    
-    <div class="doc-description">
-        <p><strong>Finds the Launch model based on its primary key value.</strong></p>
-
-        <p>If the model is not found, a 404 HTTP exception will be thrown.</p>
-
-            </div>
-
-    <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">protected</span> <span class="signature-type">\api\controllers\Launch</span> <strong><a href="api-controllers-usertokencontroller.html#findModel()-detail">findModel</a></strong> ( <span style="color: #0000BB">$id</span> )</td></tr>
-                                    <tr>
-                  <td class="param-name-col"><span style="color: #0000BB">$id</span></td>
-                  <td class="param-type-col"><a href="http://www.php.net/language.types.integer">integer</a></td>
-                  <td class="param-desc-col"></td>
-                </tr>
-                                        <tr>
-                  <th class="param-name-col">return</th>
-                  <td class="param-type-col">\api\controllers\Launch</td>
-                  <td class="param-desc-col"><p>The loaded model</p>
-</td>
-                </tr>
-                                        <tr>
-                  <th class="param-name-col">throws</th>
-                  <td class="param-type-col">\yii\web\NotFoundHttpException</td>
-                  <td class="param-desc-col"><p>if the model cannot be found</p>
-</td>
-                </tr>
-                        </table>
 
 <!--	-->
 </div>
@@ -591,7 +509,7 @@ For example,</strong></p>
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Sun, 11 Dec 2016 23:30:23 +0100</small></p>
+        <p class="pull-right"><small>Page generated on Tue, 20 Dec 2016 08:36:06 +0100</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script type="text/javascript">jQuery(document).ready(function () {

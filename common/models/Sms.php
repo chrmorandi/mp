@@ -30,12 +30,23 @@ class Sms
       return false;
     }*/
     //echo $this->mp_number;exit;
+           try {
+               $message = $this->sms->account->messages->create(
+                   "+12067067770", // To a number that you want to send sms
+                   array(
+                   "from" => "+15036765100",   // From a number that you are sending
+                   "body" => "Hello from my Yii2 Application!",
+               ));
+           } catch (\Twilio\Exceptions\RestException $e) {
+                   echo $e->getMessage();
+           }
 
+           exit;
     try {
         $message = $this->sms->account->messages->create(array(
             "From" => '+15036765100',//$this->mp_number,
             "To" => '+12067067770',   // Text this number
-            
+
             "Body" => 'this is a test',
         ));
     } catch (\Services_Twilio_RestException $e) {

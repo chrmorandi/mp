@@ -9,7 +9,7 @@
 <link href="./assets/3df46844/style.css" rel="stylesheet">
 <script src="./assets/84222ffe/jquery.js"></script>
 <script src="./assets/cc1063cb/js/bootstrap.js"></script>
-<script src="./assets/d88bf6bf/jssearch.js"></script>    <title>Service, api\models\Service - Meetin</title>
+<script src="./assets/2aa2d221/jssearch.js"></script>    <title>Service, api\models\Service - MeetingPlanner</title>
 </head>
 <body>
 
@@ -17,7 +17,7 @@
     <nav id="w68" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w68-collapse"><span class="sr-only">Toggle navigation</span>
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
-<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Meetin</a></div><div id="w68-collapse" class="collapse navbar-collapse"><ul id="w69" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">MeetingPlanner</a></div><div id="w68-collapse" class="collapse navbar-collapse"><ul id="w69" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li>
 <li><a href="./guide-README.html">Guide</a></li></ul><div class="navbar-form navbar-left" role="search">
   <div class="form-group">
     <input id="searchbox" type="text" class="form-control" placeholder="Search">
@@ -90,14 +90,14 @@ yii\base\Model</td></tr>
         <td></td>
         <td><a href="api-models-service.html">api\models\Service</a></td>
     </tr>
-            <tr id="verify()">
-        <td><a href="api-models-service.html#verify()-detail">verify()</a></td>
-        <td></td>
-        <td><a href="api-models-service.html">api\models\Service</a></td>
-    </tr>
             <tr id="verifyAccess()">
         <td><a href="api-models-service.html#verifyAccess()-detail">verifyAccess()</a></td>
         <td></td>
+        <td><a href="api-models-service.html">api\models\Service</a></td>
+    </tr>
+            <tr id="verifySignature()">
+        <td><a href="api-models-service.html#verifySignature()-detail">verifySignature()</a></td>
+        <td>Verifies an argument list and signature for a user call</td>
         <td><a href="api-models-service.html">api\models\Service</a></td>
     </tr>
     </table>
@@ -139,29 +139,6 @@ yii\base\Model</td></tr>
 
 <!--	-->
 
-    <div class="detail-header h3" id="verify()-detail">
-        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
-        <a class="tool-link hash" href="api-models-service.html#verify()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
-        
-        verify()
-        <span class="detail-header-tag small">
-            public                        static            method
-                    </span>
-    </div>
-
-    
-    <div class="doc-description">
-        <p><strong></strong></p>
-
-        
-            </div>
-
-    <table class="detail-table table table-striped table-bordered table-hover">
-        <tr><td colspan="3" class="signature"><span class="signature-defs">public static</span> <span class="signature-type">void</span> <strong><a href="api-models-service.html#verify()-detail">verify</a></strong> ( )</td></tr>
-            </table>
-
-<!--	-->
-
     <div class="detail-header h3" id="verifyAccess()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
         <a class="tool-link hash" href="api-models-service.html#verifyAccess()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
@@ -188,6 +165,44 @@ yii\base\Model</td></tr>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$app_secret</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="verifySignature()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="api-models-service.html#verifySignature()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        verifySignature()
+        <span class="detail-header-tag small">
+            public                        static            method
+                    </span>
+    </div>
+
+    
+    <div class="doc-description">
+        <p><strong>Verifies an argument list and signature for a user call</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public static</span> <span class="signature-type">void</span> <strong><a href="api-models-service.html#verifySignature()-detail">verifySignature</a></strong> ( <span style="color: #0000BB">$signature</span>, <span style="color: #0000BB">$user_id</span>, <span style="color: #0000BB">$arg_str</span> )</td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$signature</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$user_id</span></td>
+                  <td class="param-type-col"></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$arg_str</span></td>
                   <td class="param-type-col"></td>
                   <td class="param-desc-col"></td>
                 </tr>
@@ -233,7 +248,7 @@ yii\base\Model</td></tr>
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Sun, 11 Dec 2016 23:30:23 +0100</small></p>
+        <p class="pull-right"><small>Page generated on Tue, 20 Dec 2016 08:36:06 +0100</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script type="text/javascript">jQuery(document).ready(function () {

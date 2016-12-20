@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @link https://meetingplanner.io
+ * @copyright Copyright (c) 2016 Lookahead Consulting
+ * @license https://github.com/newscloud/mp/blob/master/LICENSE
+ */
 namespace api\models;
 
 use Yii;
