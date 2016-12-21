@@ -129,7 +129,7 @@ class UserTokenController extends Controller
      * @param string $firstname in header, first name
      * @param string $lastname in header, last name
      * @param string $oauth_token in header, the token returned from Facebook during OAuth for this user
-     * @param string $source in header, the source that the $oauth_token is from e.g. 'facebook' e.g. [$oauth_token]
+     * @param string $source in header, the source that the $oauth_token is from e.g. 'facebook' 
      * @return obj $identityObj with user_id and user_token
      * @throws Exception not yet implemented
      */
