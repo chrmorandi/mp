@@ -27,12 +27,12 @@ class UserTokenController extends Controller // ActiveController
               // allow authenticated users
                [
                    'allow' => true,
-                   'actions'=>['view','register','regtest','sigtest','headertest'],
+                   'actions'=>['view','register','regtest','sigtest','headertest','alamo'],
                    'roles' => ['@'],
                ],
               [
                   'allow' => true,
-                  'actions'=>['view','register','regtest','sigtest','headertest'],
+                  'actions'=>['view','register','regtest','sigtest','headertest','alamo'],
                   'roles' => ['?'],
               ],
               // everything else is denied
@@ -109,7 +109,15 @@ class UserTokenController extends Controller // ActiveController
       }
     }
 
+    public function actionAlamo($sig='') {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      $headers = Yii::$app->request->headers;
+      $email= $headers->get('email');
+      return $email;    
+    }
+
     public function actionHeadertest($sig='') {
+      Yii::$app->response->format = Response::FORMAT_JSON;
       // could move to before action by looping query params
       // concatenate string of arguments using alphabetical order of the variable namespace and leave out $app_id and $sig
       //$app_id='',$email='',$firstname ='',$lastname='',$oauth_token='',$source='',
