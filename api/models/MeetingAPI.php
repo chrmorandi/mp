@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @link https://meetingplanner.io
+ * @copyright Copyright (c) 2016 Lookahead Consulting
+ * @license https://github.com/newscloud/mp/blob/master/LICENSE
+ */
 namespace api\models;
 
 use Yii;
@@ -17,11 +21,7 @@ use frontend\models\MeetingNote;
 
 class MeetingAPI extends Model
 {
-    public static function meetinglist($token,$status) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
-      }
+    public static function meetinglist($user_id,$status) {
       if ($status == Meeting::STATUS_PLANNING || $status == Meeting::STATUS_SENT) {
         $queryStatus =[Meeting::STATUS_PLANNING,Meeting::STATUS_SENT];
       } else {
@@ -83,11 +83,7 @@ class MeetingAPI extends Model
       return $meetings;
     }
 
-    public static function meetingplaces($token,$meeting_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
-      }
+    public static function meetingplaces($user_id,$meeting_id) {
       // check user is a participant
       if (!Meeting::isAttendee($meeting_id,$user_id)) {
         return Service::fail('token holder is not a meeting participant');
@@ -113,11 +109,7 @@ class MeetingAPI extends Model
       return $placesObj;
     }
 
-    public static function meetingtimes($token,$meeting_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
-      }
+    public static function meetingtimes($user_id,$meeting_id) {
       // check user is a participant
       if (!Meeting::isAttendee($meeting_id,$user_id)) {
         return Service::fail('token holder is not a meeting participant');
@@ -134,11 +126,7 @@ class MeetingAPI extends Model
       return $timesObj;
     }
 
-    public static function history($token,$meeting_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
-      }
+    public static function history($user_id,$meeting_id) {
       // check user is a participant
       if (!Meeting::isAttendee($meeting_id,$user_id)) {
         return Service::fail('token holder is not a meeting participant');
@@ -151,11 +139,7 @@ class MeetingAPI extends Model
         return $logs;
     }
 
-    public static function meetingplacechoices($token,$meeting_place_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
-      }
+    public static function meetingplacechoices($user_id,$meeting_place_id) {
       $mpc = \frontend\models\MeetingPlaceChoice::find()
         ->where(['user_id'=>$user_id])
         ->andWhere(['meeting_place_id'=>$meeting_place_id])
@@ -163,11 +147,7 @@ class MeetingAPI extends Model
       return $mpc;
     }
 
-    public static function meetingtimechoices($token,$meeting_time_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
-      }
+    public static function meetingtimechoices($user_id,$meeting_time_id) {
       $mtc = \frontend\models\MeetingTimeChoice::find()
         ->where(['user_id'=>$user_id])
         ->andWhere(['meeting_time_id'=>$meeting_time_id])
@@ -175,10 +155,10 @@ class MeetingAPI extends Model
       return $mtc;
     }
 
-    public static function notes($token,$meeting_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
+    public static function notes($user_id,$meeting_id) {
+      // check user is a participant
+      if (!Meeting::isAttendee($meeting_id,$user_id)) {
+        return Service::fail('token holder is not a meeting participant');
       }
       $notes = MeetingNote::find()
         ->where(['meeting_id'=>$meeting_id])
@@ -187,10 +167,10 @@ class MeetingAPI extends Model
       return $notes;
     }
 
-    public static function settings($token,$meeting_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
+    public static function settings($user_id,$meeting_id) {
+      // check user is a participant
+      if (!Meeting::isAttendee($meeting_id,$user_id)) {
+        return Service::fail('token holder is not a meeting participant');
       }
       $settings = MeetingSetting::find()
         ->where(['meeting_id'=>$meeting_id])
@@ -198,10 +178,10 @@ class MeetingAPI extends Model
       return $settings;
     }
 
-    public static function details($token,$meeting_id) {
-      $user_id = UserToken::lookup($token);
-      if (!$user_id) {
-        return Service::fail('invalid token');
+    public static function details($user_id,$meeting_id) {
+      // check user is a participant
+      if (!Meeting::isAttendee($meeting_id,$user_id)) {
+        return Service::fail('token holder is not a meeting participant');
       }
       $result = new \stdClass();
       $m= Meeting::findOne($meeting_id);
@@ -215,11 +195,7 @@ class MeetingAPI extends Model
       return $result;
     }
 
-    public static function reminders($token) {
-        $user_id = UserToken::lookup($token);
-        if (!$user_id) {
-          return Service::fail('invalid token');
-        }
+    public static function reminders($user_id) {
         $reminders = MeetingReminder::find()
         ->where(['user_id'=>$user_id])
         ->all();

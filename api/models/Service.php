@@ -1,9 +1,14 @@
 <?php
-
+/**
+ * @link https://meetingplanner.io
+ * @copyright Copyright (c) 2016 Lookahead Consulting
+ * @license https://github.com/newscloud/mp/blob/master/LICENSE
+ */
 namespace api\models;
 
 use Yii;
 use yii\base\Model;
+use api\models\UserToken;
 use common\models\User;
 use common\components\SiteHelper;
 /**
@@ -19,6 +24,32 @@ use common\components\SiteHelper;
  */
 class Service extends Model
 {
+
+  /**
+   * Verifies an argument list and signature for a user call
+   *
+   * @property string $signature
+   * @property integer $user_id
+   * @property string $arg_str
+   */
+  public static function verifySignature($signature,$user_id,$arg_str) {
+    // lookup token from user_id
+    $ut = UserToken::find()
+      ->where(['user_id'=>$user_id])
+      ->one();
+    if (is_null($ut)) {
+      // error
+      return false;
+    } else {
+      // generate a hash with user's token and compare to the $signature
+      $gen_sig = hash_hmac('sha256',$arg_str,$ut->token);
+      if ($signature == $gen_sig) {
+        return true;
+      }
+    }
+    return false;
+  }
+
     public static function verifyAccess($app_id,$app_secret) {
       if ($app_id == Yii::$app->params['app_id']
         && $app_secret == Yii::$app->params['app_secret']) {

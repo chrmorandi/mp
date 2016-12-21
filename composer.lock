@@ -711,12 +711,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/filipajdacic/yii2-twilio.git",
-                "reference": "41eb3d5d54c8caad41a846a8024332a46d713bc1"
+                "reference": "bbb3c1d5d22e415e51da994b4603e8ce71e54842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filipajdacic/yii2-twilio/zipball/41eb3d5d54c8caad41a846a8024332a46d713bc1",
-                "reference": "41eb3d5d54c8caad41a846a8024332a46d713bc1",
+                "url": "https://api.github.com/repos/filipajdacic/yii2-twilio/zipball/bbb3c1d5d22e415e51da994b4603e8ce71e54842",
+                "reference": "bbb3c1d5d22e415e51da994b4603e8ce71e54842",
                 "shasum": ""
             },
             "require": {
@@ -748,7 +748,7 @@
                 "voice",
                 "yii2"
             ],
-            "time": "2016-12-13 09:33:48"
+            "time": "2016-12-14 09:06:42"
         },
         {
             "name": "google/apiclient",
@@ -2125,16 +2125,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "8bb36c8b918e63a08a2b13f31568808f1a7e6c20"
+                "reference": "7656110b7577c4239b5c76a5c2d67261b0122ca0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/8bb36c8b918e63a08a2b13f31568808f1a7e6c20",
-                "reference": "8bb36c8b918e63a08a2b13f31568808f1a7e6c20",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/7656110b7577c4239b5c76a5c2d67261b0122ca0",
+                "reference": "7656110b7577c4239b5c76a5c2d67261b0122ca0",
                 "shasum": ""
             },
             "require": {
@@ -2182,7 +2182,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2016-12-09 03:40:24"
+            "time": "2016-12-14 21:57:27"
         },
         {
             "name": "stichoza/google-translate-php",

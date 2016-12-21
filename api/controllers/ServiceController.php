@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @link https://meetingplanner.io
+ * @copyright Copyright (c) 2016 Lookahead Consulting
+ * @license https://github.com/newscloud/mp/blob/master/LICENSE
+ */
 namespace api\controllers;
 
 use Yii;
@@ -27,14 +31,10 @@ class ServiceController extends Controller
         ];
     }
 
-    public function actionIndex() {
-      echo 'service - index';
-      Yii::$app->end();
-    }
-
     public function actionError() {
       echo 'service - default error';
       Yii::$app->end();
     }
 
+    
 }
