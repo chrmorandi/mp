@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\models\UserPlace;
@@ -33,12 +32,12 @@ use \kartik\typeahead\Typeahead;
     <div class="row">
       <div class="col-xs-12 col-md-12 col-lg-6">
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Type an address, place or business')) ?>
-        <?= BaseHtml::activeHiddenInput($model, 'name'); ?>
-        <?= BaseHtml::activeHiddenInput($model, 'google_place_id'); ?>
-        <?= BaseHtml::activeHiddenInput($model, 'location'); ?>
-        <?= BaseHtml::activeHiddenInput($model, 'website'); ?>
-        <?= BaseHtml::activeHiddenInput($model, 'vicinity'); ?>
-        <?= BaseHtml::activeHiddenInput($model, 'full_address'); ?>
+        <?= Html::activeHiddenInput($model, 'name'); ?>
+        <?= Html::activeHiddenInput($model, 'google_place_id'); ?>
+        <?= Html::activeHiddenInput($model, 'location'); ?>
+        <?= Html::activeHiddenInput($model, 'website'); ?>
+        <?= Html::activeHiddenInput($model, 'vicinity'); ?>
+        <?= Html::activeHiddenInput($model, 'full_address'); ?>
       </div>
     <div class="col-xs-12 col-md-12 col-lg-6">
       <p><strong><?= Yii::t('frontend','Or, choose from your prior places');?></strong></p>

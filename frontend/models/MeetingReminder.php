@@ -4,8 +4,11 @@ namespace frontend\models;
 
 use Yii;
 use common\models\User;
+use common\models\Sms;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
+use frontend\models\Reminder;
+use frontend\models\UserContact;
 
 /**
  * This is the model class for table "meeting_reminder".
@@ -130,12 +133,12 @@ class MeetingReminder extends \yii\db\ActiveRecord
     }
 
     public static function process($mr) {
-      // fetch the reminder
       // deliver the email or sms
-      // send updates about recent meeting changes made by $user_id
       $user_id = $mr->user_id;
       $meeting_id = $mr->meeting_id;
       $mtg = Meeting::findOne($meeting_id);
+      // fetch the reminder
+      $reminder = Reminder::findOne($mr->reminder_id);
       // only send reminders for meetings that are confirmed
       if ($mtg->status!=Meeting::STATUS_CONFIRMED) return false;
       // only send reminders that are less than a day late - to do - remove after testing period
@@ -190,40 +193,43 @@ class MeetingReminder extends \yii\db\ActiveRecord
             'view_map'=>$setViewMap,
             'reminders'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_GO_REMINDERS,0,$a['user_id'],$a['auth_key'],$mtg->site_id)
           ];
-          // send the message
-          $message = Yii::$app->mailer->compose([
-            'html' => 'reminder-html',
-            'text' => 'reminder-text'
-          ],
-          [
-            'meeting_id' => $mtg->id,
-            'sender_id'=> $user_id,
-            'user_id' => $a['user_id'],
-            'auth_key' => $a['auth_key'],
-            'display_time' => $display_time,
-            'chosen_place' => $chosen_place,
-            'contacts_html'=>$contacts_html, // to do - remove this now
-            'contactListObj' => $contactListObj,
-            'links' => $links,
-            'showRunningLate'=>($chosen_time->start -time() <10800 )?true:false,
-            'meetingSettings' => $mtg->meetingSettings,
-        ]);
-          if (!empty($a['email'])) {
-            $message->setFrom(['support@meetingplanner.io'=>Yii::$app->params['site']['title']]);
-            $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
-            $message->setTo($a['email'])
-                ->setSubject(Yii::t('frontend','Meeting Reminder: ').$mtg->subject)
-                ->send();
-
-            // TO DO
-            // does reminder request email
-              // do above send
-            // does reminder request sms
-            // if meeting is today (same day)
-            // does user have a verified SMS
-            // construct reminder msg & meeting link to sms
-            // send SMS to user_id
-
+          // send a text if sms or both
+          if ($reminder->reminder_type!=Reminder::TYPE_EMAIL) {
+            // look for verified phone #
+            $to_number = UserContact::findUserNumber($user_id,UserContact::STATUS_VERIFIED);
+            if ($to_number!==false) {
+              // build text string and Url
+              $sms_str= Yii::t('frontend','Reminder: Meeting coming up at ').$display_time.' '.$links['view'];
+              Sms::transmit($to_number,$sms_str);
+            }
+          }
+          // send an email if not exclusively sms
+          if ($reminder->reminder_type!=Reminder::TYPE_SMS) {
+            // send the message
+            $message = Yii::$app->mailer->compose([
+              'html' => 'reminder-html',
+              'text' => 'reminder-text'
+            ],
+            [
+              'meeting_id' => $mtg->id,
+              'sender_id'=> $user_id,
+              'user_id' => $a['user_id'],
+              'auth_key' => $a['auth_key'],
+              'display_time' => $display_time,
+              'chosen_place' => $chosen_place,
+              'contacts_html'=>$contacts_html, // to do - remove this now
+              'contactListObj' => $contactListObj,
+              'links' => $links,
+              'showRunningLate'=>($chosen_time->start -time() <10800 )?true:false,
+              'meetingSettings' => $mtg->meetingSettings,
+          ]);
+            if (!empty($a['email'])) {
+              $message->setFrom(['support@meetingplanner.io'=>Yii::$app->params['site']['title']]);
+              $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
+              $message->setTo($a['email'])
+                  ->setSubject(Yii::t('frontend','Meeting Reminder: ').$mtg->subject)
+                  ->send();
+              }
           }
        }
       $mr->status=MeetingReminder::STATUS_COMPLETE;

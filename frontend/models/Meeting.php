@@ -1394,6 +1394,13 @@ class Meeting extends \yii\db\ActiveRecord
                'footer_block'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK,$sender_id,$a['user_id'],$a['auth_key'],$mtg->site_id),
                'footer_block_all'=>MiscHelpers::buildCommand($mtg->id,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$a['user_id'],$a['auth_key'],$mtg->site_id),
              ];
+             $subject = Yii::t('frontend','Meeting Update: '.$sender_name.' is Running Late');
+             // send an sms if available
+             $to_number = UserContact::findUserNumber($a['user_id'],UserContact::STATUS_VERIFIED);
+             if ($to_number!==false) {
+               $sms_str= Yii::t('frontend','Reminder: Meeting coming up at ').$display_time.' '.$links['view'];
+               Sms::transmit($to_number,$sms_str);
+             }
              // send the message
              $message = Yii::$app->mailer->compose([
                'html' => 'late-html',
@@ -1413,13 +1420,8 @@ class Meeting extends \yii\db\ActiveRecord
                $message->setFrom(['support@meetingplanner.io'=>Yii::$app->params['site']['title']]);
                $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
                $message->setTo($a['email'])
-                   ->setSubject(Yii::t('frontend','Meeting Update: '.$sender_name.' is Running Late'))
-                   ->send();
-
-               // to do - send running late notice
-               // look up user_contact with sms for $user_id
-               // send SMS with running late notice
-
+                   ->setSubject($subject)
+                   ->send();               
              }
           }
         }

@@ -157,8 +157,17 @@ class UserContactController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
-          //
-            echo '';
+            // display verification form
+            $model->verify = Yii::$app->request->post()['UserContact']['verify'];
+            if (strval($model->verify_code) == strval($model->verify)) {
+              $model->status = UserContact::STATUS_VERIFIED;
+              $model->update();
+              Yii::$app->getSession()->setFlash('success',Yii::t('frontend','Thank you, your number is confirmed.'));
+              return $this->redirect(['/user-contact']);
+            } else {
+                Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, that is incorrect. Please request a new code.'));
+                return $this->redirect(['/user-contact']);
+            }
         } else {
           $canRequest = $model->canRequest();
           if ($canRequest) {

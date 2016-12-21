@@ -28,6 +28,7 @@ use common\models\Sms;
 class UserContact extends \yii\db\ActiveRecord
 {
     public $friendly_type;
+    public $verify;
 
     const TYPE_OTHER = 0;
     const TYPE_PHONE = 10;
@@ -53,7 +54,6 @@ class UserContact extends \yii\db\ActiveRecord
 
   const MAX_REQUEST_COUNT = 3;
 
-  public $verify;
     /**
      * @inheritdoc
      */
@@ -205,10 +205,10 @@ class UserContact extends \yii\db\ActiveRecord
 
   public function canRequest() {
     if ($this->request_count<UserContact::MAX_REQUEST_COUNT) {
-      if (time() - $this->requested_at>=300) {
+      if (time() - $this->requested_at>=60) {
         return true;
       } else {
-          return Yii::t('frontend','Sorry, you must wait five minutes between requests.');
+          return Yii::t('frontend','Sorry, you must wait a minute between requests.');
       }
     } else {
       return Yii::t('frontend','You have exceeded the maximum number of attempts.');
@@ -216,18 +216,20 @@ class UserContact extends \yii\db\ActiveRecord
   }
 
   public function requestCode() {
-    $this->verify_code = sprintf("%04d",rand(0,9999));
+    $this->verify_code = rand(0,9999);
+    $this->requested_at = time();
+    $this->request_count+=1;
     $this->update();
     $sms = new Sms;
-    $sms->transmit($this->info,Yii::t('frontend','Please return to the site and type in {code}',['code'=>$this->verify_code]));
+    $sms->transmit($this->info,Yii::t('frontend','Please return to the site and type in {code}',['code'=>sprintf("%04d",$this->verify_code)]));
   }
 
-  public function findUserNumber($user_id) {
+  public function findUserNumber($user_id,$status) {
     $uc = UserContact::find()
       ->where(['user_id'=>$user_id])
       ->andWhere(['contact_type'=>UserContact::TYPE_PHONE])
       ->andWhere(['accept_sms'=>1])
-      ->andWhere(['status'=>UserContact::STATUS_VERIFIED])
+      ->andWhere(['status'=>$status])
       ->one();
     if (is_null($uc) || count($uc)==0) {
       return false;

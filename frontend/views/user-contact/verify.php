@@ -18,24 +18,23 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Verify ').$mode
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="user-contact-form">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-xs-12">
+        <div class="user-contact-form">
 
-      <?php $form = ActiveForm::begin([
-        'id'=> 'user-contact-verify-form',
-      ]); ?>
-
-        <?= $form->field($model, 'verify')
-              ->textInput(['maxlength' => 4])
-              ->label(Yii::t('frontend','Please enter the verification code')) ?>
-
-        <div class="form-group">
-            <?= Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+          <?php $form = ActiveForm::begin([
+            'id'=> 'user-contact-verify-form',
+          ]); ?>
+            <?= $form->field($model, 'verify')
+                  ->textInput(['maxlength' => 4])
+                  ->label(Yii::t('frontend','Please enter the verification code')) ?>
+            <div class="form-group">
+                <?= Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+            <?php ActiveForm::end();
+             ?>
         </div>
-
-        <?php ActiveForm::end();
-         ?>
-
+      </div>
     </div>
-
 
 </div>
