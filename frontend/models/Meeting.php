@@ -1398,7 +1398,7 @@ class Meeting extends \yii\db\ActiveRecord
              // send an sms if available
              $to_number = UserContact::findUserNumber($a['user_id'],UserContact::STATUS_VERIFIED);
              if ($to_number!==false) {
-               $sms_str= Yii::t('frontend','Reminder: Meeting coming up at ').$display_time.' '.$links['view'];
+               $sms_str= $subject.'. You can view the meeting here: '.$links['view'];
                Sms::transmit($to_number,$sms_str);
              }
              // send the message
@@ -1421,7 +1421,7 @@ class Meeting extends \yii\db\ActiveRecord
                $message->setReplyTo('mp_'.$meeting_id.'@meetingplanner.io');
                $message->setTo($a['email'])
                    ->setSubject($subject)
-                   ->send();               
+                   ->send();
              }
           }
         }
