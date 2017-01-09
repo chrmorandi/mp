@@ -112,7 +112,7 @@ class MailgunNotification extends \yii\db\ActiveRecord
         }
         $to_address = str_ireplace('@meetingplanner.io','',$to_address);
         $to_address = str_ireplace('mp_','',$to_address);
-        $meeting_id = intval($to_address);
+        $meeting_id = (int)$to_address;
         if (!is_numeric($meeting_id)) {
           $error = true;
           $m->status = MailgunNotification::STATUS_INVALID_MEETING_ID;

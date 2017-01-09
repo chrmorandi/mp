@@ -41,7 +41,7 @@ class MeetingTimeChoiceController extends \yii\web\Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         // caution - incoming AJAX type issues with val
         $id=str_replace('mtc-','',$id);
-        if (intval($state) == 0 or $state=='false')
+        if ((int)$state == 0 or $state=='false')
         {
           $status = MeetingTimeChoice::STATUS_NO;
         } else {

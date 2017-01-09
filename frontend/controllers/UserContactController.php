@@ -158,7 +158,7 @@ class UserContactController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             // display verification form
             $model->verify = Yii::$app->request->post()['UserContact']['verify'];
-            if (strval($model->verify_code) == strval($model->verify)) {
+            if ((string)$model->verify_code == (string)$model->verify) {
               $model->status = UserContact::STATUS_VERIFIED;
               $model->update();
               Yii::$app->getSession()->setFlash('success',Yii::t('frontend','Thank you, your number is confirmed.'));
