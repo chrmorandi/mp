@@ -348,7 +348,7 @@ class Place extends \yii\db\ActiveRecord
     public static function withinLimit($user_id) {
       // how many places created in last day by this person
       $cnt = Place::find()
-        ->andwhere(['created_by'=>$user_id])
+        ->andWhere(['created_by'=>$user_id])
         ->andWhere('created_at>'.(time()-(24*3600)))
         ->count();
         // per user limit option: ->where(['suggested_by'=>$user_id])

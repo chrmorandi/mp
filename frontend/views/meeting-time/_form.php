@@ -43,7 +43,7 @@ use dosamigos\datetimepicker\DateTimePicker;
             'startView'=>2,
             'minView'=>2,
             // to do - format three day ahead
-            'initialDate'=> Date('Y-m-d',time()+3600*72),
+            'initialDate'=> date('Y-m-d',time()+3600*72),
         ]
     ]);?></div>
     <p></p>

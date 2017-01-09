@@ -24,7 +24,7 @@ use kartik\file\FileInput;
          <!-- Tab panes -->
          <div class="tab-content">
            <div class="tab-pane active vertical-pad" id="general">
-               <?= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+               <?= $form->field($model, 'reminder_eve')->checkbox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 
                <?= $form->field($model, 'reminder_hours')
                        ->dropDownList(
@@ -37,13 +37,13 @@ use kartik\file\FileInput;
                   <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
                 </div>
            <div class="tab-pane vertical-pad" id="photo">
-             <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+             <?= $form->field($model, 'image')->widget(FileInput::className(), [
                  'options' => ['accept' => 'image/*'],
              ]);
               ?>
              <?php
            try {
-             $test = $form->field($model, 'image')->widget(FileInput::classname(), [
+             $test = $form->field($model, 'image')->widget(FileInput::className(), [
                  'options' => ['accept' => 'image/*'],
                   'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png','jpeg']],
              ]);

@@ -87,7 +87,7 @@ class MeetingTimeController extends Controller
       //if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {}
         if ($model->load(Yii::$app->request->post())) {
           if (empty($model->start)) {
-            $model->start = Date('M d, Y',time()+3*24*3600);
+            $model->start = date('M d, Y',time()+3*24*3600);
           }
           $model->start_time = Yii::$app->request->post()['MeetingTime']['start_time'];
           $selected_time = date_parse($model->start_time);
@@ -106,7 +106,7 @@ class MeetingTimeController extends Controller
               return $this->redirect(['/meeting/view', 'id' => $model->meeting_id]);
           } else {
               Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, this date time may be a duplicate or there is some other problem.'));
-              $model->start = Date('M d, Y',time()+3*24*3600);
+              $model->start = date('M d, Y',time()+3*24*3600);
               $model->start_time = '9:00 am';
                 // validation failed
               return $this->render('create', [
@@ -115,7 +115,7 @@ class MeetingTimeController extends Controller
               ]);
           }
         } else {
-          $model->start = Date('M d, Y',strtotime('today midnight')+3600*24*3);
+          $model->start = date('M d, Y',strtotime('today midnight')+3600*24*3);
           $model->start_time = '';//Date('g:i a',time()+3*24*3600+9*60);
 
           return $this->render('create', [
@@ -227,7 +227,7 @@ class MeetingTimeController extends Controller
         $model->start = urldecode($start);
         $model->start_time = urldecode($start_time);
         if (empty($model->start)) {
-          $model->start = Date('M d, Y',time()+3*24*3600);
+          $model->start = date('M d, Y',time()+3*24*3600);
         }
         $model->tz_current = $timezone;
         $model->duration = $duration;

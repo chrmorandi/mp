@@ -49,7 +49,7 @@ use common\components\MiscHelpers;
     <div class="tab-pane <?= ($model->tab=='photo'?'active':'') ?> vertical-pad" id="photo">
       <div class="row">
       <div class="col-md-8">
-      <?=$form->field($model, 'image')->widget(FileInput::classname(), [
+      <?=$form->field($model, 'image')->widget(FileInput::className(), [
           'options' => ['accept' => 'image/*','data-show-upload'=>'false'],
            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png','jpeg']],
       ]);   ?>

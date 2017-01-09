@@ -160,7 +160,7 @@ class AddressController extends Controller
       $session->open();
       $client = new \Google_Client();
       $client -> setApplicationName('Meeting Planner');
-      $client -> setClientid( Yii::$app->components['authClientCollection']['clients']['google']['clientId']);
+      $client -> setClientId( Yii::$app->components['authClientCollection']['clients']['google']['clientId']);
       $client -> setClientSecret(Yii::$app->components['authClientCollection']['clients']['google']['clientSecret']);
       $client -> setRedirectUri($redirect_uri);
       $client -> setAccessType('online');

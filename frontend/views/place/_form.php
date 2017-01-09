@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
                 ['prompt'=>Yii::t('frontend','What type of place is this?')]
             )->label(Yii::t('frontend','Type of Place')) ?>
 
-    <?= $form->field($model, 'notes')->textArea() ?>
+    <?= $form->field($model, 'notes')->textarea() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Submit') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
