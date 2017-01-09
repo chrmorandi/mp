@@ -113,11 +113,11 @@ class HistoricalData extends \yii\db\ActiveRecord
           $action = 'update';
         }
         // calculate  $count_meetings_completed
-        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->andWhere('created_at<'.$since)->count();;
+        $hd->count_meetings_completed = Meeting::find()->where(['status'=>Meeting::STATUS_COMPLETED])->andWhere('created_at<'.$since)->count();
         // calculate  $count_meetings_expired
-        $hd->count_meetings_expired = Meeting::find()->where(['status'=>Meeting::STATUS_EXPIRED])->andWhere('created_at<'.$since)->count();;
+        $hd->count_meetings_expired = Meeting::find()->where(['status'=>Meeting::STATUS_EXPIRED])->andWhere('created_at<'.$since)->count();
         // calculate  $count_meetings_planning
-        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->andWhere('created_at<'.$since)->count();;
+        $hd->count_meetings_planning = Meeting::find()->where('status<'.Meeting::STATUS_COMPLETED)->andWhere('created_at<'.$since)->count();
         // calculate  $count_places
         $hd->count_places = Place::find()->where('created_at>'.$after)->andWhere('created_at<'.$since)->count();
         // calculate  $source_google

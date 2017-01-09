@@ -132,7 +132,7 @@ class Request extends \yii\db\ActiveRecord
         case Request::TIME_ADJUST_OTHER:
           $t = MeetingTime::findOne($r->meeting_time_id);
           if (!is_null($t)) {
-              $rtime = Meeting::friendlyDateFromTimestamp($t->start,$timezone);;
+              $rtime = Meeting::friendlyDateFromTimestamp($t->start,$timezone);
           }
         break;
       }

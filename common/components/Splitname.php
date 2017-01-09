@@ -397,7 +397,7 @@ class FullNameParser {
 
     # Fix case for words split by periods (J.P.)
     if (strpos($word, '.') !== false) {
-      $word = $this->safe_ucfirst(".", $word);;
+      $word = $this->safe_ucfirst(".", $word);
     }
 
     # Fix case for words split by hyphens (Kimura-Fay)
