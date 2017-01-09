@@ -706,15 +706,19 @@ class MeetingController extends Controller
         }
       }
       if ($performAuth) {
-          $person = new \common\models\User;
-          $identity = $person->findIdentity($actor_id);
-          if ($identity->validateAuthKey($k)) {
-            Yii::$app->user->login($identity);
-            // echo 'authenticated';
-            $authResult=true;
+          if ($cmd != Meeting::COMMAND_VIEW_TICKET) {
+            $person = new \common\models\User;
+            $identity = $person->findIdentity($actor_id);
+            if ($identity->validateAuthKey($k)) {
+              Yii::$app->user->login($identity);
+              // echo 'authenticated';
+              $authResult=true;
+            } else {
+              // echo 'fail';
+              $authResult=false;
+            }
           } else {
-            // echo 'fail';
-            $authResult=false;
+
           }
       }
       if (!$authResult) {

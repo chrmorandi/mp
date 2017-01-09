@@ -1,5 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\components\MiscHelpers;
+use frontend\models\Meeting;
+use frontend\models\UserContact;
 ?>
-This is a message to notify you that changes have been made to your meeting at <?php echo Yii::$app->params['site']['title'] ?>.
+<?php echo $msg->subject; ?> <?php echo $msg->caption; ?> <?php echo $msg->content; ?>
+ <?php echo $msg->action_text; ?> by clicking here, <?php echo $links['action_url'] ?>.

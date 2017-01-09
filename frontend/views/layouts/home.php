@@ -53,14 +53,14 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
                   ],
                   [
                     'label' => Yii::t('frontend','Help'),
-                    'url'=>Url::to('https://meetingplanner.freshdesk.com/support/home'), //=> ['/ticket'],
+                    'url'=>['/ticket'], //Url::to('https://meetingplanner.freshdesk.com/support/home')
                   ],
 	            ];
             }
       			if (Yii::$app->user->isGuest) {
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
-                  ['label' => Yii::t('frontend','Support'), 'url' => 'https://meetingplanner.freshdesk.com/support/home'], // 'http://support.meetingplanner.io'
+                  ['label' => Yii::t('frontend','Questions?'), 'url' => ['/ticket']],
                   ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
                   ['label' => Yii::t('frontend','About'), 'url' => ['/about']],
                 ],

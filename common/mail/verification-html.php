@@ -9,7 +9,7 @@ use yii\helpers\Html;
       <table cellspacing="0" cellpadding="0" width="600" style="border-collapse:collapse">
         <tr>
           <td style="color:#4d4d4d; font-family:Helvetica, Arial, sans-serif; font-size:32px; line-height:normal; text-align:center; border-collapse:collapse; font-weight:700; padding:35px 0 0" align="center">
-            Verify Your Email Address          
+            Verify Your Email Address
           </td>
         </tr>
         <tr>

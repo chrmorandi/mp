@@ -141,18 +141,26 @@ class TicketController extends Controller
         $model = new Ticket();
         $model->email ='';
         if ($model->load(Yii::$app->request->post())) {
-            $model->posted_by = Ticket::getGuestId();
-            if (Yii::$app->user->isGuest && !isset($model->email)) {
-                  Yii::$app->session->setFlash('error', 'Email address is required so we can respond to you. If you already have an account, please sign in.');
+            if (Yii::$app->user->isGuest) {
+              // support ticket requested anonymously
+              $model->posted_by = strval(Ticket::getGuestId());
+              if (!isset($model->email)) {
+                // without an email, show an error
+                Yii::$app->session->setFlash('error', 'Email address is required so we can respond to you. If you already have an account, please sign in.');
+              } else {
+                // has email
+                // to do - validate email address itself
+              }
             } else {
-              // note - not efficient, gets User in guestId()
+              $model->posted_by = Yii::$app->user->getId();
               $model->email = User::findOne($model->posted_by)->email;
-              $model->status = Ticket::STATUS_OPEN;
-              $model->save();
-              Yii::$app->session->setFlash('success', 'Thank you, we\'ve created a new ticket and notified our staff. We\'ll get back to you as soon as possible.');
-              Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
-              return $this->redirect(['index']);
             }
+            $model->status = Ticket::STATUS_OPEN;
+            $model->save();
+            Yii::$app->session->setFlash('success', 'Thank you, we\'ve created a new ticket and notified our staff. We\'ll get back to you as soon as possible.');
+            // to do - deliver needs to accomodate auth or anon users
+            Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
+            return $this->redirect(['index']);
         }
         return $this->render('create', [
             'model' => $model,

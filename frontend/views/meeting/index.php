@@ -22,8 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="tab-content">
   <div class="tab-pane <?= ($tab=='planning'?'active':'') ?>" id="planning">
     <div class="meeting-index">
-      <?php
-      ?>
       <?= $this->render('_grid', [
           'mode'=>'planning',
           'dataProvider' => $planningProvider,

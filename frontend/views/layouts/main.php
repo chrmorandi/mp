@@ -47,14 +47,14 @@ AppAsset::register($this);
                   ],
                   [
                     'label' => Yii::t('frontend','Help'),
-                    'url'=>Url::to('https://meetingplanner.freshdesk.com/support/home'),
+                    'url'=>['/ticket'],
                   ],
 	            ];
             }
       			if (Yii::$app->user->isGuest) {
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
-                  ['label' => Yii::t('frontend','Support'), 'url' => 'https://meetingplanner.freshdesk.com/support/home'], // 'http://support.meetingplanner.io'
+                  ['label' => Yii::t('frontend','Support'), 'url' => ['/ticket']], // 'https://meetingplanner.freshdesk.com/support/home'],
                   ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
                   ['label' => Yii::t('frontend','About'), 'url' => ['/about']],
                 ],

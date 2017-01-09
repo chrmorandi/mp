@@ -78,7 +78,6 @@ class UserContactController extends Controller
         Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of contacts. Contact support if you need additional help or want to offer feedback.'));
         return $this->redirect(['/user-contact']);
       }
-
         $model = new UserContact();
 		    if ($model->load(Yii::$app->request->post())) {
 			    $form = Yii::$app->request->post();
@@ -181,7 +180,5 @@ class UserContactController extends Controller
             return $this->redirect(['/user-contact']);
           }
         }
-
-
     }
 }

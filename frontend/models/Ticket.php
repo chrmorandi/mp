@@ -129,6 +129,7 @@ class Ticket extends \yii\db\ActiveRecord
       }
     }
 
+    //Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
     public static function deliver($mode='',$recipient_id,$ticket_id,$email='',$subject='',$details='') {
       $u=User::findOne($recipient_id);
       if (isset($u)) {
@@ -139,7 +140,7 @@ class Ticket extends \yii\db\ActiveRecord
           'footer_email'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_EMAIL,0,$recipient_id,$u->auth_key,0),
           'footer_block'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK,$u->id,$recipient_id,$u->auth_key,0),
           'footer_block_all'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$recipient_id,$u->auth_key,0),
-        ];        
+        ];
       } else {
         $auth_key=0;
         $links=[

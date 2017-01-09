@@ -231,6 +231,7 @@ class MeetingController extends Controller
       $user_id= $this->headers->get('user_id');
       $meeting_id= $this->headers->get('meeting_id');
       $arg_str = $user_id.$meeting_id;
+      return 'sorry, this API not done yet';
       if (Service::verifySignature($signature,$user_id,$arg_str)) {
           return MeetingAPI::caption($user_id,$meeting_id);
       } else {
