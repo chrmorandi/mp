@@ -13,7 +13,7 @@ class Yiigun
   public $mailgun_domain;
   private $mail_from;
 
-   function __construct($mode='secure') {
+   public function __construct($mode='secure') {
 
      // initialize mailgun connection
      $this->mailgun_api_key = Yii::$app->params['mailgun_api_key'];

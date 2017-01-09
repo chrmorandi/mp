@@ -11,7 +11,7 @@ class Sms
   private $mp_number;
   private $test_number;
 
-   function __construct() {
+   public function __construct() {
 
      $this->sms = Yii::$app->Yii2Twilio->initTwilio();
      $this->mp_number = Yii::$app->params['sms_number'];
@@ -45,5 +45,3 @@ class Sms
   }
 
 }
-
-?>
