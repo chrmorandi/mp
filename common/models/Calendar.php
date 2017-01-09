@@ -119,7 +119,6 @@ class Calendar {
 	if (!isset($_SESSION['calander_invite_downloaded'])) {
 	    $_SESSION['calander_invite_downloaded'] = self::NOT_DOWNLOADED;
 	}
-	return $this;
     }
 
     public function getUID()
