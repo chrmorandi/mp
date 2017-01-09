@@ -116,7 +116,7 @@ class MiscHelpers  {
    * @link customized from http://stackoverflow.com/a/9328760
    */
   public static function getTimezoneList() {
-    $zones_array = array();
+    $zones_array = [];
     $timestamp = time();
     foreach(timezone_identifiers_list() as $key => $zone) {
       date_default_timezone_set($zone);

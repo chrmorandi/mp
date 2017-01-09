@@ -167,12 +167,12 @@ class UserSetting extends \yii\db\ActiveRecord
 
       public function getEarlyReminderOptions()
       {
-        return array(
+        return [
             self::SETTING_24_HOUR => '24 hours ahead',
             self::SETTING_48_HOUR => '48 hours ahead',
             self::SETTING_72_HOUR => '72 hours ahead',
             self::SETTING_OFF => 'Do not send an early reminder',
-           );
+        ];
        }
 
        public static function setUserTimezone($user_id,$timezone) {

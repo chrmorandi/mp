@@ -23,10 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <?php
-  $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query(array(
+  $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query([
                           'libraries' => 'places',
                           'key' => Yii::$app->params['google_maps_key'],
-                  ));
+      ]);
   $this->registerJsFile($gpJsLink);
 
   $options = '{"componentRestrictions":{"country":"us"}}';

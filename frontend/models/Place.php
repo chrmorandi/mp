@@ -211,14 +211,14 @@ class Place extends \yii\db\ActiveRecord
 
     public function getPlaceTypeOptions()
     {
-      return array(
+      return [
           self::TYPE_RESTAURANT => 'Restaurant',
           self::TYPE_COFFEESHOP => 'Coffeeshop',
           self::TYPE_RESIDENCE => 'Residence',
           self::TYPE_OFFICE => 'Office',
           self::TYPE_BAR => 'Bar',
             self::TYPE_OTHER => 'Other'
-         );
+      ];
      }
 
      public function addLocationFromAddress($model,$full_address='') {
@@ -226,7 +226,7 @@ class Place extends \yii\db\ActiveRecord
        if ($full_address=='') return false;
        $gc = new GeocodingClient();
        try {
-         $result = $gc->lookup(array('address'=>$full_address,'components'=>1));
+         $result = $gc->lookup(['address'=>$full_address,'components'=>1]);
          // error is in next line
          $location = $result['results'][0]['geometry']['location'];
           if (!is_null($location)) {
@@ -309,7 +309,7 @@ class Place extends \yii\db\ActiveRecord
         $gMap->addPolygon($polygon);
       } else {
         // Create marker with label
-        $marker = new EGMapMarkerWithLabel($center->lat,$center->lon, array('title' => 'Here!'));
+        $marker = new EGMapMarkerWithLabel($center->lat,$center->lon, ['title' => 'Here!']);
         $gMap->addMarker($marker);
       }
       return $gMap;

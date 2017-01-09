@@ -138,7 +138,7 @@ class UserProfile extends \yii\db\ActiveRecord
     }
 
     public function deleteImage($path,$filename) {
-        $file =array();
+        $file = [];
         $file[] = $path.$filename;
         $file[] = $path.'sqr_'.$filename;
         $file[] = $path.'sm_'.$filename;

@@ -87,7 +87,7 @@ class Calendar {
      * The list of guests
      * @var array
      */
-    private $_guests = array();
+    private $_guests = [];
     private $_savePath = "./invites/";
 
     /**
@@ -367,7 +367,7 @@ class Calendar {
      */
     public function clearGuests()
     {
-	$this->_guests = array();
+	$this->_guests = [];
 	return $this;
     }
 

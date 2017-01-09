@@ -44,11 +44,11 @@ class Yiigun
       $from = $this->mail_from;
     // use only if supportEmail and from email are in mailgun account
   //  $domain = substr(strrchr($from, "@"), 1);
-    $result = $this->mg->sendMessage($this->mailgun_domain,array('from' => $from,
+    $result = $this->mg->sendMessage($this->mailgun_domain, ['from' => $from,
                                                'to' => $to,
                                                'subject' => $subject,
                                                'text' => $body,
-                                               ));
+    ]);
     return $result->http_response_body;
   }
 
@@ -86,7 +86,7 @@ class Yiigun
    }
 
    public function validate($email='') {
-      $result = $this->mg->get('address/validate', array('address' => $email));
+      $result = $this->mg->get('address/validate', ['address' => $email]);
       return $result->http_response_body;
     }
 }

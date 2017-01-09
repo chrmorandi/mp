@@ -185,13 +185,13 @@ class AddressController extends Controller
       // Requests the user authentication
       if (isset($session_code)) {
         $auth_code = $session_code;
-	      $fields=array(
+	      $fields= [
 	        'code'=>  urlencode($auth_code),
 	        'client_id'=>  urlencode(Yii::$app->components['authClientCollection']['clients']['google']['clientId']),
 	        'client_secret'=>  urlencode(Yii::$app->components['authClientCollection']['clients']['google']['clientSecret']),
 	        'redirect_uri'=>  urlencode($redirect_uri),
 	        'grant_type'=>  urlencode('authorization_code'),
-	    );
+          ];
       // Requests the access token
 	    $post = '';
 	    foreach($fields as $key=>$value)
@@ -242,12 +242,12 @@ class AddressController extends Controller
          if ($resultsCount>0) {
            foreach($contacts['feed']['entry'] as $contact) {
              if (isset($contact['gd$email'])) {
-               $temp = array (
+               $temp = [
                  'firstname' => (isset($contact['gd$name']['gd$givenName']['$t'])?$contact['gd$name']['gd$givenName']['$t']:''),
                  'lastname' => (isset($contact['gd$name']['gd$familyName']['$t'])?$contact['gd$name']['gd$familyName']['$t']:''),
                  'fullname'=> $contact['title']['$t'],
                  'email' => $contact['gd$email'][0]['address'],
-               );
+               ];
                //$return[]=$temp;
                $address->add($temp);
              } else {
