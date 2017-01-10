@@ -16,7 +16,7 @@ use \kartik\typeahead\TypeaheadBasic;
 
 
     <?php
-    echo $form->field($model, 'subject')->widget(TypeaheadBasic::classname(), [
+    echo $form->field($model, 'subject')->widget(TypeaheadBasic::className(), [
     'data' => $subjects,
     'options' => ['placeholder' => Yii::t('frontend','what\'s a subject you would like to use?'),
     ],

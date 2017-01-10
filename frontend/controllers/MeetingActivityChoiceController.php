@@ -43,7 +43,7 @@ class MeetingActivityChoiceController extends \yii\web\Controller
       // caution - incoming AJAX type issues with val
       $id=str_replace('mac-','',$id);
       //if (Yii::$app->user->getId()!=$mac->user_id) return false;
-      if (intval($state) == 0 or $state=='false')
+      if ((int)$state == 0 or $state=='false')
         $status = MeetingActivityChoice::STATUS_NO;
       else
         $status = MeetingActivityChoice::STATUS_YES;

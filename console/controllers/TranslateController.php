@@ -273,7 +273,7 @@ EOD;
      */
      public function parse_safe_translate($s) {
        $debug = false;
-       $result = array();       
+       $result = [];
        $start=0;
        $nest =0;
        $ptr_first_curly=0;

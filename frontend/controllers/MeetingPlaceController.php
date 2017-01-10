@@ -113,8 +113,8 @@ class MeetingPlaceController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $parts = explode('_', $val);
       // relies on naming of mp button id
-      $mp_id = intval($parts[2]); // get # from mp_plc_#
-      $meeting_id = intval($id);
+      $mp_id = (int)$parts[2]; // get # from mp_plc_#
+      $meeting_id = (int)$id;
       $mtg=Meeting::find()->where(['id'=>$meeting_id])->one();
       if (Yii::$app->user->getId()!=$mtg->owner_id &&
         !$mtg->meetingSettings['participant_choose_place']) return false;

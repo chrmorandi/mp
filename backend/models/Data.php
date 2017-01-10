@@ -91,7 +91,7 @@ class Data extends Model
     }
 
     $mts = Meeting::find()
-      ->orderby(['id'=> SORT_DESC])
+      ->orderBy(['id'=> SORT_DESC])
       ->limit(7)
       ->all();
     foreach ($mts as $m) {

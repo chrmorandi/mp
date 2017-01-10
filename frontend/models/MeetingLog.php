@@ -611,7 +611,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 			// how many times can this user perform this action for a meeting
 			$cnt = MeetingLog::find()
 				->where(['meeting_id'=>$meeting_id])
-				->andwhere(['actor_id'=>$actor_id])
+				->andWhere(['actor_id'=>$actor_id])
 				->andwhere(['action'=>$action])
 				->count();
 			if ($cnt >= $limit ) {
@@ -633,7 +633,7 @@ class MeetingLog extends \yii\db\ActiveRecord
 			// how many times can this user perform this action for a meeting in last period of $seconds
 			$cnt = MeetingLog::find()
 				->where(['meeting_id'=>$meeting_id])
-				->andwhere(['action'=>$action])
+				->andWhere(['action'=>$action])
 				->andwhere(['actor_id'=>$actor_id])
 				->andWhere('created_at>'.(time()-$seconds))
 				->count();
@@ -649,7 +649,7 @@ class MeetingLog extends \yii\db\ActiveRecord
       // count # of times an action was performed
       $cnt = MeetingLog::find()
 				->where(['meeting_id'=>$meeting_id])
-        ->andwhere(['action'=>$action])
+        ->andWhere(['action'=>$action])
         ->count();
       return $cnt;
     }

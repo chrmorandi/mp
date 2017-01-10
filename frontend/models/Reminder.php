@@ -229,7 +229,7 @@ class Reminder extends \yii\db\ActiveRecord
         $chosen_time = Meeting::getChosenTime($meeting_id);
       }
       // create attendees list for organizer and participants
-      $attendees = array();
+      $attendees = [];
       $attendees[0]=$mtg->owner_id;
       $cnt =1;
       foreach ($mtg->participants as $p) {

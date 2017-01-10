@@ -131,8 +131,8 @@ class UserData extends \yii\db\ActiveRecord
         $ud->count_places = UserPlace::find()->where(['user_id'=>$user_id])->andWhere('created_at<'.$since)->count();
         $ud->count_friends = Friend::find()->where(['user_id'=>$user_id])->andWhere('created_at<'.$since)->count();
         // calculate invite than Own - participant first, then organizer
-        $first_invite = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at<'.$since)->orderby('created_at asc')->one();
-        $first_organized = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at<'.$since)->orderby('created_at asc')->one();
+        $first_invite = Participant::find()->where(['participant_id'=>$user_id])->andWhere('created_at<'.$since)->orderBy('created_at asc')->one();
+        $first_organized = Meeting::find()->where(['owner_id'=>$user_id])->andWhere('created_at<'.$since)->orderBy('created_at asc')->one();
         $ud->invite_then_own =0;
         if (!is_null($first_invite) && !is_null($first_organized)) {
           if ($first_invite->created_at < $first_organized->created_at && $first_organized->created_at < $since) {

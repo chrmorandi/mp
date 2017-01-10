@@ -329,7 +329,7 @@ class Meeting extends \yii\db\ActiveRecord
 
     public function getMeetingTypeOptions()
     {
-      return array(
+      return [
         self::TYPE_NEW => 'New meeting',
         self::TYPE_OFFICE => 'Office',
         self::TYPE_COFFEE => 'Coffee',
@@ -343,7 +343,7 @@ class Meeting extends \yii\db\ActiveRecord
         self::TYPE_BRUNCH => 'Brunch',
         self::TYPE_OTHER => 'Other',
         self::TYPE_VIRTUAL => 'Virtual',
-         );
+      ];
      }
 
      public function getMeetingTitle($meeting_id) {
@@ -561,7 +561,7 @@ class Meeting extends \yii\db\ActiveRecord
         'is_activity'=>$this->is_activity,
       ]);
       // to do - add full name
-      $message->setFrom(array('support@meetingplanner.io'=>$this->owner->email));
+      $message->setFrom(['support@meetingplanner.io'=>$this->owner->email]);
       $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
       $message->setTo($p->participant->email)
           ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
@@ -617,7 +617,7 @@ class Meeting extends \yii\db\ActiveRecord
       // to do - this can be replaced by buildAttendeeList
       // but friendship reciprocate needs to be reviewed and included
       $cnt =0;
-      $attendees = array();
+      $attendees = [];
       foreach ($this->participants as $p) {
         if ($p->status !=Participant::STATUS_DEFAULT) {
           continue;
@@ -691,7 +691,7 @@ class Meeting extends \yii\db\ActiveRecord
       ]);
         // to do - add full name
       $icsPath = Meeting::buildCalendar($this->id,$chosenPlace,$chosenTime,$a,$attendees);
-      $message->setFrom(array('support@meetingplanner.io'=>$this->owner->email));
+      $message->setFrom(['support@meetingplanner.io'=>$this->owner->email]);
       $message->setReplyTo('mp_'.$this->id.'@meetingplanner.io');
       $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
       $message->setTo($a['email'])
@@ -816,7 +816,7 @@ class Meeting extends \yii\db\ActiveRecord
        public function buildAttendeeList() {
          // build an attendees array of both the organizer and the participants
          $cnt =0;
-         $attendees = array();
+         $attendees = [];
          foreach ($this->participants as $p) {
            if ($p->status ==Participant::STATUS_DEFAULT) {
              $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
@@ -1068,27 +1068,27 @@ class Meeting extends \yii\db\ActiveRecord
           // same day as today?
           if ($dateOrder) {
             if (date('z')==date('z',$tstamp)) {
-             $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDateTime($tstamp,'h:mm a z');
+             $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDatetime($tstamp,'h:mm a z');
            }   else {
              $oneWeek = 7 * 24 *3600;
              // start time in future
              if (($tstamp>time()) && $futureTimeless) {
                if (($tstamp-time())< $oneWeek) {
                  // this date at
-                 $date_str =Yii::t('frontend','This ').Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
+                 $date_str =Yii::t('frontend','This ').Yii::$app->formatter->asDatetime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
                } else if (($tstamp-time())<($oneWeek*2) && (date('w')< date('w',$tstamp))) {
-                 $date_str =Yii::t('frontend','Next ').Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
+                 $date_str =Yii::t('frontend','Next ').Yii::$app->formatter->asDatetime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
                } else {
                  // date only
-                 $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d');
+                 $date_str = Yii::$app->formatter->asDatetime($tstamp,'E MMM d');
                }
              } else {
-                $date_str = Yii::$app->formatter->asDateTime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
+                $date_str = Yii::$app->formatter->asDatetime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
              }
 
            }
          } else {
-           $date_str = Yii::$app->formatter->asDateTime($tstamp,'h:mm a z\' '.Yii::t('frontend','on').'\' E MMM d');
+           $date_str = Yii::$app->formatter->asDatetime($tstamp,'h:mm a z\' '.Yii::t('frontend','on').'\' E MMM d');
          }
           return $date_str;
         }
@@ -1110,7 +1110,7 @@ class Meeting extends \yii\db\ActiveRecord
          // to do - this can be replaced by buildAttendeeList
          // but friendship reciprocate needs to be reviewed and included
          $cnt =0;
-         $attendees = array();
+         $attendees = [];
          foreach ($m->participants as $p) {
            if ($p->status ==Participant::STATUS_DEFAULT) {
              $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
@@ -1435,7 +1435,7 @@ class Meeting extends \yii\db\ActiveRecord
        $user_id = $mtg->owner_id;
        // build an attendees array for all participants without contact information
        $cnt =0;
-       $attendees = array();
+       $attendees = [];
        foreach ($mtg->participants as $p) {
          if ($p->status ==Participant::STATUS_DEFAULT &&
           UserContact::countContacts($p->participant_id)==0) {
@@ -1481,7 +1481,7 @@ class Meeting extends \yii\db\ActiveRecord
              'meetingSettings' => $mtg->meetingSettings,
          ]);
            // to do - add full name
-         $message->setFrom(array('support@meetingplanner.io'=>$mtg->owner->email));
+         $message->setFrom(['support@meetingplanner.io'=>$mtg->owner->email]);
          $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
          $message->setTo($a['email'])
              ->setSubject(Yii::t('frontend','Meeting Request: Please provide your contact information.'))
@@ -1553,7 +1553,7 @@ class Meeting extends \yii\db\ActiveRecord
        $mtg = Meeting::findOne($meeting_id);
        // build an attendees array for all participants without contact information
        $cnt =0;
-       $attendees = array();
+       $attendees = [];
        foreach ($mtg->participants as $p) {
            if ($organizersOnly && $p->participant_type != Participant::TYPE_ORGANIZER) {
              // skip non-organizers
@@ -1620,7 +1620,7 @@ class Meeting extends \yii\db\ActiveRecord
             $message->attachContent(file_get_contents($icsPath), ['fileName' => 'meeting.ics', 'contentType' => 'text/calendar']);
             }
              // to do - add full name
-           $message->setFrom(array('support@meetingplanner.io'=>Yii::$app->params['site']['title']));
+           $message->setFrom(['support@meetingplanner.io'=>Yii::$app->params['site']['title']]);
            $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
            $message->setTo($a['email'])
                ->setSubject($content['subject'])

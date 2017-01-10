@@ -223,7 +223,7 @@ class MeetingController extends Controller
       $meetingTime->meeting_id= $model->id;
       $meetingTime->suggested_by= Yii::$app->user->getId();
       $meetingTime->status = MeetingTime::STATUS_SUGGESTED;
-      $meetingTime->start = Date('M d, Y',time()+3*24*3600);
+      $meetingTime->start = date('M d, Y',time()+3*24*3600);
       $meetingTime->start_time = '9:00 am';
       // prepare meeting place form
       $meetingPlace = new MeetingPlace();
@@ -681,7 +681,7 @@ class MeetingController extends Controller
     }
 
     public function actionResend($id) {
-      if (Meeting::Resend($id)) {
+      if (Meeting::resend($id)) {
         Yii::$app->getSession()->setFlash('success', Yii::t('frontend','Details about the meeting have been resent.'));
         return $this->redirect(['view', 'id' => $id]);
       } else {

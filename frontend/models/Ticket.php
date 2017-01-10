@@ -224,7 +224,7 @@ class Ticket extends \yii\db\ActiveRecord
         'links'=>$links,
         'button'=>$button,
     ]);
-    $message->setFrom(array('support@meetingplanner.io'=>'Meeting Planner Support'));
+    $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner Support']);
     $message->setReplyTo('support@meetingplanner.io');
     $message->setTo($email)
         ->setSubject($content['subject'])

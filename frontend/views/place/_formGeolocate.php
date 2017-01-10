@@ -42,7 +42,7 @@ LocateAsset::register($this);
                 ['prompt'=>'What type of place is this?']
             )->label('Type of Place') ?>
 
-    <?= $form->field($model, 'notes')->textArea() ?>
+    <?= $form->field($model, 'notes')->textarea() ?>
 
     <?= BaseHtml::activeHiddenInput($model, 'lat'); ?>
     <?= BaseHtml::activeHiddenInput($model, 'lng'); ?>

@@ -121,7 +121,7 @@ class UserContact extends \yii\db\ActiveRecord
 
     public static function getUserContactTypeOptions()
     {
-      return array(
+      return [
           self::TYPE_PHONE => 'Phone',
           self::TYPE_SKYPE => 'Skype',
           self::TYPE_OTHER => 'Other',
@@ -134,7 +134,7 @@ class UserContact extends \yii\db\ActiveRecord
           self::TYPE_JABBER => 'Jabber',
           self::TYPE_QQ => 'QQ',
           self::TYPE_GADU => 'Gadu-Gadu',
-         );
+      ];
      }
 
   public static function get($user_id) {

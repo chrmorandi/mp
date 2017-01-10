@@ -87,7 +87,7 @@ class Calendar {
      * The list of guests
      * @var array
      */
-    private $_guests = array();
+    private $_guests = [];
     private $_savePath = "./invites/";
 
     /**
@@ -119,7 +119,6 @@ class Calendar {
 	if (!isset($_SESSION['calander_invite_downloaded'])) {
 	    $_SESSION['calander_invite_downloaded'] = self::NOT_DOWNLOADED;
 	}
-	return $this;
     }
 
     public function getUID()
@@ -367,7 +366,7 @@ class Calendar {
      */
     public function clearGuests()
     {
-	$this->_guests = array();
+	$this->_guests = [];
 	return $this;
     }
 

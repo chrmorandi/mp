@@ -31,7 +31,7 @@ $this->title = 'Signup';
                 <?=
                 $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->textInput(['placeholder' => 'you@youremail.com']) ?>
                 <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********']) ?>
-                <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname(), [
+                <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::className(), [
                       // configure additional widget properties here
                   ]) ?>
                 <div class="form-group">

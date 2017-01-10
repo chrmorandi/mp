@@ -55,10 +55,12 @@ class MeetingLogController extends Controller
      */
     public function actionIndex()
     {
-				// only administrators can view the meeting log
-				if (!User::find(Yii::$app->user->getId())->one()->isAdmin()) {
-					$this->redirect(['site/authfailure']);
-				}
+        // only administrators can view the meeting log
+        /** @var User $user */
+        $user = Yii::$app->getUser();
+        if (!$user->isAdmin()) {
+            $this->redirect(['site/authfailure']);
+        }
         $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
         $searchModel = new MeetingLogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

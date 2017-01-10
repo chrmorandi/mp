@@ -67,7 +67,7 @@ public function checkDb() {
     // checks nightly data rollups
     $m = new Monitor;
     $hd=HistoricalData::find()
-      ->orderby(['id'=> SORT_DESC])
+      ->orderBy(['id'=> SORT_DESC])
       ->one();
     $timepast = time()-$hd->date;
     if ($timepast < (24*3600)) {
@@ -84,7 +84,7 @@ public function checkDb() {
     // checks recent ten mtgs not completed
     $mtgs=Meeting::find()
       ->where('status<'.Meeting::STATUS_COMPLETED)
-      ->orderby(['id'=> SORT_DESC])
+      ->orderBy(['id'=> SORT_DESC])
       ->limit(10)
       ->all();
     $lag = true;

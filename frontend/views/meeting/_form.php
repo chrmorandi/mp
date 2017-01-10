@@ -19,7 +19,7 @@ use common\components\MiscHelpers;
         <div class="row">
           <div class="col-xs-12 col-md-8 col-lg-6">
     <?php
-    echo $form->field($model, 'subject')->widget(TypeaheadBasic::classname(), [
+    echo $form->field($model, 'subject')->widget(TypeaheadBasic::className(), [
     'data' => $subjects,
     'options' => ['placeholder' => Yii::t('frontend','what\'s the subject of this meeting?'),
     'id'=>'meeting-subject',

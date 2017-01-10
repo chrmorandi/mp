@@ -132,7 +132,7 @@ class Request extends \yii\db\ActiveRecord
         case Request::TIME_ADJUST_OTHER:
           $t = MeetingTime::findOne($r->meeting_time_id);
           if (!is_null($t)) {
-              $rtime = Meeting::friendlyDateFromTimestamp($t->start,$timezone);;
+              $rtime = Meeting::friendlyDateFromTimestamp($t->start,$timezone);
           }
         break;
       }
@@ -314,7 +314,7 @@ class Request extends \yii\db\ActiveRecord
       $mtg = Meeting::findOne($meeting_id);
       // build an attendees array for all participants without contact information
       $cnt =0;
-      $attendees = array();
+      $attendees = [];
       foreach ($mtg->participants as $p) {
           $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
           $attendees[$cnt]=['user_id'=>$p->participant_id,'auth_key'=>$auth_key,
@@ -359,7 +359,7 @@ class Request extends \yii\db\ActiveRecord
             'meetingSettings' => $mtg->meetingSettings,
         ]);
           // to do - add full name
-        $message->setFrom(array('support@meetingplanner.io'=>$mtg->owner->email));
+        $message->setFrom(['support@meetingplanner.io'=>$mtg->owner->email]);
         $message->setReplyTo('mp_'.$mtg->id.'@meetingplanner.io');
         $message->setTo($a['email'])
             ->setSubject($content['subject'])

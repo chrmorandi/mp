@@ -146,7 +146,7 @@ class TicketController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if (Yii::$app->user->isGuest) {
               // support ticket requested anonymously
-              $model->posted_by = strval(Ticket::getGuestId());
+              $model->posted_by = (string)Ticket::getGuestId();
               if (!isset($model->email)) {
                 // without an email, show an error
                 Yii::$app->session->setFlash('error', 'Email address is required so we can respond to you. If you already have an account, please sign in.');

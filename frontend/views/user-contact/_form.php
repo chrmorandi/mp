@@ -31,7 +31,7 @@ use common\components\MiscHelpers;
       }
       ?>
         <span class="setting-label <?php if (!$visibility) { echo 'hidden';} ?>">
-        <?= $form->field($model, 'accept_sms')->checkBox(['label' => Yii::t('frontend','Receive texts at this number?'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+        <?= $form->field($model, 'accept_sms')->checkbox(['label' => Yii::t('frontend','Receive texts at this number?'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
         </span>
     <?= $form->field($model, 'details')->textarea(['rows' => 6])->hint(Yii::t('frontend','Specify any additional details the person may need to reach you with this information.')) ?>
 
