@@ -716,6 +716,7 @@ class MeetingController extends Controller
               ->one();
             if (!is_null($ticket)) {
               // echo 'ticket exists';
+              \frontend\models\Ticket::setGuestId($actor_id);
               $authResult=true;
             } else {
               // echo 'fail';

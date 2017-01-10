@@ -24,7 +24,7 @@ class Ticket extends \yii\db\ActiveRecord
 {
   const STATUS_OPEN = 10;
   const STATUS_PENDING = 20;
-  const STATUS_PENDING_USER = 20;
+  const STATUS_PENDING_USER = 25;
   const STATUS_CLOSED = 30;
     /**
      * @inheritdoc
@@ -112,10 +112,19 @@ class Ticket extends \yii\db\ActiveRecord
       return $guest_id;
     }
 
+    public static function setGuestId($guest_id) {
+      // if viewing a ticket from a link, set the session again
+      if (Yii::$app->user->isGuest) {
+        $session = Yii::$app->session;
+        $session->open();
+        $session->set('guest_id', $guest_id);
+      }
+    }
+
     public function getStatus() {
       switch ($this->status) {
         case Ticket::STATUS_OPEN:
-          return Yii::t('frontend','Open');
+          return Yii::t('frontend','Awaiting staff response');
         break;
         case Ticket::STATUS_PENDING:
           return Yii::t('frontend','Awaiting staff response');
@@ -165,7 +174,7 @@ class Ticket extends \yii\db\ActiveRecord
         break;
         case 'reply':
           $content=[
-            'subject' => Yii::t('frontend','Reply to {subject}',['subject'=>$subject]),
+            'subject' => Yii::t('frontend','{subject}',['subject'=>$subject]),
             'heading' => Yii::t('frontend','Reply to Your Support Request'),
             'p1' => $details,
             'p2' => '',
@@ -181,8 +190,16 @@ class Ticket extends \yii\db\ActiveRecord
             'plain_text' => $subject.', '.$details.'...'.Html::a(Yii::t('frontend','View your ticket'),$link_url)
           ];
         break;
+        case 'close':
+          $content=[
+            'subject' => Yii::t('frontend','Ticket Closed: {subject}',['subject'=>$subject]),
+            'heading' => Yii::t('frontend','Your Ticket Has Been Closed'),
+            'p1' => $subject,
+            'p2' => Yii::t('frontend','We will notify you when we have responded.'),
+            'plain_text' => $subject.', '.$details.'...'.Html::a(Yii::t('frontend','View your ticket'),$link_url)
+          ];
+        break;
       }
-
       $button= [
         'text' => Yii::t('frontend','View the Ticket'),
         'command' => Meeting::COMMAND_VIEW_TICKET,
@@ -210,6 +227,60 @@ class Ticket extends \yii\db\ActiveRecord
     $message->setFrom(array('support@meetingplanner.io'=>'Meeting Planner Support'));
     $message->setReplyTo('support@meetingplanner.io');
     $message->setTo($email)
+        ->setSubject($content['subject'])
+        ->send();
+    }
+
+
+    public static function notifyAdmin($ticket_id) {
+      $u=User::find()
+        ->where(['role'=>User::ROLE_ADMIN])
+        ->one();
+      if (isset($u)) {
+        $auth_key = $u->auth_key;
+        $recipient_id = $u->id;
+        $links=[
+          'home'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_HOME,0,$recipient_id,$u->auth_key,0),
+          'view'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_VIEW_TICKET,$ticket_id,$recipient_id,$u->auth_key,0),
+          'footer_email'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_EMAIL,0,$recipient_id,$u->auth_key,0),
+          'footer_block'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK,$u->id,$recipient_id,$u->auth_key,0),
+          'footer_block_all'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$recipient_id,$u->auth_key,0),
+        ];
+      }
+      $subject =Yii::t('frontend','New Support Request');
+      $details = Yii::t('frontend','Please review the ticket.');
+      $link_url = $links['view'];
+      $content=[
+        'subject' => $subject,
+        'heading' => Yii::t('frontend','New Support Request'),
+        'p1' => $subject,
+        'p2' => $details,
+        'plain_text' => $subject.', '.$details.'...'.Html::a(Yii::t('frontend','View the ticket'),$link_url)
+      ];
+      $button= [
+        'text' => Yii::t('frontend','View the Ticket'),
+        'command' => Meeting::COMMAND_VIEW_TICKET,
+        'obj_id' => $ticket_id,
+      ];
+      $links['button_url']=$links['view'];
+      $content['button_text']=$button['text'];
+      // send the message
+      $message = Yii::$app->mailer->compose([
+        'html' => 'generic-html',
+        'text' => 'generic-text'
+      ],
+      [
+        'meeting_id' => 0,
+        'sender_id'=> 0,
+        'user_id' => $recipient_id,
+        'auth_key' => $auth_key,
+        'content'=>$content,
+        'links'=>$links,
+        'button'=>$button,
+    ]);
+    $message->setFrom(array('support@meetingplanner.io'=>'Meeting Planner Support'));
+    $message->setReplyTo('support@meetingplanner.io');
+    $message->setTo($u->email)
         ->setSubject($content['subject'])
         ->send();
     }

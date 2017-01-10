@@ -67,8 +67,8 @@ class TicketController extends Controller
         $guest_id = Ticket::getGuestId();
         $query = Ticket::find()
           ->where(['posted_by'=>Yii::$app->user->getId()])
-          ->orWhere(['posted_by'=>$guest_id])
-          ->andWhere(['status'=>[Ticket::STATUS_OPEN,Ticket::STATUS_PENDING]]);
+          ->orWhere(['posted_by'=>$guest_id]);
+          //->andWhere(['status'=>[Ticket::STATUS_OPEN,Ticket::STATUS_PENDING]]);
       }
         $ticketProvider = new ActiveDataProvider([
               'query' => $query,
@@ -104,7 +104,7 @@ class TicketController extends Controller
           $reply->ticket_id = $id;
           if ($mode=='admin') {
             $model->status = Ticket::STATUS_PENDING_USER;
-            $reply->posted_by = Yii::$app->user->getId();
+            $reply->posted_by = strval(Yii::$app->user->getId());
             Yii::$app->session->setFlash('success', 'Thank you, we\'ve notified the user of your update.');
             Ticket::deliver('reply',$id,$model->posted_by,$model->email,'Reply to your ticket is available',$reply->reply);
           } else {
@@ -112,7 +112,10 @@ class TicketController extends Controller
             $reply->posted_by = Ticket::getGuestId();
             Yii::$app->session->setFlash('success', 'Thank you, we\'ve notified our staff of your update. We\'ll get back to you as soon as possible.');
             Ticket::deliver('update',$id,$model->posted_by,$model->email,'Receipt of your ticket update',$reply->reply);
+            Ticket::notifyAdmin($id);
           }
+          //$reply->validate();
+          //var_dump($reply->getErrors());exit;
           $reply->save();
           $model->update();
           return $this->redirect(['view','id'=>$id]);
@@ -160,6 +163,7 @@ class TicketController extends Controller
             Yii::$app->session->setFlash('success', 'Thank you, we\'ve created a new ticket and notified our staff. We\'ll get back to you as soon as possible.');
             // to do - deliver needs to accomodate auth or anon users
             Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
+            Ticket::notifyAdmin($model->id);
             return $this->redirect(['index']);
         }
         return $this->render('create', [
@@ -172,6 +176,7 @@ class TicketController extends Controller
         $t = Ticket::findOne($id);
         $t->status = Ticket::STATUS_CLOSED;
         $t->update();
+        Ticket::deliver('close',$t->id,$t->posted_by,$t->email,$t->subject,$t->details);        
         Yii::$app->session->setFlash('success', 'Thank you, we\'ve closed this ticket. Let us know when we can help you again.');
         return $this->redirect(['index']);
     }
