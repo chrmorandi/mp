@@ -152,7 +152,7 @@ class TicketController extends Controller
                 // to do - validate email address itself
               }
             } else {
-              $model->posted_by = Yii::$app->user->getId();
+              $model->posted_by = strval(Yii::$app->user->getId());
               $model->email = User::findOne($model->posted_by)->email;
             }
             $model->status = Ticket::STATUS_OPEN;

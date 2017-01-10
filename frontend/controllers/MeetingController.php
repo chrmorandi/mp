@@ -706,7 +706,23 @@ class MeetingController extends Controller
         }
       }
       if ($performAuth) {
-          if ($cmd != Meeting::COMMAND_VIEW_TICKET) {
+          if ($cmd == Meeting::COMMAND_VIEW_TICKET && !is_numeric($actor_id)) {
+            // ticket request for a non authenticated user
+            // obj_id = ticket_id
+            // validate ticket_id to the actor_id
+            $ticket = \frontend\models\Ticket::find()
+              ->where(['posted_by'=>$actor_id])
+              ->andWhere(['id'=>$obj_id])
+              ->one();
+            if (!is_null($ticket)) {
+              // echo 'ticket exists';
+              $authResult=true;
+            } else {
+              // echo 'fail';
+              $authResult=false;
+            }
+          } else {
+            // typical authentication login with commands
             $person = new \common\models\User;
             $identity = $person->findIdentity($actor_id);
             if ($identity->validateAuthKey($k)) {
@@ -717,8 +733,6 @@ class MeetingController extends Controller
               // echo 'fail';
               $authResult=false;
             }
-          } else {
-
           }
       }
       if (!$authResult) {

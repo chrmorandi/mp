@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $ticket_id
- * @property integer $posted_by
+ * @property string $posted_by
  * @property string $reply
  * @property integer $created_at
  * @property integer $updated_at
@@ -51,8 +51,8 @@ class TicketReply extends \yii\db\ActiveRecord
     {
         return [
             [['ticket_id', 'posted_by', 'reply'], 'required'],
-            [['ticket_id', 'posted_by', 'created_at', 'updated_at'], 'integer'],
-            [['reply'], 'string'],
+            [['ticket_id', 'created_at', 'updated_at'], 'integer'],
+            [['reply','posted_by'], 'string'],
             [['ticket_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ticket::className(), 'targetAttribute' => ['ticket_id' => 'id']],
         ];
     }

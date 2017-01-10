@@ -13,7 +13,7 @@ class m161211_225236_create_ticket_reply_table extends Migration {
       $this->createTable('{{%ticket_reply}}', [
           'id' => Schema::TYPE_PK,
           'ticket_id' => Schema::TYPE_INTEGER.' NOT NULL',
-          'posted_by' => Schema::TYPE_BIGINT.' NOT NULL',
+          'posted_by' => Schema::TYPE_STRING.' NOT NULL',
           'reply' => Schema::TYPE_TEXT.' NOT NULL DEFAULT ""',
           'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
           'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',

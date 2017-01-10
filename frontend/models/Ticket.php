@@ -130,7 +130,7 @@ class Ticket extends \yii\db\ActiveRecord
     }
 
     //Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
-    public static function deliver($mode='',$recipient_id,$ticket_id,$email='',$subject='',$details='') {
+    public static function deliver($mode='',$ticket_id,$recipient_id,$email='',$subject='',$details='') {
       $u=User::findOne($recipient_id);
       if (isset($u)) {
         $auth_key = $u->auth_key;
@@ -142,6 +142,7 @@ class Ticket extends \yii\db\ActiveRecord
           'footer_block_all'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,0,$recipient_id,$u->auth_key,0),
         ];
       } else {
+        // posted_by is for a guest ticket
         $auth_key=0;
         $links=[
           'home'=>MiscHelpers::buildCommand(0,Meeting::COMMAND_HOME,0,$recipient_id,0,0),
