@@ -108,7 +108,13 @@ class MessageLog extends \yii\db\ActiveRecord
         case Message::RESPONSE_NO_UPDATES:
           return 'No updates';
           break;
-        default:
+        case Message::RESPONSE_INVALID_EMAIL:
+          return 'Invalid email';
+          break;
+        case Message::RESPONSE_DELIVERY_OFF:
+          return 'Delivery off';
+          break;
+      default:
           return 'n/a';
           break;
       }
