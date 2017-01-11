@@ -37,6 +37,7 @@ class Message extends \yii\db\ActiveRecord
   const RESPONSE_YES = 10;
   const RESPONSE_NO_UPDATES = 20;
   const RESPONSE_INVALID_EMAIL = 60;
+  const RESPONSE_DELIVERY_OFF = 65;
 
   public function behaviors()
   {
@@ -235,6 +236,7 @@ class Message extends \yii\db\ActiveRecord
           }
        } else {
          echo '--> No email delivery<br />';
+         MessageLog::add($msg->id,$user_id,Message::RESPONSE_DELIVERY_OFF);
        }
     }
 
