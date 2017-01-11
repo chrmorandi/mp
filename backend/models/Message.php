@@ -36,6 +36,7 @@ class Message extends \yii\db\ActiveRecord
   const RESPONSE_NO = 0;
   const RESPONSE_YES = 10;
   const RESPONSE_NO_UPDATES = 20;
+  const RESPONSE_INVALID_EMAIL = 60;
 
   public function behaviors()
   {
@@ -142,35 +143,36 @@ class Message extends \yii\db\ActiveRecord
       // to do - problem with left join with deleted users and limits
       $users = User::find()
       //->select('user.id,user.email')
-    ->leftJoin('message_log','message_log.user_id=user.id')
-    ->where('message_log.id is null')
-    ->andWhere('status!='.User::STATUS_DELETED)
-    ->limit($limit)
-    ->all();
+        ->leftJoin('message_log','message_log.user_id=user.id')
+        ->where('message_log.id is null')
+        ->andWhere('status!='.User::STATUS_DELETED)
+        ->limit($limit)
+        ->all();
     return $users;
     }
 
     public function send($id,$limit = 10) {
       if (User::findOne(Yii::$app->user->getId())->isAdmin()) {
+      //$user = Yii::$app->getUser();
+      //if (!$user->isAdmin()) {
         $msg = Message::findOne($id);
         $users = $this->findNextGroup($limit);
         if (is_null($users)) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {
+          echo 'Preparing to send...<br />';
           $msg->status=Message::STATUS_IN_PROGRESS;
           foreach ($users as $u) {
-            echo 'inloop';
             try {
-              echo 'Email: '.$u->email.'<br />';
+              echo 'To: '.$u->email.'<br />';
       		    $this->sendOne($msg,$u);
       	    } catch (Exception $e) {
       		      echo 'Exception '.$e.'<br />';
       	    }
           }
-          echo 'exit loop';
         }
-        exit;
-        //$msg->update();
+        $msg->update();
+        echo 'Completed<br />';
       } else {
         echo 'not admin';exit;
       }
@@ -214,11 +216,17 @@ class Message extends \yii\db\ActiveRecord
             'msg'=>$msg,
         ]);
           if (!empty($a['email'])) {
-            $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner'])
-              ->setTo($a['email'])
-              ->setSubject(Yii::t('backend','').$msg->subject)
-              ->send();
-            MessageLog::add($msg->id,$user_id);
+            // recheck validity of outbound email
+            if (filter_var($a['email'], FILTER_VALIDATE_EMAIL)) {
+              $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner'])
+                ->setTo($a['email'])
+                ->setSubject(Yii::t('backend','').$msg->subject)
+                ->send();
+                MessageLog::add($msg->id,$user_id);
+            } else {
+              MessageLog::add($msg->id,$user_id,Message::RESPONSE_INVALID_EMAIL);
+            }
+
           }
        }
     }

@@ -76,7 +76,7 @@ class MessageLog extends \yii\db\ActiveRecord
         return new MessageLogQuery(get_called_class());
     }
 
-    public static function add($message_id,$user_id) {
+    public static function add($message_id,$user_id,$response = Message::RESPONSE_NO) {
 				 $log = new MessageLog;
          // don't add duplicates
          if (MessageLog::find()->where(['message_id'=>$message_id,'user_id'=>$user_id])->count()>0) {
@@ -84,7 +84,7 @@ class MessageLog extends \yii\db\ActiveRecord
          }
          $log->message_id=$message_id;
          $log->user_id =$user_id;
-         $log->response = Message::RESPONSE_NO;
+         $log->response = $response;
          $log->save();
     }
 
