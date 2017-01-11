@@ -184,6 +184,7 @@ class Message extends \yii\db\ActiveRecord
       // ensure there is an auth key for the recipient user
       $user_id = $u->id;
       if (empty($u->auth_key) || empty($u->email)) {
+        echo 'No auth key or empty email<br />';
         return false;
       }
       // prepare data for the message
@@ -195,6 +196,7 @@ class Message extends \yii\db\ActiveRecord
        // check if email is okay and okay from this sender_id
        // to do - extend checkEmailDelivery
       if (User::checkEmailDelivery($user_id,0)) {
+        echo '-->email delivery ok<br />';
           // CAUTION - beware backend message sending generates links to backend site not frontend
           // Build the absolute links to the meeting and commands
           $links=[
@@ -219,16 +221,20 @@ class Message extends \yii\db\ActiveRecord
           if (!empty($a['email'])) {
             // recheck validity of outbound email
             if (filter_var($a['email'], FILTER_VALIDATE_EMAIL)) {
+              echo '-->all okay,send and log it <br />';
               $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner'])
                 ->setTo($a['email'])
                 ->setSubject(Yii::t('backend','').$msg->subject)
                 ->send();
                 MessageLog::add($msg->id,$user_id);
             } else {
+              echo '-->invalid email, log it <br />';
               MessageLog::add($msg->id,$user_id,Message::RESPONSE_INVALID_EMAIL);
             }
 
           }
+       } else {
+         echo '--> No email delivery<br />';
        }
     }
 
