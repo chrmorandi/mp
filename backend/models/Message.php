@@ -173,6 +173,7 @@ class Message extends \yii\db\ActiveRecord
         }
         $msg->update();
         echo 'Completed<br />';
+        exit;
       } else {
         echo 'not admin';exit;
       }
