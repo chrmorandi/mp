@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_at',
 
             //['class' => 'yii\grid\ActionColumn'],
-            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {next10} {next25} {trash} {view}',
+            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update} {test} {next10} {next25} {next50} {next100} {trash} {view}',
             'headerOptions' => ['class' => 'itemHide'],
             'contentOptions' => ['class' => 'itemHide'],
             'buttons'=>[
