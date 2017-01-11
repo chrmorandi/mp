@@ -220,16 +220,17 @@ class Message extends \yii\db\ActiveRecord
             'msg'=>$msg,
         ]);
           if (!empty($a['email'])) {
+            $a['email'] = trim (strtolower($a['email']));
             // recheck validity of outbound email
             if (filter_var($a['email'], FILTER_VALIDATE_EMAIL)) {
-              echo '-->all okay,send and log it <br />';
+              echo '-->OK, Send<br />';
               $message->setFrom(['support@meetingplanner.io'=>'Meeting Planner'])
                 ->setTo($a['email'])
                 ->setSubject(Yii::t('backend','').$msg->subject)
                 ->send();
                 MessageLog::add($msg->id,$user_id);
             } else {
-              echo '-->invalid email, log it <br />';
+              echo '-->invalid email<br />';
               MessageLog::add($msg->id,$user_id,Message::RESPONSE_INVALID_EMAIL);
             }
 
