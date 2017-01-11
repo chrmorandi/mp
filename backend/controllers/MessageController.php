@@ -142,7 +142,7 @@ class MessageController extends Controller
     }
 
     public function actionNext10($id)
-    {            
+    {
       // sends out message to all users not blocking updates and all email
       $m = new Message();
       $m->send($id,10);
@@ -155,6 +155,24 @@ class MessageController extends Controller
       // sends out message to all users not blocking updates and all email
       $m = new Message();
       $m->send($id,25);
+        Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
+        return $this->redirect(['index']);
+    }
+
+    public function actionNext50($id)
+    {
+      // sends out message to all users not blocking updates and all email
+      $m = new Message();
+      $m->send($id,50);
+        Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
+        return $this->redirect(['index']);
+    }
+
+    public function actionNext100($id)
+    {
+      // sends out message to all users not blocking updates and all email
+      $m = new Message();
+      $m->send($id,100);
         Yii::$app->getSession()->setFlash('success', Yii::t('backend','This message has been sent.'));
         return $this->redirect(['index']);
     }

@@ -89,6 +89,20 @@ $this->params['breadcrumbs'][] = $this->title;
                           'class' => 'icon-pad admin-pad',
                   ]);
                 },
+                'next50' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-equalizer"></span>', $url, [
+                          'title' => Yii::t('frontend', 'send to next 50'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to the next 50 people?'),
+                          'class' => 'icon-pad admin-pad',
+                  ]);
+                },
+                'next100' => function ($url, $model) {
+                  return Html::a('<span class="glyphicon glyphicon-signal"></span>', $url, [
+                          'title' => Yii::t('frontend', 'send to next 100'),
+                          'data-confirm' => Yii::t('frontend', 'Are you sure you want to deliver this message to the next 100 people?'),
+                          'class' => 'icon-pad admin-pad',
+                  ]);
+                },
                 'view' => function ($url, $model) {
                   return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', Url::to(['message-log/view', 'id' => $model->id]), [
                           'title' => Yii::t('frontend', 'view message log'),
