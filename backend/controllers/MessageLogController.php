@@ -45,6 +45,7 @@ class MessageLogController extends Controller
     {
 			$searchModel = new MessageLogSearch();
       $dataProvider = $searchModel->search(['MessageLogSearch'=>['message_id'=>$id]]);
+      $dataProvider->pagination->pageSize=10;
       return $this->render('index', [
           'searchModel' => $searchModel,
           'dataProvider' => $dataProvider,
