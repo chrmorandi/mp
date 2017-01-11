@@ -197,7 +197,7 @@ class Message extends \yii\db\ActiveRecord
        // check if email is okay and okay from this sender_id
        // to do - extend checkEmailDelivery
       if (User::checkEmailDelivery($user_id,0)) {
-        echo '-->email delivery ok<br />';
+        //echo '-->email delivery ok<br />';
           // CAUTION - beware backend message sending generates links to backend site not frontend
           // Build the absolute links to the meeting and commands
           $links=[
