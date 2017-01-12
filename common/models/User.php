@@ -223,11 +223,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function isAdmin() {
-      if ($this->role == User::ROLE_ADMIN) {
-        return true;
-      } else {
-        return false;
-      }
+      return (int)$this->role === User::ROLE_ADMIN;
     }
 
     public static function checkEmailDelivery($user_id,$sender_id=0) {
