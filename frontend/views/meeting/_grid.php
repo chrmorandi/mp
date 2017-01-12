@@ -21,13 +21,14 @@ if ($mode =='upcoming' || $mode =='past') {
               'attribute' => 'meeting_type',
               'format' => 'raw',
               'value' => function ($model) {
+                  /** @var \frontend\models\Meeting $model */
                   $chosenTime=$model->getChosenTime($model->id);
                   $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
                   // to do - remove legacy code when subject didn't exist
                     if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT || $model->subject==$model::DEFAULT_ACTIVITY_SUBJECT) {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader('pastplanning').'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.Html::encode($model->getMeetingHeader('pastplanning')).'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.Html::encode($model->getMeetingParticipants()).'</span></div>';
                     } else {
-                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
+                      return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.Html::encode($model->subject).'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.Html::encode($model->getMeetingParticipants()).'</span></div>';
                     }
                   },
           ],
@@ -82,11 +83,12 @@ if ($mode =='upcoming' || $mode =='past') {
           'attribute' => 'meeting_type',
           'format' => 'raw',
           'value' => function ($model) {
+              /** @var \frontend\models\Meeting $model */
               // to do - remove legacy code when subject didn't exist
                 if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT) {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.Html::encode($model->getMeetingHeader()).'</a><br /><span class="index-participant">'.Html::encode($model->getMeetingParticipants()).'</span></div>';
                 } else {
-                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
+                  return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.Html::encode($model->subject).'</a><br /><span class="index-participant">'.Html::encode($model->getMeetingParticipants()).'</span></div>';
                 }
               },
       ],
