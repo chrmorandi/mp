@@ -139,12 +139,12 @@ class Message extends \yii\db\ActiveRecord
 
     }
 
-    public function findNextGroup($limit = 10) {
+    public function findNextGroup($message_id, $limit = 10) {
       // find the next group of users we haven't sent this message to
       // to do - problem with left join with deleted users and limits
       $users = User::find()
       //->select('user.id,user.email')
-        ->leftJoin('message_log','message_log.user_id=user.id')
+        ->leftJoin('message_log','message_log.user_id=user.id and message_log.message_id='.$message_id)
         ->where('message_log.id is null')
         ->andWhere('status!='.User::STATUS_DELETED)
         ->limit($limit)
@@ -157,7 +157,7 @@ class Message extends \yii\db\ActiveRecord
       //$user = Yii::$app->getUser();
       //if (!$user->isAdmin()) {
         $msg = Message::findOne($id);
-        $users = $this->findNextGroup($limit);
+        $users = $this->findNextGroup($id,$limit);
         if (is_null($users)) {
           $msg->status=Message::STATUS_ALL_SENT;
         } else {
