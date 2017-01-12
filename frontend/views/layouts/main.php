@@ -1,4 +1,5 @@
 <?php
+use common\components\MiscHelpers;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
@@ -96,7 +97,7 @@ AppAsset::register($this);
                                //'options'=>['class'=>'menuHide'],
                              ],
       				                 [
-      				                    'label' => Yii::t('frontend','Logout').' (' . \common\components\MiscHelpers::getDisplayName(Yii::$app->user->id) . ')',
+      				                    'label' => Yii::t('frontend','Logout').' (' . Html::encode(MiscHelpers::getDisplayName(Yii::$app->user->id)) . ')',
       				                    'url' => ['/site/logout'],
       				                    'linkOptions' => ['data-method' => 'post']
       				                ],
