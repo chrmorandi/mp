@@ -7,7 +7,7 @@ use common\components\MiscHelpers;
         <?= $model->note ?>
       </div>
       <div class="emright">
-        <?= Yii::t('frontend','By ').MiscHelpers::getDisplayName($model->postedBy) ?>
+        <?= Yii::t('frontend','By ').MiscHelpers::getDisplayName($model->postedBy->id) ?>
       </div>
     </td>
 </tr>
