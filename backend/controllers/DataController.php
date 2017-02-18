@@ -6,6 +6,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use backend\models\Data;
+use backend\models\MeetingData;
 
 /**
  * Data controller
@@ -62,6 +63,18 @@ class DataController extends Controller
       return $this->render('current', [
           'data' => $data,
       ]);
+    }
 
+    public function actionMeetings()
+    {
+        $data = MeetingData::fetch();
+        return $this->render('meetings', [
+            'data' => $data,
+        ]);
+    }
+
+
+    public function actionGather() {
+        MeetingData::gather();
     }
 }

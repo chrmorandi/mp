@@ -36,6 +36,7 @@ AppAsset::register($this);
                         'label' => 'Real Time',
                         'items' => [
                           ['label' => Yii::t('frontend','Usage'), 'url' => ['/data/current']],
+                          ['label' => Yii::t('frontend','Meetings'), 'url' => ['/data/meetings']],
                         ]
                       ];
             $menuItems[] = [
@@ -47,7 +48,7 @@ AppAsset::register($this);
               $menuItems[]=[
                         'label' => 'Historical',
                         'items' => [
-                          ['label' => Yii::t('frontend','Statistics'), 'url' => ['/historical-data']],
+                          ['label' => Yii::t('frontend','Statistics'), 'url' => ['/historical-data/index']],
                         ],
                       ];
               $menuItems[]=[

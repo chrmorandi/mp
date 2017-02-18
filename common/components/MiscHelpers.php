@@ -201,5 +201,16 @@ class MiscHelpers  {
     $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
     return (strpos($user_agent, 'iPhone') !== FALSE || strpos($user_agent, 'iPad') !== FALSE);
   }
+
+  public static function getDayOfWeek($day) {
+    $days[0]=Yii::t('frontend','Sunday');
+    $days[1]=Yii::t('frontend','Monday');
+    $days[2]=Yii::t('frontend','Tuesday');
+    $days[3]=Yii::t('frontend','Wednesday');
+    $days[4]=Yii::t('frontend','Thursday');
+    $days[5]=Yii::t('frontend','Friday');
+    $days[6]=Yii::t('frontend','Saturday');
+    return $days[$day];
+  }
 }
 ?>
