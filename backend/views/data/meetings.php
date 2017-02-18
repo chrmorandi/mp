@@ -12,8 +12,9 @@ $this->title = Yii::t('backend','Meeting Planner');
         <h1>Real Time Meeting Data</h1>
         <em>All data below is based on confirmed and completed meetings only.</em>
         <h3><?=  Yii::t('frontend','Meeting Types') ?></h3>
-        General: <?= number_format($data->total,2) ?> <br />
+        General: <?= number_format($data->no_activity,2) ?> <br />
         Activities: <?= number_format($data->activities,2) ?> <br />
+        Total: <?= number_format($data->total,2) ?> <br />
 
         <h3><?=  Yii::t('frontend','Average Number Per Meeting') ?></h3>
         Times: <?= number_format($data->avgTimes,2) ?> <br />
@@ -35,6 +36,23 @@ $this->title = Yii::t('backend','Meeting Planner');
             'cnt',
           ],
         ]); ?>
+
+        <h3>Organizer Distribution by Timezone</h3>
+        <?= GridView::widget([
+          'dataProvider' => $data->user_tz,
+          'columns' => [
+            [
+              'label'=>'Number of Participants',
+                'attribute' => 'timezone',
+                'format' => 'raw',
+                'value' => function ($model) {
+                  return '<div>'.$model->timezone.'</div>';
+                    },
+            ],
+            'cnt',
+          ],
+        ]); ?>
+
         <h3>Frequency of Number of Participants in Meetings</h3>
 
         <?= GridView::widget([

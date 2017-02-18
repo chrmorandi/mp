@@ -6,6 +6,8 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use frontend\models\Meeting;
+use frontend\models\User;
+use frontend\models\UserSetting;
 
 /**
  * This is the model class for table "{{%meeting_data}}".
@@ -105,6 +107,7 @@ class MeetingData extends \yii\db\ActiveRecord
             $md->meeting_id = $m->id;
             $md->is_activity = 0;
             $md->owner_id = $m->owner_id;
+            $md->owner_tz = 0;
             $md->status =0;
             $md->count_participants=0;
             $md->count_times=0;
@@ -114,17 +117,6 @@ class MeetingData extends \yii\db\ActiveRecord
             $md->dayweek =0;
             $md->chosen_place_id=0;
             $md->save();
-          }
-          // get chosen time and place
-          $chosenTime = Meeting::getChosenTime($m->id);
-          if (is_null($chosenTime)) {
-            $md->chosen_time=0;
-            $md->dayweek=0;
-            $md->hour=0;
-          } else {
-            $md->chosen_time=$chosenTime->start;
-            $md->dayweek = date('w',$md->chosen_time);
-            $md->hour = date('H',$md->chosen_time);
           }
           $cp = Meeting::getChosenPlace($m->id);
           if (is_null($cp) || $cp===false) {
@@ -140,6 +132,26 @@ class MeetingData extends \yii\db\ActiveRecord
           $md->count_places=count($m->meetingPlaces);
           $md->status = $m->status;
           $md->is_activity = $m->is_activity;
+          // collect timezone Data
+          $us=UserSetting::find()
+            ->where(['user_id'=>$md->owner_id])
+            ->one();
+          if ($us->has_updated_timezone==0) {
+            $md->owner_tz = 'America/Los_Angeles';
+          } else {
+            $md->owner_tz = $us->timezone;
+          }
+          // get chosen time and place
+          $chosenTime = Meeting::getChosenTime($m->id);
+          if (is_null($chosenTime)) {
+            $md->chosen_time=0;
+            $md->dayweek=0;
+            $md->hour=0;
+          } else {
+            $md->chosen_time=$chosenTime->start;
+            $md->dayweek = date('w',$md->chosen_time);
+            $md->hour = date('H',$md->chosen_time);
+          }
           $md->update();
       }
     }
@@ -147,12 +159,26 @@ class MeetingData extends \yii\db\ActiveRecord
     public static function fetch() {
       // to do - meeting_type and activity data
       // avg # of times & places
+      $us = UserSetting::find()
+        ->select(['timezone,COUNT(*) AS cnt'])
+        ->groupBy(['timezone'])
+        //->having('COUNT(*)>0')
+        ->orderBy('cnt DESC')->all();
+        foreach ($us as $u) {
+          echo $u->timezone.'<br />';
+          if (isset($u->cnt)) {echo $u->cnt.'<br />';}
+        }
+        exit;
       $data = new \stdClass();
       $data->avgTimes=MeetingData::find()->average('count_times');
       $data->avgPlaces=MeetingData::find()->average('count_places');
       $data->activities=MeetingData::find()
       ->where(['status' => [Meeting::STATUS_CONFIRMED,Meeting::STATUS_COMPLETED]])
       ->andWhere(['is_activity'=>Meeting::IS_ACTIVITY])
+      ->count();
+      $data->no_activity=MeetingData::find()
+      ->where(['status' => [Meeting::STATUS_CONFIRMED,Meeting::STATUS_COMPLETED]])
+      ->andWhere(['is_activity'=>Meeting::NOT_ACTIVITY])
       ->count();
       $data->total=MeetingData::find()
       ->where(['status' => [Meeting::STATUS_CONFIRMED,Meeting::STATUS_COMPLETED]])
@@ -175,7 +201,13 @@ class MeetingData extends \yii\db\ActiveRecord
             ->groupBy(['owner_id'])
             ->having('COUNT(*)>1')
             ->orderBy('cnt DESC'),
-
+          ]);
+        $data->user_tz =  new ActiveDataProvider([
+          'query' => UserSetting::find()
+            ->select(['timezone,COUNT(*) AS cnt'])
+            ->groupBy(['timezone'])
+            ->having('COUNT(*)>1')
+            ->orderBy('cnt DESC'),
           ]);
         $data->hourofday =  new ActiveDataProvider([
           'query' => MeetingData::find()
