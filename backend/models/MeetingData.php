@@ -150,7 +150,7 @@ class MeetingData extends \yii\db\ActiveRecord
           } else {
             $md->chosen_time=$chosenTime->start;
             $md->dayweek = date('w',$md->chosen_time);
-            $dt = new DateTime("now", new DateTimeZone($md->owner_tz)); //first argument "must" be a string
+            $dt = new \DateTime("now", new \DateTimeZone($md->owner_tz)); //first argument "must" be a string
             $dt->setTimestamp($md->chosen_time); //adjust the object to correct timestamp
             $md->hour = $dt->format('H');
           }
