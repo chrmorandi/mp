@@ -49,6 +49,7 @@ class UserSetting extends \yii\db\ActiveRecord
     public $tz_dynamic;
     public $tz_current;
     public $url_prefix;
+    public $cnt; // for stats
     /**
      * @inheritdoc
      */

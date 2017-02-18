@@ -156,19 +156,7 @@ class MeetingData extends \yii\db\ActiveRecord
       }
     }
 
-    public static function fetch() {
-      // to do - meeting_type and activity data
-      // avg # of times & places
-      $us = UserSetting::find()
-        ->select(['timezone,COUNT(*) AS cnt'])
-        ->groupBy(['timezone'])
-        //->having('COUNT(*)>0')
-        ->orderBy('cnt DESC')->all();
-        foreach ($us as $u) {
-          echo $u->timezone.'<br />';
-          if (isset($u->cnt)) {echo $u->cnt.'<br />';}
-        }
-        exit;
+    public static function fetch() {                  
       $data = new \stdClass();
       $data->avgTimes=MeetingData::find()->average('count_times');
       $data->avgPlaces=MeetingData::find()->average('count_places');
@@ -202,11 +190,16 @@ class MeetingData extends \yii\db\ActiveRecord
             ->having('COUNT(*)>1')
             ->orderBy('cnt DESC'),
           ]);
+          $data->user_tz =  new ActiveDataProvider([
+            'query' => UserSetting::find()
+              ->select(['timezone,COUNT(*) AS cnt'])
+              ->groupBy(['timezone'])
+              ->orderBy('cnt DESC'),
+            ]);
         $data->user_tz =  new ActiveDataProvider([
           'query' => UserSetting::find()
-            ->select(['timezone,COUNT(*) AS cnt'])
+            ->addSelect(['timezone,COUNT(*) AS cnt'])
             ->groupBy(['timezone'])
-            ->having('COUNT(*)>1')
             ->orderBy('cnt DESC'),
           ]);
         $data->hourofday =  new ActiveDataProvider([

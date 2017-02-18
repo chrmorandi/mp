@@ -5,6 +5,7 @@ use common\models\User;
 use common\components\MiscHelpers;
 use frontend\models\Meeting;
 use frontend\models\Place;
+
 $this->title = Yii::t('backend','Meeting Planner');
 ?>
 <div class="site-index">
@@ -31,22 +32,6 @@ $this->title = Yii::t('backend','Meeting Planner');
                 'format' => 'raw',
                 'value' => function ($model) {
                   return '<div> Owner: '.$model->owner_id.'</div>';
-                    },
-            ],
-            'cnt',
-          ],
-        ]); ?>
-
-        <h3>Organizer Distribution by Timezone</h3>
-        <?= GridView::widget([
-          'dataProvider' => $data->user_tz,
-          'columns' => [
-            [
-              'label'=>'Number of Participants',
-                'attribute' => 'timezone',
-                'format' => 'raw',
-                'value' => function ($model) {
-                  return '<div>'.$model->timezone.'</div>';
                     },
             ],
             'cnt',
@@ -117,4 +102,21 @@ $this->title = Yii::t('backend','Meeting Planner');
             'cnt',
           ],
         ]); ?>
+
+        <h3>User Distribution by Timezone</h3>
+        <?= GridView::widget([
+          'dataProvider' => $data->user_tz,
+          'columns' => [
+            [
+              'label'=>'Timezones',
+                'attribute' => 'timezone',
+                'format' => 'raw',
+                'value' => function ($model) {
+                  return '<div>'.$model->timezone.'</div>';
+                    },
+            ],
+            'cnt',
+          ],
+        ]); ?>
+
 </div>
