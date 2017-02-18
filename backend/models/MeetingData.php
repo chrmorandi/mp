@@ -150,13 +150,15 @@ class MeetingData extends \yii\db\ActiveRecord
           } else {
             $md->chosen_time=$chosenTime->start;
             $md->dayweek = date('w',$md->chosen_time);
-            $md->hour = date('H',$md->chosen_time);
+            $dt = new DateTime("now", new DateTimeZone($md->owner_tz)); //first argument "must" be a string
+            $dt->setTimestamp($md->chosen_time); //adjust the object to correct timestamp
+            $md->hour = $dt->format('H');
           }
           $md->update();
       }
     }
 
-    public static function fetch() {                  
+    public static function fetch() {
       $data = new \stdClass();
       $data->avgTimes=MeetingData::find()->average('count_times');
       $data->avgPlaces=MeetingData::find()->average('count_places');
