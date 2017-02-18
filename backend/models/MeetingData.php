@@ -162,10 +162,8 @@ class MeetingData extends \yii\db\ActiveRecord
           ->select(['dayweek,COUNT(*) AS cnt'])
           ->where(['status' => Meeting::STATUS_CONFIRMED])
           ->orWhere(['status' => Meeting::STATUS_COMPLETED])
-          ->groupBy(['dayweek']),
-        'pagination' => [
-        'pageSize' => 20,
-        ],
+          ->groupBy(['dayweek'])
+          ->orderBy('cnt DESC'),
         ]);
         $data->owner =  new ActiveDataProvider([
           'query' => MeetingData::find()
@@ -199,7 +197,7 @@ class MeetingData extends \yii\db\ActiveRecord
             ->where(['status' => [Meeting::STATUS_CONFIRMED,Meeting::STATUS_COMPLETED]])
             ->andWhere('chosen_place_id>0')
             ->groupBy(['chosen_place_id'])
-            ->having('COUNT(*)>3')
+            ->having('COUNT(*)>1')
             ->orderBy('cnt DESC'),
           'pagination' => [
           'pageSize' => 20,
