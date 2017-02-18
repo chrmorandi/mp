@@ -173,7 +173,7 @@ class MeetingData extends \yii\db\ActiveRecord
             ->andWhere('owner_id<>5')
             ->andWhere('owner_id<>13')
             ->groupBy(['owner_id'])
-            ->having('COUNT(*)>3')
+            ->having('COUNT(*)>1')
             ->orderBy('cnt DESC'),
 
           ]);
