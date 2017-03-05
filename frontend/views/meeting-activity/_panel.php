@@ -12,8 +12,9 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingActivity">
     <div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view">
-      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" aria-expanded="true" aria-controls="collapseActivity"><?= Yii::t('frontend','Activity') ?></a>
-    </h4>
+    <?= Yii::t('frontend','Activity') ?>
+  </h4>
+  <!--   <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseActivity" aria-expanded="true" aria-controls="collapseActivity"> -->
     <span class="hint-text">
       <?php if ($activityProvider->count<=1) { ?>
         <?= Yii::t('frontend','add one or more activities for participants to choose from') ?>

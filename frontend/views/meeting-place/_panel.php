@@ -13,7 +13,8 @@ use \common\components\MiscHelpers;
   <div class="panel-heading" role="tab" id="headingWhere">
     <div class="row">
       <div class="col-lg-10 col-md-10 col-xs-10" >
-        <h4 class="meeting-place"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"><?= Yii::t('frontend','Where') ?></a></h4><p>
+        <h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4>
+        <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"> -->
         <div class="hint-text heading-pad">
         <?php if ($placeProvider->count<=1) { ?>
           <?= Yii::t('frontend','add possible meeting places or switch to \'virtual\'') ?>

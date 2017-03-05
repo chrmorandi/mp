@@ -8,7 +8,7 @@ use frontend\models\Participant;
     <div class="row">
       <div class="col-xs-4">
         <div class="dropup" >
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <button id="button-options" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <?= Yii::t('frontend','Options');?>
         <span class="caret"></span>
         </button>

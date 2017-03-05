@@ -180,7 +180,7 @@ table.table-list td.table-switches {
     margin: 0 0 10px 0;
 }
 
-.hidden, #tz_alert, #tz_success {
+.hidden, #tz_alert, #tz_success, #guide_success {
   display:none;
   visible:false;
 }
@@ -318,6 +318,11 @@ border:1px solid #e0e0e0;
 .ticket-reply em {
 color:#a0a0a0;
 }
+
+.shepherd-element.shepherd-theme-arrows {
+  max-width: 40%;
+}
+
   /* ----------- mobile displays ----------- */
 
 @media only screen
@@ -364,4 +369,8 @@ color:#a0a0a0;
       min-width:75%;
       padding:60px 10px 40px 10px;
     }
+    .shepherd-element.shepherd-theme-arrows {
+      max-width: 80%;
+    }
+
 }

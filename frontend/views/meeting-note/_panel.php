@@ -11,8 +11,8 @@ use yii\bootstrap\Collapse;
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingNote" >
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNote" aria-expanded="true" aria-controls="collapseNote"><?= Yii::t('frontend','Notes') ?></a></h4>
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view"><?= Yii::t('frontend','Notes') ?></h4>
+        <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNote" aria-expanded="true" aria-controls="collapseNote"> -->
         <span class="hint-text"><?= Yii::t('frontend','send a message to others') ?></span>
       </div>
       <div class="col-lg-2 col-md-2 col-xs-2" >

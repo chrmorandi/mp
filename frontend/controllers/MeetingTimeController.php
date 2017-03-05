@@ -157,7 +157,6 @@ class MeetingTimeController extends Controller
         return $this->redirect(['index']);
     }
 
-
     public function actionChoose($id,$val) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $parts = explode('_', $val);

@@ -30,12 +30,13 @@ use common\components\MiscHelpers;
         <div class="col-md-8">
          <!-- Nav tabs -->
          <ul class="nav nav-tabs" role="tablist">
-           <li class="active"><a href="#general" role="tab" data-toggle="tab"><?= Yii::t('frontend','General Settings') ?></a></li>
-           <li><a href="#preferences" role="tab" data-toggle="tab"><?= Yii::t('frontend','Meeting Preferences') ?></a></li>
+           <li id="tab_general" class="<?= ($model->tab=='general'?'active':'') ?>"><a href="#general" role="tab" data-toggle="tab"><?= Yii::t('frontend','General Settings') ?></a></li>
+           <li id="tab_preferences" class="<?= ($model->tab=='preferences'?'active':'') ?>"><a href="#preferences" role="tab" data-toggle="tab"><?= Yii::t('frontend','Meeting Preferences') ?></a></li>
+           <li id="tab_guide" class="<?= ($model->tab=='guide'?'active':'') ?>"><a href="#guide" role="tab" data-toggle="tab"><?= Yii::t('frontend','Meeting Guide') ?></a></li>
          </ul>
          <!-- Tab panes -->
          <div class="tab-content">
-           <div class="tab-pane active vertical-pad" id="general">
+           <div class="tab-pane <?= ($model->tab=='general'?'active':'') ?> vertical-pad" id="general">
 
                <?php /*= $form->field($model, 'reminder_eve')->checkBox(['label' => Yii::t('frontend','Send final reminder the day before a meeting'), 'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); */?>
 
@@ -62,7 +63,7 @@ use common\components\MiscHelpers;
                       <?= $form->field($model, 'no_email')->checkbox(['label' =>Yii::t('frontend','Turn off all email'),'uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
 </span>
                 </div>
-           <div class="tab-pane vertical-pad" id="preferences">
+           <div class="tab-pane <?= ($model->tab=='preferences'?'active':'') ?> vertical-pad" id="preferences">
 
              <strong><?= Yii::t('frontend','Allow participants to:'); ?></strong><br /><br />
              <?= $form->field($model, 'participant_add_place')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
@@ -74,8 +75,10 @@ use common\components\MiscHelpers;
              <?= $form->field($model, 'participant_finalize')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_request_change')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
              <?= $form->field($model, 'participant_reopen')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
-
             </div> <!-- end of upload meeting-settings tab -->
+            <div class="tab-pane <?= ($model->tab=='guide'?'active':'') ?> vertical-pad" id="guide">
+              <?= $form->field($model, 'guide')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+            </div> <!-- end of upload meeting-guide tab -->
            <div class="form-group">
                <?= Html::submitButton(Yii::t('frontend', 'Save Settings'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
            </div>
