@@ -29,8 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
       ]);
   $this->registerJsFile($gpJsLink);
 
-  $options = '{"componentRestrictions":{"country":"us"}}';
-  // turned off "types":["establishment"]
+  $options = '{}';
+  // off "types":["establishment"]
+  // off "componentRestrictions":{"country":"us"}
   echo $this->registerJs("(function(){
         var input = document.getElementById('meetingplace-searchbox');
         var options = $options;
