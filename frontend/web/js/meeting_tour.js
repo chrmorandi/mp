@@ -19,15 +19,15 @@ steps.push(['#headingWho top','Who would you like to invite?','Add one or more p
 steps.push(['#invitation-url bottom','Inviting by email','Alternately, you can copy the planning link and email it to participants']);
 // to do - if this is an activity
 if ($('#headingActivity').length>0) {
-  steps.push(['#headingActivity top','What do you want to do?','Suggest one or more activity ideas. With more than one, your participants can help you select their favorite. Click the plus button to suggest activities.']);    
+  steps.push(['#headingActivity top','What do you want to do?','Suggest one or more activity ideas. With more than one, your participants can help you select their favorite. Click the plus button to suggest activities.']);
 }
 steps.push(['#headingWhen top','When do you want to meet?','Suggest one or more dates and times for your '+title+'. With more than one, your participants can help you select the best day and time for their schedule. Click the plus button to add dates and times.']);
 steps.push(['#headingWhere top','Where do you want to meet?','Suggest one or more places for your '+title+'. With more than one, your participants can help you select the best place for their schedule. Click the plus button to add places.']);
-steps.push(['.virtualThing left','Is this a virtual meeting?','Switch between <em>in person</em> and virtual '+title+'s such as phone calls or online conferences.']);
-steps.push(['#actionSend left','Sending invitations','Scheduling is collaborative. With multiple times and places, you can invite participants to offer feedback. <em>A place isn\'t necessary for virtual '+title+'\s.</em>']);
-steps.push(['#actionFinalize left','Finalizing the plan','Or, if you select just one time and place, you can finalize the plan. We\'ll email the invitations and setup reminders.']);
-steps.push(['#tourDiscussion left','Share notes with participants ','You can post notes back and forth with participants from the discussion tab. Notes are delivered via email.']);
-steps.push(['#button-options left','Additional options','From the options menu, you can cancel a '+title+', see the planning history or select preferences for collaboration.']);
+steps.push(['.virtualThing top','Is this a virtual meeting?','Switch between <em>in person</em> and virtual '+title+'s such as phone calls or online conferences.']);
+steps.push(['#actionSend top','Sending invitations','Scheduling is collaborative. With multiple times and places, you can invite participants to offer feedback. <em>A place isn\'t necessary for virtual '+title+'\s.</em>']);
+steps.push(['#actionFinalize top','Finalizing the plan','Or, if you select just one time and place, you can finalize the plan. We\'ll email the invitations and setup reminders.']);
+steps.push(['#tourDiscussion bottom','Share notes with participants ','You can post notes back and forth with participants from the <strong>Discussion</strong> tab. Notes are delivered via email.']);
+steps.push(['#button-options top','Additional options','From the <strong>Options</strong> menu, you can cancel a '+title+', see the planning history or select preferences for collaboration.']);
 steps.push(['.container ','Ask a question','Need help? <a href="'+$('#url_prefix').val()+'/ticket/create">Ask a question</a> and we\'ll respond as quickly as we can. <p>If you prefer, you can <a href="'+$('#url_prefix').val()+'/user-setting?tab=guide">turn off the guide</a> in settings.</p>']);
 
 for (i = 0; i < steps.length; i++) {
