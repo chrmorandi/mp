@@ -23,10 +23,10 @@ if ($('#headingActivity').length>0) {
 steps.push(['#headingWhen top','When do you want to meet?','Suggest one or more dates and times for your '+title+'. With more than one, your participants can help you choose. <p>Click the + button to add them.</p>']);
 steps.push(['#headingWhere top','Where do you want to meet?','Suggest one or more places for your '+title+'. With multiple places, your participants can help you choose. <p>We use Google Places to simplify adding them. Click the + button to begin.</p>']);
 steps.push(['.virtualThing top','Is this a virtual meeting?','Switch between <em>in person</em> and <em>virtual</em> '+title+'s such as phone calls or online conferences.']);
-steps.push(['#actionSend right','Sending invitations','Scheduling is collaborative. After you add times and places, you can <strong>Invite</strong> participants to select their favorites. <em>A place isn\'t necessary for virtual '+title+'\s.</em>']);
-steps.push(['#actionFinalize right','Finalizing the plan','Once you choose a time and place, you can <strong>Complete</strong> the plan. We\'ll email the invitations and setup reminders.']);
-steps.push(['#button-options left','Additional options','From the <strong>Options</strong> menu, you can cancel a '+title+', see the planning history or select preferences for collaboration.']);
-steps.push(['#tourDiscussion right','Share messages with participants ','You can write back and forth with participants on the <strong>Discussion</strong> tab. <p>Messages are delivered via email.</p>']);
+steps.push(['#actionSend top','Sending invitations','Scheduling is collaborative. After you add times and places, you can <strong>Invite</strong> participants to select their favorites. <em>A place isn\'t necessary for virtual '+title+'\s.</em>']);
+steps.push(['#actionFinalize top','Finalizing the plan','Once you choose a time and place, you can <strong>Complete</strong> the plan. We\'ll email the invitations and setup reminders.']);
+steps.push(['#button-options top','Additional options','From the <strong>Options</strong> menu, you can cancel a '+title+', see the planning history or select preferences for collaboration.']);
+steps.push(['#tourDiscussion top','Share messages with participants ','You can write back and forth with participants on the <strong>Discussion</strong> tab. <p>Messages are delivered via email.</p>']);
 steps.push(['.container ','Ask a question','Need help? <a href="'+$('#url_prefix').val()+'/ticket/create">Ask a question</a> and we\'ll respond as quickly as we can. <p>If you prefer, you can <a href="'+$('#url_prefix').val()+'/user-setting?tab=guide">turn off the guide</a> in settings.</p>']);
 
 for (i = 0; i < steps.length; i++) {
