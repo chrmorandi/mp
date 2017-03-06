@@ -76,8 +76,8 @@ function turnOffGuide() {
     // data: {val: 0},
      //data: {id:   $('#meeting_id').val(), 'val': current_id},
      success: function() {
-       $('#guide_success').show();
-       //$("html, body").animate({ scrollTop: 0 }, "slow");
+       $("html, body").animate({ scrollTop: 0 }, "slow");
+       $('#guide_success').show();       
        tour.hide();
        return true;
      }
