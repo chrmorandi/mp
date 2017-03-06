@@ -19,7 +19,7 @@
     display: block; }
 
 .shepherd-element.shepherd-theme-arrows {
-  max-width: 80%; /* change */
+  max-width: 100%; /* change */
   max-height: 100%;
  }
   .shepherd-element.shepherd-theme-arrows .shepherd-content {

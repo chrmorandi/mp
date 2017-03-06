@@ -370,4 +370,8 @@ color:#a0a0a0;
       padding:60px 10px 40px 10px;
     }
 
+    .shepherd-element.shepherd-theme-arrows {
+      max-width: 85%;
+    }
+
 }
