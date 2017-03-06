@@ -39,7 +39,7 @@ class Participant extends \yii\db\ActiveRecord
     const STATUS_DECLINED = 100;
     const STATUS_DECLINED_REMOVED = 110;
 
-    const MEETING_LIMIT = 15;
+    const MEETING_LIMIT = 25;
 
     public $email;
     public $firstname;

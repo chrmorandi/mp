@@ -115,7 +115,7 @@ $this->title = Yii::$app->params['site']['title'];
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
-                      <td><?= Yii::t('frontend','Small group meetings (up to 5)') ?></td>
+                      <td><?= Yii::t('frontend','Small group meetings (up to 7)') ?></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
@@ -157,7 +157,7 @@ $this->title = Yii::$app->params['site']['title'];
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                   </tr>
                   <tr>
-                      <td><?= Yii::t('frontend','Group meetings (up to 12)') ?></td>
+                      <td><?= Yii::t('frontend','Group meetings (up to 50)') ?></td>
                       <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
