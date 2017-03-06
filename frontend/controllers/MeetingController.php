@@ -239,6 +239,15 @@ class MeetingController extends Controller
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
         }
+        $showGuide='none';
+        if ($model->isOrganizer()) {
+          $us = UserSetting::find()
+            ->where(['user_id'=>Yii::$app->user->getId()])
+            ->one();
+          if ($us->guide == UserSetting::SETTING_ON) {
+            $showGuide='planning';
+          }
+        }
         $whereStatus = MeetingPlace::getWhereStatus($model,Yii::$app->user->getId());
         $whenStatus = MeetingTime::getWhenStatus($model,Yii::$app->user->getId());
         $activityStatus = MeetingActivity::getActivityStatus($model,Yii::$app->user->getId());
@@ -293,6 +302,7 @@ class MeetingController extends Controller
               'meetingTime'=>$meetingTime,
               'meetingPlace'=>$meetingPlace,
               'meetingActivity'=>$meetingActivity,
+              'showGuide'=>$showGuide,
           ]);
       } else {
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {

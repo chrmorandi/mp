@@ -104,4 +104,5 @@ echo $this->render('_guide_alert');
 <?= Html::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
 <?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
+<?= Html::hiddenInput('showGuide',$showGuide,['id'=>'showGuide']); ?>
 </div>
