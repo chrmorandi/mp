@@ -235,15 +235,15 @@ class MeetingController extends Controller
       $meetingActivity->meeting_id= $model->id;
       $meetingActivity->suggested_by= Yii::$app->user->getId();
       $meetingActivity->status = MeetingActivity::STATUS_SUGGESTED;
+      $showGuide='none'; // default
+      $us = UserSetting::find()
+        ->where(['user_id'=>Yii::$app->user->getId()])
+        ->one();
       if ($model->status <= Meeting::STATUS_SENT) {
         if ($model->isOrganizer() && ($model->status == Meeting::STATUS_SENT) && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for the meeting\'s current options.'));
         }
-        $showGuide='none';
         if ($model->isOrganizer()) {
-          $us = UserSetting::find()
-            ->where(['user_id'=>Yii::$app->user->getId()])
-            ->one();
           if ($us->guide == UserSetting::SETTING_ON) {
             $showGuide='planning';
           }
@@ -308,6 +308,11 @@ class MeetingController extends Controller
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for this meeting.'));
         }
+        /*if (!$model->isOrganizer()) {
+          if ($us->guide == UserSetting::SETTING_ON) {
+            $showGuide='participant';
+          }
+        }*/
         // meeting is finalized or past
         if (Request::countOpen($id)) {
             Yii::$app->getSession()->setFlash('warning', Yii::t('frontend','Changes have been requested for this meeting. <a href="{url}">View them</a>.',['url'=>Url::to(['/request/index/','meeting_id'=>$id])]));
@@ -354,6 +359,7 @@ class MeetingController extends Controller
             'timezone'=>$timezone,
             'participant'=>$participant,
             'friends'=>$friends,
+            'showGuide'=>$showGuide,
         ]);
       }
     }
