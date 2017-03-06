@@ -11,13 +11,14 @@ $this->title = $model->getMeetingHeader('view');
 $this->params['breadcrumbs'][] = ['label' => Yii::$app->params['site']['mtg'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_timezone_alerts');
+echo $this->render('_guide_alert');
 ?>
 <div class="meeting-view">
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Details');?></a></li>
-    <li class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Discussion');?></a></li>
+    <li id="tourStart" class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Details');?></a></li>
+    <li id="tourDiscussion" class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Discussion');?></a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -103,4 +104,5 @@ echo $this->render('_timezone_alerts');
 <?= Html::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
 <?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
+<?= Html::hiddenInput('showGuide',$showGuide,['id'=>'showGuide']); ?>
 </div>

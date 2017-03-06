@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Response;
 use common\components\MiscHelpers;
 use common\models\User;
 use frontend\models\UserSetting;
@@ -32,7 +33,7 @@ class UserSettingController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions' => ['index','update','timezone'],
+                        'actions' => ['index','update','timezone','guide'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -45,11 +46,17 @@ class UserSettingController extends Controller
      * Default path - redirect to update
      * @return mixed
      */
+
     public function actionIndex()
     {
+      if (isset(Yii::$app->request->queryParams['tab'])) {
+          $tab =Yii::$app->request->queryParams['tab'];
+      } else {
+        $tab='general';
+      }
       // returns record id not user_id
       $id = UserSetting::initialize(Yii::$app->user->getId());
-      return $this->redirect(['update', 'id' => $id]);
+      return $this->redirect(['update', 'id' => $id,'tab'=>$tab]);
     }
 
     /**
@@ -61,6 +68,11 @@ class UserSettingController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if (isset(Yii::$app->request->queryParams['tab'])) {
+            $model->tab =Yii::$app->request->queryParams['tab'];
+        } else {
+          $model->tab ='general';
+        }
         $model->user_id = Yii::$app->user->getId();
         $u=User::findOne(Yii::$app->user->getId());
         // set default timezone if not initialized in earlier users
@@ -102,6 +114,19 @@ class UserSettingController extends Controller
       UserSetting::setUserTimezone($user_id,$timezone);
       return true;
     }
+
+    public function actionGuide()
+    {
+      Yii::$app->response->format = Response::FORMAT_JSON;
+        $user_id = Yii::$app->user->getId();
+        $us = UserSetting::find()
+          ->where(['user_id'=>$user_id])
+          ->one();
+        $us->guide = UserSetting::SETTING_OFF;
+        $us->update();
+        return true;
+    }
+
 
     /**
      * Finds the UserSetting model based on its primary key value.

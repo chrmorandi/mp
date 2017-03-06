@@ -9,7 +9,8 @@ use yii\bootstrap\Collapse;
   <div class="panel-heading"  role="tab" id="headingWho">
     <div class="row">
       <div class="col-lg-10 col-md-10 col-xs-10">
-        <h4 class="meeting-view"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWho" aria-expanded="true" aria-controls="collapseWho"><?= Yii::t('frontend','Who') ?></a></h4>
+        <h4 class="meeting-view"><?= Yii::t('frontend','Who') ?></h4>
+        <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWho" aria-expanded="true" aria-controls="collapseWho"> -->
         <span class="hint-text"><?= Yii::t('frontend','add meeting participants') ?></span>
       </div>
     <div class="col-lg-2 col-md-2 col-xs-2">
@@ -51,7 +52,7 @@ use yii\bootstrap\Collapse;
   </div>
   <?php if ($model->isOrganizer()) { ?>
   <div class="panel-footer short-footer">
-    <span class="hint-text">
+    <span id="invitation-url" class="hint-text">
       Or, share
     <?= Html::a($model->getSharingUrl(),$model->getSharingUrl()); ?>
     to invite participants by email.

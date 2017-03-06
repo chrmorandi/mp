@@ -9,13 +9,16 @@
 
 .shepherd-element {
   position: absolute;
-  display: none; }
+  display: none;
+  z-index:100;
+}
   .shepherd-element.shepherd-open {
     display: block; }
 
 .shepherd-element.shepherd-theme-arrows {
   max-width: 100%;
-  max-height: 100%; }
+  max-height: 100%;
+ }
   .shepherd-element.shepherd-theme-arrows .shepherd-content {
     border-radius: 5px;
     position: relative;
@@ -38,7 +41,8 @@
       border-color: transparent;
       border-width: 16px;
       border-style: solid;
-      pointer-events: none; }
+      pointer-events: none;
+  }
   .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content {
     margin-bottom: 16px; }
     .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content:before {

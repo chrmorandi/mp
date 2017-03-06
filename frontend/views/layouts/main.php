@@ -47,7 +47,7 @@ AppAsset::register($this);
                   ],
                   [
                     'label' => Yii::t('frontend','Help'),
-                    'url'=>['/ticket'],
+                    'url'=>['/ticket'],                    
                   ],
 	            ];
             }

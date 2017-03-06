@@ -35,9 +35,9 @@ use common\components\MiscHelpers;
       <div class="col-xs-12 col-md-8 col-lg-6">
     <?php // $form->field($model, 'subject')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Subject')) ?>
     <div class="itemHide">
-    <?= $form->field($model, 'message')->textarea(['rows' => 6,'id'=>'meeting-message'])->label(Yii::t('frontend','Message'))->hint(Yii::t('frontend','Optional')); ?>
+    <?= $form->field($model, 'message')->textarea(['rows' => 6,'id'=>'meeting-message'])->label(Yii::t('frontend','Additional information'))->hint(Yii::t('frontend','Optional')); ?>
     </div>
-  </div>  
+  </div>
 </div>
 
     <div class="form-group panel-what-buttons">

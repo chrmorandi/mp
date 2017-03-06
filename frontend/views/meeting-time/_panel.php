@@ -12,8 +12,9 @@ use \kartik\switchinput\SwitchInput;
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhen">
     <div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view">
-      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"><?= Yii::t('frontend','When') ?></a>
+      <?= Yii::t('frontend','When') ?>
     </h4>
+    <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhen" aria-expanded="true" aria-controls="collapseWhen"> -->
     <span class="hint-text">
       <?php if ($timeProvider->count<=1) { ?>
         <?= Yii::t('frontend','add one or more dates and times for participants to choose from') ?>
