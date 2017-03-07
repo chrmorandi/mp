@@ -191,6 +191,7 @@ class UserData extends \yii\db\ActiveRecord
         'query' => UserData::find()
           ->select(['domain,COUNT(*) AS cnt'])
           ->groupBy(['domain'])
+          ->having('COUNT(*)>4')
           ->orderBy('cnt DESC'),
         ]);
         $data->domain_exts =  new ActiveDataProvider([
@@ -198,6 +199,7 @@ class UserData extends \yii\db\ActiveRecord
             ->select(['domain_ext,COUNT(*) AS cnt'])
             //->where('')
             ->groupBy(['domain_ext'])
+            ->having('COUNT(*)>4')
             ->orderBy('cnt DESC'),
           ]);
       return $data;
