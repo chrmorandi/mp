@@ -37,6 +37,7 @@ AppAsset::register($this);
                         'items' => [
                           ['label' => Yii::t('frontend','Usage'), 'url' => ['/data/current']],
                           ['label' => Yii::t('frontend','Meetings'), 'url' => ['/data/meetings']],
+                          ['label' => Yii::t('frontend','Meetings'), 'url' => ['/data/users']],
                         ]
                       ];
             $menuItems[] = [

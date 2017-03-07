@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use backend\models\Data;
 use backend\models\MeetingData;
+use backend\models\UserData;
 
 /**
  * Data controller
@@ -73,8 +74,19 @@ class DataController extends Controller
         ]);
     }
 
+    public function actionUsers()
+    {
+        $data = UserData::fetch();
+        return $this->render('users', [
+            'data' => $data,
+        ]);
+    }
+
+    public function actionDomains() {
+      UserData::loadDomains();
+    }
 
     public function actionGather() {
-        MeetingData::gather();
+      MeetingData::gather();
     }
 }
