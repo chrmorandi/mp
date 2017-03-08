@@ -856,7 +856,7 @@ class Meeting extends \yii\db\ActiveRecord
                MeetingLog::add($this->id,MeetingLog::ACTION_RESCHEDULE,$user_id);
              } else {
                  // if user is participant - needs to reverse
-                 if (!isAttendee($this->id,$user_id)) {
+                 if (!Meeting::isAttendee($this->id,$user_id)) {
                    // user isn't owner or participant - error
                    return false;
                  } else {
@@ -927,7 +927,7 @@ class Meeting extends \yii\db\ActiveRecord
              if ($this->owner_id == $user_id) {
                $addParticipant = false;
              } else {
-               if (!isAttendee($this->id,$user_id)) {
+               if (!Meeting::isAttendee($this->id,$user_id)) {
                  // user isn't owner or participant - error
                  return false;
                } else {
