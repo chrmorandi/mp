@@ -305,6 +305,7 @@ class MeetingController extends Controller
               'showGuide'=>$showGuide,
           ]);
       } else {
+        // meeting is past having been sent
         if ($model->isOrganizer() && !$model->isSomeoneAvailable()) {
           Yii::$app->getSession()->setFlash('danger', Yii::t('frontend','None of the participants are available for this meeting.'));
         }
@@ -666,7 +667,7 @@ class MeetingController extends Controller
             Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you are not allowed to repeat a meeting so frequently or this many times. Please contact us if you need this extended.'));
             return $this->redirect(['view', 'id' => $id]);
         }
-        if ($m->isAttendee($id,$user_id)) {
+        if (Meeting::isAttendee($id,$user_id)) {
           $new_meeting_id = $m->repeat();
           if ($new_meeting_id!==false) {
               Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We suggested two identical upcoming meeting times. You can also add more below.'));
