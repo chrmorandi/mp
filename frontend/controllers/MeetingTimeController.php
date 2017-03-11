@@ -43,9 +43,18 @@ class MeetingTimeController extends Controller
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
+                            [
+                                'allow' => true,
+                                'actions' => ['calendars'],
+                                'roles' => ['?'],
+                            ],
                         ],
                     ],
         ];
+    }
+
+    public function actionCalendars() {
+      return $this->render('calendar');
     }
 
     /**
