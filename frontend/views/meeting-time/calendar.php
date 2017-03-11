@@ -11,6 +11,8 @@
   $midnight = mktime(0, 0, 0);
   $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday'];
 ?>
+<div class="calendarContainer">
+
 <div class="calendarChooser">
 <table >
     <thead>
@@ -50,4 +52,6 @@
         </tr>
     </tbody>
   </table>
-</div>
+</div> <!-- calendarChooser -->
+
+</div> <!-- calendarContainer -->
