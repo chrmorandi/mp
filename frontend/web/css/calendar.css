@@ -39,7 +39,7 @@ tbody {
 
 thead th {
   border: 1px solid #222;
-  min-width: 100px;
+  min-width: 80px;
   padding-left: 5px;
   vertical-align: bottom;
   background-color: #fff;
@@ -63,12 +63,19 @@ thead th:nth-child(2) {/*second cell in the header*/
   border-left:none;
 }
 
+tbody tr {
+  height:50px;
+  overflow:visible;
+}
+
 tbody td {
   background-color: #f4f4f4;
-  min-width: 100px;
+  min-width: 80px;
   border: 1px solid #222;
   border-left: 0px solid #222;
   height:50px;
+  overflow:visible;
+  max-width:80px !important;
 }
 
 tbody tr:nth-child(1) td {
@@ -79,26 +86,26 @@ tbody tr:nth-child(1) td {
 }
 
 tbody tr:nth-child(1) td:nth-child(1) {
-
 }
 
 tbody tr td:nth-child(1) {  /*the first cell in each tr*/
-  position: relative;
   display: block; /*seperates the first column from the tbody*/
+  position: relative;
   border:none;
   background-color: #fff;
   min-width: 60px;
+  z-index:100;
 }
 
 td .dayCell {
-    height:100%;
+    height:25%;
     margin:0px;
 }
 
 td.hourOfDay {
  text-align: right;
  padding-right:3px;
- padding-top:5px;
+ padding-top:25%;
  color:#808080;
 }
 .dayOfMonth {

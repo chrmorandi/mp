@@ -35,14 +35,19 @@
     </thead>
     <tbody>
     <?php
-      for($hour_index=0;$hour_index<24;$hour_index++) {
+      for($hour_index=7;$hour_index<24;$hour_index++) {
         ?>
         <tr>
           <td class="hourOfDay"><?= date('g a',$midnight+($hour_index*3600))?></td>
           <?php
           for ($index_day=1; $index_day<$numberOfDays;$index_day++) {
             ?>
-            <td><div class="dayCell apple2"></div></td>
+            <td>
+              <div class="dayCell"></div>
+              <div class="dayCell"></div>
+              <div class="dayCell"></div>
+              <div class="dayCell"></div>
+            </td>
             <?php
           }
           ?>

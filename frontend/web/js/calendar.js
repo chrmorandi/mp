@@ -9,14 +9,16 @@ $(document).ready(function() {
     $('thead th:nth-child(1)').css("left", $("tbody").scrollLeft()); //fix the first cell of the header
     $('tbody td:nth-child(1)').css("left", $("tbody").scrollLeft()); //fix the first column of tdbody
   });
-  $('td .apple2').click(function() {
+  $('td .dayCell').click(function() {
       var div = document.createElement('div');
       $(div).addClass("draggable");
       $(div).css('border','1px solid black');
       //$(div).css('width','auto-resize');
       $(div).css('display','block');
-      $(div).css('height','100%');
-      $(div).css('z-index','100');
+      $(div).css('height','50px');
+      $(div).css('overflow','visible');
+      $(div).css('max-width','80 px !important');
+      //$(div).css('z-index','100');
       $(div).css('border-radius','0px 0px 1em 0px');
       //$(div).attr('id', 'draggable');
       $(div).css('background-color','red');
