@@ -89,7 +89,7 @@ $( function() {
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $(document).height()-200,
+      height: $(document).height()-250,
       width: $('.calendarContainer').width()+20,
       modal: true,
       position: { my: "left top", at: "left bottom", of: $('.calendarContainer') },
