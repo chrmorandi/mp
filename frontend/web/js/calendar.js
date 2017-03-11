@@ -82,19 +82,19 @@ $(document).ready(function() {
 $( function() {
     var dialog, form,
 
-    /*function addUser() {
-      dialog.dialog( "close" );
-      return true;
-    }*/
-
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $(document).height()-250,
-      width: $('.calendarContainer').width()+20,
+      height: $('.wrap').height()-25,
+      width: $('.wrap').width()-10,
       modal: true,
-      position: { my: "left top", at: "left bottom", of: $('.calendarContainer') },
+      position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
       buttons: {
-
+        Save: function() {
+          dialog.dialog( "close" );
+        },
+                Cancel: function() {
+                  dialog.dialog( "close" );
+                }
       },
       close: function() {
       }
@@ -105,10 +105,15 @@ $( function() {
     });
 
     $( "#create-user" ).button().on( "click", function() {
-      $("table").width($('.calendarContainer').width()-10); //
-      $( "#dialog-form" ).width($('.calendarContainer').width());
+       //
+      $( "#dialog-form" ).width($('.calendarContainer').width()-20);
+
+      $( ".calendarContainer" ).width($(document).width()-80);
+      $("table").width($('.calendarContainer').width());
 
       dialog.dialog( "open" );
+
+      $("tbody").height($('#dialog-form').height()-40);
 
       //$( 'dialog' ).dialog( "option", "width", '1800px' );
 

@@ -2,7 +2,6 @@
   width:auto;
   border:1px solid black;
   padding:10px;
-
 }
 
 .calendarChooser {
@@ -135,3 +134,5 @@ td .apple {
 .ui-draggable, .ui-droppable {
 	background-position: top;
 }
+
+.ui-dialog {z-index: 1031 !important;}

@@ -13,8 +13,9 @@
 ?>
 <div class="calendarContainer">
   <button id="create-user">Select Times</button>
-    <div id="dialog-form" title="Create new user">
+    <div id="dialog-form" title="Select Dates and Times">
         <div class="calendarChooser">
+          <center>
         <table >
             <thead>
               <tr>
@@ -59,7 +60,7 @@
             </tbody>
           </table>
         </div> <!-- calendarChooser -->
-
+<center>
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </div>
