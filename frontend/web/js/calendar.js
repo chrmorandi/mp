@@ -16,7 +16,7 @@ $(document).ready(function() {
       //$(div).css('width','auto-resize');
       $(div).css('display','block');
       $(div).css('height','50px');
-      $(div).css('overflow','visible');
+      $(div).css('overflow-y','visible');
       $(div).css('max-width','80 px !important');
       //$(div).css('z-index','100');
       $(div).css('border-radius','0px 0px 1em 0px');
