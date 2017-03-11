@@ -4,7 +4,6 @@
   use frontend\assets\CalendarAsset;
   CalendarAsset::register($this);
 ?>
-
 <div class="calendarChooser">
 <table >
   <?php
@@ -41,7 +40,7 @@
           for ($index_day=1; $index_day<$numberOfDays;$index_day++) {
             ?>
             <td><div class="dayCell apple2"></div></td>
-            <?
+            <?php
           }
           ?>
       <?php
