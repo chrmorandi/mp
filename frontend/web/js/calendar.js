@@ -1,14 +1,4 @@
 $(document).ready(function() {
-  $('tbody').scroll(function(e) { //detect a scroll event on the tbody
-  	/*
-    Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
-    of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain
-    it's relative position at the left of the table.
-    */
-    $('thead').css("left", -$("tbody").scrollLeft()); //fix the thead relative to the body scrolling
-    $('thead th:nth-child(1)').css("left", $("tbody").scrollLeft()); //fix the first cell of the header
-    $('tbody td:nth-child(1)').css("left", $("tbody").scrollLeft()); //fix the first column of tdbody
-  });
   $('td .dayCell').click(function() {
       var div = document.createElement('div');
       $(div).addClass("draggable");
@@ -88,3 +78,50 @@ $(document).ready(function() {
                 });
               });
 });
+
+$( function() {
+    var dialog, form,
+
+    /*function addUser() {
+      dialog.dialog( "close" );
+      return true;
+    }*/
+
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 600,
+      width: $('.calendarContainer').width()+20,
+      modal: true,
+      position: { my: "left top", at: "left bottom", of: $('.calendarContainer') },
+      buttons: {
+
+      },
+      close: function() {
+      }
+    });
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      //addUser();
+    });
+
+    $( "#create-user" ).button().on( "click", function() {
+      $("table").width($('.calendarContainer').width()-10); //
+      $( "#dialog-form" ).width($('.calendarContainer').width());
+
+      dialog.dialog( "open" );
+
+      //$( 'dialog' ).dialog( "option", "width", '1800px' );
+
+      $('.calendarChooser tbody').scroll(function(e) { //detect a scroll event on the tbody
+        /*
+        Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
+        of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain
+        it's relative position at the left of the table.
+        */
+        $('.calendarChooser thead').css("left", -$(".calendarChooser tbody").scrollLeft()); //fix the thead relative to the body scrolling
+        $('.calendarChooser thead th:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first cell of the header
+        $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
+      });
+
+    });
+  } );
