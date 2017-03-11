@@ -23,3 +23,4 @@ class CalendarAsset extends AssetBundle
 
     public $publishOptions = [];
 }
+?>
