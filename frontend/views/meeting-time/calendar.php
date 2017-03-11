@@ -3,9 +3,12 @@
   use yii\helpers\Url;
   use frontend\assets\CalendarAsset;
   CalendarAsset::register($this);
-  $numberOfDays=30;
   $start_day = time();
   $current_time = $start_day;
+  $start_hour = 0;
+  $numberOfDays=30;
+  $current_hour = date('G');
+  $midnight = mktime(0, 0, 0);
   $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday'];
 ?>
 <div class="calendarChooser">
@@ -28,5 +31,23 @@
         ?>
       </tr>
     </thead>
+    <tbody>
+    <?php
+      for($hour_index=0;$hour_index<24;$hour_index++) {
+        ?>
+        <tr>
+          <td class="hourOfDay"><?= date('g a',$midnight+($hour_index*3600))?></td>
+          <?php
+          for ($index_day=1; $index_day<$numberOfDays;$index_day++) {
+            ?>
+            <td><div class="dayCell apple2"></div></td>
+            <?php
+          }
+          ?>
+      <?php
+        }
+      ?>
+        </tr>
+    </tbody>
   </table>
 </div>
