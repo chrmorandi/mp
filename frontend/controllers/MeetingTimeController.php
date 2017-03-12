@@ -39,7 +39,7 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['create','update','delete','choose','view','remove','gettimes','add','inserttime','loadchoices'],
+                                'actions' => ['calendars','create','update','delete','choose','view','remove','gettimes','add','inserttime','loadchoices'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
