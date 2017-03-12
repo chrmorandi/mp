@@ -12,8 +12,8 @@ class CalendarAsset extends AssetBundle
       'css/jquery-ui.css',
     ];
     public $js = [
-      'js/touch-punch.js',
       'js/jquery-ui.js',
+      'js/touch-punch-min.js',
       'js/calendar.js',
     ];
     public $depends = [
