@@ -13,10 +13,6 @@ $(document).ready(function() {
       $(div).css('z-index','100');
       $(div).css('background-color','#0066CC');
       $(div).append('Selected');
-      $(div).click(function() {        
-        $(div).addClass("hidden");
-        return false;
-      });
       $(div).draggable({
         cursorAt: { left: 1, top: 1, bottom:-20 },
         snap:true,
@@ -32,6 +28,11 @@ $(document).ready(function() {
                   }
               }
       });
+      /*$(div).click(function() {
+        $(div).addClass("hidden");
+        return false;
+      });*/
+      
     $(this).append(div);
   });
 
