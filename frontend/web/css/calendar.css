@@ -105,6 +105,11 @@ td .dayCell {
     margin:0px;
     max-height:80px;
     z-index:0;
+    border-bottom: 1px solid #d3d3d3;
+}
+td .dayCell:nth-child(4) {
+  border-bottom: none;
+
 }
 
 .dayOfMonth {
@@ -122,12 +127,6 @@ td .dayCell {
   margin-bottom:0px;
 }
 
-td .apple {
-  background-color: red;
-  width:50px;
-  height:50px;
-}
-
 #droppable,#droppable2 { width: 100px; max-height: 20px; padding: 0.5em;; margin: 10px; }
 #draggable, #draggable-nonvalid { width: 50px; height: 50px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
 
@@ -143,7 +142,11 @@ a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
 	border: 1px solid yellow !important;
-	background: yellow !important;	
+	background: yellow !important;
+  display:block;
+
+  overflow-y: visible;
+  max-width:80px !important;
 }
 
 .ui-dialog {z-index: 1031 !important;}

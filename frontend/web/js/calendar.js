@@ -12,9 +12,10 @@ $(document).ready(function() {
       //$(div).css('z-index','100');
       //$(div).css('width','auto-resize');
       $(div).css('background-color','#0066CC');
-      $(div).append('Selected');
+      $(div).append('<p>Selected</p>');
       $(div).draggable({
         //axis:'y',
+        //delay:60,
         grid: [ 80, 20 ],
         cursor: 'move',
         cursorAt: { top: 200, left: 50 },
@@ -31,10 +32,10 @@ $(document).ready(function() {
                   }
               }
       });
-      /*$(div).click(function() {
+      $(div).click(function() {
         $(div).addClass("hidden");
         return false;
-      });*/
+      });
     $(this).append(div);
   });
   $(function() {
@@ -76,9 +77,9 @@ $( function() {
         Save: function() {
           dialog.dialog( "close" );
         },
-                Cancel: function() {
-                  dialog.dialog( "close" );
-                }
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
       },
       close: function() {
       }
