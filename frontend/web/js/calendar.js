@@ -84,7 +84,7 @@ $( function() {
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $('.wrap').height()-75,
+      height: $('.wrap').height()-100,
       width: $('.wrap').width()-10,
       modal: true,
       position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
