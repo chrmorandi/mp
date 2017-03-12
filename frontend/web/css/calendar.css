@@ -136,6 +136,16 @@ td .apple {
 	background-position: top;
 }
 
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+	border: 1px solid yellow !important;
+	background: yellow !important;	
+}
+
 .ui-dialog {z-index: 1031 !important;}
 .ui-dialog .ui-dialog-content {
   padding: .5em .2em !important;
