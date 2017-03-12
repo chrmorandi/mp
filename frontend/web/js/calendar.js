@@ -1,6 +1,6 @@
 var items=[];
 $(document).ready(function() {
-  var loadThese=[1489507200,1489687200,1489863600,1490025600,1490033700,1490038200];
+  var loadThese=[];
   $.each(loadThese , function(i, val) {
     var div = document.createElement('div');
     $(div).addClass("draggable");
@@ -115,7 +115,7 @@ $( function() {
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $('.wrap').height()-80,
+      height: $('.wrap').height()-100,
       width: $('.wrap').width()-10,
       modal: true,
       position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
