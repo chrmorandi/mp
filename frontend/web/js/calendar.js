@@ -84,7 +84,7 @@ $( function() {
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $('.wrap').height()-50,
+      height: $('.wrap').height()-75,
       width: $('.wrap').width()-10,
       modal: true,
       position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
@@ -105,14 +105,10 @@ $( function() {
     });
 
     $( "#create-user" ).button().on( "click", function() {
-       //
       $( "#dialog-form" ).width($('.calendarContainer').width()-20);
-
       $( ".calendarContainer" ).width($(document).width()-30);
       $("table").width($('.calendarContainer').width());
-
       dialog.dialog( "open" );
-
       $("tbody").height($('#dialog-form').height()-40);
 
       //$( 'dialog' ).dialog( "option", "width", '1800px' );
