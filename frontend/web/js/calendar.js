@@ -1,37 +1,40 @@
 $(document).ready(function() {
   $('td .dayCell').click(function() {
       var div = document.createElement('div');
-      $(div).addClass("draggable");
+      $(div).addClass("draggable slot");
       $(div).css('border','1px solid black');
       //$(div).css('width','auto-resize');
       $(div).css('display','block');
-      $(div).css('height','50px');
+      $(div).css('height','80px');
       $(div).css('overflow-y','visible');
       $(div).css('max-width','80 px !important');
-      //$(div).css('z-index','100');
       $(div).css('border-radius','0px 0px 1em 0px');
       //$(div).attr('id', 'draggable');
-      $(div).css('background-color','red');
-      $(div).append('apple');
-      $(div).draggable({
-    cursorAt: { left: 1, top: 1, bottom:-20 },
-    snap:true,
-    snapMode:'inner',
-    snapTolerance:1,
-    revert:  function(droppedElement) {
-              var validDrop = droppedElement && (droppedElement.hasClass("droppable2") || droppedElement.hasClass("apple2"));
-              if (!validDrop) {
-                alert('invalid');
-                var element = $(this);
-                $(element).css('top','0');
-                $(element).css('left','0');
-              }
-          }
-
-  });
-      $(this).append(div);
-
+      $(div).css('z-index','100');
+      $(div).css('background-color','#0066CC');
+      $(div).append('Selected');
+      $(div).click(function() {        
+        $(div).addClass("hidden");
+        return false;
       });
+      $(div).draggable({
+        cursorAt: { left: 1, top: 1, bottom:-20 },
+        snap:true,
+        snapMode:'inner',
+        snapTolerance:1,
+        revert:  function(droppedElement) {
+                  var validDrop = droppedElement && (droppedElement.hasClass("droppable2") || droppedElement.hasClass("apple2"));
+                  if (!validDrop) {
+                    alert('invalid');
+                    var element = $(this);
+                    $(element).css('top','0');
+                    $(element).css('left','0');
+                  }
+              }
+      });
+    $(this).append(div);
+  });
+
       $(function() {
                 $( "#draggable, #draggable-nonvalid" ).draggable();
                 $( "#droppable" ).droppable({

@@ -104,6 +104,7 @@ td .dayCell {
     height:20px;
     margin:0px;
     max-height:80px;
+    z-index:0;
 }
 
 .dayOfMonth {
