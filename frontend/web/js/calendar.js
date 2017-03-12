@@ -84,7 +84,7 @@ $( function() {
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $('.wrap').height()-25,
+      height: $('.wrap').height()-50,
       width: $('.wrap').width()-10,
       modal: true,
       position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
@@ -108,7 +108,7 @@ $( function() {
        //
       $( "#dialog-form" ).width($('.calendarContainer').width()-20);
 
-      $( ".calendarContainer" ).width($(document).width()-80);
+      $( ".calendarContainer" ).width($(document).width()-30);
       $("table").width($('.calendarContainer').width());
 
       dialog.dialog( "open" );
