@@ -103,10 +103,13 @@ tbody tr td:nth-child(1) {
 td .dayCell {
     height:20px;
     margin:0px;
+    color:#fff;
+    font-size: .8em;
     max-height:80px;
     z-index:0;
     border-bottom: 1px solid #d3d3d3;
 }
+
 td .dayCell:nth-child(4) {
   border-bottom: none;
 

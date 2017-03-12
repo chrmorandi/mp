@@ -5,14 +5,15 @@ $(document).ready(function() {
       $(div).css('border','1px solid black');
       $(div).css('display','block');
       $(div).css('height','80px');
+      $(div).css('padding','3px');
       $(div).css('overflow-y','visible');
       $(div).css('max-width','80 px !important');
-      $(div).css('border-radius','0px 0px 1em 0px');
+      $(div).css('border-radius','.5em');
       //$(div).attr('id', 'draggable');
       //$(div).css('z-index','100');
       //$(div).css('width','auto-resize');
-      $(div).css('background-color','#0066CC');
-      $(div).append('<p>Selected</p>');
+      $(div).css('background-color','#6495ed');
+      $(div).css('color','#fff');
       $(div).draggable({
         //axis:'y',
         //delay:60,
@@ -37,6 +38,20 @@ $(document).ready(function() {
         return false;
       });
     $(this).append(div);
+    moment = new Date(parseInt($(this).attr('id').split('_')[1])*1000);
+    hours = moment.getHours();
+    meridian = 'pm';
+    if (hours==0) {
+      showHours='00';
+      meridian = 'am';
+    } else if (hours>12) {
+      showHours=hours-12;
+      meridian = 'pm';
+    } else {
+      showHours=hours;
+    }
+
+    $(div).append(showHours+':'+moment.getMinutes()+' '+meridian);
   });
   $(function() {
     $( ".dayCell" ).droppable({

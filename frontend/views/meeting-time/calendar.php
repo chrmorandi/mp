@@ -8,7 +8,7 @@
   $start_hour = 0;
   $numberOfDays=30;
   $current_hour = date('G');
-  $midnight = mktime(0, 0, 0);
+  $midnight = strtotime('today midnight')-24*3600; // mktime(0, 0, 0);
   $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday'];
 ?>
 <div class="calendarContainer">
@@ -24,12 +24,12 @@
                   for ($index_day=1; $index_day<$numberOfDays; $index_day++) {
                 ?>
                   <th>
-                    <div class="nameMonth"><?= date('M',$current_time);?></div>
-                    <div class="dayOfMonth"><?= date('j',$current_time);?></div>
-                    <?= $days[date('w',$current_time)];?>
+                    <div class="nameMonth"><?= date('M',$midnight);?></div>
+                    <div class="dayOfMonth"><?= date('j',$midnight);?></div>
+                    <?= $days[date('w',$midnight)];?>
                   </th>
                 <?php
-                  $current_time+=24*3600; // add one day
+                  $midnight+=24*3600; // add one day
                 }
                 ?>
               </tr>
@@ -37,17 +37,19 @@
             <tbody>
             <?php
               for($hour_index=7;$hour_index<24;$hour_index++) {
+                $temp_7am = $midnight+(($hour_index-1)*3600);
                 ?>
                 <tr>
-                  <td class="hourOfDay"><?= date('g a',$midnight+($hour_index*3600))?></td>
+                  <td class="hourOfDay"><?= date('g a',$temp_7am)?></td>
                   <?php
                   for ($index_day=1; $index_day<$numberOfDays;$index_day++) {
+                    $temp=$temp_7am+(24*3600*$index_day-1);
                     ?>
                     <td>
-                      <div class="dayCell"></div>
-                      <div class="dayCell"></div>
-                      <div class="dayCell"></div>
-                      <div class="dayCell"></div>
+                      <div id="dc_<?= $temp ?>" class="dayCell"></div>
+                      <div id="dc_<?= $temp+900 ?>" class="dayCell"></div>
+                      <div id="dc_<?= $temp+1800 ?>" class="dayCell"></div>
+                      <div id="dc_<?= $temp+2700 ?>" class="dayCell"></div>
                     </td>
                     <?php
                   }
