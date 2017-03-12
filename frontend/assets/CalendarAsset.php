@@ -8,8 +8,8 @@ class CalendarAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
       'css/bootstrap-combobox.css',
-      'css/calendar.css',
       'css/jquery-ui.css',
+      'css/calendar.css',
     ];
     public $js = [
       'js/jquery-ui.js',

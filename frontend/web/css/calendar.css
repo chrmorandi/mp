@@ -156,3 +156,12 @@ a.ui-button:active,
 .ui-dialog .ui-dialog-content {
   padding: .5em .2em !important;
 }
+
+.ui-dialog .ui-dialog-titlebar {
+  padding: .1em 1em !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  margin-top:0 ;
+  padding: .1em .1em 0 .4em;
+}
