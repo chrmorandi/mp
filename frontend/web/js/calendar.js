@@ -13,7 +13,7 @@ $(document).ready(function() {
       cursor: 'crosshair',
       cursorAt: { top: 200, left: 50 },
       snap:true,
-      snapMode:'inner',
+      snapMode:'both',
       snapTolerance:20,
       revert:  function(droppedElement) {
           var validDrop = droppedElement && droppedElement.hasClass("dayCell");
@@ -113,8 +113,8 @@ $( function() {
     var dialog, form,
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: $('.wrap').height()-110,
-      width: $('.wrap').width()-10,
+      height: $(window).height()-20,
+      width: $('.wrap').width()-20,
       modal: true,
       position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
       buttons: [
@@ -131,22 +131,26 @@ $( function() {
                 text: "Cancel",
                 click: function () {
                     $(this).dialog('close');
+                    $('body').removeClass('stop-scrolling');
                 }
             }
           ],
       close: function() {
+        $('body').removeClass('stop-scrolling');
       }
     });
     form = dialog.find( "form" ).on( "submit", function( event ) {
       event.preventDefault();
     });
 
-    $( "#create-user" ).button().on( "click", function() {
-      $( "#dialog-form" ).width($('.calendarContainer').width()-20);
+    $( "#buttonTime" ).button().on( "click", function() {
+      //$( ".calendarContainer" ).height($(window).height()-300);
+      //$( "#dialog-form" ).height($(window).height()-1000);
       $( ".calendarContainer" ).width($(document).width()-30);
-      $("table").width($('.calendarContainer').width());
+      $( ".calendarChooser #dialog-form" ).width($('.calendarContainer').width()-20);
+      $(".calendarChooser table").width($('.calendarContainer').width());
       dialog.dialog( "open" );
-      $("tbody").height($('#dialog-form').height()-40);
+      $(".calendarChooser tbody").height($('#dialog-form').height()-40);
       $('.calendarChooser tbody').scroll(function(e) { //detect a scroll event on the tbody
         /*
         Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
@@ -158,6 +162,7 @@ $( function() {
         $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
       });
     });
+$('body').addClass('stop-scrolling');
   } );
 
 // attach drag handle and configure resizable event
