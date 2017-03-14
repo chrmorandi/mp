@@ -92,7 +92,7 @@ $(document).ready(function() {
             items.splice( $.inArray(ui.draggable.parent().attr("id"),items) ,1);
             // move the draggable to the droppable cell
             var element = ui.draggable.detach();
-            element.css('width','80px');
+            //element.css('width','79.5px');
             $(element).css('top','0');
             $(element).css('left','0');
             $(this).prepend(element);
