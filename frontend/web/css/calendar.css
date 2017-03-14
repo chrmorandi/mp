@@ -105,7 +105,7 @@ td .dayCell {
     margin:0px;
     color:#fff;
     font-size: .8em;
-    max-height:80px;
+    /*max-height:80px;*/
     z-index:0;
     border-bottom: 1px solid #d3d3d3;
 }
@@ -147,7 +147,6 @@ a.ui-button:active,
 	border: 1px solid yellow !important;
 	background: yellow !important;
   display:block;
-
   overflow-y: visible;
   max-width:80px !important;
 }

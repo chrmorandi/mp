@@ -1,4 +1,5 @@
 var items=[];
+var init_duration = 0;
 $(document).ready(function() {
   var loadThese=[];
   $.each(loadThese , function(i, val) {
@@ -38,7 +39,6 @@ $(document).ready(function() {
    items.push('c_'+val);
    $(div).append(calcStr($('#c_'+val)));
    $('#c_'+val).append(div);
-
   });
   $('td .dayCell').click(function() {
       var div = document.createElement('div');
@@ -69,14 +69,44 @@ $(document).ready(function() {
                   }
               }
       });
-      $(div).click(function() {
-        $(div).addClass("hidden");
-        items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
+      var divHandle = document.createElement('div');
+      $(divHandle).addClass("ui-resizable-s");
+      $(divHandle).addClass("ui-resizable-handle");
+      $(div).append($(divHandle));
+      $(div).addClass("resizable");
+      //console.log($('.draggable').height()+' '+$('.draggable').width());
+      $(div).resizable({
+        alsoResize: ".draggable",
+        handles: {'s': $(div).find('.ui-resizable-s')},
+        minWidth:$(this).parents().width(),
+        minHeight:$(this).parents().height()/4,
+        maxWidth:$(this).parents().width(),
+        maxHeight:$(this).parents().height()*8+16,
+        grid: [ 0,$(this).parents().height()/4 ],
+        //distance: 10
+      });
+      console.log($(this).parents().height());
+      $(div).click(function(e) {
+        var $this = $(div); // or use $(e.target) in some cases;
+        var offset = $this.offset();
+        var height = $this.height();
+        var posY = offset.top;
+        var y = e.pageY-posY;
+            y = parseInt(y/height*100,10);
+            y = y<0?0:y;
+            y = y>100?100:y;
+        //console.log(x+'% '+y+'%');
+        if (y<95) {
+          $(div).addClass("hidden");
+          items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
+        }
         return false;
       });
     $(this).append(div);
      items.push($(this).attr('id'));
-    $(div).append(calcStr($(this)));
+    $(div).prepend(calcStr($(this)));
+
+
   });
 
   $(function() {
