@@ -6,6 +6,7 @@
 
 .calendarChooser {
     border-bottom:1px solid black;
+    margin-left:2px;
 }
  table {
   position: relative;
@@ -51,7 +52,7 @@ thead th:nth-child(1) {
   border-left:none;
   border-bottom:1px solid black;
   height:37px;
-  min-width: 40px; /* repeat in td child(1) */
+  min-width: 38px; /* repeat in td child(1) */
 }
 
 thead th:nth-child(2) {/*second cell in the header*/
@@ -65,11 +66,12 @@ tbody tr {
 tbody td {
   background-color: #f4f4f4;
   min-width: 80px;
+  min-height:80px;
   border: 1px solid #222;
   border-left: 0px solid #222;
-  height:50px;
   overflow:visible;
-
+  margin:0;
+  padding:0;
 }
 
 tbody tr:nth-child(1) td {
@@ -88,7 +90,7 @@ tbody tr td:nth-child(1) {
   position: relative;
   border:none;
   background-color: #fff;
-  min-width: 40px;
+  min-width: 38px;
   z-index:100;
   height:80px;
   max-height:80px;
@@ -147,13 +149,12 @@ a.ui-button:active,
 	border: 1px solid yellow !important;
 	background: yellow !important;
   display:block;
-  overflow-y: visible;
   max-width:80px !important;
 }
 
 .ui-dialog {z-index: 1031 !important;}
 .ui-dialog .ui-dialog-content {
-  padding: .5em .2em !important;
+  padding: .5em .2em .4em .2em !important;
 }
 
 .ui-dialog .ui-dialog-titlebar {
@@ -163,4 +164,12 @@ a.ui-button:active,
 .ui-dialog .ui-dialog-buttonpane {
   margin-top:0 ;
   padding: .1em .1em 0 .4em;
+}
+
+.ui-resizable-handle img {
+  margin-top:-7px;
+}
+
+.resizable {
+  width: 80px !important;
 }
