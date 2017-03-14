@@ -1,3 +1,8 @@
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
 .calendarContainer {
   width:auto;
   border:1px solid black;
@@ -16,7 +21,6 @@
   border-collapse: collapse;
 }
 
-/*thead*/
 .calendarChooser thead {
   position: relative;
   display: block; /*seperates the header from the body allowing it to be positioned*/
@@ -24,7 +28,6 @@
   overflow: visible;
 }
 
-/*tbody*/
 .calendarChooser tbody {
   position: relative;
   display: block; /*seperates the tbody from the header*/
@@ -81,9 +84,6 @@
   border-bottom:0px;
 }
 
-.calendarChooser tbody tr:nth-child(1) td:nth-child(1) {
-}
-
 .calendarChooser tbody tr td:nth-child(1) {
   /*the first cell in each tr*/
   display: block; /*seperates the first column from the tbody*/
@@ -107,14 +107,12 @@
     margin:0px;
     color:#fff;
     font-size: .8em;
-    /*max-height:80px;*/
     z-index:0;
     border-bottom: 1px solid #d3d3d3;
 }
 
 .calendarChooser td .dayCell:nth-child(4) {
   border-bottom: none;
-
 }
 
 .calendarChooser .dayOfMonth {
@@ -132,8 +130,9 @@
   margin-bottom:0px;
 }
 
-#droppable,#droppable2 { width: 100px; max-height: 20px; padding: 0.5em;; margin: 10px; }
-#draggable, #draggable-nonvalid { width: 50px; height: 50px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+#droppable {
+  max-height: 20px;
+}
 
 /* for ui pop up */
 .ui-draggable, .ui-droppable {
@@ -149,7 +148,7 @@ a.ui-button:active,
 	border: 1px solid yellow !important;
 	background: yellow !important;
   display:block;
-  max-width:80px !important;
+  width:80px !important;
 }
 
 .ui-dialog {z-index: 1031 !important;}
@@ -171,10 +170,5 @@ a.ui-button:active,
 }
 
 .resizable {
-  width: 79px !important;
-}
-
-.stop-scrolling {
-  height: 100%;
-  overflow: hidden;
+  width: 80px !important;
 }

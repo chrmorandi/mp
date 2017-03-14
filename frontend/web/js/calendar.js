@@ -1,112 +1,116 @@
 var items=[]; // array of timestamps
 var duration=60; // default duration in minutes
 var max_limit = 25;
+var loadSolid=[1490194800,1490108400]; // existing, unmovable
+var loadFlex=[1490367600,1489939200]; // existing, flexible
+
 // load pre-existing times
 $(document).ready(function() {
-  var loadThese=[];
-  $.each(loadThese , function(i, val) {
-    var div = document.createElement('div');
+  // prepare dialog
+  $( function() {
+      var dialog, form,
+      dialog = $( "#dialog-form" ).dialog({
+        autoOpen: false,
+        height: $(window).height()-20,
+        width: $('.wrap').width()-20,
+        modal: true,
+        position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
+        buttons: [
+              {
+                  id: "Save",
+                  text: "Save times",
+                  click: function () {
+                      alert('Duration: '+duration+' mins. Timestamps:'+items.toString());
+                      dialog.dialog( "close" );
+                  }
+              },
+              {
+                  id: "Cancel",
+                  text: "Cancel",
+                  click: function () {
+                      $(this).dialog('close');
+                  }
+              }
+            ],
+        close: function() {
+          $('body').removeClass('stop-scrolling');
+        },
+        open: function() {
+          $('body').addClass('stop-scrolling');
+        }
+      });
+      form = dialog.find( "form" ).on( "submit", function( event ) {
+        event.preventDefault();
+      });
+
+      $( "#buttonTime" ).button().on( "click", function() {
+        //$( ".calendarContainer" ).height($(window).height()-300);
+        //$( "#dialog-form" ).height($(window).height()-1000);
+        $( ".calendarContainer" ).width($(document).width()-30);
+        $( ".calendarChooser #dialog-form" ).width($('.calendarContainer').width()-20);
+        $(".calendarChooser table").width($('.calendarContainer').width());
+        dialog.dialog( "open" );
+        $(".calendarChooser tbody").height($('#dialog-form').height()-40);
+        $('.calendarChooser tbody').scroll(function(e) { //detect a scroll event on the tbody
+          /*
+          Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
+          of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain
+          it's relative position at the left of the table.
+          */
+          $('.calendarChooser thead').css("left", -$(".calendarChooser tbody").scrollLeft()); //fix the thead relative to the body scrolling
+          $('.calendarChooser thead th:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first cell of the header
+          $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
+        });
+      });
+    });
+
+  // preload existing timeslots
+  // to do load with duration
+  $.each(loadSolid , function(i, val) {
     // to do - when loading prior times, they can't be moved, different color
-    $(div).addClass("draggable");
-    addStyles($(div));
-    $(div).draggable({
-      grid: [ 80, 20 ],
-      cursor: 'crosshair',
-      cursorAt: { top: 200, left: 50 },
-      snap:true,
-      snapMode:'both',
-      snapTolerance:20,
-      revert:  function(droppedElement) {
-          var validDrop = droppedElement && droppedElement.hasClass("dayCell");
-          if (!validDrop) {
-            var element = $(this);
-            $(element).css('top','0');
-            $(element).css('left','0');
-          }
-      }
-    });
-    attachHandle(div);
-    $(div).click(function(e) {
-      y= getVertical($(div),e);
-      if (y<95) {
-        $(div).addClass("hidden");
-        items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
-        $(div).remove();
-      }
-      return false;
-    });
-   items.push('c_'+val);
-   $(div).append(calcStr($('#c_'+val)));
-   $('#c_'+val).append(div);
+    addTimeslot($('#c_'+val),'solid');
   });
+
+  $.each(loadFlex , function(i, val) {
+    // to do - when loading prior times, they can't be moved, different color
+    addTimeslot($('#c_'+val),'new');
+  });
+
+  // add timeslot to cell when clicked
   $('td .dayCell').click(function() {
       if ($('.draggable').length>max_limit) {
-        alert ('sorry');
+        alert ('Sorry, we have a limit on the number of date times per meeting.');
         return;
       }
-      var div = document.createElement('div');
-      $(div).addClass("draggable");
-      if ($('.draggable').length==0) {
-        $(div).css('height',$(this).parents().height());
-      } else {
-        $(div).css('height',$('.draggable').first().height());
-      }
-      addStyles($(div));
-      $(div).draggable({
-        grid: [ 80, 20 ],
-        cursor: 'crosshair',
-        cursorAt: { top: 200, left: 50 },
-        snap:true,
-        snapMode:'inner',
-        snapTolerance:20,
-        revert:  function(droppedElement) {
-            var validDrop = droppedElement && droppedElement.hasClass("dayCell");
-            if (!validDrop) {
-              var element = $(this);
-              $(element).css('top','0');
-              $(element).css('left','0');
-            }
-        }
-      });
-      attachHandle(div);
-      $(div).click(function(e) {
-        y= getVertical($(div),e);
-        if (y<95) {
-          $(div).addClass("hidden");
-          items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
-          $(div).remove();
-        }
-        return false;
-      });
-    $(this).append(div);
-    items.push($(this).attr('id'));
-    $(div).prepend(calcStr($(this)));
+      addTimeslot($(this));
   });
+
   $(function() {
     $( ".dayCell" ).droppable({
       classes: {
-      'accept': ".draggable",
-      //'ui-droppable-active': "ui-state-hover",
-      'ui-droppable-hover': "ui-state-active"
+      'accept': ".flexibles",
+      'ui-droppable-hover': "ui-state-active",
+      //'ui-droppable-active': "ui-state-hover"
       },
       tolerance: "pointer",
         drop: function( event, ui ) {
           // if less than three elements in a cell
-          if ($(this).children().size()<3) {
+          if ($(this).children().size()==0) {
             // cell id to add: $(this).attr('id')
             items.push($(this).attr('id'));
             // cell id to remove: ui.draggable.parent().attr("id")
             items.splice( $.inArray(ui.draggable.parent().attr("id"),items) ,1);
             // move the draggable to the droppable cell
             var element = ui.draggable.detach();
-            //element.css('width','79.5px');
             $(element).css('top','0');
             $(element).css('left','0');
+            //element.css('width','79.5px');
             $(this).prepend(element);
             // update the text label
             $(element).html(calcStr($(this)));
             attachHandle(element);
           } else {
+            // return to base
             var element = ui.draggable;
             $(element).css('top','0');
             $(element).css('left','0');
@@ -116,85 +120,113 @@ $(document).ready(function() {
   });
 });
 
-$( function() {
-    var dialog, form,
-    dialog = $( "#dialog-form" ).dialog({
-      autoOpen: false,
-      height: $(window).height()-20,
-      width: $('.wrap').width()-20,
-      modal: true,
-      position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
-      buttons: [
-            {
-                id: "Save",
-                text: "Save times",
-                click: function () {
-                    alert('Duration: '+duration+' mins. Timestamps:'+items.toString());
-                    dialog.dialog( "close" );
-                }
-            },
-            {
-                id: "Cancel",
-                text: "Cancel",
-                click: function () {
-                    $(this).dialog('close');
-                }
-            }
-          ],
-      close: function() {
-        $('body').removeClass('stop-scrolling');
+  function addTimeslot(objParent,slotType='new') {
+      var div = document.createElement('div');
+      if (slotType=='new') {
+        // click and remove
+        $(div).click(function(e) {
+          y= getVertical($(div),e);
+          // ignore bottom area clicks
+          if (y<95) {
+            $(div).addClass("hidden");
+            items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
+            $(div).remove();
+          }
+          return false;
+        });
+        $(div).addClass("draggable");
+        $(div).addClass("flexibles");
+        if ($('.flexibles').length==0) {
+          $(div).css('height',duration/15*20);
+        } else {
+          $(div).css('height',$('.flexibles').first().height()+8);
+        }
+        $(div).draggable({
+          grid: [ 80, 20 ],
+          cursor: 'crosshair',
+          cursorAt: { top: 200, left: 50 },
+          snap:true,
+          snapMode:'inner',
+          snapTolerance:20,
+          revert:  function(droppedElement) {
+              var validDrop = droppedElement && droppedElement.hasClass("dayCell");
+              if (!validDrop) {
+                var element = objParent;
+                $(element).css('top','0');
+                $(element).css('left','0');
+              }
+          }
+        });
+        // end new slots
+      }  else {
+          $(div).css('height',duration/15*20);
       }
-    });
-    form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-    });
-
-    $( "#buttonTime" ).button().on( "click", function() {
-      //$( ".calendarContainer" ).height($(window).height()-300);
-      //$( "#dialog-form" ).height($(window).height()-1000);
-      $( ".calendarContainer" ).width($(document).width()-30);
-      $( ".calendarChooser #dialog-form" ).width($('.calendarContainer').width()-20);
-      $(".calendarChooser table").width($('.calendarContainer').width());
-      dialog.dialog( "open" );
-      $(".calendarChooser tbody").height($('#dialog-form').height()-40);
-      $('.calendarChooser tbody').scroll(function(e) { //detect a scroll event on the tbody
-        /*
-        Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
-        of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain
-        it's relative position at the left of the table.
-        */
-        $('.calendarChooser thead').css("left", -$(".calendarChooser tbody").scrollLeft()); //fix the thead relative to the body scrolling
-        $('.calendarChooser thead th:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first cell of the header
-        $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
-      });
-    });
-$('body').addClass('stop-scrolling');
-  } );
+      addStyles($(div),slotType);
+      attachHandle(div);
+      objParent.append(div);
+      items.push(objParent.attr('id'));
+      $(div).prepend(calcStr(objParent));
+  }
 
 // attach drag handle and configure resizable event
-  function attachHandle(obj) {
-    var divHandle = document.createElement('div');
-    $(divHandle).addClass("ui-resizable-s");
-    $(divHandle).addClass("ui-resizable-handle");
-    $(divHandle).addClass("centered");
-    var imgHandle = document.createElement('img');
-    $(imgHandle).attr("src", "/img/resize-handle.gif"); // mp/
-    $(divHandle).append($(imgHandle));
-    $(obj).append($(divHandle));
-    $(obj).addClass("resizable");
-    $(obj).resizable({
-      alsoResize: ".draggable",
-      handles: {'s': $(obj).find('.ui-resizable-s')},
-      minWidth:80,
-      minHeight:20,
-      maxHeight:$(this).parents().height()*8,
-      grid: [ 0,$(this).parents().height()/4 ],
-      //distance: 10
-      stop: function( event, ui ) {
-        duration = Math.ceil(($(obj).height()/20*15)/15)*15;
-      },
-    });
+function attachHandle(obj) {
+  var divHandle = document.createElement('div');
+  $(divHandle).addClass("ui-resizable-s");
+  $(divHandle).addClass("ui-resizable-handle");
+  $(divHandle).addClass("centered");
+  var imgHandle = document.createElement('img');
+  $(imgHandle).attr("src", "/img/resize-handle.gif"); // mp/
+  $(divHandle).append($(imgHandle));
+  $(obj).append($(divHandle));
+  $(obj).addClass("resizable");
+  $(obj).resizable({
+    alsoResize: ".resizable",
+    handles: {'s': $(obj).find('.ui-resizable-s')},
+    minWidth:80,
+    minHeight:20,
+    maxHeight:$(this).parents().height()*8,
+    grid: [ 0,$(this).parents().height()/4 ],
+    //distance: 10
+    stop: function( event, ui ) {
+      duration = Math.ceil(($(obj).height()/20*15)/15)*15;
+    },
+  });
+}
+
+// calculate percentage placement of click to remove
+// prevents unwanted removals after a resize event
+function getVertical(obj,e) {
+  var $this = $(obj); // or use $(e.target) in some cases;
+  var offset = $this.offset();
+  var height = $this.height();
+  var posY = offset.top;
+  var y = e.pageY-posY;
+      y = parseInt(y/height*100,10);
+      y = y<0?0:y;
+      y = y>100?100:y;
+  return y;
+}
+
+function addStyles(obj,slotType) {
+  $(obj).css('display','block');
+  $(obj).css('border','1px solid black');
+  $(obj).css('padding','3px');
+  $(obj).css('margin','0');
+  $(obj).css('overflow-y','visible');
+  $(obj).css('min-width','80px !important');
+  $(obj).css('max-width','80px !important');
+  $(obj).css('min-height','20px');
+  $(obj).css('height','80px !important');
+  $(obj).css('border-radius','.5em');
+  $(obj).css('color','#fff');
+  if (slotType=='new') {
+    slotColor = '#6495ED';
+  } else {
+    slotColor = '#A2B5CD';
+    $(obj).css('height','80px !important');
   }
+  $(obj).css('background-color',slotColor);
+}
 
 // calculate the string to display
 // to do - change back to displaying hours for DST issue
@@ -222,31 +254,4 @@ function calcStr(obj) {
   }
   displayDate = showHours+':'+minutes+' '+meridian;
   return displayDate;
-}
-
-// calculate percentage placement of click to remove
-// prevents unwanted removals after a resize event
-function getVertical(obj,e) {
-  var $this = $(obj); // or use $(e.target) in some cases;
-  var offset = $this.offset();
-  var height = $this.height();
-  var posY = offset.top;
-  var y = e.pageY-posY;
-      y = parseInt(y/height*100,10);
-      y = y<0?0:y;
-      y = y>100?100:y;
-  return y;
-}
-
-function addStyles(obj) {
-  $(obj).css('display','block');
-  $(obj).css('border','1px solid black');
-  $(obj).css('padding','3px');
-  $(obj).css('margin','0');
-  $(obj).css('overflow-y','visible');
-  $(obj).css('min-width','80 px !important');
-  $(obj).css('max-width','80 px !important');
-  $(obj).css('border-radius','.5em');
-  $(obj).css('background-color','#6495ed');
-  $(obj).css('color','#fff');
 }
