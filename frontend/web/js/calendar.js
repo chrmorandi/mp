@@ -167,7 +167,7 @@ $( function() {
     $(divHandle).addClass("ui-resizable-handle");
     $(divHandle).addClass("centered");
     var imgHandle = document.createElement('img');
-    $(imgHandle).attr("src", "/mp/img/resize-handle.gif");
+    $(imgHandle).attr("src", "/img/resize-handle.gif"); // mp/
     $(divHandle).append($(imgHandle));
     $(obj).append($(divHandle));
     $(obj).addClass("resizable");
