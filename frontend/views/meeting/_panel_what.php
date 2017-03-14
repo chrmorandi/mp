@@ -8,7 +8,7 @@ use frontend\models\Meeting;
   <div id="jumpActivity"></div>
   <div class="panel-heading" role="tab" >
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10"><h4  class="meeting-view"><?= Yii::t('frontend','Subject')?></h4>
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4  class="meeting-view"><?= Yii::t('frontend','What')?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhat" aria-expanded="true" aria-controls="collapseWhat"></a> -->
         <?php
           if ($model->status >= Meeting::STATUS_CONFIRMED) {

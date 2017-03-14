@@ -24,11 +24,6 @@ echo $this->render('_guide_alert');
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
-  <?= $this->render('./_panel_what', [
-      'model'=>$model,
-      'isOwner' => $isOwner,
-  ]); ?>
-
         <?php //who
           echo $this->render('../participant/_panel', [
               'model'=>$model,
@@ -37,6 +32,10 @@ echo $this->render('_guide_alert');
               'friends'=>$friends,
           ]);
          ?>
+         <?= $this->render('./_panel_what', [
+             'model'=>$model,
+             'isOwner' => $isOwner,
+         ]); ?>
          <?php
            if ($model->is_activity == $model::IS_ACTIVITY) {
              echo $this->render('../meeting-activity/_panel', [

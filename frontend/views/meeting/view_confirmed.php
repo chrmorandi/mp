@@ -61,11 +61,7 @@ echo $this->render('_timezone_alerts');
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane <?= ($tab=='details'?'active':'') ?> vertical-pad" id="details">
-      <?php  // what
-      echo $this->render('./_panel_what', [
-          'model'=>$model,
-          'isOwner' => $isOwner,
-      ]) ?>
+
       <?php
     echo $this->render('../participant/_panel', [
         'model'=>$model,
@@ -74,7 +70,11 @@ echo $this->render('_timezone_alerts');
         'friends'=>$friends,
     ]);
    ?>
-
+   <?php  // what
+   echo $this->render('./_panel_what', [
+       'model'=>$model,
+       'isOwner' => $isOwner,
+   ]) ?>
    <?php if ($activity!==false) { ?>
      <div class="panel panel-default">
        <!-- Default panel contents -->

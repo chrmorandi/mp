@@ -13,9 +13,9 @@ switch (mode) {
       }
     });
     steps.push(['.nav-tabs top','Welcome','Allow me to show you how to plan a '+title+'. <p>If you prefer, you can <a href="javascript::return false;" onclick="turnOffGuide();">turn off this guide</a>.<br /><br />']);
-    steps.push(['#headingWhat top','What is your meeting about?','You can customize the <strong>Subject</strong> for your '+title+'. We\'ll use it for the invitation and reminder emails.<p>Click the pencil button to edit the subject.</p>']);
     steps.push(['#headingWho top','Who would you like to invite?','You can add one person or a group of people to your '+title+'. <p>Click the person button to add participants.</p>']);
-    steps.push(['#invitation-url top','Inviting by email','Alternately, you can copy the planning link and email it to your participant(s)']);
+    steps.push(['#invitation-url bottom','Inviting by email','Alternately, you can copy the planning link and email it to your participant(s)']);
+    steps.push(['#headingWhat bottom','What is your meeting about?','You can customize the subject of your '+title+'. We\'ll use it for the invitation and reminder emails.<p>Click the pencil button to edit the subject.</p>']);
     if ($('#headingActivity').length>0) {
       steps.push(['#headingActivity top','What do you want to do?','You can suggest one or more activity ideas. With multiple ideas, your participants can help you select their favorite. <p>Click the plus button to suggest activities.</p>']);
     }
