@@ -1,5 +1,6 @@
 var items=[]; // array of timestamps
 var duration=60; // default duration in minutes
+var max_limit = 25;
 // load pre-existing times
 $(document).ready(function() {
   var loadThese=[];
@@ -30,6 +31,7 @@ $(document).ready(function() {
       if (y<95) {
         $(div).addClass("hidden");
         items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
+        $(div).remove();
       }
       return false;
     });
@@ -38,6 +40,10 @@ $(document).ready(function() {
    $('#c_'+val).append(div);
   });
   $('td .dayCell').click(function() {
+      if ($('.draggable').length>max_limit) {
+        alert ('sorry');
+        return;
+      }
       var div = document.createElement('div');
       $(div).addClass("draggable");
       if ($('.draggable').length==0) {
@@ -68,6 +74,7 @@ $(document).ready(function() {
         if (y<95) {
           $(div).addClass("hidden");
           items.splice( $.inArray($(div).parent().attr("id"),items) ,1);
+          $(div).remove();
         }
         return false;
       });
@@ -131,7 +138,6 @@ $( function() {
                 text: "Cancel",
                 click: function () {
                     $(this).dialog('close');
-                    $('body').removeClass('stop-scrolling');
                 }
             }
           ],
