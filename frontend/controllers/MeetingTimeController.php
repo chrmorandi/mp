@@ -39,15 +39,10 @@ class MeetingTimeController extends Controller
                             // allow authenticated users
                             [
                                 'allow' => true,
-                                'actions' => ['calendars','create','update','delete','choose','view','remove','gettimes','add','inserttime','loadchoices'],
+                                'actions' => ['create','update','delete','choose','view','remove','gettimes','inserttime','loadchoices','addmany'],
                                 'roles' => ['@'],
                             ],
                             // everything else is denied
-                            [
-                                'allow' => true,
-                                'actions' => ['calendars'],
-                                'roles' => ['?'],
-                            ],
                         ],
                     ],
         ];
@@ -126,7 +121,6 @@ class MeetingTimeController extends Controller
         } else {
           $model->start = date('M d, Y',strtotime('today midnight')+3600*24*3);
           $model->start_time = '';//Date('g:i a',time()+3*24*3600+9*60);
-
           return $this->render('create', [
               'model' => $model,
             'title' => $title,
@@ -269,6 +263,30 @@ class MeetingTimeController extends Controller
       return true;
     }
 
+    public function actionAddmany($id,$times,$duration) {
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      //$timezone = MiscHelpers::fetchUserTimezone(1);
+      date_default_timezone_set($timezone);
+      //update duration for all prior meetingtimes
+      MeetingTime::updateAll(['duration'=>$duration], 'meeting_id='.$id);
+      // add new meeting times
+      $times = json_decode(urldecode($times));
+      foreach($times as $t) {
+        $tstamp = explode('_',$t)[1];
+        $model = new MeetingTime();
+        $model->start = urldecode($tstamp);
+        $model->tz_current = $timezone;
+        $model->duration = urldecode($duration);
+        $model->meeting_id= $id;
+        $model->suggested_by= Yii::$app->user->getId();
+        $model->status = MeetingTime::STATUS_SUGGESTED;
+        $model->end = $model->start + (60*$model->duration);
+        $model->save();
+      }
+      return $model->start.$model->duration.$model->id;
+    }
+
     public function actionInserttime($id) {
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $meeting_id = $id;
@@ -314,7 +332,6 @@ class MeetingTimeController extends Controller
           'model' =>$m,
           'timeProvider' => $timeProvider,
       ]);
-
       return $result;
     }
 

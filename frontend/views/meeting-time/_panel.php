@@ -29,7 +29,7 @@ use \kartik\switchinput\SwitchInput;
   </span></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
       if ($model->isOrganizer() || $model->meetingSettings->participant_add_date_time) { ?>
-        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Add possible times','id'=>'buttonTime','onclick'=>'showTime();']); ?>
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Add possible times','id'=>'buttonTime']); ?>
         <?php
       }
     ?>
@@ -66,6 +66,14 @@ use \kartik\switchinput\SwitchInput;
        ]) ?>
   <?php endif; ?>
   </table>
+  <?php
+    if ($timeProvider->getTotalCount()>0) {
+      $duration=$timeProvider->getModels()[0]['duration'];
+    } else {
+      $duration=60;
+    }
+    echo Html::hiddenInput('meeting_duration',$duration,['id'=>'meeting_duration']);
+  ?>
   </div>
   <div id="when-choices">
   <?php if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) { ?>

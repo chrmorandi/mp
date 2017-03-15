@@ -1,3 +1,8 @@
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
 .calendarContainer {
   width:auto;
   border:1px solid black;
@@ -8,7 +13,7 @@
     border-bottom:1px solid black;
     margin-left:2px;
 }
- table {
+.calendarChooser table {
   position: relative;
   width: 100px;
   background-color: #f0f0f0;
@@ -16,16 +21,14 @@
   border-collapse: collapse;
 }
 
-/*thead*/
-thead {
+.calendarChooser thead {
   position: relative;
   display: block; /*seperates the header from the body allowing it to be positioned*/
   width: inherit;
   overflow: visible;
 }
 
-/*tbody*/
-tbody {
+.calendarChooser tbody {
   position: relative;
   display: block; /*seperates the tbody from the header*/
   width: inherit;
@@ -33,7 +36,7 @@ tbody {
   overflow: scroll;
 }
 
-thead th {
+.calendarChooser thead th {
   border: 1px solid #222;
   min-width: 80px;
   padding-left: 5px;
@@ -43,7 +46,7 @@ thead th {
   font-weight:normal;
 }
 
-thead th:nth-child(1) {
+.calendarChooser thead th:nth-child(1) {
   /*first cell in the header: Hours of day */
   position: relative;
   display: block; /*seperates the first cell in the header from the header*/
@@ -55,15 +58,15 @@ thead th:nth-child(1) {
   min-width: 38px; /* repeat in td child(1) */
 }
 
-thead th:nth-child(2) {/*second cell in the header*/
+.calendarChooser thead th:nth-child(2) {/*second cell in the header*/
   border-left:none;
 }
 
-tbody tr {
+.calendarChooser tbody tr {
   height:80px;
 }
 
-tbody td {
+.calendarChooser tbody td {
   background-color: #f4f4f4;
   min-width: 80px;
   min-height:80px;
@@ -74,17 +77,14 @@ tbody td {
   padding:0;
 }
 
-tbody tr:nth-child(1) td {
+.calendarChooser tbody tr:nth-child(1) td {
   border-left: 0px solid #222;
   border-right: 1px solid #222;
   border-top:0px;
   border-bottom:0px;
 }
 
-tbody tr:nth-child(1) td:nth-child(1) {
-}
-
-tbody tr td:nth-child(1) {
+.calendarChooser tbody tr td:nth-child(1) {
   /*the first cell in each tr*/
   display: block; /*seperates the first column from the tbody*/
   position: relative;
@@ -102,26 +102,24 @@ tbody tr td:nth-child(1) {
   font-size:.85em;
 }
 
-td .dayCell {
+.calendarChooser td .dayCell {
     height:20px;
     margin:0px;
     color:#fff;
     font-size: .8em;
-    /*max-height:80px;*/
     z-index:0;
     border-bottom: 1px solid #d3d3d3;
 }
 
-td .dayCell:nth-child(4) {
+.calendarChooser td .dayCell:nth-child(4) {
   border-bottom: none;
-
 }
 
-.dayOfMonth {
+.calendarChooser .dayOfMonth {
   font-weight: bold;
   font-size:14px;
   margin-bottom:0px;
-  float:left:
+  float:left;
 }
 
 .nameMonth {
@@ -132,8 +130,9 @@ td .dayCell:nth-child(4) {
   margin-bottom:0px;
 }
 
-#droppable,#droppable2 { width: 100px; max-height: 20px; padding: 0.5em;; margin: 10px; }
-#draggable, #draggable-nonvalid { width: 50px; height: 50px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+#droppable {
+  max-height: 20px;
+}
 
 /* for ui pop up */
 .ui-draggable, .ui-droppable {
@@ -149,7 +148,7 @@ a.ui-button:active,
 	border: 1px solid yellow !important;
 	background: yellow !important;
   display:block;
-  max-width:80px !important;
+  width:80px !important;
 }
 
 .ui-dialog {z-index: 1031 !important;}
@@ -171,5 +170,5 @@ a.ui-button:active,
 }
 
 .resizable {
-  width: 79px !important;
+  width: 80px !important;
 }

@@ -20,7 +20,6 @@ class CalendarAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
-
     public $publishOptions = [];
 }
 ?>

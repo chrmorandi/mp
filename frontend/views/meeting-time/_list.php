@@ -1,21 +1,19 @@
 <?php
-use yii\helpers\Html;
-use frontend\models\Meeting;
-use \kartik\switchinput\SwitchInput;
+  use yii\helpers\Html;
+  use frontend\models\Meeting;
+  use \kartik\switchinput\SwitchInput;
 ?>
 <tr > <!-- panel row -->
   <td >
     <table class="table-list"> <!-- list of times -->
       <tr>
-        <td class="table-list-first"> <!-- time & status -->
+        <td class="table-list-first" id="t_id_<?= $model->id ?>_<?= $model->start ?>"> <!-- time & status -->
           <?= Html::a(Meeting::friendlyDateFromTimestamp($model->start,$timezone),['/meeting-time/view','id'=>$model->id]); ?>
           <?php
             if ($whenStatus['text'][$model->id]<>'') {
             ?>
             <br /><span class="smallStatus">
-            <?php
-            echo $whenStatus['text'][$model->id];
-            ?>
+            <?= $whenStatus['text'][$model->id] ?>
           </span><br />
             <?php
             }
@@ -69,7 +67,6 @@ use \kartik\switchinput\SwitchInput;
                    }
                 ?>
               </td>
-              
             </tr>
           </table>
         </td> <!-- end col with table of switches -->

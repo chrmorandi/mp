@@ -201,6 +201,7 @@ echo $this->render('_timezone_alerts');
     ?>
 
 </div> <!-- end meeting view -->
+<input id="meeting_id" value="<?= $model->id; ?>" type="hidden">
 <?= Html::hiddenInput('url_prefix',MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
 <?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
 <?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>

@@ -216,6 +216,7 @@ class MeetingController extends Controller
       $participant = new Participant();
       $participant->meeting_id= $model->id;
       $friends = Friend::getFriendList(Yii::$app->user->getId());
+      /* calendartodo - might be removable */
       // prepare meeting time form
       $meetingTime = new MeetingTime();
       $meetingTime->tz_current = $timezone;
