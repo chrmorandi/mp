@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
-use frontend\assets\CalendarAsset;
+//use frontend\assets\CalendarAsset;
 use common\components\MiscHelpers;
-  CalendarAsset::register($this);
+  //CalendarAsset::register($this);
   $start_day = time();
   $current_time = $start_day;
   $start_hour = 0;

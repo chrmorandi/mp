@@ -570,6 +570,22 @@ function addTime(id) {
    refreshFinalize();
   }
 
+  function removeTime(id,timestamp) {
+    $.ajax({
+     url: $('#url_prefix').val()+'/meeting-time/removetime',
+     data: {
+       id: id,
+      },
+      type: 'GET',
+     success: function(data) {
+      $("#meeting-time-list").html(data).removeClass('hidden');
+       // remove the time row
+     },
+   });
+   refreshSend();
+   refreshFinalize();
+  }
+
 function getTimes(id) {
   $.ajax({
    url: $('#url_prefix').val()+'/meeting-time/gettimes',
@@ -594,6 +610,28 @@ function loadTimeChoices(id) {
      $('#when-choices').html(data);
    },
  });
+}
+
+function deliverTimes() {
+  // ajax submit subject and message
+  meeting_id = $('#meeting_id').val();
+  $('#meeting_duration').val(duration);
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-time/addmany',
+     data: {
+       id: meeting_id,
+       times: encodeURIComponent(JSON.stringify(addItems)),
+       //removed: encodeURIComponent(JSON.stringify(removeItems)),
+       duration:encodeURIComponent(duration),
+    },
+     success: function(data) {
+       loadTimeChoices(meeting_id);
+       insertTime(meeting_id);
+       // to do - remove times that were removed
+       displayAlert('timeMessage','timeMsg1');
+       return true;
+     }
+  });
 }
 
 function loadPlaceChoices(id) {
@@ -899,15 +937,3 @@ function updateNoteThread(id) {
       break;
     }
   }
-
- function toggleTimeAdvanced() {
-   if ($('#timeAdvanced').hasClass('hidden')) {
-     $("select#meetingtime-repeat_quantity").prop('selectedIndex', 2);
-      $('#timeAdvanced').removeClass('hidden');
-
-   } else {
-     $('#timeAdvanced').addClass('hidden');
-     $("select#meetingtime-repeat_quantity").prop('selectedIndex', 0);
-   }
-
-}

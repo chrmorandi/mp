@@ -66,6 +66,14 @@ use \kartik\switchinput\SwitchInput;
        ]) ?>
   <?php endif; ?>
   </table>
+  <?php
+    if ($timeProvider->getTotalCount()>0) {
+      $duration=$timeProvider->getModels()[0]['duration'];
+    } else {
+      $duration=60;
+    }
+    echo Html::hiddenInput('meeting_duration',$duration,['id'=>'meeting_duration']);
+  ?>
   </div>
   <div id="when-choices">
   <?php if ($timeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_date_time'])) { ?>
