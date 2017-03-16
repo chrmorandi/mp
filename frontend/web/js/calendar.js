@@ -35,10 +35,8 @@ $(document).ready(function() {
               }
             ],
         close: function() {
-          $('body').removeClass('stop-scrolling');
-          $('body').unbind('touchmove');
-          $('.wrap').css('position','static');
-          $('.wrap').css('overflow','visible');
+          $('document').removeClass('stop-scrolling');
+          $('document').unbind('touchmove');
           $('.resizable').each(function() {
            $(this).remove();
          });
@@ -60,10 +58,8 @@ $(document).ready(function() {
             $('.calendarChooser thead th:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first cell of the header
             $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
             });
-          $('body').addClass('stop-scrolling');
-          $('body').bind('touchmove',function(e){e.preventDefault()});
-          $('.wrap').css('position','fixed');
-          $('.wrap').css('overflow','hidden');
+          $('document').addClass('stop-scrolling');
+          $('document').bind('touchmove',function(e){e.preventDefault()});
           loadExistingTimes();
         }
       });
