@@ -35,8 +35,8 @@ $(document).ready(function() {
               }
             ],
         close: function() {
-          $('document').removeClass('stop-scrolling');
-          $('document').unbind('touchmove');
+          $('body').removeClass('stop-scrolling');
+          $('body').unbind('touchmove');
           $('.resizable').each(function() {
            $(this).remove();
          });
@@ -46,7 +46,12 @@ $(document).ready(function() {
           loadFlex.length=0;
         },
         open: function() {
-          $( ".calendarContainer" ).width($(document).width()-30);
+          $('.ui-dialog').css({
+              'left':'0px',
+              'width':'100%'
+          });
+
+          $( ".calendarContainer" ).width($(document).width()-0);
           $( ".calendarChooser #dialog-form" ).width($('.calendarContainer').width()-20);
           $(".calendarChooser table").width($('.calendarContainer').width());
           $(".calendarChooser tbody").height($('#dialog-form').height()-40);
@@ -58,8 +63,8 @@ $(document).ready(function() {
             $('.calendarChooser thead th:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first cell of the header
             $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
             });
-          $('document').addClass('stop-scrolling');
-          $('document').bind('touchmove',function(e){e.preventDefault()});
+          $('body').addClass('stop-scrolling');
+          $('body').bind('touchmove',function(e){e.preventDefault()});
           loadExistingTimes();
         }
       });

@@ -6,12 +6,10 @@
 .calendarContainer {
   width:auto;
   border:1px solid black;
-  padding:10px;
 }
 
 .calendarChooser {
     border-bottom:1px solid black;
-    margin-left:2px;
 }
 .calendarChooser table {
   position: relative;
@@ -32,7 +30,6 @@
   position: relative;
   display: block; /*seperates the tbody from the header*/
   width: inherit;
-  height:500px;
   overflow: scroll;
 }
 
@@ -151,7 +148,9 @@ a.ui-button:active,
   width:80px !important;
 }
 
-.ui-dialog {z-index: 1031 !important;}
+.ui-dialog {
+  z-index: 1031 !important;
+}
 .ui-dialog .ui-dialog-content {
   padding: .5em .2em .4em .2em !important;
 }
@@ -170,5 +169,5 @@ a.ui-button:active,
 }
 
 .resizable {
-  width: 80px !important;
+  width: 79px !important;
 }
