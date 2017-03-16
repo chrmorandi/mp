@@ -8,7 +8,6 @@ var loadFlex=[]; // existing, can be moved and removed
 
 // load pre-existing times
 $(document).ready(function() {
-
   // prepare dialog
   $( function() {
       var dialog, form,
@@ -37,7 +36,7 @@ $(document).ready(function() {
             ],
         close: function() {
           $('body').removeClass('stop-scrolling');
-          $('body').unbind('touchmove');
+          $('body').unbind('ontouchmove');
           $('.resizable').each(function() {
            $(this).remove();
          });
@@ -60,7 +59,7 @@ $(document).ready(function() {
             $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
             });
           $('body').addClass('stop-scrolling');
-          $('body').bind('touchmove',function(e){e.preventDefault()});
+          $('body').bind('ontouchmove',function(e){e.preventDefault()});
           loadExistingTimes();
         }
       });
