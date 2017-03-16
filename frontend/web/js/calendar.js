@@ -16,7 +16,8 @@ $(document).ready(function() {
         height: $(window).height()-20,
         width: $('.wrap').width()-20,
         modal: true,
-        position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
+        position: { my: "left top", at: "left top", of: $('body') },
+        //position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
         buttons: [
               {
                   id: "Save",
@@ -48,10 +49,10 @@ $(document).ready(function() {
         open: function() {
           $('.ui-dialog').css({
               'left':'0px',
-              'width':'100%'
+              'width':'100%',
+              'height':'100%',
           });
-
-          $( ".calendarContainer" ).width($(document).width()-0);
+          $( ".calendarContainer" ).width($(document).width()-10);
           $( ".calendarChooser #dialog-form" ).width($('.calendarContainer').width()-20);
           $(".calendarChooser table").width($('.calendarContainer').width());
           $(".calendarChooser tbody").height($('#dialog-form').height()-40);
