@@ -36,7 +36,9 @@ $(document).ready(function() {
             ],
         close: function() {
           $('body').removeClass('stop-scrolling');
-          $('body').unbind('ontouchmove');
+          $('body').unbind('touchmove');
+          $('.wrap').css('position','static');
+          $('.wrap').css('overflow','visible');
           $('.resizable').each(function() {
            $(this).remove();
          });
@@ -59,7 +61,9 @@ $(document).ready(function() {
             $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
             });
           $('body').addClass('stop-scrolling');
-          $('body').bind('ontouchmove',function(e){e.preventDefault()});
+          $('body').bind('touchmove',function(e){e.preventDefault()});
+          $('.wrap').css('position','fixed');
+          $('.wrap').css('overflow','hidden');
           loadExistingTimes();
         }
       });
