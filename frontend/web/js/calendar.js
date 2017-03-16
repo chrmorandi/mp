@@ -37,6 +37,7 @@ $(document).ready(function() {
             ],
         close: function() {
           $('body').removeClass('stop-scrolling');
+          $('body').unbind('touchmove');
           $('.resizable').each(function() {
            $(this).remove();
          });
@@ -59,6 +60,7 @@ $(document).ready(function() {
             $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
             });
           $('body').addClass('stop-scrolling');
+          $('body').bind('touchmove',function(e){e.preventDefault()});
           loadExistingTimes();
         }
       });
@@ -200,7 +202,7 @@ function attachHandle(obj) {
     grid: [ 0,$(this).parents().height()/4 ],
     //distance: 10
     stop: function( event, ui ) {
-      duration = Math.ceil(($(obj).height()/20*15)/15)*15;      
+      duration = Math.ceil(($(obj).height()/20*15)/15)*15;
     },
   });
 }
