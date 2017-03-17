@@ -6,7 +6,7 @@ use frontend\models\MeetingSetting;
 
   <div class="command-bar">
     <div class="row">
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         <div class="<?= $dropclass ?>" >
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <?= Yii::t('frontend','Options');?>
@@ -21,7 +21,7 @@ use frontend\models\MeetingSetting;
         </ul>
         </div>
       </div>
-      <div class="col-xs-8" >
+      <div class="col-xs-9" >
         <div style="float:right;">
           <span class="button-pad">
             <?= Html::a('<i class="glyphicon glyphicon-repeat"></i>&nbsp;'.Yii::t('frontend', 'Repeat'), ['repeat','id'=>$model->id],

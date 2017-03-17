@@ -147,7 +147,7 @@ echo $this->render('_timezone_alerts');
         $map = new Map([
             'center' => $coord,
             'zoom' => 14,
-            'width'=>300,
+            'width'=>'100%',
             'height'=>300,
         ]);
         $marker = new Marker([

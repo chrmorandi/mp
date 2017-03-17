@@ -9,7 +9,7 @@ function setupBounds(pt1, pt2, pt3, pt4) {
 
 function setupListeners(model) {
 //  google.maps.event.addDomListener(window, 'load', initialize);
-    // searchbox is the var for the google places object created on the page    
+    // searchbox is the var for the google places object created on the page
     google.maps.event.addListener(searchbox, 'place_changed', function() {
       var place = searchbox.getPlace();
       if (!place.geometry) {
@@ -49,7 +49,7 @@ function loadMap(gps,name) {
     var mapcanvas = document.createElement('div');
     mapcanvas.id = 'mapcanvas';
     mapcanvas.style.height = '300px';
-    mapcanvas.style.width = '300px';
+    mapcanvas.style.width = '100%';
     mapcanvas.style.border = '1px solid black';
     document.querySelector('article').appendChild(mapcanvas);
   }

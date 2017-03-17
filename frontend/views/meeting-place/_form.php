@@ -65,7 +65,7 @@ use \kartik\typeahead\Typeahead;
       </div>
     </div>
     <div class="row hidden" id="mapRow">
-      <div class="col-xs-12 col-lg-6">
+      <div class="col-xs-12 col-md-12 col-lg-6">
         <div id="map-canvas">
           <article></article>
         </div>

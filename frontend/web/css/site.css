@@ -357,6 +357,22 @@ color:#a0a0a0;
   text-align:left;
 }
 
+/* iphone 5 and small as */
+@media only screen
+  and (max-device-width: 320px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    #meeting-add-place-favorites {
+      visibility: hidden;
+    }
+}
+
+/* page width */
+@media (min-width: 992px) {
+  .container {
+      width: 970px !important;
+  }
+}
+
 /* ----------- mobile displays ----------- */
 @media only screen
   and (min-device-width: 320px)
@@ -406,10 +422,8 @@ color:#a0a0a0;
     .shepherd-element.shepherd-theme-arrows {
       max-width: 85%;
     }
-}
 
-@media (min-width: 992px) {
-  .container {
-      width: 970px !important;
+    .horizontal-pad {
+      margin:5px 7px 5px 0px;
+    }
   }
-}
