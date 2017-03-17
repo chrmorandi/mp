@@ -18,18 +18,9 @@ use \kartik\typeahead\Typeahead;
 <?php
   $ups=[];
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
-  if (count($up)>0) {
     ?>
-<!--<div class="row">
-    <div class="col-xs-12 col-lg-6">
-    <strong><center>- or -</center></strong>
-  </div>
-</div>-->
-<?php
-  }
-    ?>
-    <div class="row">
-      <div class="col-xs-12 col-md-12 col-lg-6">
+    <div class="row" id="wherePlaces">
+      <div class="col-xs-12 col-md-12 col-lg-12">
         <?= $form->field($model, 'searchbox')->textInput(['maxlength' => 255])->label(Yii::t('frontend','Type an address, place or business')) ?>
         <?= Html::activeHiddenInput($model, 'name'); ?>
         <?= Html::activeHiddenInput($model, 'google_place_id'); ?>
@@ -38,20 +29,29 @@ use \kartik\typeahead\Typeahead;
         <?= Html::activeHiddenInput($model, 'vicinity'); ?>
         <?= Html::activeHiddenInput($model, 'full_address'); ?>
       </div>
-    <div class="col-xs-12 col-md-12 col-lg-6">
-      <p><strong><?= Yii::t('frontend','Or, choose from your prior places');?></strong></p>
-<select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
-<option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
-  <?php
-  foreach ($up as $p) {
-    $ups[]=$p->place->name;
-    ?>
-    <option value="<?= $p->id;?>"><?= $p->place->name;?></option>
-    <?php
-  }
-  ?>
-</select>
-</div>
+    </div>
+    <div class="row" id="whereFavorites" class="hidden">
+      <div class="col-xs-12 col-md-12 col-lg-12">
+        <?php
+        if (count($up)==0) {
+          ?>
+          <p><em><?= Yii::t('frontend','As you add places for meetings, they will be added to your favorites below:');?></em></p>
+          <?php
+        }
+          ?>
+          <p><strong><?= Yii::t('frontend','Or, choose from your prior places');?></strong></p>
+    <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
+    <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
+      <?php
+      foreach ($up as $p) {
+        $ups[]=$p->place->name;
+        ?>
+        <option value="<?= $p->id;?>"><?= $p->place->name;?></option>
+        <?php
+      }
+      ?>
+    </select>
+      </div>
 </div> <!-- end row -->
     <div class="row vertical-pad">
       <div class="col-xs-12 col-lg-6">
@@ -64,7 +64,7 @@ use \kartik\typeahead\Typeahead;
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row hidden" id="mapRow">
       <div class="col-xs-12 col-lg-6">
         <div id="map-canvas">
           <article></article>

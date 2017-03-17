@@ -170,15 +170,26 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
     $('#meeting-add-place').prop("disabled",true);
     $('a#meeting-add-place').attr('disabled', true);
     $('a#meeting-add-place').prop('onclick', 'return false;');
+    $('#meeting-add-place-favorites').prop("disabled",true);
+    $('a#meeting-add-place-favorites').attr("disabled",true);
+    $('a#meeting-add-place-favorites').prop('onclick', 'return false;');
     $('#meeting-place-list').addClass("hidden");
+    $('#where-choices').addClass("hidden");
+    $('.meeting-place-form').addClass("hidden");
     state = 1; // state of these are backwards: true is 0, 1 is false
   } else {
     // change to in person
     $('#meeting-add-place').prop("disabled",false);
     $('a#meeting-add-place').attr('disabled', false);
-    $('a#meeting-add-place').prop('onclick', 'showPlace();');
-    $('a#meeting-add-place').attr('onclick', 'showPlace();');
+    $('a#meeting-add-place').prop('onclick', 'showWherePlaces();');
+    $('a#meeting-add-place').attr('onclick', 'showWherePlaces();');
+    $('#meeting-add-place-favorites').prop("disabled",false);
+    $('a#meeting-add-place-favorites').attr("disabled",false);
+    $('a#meeting-add-place-favorites').prop('onclick', 'showWhereFavorites();');
+    $('a#meeting-add-place-favorites').attr('onclick', 'showWhereFavorites();');
     $('#meeting-place-list').removeClass("hidden");
+    $('#where-choices').removeClass("hidden");
+    $('.meeting-place-form').removeClass("hidden");
     state =0; // state of these are backwards: true is 0, 1 is false
   }
   $.ajax({
@@ -687,13 +698,41 @@ function loadActivityChoices(id) {
 
 // meeting place panel
 // show place panel
-function showPlace() {
+function showWherePlaces() {
   if ($('#addPlace').hasClass( "hidden")) {
-    $('#addPlace').removeClass("hidden");
+    $('#whereFavorites').addClass("hidden");
+    $('#wherePlaces').removeClass("hidden");
+    $('#mapRow').removeClass("hidden");
     $('.where-form').removeClass("hidden");
+    $('#addPlace').removeClass("hidden");
   } else {
-    $('#addPlace').addClass("hidden");
-    $('.where-form').addClass("hidden");
+    // panel showing
+    if ($('#wherePlaces').hasClass("hidden")) {
+      $('#whereFavorites').addClass("hidden");
+      $('#wherePlaces').removeClass("hidden");
+      $('#mapRow').removeClass("hidden");
+    } else {
+      $('#addPlace').addClass( "hidden")
+    }
+  }
+};
+
+function showWhereFavorites() {
+  if ($('#addPlace').hasClass( "hidden")) {
+    $('#whereFavorites').removeClass("hidden");
+    $('#wherePlaces').addClass("hidden");
+    $('#mapRow').addClass("hidden");
+    $('.where-form').removeClass("hidden");
+    $('#addPlace').removeClass("hidden");
+  } else {
+    // panel showing
+    if ($('#whereFavorites').hasClass("hidden")) {
+      $('#whereFavorites').removeClass("hidden");
+      $('#wherePlaces').addClass("hidden");
+      $('#mapRow').addClass("hidden");
+    } else {
+      $('#addPlace').addClass( "hidden")
+    }
   }
 };
 
@@ -706,66 +745,72 @@ function addPlace(id) {
   //var clonedRow = $("#placeTable>tbody tr:last").clone(); //this will grab the lasttable row.
   //$("#placeTable tbody>tr:last").append(clonedRow);
   //return;
-  place_id = $('#meetingplace-place_id').val();
-  gp_id = $('#meetingplace-google_place_id').val();
-  if ((place_id=='') && (gp_id=='')) {
-      displayAlert('placeMessage','placeMsg2');
-      return false;
+  if ($('#whereFavorites').hasClass("hidden")) {
+    // places mode
+    gp_id = $('#meetingplace-google_place_id').val();
+    if (gp_id=='') {
+        displayAlert('placeMessage','placeMsg2');
+        return false;
+    }
+    if (gp_id!='') {
+      gp=[];
+      gp['name']= $('#meetingplace-name').val();
+      gp['location']= $('#meetingplace-location').val();
+      gp['website']= $('#meetingplace-website').val();
+      gp['vicinity']= $('#meetingplace-vicinity').val();
+      gp['full_address']= $('#meetingplace-full_address').val();      
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-place/addgp',
+         data: {
+           id: id,
+           gp_id: encodeURIComponent(gp_id),
+           name: encodeURIComponent(gp['name']),
+           location: encodeURIComponent(gp['location']),
+           website: encodeURIComponent(gp['website']),
+           vicinity: encodeURIComponent(gp['vicinity']),
+           full_address: encodeURIComponent(gp['full_address']),
+         },
+         success: function(data) {
+           // clear fields
+           // odd issue with resetting the combo box
+           loadPlaceChoices(id);
+           insertPlace(id);
+           $('#meetingplace-google_place_id:selected').removeAttr("selected");
+           $('#meetingplace-google_place_id').val('');
+           $('#meetingplace-google_place_undefined').val('');
+           $('#meetingplace-searchbox').val('');
+           $('#map-canvas').html('<article></article>');
+           displayAlert('placeMessage','placeMsg1');
+         }
+      });
+    }
+  } else {
+    place_id = $('#meetingplace-place_id').val();
+    if (place_id=='') {
+        displayAlert('placeMessage','placeMsg2');
+        return false;
+    }
+    if (typeof place_id !== 'undefined' && place_id) {
+      $.ajax({
+         url: $('#url_prefix').val()+'/meeting-place/add',
+         data: {
+           id: id,
+           place_id: place_id,
+         },
+         success: function(data) {
+           // clear fields
+           // odd issue with resetting the combo box
+           $('#meetingplace-place_id:selected').removeAttr("selected");
+           $('#meetingplace-place_id').val('');
+           $('#meetingplace-place_idundefined').val('');
+           loadPlaceChoices(id);
+           insertPlace(id);
+           displayAlert('placeMessage','placeMsg1');
+           return true;
+         }
+      });
+    }
   }
-  if (typeof place_id !== 'undefined' && place_id) {
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting-place/add',
-       data: {
-         id: id,
-         place_id: place_id,
-       },
-       success: function(data) {
-         // clear fields
-         // odd issue with resetting the combo box
-         $('#meetingplace-place_id:selected').removeAttr("selected");
-         $('#meetingplace-place_id').val('');
-         $('#meetingplace-place_idundefined').val('');
-         loadPlaceChoices(id);
-         insertPlace(id);
-         displayAlert('placeMessage','placeMsg1');
-         return true;
-       }
-
-    });
-  }
-  if (gp_id!='') {
-    gp=[];
-    gp['name']= $('#meetingplace-name').val();
-    gp['location']= $('#meetingplace-location').val();
-    gp['website']= $('#meetingplace-website').val();
-    gp['vicinity']= $('#meetingplace-vicinity').val();
-    gp['full_address']= $('#meetingplace-full_address').val();
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting-place/addgp',
-       data: {
-         id: id,
-         gp_id: encodeURIComponent(gp_id),
-         name: encodeURIComponent(gp['name']),
-         location: encodeURIComponent(gp['location']),
-         website: encodeURIComponent(gp['website']),
-         vicinity: encodeURIComponent(gp['vicinity']),
-         full_address: encodeURIComponent(gp['full_address']),
-       },
-       success: function(data) {
-         // clear fields
-         // odd issue with resetting the combo box
-         loadPlaceChoices(id);
-         insertPlace(id);
-         $('#meetingplace-google_place_id:selected').removeAttr("selected");
-         $('#meetingplace-google_place_id').val('');
-         $('#meetingplace-google_place_undefined').val('');
-         $('#meetingplace-searchbox').val('');
-         $('#map-canvas').html('<article></article>');
-         displayAlert('placeMessage','placeMsg1');
-       }
-    });
-  }
-
   $('#addPlace').addClass('hidden');
 }
 

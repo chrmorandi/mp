@@ -12,29 +12,16 @@ use \common\components\MiscHelpers;
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhere">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10" >
+      <div class="col-lg-9 col-md-8 col-xs-3" >
         <h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"> -->
-        <div class="hint-text heading-pad">
-        <?php if ($placeProvider->count<=1) { ?>
-          <?= Yii::t('frontend','add possible meeting places or switch to \'virtual\'') ?>
-      <?php } elseif ($placeProvider->count>1) { ?>
-          <?= Yii::t('frontend','are these places acceptable?') ?>
-          <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
-            <?= Yii::t('frontend','you can also select the place below') ?>
-          <?php }?>
-        <?php
-          }
-        ?>
-      </div>
     </div>
-
 <?php
   if (!$model->isOrganizer()) {
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
-      <div class="col-lg-2 col-md-2 col-xs-2" >
+      <div class="col-lg-3 col-md-4 col-xs-9" >
         <div style="float:right;">
         <?php
           if ($model->isOrganizer() || $model->meetingSettings->participant_add_place) {
@@ -55,9 +42,11 @@ use \common\components\MiscHelpers;
             </td><td style="padding-left:10px;">
             <?php
               if ($model->switchVirtual == $model::SWITCH_INPERSON) { ?>
-                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add possible places','onclick'=>'showPlace();']); ?>
+                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add possible places','onclick'=>'showWherePlaces();']); ?>
+                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-heart','id'=>'meeting-add-place-favorites','title'=>'Add favorite places','onclick'=>'showWhereFavorites();']); ?>
               <?php } else { ?>
                 <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true,'onclick'=>'return false;']); ?>
+                <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place-favorites','class' => 'btn btn-primary glyphicon glyphicon-heart','disabled'=>true,'onclick'=>'return false;']); ?>
               <?php } ?>
             </td></tr></table>
           <?php
@@ -66,6 +55,22 @@ use \common\components\MiscHelpers;
         </div>
     </div>
   </div> <!-- end row -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-xs-12" >
+  <div class="hint-text heading-pad">
+  <?php if ($placeProvider->count<=1) { ?>
+    <?= Yii::t('frontend','add possible meeting places or switch to \'virtual\'') ?>
+<?php } elseif ($placeProvider->count>1) { ?>
+    <?= Yii::t('frontend','are these places acceptable?') ?>
+    <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+      <?= Yii::t('frontend','you can also select the place below') ?>
+    <?php }?>
+  <?php
+    }
+  ?>
+</div>
+</div>
+</div>
 </div> <!-- end panel heading -->
   <div id="collapseWhere" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhere">
     <div class="panel-where">
@@ -73,7 +78,7 @@ use \common\components\MiscHelpers;
         <div id="placeMessage" class="alert-info alert fade in hidden">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <span id="placeMsg1"><?= Yii::t('frontend','We\'ll automatically notify others when you\'re done making changes.')?></span>
-          <span id="placeMsg2"><?= Yii::t('frontend','Please pick at least one place.')?></span>
+          <span id="placeMsg2"><?= Yii::t('frontend','Please select a place.')?></span>
           <span id="placeMsg3"><?= Yii::t('frontend','Sorry, there were errors.')?></span>
         </div>
         <div id="addPlace" class="hidden">

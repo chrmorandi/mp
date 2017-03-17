@@ -100,7 +100,7 @@ class Place extends \yii\db\ActiveRecord
              [['name','slug'], 'required'],
              [['place_type', 'status', 'created_by', 'created_at', 'updated_at'], 'integer'],
              [['name', 'google_place_id', 'slug', 'website', 'full_address', 'vicinity'], 'string', 'max' => 255],
-             [['website'], 'url'],
+             [['website'], 'url','skipOnEmpty' => true],
              [['slug'], 'unique'],
              [['searchbox'], 'unique','targetAttribute' => 'google_place_id'],
              [['name', 'full_address'], 'unique', 'targetAttribute' => ['name', 'full_address']],
@@ -142,10 +142,13 @@ class Place extends \yii\db\ActiveRecord
     }
 
     public static function googlePlaceSuggested($form) {
-
       // check if this google place already exists
       if (Place::find()->where(['google_place_id'=>$form['google_place_id']])->exists()) {
         $model = Place::find()->where(['google_place_id'=>$form['google_place_id']])->one();
+        return $model->id;
+      } else if (Place::find()->where(['website'=>$form['website'],'full_address'=>$form['full_address'],'vicinity'=>$form['vicinity']])->exists()) {
+        // problem with shorted google place ids in the database
+        $model = Place::find()->where(['website'=>$form['website'],'full_address'=>$form['full_address'],'vicinity'=>$form['vicinity']])->one();
         return $model->id;
       } else {
         // otherwise register a new place
@@ -158,15 +161,13 @@ class Place extends \yii\db\ActiveRecord
         $model->full_address = $form['full_address'];
         $model->created_by = Yii::$app->user->getId();
         if ($model->validate()) {
-
              // all inputs are valid
              $model->save();
-
              // add GPS entry in PlaceGeometry
              $model->addGeometry($model,$form['location']);
-             
              return $model->id;
         } else {
+          //var_dump($model->getErrors());
           return false;
         }
       }

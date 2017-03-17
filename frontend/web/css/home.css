@@ -42,3 +42,29 @@ body {
 ul.auth-clients {
   margin-bottom:0;
 }
+
+@media only screen
+and (min-width: 993px)
+and (max-width: 1029px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  li.auth-client {
+    margin-right:3px !important;
+    padding-right:0px !important;
+  }
+
+  ul.auth-clients {
+    -webkit-padding-start: 3px !important;
+  }
+}
+@media only screen
+and (min-width: 1028px)
+and (max-width: 1272px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  li.auth-client {
+    margin-right:3px !important;
+    padding-right:0px !important;
+  }
+  ul.auth-clients {
+    -webkit-padding-start: 10px !important;
+  }
+}

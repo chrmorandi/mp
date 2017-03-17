@@ -190,8 +190,9 @@ class MeetingPlaceController extends Controller
         $model->availability = 0;
         $model->status = MeetingPlace::STATUS_SUGGESTED;
         $model->save();
+        return true;
       }
-    return true;
+    return false;
     }
 
     public function actionLoadchoices($id) {
