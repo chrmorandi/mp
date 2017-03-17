@@ -430,6 +430,7 @@ function showWhoFavorites() {
     if ($('#addParticipantPanel').hasClass( "hidden")) {
       $('#whoEmail').addClass("hidden");
       $('#whoFavorites').removeClass("hidden");
+      $('#participant-emailundefined').attr('placeholder','type or click arrow to choose friends');
       $('#addParticipantPanel').removeClass("hidden");
     } else {
       // panel showing
