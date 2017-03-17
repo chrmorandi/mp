@@ -54,7 +54,9 @@ use yii\widgets\ActiveForm;
     if (count($friendsEmail)>0) {
       ?>
       <p><strong><?= Yii::t('frontend','Or, choose from your friends');?></strong></p>
-      <select class="combobox input-large form-control" id="participant-email" name="Participant[email]" placeholder="<?= Yii::t('frontend','type or click to choose friends') // chg meetingjs if change string ?>">
+      <select class="combobox input-large form-control" id="participant-email" name="Participant[email]">
+      <option value="" selected="selected"><?= Yii::t('frontend','type or click to choose friends')?></option>        
+      <!--  chg meetingjs if change string -->
       <option value="" selected="selected"><?= Yii::t('frontend','type or click to choose friends') // chg meetingjs if change string ?></option>
       <?php
       foreach ($friendsEmail as $email) {
