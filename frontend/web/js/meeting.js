@@ -410,15 +410,39 @@ function getActivities(id) {
 }
 
 // toggle add participant panel
-function showParticipant() {
+function showWhoEmail() {
   if ($('#addParticipantPanel').hasClass( "hidden")) {
+    $('#whoFavorites').addClass("hidden");
+    $('#whoEmail').removeClass("hidden");
     $('#addParticipantPanel').removeClass("hidden");
-  }else {
-    $('#addParticipantPanel').addClass("hidden");
+  } else {
+    // panel showing
+    if ($('#whoEmail').hasClass("hidden")) {
+      $('#whoFavorites').addClass("hidden");
+      $('#whoEmail').removeClass("hidden");
+    } else {
+        $('#addParticipantPanel').addClass("hidden");
+    }
   }
 };
 
-function addParticipant(id) {
+function showWhoFavorites() {
+    if ($('#addParticipantPanel').hasClass( "hidden")) {
+      $('#whoEmail').addClass("hidden");
+      $('#whoFavorites').removeClass("hidden");
+      $('#addParticipantPanel').removeClass("hidden");
+    } else {
+      // panel showing
+      if ($('#whoFavorites').hasClass("hidden")) {
+        $('#whoFavorites').removeClass("hidden");
+        $('#whoEmail').addClass("hidden");
+      } else {
+          $('#addParticipantPanel').addClass("hidden");
+      }
+    }
+};
+
+function addParticipant(id,mode='email') {
   // ajax add participant
   // adding someone from new_email
   new_email = $('#new_email').val();

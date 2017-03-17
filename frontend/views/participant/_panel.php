@@ -8,14 +8,15 @@ use yii\bootstrap\Collapse;
   <!-- Default panel contents -->
   <div class="panel-heading"  role="tab" id="headingWho">
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10">
+      <div class="col-lg-9 col-md-8 col-xs-6">
         <h4 class="meeting-view"><?= Yii::t('frontend','Who') ?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWho" aria-expanded="true" aria-controls="collapseWho"> -->
         <span class="hint-text"><?= Yii::t('frontend','add meeting participants') ?></span>
       </div>
-    <div class="col-lg-2 col-md-2 col-xs-2">
+    <div class="col-lg-3 col-md-4 col-xs-6">
       <div style="float:right;">
-        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user','title'=>'Add participants','onclick'=>'showParticipant();']); ?>
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user','title'=>'Add participants','onclick'=>'showWhoEmail();']); ?>
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-heart','title'=>'Add favorites','onclick'=>'showWhoFavorites();']); ?>
       </div>
     </div>
   </div>

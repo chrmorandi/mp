@@ -25,7 +25,6 @@ use \kartik\typeahead\Typeahead;
     <strong><center>- or -</center></strong>
   </div>
 </div>-->
-
 <?php
   }
     ?>

@@ -50,7 +50,7 @@ $(document).ready(function() {
           $('.ui-dialog').css({
               'left':'0px',
               'width':'100%',
-              'height':'100%',
+              'height':'100%'
           });
           $( ".calendarContainer" ).width($(document).width()-10);
           $( ".calendarChooser #dialog-form" ).width($('.calendarContainer').width()-20);

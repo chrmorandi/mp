@@ -352,6 +352,10 @@ color:#a0a0a0;
 	background-image: url("../img/ui-icons_777777_256x240.png") !important;
 }
 
+.fieldLeftFull {
+  width:100%;
+  text-align:left;
+}
 
   /* ----------- mobile displays ----------- */
 

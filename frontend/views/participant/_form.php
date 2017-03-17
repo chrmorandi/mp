@@ -15,16 +15,23 @@ use yii\widgets\ActiveForm;
       'id'=> 'participant-form',
       //'enableAjaxValidation' => 'true',
     ]); ?>
-
     <?= $form->errorSummary($participant); ?>
-
-    <div class="row">
-      <div class="col-xs-12 col-md-12 col-lg-6">
+    <div class="row" id="whoEmail">
+      <div class="col-xs-12 col-md-12 col-lg-12">
         <?php
-        echo $form->field($participant, 'new_email',['enableAjaxValidation' => true])->textInput(['placeholder' => "enter an email address to invite someone new",'id'=>'new_email'])->label(Yii::t('frontend','Invite someone new'))
+          echo $form->field($participant, 'new_email',['enableAjaxValidation' => true,'options'=>['class'=>'fieldLeftFull']])->textInput(['placeholder' => "enter an email address to invite someone new",'id'=>'new_email'])->label(Yii::t('frontend','Invite someone new'));
         ?>
+        <div class="form-group">
+          <span class="button-pad">
+            <?= Html::a(Yii::t('frontend','Add Participant'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addParticipant('.$participant->meeting_id.',"email");'])  ?>
+          </span><span class="button-pad">
+            <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'closeParticipant();'])  ?>
+          </span>
+        </div>
       </div>
-      <div class="col-xs-12 col-md-12 col-lg-6">
+    </div>
+    <div class="row hidden" id="whoFavorites">
+      <div class="col-xs-12 col-md-12 col-lg-12">
     <?php
     // to do - replace with Friend::getFriendList
     $friendsEmail=[];
@@ -56,21 +63,32 @@ use yii\widgets\ActiveForm;
       <?php
         }
       ?>
+      </select>
+      <?php
+    } else {
+      ?>
+      <p><strong><?= Yii::t('frontend','Once you invite people to meetups, you\'ll be able to add them here');?></strong></p>
       <?php
     }
     ?>
-    </select>
+
   <p></p>
-  </div>
-</div>
+  <?php
+  if (count($friendsEmail)>0) {
+  ?>
     <div class="form-group">
       <span class="button-pad">
-        <?= Html::a(Yii::t('frontend','Add Participant'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addParticipant('.$participant->meeting_id.');'])  ?>
+        <?= Html::a(Yii::t('frontend','Add Participant'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addParticipant('.$participant->meeting_id.',"fav");'])  ?>
       </span><span class="button-pad">
         <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'closeParticipant();'])  ?>
       </span>
     </div>
-    <?php ActiveForm::end(); ?>
+<?php
+  }
+?>
+  </div>
+</div> <!-- end row -->
+<?php ActiveForm::end(); ?>
 <hr />
-</div>
+</div> <!-- end div -->
 <?= $this->registerJs("$(document).ready(function(){ $('.combobox').combobox() });"); ?>
