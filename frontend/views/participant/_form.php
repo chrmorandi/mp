@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use frontend\models\Friend;
 use frontend\models\Address;
 use yii\widgets\ActiveForm;
-//use \kartik\typeahead\Typeahead;
+use \kartik\typeahead\Typeahead;
 //use frontend\assets\ComboAsset;
 //ComboAsset::register($this);
 /* @var $this yii\web\View */
