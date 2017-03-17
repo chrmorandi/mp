@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
     $fa = Address::find()
       ->select(['id','email'])
       ->where(['user_id'=>Yii::$app->user->getId()])
-      ->limit(5000)
+      ->limit(100)
       ->all();
     foreach ($fq as $f) {
       $friendsEmail[]=$f->friend->email; // get constructed name fields
@@ -52,11 +52,11 @@ use yii\widgets\ActiveForm;
       $friendsId[]=$f->id;
     }
     if (count($friendsEmail)>0) {
+      // below: chg meetingjs if change string
       ?>
       <p><strong><?= Yii::t('frontend','Or, choose from your friends');?></strong></p>
       <select class="combobox input-large form-control" id="participant-email" name="Participant[email]">
       <option value="" selected="selected"><?= Yii::t('frontend','type or click to choose friends'); ?></option>
-      <!--  chg meetingjs if change string -->
       <?php
       foreach ($friendsEmail as $email) {
       ?>
