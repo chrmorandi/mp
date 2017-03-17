@@ -55,8 +55,8 @@ use \kartik\typeahead\Typeahead;
       // below: chg meetingjs if change string
       ?>
       <p><strong><?= Yii::t('frontend','Or, choose from your friends');?></strong></p>
-      <select class="combobox input-large form-control" id="participant-email" name="Participant[email]">
-      <option value="xxx" selected="selected"><?= Yii::t('frontend','type or click to choose friends'); ?></option>      
+      <select class="combobox input-large form-control" id="participant-email" name="Participant[email]" placeholder="type or click arrow to choose friends">
+      <option value="" selected="selected">type or click arrow to choose friends</option>
       <?php
       foreach ($friendsEmail as $email) {
       ?>
