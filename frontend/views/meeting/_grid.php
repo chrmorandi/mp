@@ -16,7 +16,7 @@ if ($mode =='upcoming' || $mode =='past') {
           'layout'=>'{items}'.$pagerTemplate,
           'columns' => [
           [
-            'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
+            'contentOptions' => ['class' => 'col-lg-10 col-md-10 col-xs-8'],
             'label'=>'Details',
               'attribute' => 'meeting_type',
               'format' => 'raw',
@@ -33,7 +33,7 @@ if ($mode =='upcoming' || $mode =='past') {
           ],
               ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {download}  {decline}  {cancel}',
               'headerOptions' => ['class' => 'itemHide'],
-              'contentOptions' => ['class' => 'itemHide'],
+              'contentOptions' => ['class' => 'itemHide col-lg-2 col-md-2 col-xs-4'],
               'buttons'=>[
                   'view' => function ($url, $model) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url,
@@ -76,7 +76,7 @@ if ($mode =='upcoming' || $mode =='past') {
       'headerRowOptions' => ['class'=>'hidden'],
       'columns' => [
       [
-        'contentOptions' => ['class' => 'col-lg-11 col-xs-10'],
+        'contentOptions' => ['class' => 'col-lg-10 col-md-10 col-xs-8'],
 
         'label'=>Yii::t('frontend','Subject'),
           'attribute' => 'meeting_type',
@@ -92,7 +92,7 @@ if ($mode =='upcoming' || $mode =='past') {
       ],
           ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {settings} {trash}',
           'headerOptions' => ['class' => 'itemHide'],
-          'contentOptions' => ['class' => 'itemHide'],
+          'contentOptions' => ['class' => 'itemHide col-lg-2 col-md-2 col-xs-4'],
           'buttons'=>[
               'view' => function ($url, $model) {
                 return $model->status<=$model::STATUS_SENT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [

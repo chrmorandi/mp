@@ -406,5 +406,10 @@ color:#a0a0a0;
     .shepherd-element.shepherd-theme-arrows {
       max-width: 85%;
     }
+}
 
+@media (min-width: 992px) {
+  .container {
+      width: 970px !important;
+  }
 }
