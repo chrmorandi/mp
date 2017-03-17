@@ -12,7 +12,7 @@ use \common\components\MiscHelpers;
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhere">
     <div class="row">
-      <div class="col-lg-9 col-md-8 col-xs-3" >
+      <div class="col-lg-9 col-md-8 col-xs-2" >
         <h4 class="meeting-place"><?= Yii::t('frontend','Where') ?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhere" aria-expanded="true" aria-controls="collapseWhere"> -->
     </div>
@@ -21,7 +21,7 @@ use \common\components\MiscHelpers;
     // To Do: Check Meeting Settings whether participant can add places
   }
 ?>
-      <div class="col-lg-3 col-md-4 col-xs-9" >
+      <div class="col-lg-3 col-md-4 col-xs-10" >
         <div style="float:right;">
         <?php
           if ($model->isOrganizer() || $model->meetingSettings->participant_add_place) {
