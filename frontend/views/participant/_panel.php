@@ -16,7 +16,7 @@ use yii\bootstrap\Collapse;
     <div class="col-lg-3 col-md-4 col-xs-6">
       <div style="float:right;">
         <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user','title'=>'Add participants','onclick'=>'showWhoEmail();']); ?>
-        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-heart','title'=>'Add favorites','onclick'=>'showWhoFavorites();']); ?>
+        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.($friendCount==0?'hidden ':' ').((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-heart','title'=>'Add favorites','onclick'=>'showWhoFavorites();']); ?>
       </div>
     </div>
   </div>

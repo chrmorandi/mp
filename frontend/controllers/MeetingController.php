@@ -283,6 +283,12 @@ class MeetingController extends Controller
               ]
             ],
         ]);
+        // count friends
+        $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->count();
+        $fa = \frontend\models\Address::find()
+          ->where(['user_id'=>Yii::$app->user->getId()])
+          ->count();
+        $friendCount = $fq+$fa;
           return $this->render('view', [
               'tab'=>$tab,
               'model' => $model,
@@ -304,6 +310,7 @@ class MeetingController extends Controller
               'meetingPlace'=>$meetingPlace,
               'meetingActivity'=>$meetingActivity,
               'showGuide'=>$showGuide,
+              'friendCount'=>$friendCount,
           ]);
       } else {
         // meeting is past having been sent

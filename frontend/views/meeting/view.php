@@ -30,6 +30,7 @@ echo $this->render('_guide_alert');
               'participantProvider' => $participantProvider,
               'participant'=>$participant,
               'friends'=>$friends,
+              'friendCount'=>$friendCount,
           ]);
          ?>
          <?= $this->render('./_panel_what', [

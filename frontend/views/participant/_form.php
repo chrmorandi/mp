@@ -34,6 +34,7 @@ use \kartik\typeahead\Typeahead;
       <div class="col-xs-12 col-md-12 col-lg-12">
     <?php
     // to do - replace with Friend::getFriendList
+    // to do - pre-load this array in meetingcontroller, replace $friendCount
     $friendsEmail=[];
     $friendsId=[];
     $fq = Friend::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
