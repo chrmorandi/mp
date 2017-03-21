@@ -43,7 +43,7 @@ use \common\components\MiscHelpers;
             <?php
               if ($model->switchVirtual == $model::SWITCH_INPERSON) { ?>
                   <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','id'=>'meeting-add-place','title'=>'Add possible places','onclick'=>'showWherePlaces();']); ?>
-                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-heart '.($placeProvider->count==0?'hidden ':' '),'id'=>'meeting-add-place-favorites','title'=>'Add favorite places','onclick'=>'showWhereFavorites();']); ?>
+                  <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-heart '.($userPlacesCount==0?'hidden ':' '),'id'=>'meeting-add-place-favorites','title'=>'Add favorite places','onclick'=>'showWhereFavorites();']); ?>
               <?php } else { ?>
                 <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true,'onclick'=>'return false;']); ?>
                 <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place-favorites','class' => 'btn btn-primary glyphicon glyphicon-heart','disabled'=>true,'onclick'=>'return false;']); ?>

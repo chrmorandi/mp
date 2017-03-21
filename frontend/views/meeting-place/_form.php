@@ -17,6 +17,7 @@ use \kartik\typeahead\Typeahead;
     <?= $form->errorSummary($model); ?>
 <?php
   $ups=[];
+  // to do - optimize with meeting controller
   $up = UserPlace::find()->where(['user_id'=>Yii::$app->user->getId()])->all();
     ?>
     <div class="row" id="wherePlaces">

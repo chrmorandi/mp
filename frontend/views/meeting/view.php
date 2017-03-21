@@ -68,6 +68,7 @@ echo $this->render('_guide_alert');
               'isOwner' => $isOwner,
               'viewer' => $viewer,
               'meetingPlace'=>$meetingPlace,
+              'userPlacesCount'=>$userPlacesCount,
           ]);
            ?>
     </div> <!-- end tab details -->
