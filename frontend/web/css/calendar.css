@@ -112,19 +112,26 @@
   border-bottom: none;
 }
 
-.calendarChooser .dayOfMonth {
+.calendarChooser th .dayOfMonth {
   font-weight: bold;
   font-size:14px;
-  margin-bottom:0px;
+  margin:0px;
+  padding:0px;
   float:left;
+  vertical-align: top;
 }
 
-.nameMonth {
+.calendarChooser th .nameMonth {
   float:right;
   margin-right:5px;
   font-size:10px;
   color:#c0c0c0;
   margin-bottom:0px;
+  vertical-align: top;
+}
+
+.calendarChooser th .dayOfWeek {
+  vertical-align: bottom;
 }
 
 #droppable {
