@@ -55,7 +55,7 @@ echo $this->render('_timezone_alerts');
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Details');?></a></li>
-    <li class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Discussion');?></a></li>
+    <li class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Messages');?></a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -68,6 +68,7 @@ echo $this->render('_timezone_alerts');
         'participantProvider' => $participantProvider,
         'participant'=>$participant,
         'friends'=>$friends,
+        'friendCount'=>0,
     ]);
    ?>
    <?php  // what

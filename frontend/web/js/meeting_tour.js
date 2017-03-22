@@ -24,7 +24,7 @@ switch (mode) {
     steps.push(['.virtualThing top','Is this a virtual meeting?','Switch between <em>in person</em> and <em>virtual</em> '+title+'s such as phone calls or online conferences.']);
     steps.push(['#actionSend top','Sending invitations','Scheduling is collaborative. After you add times and places, you can <strong>Invite</strong> participants to select their favorites. <em>A place isn\'t necessary for virtual '+title+'\s.</em>']);
     steps.push(['#actionFinalize right','Finalizing the plan','Once you choose a time and place, you can <strong>Complete</strong> the plan. We\'ll email the invitations and setup reminders.']);
-    steps.push(['#tourDiscussion left','Share messages with participants ','You can write back and forth with participants on the <strong>Discussion</strong> tab. <p>Messages are delivered via email.</p>']);
+    steps.push(['#tourDiscussion left','Share messages with participants ','You can write back and forth with participants on the <strong>Messages</strong> tab. <p>Messages are delivered via email.</p>']);
     //
     steps.push(['.container ','Ask a question','Need help? <a href="'+$('#url_prefix').val()+'/ticket/create">Ask a question</a> and we\'ll respond as quickly as we can. <p>If you prefer, you can <a href="'+$('#url_prefix').val()+'/user-setting?tab=guide">turn off the guide</a> in settings.</p>']);
     break;
