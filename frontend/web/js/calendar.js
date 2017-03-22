@@ -181,7 +181,9 @@ $(document).ready(function() {
       addStyles($(div),slotType);
       attachHandle(div);
       objParent.append(div);
-      addItems.push(objParent.attr('id'));
+      if (objParent.attr('id')!=null) {
+        addItems.push(objParent.attr('id'));
+      }
       if ($('#'+objParent.attr('id')).length > 0){
         $(div).prepend(calcStr(objParent));
       }
@@ -249,10 +251,11 @@ function addStyles(obj,slotType) {
 // calculate the string to display
 // to do - change back to displaying hours for DST issue
 function calcStr(obj) {
+  // takes the cell id and determines hours, minutes, meridian to display
   // *1000 for Date which requires microseconds
-  moment = new Date(parseInt(obj.attr('id').split('_')[1])*1000);
-  hours = parseInt(moment.getHours());
-  //hours = parseInt(obj.attr('id').split('_')[2]);
+  moment = new Date(parseInt((obj.attr('id').split('_')[1])*1000));
+  //hours = parseInt(moment.getHours());
+  hours = parseInt(obj.attr('id').split('_')[2]);
   minutes = parseInt(moment.getMinutes());
   if (minutes==0) {
     minutes='00';
@@ -285,8 +288,8 @@ function loadExistingTimes() {
   // preload existing timeslots
   // to do load with duration
   $.each(loadSolid , function(i, val) {
-    // to do - when loading prior times, they can't be moved, different color
-    addTimeslot($('#c_'+val),'solid');
+    // to do - when loading prior times, they can't be moved, different color    
+    addTimeslot($('div[id^="c_'+val+'"]'),'solid');
   });
 
   /*$.each(loadFlex , function(i, val) {

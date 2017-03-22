@@ -49,6 +49,7 @@ use \kartik\switchinput\SwitchInput;
           <!-- hidden add time form -->
           <?= $this->render('_form', [
               'model' => $meetingTime,
+              'timezone' => $timezone,
           ]) ?>
         </div>
       </div>

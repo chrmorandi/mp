@@ -1,17 +1,20 @@
 <?php
 use yii\helpers\Html;
-//use frontend\assets\CalendarAsset;
 use common\components\MiscHelpers;
-  //CalendarAsset::register($this);
   $start_day = time();
   $current_time = $start_day;
   $start_hour = 0;
-  $numberOfDays=30;
+  $numberOfDays=45;
   $current_hour = date('G');
   $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday'];
-  $zone =new \DateTimeZone('America/Los_Angeles');
-  $todayStart = new \DateTime('today midnight', $zone);
+  // server time zone
+  //$dateTimeZoneServer = new \DateTimeZone('America/Los_Angeles');
+  $dateTimeZoneUser =new \DateTimeZone($timezone);
+  $todayStart = new \DateTime('today midnight', $dateTimeZoneUser);
+  //$todayStartServer = new \DateTime('today midnight', $dateTimeZoneServer);
+  //$zoneOffset = ($todayStart->getTimestamp()-$todayStartServer->getTimestamp());
   $midnight = $todayStart->getTimestamp();
+  //echo Html::hiddenInput('zoneOffset',$zoneOffset,['id'=>'zoneOffset']); // hidden variable
 ?>
 <div class="tz_success" id="tz_success">
   <div id="w4-tz-success" class="alert-success alert fade in">
@@ -36,13 +39,12 @@ use common\components\MiscHelpers;
                 <?php
                   // create the header row
                   $dayStamp = $midnight;
-
                   for ($index_day=1; $index_day<$numberOfDays; $index_day++) {
                 ?>
                   <th>
-                    <div class="nameMonth"><?= date('M',$dayStamp);?></div>
+                    <div class="nameMonth">&nbsp;&nbsp;<?= date('M',$dayStamp);?></div>
                     <div class="dayOfMonth"><?= date('j',$dayStamp);?></div>
-                    <?= $days[date('w',$dayStamp)];?>
+                    <div class="dayOfWeek">&nbsp;&nbsp;<?= $days[date('w',$dayStamp)];?>&nbsp;&nbsp;</div>
                   </th>
                 <?php
                   $dayStamp+=24*3600;
@@ -73,10 +75,10 @@ use common\components\MiscHelpers;
                   for ($index_day=1; $index_day<$numberOfDays;$index_day++) {
                     ?>
                     <td>
-                      <div id="c_<?= $cellStamp ?>" class="dayCell"></div> <!-- .'_'.$hour_index -->
-                      <div id="c_<?= ($cellStamp+900) ?>" class="dayCell"></div>
-                      <div id="c_<?= ($cellStamp+1800) ?>" class="dayCell"></div>
-                      <div id="c_<?= ($cellStamp+2700) ?>" class="dayCell"></div>
+                      <div id="c_<?= $cellStamp.'_'.$hour_index ?>" class="dayCell"></div> <!--  -->
+                      <div id="c_<?= ($cellStamp+900).'_'.$hour_index ?>" class="dayCell"></div>
+                      <div id="c_<?= ($cellStamp+1800).'_'.$hour_index ?>" class="dayCell"></div>
+                      <div id="c_<?= ($cellStamp+2700).'_'.$hour_index ?>" class="dayCell"></div>
                     </td>
                     <?php
                     $cellStamp+=24*3600;
@@ -92,6 +94,5 @@ use common\components\MiscHelpers;
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </div>
-
 </div> <!-- calendarContainer -->
 </div> <!-- end container -->
