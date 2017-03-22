@@ -288,7 +288,8 @@ function loadExistingTimes() {
   // preload existing timeslots
   // to do load with duration
   $.each(loadSolid , function(i, val) {
-    // to do - when loading prior times, they can't be moved, different color    
+    // to do - when loading prior times, they can't be moved, different color
+    // shift git
     addTimeslot($('div[id^="c_'+val+'"]'),'solid');
   });
 
