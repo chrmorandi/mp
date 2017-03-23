@@ -176,13 +176,40 @@ class Message extends \yii\db\ActiveRecord
     public function findNextGroup($message_id, $limit = 10) {
       // find the next group of users we haven't sent this message to
       // to do - problem with left join with deleted users and limits
-      $users = User::find()
-      //->select('user.id,user.email')
-        ->leftJoin('message_log','message_log.user_id=user.id and message_log.message_id='.$message_id)
-        ->where('message_log.id is null')
-        ->andWhere('status!='.User::STATUS_DELETED)
-        ->limit($limit)
-        ->all();
+      $m = Message::findOne($message_id);
+      switch ($m->target) {
+        case Message::TARGET_ORGANIZERS:
+          // look for organizers = User::STATUS_ACTIVE
+          $users = User::find()
+          //->select('user.id,user.email')
+            ->leftJoin('message_log','message_log.user_id=user.id and message_log.message_id='.$message_id)
+            ->where('message_log.id is null')
+            ->andWhere(['status'=>User::STATUS_ACTIVE])
+            ->limit($limit)
+            ->all();
+          break;
+        case Message::TARGET_PARTICIPANTS:
+          // look for participants = User::STATUS_PASSIVE
+          $users = User::find()
+          //->select('user.id,user.email')
+            ->leftJoin('message_log','message_log.user_id=user.id and message_log.message_id='.$message_id)
+            ->where('message_log.id is null')
+            ->andWhere(['status'=>User::STATUS_PASSIVE])
+            ->limit($limit)
+            ->all();
+          break;
+        case Message::TARGET_BOTH:
+          // look for everyone, just not deleted
+            $users = User::find()
+            //->select('user.id,user.email')
+              ->leftJoin('message_log','message_log.user_id=user.id and message_log.message_id='.$message_id)
+              ->where('message_log.id is null')
+              ->andWhere('status!='.User::STATUS_DELETED)
+              ->limit($limit)
+              ->all();
+          break;
+      }
+
     return $users;
     }
 
@@ -199,7 +226,7 @@ class Message extends \yii\db\ActiveRecord
           $msg->status=Message::STATUS_IN_PROGRESS;
           foreach ($users as $u) {
             try {
-              echo 'To: '.$u->email.'<br />';
+              echo 'To: '.$u->email.' Status: '.$u->lookupStatus($u->status).'<br />';
       		    $this->sendOne($msg,$u);
       	    } catch (Exception $e) {
       		      echo 'Exception '.$e.'<br />';
