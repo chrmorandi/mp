@@ -161,6 +161,7 @@ class Message extends \yii\db\ActiveRecord
       }
     }
 
+    //
     public function test($id) {
       $u = User::findOne(Yii::$app->user->getId());
       if ($u->isAdmin()) {
