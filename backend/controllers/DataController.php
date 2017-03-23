@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use backend\models\Data;
 use backend\models\MeetingData;
 use backend\models\UserData;
+use backend\models\Domain;
 
 /**
  * Data controller
@@ -88,5 +89,11 @@ class DataController extends Controller
 
     public function actionGather() {
       MeetingData::gather();
+    }
+
+    public function actionEmails() {
+      // preload blacklist and whitelist emails
+       Domain::preload();
+
     }
 }

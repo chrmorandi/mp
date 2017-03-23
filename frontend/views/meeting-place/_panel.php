@@ -22,7 +22,7 @@ use \common\components\MiscHelpers;
   }
 ?>
       <div class="col-lg-4 col-md-6 col-xs-10" >
-        <div style="float:right;">
+        <div id="virtualThingBox">
         <?php
           if ($model->isOrganizer() || $model->meetingSettings->participant_add_place) {
           ?>

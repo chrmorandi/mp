@@ -20,6 +20,7 @@ use backend\models\MessageLog;
  * @property string $action_text
  * @property string $action_url
  * @property integer $status
+ * @property integer $target
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -38,6 +39,10 @@ class Message extends \yii\db\ActiveRecord
   const RESPONSE_NO_UPDATES = 20;
   const RESPONSE_INVALID_EMAIL = 60;
   const RESPONSE_DELIVERY_OFF = 65;
+
+  const TARGET_BOTH = 0;
+  const TARGET_ORGANIZERS = 10;
+  const TARGET_PARTICIPANTS = 20;
 
   public function behaviors()
   {
@@ -73,7 +78,7 @@ class Message extends \yii\db\ActiveRecord
         return [
             [['caption', 'content'], 'required'],
             [['caption', 'content'], 'string'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'target','created_at', 'updated_at'], 'integer'],
             [['subject', 'action_text', 'action_url'], 'string', 'max' => 255],
         ];
     }
@@ -91,10 +96,25 @@ class Message extends \yii\db\ActiveRecord
             'action_text' => Yii::t('backend', 'Action Text'),
             'action_url' => Yii::t('backend', 'Action Url'),
             'status' => Yii::t('backend', 'Status'),
+            'target' => Yii::t('backend', 'Target'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
         ];
     }
+
+    public function getTarget($data) {
+      $options = $this->getTargetOptions();
+      return $options[$data];
+    }
+
+    public function getTargetOptions()
+    {
+      return [
+          self::TARGET_ORGANIZERS => 'Organizers',
+          self::TARGET_PARTICIPANTS => 'Participants',
+            self::TARGET_BOTH => 'Everyone'
+      ];
+     }
 
     public function displayStatus() {
       switch ($this->status) {
@@ -112,6 +132,20 @@ class Message extends \yii\db\ActiveRecord
           break;
         default:
           return 'Draft';
+          break;
+      }
+    }
+
+    public function displayTarget() {
+      switch ($this->target) {
+        case Message::TARGET_ORGANIZERS:
+          return 'Organizers';
+          break;
+        case Message::TARGET_PARTICIPANTS:
+          return 'Participants';
+          break;
+        default:
+          return 'Everyone';
           break;
       }
     }

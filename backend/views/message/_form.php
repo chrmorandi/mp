@@ -12,6 +12,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'target')
+            ->dropDownList(
+                $model->getTargetOptions(),
+                ['prompt'=>Yii::t('frontend','Who are the recipients?')]
+            )->label(Yii::t('frontend','target')) ?>
+
     <?= $form->field($model, 'subject')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'caption')->textarea(['rows' => 6]) ?>
@@ -22,7 +28,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'action_url')->textInput(['maxlength' => true]) ?>
 
-    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

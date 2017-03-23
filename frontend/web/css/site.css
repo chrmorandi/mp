@@ -357,6 +357,10 @@ color:#a0a0a0;
   text-align:left;
 }
 
+#virtualThingBox {
+  float:right;
+}
+
 /* iphone 5 and small as */
 @media only screen
   and (max-device-width: 320px)

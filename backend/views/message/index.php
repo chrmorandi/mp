@@ -41,6 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'action_url:url',
              //'status',
              [
+               'label'=>'Recipients',
+                 'attribute' => 'target',
+                 'format' => 'raw',
+                 'value' => function ($model) {
+                      return '<div>'.$model->displayTarget().'</div>';
+                     },
+             ],
+             [
                'label'=>'Status',
                  'attribute' => 'status',
                  'format' => 'raw',
