@@ -77,7 +77,9 @@ use common\components\MiscHelpers;
              <?= $form->field($model, 'participant_reopen')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
             </div> <!-- end of upload meeting-settings tab -->
             <div class="tab-pane <?= ($model->tab=='guide'?'active':'') ?> vertical-pad" id="guide">
+              <span class="setting-label">
               <?= $form->field($model, 'guide')->checkbox(['uncheck' =>  $model::SETTING_NO, 'checked' => $model::SETTING_YES]); ?>
+            </span>
             </div> <!-- end of upload meeting-guide tab -->
            <div class="form-group">
                <?= Html::submitButton(Yii::t('frontend', 'Save Settings'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
