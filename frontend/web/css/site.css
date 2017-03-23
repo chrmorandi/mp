@@ -323,6 +323,10 @@ color:#a0a0a0;
   max-width: 40%;
 }
 
+.mini-button {
+  display: inline;color:white;padding:1px 3px;border-radius: 2px;
+}
+
 .ui-icon,
 .ui-widget-content .ui-icon {
 	background-image: url("../img/ui-icons_444444_256x240.png") !important;

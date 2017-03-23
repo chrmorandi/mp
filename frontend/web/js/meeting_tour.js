@@ -13,7 +13,7 @@ switch (mode) {
       }
     });
     steps.push(['.nav-tabs top','Welcome','Allow me to show you how to plan a '+title+'. <p>If you prefer, you can <a href="javascript::return false;" onclick="turnOffGuide();">turn off this guide</a>.<br /><br />']);
-    steps.push(['#headingWho top','Who would you like to invite?','You can add one person or a group of people to your '+title+'. <p>Click the person button to add participants.</p>']);
+    steps.push(['#headingWho top','Who would you like to invite?','You can add one person or a group of people to your '+title+'. <p>Click the <span class="glyphicon glyphicon-user btn-primary mini-button"></span> button to add participants.</p>']);
     steps.push(['#invitation-url bottom','Inviting by email','Alternately, you can email the meeting link to your participant(s)']);
     steps.push(['#headingWhat bottom','What is your meeting about?','You can customize the subject of your '+title+'. We\'ll use it for the invitation and reminder emails.<p>Click the pencil button to edit the subject.</p>']);
     if ($('#headingActivity').length>0) {
