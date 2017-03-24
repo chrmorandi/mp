@@ -115,6 +115,8 @@ class Domain extends \yii\db\ActiveRecord
         $emailDomain = end(explode('@',$u->email));
         if (!Domain::verify($emailDomain)) {
           echo $u->email.'<br />';
+          $u->status = User::STATUS_DELETED;
+          $u->update();
         }
       }
     }
