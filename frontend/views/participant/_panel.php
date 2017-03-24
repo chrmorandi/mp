@@ -34,9 +34,9 @@ use yii\bootstrap\Collapse;
               <?= $this->render('_form', [
                   'participant' => $participant,
                   'friends' => $friends,
+                  'model'=>$model,
               ]) ?>
         </div>
-
     <div id="participantButtons">
     <?php
     if (!empty($participantProvider) and $participantProvider->getCount()>0):
@@ -51,26 +51,5 @@ use yii\bootstrap\Collapse;
     <?php endif; ?>
   </div>
   </div>
-  <?php if ($model->isOrganizer()) { ?>
-  <div class="panel-footer short-footer" style="padding:0px;background-color:#fff;border:1px;">
-    <div class="input-group input-group-xs" style="padding-left:40%;">
-      <span class="input-group-btn">
-        <button class="btn btn-xs " style="background-color:#fff;border:1px solid #ccc;">
-        Or, invite by email
-        </button>
-      </span>
-      <input type="text" class="form-control input-xs" aria-describedby="basic-addon2" value="<?= $model->getSharingUrl() ?>">
-      <span class="input-group-btn">
-          <button class="btn btn-xs btn-default">
-              <i class="glyphicon glyphicon-copy"></i>
-          </button>
-      </span>
-    </div>
-
-</div>
-
   </div>
-  <?php } ?>
-</div>
-
 </div>

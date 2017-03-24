@@ -92,5 +92,18 @@ use \kartik\typeahead\Typeahead;
 </div> <!-- end row -->
 <?php ActiveForm::end(); ?>
 <hr />
+<?php if ($model->isOrganizer()) { ?>
+<span style="float:right;">Copy this link to send your own invitations</span>
+  <div class="input-group input-group-sm" style="" >
+    <input type="text" class="form-control input-xs" aria-describedby="basic-addon2" value="<?= $model->getSharingUrl() ?>">
+    <span class="input-group-btn">
+        <button class="btn btn-sm btn-default">
+            <i class="glyphicon glyphicon-copy"></i>
+        </button>
+    </span>
+  </div>
+
+
+<?php } ?>
 </div> <!-- end div -->
 <?= $this->registerJs("$(document).ready(function(){ $('.combobox').combobox() });"); ?>
