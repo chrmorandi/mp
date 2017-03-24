@@ -11,7 +11,7 @@ use yii\bootstrap\Collapse;
       <div class="col-lg-9 col-md-8 col-xs-6">
         <h4 class="meeting-view"><?= Yii::t('frontend','Who') ?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWho" aria-expanded="true" aria-controls="collapseWho"> -->
-        <span class="hint-text"><?= Yii::t('frontend','add meeting participants') ?></span>
+        <span class="hint-text"><?= Yii::t('frontend','add participants') ?></span>
       </div>
     <div class="col-lg-3 col-md-4 col-xs-6">
       <div style="float:right;">
@@ -54,10 +54,9 @@ use yii\bootstrap\Collapse;
   <?php if ($model->isOrganizer()) { ?>
   <div class="panel-footer short-footer">
     <div id="invitation-url" class="hint-text">
-    You can also invite participants by sharing
-    <?= Html::a($model->getSharingUrl(),$model->getSharingUrl()); ?>
-    </div>
-    <span class="clear-both">&nbsp;</span>
+    You can also invite participants by sharing <?= Html::a($model->getSharingUrl(),$model->getSharingUrl()); ?>
+    </div><br style="clear:both;">
+
   </div>
   <?php } ?>
 </div>
