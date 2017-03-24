@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use common\models\User;
 /**
  * This is the model class for table "{{%domain}}".
  *
@@ -82,6 +83,7 @@ class Domain extends \yii\db\ActiveRecord
     }
 
     public static function preload() {
+      // populates the domain table with blacklist and whitelist
       // courtesy of https://github.com/martenson/disposable-email-domains/
       $whitelist = [
         "123mail.org","126.com","139.com","150mail.com","150ml.com","163.com","16mail.com","2-mail.com","420blaze.it","4email.net","50mail.com","8chan.co","aaathats3as.com","airmail.cc","airpost.net","allmail.net","antichef.com","antichef.net","bestmail.us","bluewin.ch","c2.hu","cluemail.com","cocaine.ninja","cock.email","cock.li","cock.lu","cumallover.me","dfgh.net","dicksinhisan.us","dicksinmyan.us","elitemail.org","emailcorner.net","emailengine.net","emailengine.org","emailgroups.net","emailplus.org","emailuser.net","eml.cc","f-m.fm","fast-email.com","fast-mail.org","fastem.com","fastemail.us","fastemailer.com","fastest.cc","fastimap.com","fastmail.cn","fastmail.co.uk","fastmail.com","fastmail.com.au","fastmail.es","fastmail.fm","fastmail.im","fastmail.in","fastmail.jp","fastmail.mx","fastmail.net","fastmail.nl","fastmail.se","fastmail.to","fastmail.tw","fastmail.uk","fastmail.us","fastmailbox.net","fastmessaging.com","fea.st","firemail.cc","fmail.co.uk","fmailbox.com","fmgirl.com","fmguy.com","freemail.hu","ftml.net","getbackinthe.kitchen","gmx.com","gmx.us","goat.si","h-mail.us","hailmail.net","hitler.rocks","horsefucker.org","hush.ai","hush.com","hushmail.com","hushmail.me","imap-mail.com","imap.cc","imapmail.org","inoutbox.com","internet-e-mail.com","internet-mail.org","internetemails.net","internetmailing.net","jetemail.net","justemail.net","letterboxes.org","mail-central.com","mail-page.com","mail2world.com","mailandftp.com","mailas.com","mailbolt.com","mailc.net","mailcan.com","mailforce.net","mailftp.com","mailhaven.com","mailingaddress.org","mailite.com","mailmight.com","mailnew.com","mailsent.net","mailservice.ms","mailup.net","mailworks.org","memeware.net","ml1.net","mm.st","myfastmail.com","mymacmail.com","naver.com","neverbox.com","nigge.rs","nospammail.net","ownmail.net","petml.com","postinbox.com","postpro.net","proinbox.com","promessage.com","qq.com","realemail.net","reallyfast.biz","reallyfast.info","recursor.net","redchan.it","rushpost.com","safe-mail.net","sent.as","sent.at","sent.com","shitposting.agency","sibmail.com","spamcannon.com","spamcannon.net","spamgourmet.com","spamgourmet.net","spamgourmet.org","speedpost.net","speedymail.org","ssl-mail.com","swift-mail.com","tfwno.gf","the-fastest.net","the-quickest.com","theinternetemail.com","veryfast.biz","veryspeedy.net","waifu.club","warpmail.net","xoxy.net","xsmail.com","yahoo.com.ph","yahoo.com.vn","yeah.net","yepmail.net","your-mail.com"
@@ -102,5 +104,32 @@ class Domain extends \yii\db\ActiveRecord
       $r->domain=$domain;
       $r->level=$level;
       $r->save();
+    }
+
+    public static function cleanseUsers() {
+      // searches existing email domains for blacklisted emails
+      $users = User::find()
+        ->where('status>0') // not STATUS_DELETED
+        ->all();
+      foreach ($users as $u) {
+        $emailDomain = end(explode('@',$u->email));
+        if (!Domain::verify($emailDomain)) {
+          echo $u->email.'<br />';
+        }
+      }
+    }
+
+    public static function verify($domain) {
+      $v = Domain::find()
+        ->where(['domain'=>$domain])
+        ->andWhere(['level'=>Domain::LEVEL_BLACK])
+        ->one();
+      if (is_null($v)) {
+        // not a blacklisted domain
+        return true;
+      } else {
+        // a blacklisted domain
+        return false;
+      }
     }
 }

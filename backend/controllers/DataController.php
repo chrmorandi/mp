@@ -93,7 +93,7 @@ class DataController extends Controller
 
     public function actionEmails() {
       // preload blacklist and whitelist emails
-       Domain::preload();
-
+       //Domain::preload();
+       Domain::cleanseUsers();
     }
 }
