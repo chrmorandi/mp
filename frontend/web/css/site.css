@@ -365,6 +365,21 @@ color:#a0a0a0;
   float:right;
 }
 
+.copy-url {
+  display:inline;
+}
+.copy-url-clear {
+  clear:both;
+}
+
+.input-xs {
+    height: 22px;
+    padding: 5px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
 /* iphone 5 and small as */
 @media only screen
   and (max-device-width: 320px)
