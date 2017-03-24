@@ -364,6 +364,12 @@ color:#a0a0a0;
 #virtualThingBox {
   float:right;
 }
+#invitation-url {
+  float:right;
+}
+.clear-both {
+  clear:both;
+}
 
 /* iphone 5 and small as */
 @media only screen

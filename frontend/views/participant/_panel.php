@@ -53,11 +53,11 @@ use yii\bootstrap\Collapse;
   </div>
   <?php if ($model->isOrganizer()) { ?>
   <div class="panel-footer short-footer">
-    <span id="invitation-url" class="hint-text">
-      Or, share
+    <div id="invitation-url" class="hint-text">
+    You can also invite participants by sharing
     <?= Html::a($model->getSharingUrl(),$model->getSharingUrl()); ?>
-    to invite participants by email.
-  </span>
+    </div>
+    <span class="clear-both">&nbsp;</span>
   </div>
   <?php } ?>
 </div>
