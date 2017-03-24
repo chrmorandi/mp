@@ -1,11 +1,12 @@
 <?php
 namespace frontend\models;
 
-use common\models\User;
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
 use yii\helpers\Html;
 use yii\validators\EmailValidator;
+use common\models\User;
+use frontend\models\Domain;
 
 /**
  * Signup form
@@ -29,6 +30,7 @@ class SignupForm extends Model
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
+            ['email','safeEmail'],
             ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken. '.Html::a('Looking for your password?', ['site/request-password-reset'])],
             ['password', 'required'],
@@ -38,6 +40,15 @@ class SignupForm extends Model
         ];
     }
 
+    public function safeEmail($attribute, $params)
+        {
+          $tempEmail = explode('@',$this->$attribute);
+          $emailDomain = end($tempEmail);
+          // check domain against blacklist
+          if (!Domain::verify($emailDomain)) {
+            $this->addError($attribute, 'Sorry, we do not support your email address.');
+          }
+        }
     /**
      * Signs user up.
      *
@@ -55,7 +66,6 @@ class SignupForm extends Model
             $user->completeInitialize($user->id);
             return $user;
         }
-
         return null;
     }
 }

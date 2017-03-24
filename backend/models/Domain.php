@@ -114,7 +114,7 @@ class Domain extends \yii\db\ActiveRecord
       foreach ($users as $u) {
         $emailDomain = end(explode('@',$u->email));
         if (!Domain::verify($emailDomain)) {
-          echo $u->email.'<br />';
+          //echo $u->email.'<br />';
           $u->status = User::STATUS_DELETED;
           $u->update();
         }
