@@ -30,8 +30,8 @@ $this->title = Yii::t('backend','Meeting Planner');
               'label'=>'Number of Participants',
                 'attribute' => 'owner_id',
                 'format' => 'raw',
-                'value' => function ($model) {
-                  return '<div> Owner: '.$model->owner_id.'</div>';
+                'value' => function ($model) {                  
+                  return '<div>'.MiscHelpers::getDisplayName($model->owner_id).'-'.$model->owner_id.'</div>';
                     },
             ],
             'cnt',
