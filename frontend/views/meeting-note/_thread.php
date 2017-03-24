@@ -14,7 +14,7 @@ if ($noteProvider->count>0):
 </table>
 <?php else: ?>
 <div class="panel-body">
-<?= Yii::t('frontend','No notes yet. ') ?>
-<?= Html::a(Yii::t('frontend', 'Send a note to other participants.'), 'javascript:void(0);', ['class' => '','title'=>'Add a note','onclick'=>'showNote();']); ?>
+<?= Yii::t('frontend','No messages yet. ') ?>
+<?= Html::a(Yii::t('frontend', 'Send a message to other participants.'), 'javascript:void(0);', ['class' => '','title'=>'Add a message','onclick'=>'showNote();']); ?>
 </div>
 <?php endif; ?>

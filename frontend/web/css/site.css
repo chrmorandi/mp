@@ -230,6 +230,11 @@ table.table-list td.table-switches {
   padding: 10px;
 }
 
+.panel hr {
+    margin-top:0px;
+    margin-bottom:15px;
+}
+
 .panel .table {
   margin-bottom:0px;
 }
