@@ -12,14 +12,13 @@ use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\authclient\ClientInterface;
 use yii\data\ActiveDataProvider;
-use yii\base\DynamicModel;
 use common\models\User;
+use frontend\models\UserProfile;
 use frontend\models\Meeting;
 use frontend\models\Participant;
 use frontend\models\ParticipantSearch;
 use frontend\models\Friend;
 use frontend\models\Auth;
-use frontend\models\UserProfile;
 use frontend\models\Domain;
 
 /**
@@ -42,7 +41,7 @@ class ParticipantController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join','add','getbuttons'],
+                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join','add','getbuttons','test'],
                        'roles' => ['@'],
                    ],
                   [
@@ -291,26 +290,47 @@ class ParticipantController extends Controller
       // parse add_email, now able to be a group
       $emailList = preg_split("/\\r\\n|\\r|\\n|,/", trim($add_email,' '));
       $successCount = 0;
-      $emailModel=DynamicModel::validateData(['email'], [
-        ['email', 'filter', 'filter' => 'trim'],
-        ['email', 'email'],
-        ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
-      ]);
       foreach ($emailList as $email) {
         // check if a valid email
-        if($emailModel->hasErrors()) {
+        if (!Participant::customEmailValidator($email))
+        {
           continue;
         } else {
+          // separate email and the name
+          preg_match('/^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/', $email, $matches);
+          if (isset($matches[0])) {
+            $item = $matches[0];
+            // fetch the raw email
+            $final = explode('<',$item);
+            // there is a match for the display name
+            preg_match('~<(.*?)>~', $email, $output);
+            $rawEmail=$output[1];
+            $displayName = trim($final[0]);
+            $fullNameArray= Participant::getBestName($matches[0]);
+            $firstName=$fullNameArray['first'];
+            $lastName=$fullNameArray['last'];
+          } else {
+            // email only
+            $rawEmail = $email;
+            $displayName=''; // none
+            $firstName='';
+            $lastName='';
+          }
           // check blacklist
-          $tempEmail = explode('@',$email);
+          $tempEmail = explode('@',$rawEmail);
           $emailDomain = end($tempEmail);
           if (!Domain::verify($emailDomain)) {
             continue;
           }
+          $user_id = User::addUserFromEmail($rawEmail);
+          if ($displayName<>'') {
+            // init and populate UserProfile for these
+              UserProfile::applySocialNames($user_id,$firstName,$lastName,$displayName);
+          }
           // save participant
           $p = new Participant;
-          $p->participant_id = User::addUserFromEmail($email);
-          $p->email = $email;
+          $p->participant_id =$user_id;
+          $p->email = $rawEmail;
           $p->meeting_id = $id;
           $p->status=Participant::STATUS_DEFAULT;
           $p->participant_type=Participant::TYPE_DEFAULT;
@@ -322,12 +342,13 @@ class ParticipantController extends Controller
               $successCount+=1;
           } else {
             // failed
+            continue;
           }
         }
-
       }
+      // did at least one succeed
       if ($successCount>0) {
-          return true;
+        return true;
       } else {
         return false;
       }
@@ -345,4 +366,56 @@ class ParticipantController extends Controller
       ]);
       return $result;
     }
+
+    public function actionTest() {
+      $add_email ='jefff
+jeff@reifman.org, cindy smith <cindysmith@gmail.com>
+ ryan@lookahead.,bayley@lookahead.me,george albert <george@gmail.com>,terry albertson <terry@alberston.com>, new.york@alpha.lookahead.me, calif.ornia@newyork.com
+ debbie dallas <dallas@lookahead.me>, navania <nav@lookahead.me>
+ newvan apple <newvan@reifman.org>
+ jeffreifman12312321@gmail.com
+ brian jenkins <brijenk79@gmail.com>, sally rae jensen <jensen@jeffreifman.com>';
+      // parse add_email, now able to be a group
+      $emailList = preg_split("/\\r\\n|\\r|\\n|,/", trim($add_email,' '));
+      $successCount = 0;
+      foreach ($emailList as $email) {
+        // check if a valid email
+        if (!Participant::customEmailValidator($email))
+        {
+          continue;
+        } else {
+          // separate email and the name
+          preg_match('/^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/', $email, $matches);
+          if (isset($matches[0])) {
+            $item = $matches[0];
+            // fetch the raw email
+            $final = explode('<',$item);
+            // there is a match for the display name
+            preg_match('~<(.*?)>~', $email, $output);
+            $rawEmail=$output[1];
+            $displayName = trim($final[0]);
+            $fullNameArray= Participant::getBestName($matches[0]);
+            $firstName=$fullNameArray['first'];
+            $lastName=$fullNameArray['last'];
+          } else {
+            // email only
+            $rawEmail = $email;
+            $displayName=''; // none
+            $firstName='';
+            $lastName='';
+          }
+          // check blacklist
+          $tempEmail = explode('@',$rawEmail);
+          $emailDomain = end($tempEmail);
+          if (!Domain::verify($emailDomain)) {
+            continue;
+          }
+      }
+      echo $rawEmail.'<br />';
+      echo $displayName.'<br />';
+      echo $firstName.'<br />';
+      echo $lastName.'<br />';
+      echo '==<br />';
+    }
+  }
 }

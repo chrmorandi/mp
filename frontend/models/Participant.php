@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\base\DynamicModel;
 use common\models\User;
 use common\models\Yiigun;
 use frontend\models\Friend;
@@ -76,13 +77,12 @@ class Participant extends \yii\db\ActiveRecord
     {
         return [
             [['meeting_id'], 'required'],
-          // the email attribute should be a valid email address
-            ['email', 'email'],
             [['meeting_id', 'participant_id', 'invited_by', 'status','participant_type', 'notify','created_at', 'updated_at'], 'integer'],
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
               //['new_email','email'],
-              ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
+              ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true,'allowName'=>true],
+              //['email', 'email'],
               //['new_email','mailgunValidator'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],
         ];
@@ -215,4 +215,34 @@ class Participant extends \yii\db\ActiveRecord
       return true;
     }
 
+    // used for adding participants via Ajax
+    public static function customEmailValidator($email)
+    {
+      $model = DynamicModel::validateData(compact('email'), [
+        ['email', 'filter', 'filter' => 'trim'],
+        ['email','required'],
+        ['email', 'email', 'allowName'=>true,  'checkDNS'=>true, 'enableIDN'=>true],
+      ]);
+      if ($model->hasErrors()) {
+          // validation fails
+          return false;
+      } else {
+          // validation succeeds
+          return true;
+      }
+    }
+
+    public static function getBestName($str) {
+      $nameList = explode(' ',trim($str,' '));
+      $cnt=count($nameList);
+      if (isset($nameList[0])) {
+        $result['first']=$nameList[0];
+      }
+      if ($cnt>2 && isset($nameList[$cnt-2])) {
+        $result['last']=$nameList[$cnt-2];
+      } else {
+        $result['last']='';
+      }
+      return $result;
+    }
 }
