@@ -7,8 +7,8 @@ use frontend\models\Participant;
 if (!$model->isOwner(Yii::$app->user->getId())) {
 ?>
 <div class="btn-group btn-participant">
-  <button type="button" class="btn btn-default btn-sm dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-star red-star aria-hidden="true"></span>
+  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-star red-star" aria-hidden="true"></span>
     <?= MiscHelpers::getDisplayName($model->owner_id) ?>
     <span class="caret"></span>
   </button>

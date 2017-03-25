@@ -11,14 +11,15 @@ use yii\bootstrap\ActiveForm;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\authclient\ClientInterface;
+use yii\data\ActiveDataProvider;
 use common\models\User;
+use frontend\models\UserProfile;
 use frontend\models\Meeting;
 use frontend\models\Participant;
 use frontend\models\ParticipantSearch;
 use frontend\models\Friend;
 use frontend\models\Auth;
-use frontend\models\UserProfile;
-use yii\data\ActiveDataProvider;
+use frontend\models\Domain;
 
 /**
  * ParticipantController implements the CRUD actions for Participant model.
@@ -285,25 +286,73 @@ class ParticipantController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
         return false;
-      }      
-      // save participant
-      $p = new Participant;
-      $p->email = $add_email;
-      $p->meeting_id = $id;
-      $p->status=Participant::STATUS_DEFAULT;
-      $p->participant_type=Participant::TYPE_DEFAULT;
-      $p->participant_id = User::addUserFromEmail($p->email);
-      $p->invited_by = Yii::$app->user->getId();
-      // to do - get validation errors and return them
-      $p->validate();
-      if (count($p->getErrors())==0) {
-          $p->save();
-          return true;
+      }
+      // parse add_email, now able to be a group
+      $emailList = preg_split("/\\r\\n|\\r|\\n|,/", trim($add_email,' '));
+      $successCount = 0;
+      foreach ($emailList as $email) {
+        // check if a valid email
+        if (!Participant::customEmailValidator($email))
+        {
+          continue;
+        } else {
+          // separate email and the name
+          preg_match('/^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/', $email, $matches);
+          if (isset($matches[0])) {
+            $item = $matches[0];
+            // fetch the raw email
+            $final = explode('<',$item);
+            // there is a match for the display name
+            preg_match('~<(.*?)>~', $email, $output);
+            $rawEmail=$output[1];
+            $displayName = trim($final[0]);
+            $fullNameArray= Participant::getBestName($matches[0]);
+            $firstName=$fullNameArray['first'];
+            $lastName=$fullNameArray['last'];
+          } else {
+            // email only
+            $rawEmail = $email;
+            $displayName=''; // none
+            $firstName='';
+            $lastName='';
+          }
+          $rawEmail = strtolower($rawEmail);
+          // check blacklist
+          $tempEmail = explode('@',$rawEmail);
+          $emailDomain = end($tempEmail);
+          if (!Domain::verify($emailDomain)) {
+            continue;
+          }
+          $user_id = User::addUserFromEmail($rawEmail);
+          if ($displayName<>'') {
+            // init and populate UserProfile for these
+              UserProfile::applySocialNames($user_id,$firstName,$lastName,$displayName);
+          }
+          // save participant
+          $p = new Participant;
+          $p->participant_id =$user_id;
+          $p->email = $rawEmail;
+          $p->meeting_id = $id;
+          $p->status=Participant::STATUS_DEFAULT;
+          $p->participant_type=Participant::TYPE_DEFAULT;
+          $p->invited_by = Yii::$app->user->getId();
+          // to do - get validation errors and return them
+          $p->validate();
+          if (count($p->getErrors())==0) {
+              $p->save();
+              $successCount+=1;
+          } else {
+            // failed
+            continue;
+          }
+        }
+      }
+      // did at least one succeed
+      if ($successCount>0) {
+        return true;
       } else {
         return false;
       }
-
-
     }
 
     public function actionGetbuttons($id) {
@@ -318,4 +367,14 @@ class ParticipantController extends Controller
       ]);
       return $result;
     }
+
+    /*public static function actionTest() {
+      $user_id = User::addUserFromEmail('roobyajones@lookahead.io');
+      $firstName='Robby';
+      $lastName='Jones';
+      $displayName='Robby Sally Jones';
+        // init and populate UserProfile for these
+          UserProfile::applySocialNames($user_id,$firstName,$lastName,$displayName);
+
+    }*/
 }

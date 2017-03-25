@@ -36,12 +36,14 @@ use frontend\models\Meeting;
       <div id="collapseWhat" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhat">
         <div class="panel-body">
           <div id="showWhat">
+          <span>
           <?php if (empty($model->message)) {
             echo Html::encode($this->title);
             // note: required because couldn't prevent extra space
           } else {
             echo Html::encode($this->title).': '.Html::encode($model->message).'&nbsp;';
           } ?>
+        </span>  
           </div>
           <div id="editWhat" class="hidden">
             <?= $this->render('_form', [
