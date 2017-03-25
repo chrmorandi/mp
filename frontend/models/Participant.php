@@ -81,7 +81,7 @@ class Participant extends \yii\db\ActiveRecord
             [['meeting_id', 'participant_id', 'invited_by', 'status','participant_type', 'notify','created_at', 'updated_at'], 'integer'],
               ['email', 'filter', 'filter' => 'trim'],
               ['email', 'required'],
-              ['new_email','email'],
+              //['new_email','email'],
               ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
               //['new_email','mailgunValidator'],
             ['participant_id', 'compare','compareAttribute'=>'invited_by','operator'=>'!=','message'=>'You cannot invite yourself.'],

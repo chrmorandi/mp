@@ -239,6 +239,10 @@ table.table-list td.table-switches {
   margin-bottom:0px;
 }
 
+.panel-who {
+    padding:10px 15px;
+}
+
 #placeTable {
   margin-bottom:0px;
 }

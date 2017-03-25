@@ -11,6 +11,8 @@ use yii\bootstrap\ActiveForm;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\authclient\ClientInterface;
+use yii\data\ActiveDataProvider;
+use yii\base\DynamicModel;
 use common\models\User;
 use frontend\models\Meeting;
 use frontend\models\Participant;
@@ -18,7 +20,7 @@ use frontend\models\ParticipantSearch;
 use frontend\models\Friend;
 use frontend\models\Auth;
 use frontend\models\UserProfile;
-use yii\data\ActiveDataProvider;
+use frontend\models\Domain;
 
 /**
  * ParticipantController implements the CRUD actions for Participant model.
@@ -285,25 +287,50 @@ class ParticipantController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       if (!Meeting::isAttendee($id,Yii::$app->user->getId())) {
         return false;
-      }      
-      // save participant
-      $p = new Participant;
-      $p->email = $add_email;
-      $p->meeting_id = $id;
-      $p->status=Participant::STATUS_DEFAULT;
-      $p->participant_type=Participant::TYPE_DEFAULT;
-      $p->participant_id = User::addUserFromEmail($p->email);
-      $p->invited_by = Yii::$app->user->getId();
-      // to do - get validation errors and return them
-      $p->validate();
-      if (count($p->getErrors())==0) {
-          $p->save();
+      }
+      // parse add_email, now able to be a group
+      $emailList = preg_split("/\\r\\n|\\r|\\n|,/", trim($add_email,' '));
+      $successCount = 0;
+      $emailModel=DynamicModel::validateData(['email'], [
+        ['email', 'filter', 'filter' => 'trim'],
+        ['email', 'email'],
+        ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
+      ]);
+      foreach ($emailList as $email) {
+        // check if a valid email
+        if($emailModel->hasErrors()) {
+          continue;
+        } else {
+          // check blacklist
+          $tempEmail = explode('@',$email);
+          $emailDomain = end($tempEmail);
+          if (!Domain::verify($emailDomain)) {
+            continue;
+          }
+          // save participant
+          $p = new Participant;
+          $p->participant_id = User::addUserFromEmail($email);
+          $p->email = $email;
+          $p->meeting_id = $id;
+          $p->status=Participant::STATUS_DEFAULT;
+          $p->participant_type=Participant::TYPE_DEFAULT;
+          $p->invited_by = Yii::$app->user->getId();
+          // to do - get validation errors and return them
+          $p->validate();
+          if (count($p->getErrors())==0) {
+              $p->save();
+              $successCount+=1;
+          } else {
+            // failed
+          }
+        }
+
+      }
+      if ($successCount>0) {
           return true;
       } else {
         return false;
       }
-
-
     }
 
     public function actionGetbuttons($id) {

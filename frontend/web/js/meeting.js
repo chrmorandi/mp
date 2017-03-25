@@ -423,6 +423,7 @@ function getActivities(id) {
 // toggle add participant panel
 function showWhoEmail() {
   if ($('#addParticipantPanel').hasClass( "hidden")) {
+    $('#addParticipantHint').addClass("hidden");
     $('#whoFavorites').addClass("hidden");
     $('#whoEmail').removeClass("hidden");
     $('#addParticipantPanel').removeClass("hidden");
@@ -433,12 +434,15 @@ function showWhoEmail() {
       $('#whoEmail').removeClass("hidden");
     } else {
         $('#addParticipantPanel').addClass("hidden");
+        $('#addParticipantHint').removeClass("hidden");
     }
   }
+  clearParticipantMessage(true);
 };
 
 function showWhoFavorites() {
     if ($('#addParticipantPanel').hasClass( "hidden")) {
+      $('#addParticipantHint').addClass("hidden");
       $('#whoEmail').addClass("hidden");
       $('#whoFavorites').removeClass("hidden");
       $('#participant-emailundefined').attr('placeholder','type or click arrow to choose friends');
@@ -450,8 +454,10 @@ function showWhoFavorites() {
         $('#whoEmail').addClass("hidden");
       } else {
           $('#addParticipantPanel').addClass("hidden");
+          $('#addParticipantHint').removeClass("hidden");
       }
     }
+    clearParticipantMessage(true);
 };
 
 function addParticipant(id,mode='email') {
@@ -472,6 +478,7 @@ function addParticipant(id,mode='email') {
     displayAlert('participantMessage','participantMessageNoEmail');
     return false;
   }
+  displayAlert('participantMessage','participantMessageStatus');
     $.ajax({
      url: $('#url_prefix').val()+'/participant/add',
      data: {
@@ -515,12 +522,14 @@ function getParticipantButtons(id) {
     type: 'GET',
    success: function(data) {
      $('#participantButtons').html(data);
+     $('#addParticipantHint').html('');
    },
  });
 }
 
 function closeParticipant() {
   $('#addParticipantPanel').addClass("hidden");
+  $('#addParticipantHint').removeClass("hidden");
 }
 
 // meeting time
@@ -758,7 +767,7 @@ function addPlace(id) {
       gp['location']= $('#meetingplace-location').val();
       gp['website']= $('#meetingplace-website').val();
       gp['vicinity']= $('#meetingplace-vicinity').val();
-      gp['full_address']= $('#meetingplace-full_address').val();      
+      gp['full_address']= $('#meetingplace-full_address').val();
       $.ajax({
          url: $('#url_prefix').val()+'/meeting-place/addgp',
          data: {
@@ -872,11 +881,19 @@ function updateWhat(id) {
         message: $('#meeting-message').val()
       },
      success: function(data) {
-       $('#showWhat').text($('#meeting-subject').val());
+       tempSubj = $('#meeting-subject').val();
+       if ($('#meeting-message').val().length>0) {
+         tempSubj=tempSubj+': '+$('#meeting-message').val();
+       }
+       $('#showWhat span').text(tempSubj);
        showWhat();
      }
   });
 }
+
+$('#showWhat span').click(function() {
+  showWhat();
+});
 
 function updateNote(id) {
   note = $('#meeting-note').val();
@@ -914,6 +931,16 @@ function updateNoteThread(id) {
   });
 }
 
+function clearParticipantMessage(clearParent=false) {
+  if (clearParent) {
+    $('#participantMessage').addClass('hidden');
+  }
+  $('#participantMessageTell').addClass('hidden');
+  $('#participantMessageStatus').addClass('hidden');
+  $('#participantMessageError').addClass('hidden');
+  $('#participantMessageOnlyOne').addClass("hidden");
+  $('#participantMessageNoEmail').addClass("hidden");
+}
   function displayAlert(alert_id,msg_id) {
     // which alert box i.e. which panel alert
     switch (alert_id) {
@@ -933,27 +960,28 @@ function updateNoteThread(id) {
         }
       break;
       case 'participantMessage':
+        clearParticipantMessage();
         // which msg to display
-        $('#participantMessageTell').addClass('hidden');
-        $('#participantMessageError').addClass('hidden');
-        $('#participantMessageOnlyOne').addClass("hidden");
-        $('#participantMessageNoEmail').addClass("hidden");
         switch (msg_id) {
+          case 'participantMessageStatus':
+            $('#participantMessageStatus').removeClass('hidden');
+            $('#participantMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger alert-success');
+          break;
           case 'participantMessageTell':
           $('#participantMessageTell').removeClass('hidden');
-          $('#participantMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+          $('#participantMessage').removeClass('hidden').addClass('alert-success').removeClass('alert-info alert-danger');
           break;
           case 'participantMessageError':
           $('#participantMessageError').removeClass("hidden");
-          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
           break;
           case 'participantMessageNoEmail':
           $('#participantMessageNoEmail').removeClass("hidden");
-          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
           break;
           case 'participantMessageOnlyOne':
           $('#participantMessageOnlyOne').removeClass("hidden");
-          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger');
+          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
           break;
         }
       break;

@@ -41,14 +41,14 @@ class SignupForm extends Model
     }
 
     public function safeEmail($attribute, $params)
-        {
-          $tempEmail = explode('@',$this->$attribute);
-          $emailDomain = end($tempEmail);
-          // check domain against blacklist
-          if (!Domain::verify($emailDomain)) {
-            $this->addError($attribute, 'Sorry, we do not support your email address.');
-          }
-        }
+    {
+      $tempEmail = explode('@',$this->$attribute);
+      $emailDomain = end($tempEmail);
+      // check domain against blacklist
+      if (!Domain::verify($emailDomain)) {
+        $this->addError($attribute, 'Sorry, we do not support your email address.');
+      }
+    }
     /**
      * Signs user up.
      *
