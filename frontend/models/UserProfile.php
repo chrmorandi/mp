@@ -76,6 +76,7 @@ class UserProfile extends \yii\db\ActiveRecord
             [['user_id'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['username', 'validateUsername', 'message'=>Yii::t('frontend','This username already exists.')],
+            ['username', 'noSpaces'],
             [['firstname', 'lastname', 'fullname', 'username', 'filename', 'avatar'], 'string', 'max' => 255],
             [['image'], 'safe'],
             [['image'], 'file', 'extensions'=>'jpg, gif, png,jpeg'],
@@ -107,6 +108,14 @@ class UserProfile extends \yii\db\ActiveRecord
                 $this->addError($attribute, 'This username already exists.');
             }
         }
+
+      public function noSpaces($attribute, $params)
+      {
+        if (stristr($this->$attribute,' ')!==false) {
+          $this->addError($attribute, 'Sorry, we do not allow spaces in your username.');
+        }
+      }
+
 
     public static function initialize($user_id) {
       $up = UserProfile::find()->where(['user_id'=>$user_id])->one();

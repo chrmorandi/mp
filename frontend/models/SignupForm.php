@@ -28,6 +28,7 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username','noSpaces'],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email','safeEmail'],
@@ -49,6 +50,14 @@ class SignupForm extends Model
         $this->addError($attribute, 'Sorry, we do not support your email address.');
       }
     }
+
+    public function noSpaces($attribute, $params)
+    {
+      if (stristr($this->$attribute,' ')!==false) {
+        $this->addError($attribute, 'Sorry, we do not allow spaces in your username.');
+      }
+    }
+
     /**
      * Signs user up.
      *
