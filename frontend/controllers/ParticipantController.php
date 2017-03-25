@@ -367,14 +367,4 @@ class ParticipantController extends Controller
       ]);
       return $result;
     }
-
-    /*public static function actionTest() {
-      $user_id = User::addUserFromEmail('roobyajones@lookahead.io');
-      $firstName='Robby';
-      $lastName='Jones';
-      $displayName='Robby Sally Jones';
-        // init and populate UserProfile for these
-          UserProfile::applySocialNames($user_id,$firstName,$lastName,$displayName);
-
-    }*/
 }
