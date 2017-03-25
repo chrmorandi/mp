@@ -41,7 +41,7 @@ class ParticipantController extends Controller
                   // allow authenticated users
                    [
                        'allow' => true,
-                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join','add','getbuttons','test'],
+                       'actions'=>['create','delete','toggleorganizer','toggleparticipant','join','add','getbuttons'],
                        'roles' => ['@'],
                    ],
                   [
@@ -316,6 +316,7 @@ class ParticipantController extends Controller
             $firstName='';
             $lastName='';
           }
+          $rawEmail = strtolower($rawEmail);
           // check blacklist
           $tempEmail = explode('@',$rawEmail);
           $emailDomain = end($tempEmail);
@@ -367,4 +368,13 @@ class ParticipantController extends Controller
       return $result;
     }
 
+    /*public static function actionTest() {
+      $user_id = User::addUserFromEmail('roobyajones@lookahead.io');
+      $firstName='Robby';
+      $lastName='Jones';
+      $displayName='Robby Sally Jones';
+        // init and populate UserProfile for these
+          UserProfile::applySocialNames($user_id,$firstName,$lastName,$displayName);
+
+    }*/
 }

@@ -110,6 +110,7 @@ class UserProfile extends \yii\db\ActiveRecord
 
     public static function initialize($user_id) {
       $up = UserProfile::find()->where(['user_id'=>$user_id])->one();
+
       if (is_null($up)) {
         $u=User::findOne($user_id);
         $up=new UserProfile;
@@ -119,7 +120,9 @@ class UserProfile extends \yii\db\ActiveRecord
         $up->fullname = '';
         $up->filename='';
         $up->avatar='';
-        $up->username = $u->username;
+        if (isset($up->username)) {
+          $up->username = $u->username;
+        }
         $up->save();
       }
       return $up->id;
