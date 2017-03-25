@@ -479,6 +479,8 @@ function addParticipant(id,mode='email') {
     return false;
   }
   displayAlert('participantMessage','participantMessageStatus');
+  // hide panel
+  $('#addParticipantPanel').addClass("hidden");
     $.ajax({
      url: $('#url_prefix').val()+'/participant/add',
      data: {
@@ -487,10 +489,7 @@ function addParticipant(id,mode='email') {
       },
      success: function(data) {
        // see remove below
-       // to do - display acknowledgement
        // update participant buttons - id = meeting_id
-       // hide panel
-       $('#addParticipantPanel').addClass("hidden");
        if (data === false) {
          // show error, hide tell
          displayAlert('participantMessage','participantMessageError');
