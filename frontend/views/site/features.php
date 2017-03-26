@@ -209,7 +209,7 @@ $this->title = Yii::$app->params['site']['title'];
         <div class="col-md-12 text-center">
           <p></p>
           <?= Html::a(Yii::t('frontend','Sign Up Now'),['site/signup'],['class'=>'btn btn-lg btn-success']); ?>
-          <a class="btn btn-lg btn-primary" href="http://support.meetingplanner.io" role="button">Questions?</a>
+          <a class="btn btn-lg btn-primary" href="/ticket/create" role="button">Questions?</a>
         </div>
 </div>
 <div class="row">
