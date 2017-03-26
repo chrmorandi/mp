@@ -10,7 +10,7 @@ $this->title = 'Signup';
 <div class="site-signup">
   <div class="row ">
     <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <h2><?= Html::encode($this->title).' '.Yii::t('frontend','with ').Yii::$app->params['site']['title'] ?></h2>
+      <h2><?= Yii::t('frontend','Signup') ?></h2>
       <p><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
     </div>
   </div>
@@ -24,7 +24,7 @@ $this->title = 'Signup';
     </div> <!-- end row -->
       <div class="row">
         <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
-          <p><?=Yii::t('frontend','Or, fill out the following fields to register manually:');?></p>
+          <p><?=Yii::t('frontend','Or, register with your email:');?></p>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <?= $form->field($model, 'username')->textInput(['placeholder' => 'JaneSmith']) ?>

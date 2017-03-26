@@ -11,12 +11,12 @@ $this->title = 'Login';
 <div class="site-login">
   <div class="row ">
     <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <h2><?= Html::encode($this->title).' '.Yii::t('frontend','to ').Yii::$app->params['site']['title'] ?></h2>
+      <h2><?= Html::encode($this->title) ?></h2>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-10 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <p>It's easiest to login using one of the following services:</p>
+      <p>It's easiest using any of the following services:</p>
       <?= yii\authclient\widgets\AuthChoice::widget([
            'baseAuthUrl' => ['site/auth','mode'=>'login'],
            'popupMode' => false,
