@@ -10,17 +10,9 @@ use yii\helpers\Html;
 $this->title = 'Sorry, We Encountered a Problem';
 ?>
 <div class="site-error">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
-<!-- div class="alert alert-danger" -->
-<!-- nl2br(Html::encode($message)) -->
-
-    <p>
-        An error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please <a href="http://support.meetingplanner.io">contact us</a> if you think this is a server error. Let us know what you we're doing. Thank you.
-    </p>
-
+    <div class="alert alert-danger">
+        <?= nl2br(Html::encode(Yii::t('frontend','An error occurred while the Web server was processing your request.'))) ?>
+        Please <?= Html::a(Yii::t('frontend','Contact our support team'),['/ticket/create']); ?> and tell us what you were trying to do. Thank you.
+    </div>
 </div>

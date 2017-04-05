@@ -5,6 +5,8 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\base\ErrorException;
+use yii\web\NotFoundHttpException;
 use backend\models\Data;
 use backend\models\MeetingData;
 use backend\models\UserData;
