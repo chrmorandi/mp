@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c53469b236f8f6c454b6a0bfe9852720",
+    "content-hash": "8bb984b37d9a87d504f2c8542ba73c57",
     "packages": [
         {
             "name": "2amigos/yii2-date-time-picker-widget",
@@ -324,39 +324,6 @@
             }
         },
         {
-            "name": "bower-asset/smalot-bootstrap-datetimepicker",
-            "version": "2.4.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/smalot/bootstrap-datetimepicker.git",
-                "reference": "32143c8b45575e51c92a8e29997cbe556d1bbba3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/smalot/bootstrap-datetimepicker/zipball/32143c8b45575e51c92a8e29997cbe556d1bbba3",
-                "reference": "32143c8b45575e51c92a8e29997cbe556d1bbba3",
-                "shasum": ""
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": [
-                    "js/bootstrap-datetimepicker.min.js",
-                    "css/bootstrap-datetimepicker.min.css"
-                ],
-                "bower-asset-ignore": [
-                    "build",
-                    "sample in bootstrap v2",
-                    "sample in bootstrap v3",
-                    "screenshot",
-                    "tests",
-                    ".gitattributes",
-                    ".gitignore",
-                    ".travis.yml",
-                    "minify.sh"
-                ]
-            }
-        },
-        {
             "name": "bower-asset/yii2-pjax",
             "version": "v2.0.6",
             "source": {
@@ -640,6 +607,47 @@
                 "stream_filter_register"
             ],
             "time": "2015-11-08T23:41:30+00:00"
+        },
+        {
+            "name": "codemix/yii2-localeurls",
+            "version": "1.4.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codemix/yii2-localeurls.git",
+                "reference": "9afafc5a660f10a4e9f7d7254a0779222c71323e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codemix/yii2-localeurls/zipball/9afafc5a660f10a4e9f7d7254a0779222c71323e",
+                "reference": "9afafc5a660f10a4e9f7d7254a0779222c71323e",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "codemix\\localeurls\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Härtl",
+                    "email": "haertl.mike@gmail.com"
+                }
+            ],
+            "description": "Automatic locale/language management for URLs.",
+            "keywords": [
+                "i18n",
+                "locale",
+                "yii2"
+            ],
+            "time": "2017-03-23T18:56:49+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -2986,6 +2994,39 @@
             "time": "2016-10-30T11:50:56+00:00"
         },
         {
+            "name": "bower-asset/smalot-bootstrap-datetimepicker",
+            "version": "2.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/bootstrap-datetimepicker.git",
+                "reference": "32143c8b45575e51c92a8e29997cbe556d1bbba3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smalot/bootstrap-datetimepicker/zipball/32143c8b45575e51c92a8e29997cbe556d1bbba3",
+                "reference": "32143c8b45575e51c92a8e29997cbe556d1bbba3",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "js/bootstrap-datetimepicker.min.js",
+                    "css/bootstrap-datetimepicker.min.css"
+                ],
+                "bower-asset-ignore": [
+                    "build",
+                    "sample in bootstrap v2",
+                    "sample in bootstrap v3",
+                    "screenshot",
+                    "tests",
+                    ".gitattributes",
+                    ".gitignore",
+                    ".travis.yml",
+                    "minify.sh"
+                ]
+            }
+        },
+        {
             "name": "bower-asset/typeahead.js",
             "version": "v0.11.1",
             "source": {
@@ -4908,12 +4949,6 @@
         }
     ],
     "aliases": [
-        {
-            "alias": "2.3.1",
-            "alias_normalized": "2.3.1.0",
-            "version": "2.4.4.0",
-            "package": "bower-asset/smalot-bootstrap-datetimepicker"
-        },
         {
             "alias": "4.2.3",
             "alias_normalized": "4.2.3.0",

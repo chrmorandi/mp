@@ -41,7 +41,13 @@ return [
             ]
           ],
       'urlManager' => [
-            'class' => 'yii\web\UrlManager',
+            //'class' => 'yii\web\UrlManager',
+            'class' => 'codemix\localeurls\UrlManager',
+            // List all supported languages here
+            // Make sure, you include your app's default language.
+            'languages' => ['en-*', 'es-*','ru'], // , 'es-*'
+            'enableDefaultLanguageUrlCode' => true,
+            'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             //'enableStrictParsing' => false,
@@ -104,7 +110,7 @@ return [
                               ],*/
               ],
           ],
-          'errorHandler' => [                 
+          'errorHandler' => [
                  'errorAction' => 'site/error',
              ],
         'Yii2Twilio' => [
