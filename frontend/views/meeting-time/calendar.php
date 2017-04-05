@@ -17,7 +17,7 @@
   <button id="create-user">Select Times</button>
     <div id="dialog-form" title="Select Dates and Times">
         <div class="calendarChooser">
-        <table >
+        <table>
             <thead>
               <tr>
                 <th></th> <!-- time column -->
