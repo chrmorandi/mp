@@ -60,7 +60,7 @@ return [
               'site/<action>' => 'site/<action>', // incl eight char action
               'features' => 'site/features',
               'about' => 'site/about',
-              'cfide|wp-login|wp-admin' => 'site/neverland',              
+              'cfide|wp-login|wp-admin' => 'site/neverland',
               '<username>/<identity:[A-Za-z0-9_-]{8}>' => 'meeting/identity',
               'meeting' => 'meeting',
               'friend' => 'friend',
@@ -104,11 +104,9 @@ return [
                               ],*/
               ],
           ],
-          /*
-          'errorHandler' => [
-                 'class' => 'baibaratsky\yii\rollbar\web\ErrorHandler',
+          'errorHandler' => [                 
                  'errorAction' => 'site/error',
-             ],*/
+             ],
         'Yii2Twilio' => [
           'class' => 'filipajdacic\yiitwilio\YiiTwilio',
           'account_sid' => $config['twilio_sid'],

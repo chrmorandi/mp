@@ -239,10 +239,6 @@ table.table-list td.table-switches {
   margin-bottom:0px;
 }
 
-.panel-who {
-    padding:10px 15px;
-}
-
 #placeTable {
   margin-bottom:0px;
 }
@@ -427,6 +423,9 @@ color:#a0a0a0;
     }
     .heading-pad {
       margin-top:5px;
+    }
+    .panel-heading {
+      padding:7px;
     }
     .panel-what-buttons {
       padding-top:30px;

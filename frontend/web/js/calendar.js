@@ -82,7 +82,6 @@ $(document).ready(function() {
         dialog.dialog( "open" );
         callbacks.add( deliverTimes );
       });
-
     });
 
   // add timeslot to cell when clicked
