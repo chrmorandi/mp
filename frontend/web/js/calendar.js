@@ -5,7 +5,6 @@ var duration=60; // default duration in minutes
 var max_limit = 25;
 var loadSolid=[]; // existing, unmovable
 var loadFlex=[]; // existing, can be moved and removed
-
 // load pre-existing times
 $(document).ready(function() {
   // prepare dialog
@@ -16,6 +15,8 @@ $(document).ready(function() {
         height: $(window).height()-20,
         width: $('.wrap').width()-20,
         modal: true,
+        resizable: false,
+        draggable: false,
         position: { my: "left top", at: "left top", of: $('body') },
         //position: { within: $('.wrap') }, // my: "left top", at: "left top", of: $('.wrap')
         buttons: [
@@ -37,7 +38,6 @@ $(document).ready(function() {
             ],
         close: function() {
           $('body').removeClass('stop-scrolling');
-          $('body').unbind('touchmove');
           $('.resizable').each(function() {
            $(this).remove();
          });
@@ -65,14 +65,19 @@ $(document).ready(function() {
             $('.calendarChooser tbody td:nth-child(1)').css("left", $(".calendarChooser tbody").scrollLeft()); //fix the first column of tdbody
             });
           $('body').addClass('stop-scrolling');
-          $('body').bind('touchmove',function(e){e.preventDefault()});
+          $(document).on('touchmove', function(e) {
+              if (!$(e.target).parents('#dialog-form')[0]) {
+                if ($('body').hasClass('stop-scrolling')) {
+                  e.preventDefault(); // block touchmove on parents when dialog open
+                }
+              }
+          });
           loadExistingTimes();
         }
       });
       form = dialog.find( "form" ).on( "submit", function( event ) {
         event.preventDefault();
       });
-
       $( "#buttonTime" ).button().on( "click", function() {
         dialog.dialog( "open" );
         callbacks.add( deliverTimes );
