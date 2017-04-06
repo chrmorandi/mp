@@ -44,8 +44,8 @@ return [
             //'class' => 'yii\web\UrlManager', // overloaded by codemix
             'class' => 'codemix\localeurls\UrlManager',
             // List all supported languages and include your app's default language.
-            'languages' => ['en', 'es','ru','de','fr'], // , 'es-*'
-            'enableDefaultLanguageUrlCode' => true,
+            'languages' => ['en','es','ru','de','fr'], // , 'es-*'
+            'enableDefaultLanguageUrlCode' => false,
             'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,

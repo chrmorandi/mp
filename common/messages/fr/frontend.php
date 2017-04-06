@@ -18,7 +18,8 @@
 */
 return [
     '' => '',
-    'Signup now' => 'S\'inscrire maintenant',
+    'Past' => 'Passé',
+    'Planning' => 'Planification',
     ' accepted the request: ' => 'A accepté la demande:',
     ' and ' => 'et',
     ' asked to meet at ' => 'Demandé de se réunir à',
@@ -509,6 +510,7 @@ return [
     'Shopping' => 'Achats',
     'Sign Up Now' => 'S\'inscrire maintenant',
     'Signup' => 'S\'inscrire',
+    'Signup now' => 'S\'inscrire maintenant',
     'Signup or Login to Schedule a Meeting' => 'Inscrivez-vous ou connectez-vous pour planifier une réunion',
     'Simple Planner' => 'Planificateur simple',
     'Simple to schedule one on one meetups' => 'Simple de programmer des rencontres un sur une',

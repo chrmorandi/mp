@@ -18,7 +18,8 @@
 */
 return [
     '' => '',
-    'Signup now' => 'Зарегистрироваться сейчас',
+    'Past' => 'прошлое',
+    'Planning' => 'Планирование',
     ' accepted the request: ' => 'Принял запрос:',
     ' and ' => 'а также',
     ' asked to meet at ' => 'Попросил встретиться на',
@@ -509,6 +510,7 @@ return [
     'Shopping' => 'Покупка',
     'Sign Up Now' => 'Зарегистрироваться сейчас',
     'Signup' => 'Зарегистрироваться',
+    'Signup now' => 'Зарегистрироваться сейчас',
     'Signup or Login to Schedule a Meeting' => 'Зарегистрироваться или Войти для планирования встречи',
     'Simple Planner' => 'Простой Планировщик',
     'Simple to schedule one on one meetups' => 'Просто составить расписание встреч один на один',

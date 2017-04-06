@@ -12,7 +12,7 @@ class m170406_034755_extend_user_setting_for_language extends Migration
         $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
     }
 
-    $this->addColumn('{{%user_setting}}','language',Schema::TYPE_STRING.' NOT NULL');
+    $this->addColumn('{{%user_setting}}','language',Schema::TYPE_STRING.' NOT NULL DEFAULT "en"');
   }
 
   public function down()

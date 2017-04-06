@@ -18,7 +18,8 @@
 */
 return [
     '' => '',
-    'Signup now' => 'Jetzt anmelden',
+    'Past' => 'Vergangenheit',
+    'Planning' => 'Planung',
     'A new app to make scheduling as simple as it should be.' => '@@Eine neue App , um die Planung so einfach, wie es sein sollte.@@',
     'Building Places' => '@@Gebäude Places@@',
     'Coming Soon' => '@@kommt Bald@@',
@@ -519,6 +520,7 @@ return [
     'Shopping' => 'Einkaufen',
     'Sign Up Now' => 'Jetzt anmelden',
     'Signup' => 'Anmeldung',
+    'Signup now' => 'Jetzt anmelden',
     'Signup or Login to Schedule a Meeting' => 'Registrieren oder anmelden, um eine Besprechung zu planen',
     'Simple Planner' => 'Einfacher Planer',
     'Simple to schedule one on one meetups' => 'Einfach zu planen eins auf einem Treffen',
