@@ -44,14 +44,14 @@ return [
             //'class' => 'yii\web\UrlManager', // overloaded by codemix
             'class' => 'codemix\localeurls\UrlManager',
             // List all supported languages and include your app's default language.
-            'languages' => ['en','es','ru','de','fr'], // , 'es-*'
+            'languages' => ['en','es','ru','fr','de','ar','pt','zh-CN','ja','ko','hi'],//,'ko','hi' // ['en','es','ru','de','fr'], // , 'es-*'
             'enableDefaultLanguageUrlCode' => false,
             'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'ignoreLanguageUrlPatterns' => [
                 // route pattern => url pattern
-                '#^site/(login|signup)#' => '#^site/(login|signup)#',
+                '#^site/auth#' => '#^site/auth#',
                 '#^address/import#' => '#^address/import#',
                 '#^mailgun-notification/store#' => '#mailgun-notification/store#',
             ],
@@ -67,7 +67,7 @@ return [
               'place/<slug>' => 'place/slug',
               '<controller:\w+>/<id:\d+>' => '<controller>/view',
               '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-              'daemon/<action>' => 'daemon/<action>', // incl eight char action              
+              'daemon/<action>' => 'daemon/<action>', // incl eight char action
               'site/<action>' => 'site/<action>', // incl eight char action
               'features' => 'site/features',
               'about' => 'site/about',

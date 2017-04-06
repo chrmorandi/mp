@@ -18,8 +18,6 @@
 */
 return [
     '' => '',
-    'Past' => 'Passé',
-    'Planning' => 'Planification',
     ' accepted the request: ' => 'A accepté la demande:',
     ' and ' => 'et',
     ' asked to meet at ' => 'Demandé de se réunir à',
@@ -393,6 +391,7 @@ return [
     'Participants' => 'Participants',
     'Participants select times and dates that work well for them. Organizers choose the best.' => 'Les participants sélectionnent les heures et les dates qui fonctionnent bien pour eux. Les organisateurs choisissent le meilleur.',
     'Party' => 'Fête',
+    'Past' => 'Passé',
     'People You Have Blocked' => 'Personnes que vous avez bloquées',
     'Phone call ' => 'Appel téléphonique',
     'Photo' => 'Photo',
@@ -403,6 +402,7 @@ return [
     'Places' => 'Des endroits',
     'Plan meetings with friends and colleagues in minutes, without the needless back and forth email chains.' => 'Planifiez des réunions avec des amis et des collègues en quelques minutes, sans les chaînes de courrier aller-retour inutiles.',
     'Plan times for your rescheduled meeting below.' => 'Planifiez les heures pour votre réunion reportée ci-dessous.',
+    'Planning' => 'Planification',
     'Planning a Group Meeting' => 'Planification d\'une réunion de groupe',
     'Play board games' => 'Jeux de société',
     'Play scrabble' => 'Jouer au scrabble',

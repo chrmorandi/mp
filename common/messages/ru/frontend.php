@@ -18,8 +18,6 @@
 */
 return [
     '' => '',
-    'Past' => 'прошлое',
-    'Planning' => 'Планирование',
     ' accepted the request: ' => 'Принял запрос:',
     ' and ' => 'а также',
     ' asked to meet at ' => 'Попросил встретиться на',
@@ -393,6 +391,7 @@ return [
     'Participants' => 'Участники',
     'Participants select times and dates that work well for them. Organizers choose the best.' => 'Участники выбирают время и даты, которые хорошо подходят для них. Организаторы выбирают лучшее.',
     'Party' => 'Вечеринка',
+    'Past' => 'прошлое',
     'People You Have Blocked' => 'Люди, которых вы заблокировали',
     'Phone call ' => 'Телефонный звонок',
     'Photo' => 'Фото',
@@ -403,6 +402,7 @@ return [
     'Places' => 'Места',
     'Plan meetings with friends and colleagues in minutes, without the needless back and forth email chains.' => 'Запланируйте встречи с друзьями и коллегами за считанные минуты, без ненужных пересылок электронной почты.',
     'Plan times for your rescheduled meeting below.' => 'Планирование времени для вашего перенесенного собрания ниже.',
+    'Planning' => 'Планирование',
     'Planning a Group Meeting' => 'Планирование группового совещания',
     'Play board games' => 'Играть в настольные игры',
     'Play scrabble' => 'Играть scrabble',

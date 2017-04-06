@@ -18,8 +18,6 @@
 */
 return [
     '' => '',
-    'Past' => 'Vergangenheit',
-    'Planning' => 'Planung',
     'A new app to make scheduling as simple as it should be.' => '@@Eine neue App , um die Planung so einfach, wie es sein sollte.@@',
     'Building Places' => '@@Gebäude Places@@',
     'Coming Soon' => '@@kommt Bald@@',
@@ -403,6 +401,7 @@ return [
     'Participants' => 'Teilnehmer',
     'Participants select times and dates that work well for them. Organizers choose the best.' => 'Die Teilnehmer wählen Zeiten und Termine aus, die für sie gut funktionieren. Veranstalter wählen das Beste aus.',
     'Party' => 'Party',
+    'Past' => 'Vergangenheit',
     'People You Have Blocked' => 'Leute, die du blockiert hast',
     'Phone call ' => 'Anruf',
     'Photo' => 'Foto',
@@ -413,6 +412,7 @@ return [
     'Places' => 'Places',
     'Plan meetings with friends and colleagues in minutes, without the needless back and forth email chains.' => 'Planen Sie Treffen mit Freunden und Kollegen in wenigen Minuten, ohne die unnötigen Hin und Her E-Mail-Ketten.',
     'Plan times for your rescheduled meeting below.' => 'Planen Sie mal für Ihre geplante Besprechung unten.',
+    'Planning' => 'Planung',
     'Planning a Group Meeting' => 'Planen einer Gruppentreffen',
     'Play board games' => 'Brettspiele spielen',
     'Play scrabble' => 'Spielen scrabble',
