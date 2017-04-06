@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?php $this->head() ?>    
 </head>
 <body>
     <?php $this->beginBody() ?>
@@ -122,25 +122,26 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-          <p class="pull-left">
+          <div class="pull-left">
             <?php
               echo Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']);
+
               echo Html::tag('span',' . ',['class'=>'itemHide']);
               echo Html::a(Yii::t('frontend','privacy'),Url::to(['/site/privacy']));
               echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
+              echo Html::tag('span',' . ',['class'=>'']);
             ?>
-          </p>
-          <?= \kmergen\LanguageSwitcher::widget([
-                 'parentTemplate' => '<nav class="navbar-nav dropup pull-right" style="padding-left:10px;list-style-type: none;">
-                  <li class="dropdown">{activeItem}
-                      <ul class="dropdown-menu">{items}</ul>
-                   </li>
-               </nav>', // <span class="itemHide pull-right">&nbsp;.&nbsp;</span>
-               'activeItemTemplate' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="flag flag-{language}"></i> <span class="caret"></span></a>',
-               'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
-          ]);
-          ?>
-        <p class="pull-right">
+            <?= \kmergen\LanguageSwitcher::widget([
+                   'parentTemplate' => '
+                    {activeItem}
+                        <ul class="dropdown-menu drop-up"  role="menu">{items}</ul>
+                 </div>',
+                 'activeItemTemplate' => '<div class="btn-group"><div class=" dropdown-toggle" data-toggle="dropdown"><i class="flag flag-{language}"></i> <span class="caret caret-up"></span>
+                 </div>',
+                 'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
+            ]);?>
+          </div>
+        <div class="pull-right">
         <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
         <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io'))); ?>
         <?php
@@ -149,7 +150,7 @@ AppAsset::register($this);
           echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/about'])),['class'=>'itemHide']);
         }
          ?>
-        </p>
+       </div>
         </div>
     </footer>
     <script>

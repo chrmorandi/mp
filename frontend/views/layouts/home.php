@@ -32,21 +32,12 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <?php $this->beginBody() ?>
         <div class="wrap">
         <?php
-                NavBar::begin([
+              NavBar::begin([
                 'brandLabel' =>  Yii::$app->params['site']['title'].'&nbsp;<span class="badge">preview</span>', //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',
                 ],
-            ]);
-            echo \kmergen\LanguageSwitcher::widget([
-                   'parentTemplate' => '<nav class="navbar-nav nav ">
-                    <li class="dropdown">{activeItem}
-                        <ul class="dropdown-menu">{items}</ul>
-                     </li>
-                 </nav>',
-                 'activeItemTemplate' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="flag flag-{language}"></i> <span class="caret"></span></a>',
-                 'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
             ]);
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('frontend','Features'), 'url' => ['/features']];
@@ -122,6 +113,15 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
                           'items' => $menuItems,
                       ]);
       			}
+            echo \kmergen\LanguageSwitcher::widget([
+                   'parentTemplate' => '<nav class="navbar-nav nav no-collapse">
+                    <li class="dropdown">{activeItem}
+                        <ul class="dropdown-menu">{items}</ul>
+                     </li>
+                 </nav>',
+                 'activeItemTemplate' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="flag flag-{language}"></i> <span class="caret"></span></a>',
+                 'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
+            ]);
             NavBar::end();
         ?>
 

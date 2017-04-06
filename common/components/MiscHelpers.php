@@ -138,7 +138,7 @@ class MiscHelpers  {
 
   public static function getUrlPrefix() {
     // to do - obviate this with proper config of base url
-    return (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'].'/'.Yii::$app->language : '');
+    return (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'].'/'.(Yii::$app->language=='en'?'':Yii::$app->language) : ''); // 
   }
 
   public static function br($n = 1) {

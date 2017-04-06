@@ -2,6 +2,28 @@
     Created on : 06.11.2016, 15:29:07
     Author     : Klaus Mergen <kmergenweb@gmail.com>
 */
+.caret-up {
+/* Safari */
+-webkit-transform: rotate(-180deg);
+
+/* Firefox */
+-moz-transform: rotate(-180deg);
+
+/* IE */
+-ms-transform: rotate(-180deg);
+
+/* Opera */
+-o-transform: rotate(-180deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=6);
+
+}
+
+.drop-up {
+top: auto;
+bottom: 100% !important;
+}
 
 .flag {
 	width: 16px;
@@ -262,7 +284,7 @@
 	background-position: -240px -33px;
 }
 
-.flag.flag-en {	
+.flag.flag-en {
   background-position: -160px -154px;
 }
 
