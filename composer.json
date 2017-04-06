@@ -10,6 +10,12 @@
         "forum": "http://support.meetingplanner.io/support/home",
         "source": "https://github.com/newscloud/mp"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/newscloud/yii2-language-switcher"
+        }
+    ],
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.0",

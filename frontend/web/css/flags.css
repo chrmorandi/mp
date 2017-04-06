@@ -208,7 +208,7 @@ bottom: 100% !important;
 	background-position: -192px -22px;
 }
 
-.flag.flag-cn {
+.flag.flag-zh-CN {
 	background-position: -208px -22px;
 }
 
@@ -1046,4 +1046,16 @@ bottom: 100% !important;
 
 .flag.flag-zw {
 	background-position: -208px -165px;
+}
+
+.flag.flag-ko {
+	background-position: -144px -77px;
+}
+
+.flag.flag-ja {
+	background-position: -16px -77px;
+}
+
+.flag.flag-hi {
+	background-position: -128px -66px;
 }
