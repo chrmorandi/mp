@@ -17,11 +17,18 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Browse' => '@@@@',
-    'Remove' => '@@@@',
-    'Upload' => '@@@@',
-    'Note:' => 'Nota:',
-    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'Su navegador no admite {validation} . Pruebe con un navegador alternativo o más reciente para acceder a estas funciones.',
-    'file preview and multiple file upload' => 'Vista previa de archivos y carga múltiple de archivos',
-    'multiple file upload' => 'Carga múltiple de archivos',
+    'Are you sure you want to delete this item?' => 'Êtes-vous sûr de bien vouloir supprimer cet élément?',
+    'Create' => 'Créer',
+    'Create User' => 'Créer un utilisateur',
+    'Created At' => 'Créé à',
+    'Delete' => 'Effacer',
+    'ID' => 'ID',
+    'Reset' => 'Réinitialiser',
+    'Search' => 'Chercher',
+    'Token' => 'Jeton',
+    'Update' => 'Mettre à jour',
+    'Update {modelClass}: ' => 'Mettre à jour {modelClass} :',
+    'Updated At' => 'Mis à jour à',
+    'User ID' => 'Identifiant d\'utilisateur',
+    'Users' => 'Utilisateurs',
 ];

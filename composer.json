@@ -19,7 +19,7 @@
         "openbuildings/swiftmailer-css-inliner":"*",
         "2amigos/yii2-google-maps-library": "*",
         "2amigos/yii2-google-places-library": "*",
-        "stichoza/google-translate-php": "~2.0",
+        "stichoza/google-translate-php": "^3.2",
         "google/apiclient": "1.0.*@beta",
         "2amigos/yii2-date-time-picker-widget": "*",
         "yiisoft/yii2-jui": "*",

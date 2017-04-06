@@ -16,7 +16,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 use yii\i18n\GettextPoFile;
 use yii\console\controllers\MessageController;
-use Stichoza\Google\GoogleTranslate;
+use Stichoza\GoogleTranslate\TranslateClient;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -34,9 +34,10 @@ class TranslateController extends MessageController
      */
      public function actionIndex($message = 'hello {world} apple beta {gamma {horse, cat}} this {mysite} this is a draw {apple {beta,{cat,dog} dog} house} farm')
      {
-       echo GoogleTranslate::staticTranslate('hello world', "en", "es"). "\n";         
+       $tr = new TranslateClient('en', 'es');
+       echo $tr->translate('hello world'). "\n";
         $message='The image "{file}" is too large. The height cannot be larger than {limit, number} {limit, plural, one{pixel} other{pixels}}.';
-        print_r($this->parse_safe_translate($message));        
+        print_r($this->parse_safe_translate($message));
         /*
         $message='{nFormatted} {n, plural, =1{kibibyte} other{kibibytes}}';
        print_r($this->parse_safe_translate($message));
@@ -45,10 +46,10 @@ class TranslateController extends MessageController
        $message='The image "{file}" is too large. The height cannot be larger than {limit, number} {limit, plural, one{pixel} other{pixels}}.';
        print_r($this->parse_safe_translate($message));
        var_dump($this->parse_safe_translate('Are you sure you want to delete this item?'));
-       var_dump($this->parse_safe_translate('Create {modelClass}'));       
+       var_dump($this->parse_safe_translate('Create {modelClass}'));
        */
      }
-     
+
      /**
       * Extracts messages to be translated from source code.
       *
@@ -130,7 +131,7 @@ class TranslateController extends MessageController
                  $config['languages']
              );
          }
-     }     
+     }
 
      /**
       * Writes messages into PHP files
@@ -142,8 +143,8 @@ class TranslateController extends MessageController
       * @param boolean $sort if translations should be sorted
       */
      protected function saveMessagesToPHPEnhanced($messages, $dirName, $overwrite, $removeUnused, $sort,$language)
-     {       
-         foreach ($messages as $category => $msgs) {           
+     {
+         foreach ($messages as $category => $msgs) {
              $file = str_replace("\\", '/', "$dirName/$category.php");
              $path = dirname($file);
              FileHelper::createDirectory($path);
@@ -152,8 +153,8 @@ class TranslateController extends MessageController
              $this->stdout("Saving messages to $coloredFileName...\n");
              $this->saveMessagesCategoryToPHPEnhanced($msgs, $file, $overwrite, $removeUnused, $sort, $category,$language);
          }
-     }     
-     
+     }
+
          /**
           * Writes category messages into PHP file
           *
@@ -168,6 +169,7 @@ class TranslateController extends MessageController
           */
          protected function saveMessagesCategoryToPHPEnhanced($messages, $fileName, $overwrite, $removeUnused, $sort, $category,$language,$force=true)
          {
+            $trLib = new TranslateClient('en', $language);
              if (is_file($fileName)) {
                  $existingMessages = require($fileName);
                  sort($messages);
@@ -176,7 +178,7 @@ class TranslateController extends MessageController
                    if (array_keys($existingMessages) == $messages) {
                        $this->stdout("Nothing new in \"$category\" category... Nothing to save.\n\n", Console::FG_GREEN);
                        return;
-                   }                   
+                   }
                  }
                  $merged = [];
                  $untranslated = [];
@@ -191,7 +193,7 @@ class TranslateController extends MessageController
                  sort($untranslated);
                  $todo = [];
                  foreach ($untranslated as $message) {
-                     $todo[$message] = $this->getGoogleTranslation($message,$language);
+                     $todo[$message] = $this->getGoogleTranslation($message,$language,$trLib);
                  }
                  ksort($existingMessages);
                  foreach ($existingMessages as $message => $translation) {
@@ -203,7 +205,7 @@ class TranslateController extends MessageController
                          }
                      }
                  }
-                 
+
                  $merged = array_merge($todo, $merged);
                  if ($sort) {
                      ksort($merged);
@@ -248,13 +250,13 @@ EOD;
              $this->stdout("Translation saved.\n\n", Console::FG_GREEN);
          }
 
-         public function getGoogleTranslation($message,$language) {
+         public function getGoogleTranslation($message,$language,$trLib) {
            $arr_parts=$this->parse_safe_translate($message);
            $translation='';
            foreach ($arr_parts as $str) {
              if (!stristr($str,'{')) {
                if (strlen($translation)>0 and substr($translation,-1)=='}') $translation.=' ';
-               $translation.=GoogleTranslate::staticTranslate($str, Yii::$app->language, $language);               
+               $translation.=$trLib->translate($str);
              } else {
                // add space prefix unless it's first
                if (strlen($translation)>0)
@@ -267,7 +269,7 @@ EOD;
            return $translation;
          }
      /*
-     * parses a string into an array 
+     * parses a string into an array
      * splitting by any curly bracket segments
      * including nested curly brackets
      */
@@ -297,7 +299,7 @@ EOD;
                 // push string leading up to first left curly
                 $prefix = substr ( $s ,  $start , $ptr_first_curly-$start);
                 if (strlen($prefix)>0) {
-                  array_push($result,$prefix);                                  
+                  array_push($result,$prefix);
                 }
               }
               // push (possibly nested) curly string
@@ -306,27 +308,27 @@ EOD;
                 array_push($result,$suffix);
               }
               if ($debug) {
-                echo '|'.substr ( $s ,  $start , $ptr_first_curly-$start-1)."|\n";            
-                echo '|'.substr ( $s ,  $ptr_first_curly , $i-$ptr_first_curly+1)."|\n";   
+                echo '|'.substr ( $s ,  $start , $ptr_first_curly-$start-1)."|\n";
+                echo '|'.substr ( $s ,  $ptr_first_curly , $i-$ptr_first_curly+1)."|\n";
               }
-              $start=$i+1;   
-              $ptr_first_curly=0; 
+              $start=$i+1;
+              $ptr_first_curly=0;
               if ($debug) {
-                echo 'next start: '.$start."\n";          
+                echo 'next start: '.$start."\n";
               }
-            }              
-          }          
+            }
+          }
        }
        $suffix = substr ( $s ,  $start , $total_len-$start);
        if ($debug) {
          echo 'Start:'.$start."\n";
          echo 'Pfc:'.$ptr_first_curly."\n";
-         echo $suffix."\n";            
+         echo $suffix."\n";
        }
        if (strlen($suffix)>0) {
-         array_push($result,substr ( $s ,  $start , $total_len-$start));         
+         array_push($result,substr ( $s ,  $start , $total_len-$start));
        }
        return $result;
-     }     
+     }
 
 }

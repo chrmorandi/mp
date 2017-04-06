@@ -4,6 +4,7 @@ return [
     // available languages
     // 'ar','de','es','it','iw','ja','yi','zh-CN'
     'language' => 'en', // english
+    'sourceLanguage' => 'en',
     // 'homeUrl' => '/mp',
     //'catchAll' => ['site/offline'],
     'components' => [

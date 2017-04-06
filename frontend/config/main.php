@@ -41,15 +41,20 @@ return [
             ]
           ],
       'urlManager' => [
-            //'class' => 'yii\web\UrlManager',
+            //'class' => 'yii\web\UrlManager', // overloaded by codemix
             'class' => 'codemix\localeurls\UrlManager',
-            // List all supported languages here
-            // Make sure, you include your app's default language.
-            'languages' => ['en-*', 'es-*','ru'], // , 'es-*'
+            // List all supported languages and include your app's default language.
+            'languages' => ['en', 'es','ru','de','fr'], // , 'es-*'
             'enableDefaultLanguageUrlCode' => true,
             'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'ignoreLanguageUrlPatterns' => [
+                // route pattern => url pattern
+                '#^site/(login|signup)#' => '#^site/(login|signup)#',
+                '#^address/import#' => '#^address/import#',
+                '#^mailgun-notification/store#' => '#mailgun-notification/store#',
+            ],
             //'enableStrictParsing' => false,
             'rules' => [
               'place' => 'place',
