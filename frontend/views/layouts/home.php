@@ -11,7 +11,7 @@ use frontend\widgets\Alert;
 /* @var $content string */
 
 HomeAsset::register($this);
-$urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
+$urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '.');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <title><?= Html::encode($this->title) ?></title>
     <style type="text/css">
     body {
-     background: url('./img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg') no-repeat center 30px;
+     background: url('<?= $urlPrefix ?>/img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg') no-repeat center 30px;
     }
     </style>
     <?php $this->head() ?>
@@ -38,6 +38,15 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
                 'options' => [
                     'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',
                 ],
+            ]);
+            echo \kmergen\LanguageSwitcher::widget([
+                   'parentTemplate' => '<nav class="navbar-nav nav ">
+                    <li class="dropdown">{activeItem}
+                        <ul class="dropdown-menu">{items}</ul>
+                     </li>
+                 </nav>',
+                 'activeItemTemplate' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="flag flag-{language}"></i> <span class="caret"></span></a>',
+                 'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
             ]);
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('frontend','Features'), 'url' => ['/features']];

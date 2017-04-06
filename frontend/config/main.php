@@ -67,7 +67,7 @@ return [
               'place/<slug>' => 'place/slug',
               '<controller:\w+>/<id:\d+>' => '<controller>/view',
               '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-              'daemon/<action>' => 'daemon/<action>', // incl eight char action
+              'daemon/<action>' => 'daemon/<action>', // incl eight char action              
               'site/<action>' => 'site/<action>', // incl eight char action
               'features' => 'site/features',
               'about' => 'site/about',

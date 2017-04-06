@@ -47,14 +47,14 @@ AppAsset::register($this);
                   ],
                   [
                     'label' => Yii::t('frontend','Help'),
-                    'url'=>['/ticket'],                    
+                    'url'=>['/ticket'],
                   ],
 	            ];
             }
       			if (Yii::$app->user->isGuest) {
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
-                  ['label' => Yii::t('frontend','Support'), 'url' => ['/ticket']], // 'https://meetingplanner.freshdesk.com/support/home'],
+                  ['label' => Yii::t('frontend','Support'), 'url' => ['/ticket']],
                   ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
                   ['label' => Yii::t('frontend','About'), 'url' => ['/about']],
                 ],
@@ -129,6 +129,17 @@ AppAsset::register($this);
               echo Html::a(Yii::t('frontend','privacy'),Url::to(['/site/privacy']));
               echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
             ?>
+          </p>
+          <?= \kmergen\LanguageSwitcher::widget([
+                 'parentTemplate' => '<nav class="navbar-nav dropup pull-right" style="padding-left:10px;list-style-type: none;">
+                  <li class="dropdown">{activeItem}
+                      <ul class="dropdown-menu">{items}</ul>
+                   </li>
+               </nav>', // <span class="itemHide pull-right">&nbsp;.&nbsp;</span>
+               'activeItemTemplate' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="flag flag-{language}"></i> <span class="caret"></span></a>',
+               'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
+          ]);
+          ?>
         <p class="pull-right">
         <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
         <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io'))); ?>

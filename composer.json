@@ -36,7 +36,8 @@
         "filipajdacic/yii2-twilio": "dev-master",
         "notamedia/yii2-sentry": "*",
         "yiisoft/yii2-apidoc": "~2.0.0",
-        "codemix/yii2-localeurls": "^1.4"
+        "codemix/yii2-localeurls": "^1.4",
+        "kmergen/yii2-language-switcher": "dev-master"
             },
     "require-dev": {
         "codeception/codeception": "*",
