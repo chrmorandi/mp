@@ -26,4 +26,4 @@ Jeff lives in the Pacific Northwest. He's a former Microsoftie, having helped
 lead the launch of MSN News and MSNBC.com. He's also a writer, activist and yogi.
 
 You can read about his brain tumor and surgery and explore his website at
-http://JeffReifman.com.
+http://JeffReifman.com
