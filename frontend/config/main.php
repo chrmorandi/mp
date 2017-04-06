@@ -38,13 +38,14 @@ return [
               'path'=>'/frontend/web',  // correct path for the frontend app.
               'expire'=>time() + 86400 * 30,
               'secure'=>true,
-            ]
+            ],
+            // 'on ' . \yii\web\User::EVENT_AFTER_LOGIN => ['frontend\events\UserEvents', 'handleAfterLogin'],            
           ],
       'urlManager' => [
             //'class' => 'yii\web\UrlManager', // overloaded by codemix
             'class' => 'codemix\localeurls\UrlManager',
             // List all supported languages and include your app's default language.
-            'languages' => ['en','es','ru','fr','de','ar','pt','zh-CN','ja','ko','hi'],//,'ko','hi' // ['en','es','ru','de','fr'], // , 'es-*'
+            'languages' => ['en','es','ru','fr','de','ar','pt','ja','ko','hi'],//'zh-CN'
             'enableDefaultLanguageUrlCode' => false,
             'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,

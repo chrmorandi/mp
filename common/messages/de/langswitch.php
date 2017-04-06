@@ -17,6 +17,12 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Arabic' => 'Arabisch',
+    'Chinese' => 'Chinesisch',
+    'Hindi' => 'Hindi',
+    'Japanese' => 'japanisch',
+    'Korean' => 'Koreanisch',
+    'Portuguese' => 'Portugiesisch',
     'Dutch' => 'Niederländer',
     'English' => 'Englisch',
     'French' => 'Französisch',

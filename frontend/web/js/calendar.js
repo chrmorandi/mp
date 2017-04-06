@@ -200,7 +200,7 @@ function attachHandle(obj) {
   $(divHandle).addClass("ui-resizable-handle");
   $(divHandle).addClass("centered");
   var imgHandle = document.createElement('img');
-  $(imgHandle).attr("src",  $('#url_prefix').val()+"/img/resize-handle.gif"); // mp/
+  $(imgHandle).attr("src",  "/img/resize-handle.gif"); // mp/  $('#url_prefix').val()+
   $(divHandle).append($(imgHandle));
   $(obj).append($(divHandle));
   $(obj).addClass("resizable");

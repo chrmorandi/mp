@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>    
+    <?php $this->head() ?>
 </head>
 <body>
     <?php $this->beginBody() ?>
@@ -132,13 +132,9 @@ AppAsset::register($this);
               echo Html::tag('span',' . ',['class'=>'']);
             ?>
             <?= \kmergen\LanguageSwitcher::widget([
-                   'parentTemplate' => '
-                    {activeItem}
-                        <ul class="dropdown-menu drop-up"  role="menu">{items}</ul>
-                 </div>',
-                 'activeItemTemplate' => '<div class="btn-group"><div class=" dropdown-toggle" data-toggle="dropdown"><i class="flag flag-{language}"></i> <span class="caret caret-up"></span>
-                 </div>',
-                 'itemTemplate' => '<li><a href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
+                   'parentTemplate' => '<div class="btn-group">{activeItem}<ul class="dropdown-menu drop-up flags" role="menu">{items}</ul></div>',
+                 'activeItemTemplate' => '<div class="dropdown-toggle" data-toggle="dropdown"><i  class="flag flag-{language}"></i><span class="caret caret-up"></span></div>',
+                 'itemTemplate' => '<li><a id="{language}" href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
             ]);?>
           </div>
         <div class="pull-right">
