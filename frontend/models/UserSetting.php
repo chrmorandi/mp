@@ -144,6 +144,7 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->user_id = $user_id;
         $us->filename='';
         $us->timezone='America/Los_Angeles';
+        $us->language='en';
         $us->avatar='';
         $us->reminder_eve = self::SETTING_ON;
         $us->no_email = self::SETTING_NO;
@@ -193,6 +194,27 @@ class UserSetting extends \yii\db\ActiveRecord
          return true;
        }
 
+       public static function getLanguage($user_id) {
+         $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         if (is_null($us)) {
+           return false;
+         } else {
+           return ($us->language=='xx'?false:$us->language);
+         }
+       }
+
+       public static function setLanguage($user_id,$language) {
+         // updates the user language string
+         $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         if (is_null($us)) {
+           UserSetting::initialize($user_id);
+           $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         }
+         $us->language =$language;
+         $us->update();
+         return true;
+       }
+
        public static function hasUserSetTimezone($user_id) {
          // returns true if user has already configured a timezone
          $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
@@ -206,5 +228,16 @@ class UserSetting extends \yii\db\ActiveRecord
              return false;
            }
          }
+       }
+
+       public static function respondLogin() {
+         exit;
+         $user_id = Yii::$app->user->getId();
+         $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         if (is_null($us)) {
+           UserSetting::initialize($user_id);
+           $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         }
+         Yii::$app->language = $us->language;
        }
 }

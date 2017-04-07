@@ -10,6 +10,12 @@
         "forum": "http://support.meetingplanner.io/support/home",
         "source": "https://github.com/newscloud/mp"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/newscloud/yii2-language-switcher"
+        }
+    ],
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.0",
@@ -19,7 +25,7 @@
         "openbuildings/swiftmailer-css-inliner":"*",
         "2amigos/yii2-google-maps-library": "*",
         "2amigos/yii2-google-places-library": "*",
-        "stichoza/google-translate-php": "~2.0",
+        "stichoza/google-translate-php": "^3.2",
         "google/apiclient": "1.0.*@beta",
         "2amigos/yii2-date-time-picker-widget": "*",
         "yiisoft/yii2-jui": "*",
@@ -35,7 +41,9 @@
         "yiisoft/yii2-debug": "^2.0",
         "filipajdacic/yii2-twilio": "dev-master",
         "notamedia/yii2-sentry": "*",
-        "yiisoft/yii2-apidoc": "~2.0.0"
+        "yiisoft/yii2-apidoc": "~2.0.0",
+        "codemix/yii2-localeurls": "^1.4",
+        "kmergen/yii2-language-switcher": "dev-master"
             },
     "require-dev": {
         "codeception/codeception": "*",

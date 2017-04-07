@@ -38,12 +38,24 @@ return [
               'path'=>'/frontend/web',  // correct path for the frontend app.
               'expire'=>time() + 86400 * 30,
               'secure'=>true,
-            ]
+            ],
+            // 'on ' . \yii\web\User::EVENT_AFTER_LOGIN => ['frontend\events\UserEvents', 'handleAfterLogin'],            
           ],
       'urlManager' => [
-            'class' => 'yii\web\UrlManager',
+            //'class' => 'yii\web\UrlManager', // overloaded by codemix
+            'class' => 'codemix\localeurls\UrlManager',
+            // List all supported languages and include your app's default language.
+            'languages' => ['en','es','ru','fr','de','ar','pt','ja','ko','hi'],//'zh-CN'
+            'enableDefaultLanguageUrlCode' => false,
+            'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'ignoreLanguageUrlPatterns' => [
+                // route pattern => url pattern
+                '#^site/auth#' => '#^site/auth#',
+                '#^address/import#' => '#^address/import#',
+                '#^mailgun-notification/store#' => '#mailgun-notification/store#',
+            ],
             //'enableStrictParsing' => false,
             'rules' => [
               'place' => 'place',
@@ -104,7 +116,7 @@ return [
                               ],*/
               ],
           ],
-          'errorHandler' => [                 
+          'errorHandler' => [
                  'errorAction' => 'site/error',
              ],
         'Yii2Twilio' => [

@@ -33,7 +33,7 @@ class UserSettingController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'actions' => ['index','update','timezone','guide'],
+                        'actions' => ['index','update','timezone','guide','setlanguage'],
                         'roles' => ['@'],
                     ],
                     // everything else is denied
@@ -112,6 +112,14 @@ class UserSettingController extends Controller
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $user_id = Yii::$app->user->getId();
       UserSetting::setUserTimezone($user_id,$timezone);
+      return true;
+    }
+
+    public function actionSetlanguage($language='') {
+      // set language for current logged in user, language code is $id
+      Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $user_id = Yii::$app->user->getId();
+      UserSetting::setLanguage($user_id,$language);
       return true;
     }
 

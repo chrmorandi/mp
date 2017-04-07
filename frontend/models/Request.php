@@ -331,6 +331,11 @@ class Request extends \yii\db\ActiveRecord
     foreach ($attendees as $cnt=>$a) {
       // check if email is okay and okay from this sender_id
       if ($user_id != $a['user_id'] && User::checkEmailDelivery($a['user_id'],$user_id)) {
+        $priorLanguage=\Yii::$app->language;
+        $language = UserSetting::getLanguage($a['user_id']);
+        if ($language!==false) {
+          \Yii::$app->language=$language;
+        }
         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
           // Build the absolute links to the meeting and commands
           $links=[
@@ -364,6 +369,7 @@ class Request extends \yii\db\ActiveRecord
         $message->setTo($a['email'])
             ->setSubject($content['subject'])
             ->send();
+        \Yii::$app->language=$priorLanguage;
         }
       }
     }

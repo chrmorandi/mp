@@ -1,8 +1,9 @@
 <?php
 namespace frontend\models;
 
-use common\models\User;
 use yii\base\Model;
+use common\models\User;
+use frontend\models\UserSetting;
 
 /**
  * Password reset request form
@@ -47,8 +48,11 @@ class PasswordResetRequestForm extends Model
             if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
                 $user->generatePasswordResetToken();
             }
-
             if ($user->save()) {
+              $language = UserSetting::getLanguage($user->id);
+              if ($language!==false) {
+                \Yii::$app->language=$language;
+              }
                 // to do - add text version of reset your password
                 // \Yii::$app->mailer->htmlLayout = '/common/mail/layouts/oxygen_html';
                 return \Yii::$app->mailer->compose('passwordResetToken', ['user' => $user])

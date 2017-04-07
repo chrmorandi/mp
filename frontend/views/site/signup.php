@@ -11,7 +11,7 @@ $this->title = 'Signup';
   <div class="row ">
     <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
       <h2><?= Yii::t('frontend','Signup') ?></h2>
-      <p><?php echo Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
+      <p><?= Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
     </div>
   </div>
   <div class="row">
@@ -35,7 +35,7 @@ $this->title = 'Signup';
                       // configure additional widget properties here
                   ]) ?>
                 <div class="form-group">
-                    <?= Html::submitButton('Signup now', ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton(Yii::t('frontend','Signup now'), ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
     </div>

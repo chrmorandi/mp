@@ -12,10 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-  <li class="<?= ($tab=='planning'?'active':'inactive') ?>"><a href="#planning" role="tab" data-toggle="tab">Planning</a></li>
-  <li class="<?= ($tab=='upcoming'?'active':'inactive') ?>"><a href="#upcoming" role="tab" data-toggle="tab">Confirmed</a></li>
-  <li class=" <?= ($tab=='past'?'active':'inactive') ?>"><a href="#past" role="tab" data-toggle="tab" >Past</a></li>
-  <li class="tabHide <?= ($tab=='canceled'?'active':'inactive') ?>"><a href="#canceled" role="tab" data-toggle="tab">Canceled</a></li>
+  <li class="<?= ($tab=='planning'?'active':'inactive') ?>"><a href="#planning" role="tab" data-toggle="tab"><?= Yii::t('frontend','Planning') ?></a></li>
+  <li class="<?= ($tab=='upcoming'?'active':'inactive') ?>"><a href="#upcoming" role="tab" data-toggle="tab"><?= Yii::t('frontend','Confirmed') ?></a></li>
+  <li class=" <?= ($tab=='past'?'active':'inactive') ?>"><a href="#past" role="tab" data-toggle="tab" ><?= Yii::t('frontend','Past') ?></a></li>
+  <li class="tabHide <?= ($tab=='canceled'?'active':'inactive') ?>"><a href="#canceled" role="tab" data-toggle="tab"><?= Yii::t('frontend','Canceled') ?></a></li>
 </ul>
 
 <!-- Tab panes -->

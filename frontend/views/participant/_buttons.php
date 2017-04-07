@@ -13,7 +13,7 @@ if (!$model->isOwner(Yii::$app->user->getId())) {
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
-      <li><?= Html::a(Yii::t('frontend','Send a message'),Url::to('mailto:'.$model->owner->email))?></li>
+      <li><?= Html::a(Yii::t('frontend','Send a message'),Url::to('mailto:'.$model->owner->email),['target' => '_blank'])?></li>
   </ul>
 </div>
 <?php
