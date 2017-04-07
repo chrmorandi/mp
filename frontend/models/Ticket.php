@@ -140,7 +140,7 @@ class Ticket extends \yii\db\ActiveRecord
 
     //Ticket::deliver('new',$model->id,$model->posted_by,$model->email,$model->subject,$model->details);
     public static function deliver($mode='',$ticket_id,$recipient_id,$email='',$subject='',$details='') {
-      $priorLanguage=Yii::$app->language;
+      $priorLanguage=\Yii::$app->language;
       $u=User::findOne($recipient_id);
       if (isset($u)) {
         $auth_key = $u->auth_key;
@@ -153,7 +153,7 @@ class Ticket extends \yii\db\ActiveRecord
         ];
         $language = UserSetting::getLanguage($recipient_id);
         if ($language!==false) {
-          Yii::$app->language=$language;
+          \Yii::$app->language=$language;
         }
       } else {
         // posted_by is for a guest ticket
@@ -234,7 +234,7 @@ class Ticket extends \yii\db\ActiveRecord
     $message->setTo($email)
         ->setSubject($content['subject'])
         ->send();
-        Yii::$app->language=$priorLanguage;
+        \Yii::$app->language=$priorLanguage;
     }
 
 

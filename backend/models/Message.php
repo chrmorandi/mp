@@ -270,10 +270,10 @@ class Message extends \yii\db\ActiveRecord
             'footer_block_all'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_FOOTER_BLOCK_ALL,$msg->id,$a['user_id'],$a['auth_key']),
             'action_url'=>MiscHelpers::backendBuildCommand(0,Meeting::COMMAND_RESPOND_MESSAGE,$msg->id,$a['user_id'],$a['auth_key']),
           ];
-          $priorLanguage=Yii::$app->language;
+          $priorLanguage=\Yii::$app->language;
           $language = UserSetting::getLanguage($user_id);
           if ($language!==false) {
-            Yii::$app->language=$language;
+            \Yii::$app->language=$language;
           }
           // send the message
           $message = Yii::$app->mailer->compose([
@@ -296,7 +296,7 @@ class Message extends \yii\db\ActiveRecord
                 ->setTo($a['email'])
                 ->setSubject(Yii::t('backend','').$msg->subject)
                 ->send();
-                Yii::$app->language=$priorLanguage;
+                \Yii::$app->language=$priorLanguage;
                 MessageLog::add($msg->id,$user_id);
             } else {
               echo '-->invalid email<br />';

@@ -24,6 +24,7 @@ class MeetingAsset extends AssetBundle
       'js/tether.min.js',
       'js/shepherd.min.js',
       'js/meeting_tour.js',
+      'js/flags.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -508,10 +508,10 @@ class Meeting extends \yii\db\ActiveRecord
     if ($p->status !=Participant::STATUS_DEFAULT) {
       continue;
     }
-    $priorLanguage=Yii::$app->language;
+    $priorLanguage=\Yii::$app->language;
     $language = UserSetting::getLanguage($p->participant_id);
     if ($language!==false) {
-      Yii::$app->language=$language;
+      \Yii::$app->language=$language;
     }
     // Build the absolute links to the meeting and commands
     $auth_key=\common\models\User::find()->where(['id'=>$p->participant_id])->one()->auth_key;
@@ -572,7 +572,7 @@ class Meeting extends \yii\db\ActiveRecord
       $message->setTo($p->participant->email)
           ->setSubject(Yii::t('frontend','Meeting Request: ').$this->subject)
           ->send();
-          Yii::$app->language=$priorLanguage;
+          \Yii::$app->language=$priorLanguage;
           // send the meeting
           $this->status = Meeting::STATUS_SENT;
           $this->cleared_at = time()+30;
@@ -647,10 +647,10 @@ class Meeting extends \yii\db\ActiveRecord
     foreach ($attendees as $cnt=>$a) {
       // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($a['user_id'],$user_id)) {
-        $priorLanguage=Yii::$app->language;
+        $priorLanguage=\Yii::$app->language;
         $language = UserSetting::getLanguage($a['user_id']);
         if ($language!==false) {
-          Yii::$app->language=$language;
+          \Yii::$app->language=$language;
         }
         $participantList = $this->getMeetingParticipants($a['user_id'],true,true);
         Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
@@ -709,7 +709,7 @@ class Meeting extends \yii\db\ActiveRecord
       $message->setTo($a['email'])
           ->setSubject($finalPrefix.$this->subject)
           ->send();
-          Yii::$app->language=$priorLanguage;
+          \Yii::$app->language=$priorLanguage;
       }
           $this->status = self::STATUS_CONFIRMED;
           $this->update();
@@ -1397,10 +1397,10 @@ class Meeting extends \yii\db\ActiveRecord
           // send the late notice
          // check if email is okay and okay from this sender_id
          if (User::checkEmailDelivery($a['user_id'],$sender_id)) {
-           $priorLanguage=Yii::$app->language;
+           $priorLanguage=\Yii::$app->language;
            $language = UserSetting::getLanguage($a['user_id']);
            if ($language!==false) {
-             Yii::$app->language=$language;
+             \Yii::$app->language=$language;
            }
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
              // Build the absolute links to the meeting and commands
@@ -1441,7 +1441,7 @@ class Meeting extends \yii\db\ActiveRecord
                    ->setSubject($subject)
                    ->send();
              }
-             Yii::$app->language=$priorLanguage;
+             \Yii::$app->language=$priorLanguage;
           }
         }
          // add the event
@@ -1476,10 +1476,10 @@ class Meeting extends \yii\db\ActiveRecord
      foreach ($attendees as $cnt=>$a) {
        // check if email is okay and okay from this sender_id
        if (User::checkEmailDelivery($a['user_id'],$user_id)) {
-         $priorLanguage=Yii::$app->language;
+         $priorLanguage=\Yii::$app->language;
          $language = UserSetting::getLanguage($a['user_id']);
          if ($language!==false) {
-           Yii::$app->language=$language;
+           \Yii::$app->language=$language;
          }
          Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
            // Build the absolute links to the meeting and commands
@@ -1510,7 +1510,7 @@ class Meeting extends \yii\db\ActiveRecord
          $message->setTo($a['email'])
              ->setSubject(Yii::t('frontend','Meeting Request: Please provide your contact information.'))
              ->send();
-             Yii::$app->language=$priorLanguage;
+             \Yii::$app->language=$priorLanguage;
              // add to log
              MeetingLog::add($mtg->id,MeetingLog::ACTION_SENT_CONTACT_REQUEST,$a['user_id'],0);
          }
@@ -1532,10 +1532,10 @@ class Meeting extends \yii\db\ActiveRecord
       ];
        // check if email is okay and okay from this sender_id
        if (User::checkEmailDelivery($user_id,0)) {
-         $priorLanguage=Yii::$app->language;
+         $priorLanguage=\Yii::$app->language;
          $language = UserSetting::getLanguage($user_id);
          if ($language!==false) {
-           Yii::$app->language=$language;
+           \Yii::$app->language=$language;
          }
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
            // Build the absolute links to the meeting and commands
@@ -1573,7 +1573,7 @@ class Meeting extends \yii\db\ActiveRecord
                  ->setSubject(Yii::t('frontend','Meeting Update: ').$mtg->subject)
                  ->send();
            }
-           Yii::$app->language=$priorLanguage;
+           \Yii::$app->language=$priorLanguage;
         }
      }
 
@@ -1617,10 +1617,10 @@ class Meeting extends \yii\db\ActiveRecord
        foreach ($attendees as $cnt=>$a) {
          // check if email is okay and okay from this sender_id
          if ($user_id != $a['user_id'] && User::checkEmailDelivery($a['user_id'],$user_id)) {
-           $priorLanguage=Yii::$app->language;
+           $priorLanguage=\Yii::$app->language;
            $language = UserSetting::getLanguage($a['user_id']);
            if ($language!==false) {
-             Yii::$app->language=$language;
+             \Yii::$app->language=$language;
            }
            Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($a['user_id']);
             $a['timezone']=$timezone;
@@ -1661,7 +1661,7 @@ class Meeting extends \yii\db\ActiveRecord
            $message->setTo($a['email'])
                ->setSubject($content['subject'])
                ->send();
-            Yii::$app->language=$priorLanguage;
+            \Yii::$app->language=$priorLanguage;
            }
          }
      }

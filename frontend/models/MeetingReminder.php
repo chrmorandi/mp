@@ -182,10 +182,10 @@ class MeetingReminder extends \yii\db\ActiveRecord
      $contactListObj = $mtg->getContactListObj($a['user_id'],$isOwner);
        // check if email is okay and okay from this sender_id
       if (User::checkEmailDelivery($user_id,0)) {
-        $priorLanguage=Yii::$app->language;
+        $priorLanguage=\Yii::$app->language;
         $language = UserSetting::getLanguage($a['user_id']);
         if ($language!==false) {
-          Yii::$app->language=$language;
+          \Yii::$app->language=$language;
         }
           Yii::$app->timeZone = $timezone = MiscHelpers::fetchUserTimezone($user_id);
           // Build the absolute links to the meeting and commands
@@ -236,7 +236,7 @@ class MeetingReminder extends \yii\db\ActiveRecord
                   ->setSubject(Yii::t('frontend','Meeting Reminder: ').$mtg->subject)
                   ->send();
               }
-              Yii::$app->language=$priorLanguage;
+              \Yii::$app->language=$priorLanguage;
           }
        }
       $mr->status=MeetingReminder::STATUS_COMPLETE;
