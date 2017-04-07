@@ -14,7 +14,6 @@ use \kartik\typeahead\TypeaheadBasic;
   <div class="row">
     <div class="col-xs-12 col-md-8 col-lg-8">
     <?php $form = ActiveForm::begin();?>
-    <?= Html::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
 <?php
 $activities=MeetingActivity::defaultActivityList();
 echo $form->field($model, 'activity')->label(Yii::t('frontend','Suggest an activity'))->widget(TypeaheadBasic::className(), [
