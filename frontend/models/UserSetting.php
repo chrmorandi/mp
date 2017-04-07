@@ -194,6 +194,15 @@ class UserSetting extends \yii\db\ActiveRecord
          return true;
        }
 
+       public static function getLanguage($user_id) {
+         $us = UserSetting::find()->where(['user_id'=>$user_id])->one();
+         if (is_null($us)) {
+           return false;
+         } else {
+           return ($us->language=='xx'?false:$us->language);
+         }
+       }
+
        public static function setLanguage($user_id,$language) {
          // updates the user language string
          $us = UserSetting::find()->where(['user_id'=>$user_id])->one();

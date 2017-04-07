@@ -282,7 +282,11 @@ class User extends ActiveRecord implements IdentityInterface
           $u = User::findOne($user_id);
           $site_id = \frontend\models\Meeting::getSiteFromMeeting($meeting_id);
           $verifyLink = \common\components\MiscHelpers::buildCommand($meeting_id,\frontend\models\Meeting::COMMAND_VERIFY_EMAIL,0,$user_id,$u->auth_key,$site_id);
-          \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);
+          \frontend\models\MeetingLog::add($meeting_id,\frontend\models\MeetingLog::ACTION_SENT_EMAIL_VERIFICATION,$user_id,0);          
+          $language = UserSetting::getLanguage($user_id);
+          if ($language!==false) {
+            Yii::$app->language=$language;
+          }
           return \Yii::$app->mailer->compose(['html'=>'verification-html','text' => 'verification-text'], ['user' => $u,'verifyLink'=>$verifyLink])
               ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->params['site']['title'] . ' Assistant'])
               ->setTo($u->email)
