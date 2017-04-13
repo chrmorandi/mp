@@ -120,8 +120,6 @@ class Meeting extends \yii\db\ActiveRecord
   const RESEND_LIMIT = 3;
 
   const DEFAULT_NEW_MEETING = 'New Meeting';
-  const DEFAULT_SUBJECT = 'Our Upcoming Meeting';
-  const DEFAULT_ACTIVITY_SUBJECT = 'Our Upcoming Meetup';
 
   const NOT_ACTIVITY =0;
   const IS_ACTIVITY =1;
@@ -349,8 +347,9 @@ class Meeting extends \yii\db\ActiveRecord
 
      public function getMeetingTitle($meeting_id) {
         $m = Meeting::find()->where(['id' => $meeting_id])->one();
+        $defaultSubject = Yii::t('frontend','Our Upcoming Meeting');
         if (empty($m->subject)) {
-          $str = Yii::t('frontend',Meeting::DEFAULT_SUBJECT);
+          $str = $defaultSubject;
         } else {
           $str = $m->subject;
         }
@@ -359,8 +358,9 @@ class Meeting extends \yii\db\ActiveRecord
 
      public function getMeetingHeader($source='index') {
        // returns a subject to display
+       $defaultSubject = Yii::t('frontend','Our Upcoming Meeting');
        if (empty($this->subject)) {
-         $str = Yii::t('frontend',Meeting::DEFAULT_SUBJECT); // 'Our Upcoming Meeting'
+         $str =$defaultSubject; // 'Our Upcoming Meeting'
          $this->has_subject = false;
        } else {
          $this->has_subject = true;
@@ -589,7 +589,7 @@ class Meeting extends \yii\db\ActiveRecord
       // Get message header
       $header = $this->getMeetingHeader('confirmed');
       /*if ($this->subject == Meeting::DEFAULT_NEW_MEETING) {
-        $this->subject = Meeting::DEFAULT_SUBJECT;
+        $this->subject = Yii::t('frontend','Our Upcoming Meeting');
         $this->has_subject = true;
         $this->update();
       }*/
@@ -1686,7 +1686,7 @@ class Meeting extends \yii\db\ActiveRecord
         ->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::IS_ACTIVITY])
         ->limit(7)->orderBy(['id' => SORT_DESC])->all();
        foreach ($meetings as $m) {
-         if (!is_null($m) and ($m->subject==Meeting::DEFAULT_ACTIVITY_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+         if (!is_null($m) and ($m->subject==Yii::t('frontend','Our Upcoming Meetup') || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
            return $m->id;
          }
        }
@@ -1707,7 +1707,7 @@ class Meeting extends \yii\db\ActiveRecord
       // looks for empty meeting in last seven
       $meetings = Meeting::find()->where(['owner_id'=>$user_id,'status'=>Meeting::STATUS_PLANNING,'is_activity'=>Meeting::NOT_ACTIVITY])->limit(7)->orderBy(['id' => SORT_DESC])->all();
       foreach ($meetings as $m) {
-        if (!is_null($m) and ($m->subject==Meeting::DEFAULT_SUBJECT || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
+        if (!is_null($m) and ($m->subject==Yii::t('frontend','Our Upcoming Meeting') || $m->subject=='') and (count($m->participants)==0 && count($m->meetingPlaces)==0 && count($m->meetingTimes)==0)) {
           return $m->id;
         }
       }
@@ -1740,7 +1740,7 @@ class Meeting extends \yii\db\ActiveRecord
         Yii::t('frontend','Phone call '),
         Yii::t('frontend','Skype '),
         Yii::t('frontend','Video conference '),
-        Yii::t('frontend',Meeting::DEFAULT_SUBJECT),
+        Yii::t('frontend','Our Upcoming Meeting'),
       ];
       return $subjects;
     }

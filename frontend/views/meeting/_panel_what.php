@@ -31,7 +31,7 @@ use frontend\models\Meeting;
     </div>
   </div>
   <?php
-    if ($model->has_subject || $model->subject == \frontend\models\Meeting::DEFAULT_SUBJECT || $model->subject == \frontend\models\Meeting::DEFAULT_ACTIVITY_SUBJECT) {
+    if ($model->has_subject || $model->subject == Yii::t('frontend','Our Upcoming Meeting') || $model->subject == Yii::t('frontend','Our Upcoming Meetup')) {
       ?>
       <div id="collapseWhat" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWhat">
         <div class="panel-body">
@@ -43,7 +43,7 @@ use frontend\models\Meeting;
           } else {
             echo Html::encode($this->title).': '.Html::encode($model->message).'&nbsp;';
           } ?>
-        </span>  
+        </span>
           </div>
           <div id="editWhat" class="hidden">
             <?= $this->render('_form', [

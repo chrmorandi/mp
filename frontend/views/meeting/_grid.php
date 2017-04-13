@@ -24,7 +24,7 @@ if ($mode =='upcoming' || $mode =='past') {
                   $chosenTime=$model->getChosenTime($model->id);
                   $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
                   // to do - remove legacy code when subject didn't exist
-                    if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT || $model->subject==$model::DEFAULT_ACTIVITY_SUBJECT) {
+                    if ($model->subject=='' || $model->subject==Yii::t('frontend','Our Upcoming Meeting') || $model->subject==Yii::t('frontend','Our Upcoming Meetup')) {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader('pastplanning').'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                     } else {
                       return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-time">'.$model->friendlyDateFromTimestamp($chosenTime->start,$timezone,true,true).' </span><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
@@ -83,7 +83,7 @@ if ($mode =='upcoming' || $mode =='past') {
           'format' => 'raw',
           'value' => function ($model) {
               // to do - remove legacy code when subject didn't exist
-                if ($model->subject=='' || $model->subject==$model::DEFAULT_SUBJECT) {
+                if ($model->subject=='' || $model->subject==Yii::t('frontend','Our Upcoming Meeting')) {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->getMeetingHeader().'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
                 } else {
                   return '<div><a href="'.Url::to(['meeting/view', 'id' => $model->id]).'">'.$model->subject.'</a><br /><span class="index-participant">'.$model->getMeetingParticipants().'</span></div>';
