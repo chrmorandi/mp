@@ -120,10 +120,10 @@ if ($mode =='upcoming' || $mode =='past') {
 
 }
 ?>
-  <?= Html::a(Yii::t('frontend', Yii::t('frontend','Schedule a Meeting'), [
+  <?= Html::a(Yii::t('frontend', 'Schedule a Meeting', [
 'modelClass' => 'Meeting',
 ]), ['create'], ['class' => 'btn btn-success horizontal-pad']); ?>
 
-<?= Html::a(Yii::t('frontend', Yii::t('frontend','Schedule an Activity'), [
+<?= Html::a(Yii::t('frontend', 'Schedule an Activity', [
 'modelClass' => 'Meeting',
 ]), ['createactivity'], ['class' => 'btn btn-warning']); ?>

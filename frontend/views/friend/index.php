@@ -104,10 +104,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <p>
-        <?= Html::a(Yii::t('frontend', Yii::t('frontend','Add a Friend'), [
+        <?= Html::a(Yii::t('frontend','Add a Friend', [
     'modelClass' => 'Friend',
     ]), ['create'], ['class' => 'btn btn-success']) ?>
-    <?= Html::a(Yii::t('frontend', Yii::t('frontend','Import Google Contacts'), [
+    <?= Html::a(Yii::t('frontend', 'Import Google Contacts', [
         'modelClass' => 'Address',
       ]), ['/address/import'], ['class' => 'btn btn-success']); ?>
     </p>
