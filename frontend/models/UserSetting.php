@@ -160,7 +160,10 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->participant_request_change= self::SETTING_ON;
         $us->participant_reopen= self::SETTING_OFF;
         $us->schedule_with_me= self::SETTING_ON;
-        $us->guide = self::SETTING_ON;
+        if (isset($us->guide)) {
+          // enables m161212_015528_extend_user_settings_for_schedule_with_me migration
+          $us->guide= self::SETTING_ON;
+        }
         $us->save();
       }
       return $us->id;

@@ -46,7 +46,7 @@
           ],
       ]);
 
-  echo Html::a(Yii::t('frontend', Yii::t('frontend','Create a Meeting Template'), [
+  echo Html::a(Yii::t('frontend', 'Create a Meeting Template', [
     'modelClass' => 'Template',
 ]), ['create'], ['class' => 'btn btn-success'])
 ?>

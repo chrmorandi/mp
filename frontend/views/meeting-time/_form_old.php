@@ -23,8 +23,7 @@ use dosamigos\datetimepicker\DateTimePicker;
 <div class="meeting-time-form">
   <div class="row">
     <div class="col-xs-12 col-md-4 col-lg-3">
-    <?php $form = ActiveForm::begin();?>
-    <?= Html::activeHiddenInput($model, 'url_prefix',['value'=>MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+    <?php $form = ActiveForm::begin();?>    
     <?= Html::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
     <?= Html::activeHiddenInput($model, 'tz_current',['id'=>'tz_current']); ?>
     <strong><?php echo Yii::t('frontend','Date') ?></strong>

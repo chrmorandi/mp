@@ -7,4 +7,5 @@ $('.flags li > a').click(function(e){
        return true;
      }
   });
+  return true;
 });

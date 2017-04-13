@@ -459,7 +459,7 @@ class MeetingController extends Controller
           $model->sequence_id = 0;
           $model->meeting_type = 0;
           $model->is_activity = Meeting::NOT_ACTIVITY;
-          $model->subject = Meeting::DEFAULT_SUBJECT;
+          $model->subject = Yii::t('frontend','Our Upcoming Meeting');
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);
           $meeting_id = $model->id;
@@ -484,7 +484,7 @@ class MeetingController extends Controller
           $model->owner_id= Yii::$app->user->getId();
           $model->sequence_id = 0;
           $model->is_activity = Meeting::IS_ACTIVITY;
-          $model->subject = Meeting::DEFAULT_ACTIVITY_SUBJECT;
+          $model->subject = Yii::t('frontend','Our Upcoming Meetup');
           $model->save();
           $model->initializeMeetingSetting($model->id,$model->owner_id);
           $meeting_id = $model->id;

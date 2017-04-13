@@ -22,4 +22,3 @@ use frontend\models\Launch;
     </div><!-- /input-group -->
   </div>
 </div>
-<input type="hidden"  id="url_prefix" value="<?= MiscHelpers::getUrlPrefix()?>">

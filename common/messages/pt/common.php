@@ -17,17 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Arabic' => 'عربى',
-    'Chinese' => 'صينى',
-    'Dutch' => 'هولندي',
-    'English' => 'الإنجليزية',
-    'French' => 'الفرنسية',
-    'German' => 'ألمانية',
-    'Hindi' => 'الهندية',
-    'Italian' => 'الإيطالية',
-    'Japanese' => 'اليابانية',
-    'Korean' => 'الكورية',
-    'Portuguese' => 'البرتغالية',
-    'Russian' => 'الروسية',
-    'Spanish' => 'الأسبانية',
+    'Meeting Planner' => 'Planejador de reuniões',
+    'Meetings' => 'Reuniões',
+    'Meetups' => 'Meetups',
+    'Simple Planner' => 'Planejador Simples',
 ];

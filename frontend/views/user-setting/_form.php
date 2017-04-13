@@ -24,8 +24,7 @@ use common\components\MiscHelpers;
 <div class="user-setting-form">
     <?php
     $form = ActiveForm::begin();
-         ?>
-         <?= Html::activeHiddenInput($model, 'url_prefix',['value'=>\common\components\MiscHelpers::getUrlPrefix(),'id'=>'url_prefix']); ?>
+         ?>         
          <?= Html::activeHiddenInput($model, 'tz_dynamic',['id'=>'tz_dynamic']); ?>
         <div class="col-md-8">
          <!-- Nav tabs -->

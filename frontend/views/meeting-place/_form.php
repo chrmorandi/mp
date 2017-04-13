@@ -78,6 +78,7 @@ use \kartik\typeahead\Typeahead;
   $gpJsLink= 'https://maps.googleapis.com/maps/api/js?' . http_build_query([
                           'libraries' => 'places',
                           'key' => Yii::$app->params['google_maps_key'],
+                          'language'=>Yii::$app->language,
                   ]);
   $this->registerJsFile($gpJsLink);
   $options = '{}';

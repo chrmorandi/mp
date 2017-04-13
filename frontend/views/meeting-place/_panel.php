@@ -28,14 +28,29 @@ use \common\components\MiscHelpers;
           ?>
           <table><tr style="vertical-align:top;"><td class="virtualThing" style="padding-left:10px;">
             <?php
+            switch (Yii::$app->language) {
+              case 'es':
+                $handleWidth = 80;
+              break;
+              case 'fr':
+              case 'ja':
+                $handleWidth = 85;
+              break;
+              case 'ru':
+                $handleWidth = 91;
+              break;
+              default:
+                $handleWidth = 75;
+              break;
+            }
             echo SwitchInput::widget([
               'type' => SwitchInput::CHECKBOX,
               'name' => 'meeting-switch-virtual',
                 'value' => $model->switchVirtual,
                 'pluginOptions' => [
-                  'handleWidth'=>75,
+                  'handleWidth'=>$handleWidth,
                   'labelWidth'=>0,
-                  'size'=>'small','onText' => '<i class="glyphicon glyphicon-user"></i>&nbsp;in person','offText'=>'<i class="glyphicon glyphicon-earphone"></i>&nbsp;virtual'], // 'onColor' => 'success','offColor' => 'danger'
+                  'size'=>'small','onText' => '<i class="glyphicon glyphicon-user"></i>&nbsp;'.Yii::t('frontend','in person'),'offText'=>'<i class="glyphicon glyphicon-earphone"></i>&nbsp;'.Yii::t('frontend','virtual')], // 'onColor' => 'success','offColor' => 'danger'
                 'labelOptions' => ['style' => 'font-size: 8px;'],
             ]);
             ?>

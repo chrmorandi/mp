@@ -17,12 +17,16 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Created At' => 'で作成された',
-    'Created By' => 'によって作成された',
-    'Google Place ID' => 'グーグル·プレイスID',
-    'ID' => 'ID',
-    'Name' => '名前',
-    'Place Type' => '置きタイプ',
-    'Status' => 'ステータス',
-    'Updated At' => 'で更新',
+    'Created At' => '@@で作成された@@',
+    'Created By' => '@@によって作成された@@',
+    'Google Place ID' => '@@グーグル·プレイスID@@',
+    'ID' => '@@ID@@',
+    'Name' => '@@名前@@',
+    'Place Type' => '@@置きタイプ@@',
+    'Status' => '@@ステータス@@',
+    'Updated At' => '@@で更新@@',
+    'Meeting Planner' => 'ミーティングプランナー',
+    'Meetings' => 'ミーティング',
+    'Meetups' => 'ミートアップ',
+    'Simple Planner' => 'シンプルプランナー',
 ];
