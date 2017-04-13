@@ -81,7 +81,7 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             [['user_id', ], 'required'],
             [['user_id', ], 'unique'],
-            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change','schedule_with_me'], 'integer'], // 'guide' temp move for dev server
+            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change','schedule_with_me','guide'], 'integer'],
         ];
     }
 
@@ -111,8 +111,7 @@ class UserSetting extends \yii\db\ActiveRecord
              'no_newsletter' => Yii::t('frontend', 'No newsletters'),
              'no_updates' => Yii::t('frontend', 'No updates'),
              'schedule_with_me' => Yii::t('frontend', 'Display your schedule with me page'),
-             // temp for dev SoapServer
-             //'guide' => Yii::t('frontend', 'Display the helpful meeting tour guide when planning '),
+             'guide' => Yii::t('frontend', 'Display the helpful meeting tour guide when planning '),
              'created_at' => Yii::t('frontend', 'Created At'),
             'updated_at' => Yii::t('frontend', 'Updated At'),
         ];
