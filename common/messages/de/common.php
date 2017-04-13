@@ -17,12 +17,16 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Created At' => 'Erstellt am',
-    'Created By' => 'Erstellt von',
-    'Google Place ID' => 'Google Platz ID',
-    'ID' => 'Identifikation',
-    'Name' => 'Name',
-    'Place Type' => 'Platz Typ',
-    'Status' => 'Status',
-    'Updated At' => 'aktualisiert An',
+    'Created At' => '@@Erstellt am@@',
+    'Created By' => '@@Erstellt von@@',
+    'Google Place ID' => '@@Google Platz ID@@',
+    'ID' => '@@Identifikation@@',
+    'Name' => '@@Name@@',
+    'Place Type' => '@@Platz Typ@@',
+    'Status' => '@@Status@@',
+    'Updated At' => '@@aktualisiert An@@',
+    'Meeting Planner' => 'Besprechungsplaner',
+    'Meetings' => 'Meetings',
+    'Meetups' => 'Meetups',
+    'Simple Planner' => 'Einfacher Planer',
 ];

@@ -33,7 +33,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
         <div class="wrap">
         <?php
               NavBar::begin([
-                'brandLabel' =>  Yii::$app->params['site']['title'].'&nbsp;<span class="badge">preview</span>', //
+                'brandLabel' =>  Yii::$app->params['site']['title'].'&nbsp;<span class="badge">'.Yii::t('frontend','preview').'</span>', //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',

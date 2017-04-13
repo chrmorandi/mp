@@ -68,7 +68,7 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {
                 $menuItems[] = [
-                  'label' => 'Account',
+                  'label' => Yii::t('frontend','Account'),
                   'items' => [
                     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
