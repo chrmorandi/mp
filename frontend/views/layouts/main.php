@@ -132,8 +132,8 @@ AppAsset::register($this);
               echo Html::tag('span',' . ',['class'=>'']);
             ?>
             <?= \kmergen\LanguageSwitcher::widget([
-                   'parentTemplate' => '<div class="btn-group">{activeItem}<ul class="dropdown-menu drop-up flags" role="menu">{items}</ul></div>',
-                 'activeItemTemplate' => '<div class="dropdown-toggle" id="flagTarget" data-toggle="dropdown"><i class="flag flag-{language}"></i><span class="caret caret-up"></span></div>',
+                   'parentTemplate' => '<div class="btn-group" id="flagTarget">{activeItem}<ul class="dropdown-menu drop-up flags" role="menu">{items}</ul></div>',
+                 'activeItemTemplate' => '<div class="dropdown-toggle" data-toggle="dropdown"><i class="flag flag-{language}"></i><span class="caret caret-up"></span></div>',
                  'itemTemplate' => '<li><a id="{language}" href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
             ]);?>
           </div>
