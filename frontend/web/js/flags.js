@@ -1,4 +1,4 @@
-$('.flags li > a').on("tap click",function(e){
+$(document).on("tap click",$('.flags li > a'),function(e){
   language = $( this ).attr('id');
   $.ajax({
      url: $('#url_prefix').val()+'/user-setting/setlanguage',
