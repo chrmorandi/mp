@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Choose times and places together. Make planning easy.' => 'समय और स्थानों को एक साथ चुनें। योजना आसान बनाओ',
     'No messages yet. ' => '@@अभी तक कोई संदेश नहीं@@',
     ' accepted the request: ' => 'अनुरोध स्वीकार कर लिया है:',
     ' and ' => 'तथा',
@@ -138,6 +137,7 @@ return [
     'Choose a time slightly earlier or later than {currentStartStr}' => 'थोड़ा समय पहले या बाद में चुनें {currentStartStr}',
     'Choose the date & time' => 'दिनांक और समय चुनें',
     'Choose the place' => 'जगह चुनें',
+    'Choose times and places together. Make planning easy.' => 'समय और स्थानों को एक साथ चुनें। योजना आसान बनाओ',
     'Choosing Dates, Times & Places' => 'तिथियां, टाइम्स और स्थान चुनना',
     'Chosen Place ID' => 'चुना स्थान आईडी',
     'Chosen Time' => 'चुना समय',

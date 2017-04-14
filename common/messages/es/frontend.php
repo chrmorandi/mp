@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Choose times and places together. Make planning easy.' => 'Elige tiempos y lugares juntos. Facilite la planificación.',
     ' with ' => '@@con@@',
     '-- select one of your places below --' => '@@- Seleccionar uno de sus lugares por debajo de -@@',
     'A new app to make scheduling as simple as it should be.' => '@@Una nueva aplicación para hacer la programación tan sencillo como debería ser .@@',
@@ -177,6 +176,7 @@ return [
     'Choose a time slightly earlier or later than {currentStartStr}' => 'Elija un tiempo ligeramente anterior o posterior a {currentStartStr}',
     'Choose the date & time' => 'Elija la fecha y la hora',
     'Choose the place' => 'Elige el lugar',
+    'Choose times and places together. Make planning easy.' => 'Elige tiempos y lugares juntos. Facilite la planificación.',
     'Choosing Dates, Times & Places' => 'Elección de fechas, horarios y lugares',
     'Chosen Place ID' => 'ID de lugar elegido',
     'Chosen Time' => 'Hora elegida',

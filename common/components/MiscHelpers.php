@@ -143,7 +143,7 @@ class MiscHelpers  {
       $language ='/'.Yii::$app->language;
     }
     $urlPrefix = Yii::$app->params['urlPrefix'].$language;
-    return $urlPrefix;
+    return strtolower($urlPrefix);
   }
 
   public static function br($n = 1) {

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Choose times and places together. Make planning easy.' => 'Choisissez les heures et les endroits ensemble. Facilitez la planification.',
     'No messages yet. ' => '@@Pas encore de messages.@@',
     ' accepted the request: ' => 'A accepté la demande:',
     ' and ' => 'et',
@@ -138,6 +137,7 @@ return [
     'Choose a time slightly earlier or later than {currentStartStr}' => 'Choisissez une heure légèrement plus tôt ou plus tard que {currentStartStr}',
     'Choose the date & time' => 'Choisissez la date et l\'heure',
     'Choose the place' => 'Choisissez l\'endroit',
+    'Choose times and places together. Make planning easy.' => 'Choisissez les heures et les endroits ensemble. Facilitez la planification.',
     'Choosing Dates, Times & Places' => 'Choisir des dates, des horaires et des lieux',
     'Chosen Place ID' => 'Choix de l\'identité du lieu',
     'Chosen Time' => 'Heure choisie',

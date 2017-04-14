@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Choose times and places together. Make planning easy.' => '함께 시간과 장소를 선택하십시오. 계획을 쉽게 작성하십시오.',
     'No messages yet. ' => '@@아직 메시지가 없습니다.@@',
     ' accepted the request: ' => '요청을 수락 함 :',
     ' and ' => '과',
@@ -138,6 +137,7 @@ return [
     'Choose a time slightly earlier or later than {currentStartStr}' => '시간을 약간 더 일찍 또는 나중에 선택하십시오. {currentStartStr}',
     'Choose the date & time' => '날짜 및 시간 선택',
     'Choose the place' => '장소 선택',
+    'Choose times and places together. Make planning easy.' => '함께 시간과 장소를 선택하십시오. 계획을 쉽게 작성하십시오.',
     'Choosing Dates, Times & Places' => '날짜, 시간 및 장소 선택',
     'Chosen Place ID' => 'Chosen Place ID',
     'Chosen Time' => '선택된 시간',

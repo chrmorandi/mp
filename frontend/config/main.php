@@ -39,13 +39,13 @@ return [
               'expire'=>time() + 86400 * 30,
               'secure'=>true,
             ],
-            // 'on ' . \yii\web\User::EVENT_AFTER_LOGIN => ['frontend\events\UserEvents', 'handleAfterLogin'],            
+            // 'on ' . \yii\web\User::EVENT_AFTER_LOGIN => ['frontend\events\UserEvents', 'handleAfterLogin'],
           ],
       'urlManager' => [
             //'class' => 'yii\web\UrlManager', // overloaded by codemix
             'class' => 'codemix\localeurls\UrlManager',
             // List all supported languages and include your app's default language.
-            'languages' => ['en','es','ru','fr','de','ar','pt','ja','ko','hi'],//'zh-CN'
+            'languages' => ['en','es','ru','fr','de','ar','pt','ja','ko','hi','zh-CN'],
             'enableDefaultLanguageUrlCode' => false,
             'enableLanguagePersistence' => true,
             'enablePrettyUrl' => true,

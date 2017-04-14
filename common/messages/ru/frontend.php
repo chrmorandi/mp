@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Choose times and places together. Make planning easy.' => 'Выбирайте время и места вместе. Сделать планирование легким.',
     'No messages yet. ' => '@@Сообщений нет.@@',
     ' accepted the request: ' => 'Принял запрос:',
     ' and ' => 'а также',
@@ -138,6 +137,7 @@ return [
     'Choose a time slightly earlier or later than {currentStartStr}' => 'Выберите время немного раньше или позже {currentStartStr}',
     'Choose the date & time' => 'Выберите дату и время',
     'Choose the place' => 'Выберите место',
+    'Choose times and places together. Make planning easy.' => 'Выбирайте время и места вместе. Сделать планирование легким.',
     'Choosing Dates, Times & Places' => 'Выбор даты, времени и мест',
     'Chosen Place ID' => 'Выбранный идентификатор места',
     'Chosen Time' => 'Выбранное время',

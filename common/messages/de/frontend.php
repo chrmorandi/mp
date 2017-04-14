@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Choose times and places together. Make planning easy.' => 'Wählen Sie Zeiten und Orte zusammen. Machen Sie die Planung einfach.',
     'A new app to make scheduling as simple as it should be.' => '@@Eine neue App , um die Planung so einfach, wie es sein sollte.@@',
     'Building Places' => '@@Gebäude Places@@',
     'Coming Soon' => '@@kommt Bald@@',
@@ -148,6 +147,7 @@ return [
     'Choose a time slightly earlier or later than {currentStartStr}' => 'Wählen Sie eine Zeit etwas früher oder später als {currentStartStr}',
     'Choose the date & time' => 'Wählen Sie das Datum und die Uhrzeit',
     'Choose the place' => 'Wähle den Ort',
+    'Choose times and places together. Make planning easy.' => 'Wählen Sie Zeiten und Orte zusammen. Machen Sie die Planung einfach.',
     'Choosing Dates, Times & Places' => 'Auswahl von Daten, Zeiten & Plätze',
     'Chosen Place ID' => 'Ausgewählte Ort-ID',
     'Chosen Time' => 'Ausgewählte Zeit',
