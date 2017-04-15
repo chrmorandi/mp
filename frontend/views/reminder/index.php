@@ -24,14 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             [
-              'label'=>'Time Before Meeting',
+              'label'=>Yii::t('frontend','Time before meeting'),
                 'attribute' => 'duration_friendly',
                 'format' => 'raw',
                 'value' => function ($model) {
-                        return '<div><a href="'.Url::to(['reminder/update', 'id' => $model->id]).'">'.$model->duration_friendly.' '.$model->displayUnits($model->unit).' via '.$model->displayType($model->reminder_type).'</a></div>';
+                        return '<div><a href="'.Url::to(['reminder/update', 'id' => $model->id]).'">'.$model->duration_friendly.' '.$model->displayUnits($model->unit).'&nbsp;'.Yii::t('frontend','via').'&nbsp;'.$model->displayType($model->reminder_type).'</a></div>';
                     },
             ],
-            ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{update}  {delete}',
+            ['class' => 'yii\grid\ActionColumn','header'=>Yii::t('frontend','Options'),'template'=>'{update}  {delete}',
             'headerOptions' => ['class' => 'itemHide'],
             'contentOptions' => ['class' => 'itemHide'],
             'buttons'=>[

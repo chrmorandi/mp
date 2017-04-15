@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs vertical-pad" role="tablist">
-      <li class="<?= ($tab=='friend'?'active':'') ?>"><a href="#friend" role="tab" data-toggle="tab">Friends</a></li>
-      <li class="<?= ($tab=='address'?'active':'') ?>"><a href="#address" role="tab" data-toggle="tab">Contacts</a></li>
+      <li class="<?= ($tab=='friend'?'active':'') ?>"><a href="#friend" role="tab" data-toggle="tab"><?= Yii::t('frontend','Friends');?></a></li>
+      <li class="<?= ($tab=='address'?'active':'') ?>"><a href="#address" role="tab" data-toggle="tab"><?= Yii::t('frontend','Contacts');?></a></li>
     </ul>
 
     <!-- Tab panes -->

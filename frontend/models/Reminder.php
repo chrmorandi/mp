@@ -156,16 +156,16 @@ class Reminder extends \yii\db\ActiveRecord
     public static function displayType($reminder_type) {
       switch ($reminder_type) {
         case Reminder::TYPE_EMAIL:
-          $str = 'email';
+          $str = Yii::t('frontend','email');
         break;
         case Reminder::TYPE_BOTH:
-          $str = 'email and text';
+          $str = Yii::t('frontend','email and text');
         break;
         case Reminder::TYPE_SMS:
-          $str ='text';
+          $str = Yii::t('frontend','texts');
         break;
         default:
-          $str ='unknown — please email support';
+          $str =Yii::t('frontend','unknown — please email support');;
         break;
       }
       return $str;

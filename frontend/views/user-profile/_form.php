@@ -35,7 +35,7 @@ use common\components\MiscHelpers;
      </div>
    </div> <!-- end of profile tab -->
     <div class="tab-pane <?= ($model->tab=='social'?'active':'') ?> vertical-pad" id="social">
-            <p>Do you want to login with one click with one of the following services?</p>
+            <p><?= Yii::t('frontend','Do you want to login with one click with one of the following services?'); ?></p>
             <?= yii\authclient\widgets\AuthChoice::widget([
                  'baseAuthUrl' => ['site/auth'],
                  'popupMode' => false,
@@ -49,7 +49,7 @@ use common\components\MiscHelpers;
     <div class="tab-pane <?= ($model->tab=='photo'?'active':'') ?> vertical-pad" id="photo">
       <div class="row">
       <div class="col-md-8">
-      <?=$form->field($model, 'image')->widget(FileInput::className(), [
+      <?=$form->field($model, 'image')->label(Yii::t('frontend','Image'))->widget(FileInput::className(), [
           'options' => ['accept' => 'image/*','data-show-upload'=>'false'],
            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png','jpeg']],
       ]);   ?>

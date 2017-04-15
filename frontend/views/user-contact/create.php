@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model frontend\models\UserContact */
 
 $this->title = Yii::t('frontend', 'Add {modelClass}', [
-    'modelClass' => 'Your Contact Information',
+    'modelClass' => Yii::t('frontend','Your Contact Information'),
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Contact Information'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
