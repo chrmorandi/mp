@@ -19,7 +19,7 @@ return [
     'translator' => 'Yii::t',
     'sort' => false,
     'overwrite' => true,
-    'removeUnused' => true,
+    'removeUnused' => false,
     'markUnused' => true,
     'except' => [
         '.svn',

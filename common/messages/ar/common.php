@@ -17,14 +17,14 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Created At' => '@@أنشئت في@@',
-    'Created By' => '@@تم إنشاؤها بواسطة@@',
-    'Google Place ID' => '@@جوجل مكان ID@@',
-    'ID' => '@@الهوية@@',
-    'Name' => '@@اسم@@',
-    'Place Type' => '@@المكان النوع@@',
-    'Status' => '@@وضع@@',
-    'Updated At' => '@@تحديث في@@',
+    'Created At' => 'أنشئت في',
+    'Created By' => 'تم إنشاؤها بواسطة',
+    'Google Place ID' => 'جوجل مكان ID',
+    'ID' => 'الهوية',
+    'Name' => 'اسم',
+    'Place Type' => 'المكان النوع',
+    'Status' => 'وضع',
+    'Updated At' => 'تحديث في',
     'Meeting Planner' => 'مخطط لقاء',
     'Meetings' => 'الاجتماعات',
     'Meetups' => 'لقاءات',
