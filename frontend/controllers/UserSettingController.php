@@ -116,10 +116,12 @@ class UserSettingController extends Controller
     }
 
     public function actionSetlanguage($language='') {
-      // set language for current logged in user, language code is $id
       Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $user_id = Yii::$app->user->getId();
-      UserSetting::setLanguage($user_id,$language);
+      // set language for current logged in user, language code is $id
+      if (!\Yii::$app->user->isGuest) {
+        $user_id = Yii::$app->user->getId();
+        UserSetting::setLanguage($user_id,$language);
+      }
       return true;
     }
 

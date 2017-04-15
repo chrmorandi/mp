@@ -126,13 +126,11 @@ AppAsset::register($this);
         <?= $content ?>
         </div>
     </div>
-
     <footer class="footer">
         <div class="container">
           <div class="pull-left">
             <?php
               echo Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']);
-
               echo Html::tag('span',' . ',['class'=>'itemHide']);
               echo Html::a(Yii::t('frontend','privacy'),Url::to(['/site/privacy']));
               echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
