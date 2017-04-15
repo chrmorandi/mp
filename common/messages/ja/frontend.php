@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => '電話番号とビデオ会議アドレスを追加して、会議の連絡先と共有することができます。例えばSkype。会議の参加者と共有したい連絡先のみを追加してください。',
+    'Captcha' => 'キャプチャ',
+    'Don\'t have a password or wish to change yours?' => 'パスワードをお持ちでないか、あなたのパスワードを変更したいのですか？',
+    'It\'s easiest using any of the following services:' => '次のサービスのいずれかを使用するのが最も簡単です：',
+    'Login Now' => 'ここでログイン',
+    'Or, fill out the following fields to login:' => 'または、次のフィールドに入力してログインします。',
+    'Password' => 'パスワード',
+    'Remember me' => '私を覚えてますか',
     ' accepted the request: ' => '要求を受け入れた：',
     ' and ' => 'そして',
     ' asked to meet at ' => '会うように頼まれた',
@@ -766,6 +772,7 @@ return [
     'Yoga' => 'ヨガ',
     'You already have an existing request below.' => 'あなたはすでに以下の既存のリクエストを持っています。',
     'You can add one person or a group of people to your {mlabel}.' => '1人または複数の人のグループをあなたの {mlabel} 。',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => '電話番号とビデオ会議アドレスを追加して、会議の連絡先と共有することができます。例えばSkype。会議の参加者と共有したい連絡先のみを追加してください。',
     'You can also invite participants by sharing' => '参加者を共有して招待することもできます',
     'You can change the permission settings for this meeting below. Or, ' => 'このミーティングの権限設定を以下で変更することができます。または、',
     'You can connect with any one of the following services:' => '次のいずれかのサービスに接続できます。',

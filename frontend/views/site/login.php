@@ -5,7 +5,7 @@ use yii\authclient\widgets\AuthChoice;
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
-$this->title = 'Login';
+$this->title = Yii::t('frontend','Login');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
@@ -16,7 +16,7 @@ $this->title = 'Login';
   </div>
   <div class="row">
     <div class="col-xs-10 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <p>It's easiest using any of the following services:</p>
+      <p><?= Yii::t('frontend','It\'s easiest using any of the following services:'); ?></p>
       <?= yii\authclient\widgets\AuthChoice::widget([
            'baseAuthUrl' => ['site/auth','mode'=>'login'],
            'popupMode' => false,
@@ -25,16 +25,16 @@ $this->title = 'Login';
   </div> <!-- end row -->
   <div class="row">
     <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
-        <p>Or, fill out the following fields to login:</p>
+        <p><?= Yii::t('frontend','Or, fill out the following fields to login:') ?></p>
           <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
               <?= $form->field($model, 'username')->textInput(['maxlength' => 255,'placeholder' => 'you@youremail.com'])->label(Yii::t('frontend','Email'))->hint(Yii::t('frontend','Or, use your username to log in.')) ?>
-              <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********']) ?>
-              <?= $form->field($model, 'rememberMe')->checkbox() ?>
+              <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********'])->label(Yii::t('frontend','Password')) ?>
+              <?= $form->field($model, 'rememberMe')->checkbox()->label(Yii::t('frontend','Remember me')) ?>
               <div style="color:#999;margin:1em 0">
-                  <?= Html::a('Don\'t have a password or wish to change yours?', ['site/request-password-reset']) ?>
+                  <?= Html::a(Yii::t('frontend','Don\'t have a password or wish to change yours?'), ['site/request-password-reset']) ?>
               </div>
               <div class="form-group">
-                  <?= Html::submitButton('Login Now', ['class' => 'btn btn-lg btn-primary', 'name' => 'login-button']) ?>
+                  <?= Html::submitButton(Yii::t('frontend','Login Now'), ['class' => 'btn btn-lg btn-primary', 'name' => 'login-button']) ?>
               </div>
           <?php ActiveForm::end(); ?>
         </div> <!-- end col-lg-5 -->

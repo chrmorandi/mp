@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'आप अपने मीटिंग संपर्कों के साथ साझा करने के लिए फोन नंबर और वीडियो कॉन्फ्रेंसिंग पते जोड़ सकते हैं। उदा। स्काइप केवल उन संपर्कों को जोड़ने के लिए जो आप मीटिंग प्रतिभागियों के साथ साझा करना चाहते हैं',
+    'Captcha' => 'कैप्चा',
+    'Don\'t have a password or wish to change yours?' => 'पासवर्ड नहीं है या तुम्हारा बदलना चाहते हैं?',
+    'It\'s easiest using any of the following services:' => 'निम्नलिखित सेवाओं में से किसी का उपयोग करना सबसे आसान है:',
+    'Login Now' => 'अब प्रवेश करें',
+    'Or, fill out the following fields to login:' => 'या, लॉगिन करने के लिए निम्नलिखित फ़ील्ड भरें:',
+    'Password' => 'पासवर्ड',
+    'Remember me' => 'मुझे याद रखना',
     ' accepted the request: ' => 'अनुरोध स्वीकार कर लिया है:',
     ' and ' => 'तथा',
     ' asked to meet at ' => 'से मिलने के लिए कहा',
@@ -766,6 +772,7 @@ return [
     'Yoga' => 'योगा',
     'You already have an existing request below.' => 'आपके पास पहले से ही एक मौजूदा अनुरोध है।',
     'You can add one person or a group of people to your {mlabel}.' => 'आप अपने व्यक्ति को एक व्यक्ति या समूह का जोड़ सकते हैं {mlabel} ।',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'आप अपने मीटिंग संपर्कों के साथ साझा करने के लिए फोन नंबर और वीडियो कॉन्फ्रेंसिंग पते जोड़ सकते हैं। उदा। स्काइप केवल उन संपर्कों को जोड़ने के लिए जो आप मीटिंग प्रतिभागियों के साथ साझा करना चाहते हैं',
     'You can also invite participants by sharing' => 'आप साझा करके भाग लेने वालों को भी आमंत्रित कर सकते हैं',
     'You can change the permission settings for this meeting below. Or, ' => 'आप नीचे इस मीटिंग के लिए अनुमति सेटिंग बदल सकते हैं या,',
     'You can connect with any one of the following services:' => 'आप निम्नलिखित सेवाओं में से किसी एक से जुड़ सकते हैं:',

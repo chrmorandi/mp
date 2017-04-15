@@ -27,13 +27,13 @@ $this->title = 'Signup';
           <p><?=Yii::t('frontend','Or, register with your email:');?></p>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-                <?= $form->field($model, 'username')->textInput(['placeholder' => 'JaneSmith']) ?>
+                <?= $form->field($model, 'username')->textInput(['placeholder' => 'JaneSmith'])->label(Yii::t('frontend','Username')) ?>
                 <?=
-                $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->textInput(['placeholder' => 'you@youremail.com']) ?>
-                <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********']) ?>
+                $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->label(Yii::t('frontend','Email'))->textInput(['placeholder' => 'you@youremail.com']) ?>
+                <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********'])->label(Yii::t('frontend','Password')) ?>
                 <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::className(), [
                       // configure additional widget properties here
-                  ]) ?>
+                  ])->label(Yii::t('frontend','Captcha')) ?>
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('frontend','Signup now'), ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
                 </div>

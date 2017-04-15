@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => '전화 번호와 화상 회의 주소를 추가하여 미팅 담당자와 공유 할 수 있습니다. 예 : Skype. 회의 참가자와 공유하려는 연락처 만 추가하십시오.',
+    'Captcha' => '보안 문자',
+    'Don\'t have a password or wish to change yours?' => '비밀번호가 없거나 비밀번호를 변경 하시겠습니까?',
+    'It\'s easiest using any of the following services:' => '다음 서비스 중 하나를 사용하는 것이 가장 쉽습니다.',
+    'Login Now' => '지금 로그인',
+    'Or, fill out the following fields to login:' => '또는 다음 필드에 정보를 입력하여 로그인하십시오.',
+    'Password' => '암호',
+    'Remember me' => '날 기억해',
     ' accepted the request: ' => '요청을 수락 함 :',
     ' and ' => '과',
     ' asked to meet at ' => '에서 만날 것을 요청하는',
@@ -766,6 +772,7 @@ return [
     'Yoga' => '요가',
     'You already have an existing request below.' => '이미 아래에 기존 요청이 있습니다.',
     'You can add one person or a group of people to your {mlabel}.' => '한 사람 또는 한 그룹의 사람을 {mlabel} .',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => '전화 번호와 화상 회의 주소를 추가하여 미팅 담당자와 공유 할 수 있습니다. 예 : Skype. 회의 참가자와 공유하려는 연락처 만 추가하십시오.',
     'You can also invite participants by sharing' => '공유를 통해 참가자를 초대 할 수도 있습니다.',
     'You can change the permission settings for this meeting below. Or, ' => '아래에서이 미팅의 권한 설정을 변경할 수 있습니다. 또는,',
     'You can connect with any one of the following services:' => '다음 서비스 중 하나를 사용하여 연결할 수 있습니다.',

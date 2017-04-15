@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'Você pode adicionar números de telefone e endereços de videoconferência para compartilhar com seus contatos da reunião. por exemplo. Skype. Adicione somente os contatos que deseja compartilhar com os participantes da reunião.',
+    'Captcha' => 'CAPTCHA',
+    'Don\'t have a password or wish to change yours?' => 'Não tem uma senha ou deseja alterar a sua?',
+    'It\'s easiest using any of the following services:' => 'É mais fácil usar qualquer um dos seguintes serviços:',
+    'Login Now' => 'Conecte-se agora',
+    'Or, fill out the following fields to login:' => 'Ou, preencha os seguintes campos para fazer o login:',
+    'Password' => 'Senha',
+    'Remember me' => 'Lembre de mim',
     ' accepted the request: ' => 'Aceitou o pedido:',
     ' and ' => 'e',
     ' asked to meet at ' => 'Pediu para se encontrar em',
@@ -766,6 +772,7 @@ return [
     'Yoga' => 'Ioga',
     'You already have an existing request below.' => 'Você já tem um pedido existente abaixo.',
     'You can add one person or a group of people to your {mlabel}.' => 'Você pode adicionar uma pessoa ou grupo de pessoas {mlabel} .',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'Você pode adicionar números de telefone e endereços de videoconferência para compartilhar com seus contatos da reunião. por exemplo. Skype. Adicione somente os contatos que deseja compartilhar com os participantes da reunião.',
     'You can also invite participants by sharing' => 'Você também pode convidar participantes compartilhando',
     'You can change the permission settings for this meeting below. Or, ' => 'Você pode alterar as configurações de permissão para esta reunião abaixo. Ou,',
     'You can connect with any one of the following services:' => 'Você pode se conectar com qualquer um dos seguintes serviços:',

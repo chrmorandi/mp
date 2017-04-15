@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'Vous pouvez ajouter des numéros de téléphone et des adresses de vidéoconférence à partager avec vos contacts de réunion. par exemple. Skype. Ajoutez uniquement les contacts que vous souhaitez partager avec les participants à la réunion.',
+    'Captcha' => 'Captcha',
+    'Don\'t have a password or wish to change yours?' => 'Vous n\'avez pas de mot de passe ou souhaitez changer le vôtre?',
+    'It\'s easiest using any of the following services:' => 'Il est plus facile d\'utiliser l\'un des services suivants:',
+    'Login Now' => 'Connecte-toi maintenant',
+    'Or, fill out the following fields to login:' => 'Ou, complétez les champs suivants pour vous connecter:',
+    'Password' => 'Mot de passe',
+    'Remember me' => 'Souviens-toi de moi',
     ' accepted the request: ' => 'A accepté la demande:',
     ' and ' => 'et',
     ' asked to meet at ' => 'Demandé de se réunir à',
@@ -766,6 +772,7 @@ return [
     'Yoga' => 'Yoga',
     'You already have an existing request below.' => 'Vous avez déjà une demande existante ci-dessous.',
     'You can add one person or a group of people to your {mlabel}.' => 'Vous pouvez ajouter une personne ou un groupe de personnes à votre {mlabel} .',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'Vous pouvez ajouter des numéros de téléphone et des adresses de vidéoconférence à partager avec vos contacts de réunion. par exemple. Skype. Ajoutez uniquement les contacts que vous souhaitez partager avec les participants à la réunion.',
     'You can also invite participants by sharing' => 'Vous pouvez également inviter les participants en partageant',
     'You can change the permission settings for this meeting below. Or, ' => 'Vous pouvez modifier les paramètres d\'autorisation pour cette réunion ci-dessous. Ou,',
     'You can connect with any one of the following services:' => 'Vous pouvez vous connecter à l\'un des services suivants:',

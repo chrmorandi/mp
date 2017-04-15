@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'يمكنك إضافة أرقام الهاتف وعناوين مؤتمرات الفيديو لمشاركتها مع جهات اتصال الاجتماع. على سبيل المثال. سكايب. فقط إضافة جهات الاتصال التي ترغب في مشاركتها مع المشاركين في الاجتماع.',
+    'Captcha' => 'كابتشا',
+    'Don\'t have a password or wish to change yours?' => 'ليس لديك كلمة مرور أو ترغب في تغيير لك؟',
+    'It\'s easiest using any of the following services:' => 'انها أسهل باستخدام أي من الخدمات التالية:',
+    'Login Now' => 'تسجيل الدخول الآن',
+    'Or, fill out the following fields to login:' => 'أو ملء الحقول التالية لتسجيل الدخول:',
+    'Password' => 'كلمه السر',
+    'Remember me' => 'تذكرنى',
     ' accepted the request: ' => 'قبلت الطلب:',
     ' and ' => 'و',
     ' asked to meet at ' => 'طلب الاجتماع في',
@@ -766,6 +772,7 @@ return [
     'Yoga' => 'اليوغا',
     'You already have an existing request below.' => 'لديك بالفعل طلب موجود أدناه.',
     'You can add one person or a group of people to your {mlabel}.' => 'يمكنك إضافة شخص واحد أو مجموعة من الناس إلى الخاص بك {mlabel} .',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'يمكنك إضافة أرقام الهاتف وعناوين مؤتمرات الفيديو لمشاركتها مع جهات اتصال الاجتماع. على سبيل المثال. سكايب. فقط إضافة جهات الاتصال التي ترغب في مشاركتها مع المشاركين في الاجتماع.',
     'You can also invite participants by sharing' => 'يمكنك أيضا دعوة المشاركين من خلال المشاركة',
     'You can change the permission settings for this meeting below. Or, ' => 'يمكنك تغيير إعدادات الأذونات لهذا الاجتماع أدناه. أو،',
     'You can connect with any one of the following services:' => 'يمكنك الاتصال بأي من الخدمات التالية:',

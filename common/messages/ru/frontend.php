@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'Вы можете добавлять телефонные номера и адреса видеоконференций, чтобы делиться с ними контактами. например Skype. Добавляйте только те контакты, с которыми вы хотите поделиться с участниками собрания.',
+    'Captcha' => 'Защитный код',
+    'Don\'t have a password or wish to change yours?' => 'У вас нет пароля или вы хотите изменить свой?',
+    'It\'s easiest using any of the following services:' => 'Это проще всего использовать любую из следующих служб:',
+    'Login Now' => 'Войти сейчас',
+    'Or, fill out the following fields to login:' => 'Или заполните следующие поля для входа:',
+    'Password' => 'пароль',
+    'Remember me' => 'Запомни меня',
     ' accepted the request: ' => 'Принял запрос:',
     ' and ' => 'а также',
     ' asked to meet at ' => 'Попросил встретиться на',
@@ -766,6 +772,7 @@ return [
     'Yoga' => 'Йога',
     'You already have an existing request below.' => 'У вас уже есть существующий запрос ниже.',
     'You can add one person or a group of people to your {mlabel}.' => 'Вы можете добавить одного человека или группу людей в свой {mlabel} .',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => 'Вы можете добавлять телефонные номера и адреса видеоконференций, чтобы делиться с ними контактами. например Skype. Добавляйте только те контакты, с которыми вы хотите поделиться с участниками собрания.',
     'You can also invite participants by sharing' => 'Вы также можете пригласить участников',
     'You can change the permission settings for this meeting below. Or, ' => 'Вы можете изменить настройки разрешений для этого собрания ниже. Или,',
     'You can connect with any one of the following services:' => 'Вы можете подключиться к любой из следующих служб:',

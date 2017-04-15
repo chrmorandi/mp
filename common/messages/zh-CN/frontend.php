@@ -18,7 +18,13 @@
 */
 return [
     '' => '',
-    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => '您可以添加电话号码和视频会议地址，以便与会议联系人分享。例如Skype。只需添加您希望与会议参与者分享的联系人。',
+    'Captcha' => '验证码',
+    'Don\'t have a password or wish to change yours?' => '没有密码或希望改变你的密码？',
+    'It\'s easiest using any of the following services:' => '最容易使用以下任何服务：',
+    'Login Now' => '现在登录',
+    'Or, fill out the following fields to login:' => '或者，填写以下字段进行登录：',
+    'Password' => '密码',
+    'Remember me' => '记住我',
     ' accepted the request: ' => '接受请求：',
     ' and ' => '和',
     ' asked to meet at ' => '要求见面',
@@ -766,6 +772,7 @@ return [
     'Yoga' => '瑜伽',
     'You already have an existing request below.' => '您以下已经有一个现有的请求。',
     'You can add one person or a group of people to your {mlabel}.' => '你可以添加一个人或一群人到你的 {mlabel} 。',
+    'You can add phone numbers and video conferencing addresses to share with your meeting contacts. e.g. Skype. Only add contacts that you wish to share with meeting participants.' => '您可以添加电话号码和视频会议地址，以便与会议联系人分享。例如Skype。只需添加您希望与会议参与者分享的联系人。',
     'You can also invite participants by sharing' => '您也可以通过分享邀请参与者',
     'You can change the permission settings for this meeting below. Or, ' => '您可以在下面更改此会议的权限设置。要么，',
     'You can connect with any one of the following services:' => '您可以连接以下任一服务：',
