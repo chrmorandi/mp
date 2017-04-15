@@ -8,7 +8,11 @@ MeetingAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 $this->title = $model->getMeetingHeader('view');
-$this->params['breadcrumbs'][] = ['label' => Yii::$app->params['site']['mtg'], 'url' => ['index']];
+if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_MP) {
+  $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend','Meetings'), 'url' => ['index']];
+} else {
+  $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend','Meetups'), 'url' => ['index']];
+}
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_timezone_alerts');
 echo $this->render('_guide_alert');
@@ -105,4 +109,19 @@ echo $this->render('_guide_alert');
 <?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
 <?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
 <?= Html::hiddenInput('showGuide',$showGuide,['id'=>'showGuide']); ?>
+<?= Html::hiddenInput('textYes',Yii::t('frontend','yes'),['id'=>'textYes']); ?>
+<?= Html::hiddenInput('textNo',Yii::t('frontend','no'),['id'=>'textNo']); ?>
+<?php
+if ($showGuide=='planning') {
+  echo $this->render('_planning_tour',
+  [
+    'model'=>$model,
+    ]);
+} else {
+  echo $this->render('_participant_tour',
+  [
+    'model'=>$model,
+    ]);
+}
+?>
 </div>

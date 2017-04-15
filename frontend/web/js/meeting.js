@@ -393,8 +393,8 @@ function addActivity(id) {
       $("#meeting-activity-list").html(data).removeClass('hidden');
         $("input[name='meeting-activity-choice']").map(function(){
           //$(this).bootstrapSwitch();
-          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes');
-          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no');
+          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
+          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());          
           $(this).bootstrapSwitch('onColor','success');
           $(this).bootstrapSwitch('offColor','danger');
           $(this).bootstrapSwitch('handleWidth',50);
@@ -445,7 +445,7 @@ function showWhoFavorites() {
       $('#addParticipantHint').addClass("hidden");
       $('#whoEmail').addClass("hidden");
       $('#whoFavorites').removeClass("hidden");
-      $('#participant-emailundefined').attr('placeholder','type or click arrow to choose friends');
+      $('#participant-emailundefined').attr('placeholder',$('#textChooseFriends').val());
       $('#addParticipantPanel').removeClass("hidden");
     } else {
       // panel showing
@@ -600,8 +600,8 @@ function addTime(id) {
         });
         $("input[name='meeting-time-choice']").map(function(){
           //$(this).bootstrapSwitch();
-          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes');
-          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no');
+          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
+          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());
           $(this).bootstrapSwitch('onColor','success');
           $(this).bootstrapSwitch('offColor','danger');
           $(this).bootstrapSwitch('handleWidth',50);
@@ -842,8 +842,8 @@ function insertPlace(id) {
       });
       $("input[name='meeting-place-choice']").map(function(){
         //$(this).bootstrapSwitch();
-        $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes');
-        $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no');
+        $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
+        $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());
         $(this).bootstrapSwitch('onColor','success');
         $(this).bootstrapSwitch('offColor','danger');
         $(this).bootstrapSwitch('handleWidth',50);

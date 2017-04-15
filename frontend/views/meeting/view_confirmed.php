@@ -14,7 +14,11 @@ MeetingAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Meeting */
 $this->title = $model->getMeetingHeader();
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
+if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_MP) {
+  $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend','Meetings'), 'url' => ['index']];
+} else {
+  $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend','Meetups'), 'url' => ['index']];
+}
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_timezone_alerts');
 ?>

@@ -21,7 +21,7 @@ use \kartik\switchinput\SwitchInput;
             }
           ?>
       </td>
-      <td class="table-switches"> <!-- col of switches to float right -->        
+      <td class="table-switches"> <!-- col of switches to float right -->
         <table >
           <tr>
               <td >
@@ -39,7 +39,7 @@ use \kartik\switchinput\SwitchInput;
                              'id'=>'mac-'.$mac->id,
                              'value' => $value,
                              'disabled' => !$isOwner,
-                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','yes'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
                              ]);
                        }
                      }
@@ -62,7 +62,7 @@ use \kartik\switchinput\SwitchInput;
                              'indeterminateToggle'=>false,
                              'disabled'=>$isOwner,
                              'value' => $value,
-                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;yes','offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;no','onColor' => 'success','offColor' => 'danger',],
+                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','yes'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
                          ]);
                        }
                      }

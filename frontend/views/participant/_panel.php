@@ -15,7 +15,7 @@ use yii\bootstrap\Collapse;
       </div>
     <div class="col-lg-3 col-md-4 col-xs-6">
       <div style="float:right;">
-        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user','title'=>'Add participants','onclick'=>'showWhoEmail();']); ?>
+        <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="glyphicon glyphicon-user button-pad-left" aria-hidden="true"></span>', 'javascript:void(0);', ['class' => 'btn btn-primary button-margin-top'.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':''),'aria-label'=>Yii::t('frontend','Add people'),'title'=>'Add participants','onclick'=>'showWhoEmail();']); ?>
         <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.($friendCount==0?'hidden ':' ').((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-heart','title'=>'Add favorites','onclick'=>'showWhoFavorites();']); ?>
       </div>
     </div>
@@ -35,7 +35,7 @@ use yii\bootstrap\Collapse;
           <?php
             if ((!empty($participantProvider) && $participantProvider->getCount()==0) && $model->isOrganizer() && $model->status<$model::STATUS_CONFIRMED) {
               ?>
-              Click <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' glyphicon glyphicon-user mini-button','title'=>'Add participants','onclick'=>'showWhoEmail();']); ?> to add people
+              <?= Yii::t('frontend','Click');?> <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="glyphicon glyphicon-user button-pad-left" aria-hidden="true"></span>', 'javascript:void(0);', ['class' => 'btn btn-primary '.((!$model->isOrganizer() || $model->status>=$model::STATUS_CONFIRMED)?'disabled':'').' mini-button mini-button-pad','title'=>'Add participants','onclick'=>'showWhoEmail();']); ?> <?= Yii::t('frontend','to add people'); ?>
           <?php
             }
           ?>

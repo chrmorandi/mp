@@ -22,7 +22,7 @@ $(document).ready(function() {
         buttons: [
               {
                   id: "Save",
-                  text: "Save times",
+                  text: $('#buttonSave').val(),
                   click: function () {
                       callbacks.fire();
                       dialog.dialog( "close" );
@@ -30,7 +30,7 @@ $(document).ready(function() {
               },
               {
                   id: "Cancel",
-                  text: "Cancel",
+                  text: $('#buttonCancel').val(),
                   click: function () {
                       $(this).dialog('close');
                   }

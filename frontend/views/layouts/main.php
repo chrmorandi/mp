@@ -26,8 +26,15 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
         <div class="wrap">
         <?php
+        if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_MP) {
+          Yii::$app->params['site']['title'] = $siteTitle = Yii::t('frontend', 'Meeting Planner');
+          Yii::$app->params['site']['mtg'] = $meetingLabel = Yii::t('frontend', 'Meetings');
+        } else {
+          Yii::$app->params['site']['title'] = $siteTitle = Yii::t('frontend', 'Simple Planner');
+          Yii::$app->params['site']['mtg'] = $meetingLabel = Yii::t('frontend', 'Meetups');
+        }
                 NavBar::begin([
-                'brandLabel' => Yii::$app->params['site']['title'].'&nbsp;<span class="badge">'.Yii::t('frontend','preview').'</span>', //
+                'brandLabel' => $siteTitle.'&nbsp;<span class="badge">'.Yii::t('frontend','preview').'</span>', //
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',
@@ -41,7 +48,7 @@ AppAsset::register($this);
 	            $menuItems = [
                   ['label' => Yii::t('frontend','Schedule'), 'url' => ['/meeting/create']],
                   [
-                    'label' => Yii::$app->params['site']['mtg'],
+                    'label' => $meetingLabel,
                     'url' => ['/meeting'],
                     'options'=>['class'=>'menuHide'],
                   ],

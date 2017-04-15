@@ -20,7 +20,7 @@ use \kartik\typeahead\Typeahead;
       <div class="col-xs-12 col-md-12 col-lg-12">
         <?php
           //echo $form->field($participant, 'new_email',['enableAjaxValidation' => true,'options'=>['class'=>'fieldLeftFull']])->textInput(['placeholder' => "enter an email address to invite someone new",'id'=>'new_email'])->label(Yii::t('frontend','Invite someone new'));
-          echo $form->field($participant, 'new_email',['enableAjaxValidation' => true,'options'=>['class'=>'fieldLeftFull']])->textarea(['rows'=>6,'placeholder' => "enter one or more email addresses (separated by commas or on different lines)",'id'=>'new_email'])->label(Yii::t('frontend','Invite people'));
+          echo $form->field($participant, 'new_email',['enableAjaxValidation' => true,'options'=>['class'=>'fieldLeftFull']])->textarea(['rows'=>6,'placeholder' => Yii::t('frontend','enter one or more email addresses (separated by commas or on different lines)'),'id'=>'new_email'])->label(Yii::t('frontend','Invite people'));
         ?>
         <div class="form-group">
           <span class="button-pad">
@@ -95,3 +95,4 @@ use \kartik\typeahead\Typeahead;
 <hr />
 </div> <!-- end div -->
 <?= $this->registerJs("$(document).ready(function(){ $('.combobox').combobox() });"); ?>
+<?= Html::hiddenInput('textChooseFriends',Yii::t('frontend','type or click arrow to choose friends'),['id'=>'textChooseFriends']); ?>

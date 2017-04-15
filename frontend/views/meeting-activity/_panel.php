@@ -29,7 +29,7 @@ use \kartik\switchinput\SwitchInput;
   </span></div><div class="col-lg-2 col-md-2 col-xs-2"><div style="float:right;">
     <?php
       if ($model->isOrganizer() || $model->meetingSettings->participant_add_activity) { ?>
-        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Add ideas for activities','id'=>'buttonActivity','onclick'=>'showActivity();']); ?>
+        <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="glyphicon glyphicon-glass button-pad-left" aria-hidden="true"></span>', 'javascript:void(0);', ['class' => 'btn btn-primary','title'=>'Add ideas for activities','id'=>'buttonActivity','onclick'=>'showActivity();']); ?>
         <?php
       }
     ?>

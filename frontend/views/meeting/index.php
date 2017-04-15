@@ -3,8 +3,11 @@
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MeetingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title =Yii::$app->params['site']['mtg'];
+if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_MP) {
+  $this->title= Yii::t('frontend', 'Meetings');
+} else {
+  $this->title = Yii::t('frontend', 'Meetups');
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
