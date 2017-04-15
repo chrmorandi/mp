@@ -54,6 +54,7 @@ return [
                 // route pattern => url pattern
                 '#^site/auth#' => '#^site/auth#',
                 '#^address/import#' => '#^address/import#',
+                '#^meeting/command#' => '#^meeting/command#',
                 '#^mailgun-notification/store#' => '#mailgun-notification/store#',
             ],
             //'enableStrictParsing' => false,
