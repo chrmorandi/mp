@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No messages yet. ' => '@@아직 메시지가 없습니다.@@',
     ' accepted the request: ' => '요청을 수락 함 :',
     ' and ' => '과',
     ' asked to meet at ' => '에서 만날 것을 요청하는',

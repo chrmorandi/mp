@@ -18,17 +18,6 @@
 */
 return [
     '' => '',
-    'A new app to make scheduling as simple as it should be.' => '@@والتطبيق الجديد لجعل جدولة بسيطة كما ينبغي أن يكون.@@',
-    'Building Places' => '@@بناء الأماكن@@',
-    'Coming Soon' => '@@قريبا@@',
-    'Contact' => '@@اتصال@@',
-    'Feature Requirements' => '@@متطلبات ميزة@@',
-    'Follow' => '@@تابع@@',
-    'Getting Started' => '@@ابدء@@',
-    'Home' => '@@منزل@@',
-    'Learn More' => '@@أعرف أكثر@@',
-    'MeetingPlanner.io' => '@@MeetingPlanner.io@@',
-    'No messages yet. ' => '@@لا توجد رسائل حتى الآن.@@',
     ' accepted the request: ' => 'قبلت الطلب:',
     ' and ' => 'و',
     ' asked to meet at ' => 'طلب الاجتماع في',

@@ -17,8 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Hello, {username}!' => '@@@@',
-    'It is recommended you use an upgraded browser to display the {type} control properly.' => '@@Se recomienda que utilice un navegador actualizado para mostrar la {type} controlar adecuadamente .@@',
     'Created At' => 'Creado en',
     'ID' => 'CARNÉ DE IDENTIDAD',
     'Meeting ID' => 'ID de la reunión',

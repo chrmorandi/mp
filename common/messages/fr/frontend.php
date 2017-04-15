@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No messages yet. ' => '@@Pas encore de messages.@@',
     ' accepted the request: ' => 'A accepté la demande:',
     ' and ' => 'et',
     ' asked to meet at ' => 'Demandé de se réunir à',

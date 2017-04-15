@@ -17,14 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'The file "{file}" is too big. Its size cannot exceed {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@该文件“ {file} “太大，它的大小不能超过 {limit, number}   {limit, plural, one{byte} other{bytes}} 。@@',
-    'The file "{file}" is too small. Its size cannot be smaller than {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@该文件“ {file} “太小，它的大小不能小于 {limit, number}   {limit, plural, one{byte} other{bytes}} 。@@',
-    '{attribute} must be greater than "{compareValue}".' => '@@{attribute} 必须大于“ {compareValue} “ 。@@',
-    '{attribute} must be greater than or equal to "{compareValue}".' => '@@{attribute} 必须大于或等于“ {compareValue} “ 。@@',
-    '{attribute} must be less than "{compareValue}".' => '@@{attribute} 必须小于“ {compareValue} “ 。@@',
-    '{attribute} must be less than or equal to "{compareValue}".' => '@@{attribute} 必须小于或等于“ {compareValue} “ 。@@',
-    '{attribute} must be repeated exactly.' => '@@{attribute} 必须准确重复。@@',
-    '{attribute} must not be equal to "{compareValue}".' => '@@{attribute} 必须不等于“ {compareValue} “ 。@@',
     '(not set)' => '（未设置）',
     'An internal server error occurred.' => '发生内部服务器错误。',
     'Are you sure you want to delete this item?' => '你确定你要删除这个项目吗？',

@@ -18,17 +18,6 @@
 */
 return [
     '' => '',
-    'A new app to make scheduling as simple as it should be.' => '@@新しいアプリは、それがあるべきようにスケジューリングは同じくらい簡単にします。@@',
-    'Building Places' => '@@ビル場所@@',
-    'Coming Soon' => '@@近日公開@@',
-    'Contact' => '@@コンタクト@@',
-    'Feature Requirements' => '@@機能要件@@',
-    'Follow' => '@@続く@@',
-    'Getting Started' => '@@入門@@',
-    'Home' => '@@ホーム@@',
-    'Learn More' => '@@もっと詳しく知る@@',
-    'MeetingPlanner.io' => '@@MeetingPlanner.io@@',
-    'No messages yet. ' => '@@まだメッセージはありません。@@',
     ' accepted the request: ' => '要求を受け入れた：',
     ' and ' => 'そして',
     ' asked to meet at ' => '会うように頼まれた',

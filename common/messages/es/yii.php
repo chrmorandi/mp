@@ -17,14 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'The file "{file}" is too big. Its size cannot exceed {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@El archivo " {file} " Es demasiado grande. Su tamaño no puede exceder {limit, number}   {limit, plural, one{byte} other{bytes}} .@@',
-    'The file "{file}" is too small. Its size cannot be smaller than {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@El archivo " {file} " Es demasiado pequeño. Su tamaño no puede ser menor que {limit, number}   {limit, plural, one{byte} other{bytes}} .@@',
-    '{attribute} must be greater than "{compareValue}".' => '@@{attribute} debe ser mayor que " {compareValue} " .@@',
-    '{attribute} must be greater than or equal to "{compareValue}".' => '@@{attribute} debe ser mayor que o igual a " {compareValue} " .@@',
-    '{attribute} must be less than "{compareValue}".' => '@@{attribute} debe ser inferior a " {compareValue} " .@@',
-    '{attribute} must be less than or equal to "{compareValue}".' => '@@{attribute} debe ser menor que o igual a " {compareValue} " .@@',
-    '{attribute} must be repeated exactly.' => '@@{attribute} se debe repetir exactamente .@@',
-    '{attribute} must not be equal to "{compareValue}".' => '@@{attribute} no debe ser igual a " {compareValue} " .@@',
     '(not set)' => '( sin definir)',
     'An internal server error occurred.' => 'Se ha producido un error interno del servidor .',
     'Are you sure you want to delete this item?' => '¿Seguro que quieres borrar este artículo?',

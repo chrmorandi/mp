@@ -17,14 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'The file "{file}" is too big. Its size cannot exceed {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@Die Datei " {file} " Ist zu groß. Seine Größe nicht überschreiten kann {limit, number}   {limit, plural, one{byte} other{bytes}} .@@',
-    'The file "{file}" is too small. Its size cannot be smaller than {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@Die Datei " {file} " Zu klein ist. Seine Größe kann nicht kleiner sein als {limit, number}   {limit, plural, one{byte} other{bytes}} .@@',
-    '{attribute} must be greater than "{compareValue}".' => '@@{attribute} muß grßer sein als " {compareValue} " .@@',
-    '{attribute} must be greater than or equal to "{compareValue}".' => '@@{attribute} größer als oder gleich sein " {compareValue} " .@@',
-    '{attribute} must be less than "{compareValue}".' => '@@{attribute} muss kleiner sein als " {compareValue} " .@@',
-    '{attribute} must be less than or equal to "{compareValue}".' => '@@{attribute} muß kleiner oder gleich sein " {compareValue} " .@@',
-    '{attribute} must be repeated exactly.' => '@@{attribute} muß genau wiederholt werden.@@',
-    '{attribute} must not be equal to "{compareValue}".' => '@@{attribute} müssen nicht gleich " sein {compareValue} " .@@',
     '(not set)' => '( nicht festgelegt )',
     'An internal server error occurred.' => 'Ein interner Serverfehler aufgetreten.',
     'Are you sure you want to delete this item?' => 'Sind Sie sicher, Sie wollen diesen Inhalt löschen ?',

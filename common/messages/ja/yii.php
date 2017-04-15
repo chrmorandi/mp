@@ -17,14 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'The file "{file}" is too big. Its size cannot exceed {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@ファイル " {file} 「大きすぎます。そのサイズは超えることができません {limit, number}   {limit, plural, one{byte} other{bytes}} 。@@',
-    'The file "{file}" is too small. Its size cannot be smaller than {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@ファイル " {file} 「小さすぎる。そのサイズはすることはできませんよりも小さい {limit, number}   {limit, plural, one{byte} other{bytes}} 。@@',
-    '{attribute} must be greater than "{compareValue}".' => '@@{attribute} "よりも大きくなければなりません {compareValue} " 。@@',
-    '{attribute} must be greater than or equal to "{compareValue}".' => '@@{attribute} 「以上でなければなりません {compareValue} " 。@@',
-    '{attribute} must be less than "{compareValue}".' => '@@{attribute} 「より小さくなければなりません {compareValue} " 。@@',
-    '{attribute} must be less than or equal to "{compareValue}".' => '@@{attribute} 「以下でなければなりません {compareValue} " 。@@',
-    '{attribute} must be repeated exactly.' => '@@{attribute} 正確に繰り返されなければならない。@@',
-    '{attribute} must not be equal to "{compareValue}".' => '@@{attribute} "と等しくあってはならない {compareValue} " 。@@',
     '(not set)' => '（設定されていません）',
     'An internal server error occurred.' => '内部サーバーエラーが発生しました。',
     'Are you sure you want to delete this item?' => 'あなたはこの項目を削除してもよろしいていますか？',

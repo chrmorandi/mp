@@ -17,7 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Hello, {username}!' => '@@@@',
     'Created At' => 'Hergestellt in',
     'ID' => 'ICH WÜRDE',
     'Meeting ID' => 'Konferenz-ID',

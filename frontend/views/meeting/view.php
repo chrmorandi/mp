@@ -21,8 +21,8 @@ echo $this->render('_guide_alert');
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li id="tourStart" class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Details');?></a></li>
-    <li id="tourDiscussion" class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Messages');?></a></li>
+    <li id="tourStart" class="<?= ($tab=='details'?'active':'') ?>"><a href="#details" role="tab" data-toggle="tab"><?= Yii::t('frontend','Planning');?></a></li>
+    <li id="tourDiscussion" class="<?= ($tab=='notes'?'active':'') ?>"><a href="#notes" role="tab" data-toggle="tab"><?= Yii::t('frontend','Messages');?>&nbsp;<span class="glyphicon glyphicon-envelope comment-bubble"></span></a></li>
   </ul>
 
   <!-- Tab panes -->

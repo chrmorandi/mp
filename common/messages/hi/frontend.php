@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No messages yet. ' => '@@अभी तक कोई संदेश नहीं@@',
     ' accepted the request: ' => 'अनुरोध स्वीकार कर लिया है:',
     ' and ' => 'तथा',
     ' asked to meet at ' => 'से मिलने के लिए कहा',

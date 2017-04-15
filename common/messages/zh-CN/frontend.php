@@ -18,17 +18,6 @@
 */
 return [
     '' => '',
-    'A new app to make scheduling as simple as it should be.' => '@@一个新的应用程序，使调度简单，因为它应该是。@@',
-    'Building Places' => '@@建设地点@@',
-    'Coming Soon' => '@@即将推出@@',
-    'Contact' => '@@联系@@',
-    'Feature Requirements' => '@@功能要求@@',
-    'Follow' => '@@跟随@@',
-    'Getting Started' => '@@入门@@',
-    'Home' => '@@家@@',
-    'Learn More' => '@@了解更多@@',
-    'MeetingPlanner.io' => '@@MeetingPlanner.io@@',
-    'No messages yet. ' => '@@还没有消息@@',
     ' accepted the request: ' => '接受请求：',
     ' and ' => '和',
     ' asked to meet at ' => '要求见面',

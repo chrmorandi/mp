@@ -17,14 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'The file "{file}" is too big. Its size cannot exceed {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@الملف " {file} " هو كبير جدا . لا يمكن أن يتجاوز حجمه {limit, number}   {limit, plural, one{byte} other{bytes}} .@@',
-    'The file "{file}" is too small. Its size cannot be smaller than {limit, number} {limit, plural, one{byte} other{bytes}}.' => '@@الملف " {file} " صغير جدا. حجمه لا يمكن أن يكون أصغر من {limit, number}   {limit, plural, one{byte} other{bytes}} .@@',
-    '{attribute} must be greater than "{compareValue}".' => '@@{attribute} يجب أن يكون أكبر من " {compareValue} " .@@',
-    '{attribute} must be greater than or equal to "{compareValue}".' => '@@{attribute} يجب أن تكون أكبر من أو يساوي " {compareValue} " .@@',
-    '{attribute} must be less than "{compareValue}".' => '@@{attribute} يجب أن يكون أقل من " {compareValue} " .@@',
-    '{attribute} must be less than or equal to "{compareValue}".' => '@@{attribute} يجب أن يكون أقل من أو يساوي " {compareValue} " .@@',
-    '{attribute} must be repeated exactly.' => '@@{attribute} يجب أن تتكرر بالضبط .@@',
-    '{attribute} must not be equal to "{compareValue}".' => '@@{attribute} لا يجب أن يكون مساويا ل " {compareValue} " .@@',
     '(not set)' => '( لم تحدد )',
     'An internal server error occurred.' => 'حدث خطأ داخلي في الملقم .',
     'Are you sure you want to delete this item?' => 'هل أنت متأكد أنك تريد حذف هذا البند ؟',

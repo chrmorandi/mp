@@ -18,17 +18,6 @@
 */
 return [
     '' => '',
-    'A new app to make scheduling as simple as it should be.' => '@@Eine neue App , um die Planung so einfach, wie es sein sollte.@@',
-    'Building Places' => '@@Gebäude Places@@',
-    'Coming Soon' => '@@kommt Bald@@',
-    'Contact' => '@@Kontakt@@',
-    'Feature Requirements' => '@@Featureanforderungen@@',
-    'Follow' => '@@folgen@@',
-    'Getting Started' => '@@Einstieg@@',
-    'Home' => '@@Zuhause@@',
-    'Learn More' => '@@Erfahren Sie Mehr@@',
-    'MeetingPlanner.io' => '@@MeetingPlanner.io@@',
-    'No messages yet. ' => '@@Noch keine Nachrichten@@',
     ' accepted the request: ' => 'Akzeptiert die Anfrage:',
     ' and ' => 'und',
     ' asked to meet at ' => 'Gebeten, sich zu treffen',

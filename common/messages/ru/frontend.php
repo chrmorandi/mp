@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No messages yet. ' => '@@Сообщений нет.@@',
     ' accepted the request: ' => 'Принял запрос:',
     ' and ' => 'а также',
     ' asked to meet at ' => 'Попросил встретиться на',

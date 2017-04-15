@@ -144,7 +144,10 @@ a.icon-pad {
 .mini-button-pad {
   padding: 2px 5px 0px 5px !important;
 }
-
+.comment-bubble {
+  vertical-align: text-top;
+  padding-left:3px;
+}
 /* meeting participant in index view */
 .index-participant,.index-time {
   font-style:italic;
