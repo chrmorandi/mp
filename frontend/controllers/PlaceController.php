@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\User;
+use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
 
 
@@ -208,7 +209,6 @@ class PlaceController extends Controller
          Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, you have reached the maximum number of places that you can add today. Contact support if you need additional help or want to offer feedback.'));
          return $this->redirect('yours');
        }
-
          $model = new Place();
          if ($model->load(Yii::$app->request->post())) {
              $form = Yii::$app->request->post();
@@ -216,18 +216,26 @@ class PlaceController extends Controller
              if (!is_numeric($model->place_type)) {
                 $model->place_type=Place::TYPE_OTHER;
              }
-             if ($model->validate()) {
-                  // all inputs are valid
-                  $model->save();
-                  // add GPS entry in PlaceGeometry
-                  $model->addGeometryByPoint($model,$form['Place']['lat'],$form['Place']['lng']);
-                  return $this->redirect(['view', 'id' => $model->id]);
-              } else {
-                  // validation failed
-                  return $this->render('create_geo', [
-                      'model' => $model,
-                  ]);
-              }
+             if (empty($form['Place']['lat'])) {
+               Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, GPS coordinates could not be determined. Try creating ').Html::a(Yii::t('frontend','a place from here'),['place/create']).'.');
+               // validation failed
+               return $this->render('create_geo', [
+                   'model' => $model,
+               ]);
+             } else {
+               if (!is_null($model->gps) && $model->validate()) {
+                    // all inputs are valid
+                    $model->save();
+                    // add GPS entry in PlaceGeometry
+                    $model->addGeometryByPoint($model,$form['Place']['lat'],$form['Place']['lng']);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    // validation failed
+                    return $this->render('create_geo', [
+                        'model' => $model,
+                    ]);
+                }
+                }
          } else {
              return $this->render('create_geo', [
                  'model' => $model,
