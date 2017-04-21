@@ -217,5 +217,14 @@ class MiscHelpers  {
     $days[6]=Yii::t('frontend','Saturday');
     return $days[$day];
   }
+
+  public static function buildHreflang() {
+    $html ='';
+    foreach (['en','es','ru','fr','de','ar','pt','ja','ko','hi','zh-CN'] as $language) {
+        if ($language==Yii::$app->language) { continue; }
+      $html.='<link rel="alternate" href="'.Yii::$app->params['site']['url'].'/'.$language.'" hreflang="'.$language.'"/>';
+    }
+    return $html;
+  }
 }
 ?>

@@ -9,7 +9,6 @@ use frontend\widgets\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
 HomeAsset::register($this);
 $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '.');
 ?>
@@ -21,6 +20,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <?= \common\components\MiscHelpers::buildHreflang(); ?>
     <style type="text/css">
     body {
      background: url('<?= $urlPrefix ?>/img/home/home-<?= Yii::$app->params['site']['img'] ?>.jpg') no-repeat center 30px;
