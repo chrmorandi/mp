@@ -220,7 +220,7 @@ class MiscHelpers  {
 
   public static function buildHreflang() {
     $html ='';
-    foreach (['en','es','ru','fr','de','ar','pt','ja','ko','hi','zh-CN'] as $language) {
+    foreach (Yii::$app->params['languages'] as $language) {
         if ($language==Yii::$app->language) { continue; }
       $html.='<link rel="alternate" href="'.Yii::$app->params['site']['url'].'/'.$language.'" hreflang="'.$language.'"/>';
     }
