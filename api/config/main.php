@@ -85,6 +85,6 @@ return [
             'errorAction' => 'service/error',
         ],
     ],
-    'params' => $params,
-    'defaultRoute' => '/service',
+    'params' => $params,    
+    'defaultRoute' => '/service/index',
 ];

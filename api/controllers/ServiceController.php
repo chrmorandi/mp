@@ -36,5 +36,9 @@ class ServiceController extends Controller
       Yii::$app->end();
     }
 
-    
+    public function actionIndex() {
+      return $this->redirect('https://meetingplanner.io');
+      Yii::$app->end();
+    }
+
 }
