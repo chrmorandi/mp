@@ -9,7 +9,10 @@ class SiteHelper extends \yii\base\Component{
 
     public function init() {
       $baseUrl = Url::home(true);
-      if (stristr($baseUrl,'/mp/')!==false) {
+      if (stristr($baseUrl,'1')) {
+        // block direct access of site by ip address
+        Yii::$app->response->redirect('https://simpleplanner.io');
+      } if (stristr($baseUrl,'/mp/')!==false) {
         // local mp
         $this->commonMeetingPlanner();
         Yii::$app->params['site']['url'] = 'http://localhost:8888/mp/';
