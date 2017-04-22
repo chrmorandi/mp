@@ -116,7 +116,7 @@ class SiteController extends Controller
     }
 
     public function actionLogin()
-    {      
+    {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -162,6 +162,11 @@ class SiteController extends Controller
     public function actionPrivacy()
     {
         return $this->render('privacy');
+    }
+
+    public function actionTerms()
+    {
+        return $this->render('tos');
     }
 
     public function actionTos()
