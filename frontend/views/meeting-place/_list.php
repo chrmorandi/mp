@@ -34,6 +34,7 @@ use \kartik\switchinput\SwitchInput;
                              $value = 1;
                            else
                              $value =0;
+                             /*
                            echo SwitchInput::widget([
                            'type'=>SwitchInput::CHECKBOX,
                            'name' => 'meeting-place-choice',
@@ -41,8 +42,23 @@ use \kartik\switchinput\SwitchInput;
                            'value' => $value,
                            'disabled' => !$isOwner,
                            // prev: 75, acceptable
-                           'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','yes'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
-                           ]);
+                           'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','okay'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
+                         ]);*/echo '<label class="btn btn-default ">
+                           <div class="">Meet here</div>
+                         </label>
+                         <!--<div class="btn-group" data-toggle="buttons">
+                         <label class="btn btn-default ">
+                           <input type="checkbox" autocomplete="off" checked> <span class="glyphicon glyphicon-heart"></span>
+                         </label>
+                         </div>-->
+                         <div class="btn-group" data-toggle="buttons">
+                         <label class="btn btn-default active">
+    <input type="radio" name="options" id="option1" autocomplete="off"> Acceptable
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" name="options" id="option2" autocomplete="off"><span class="glyphicon glyphicon-remove"></span>
+  </label>
+</div>';
                        }
                      }
                    } else {

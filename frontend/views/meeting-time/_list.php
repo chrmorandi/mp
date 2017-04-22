@@ -31,14 +31,29 @@
                              $value = 1;
                            else
                              $value =0;
-                             echo SwitchInput::widget([
+                             /*echo SwitchInput::widget([
                              'type' => SwitchInput::CHECKBOX,
                              'name' => 'meeting-time-choice',
                              'id'=>'mtc-'.$mtc->id,
                              'value' => $value,
                              'disabled' => !$isOwner,
                              'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','yes'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
-                             ]);
+                           ]);*/
+                           echo '<div class="btn-group" data-toggle="buttons"><label class="btn btn-default ">
+                             <input type="radio" autocomplete="off" > <div class="">Meet then</div>
+                           </label>
+                           </div>
+                           <div class="btn-group" data-toggle="buttons">
+                           <label class="btn btn-default ">
+                             <input type="radio" autocomplete="off" checked> <span class="glyphicon glyphicon-heart"></span>
+                           </label>
+                           <label class="btn btn-default active">
+      <input type="radio" name="options" id="option1" autocomplete="off">Available
+    </label>
+    <label class="btn btn-default">
+      <input type="radio" name="options" id="option2" autocomplete="off"><span class="glyphicon glyphicon-remove"></span>
+    </label>
+  </div>';
                        }
                      }
                    } else {
