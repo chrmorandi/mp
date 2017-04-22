@@ -58,7 +58,7 @@ return [
                 '#^mailgun-notification/store#' => '#mailgun-notification/store#',
             ],
             //'enableStrictParsing' => false,
-            'rules' => [
+            'rules' => [              
               'place' => 'place',
               'place/yours' => 'place/yours',
               'place/create' => 'place/create',
@@ -73,7 +73,7 @@ return [
               'site/<action>' => 'site/<action>', // incl eight char action
               'features' => 'site/features',
               'about' => 'site/about',
-              'cfide|wp-login|wp-admin' => 'site/neverland',
+              'cgi-bin|cfide|wp-login|wp-admin' => 'site/neverland',
               '<username>/<identity:[A-Za-z0-9_-]{8}>' => 'meeting/identity',
               'meeting' => 'meeting',
               'friend' => 'friend',
