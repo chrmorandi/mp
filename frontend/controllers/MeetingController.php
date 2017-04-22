@@ -134,6 +134,10 @@ class MeetingController extends Controller
       $userprofile = \frontend\models\UserProfile::find()
         ->where(['user_id'=>$u->id])
         ->one();
+      if (is_null($userprofile)) {
+        // to do - error - fix userprofile not initialized for this user
+        return $this->goHome();
+      }
       Yii::$app->user->setReturnUrl(['meeting/create/','with'=>$u->username]);
       return $this->render('scheduleme', [
         'user'=>$u,
