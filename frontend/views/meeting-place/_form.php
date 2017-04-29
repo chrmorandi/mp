@@ -40,7 +40,7 @@ use \kartik\typeahead\Typeahead;
           <?php
         }
           ?>
-          <p><strong><?= Yii::t('frontend','Or, choose from your prior places');?></strong></p>
+          <p><strong><?= Yii::t('frontend','Choose from previously used places');?></strong></p>
     <select class="combobox input-large form-control" id="meetingplace-place_id" name="MeetingPlace[place_id]">
     <option value="" selected="selected"><?= Yii::t('frontend','type or click at right to see places')?></option>
       <?php
