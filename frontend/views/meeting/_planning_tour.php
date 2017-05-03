@@ -28,7 +28,7 @@ $tour=[
 [
   '#invitation-url bottom',
   Yii::t('frontend','Sharing the link'),
-  Yii::t('frontend','Or, you can share the {mlabel} link with people anywhere',$args),
+  Yii::t('frontend','Or, you can share the {mlabel} link with people via email, websites and social media',$args),
 ],
 [
   '#headingWhat bottom',
