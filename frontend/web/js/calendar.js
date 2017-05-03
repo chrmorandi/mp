@@ -73,6 +73,9 @@ $(document).ready(function() {
               }
           });
           loadExistingTimes();
+            $(this).closest(".ui-dialog")
+            .find(".ui-dialog-titlebar-close")            
+            .html("<span class='ui-icon ui-icon-closethick' style='maring-left:-1px;'></span>");
         }
       });
       form = dialog.find( "form" ).on( "submit", function( event ) {

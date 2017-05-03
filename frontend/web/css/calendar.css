@@ -178,3 +178,11 @@ a.ui-button:active,
 .resizable {
   width: 79px !important;
 }
+
+.ui-dialog-titlebar-close {
+  padding-left:0px !important;
+}
+
+.ui-dialog-titlebar-close .ui-icon {
+  margin-top:-.3em !important;
+}
