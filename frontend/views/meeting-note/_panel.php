@@ -17,7 +17,7 @@ use yii\bootstrap\Collapse;
       </div>
       <div class="col-lg-2 col-md-2 col-xs-2" >
         <div style="float:right;">
-        <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-plus','title'=>'Edit','onclick'=>'showNote();']); ?>
+        <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="glyphicon glyphicon-comment button-pad-left" aria-hidden="true"></span>', 'javascript:void(0);', ['class' => 'btn btn-primary','title'=>'Edit','onclick'=>'showNote();']); ?>
       </div>
       </div>
     </div>

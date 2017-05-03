@@ -60,7 +60,7 @@ use \common\components\MiscHelpers;
                   <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="glyphicon glyphicon-globe button-pad-left" aria-hidden="true"></span>', 'javascript:void(0);', ['class' => 'btn btn-primary button-margin-top','id'=>'meeting-add-place','aria-label'=>Yii::t('frontend','Add places'),'title'=>Yii::t('frontend','Add places'),'onclick'=>'showWherePlaces();']); ?>
                   <?= Html::a('', 'javascript:void(0);', ['class' => 'btn btn-primary glyphicon glyphicon-star '.($userPlacesCount==0?'hidden ':' '),'id'=>'meeting-add-place-favorites','title'=>'Add favorite places','onclick'=>'showWhereFavorites();']); ?>
               <?php } else { ?>
-                <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary glyphicon glyphicon-plus','disabled'=>true,'onclick'=>'return false;']); ?>
+                <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="glyphicon glyphicon-globe button-pad-left" aria-hidden="true"></span>', 'javascript:void(0);', ['id'=>'meeting-add-place','class' => 'btn btn-primary button-margin-top','disabled'=>true,'onclick'=>'return false;']); ?>
                 <?= Html::a('', 'javascript:void(0);', ['id'=>'meeting-add-place-favorites','class' => 'btn btn-primary glyphicon glyphicon-star','disabled'=>true,'onclick'=>'return false;']); ?>
               <?php } ?>
             </td></tr></table>

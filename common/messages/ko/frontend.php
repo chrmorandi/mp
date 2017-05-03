@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => '이전에 사용 된 장소에서 선택하십시오.',
+    'Or, choose from your friends' => '@@또는 친구를 선택하십시오.@@',
     'Or, choose from your prior places' => '@@또는 이전 장소에서 선택하십시오.@@',
     ' accepted the request: ' => '요청을 수락 함 :',
     ' and ' => '과',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => '계획 모드로 돌아가서 회의 시간과 장소를 변경하십시오.',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => '이 회의에 대한 변경이 요청되었습니다. <a href = " {url} ">보기. </a>',
     'Choose a time slightly earlier or later than {currentStartStr}' => '시간을 약간 더 일찍 또는 나중에 선택하십시오. {currentStartStr}',
+    'Choose from previously used places' => '이전에 사용 된 장소에서 선택하십시오.',
+    'Choose from your friends' => '친구에게서 선택하십시오.',
     'Choose the date & time' => '날짜 및 시간 선택',
     'Choose the place' => '장소 선택',
     'Choose times and places together. Make planning easy.' => '함께 시간과 장소를 선택하십시오. 계획을 쉽게 작성하십시오.',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => '모임에 사람들을 초대하면 여기에서 추가 할 수 있습니다.',
     'Optional' => '선택 과목',
     'Options' => '옵션',
-    'Or, choose from your friends' => '또는 친구를 선택하십시오.',
     'Or, fill out the following fields to login:' => '또는 다음 필드에 정보를 입력하여 로그인하십시오.',
     'Or, register with your email:' => '또는 귀하의 이메일에 등록하십시오 :',
     'Or, sign up with your existing account at one of these services:' => '또는 다음 서비스 중 하나에서 기존 계정으로 가입하십시오.',

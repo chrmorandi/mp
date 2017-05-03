@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => 'اختر من الأماكن التي سبق استخدامها',
+    'Or, choose from your friends' => '@@أو اختر من أصدقائك@@',
     'Or, choose from your prior places' => '@@أو اختر من أماكنك السابقة@@',
     ' accepted the request: ' => 'قبلت الطلب:',
     ' and ' => 'و',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => 'تغيير وقت ومكان الاجتماع عن طريق إعادته إلى وضع التخطيط.',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => 'وقد طلب إجراء تغييرات على هذا الاجتماع. <a هريف = " {url} "> اعرضها </a>.',
     'Choose a time slightly earlier or later than {currentStartStr}' => 'اختيار وقت في وقت سابق قليلا أو في وقت لاحق من {currentStartStr}',
+    'Choose from previously used places' => 'اختر من الأماكن التي سبق استخدامها',
+    'Choose from your friends' => 'اختر من أصدقائك',
     'Choose the date & time' => 'اختر التاريخ والوقت',
     'Choose the place' => 'اختر المكان',
     'Choose times and places together. Make planning easy.' => 'اختر الأوقات والأماكن معا. جعل التخطيط سهلة.',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => 'بعد دعوة الأشخاص للقاءات، ستتمكن من إضافتهم هنا',
     'Optional' => 'اختياري',
     'Options' => 'خيارات',
-    'Or, choose from your friends' => 'أو اختر من أصدقائك',
     'Or, fill out the following fields to login:' => 'أو ملء الحقول التالية لتسجيل الدخول:',
     'Or, register with your email:' => 'أو سجل مع بريدك الإلكتروني:',
     'Or, sign up with your existing account at one of these services:' => 'أو اشترك مع حسابك الحالي في إحدى هذه الخدمات:',

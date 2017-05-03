@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => 'Выбрать из ранее использованных мест',
+    'Or, choose from your friends' => '@@Или выберите из своих друзей@@',
     'Or, choose from your prior places' => '@@Или выберите из своих прежних мест@@',
     ' accepted the request: ' => 'Принял запрос:',
     ' and ' => 'а также',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => 'Измените время и место встречи, вернув ее в режим планирования.',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => 'Изменения были запрошены для этого собрания. <A href = " {url} "> Просмотрите их </a>.',
     'Choose a time slightly earlier or later than {currentStartStr}' => 'Выберите время немного раньше или позже {currentStartStr}',
+    'Choose from previously used places' => 'Выбрать из ранее использованных мест',
+    'Choose from your friends' => 'Выберите своих друзей',
     'Choose the date & time' => 'Выберите дату и время',
     'Choose the place' => 'Выберите место',
     'Choose times and places together. Make planning easy.' => 'Выбирайте время и места вместе. Сделать планирование легким.',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => 'Когда вы пригласите людей на встречи, вы сможете добавить их сюда',
     'Optional' => 'Необязательный',
     'Options' => 'Опции',
-    'Or, choose from your friends' => 'Или выберите из своих друзей',
     'Or, fill out the following fields to login:' => 'Или заполните следующие поля для входа:',
     'Or, register with your email:' => 'Или зарегистрируйтесь по электронной почте:',
     'Or, sign up with your existing account at one of these services:' => 'Или зарегистрируйтесь в существующей учетной записи в одной из следующих служб:',

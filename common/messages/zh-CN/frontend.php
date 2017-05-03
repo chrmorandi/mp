@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => '从以前使用的地方选择',
+    'Or, choose from your friends' => '@@或者，选择你的朋友@@',
     'Or, choose from your prior places' => '@@或者，从您以前的地方选择@@',
     ' accepted the request: ' => '接受请求：',
     ' and ' => '和',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => '将会议的时间和地点更改为规划模式。',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => '本次会议要求作出更改。 <a href =“ {url} “>查看他们</a>。',
     'Choose a time slightly earlier or later than {currentStartStr}' => '选择稍早或晚于的时间 {currentStartStr}',
+    'Choose from previously used places' => '从以前使用的地方选择',
+    'Choose from your friends' => '从你的朋友那里选择',
     'Choose the date & time' => '选择日期和时间',
     'Choose the place' => '选择地点',
     'Choose times and places together. Make planning easy.' => '选择时间和地点在一起。使规划容易。',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => '一旦您邀请他人聚会，您就可以在这里添加',
     'Optional' => '可选的',
     'Options' => '选项',
-    'Or, choose from your friends' => '或者，选择你的朋友',
     'Or, fill out the following fields to login:' => '或者，填写以下字段进行登录：',
     'Or, register with your email:' => '或者，请注册您的电子邮件：',
     'Or, sign up with your existing account at one of these services:' => '或者，使用以下服务之一注册现有帐户：',

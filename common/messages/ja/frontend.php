@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => '以前に使用した場所から選択する',
+    'Or, choose from your friends' => '@@または、お友達から選択してください@@',
     'Or, choose from your prior places' => '@@または、以前の場所から選択してください@@',
     ' accepted the request: ' => '要求を受け入れた：',
     ' and ' => 'そして',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => 'ミーティングの時間と場所を計画モードに戻して変更します。',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => 'この会議の変更が要求されました。 <a href = " {url} ">それらを表示</a>します。',
     'Choose a time slightly earlier or later than {currentStartStr}' => '少し前または後の時間を選択する {currentStartStr}',
+    'Choose from previously used places' => '以前に使用した場所から選択する',
+    'Choose from your friends' => 'お友達から選択',
     'Choose the date & time' => '日時を選択する',
     'Choose the place' => '場所を選択してください',
     'Choose times and places together. Make planning easy.' => '時間と場所を一緒に選択してください。計画を簡単にする。',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => 'ミーティングにユーザーを招待すると、ここに追加できます',
     'Optional' => '任意',
     'Options' => 'オプション',
-    'Or, choose from your friends' => 'または、お友達から選択してください',
     'Or, fill out the following fields to login:' => 'または、次のフィールドに入力してログインします。',
     'Or, register with your email:' => 'または、あなたのメールアドレスに登録してください：',
     'Or, sign up with your existing account at one of these services:' => 'または、次のいずれかのサービスで既存のアカウントにサインアップしてください：',

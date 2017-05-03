@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => 'पहले उपयोग किए गए स्थानों से चुनें',
+    'Or, choose from your friends' => '@@या, अपने दोस्तों से चुनें@@',
     'Or, choose from your prior places' => '@@या, अपने पूर्व स्थानों से चुनें@@',
     ' accepted the request: ' => 'अनुरोध स्वीकार कर लिया है:',
     ' and ' => 'तथा',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => 'नियोजन मोड में लौटने के द्वारा बैठक का समय और स्थान बदलें।',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => 'इस बैठक के लिए परिवर्तनों का अनुरोध किया गया है <A href = " {url} "> उन्हें देखें </a>',
     'Choose a time slightly earlier or later than {currentStartStr}' => 'थोड़ा समय पहले या बाद में चुनें {currentStartStr}',
+    'Choose from previously used places' => 'पहले उपयोग किए गए स्थानों से चुनें',
+    'Choose from your friends' => 'अपने दोस्तों से चुनें',
     'Choose the date & time' => 'दिनांक और समय चुनें',
     'Choose the place' => 'जगह चुनें',
     'Choose times and places together. Make planning easy.' => 'समय और स्थानों को एक साथ चुनें। योजना आसान बनाओ',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => 'एक बार जब आप लोगों को मुलाकात के लिए आमंत्रित करते हैं, तो आप उन्हें यहां जोड़ सकते हैं',
     'Optional' => 'वैकल्पिक',
     'Options' => 'विकल्प',
-    'Or, choose from your friends' => 'या, अपने दोस्तों से चुनें',
     'Or, fill out the following fields to login:' => 'या, लॉगिन करने के लिए निम्नलिखित फ़ील्ड भरें:',
     'Or, register with your email:' => 'या, अपने ईमेल के साथ पंजीकृत करें:',
     'Or, sign up with your existing account at one of these services:' => 'या, इन सेवाओं में से किसी एक पर अपने मौजूदा खाते के साथ साइन अप करें:',

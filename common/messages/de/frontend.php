@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Choose from previously used places' => 'Wählen Sie aus früher genutzten Orten',
+    'Or, choose from your friends' => '@@Oder wählen Sie aus Ihren Freunden@@',
     'Or, choose from your prior places' => '@@Oder wählen Sie aus Ihren vorherigen Orten@@',
     ' accepted the request: ' => 'Akzeptiert die Anfrage:',
     ' and ' => 'und',
@@ -146,6 +146,8 @@ return [
     'Change the time and place of the meeting by returning it to planning mode.' => 'Ändern Sie die Uhrzeit und den Ort der Besprechung, indem Sie sie in den Planungsmodus zurücksetzen.',
     'Changes have been requested for this meeting. <a href="{url}">View them</a>.' => 'Für diese Besprechung wurden Änderungen vorgenommen. <A href = " {url} "> Sieh </a> an.',
     'Choose a time slightly earlier or later than {currentStartStr}' => 'Wählen Sie eine Zeit etwas früher oder später als {currentStartStr}',
+    'Choose from previously used places' => 'Wählen Sie aus früher genutzten Orten',
+    'Choose from your friends' => 'Wähle deine Freunde aus',
     'Choose the date & time' => 'Wählen Sie das Datum und die Uhrzeit',
     'Choose the place' => 'Wähle den Ort',
     'Choose times and places together. Make planning easy.' => 'Wählen Sie Zeiten und Orte zusammen. Machen Sie die Planung einfach.',
@@ -414,7 +416,6 @@ return [
     'Once you invite people to meetups, you\'ll be able to add them here' => 'Sobald du Leute zum Treffen eingeladen hast, kannst du sie hier hinzufügen',
     'Optional' => 'Optional',
     'Options' => 'Optionen',
-    'Or, choose from your friends' => 'Oder wählen Sie aus Ihren Freunden',
     'Or, fill out the following fields to login:' => 'Oder füllen Sie die folgenden Felder aus:',
     'Or, register with your email:' => 'Oder melde dich mit deiner Email an:',
     'Or, sign up with your existing account at one of these services:' => 'Oder melden Sie sich mit Ihrem vorhandenen Konto bei einem dieser Dienste an:',
