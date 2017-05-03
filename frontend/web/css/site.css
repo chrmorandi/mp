@@ -428,6 +428,9 @@ color:#a0a0a0;
     .button-pad {
       padding: 7px 0 7px 0;
     }
+    .command-btn-pad {
+      margin-bottom:  7px ;
+    }
     .btn {
       min-width: 55px;
     }

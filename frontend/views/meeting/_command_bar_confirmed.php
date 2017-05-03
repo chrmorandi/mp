@@ -8,9 +8,9 @@ $cnt_items=0;
 ?>
   <div class="command-bar">
     <div class="row">
-      <div class="col-xs-4">
+      <div class="<?= ($showRunningLate?'col-xs-12':'col-xs-3') ?> col-md-3 col-lg-3">
         <div class="<?= $dropclass ?>" >
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <button class="btn btn-default command-btn-pad dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <?= Yii::t('frontend','Options');?>
         <span class="caret"></span>
         </button>
@@ -89,19 +89,19 @@ $cnt_items=0;
         </ul>
         </div>
       </div>
-      <div class="col-xs-8" >
+      <div class="<?= ($showRunningLate?'col-xs-12':'col-xs-9') ?> col-md-9 col-lg-9">
         <div style="float:right;">
           <span class="button-pad">
             <?php
             if (!$isPast) {
-              echo Html::a('<i class="glyphicon glyphicon-calendar"></i>&nbsp;'.Yii::t('frontend', 'Download'), ['download', 'id' => $model->id,'actor_id'=>Yii::$app->user->getId()], ['class' => 'btn btn-default']);
+              echo Html::a('<i class="glyphicon glyphicon-calendar"></i>&nbsp;'.Yii::t('frontend', 'Download'), ['download', 'id' => $model->id,'actor_id'=>Yii::$app->user->getId()], ['class' => 'btn btn-default command-btn-pad']);
             }
             ?>
           </span>
           <span class="button-pad">
             <?php
-            if ( $showRunningLate ) {
-              echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['class' => 'btn btn-default',
+            if ($showRunningLate ) {
+              echo Html::a('<i class="glyphicon glyphicon-hourglass"></i>&nbsp;'.Yii::t('frontend', 'Running Late'), ['late', 'id' => $model->id], ['class' => 'btn btn-default command-btn-pad',
               'title' => Yii::t('frontend', 'Notify participants that you will be late')]);
             }
             ?>
@@ -111,15 +111,15 @@ $cnt_items=0;
             if (!$isPast) {
               if ($model->isOrganizer()) {
                 echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Cancel'), ['cancel', 'id' => $model->id],
-               ['class' => 'btn btn-primary btn-danger',
+               ['class' => 'btn btn-primary btn-danger command-btn-pad',
                'title'=>Yii::t('frontend','Cancel'),
                'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?')
                ]) ;
               }
-              else {                
+              else {
                 if ($model->getParticipantStatus(Yii::$app->user->getId())==Participant::STATUS_DEFAULT) {
                   echo Html::a('<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;'.Yii::t('frontend', 'Withdraw'), ['decline', 'id' => $model->id],
-                 ['class' => 'btn btn-primary btn-danger',
+                 ['class' => 'btn btn-primary btn-danger command-btn-pad',
                  'title'=>Yii::t('frontend','Withdraw from the meeting'),
                  'data-confirm' => Yii::t('frontend', 'Are you sure you want to decline attendance to this meeting?')
                  ]) ;
