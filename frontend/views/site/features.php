@@ -6,7 +6,7 @@ use frontend\assets\FeatureAsset;
 FeatureAsset::register($this);
 
 /* @var $this yii\web\View */
-$this->title = Yii::$app->params['site']['title'];
+$this->title = Yii::t('frontend',Yii::$app->params['site']['title']);
 ?>
 <div class="container">
   <div class="row">
@@ -15,7 +15,7 @@ $this->title = Yii::$app->params['site']['title'];
          <?= Yii::t('frontend','Scheduling Should Be Easy'); ?>
        </h1>
        <p class="lead">
-         <?= Yii::t('frontend','Meeting Planner simplifies scheduling between people and groups<br />to help you focus your time on what\'s really important again.'); ?>
+         <?= $this->title.' '.Yii::t('frontend','simplifies scheduling between people and groups<br />to help you focus your time on what\'s really important again.'); ?>
         </p>
      </div>
 </div>
@@ -47,11 +47,22 @@ $this->title = Yii::$app->params['site']['title'];
 
          <h4><?= Yii::t('frontend','Schedule With Me'); ?></h4>
          <p><?= Yii::t('frontend','Share your Schedule With Me page to make it easy for friends, colleagues, clients et al.'); ?></p>
-
        </div>
      </div>
-
    </div>
+   <div class="row">
+     <div class="col-lg-12">
+       <hr />
+     </div>
+   </div>
+   <div class="row  ">
+     <div class="col-md-12 text-center">
+       <p></p>
+       <?= Html::a(Yii::t('frontend','Sign Up Now'),['site/signup'],['class'=>'btn btn-lg btn-success']); ?>
+       <?= Html::a(Yii::t('frontend','Questions?'),['ticket/create'],['class'=>'btn btn-lg btn-primary']); ?>
+     </div>
+   </div>
+
    <div class="row">
      <div class="col-lg-12">
        <hr />
@@ -68,16 +79,3 @@ $this->title = Yii::$app->params['site']['title'];
    </div>
    </div>
    <?= $this->render('_feature_table.php');?>
-  <div class="row">
-    <div class="col-lg-12">
-      <hr />
-    </div>
-  </div>
-      <div class="row  ">
-        <div class="col-md-12 text-center">
-          <p></p>
-          <?= Html::a(Yii::t('frontend','Sign Up Now'),['site/signup'],['class'=>'btn btn-lg btn-success']); ?>
-          <?= Html::a(Yii::t('frontend','Questions?'),['ticket/create'],['class'=>'btn btn-lg btn-primary']); ?>
-
-        </div>
-</div>
