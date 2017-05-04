@@ -149,3 +149,7 @@
     width: 100%;
     border-bottom: none
 }
+
+.video-top {
+  margin-top:1px;
+}
