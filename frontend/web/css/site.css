@@ -386,6 +386,10 @@ color:#a0a0a0;
   float:right;
 }
 
+.video-top {
+  margin-top:23%;
+}
+
 /* iphone 5 and small as */
 @media only screen
   and (max-device-width: 320px)

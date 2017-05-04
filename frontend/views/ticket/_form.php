@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'details')->label(Yii::t('frontend','Tell us more about your question'))->textarea(['rows' => 6]) ?>
     <?php
       if (Yii::$app->user->isGuest) {
-       echo $form->field($model, 'email')->textInput()->label(Yii::t('frontend','Email address'))->hint('this will allow us to answer your questions');
+       echo $form->field($model, 'email')->textInput()->label(Yii::t('frontend','Email address'))->hint(Yii::t('frontend','this will allow us to answer your questions'));
       }
      ?>
 

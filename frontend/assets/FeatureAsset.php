@@ -19,8 +19,10 @@ class FeatureAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css','css/feature.css',
+        'css/home-video.css',
     ];
     public $js = [
+      'js/froogaloop2.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

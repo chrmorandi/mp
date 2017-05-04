@@ -21,14 +21,14 @@ $this->title = Yii::$app->params['site']['title'];
       <div class="col-md-3 ">
           <div class="panel panel-default">
               <div class="panel-heading">
-                <strong><?php echo Yii::t('frontend','Signup or Login to Schedule a Meeting'); ?></strong>
+                <strong><?php echo Yii::t('frontend','Schedule Your First Meeting'); ?></strong>
               </div>
               <div class="panel-body panel-auth-clients">
                   <?php $authAuthChoice = AuthChoice::begin([
                     'baseAuthUrl' => ['site/auth','mode'=>'signup'],
                     'popupMode' => false,
                 ]); ?>
-                <?= Yii::t('frontend','Connect with any of the following services:'); ?><br /><br />
+                <?= Yii::t('frontend','Connect with the following services:'); ?><br /><br />
                 <ul class="auth-clients" >
                 <?php foreach ($authAuthChoice->getClients() as $client): ?>
                     <li class="auth-client"><?php $authAuthChoice->clientLink($client) ?></li>
@@ -37,7 +37,7 @@ $this->title = Yii::$app->params['site']['title'];
                 <?php AuthChoice::end(); ?>
               </div>
               <div class="panel-footer">
-                  Or, <?= HTML::a(Yii::t('frontend','signup using your email address'),['site/signup']); ?>
+                  Or, <?= HTML::a(Yii::t('frontend','sign up using your email address'),['site/signup']); ?>
                 </div>
           </div>
           <div class="panel panel-default">
@@ -48,11 +48,6 @@ $this->title = Yii::$app->params['site']['title'];
               <?= $this->render('launch');?>
             </div>
           </div>
-      </div>
-  </div>
-  <div class="row video-top">
-      <div class="col-md-12">
-        <?= $this->render('_video_carousel.php',['urlPrefix'=>$urlPrefix]);?>
       </div>
   </div>
 </div>

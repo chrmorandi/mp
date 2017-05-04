@@ -225,8 +225,10 @@ class SiteController extends Controller
     }
 
     public function actionFeatures() {
-
-        return $this->render('features');
+      if (Yii::$app->user->isGuest) {
+        $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
+      }
+        return $this->render('features',['urlPrefix'=>$urlPrefix]);
     }
 
     public function actionAuthfailure()

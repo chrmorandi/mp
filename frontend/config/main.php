@@ -117,16 +117,19 @@ return [
                         'class' => 'yii\authclient\clients\Facebook',
                         'clientId' => $config['oauth_fb_id'],
                         'clientSecret' => $config['oauth_fb_secret'],
+                        //'title'=>Yii::t('frontend','Facebook'),
                     ],
                     'google' => [
                         'class' => 'yii\authclient\clients\GoogleOAuth',
                         'clientId' => $config['oauth_google_client_id'],
                         'clientSecret' => $config['oauth_google_client_secret'],
+                        //'title'=>Yii::t('frontend','Google'),
                       ],
                     'linkedin' => [
                         'class' => 'yii\authclient\clients\LinkedIn',
                         'clientId' => $config['linkedin_client_id'],
                         'clientSecret' => $config['linkedin_client_secret'],
+                        //'title'=>Yii::t('frontend','LinkedIn'),
                     ],
                     /*'twitter' => [
                         'class' => 'yii\authclient\clients\Twitter',
