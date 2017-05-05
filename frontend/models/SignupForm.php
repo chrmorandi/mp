@@ -26,14 +26,16 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => Yii::t('frontend','This username has already been taken.')],
             ['username', 'string', 'min' => 5, 'max' => 32],
+            ['username', 'notNumeric'],
+            ['username', 'notNumericFirst'],
             ['username','noSpaces'],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email','safeEmail'],
             ['email', 'email', 'checkDNS'=>true, 'enableIDN'=>true],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken. '.Html::a('Looking for your password?', ['site/request-password-reset'])],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => Yii::t('frontend','This email address has already been taken. ').Html::a(Yii::t('frontend','Looking for your password?'), ['site/request-password-reset'])],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
             ['captcha', 'required'],
@@ -47,14 +49,28 @@ class SignupForm extends Model
       $emailDomain = end($tempEmail);
       // check domain against blacklist
       if (!Domain::verify($emailDomain)) {
-        $this->addError($attribute, 'Sorry, we do not support your email address.');
+        $this->addError($attribute, Yii::t('frontend','Sorry, we do not support your email address.'));
       }
     }
 
     public function noSpaces($attribute, $params)
     {
       if (stristr($this->$attribute,' ')!==false) {
-        $this->addError($attribute, 'Sorry, we do not allow spaces in your username.');
+        $this->addError($attribute, Yii::t('frontend','Sorry, we do not allow spaces in your username.'));
+      }
+    }
+
+    public function notNumeric($attribute, $params)
+    {
+      if (is_numeric($this->$attribute)) {
+        $this->addError($attribute, Yii::t('frontend','Sorry, we do not allow numeric usernames. Try adding a letter.'));
+      }
+    }
+
+    public function notNumericFirst($attribute, $params)
+    {
+      if (is_numeric($this->$attribute[0])) {
+        $this->addError($attribute, Yii::t('frontend','Sorry, usernames cannot begin with a number'));
       }
     }
 
