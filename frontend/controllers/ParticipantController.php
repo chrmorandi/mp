@@ -305,10 +305,10 @@ class ParticipantController extends Controller
             // there is a match for the display name
             preg_match('~<(.*?)>~', $email, $output);
             $rawEmail=$output[1];
-            $displayName = trim($final[0]);
+            $displayName = trim($final[0],'\t\n\r\0\x0B\"');
             $fullNameArray= Participant::getBestName($matches[0]);
-            $firstName=$fullNameArray['first'];
-            $lastName=$fullNameArray['last'];
+            $firstName=trim($fullNameArray['first'],'\t\n\r\0\x0B\"');
+            $lastName=trim($fullNameArray['last'],'\t\n\r\0\x0B\"');
           } else {
             // email only
             $rawEmail = $email;
