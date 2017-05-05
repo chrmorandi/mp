@@ -1072,31 +1072,36 @@ class Meeting extends \yii\db\ActiveRecord
        }
 
         // formatting helpers
-        public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles',$dateOrder=true,$futureTimeless=false) {
+        public static function friendlyDateFromTimestamp($tstamp,$timezone = 'America/Los_Angeles',$dateOrder=true,$futureTimeless=false,$short=false) {
           // adjust for timezone
           if (empty($timezone)) {
             $timezone = 'America/Los_Angeles';
           }
           Yii::$app->formatter->timeZone=$timezone;
+          if ($short) {
+            $divider = ', ';
+          } else {
+            $divider = ' '.Yii::t('frontend','at').' ';
+          }
           // same day as today?
           if ($dateOrder) {
             if (date('z')==date('z',$tstamp)) {
              $date_str = Yii::t('frontend','Today at ').Yii::$app->formatter->asDatetime($tstamp,'h:mm a z');
-           }   else {
+           } else {
              $oneWeek = 7 * 24 *3600;
              // start time in future
              if (($tstamp>time()) && $futureTimeless) {
                if (($tstamp-time())< $oneWeek) {
                  // this date at
-                 $date_str =Yii::t('frontend','This ').Yii::$app->formatter->asDatetime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
+                 $date_str =Yii::t('frontend','This ').Yii::$app->formatter->asDatetime($tstamp,'E MMM d\''.$divider.'\'h:mm a z');
                } else if (($tstamp-time())<($oneWeek*2) && (date('w')< date('w',$tstamp))) {
-                 $date_str =Yii::t('frontend','Next ').Yii::$app->formatter->asDatetime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
+                 $date_str =Yii::t('frontend','Next ').Yii::$app->formatter->asDatetime($tstamp,'E MMM d\''.$divider.'\' h:mm a z');
                } else {
                  // date only
                  $date_str = Yii::$app->formatter->asDatetime($tstamp,'E MMM d');
                }
              } else {
-                $date_str = Yii::$app->formatter->asDatetime($tstamp,'E MMM d\' '.Yii::t('frontend','at').'\' h:mm a z');
+                $date_str = Yii::$app->formatter->asDatetime($tstamp,'E MMM d\''.$divider.'\'h:mm a z');
              }
 
            }

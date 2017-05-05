@@ -38,6 +38,7 @@ class SiteHelper extends \yii\base\Component{
       Yii::$app->params['site']['url'] = 'https://meetingplanner.io';
       Yii::$app->params['site']['title'] = Yii::t('frontend', 'Meeting Planner');
       Yii::$app->params['site']['mtg'] = Yii::t('frontend', 'Meetings');
+      Yii::$app->params['site']['mtg_singular'] = Yii::t('frontend', 'Meeting');
       Yii::$app->params['site']['img'] = rand(2,3);
       Yii::$app->params['site']['navbar'] = 'navbar-inverse';
       Yii::$app->params['site']['email_logo'] = 'https://meetingplanner.io/img/email-logo-mp.gif';
@@ -50,6 +51,7 @@ class SiteHelper extends \yii\base\Component{
       Yii::$app->params['site']['url'] = 'https://simpleplanner.io';
       Yii::$app->params['site']['title'] = Yii::t('frontend', 'Simple Planner');
       Yii::$app->params['site']['mtg'] = Yii::t('frontend', 'Meetups');
+      Yii::$app->params['site']['mtg_singular'] = Yii::t('frontend', 'Meetup');
       Yii::$app->params['site']['img'] = rand(0,1);
       Yii::$app->params['site']['navbar'] = 'navbar-default';
       Yii::$app->params['site']['email_logo'] = 'https://simpleplanner.io/img/email-logo-sp.gif';

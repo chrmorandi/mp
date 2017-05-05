@@ -9,9 +9,8 @@ use yii\bootstrap\Collapse;
   <div class="panel-heading"  role="tab" id="headingWho">
     <div class="row">
       <div class="col-lg-9 col-md-8 col-xs-6">
-        <h4 class="meeting-view"><?= Yii::t('frontend','Who') ?></h4>
+        <h4 class="meeting-view"><?= Yii::t('frontend','Participants') ?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWho" aria-expanded="true" aria-controls="collapseWho"> -->
-        <span class="hint-text"><?= Yii::t('frontend','add participants') ?></span>
       </div>
     <div class="col-lg-3 col-md-4 col-xs-6">
       <div style="float:right;">
