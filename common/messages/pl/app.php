@@ -17,12 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Created At' => 'באשאפן אין',
-    'Created By' => 'באשאפן דורך',
-    'Google Place ID' => 'Google אָרט שייַן',
-    'ID' => 'שייַן',
-    'Name' => 'נאָמען',
-    'Place Type' => 'אָרט טיפּ',
-    'Status' => 'מאַצעוו',
-    'Updated At' => 'דערהייַנטיקט אין',
+    'Created At' => 'Utworzone w',
+    'ID' => 'ID',
+    'Meeting ID' => 'Identyfikator spotkania',
+    'Updated At' => 'Zaktualizowano na',
 ];

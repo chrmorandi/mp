@@ -17,6 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Persian' => 'персидский',
+    'Polish' => 'полировать',
     'Arabic' => 'арабский',
     'Chinese' => 'Китайский',
     'Dutch' => 'Голландский',

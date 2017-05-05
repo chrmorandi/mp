@@ -17,6 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Persian' => '페르시아 인',
+    'Polish' => '광택',
     'Arabic' => '아라비아 말',
     'Chinese' => '중국말',
     'Dutch' => '네덜란드 사람',

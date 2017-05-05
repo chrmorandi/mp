@@ -17,19 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Persian' => 'persiano',
-    'Polish' => 'polacco',
-    'Arabic' => 'Arabo',
-    'Chinese' => 'Cinese',
-    'Dutch' => 'olandese',
-    'English' => 'Inglese',
-    'French' => 'francese',
-    'German' => 'Tedesco',
-    'Hindi' => 'hindi',
-    'Italian' => 'italiano',
-    'Japanese' => 'giapponese',
-    'Korean' => 'coreano',
-    'Portuguese' => 'portoghese',
-    'Russian' => 'russo',
-    'Spanish' => 'spagnolo',
+    'Created At' => 'ایجاد شده در',
+    'ID' => 'شناسه',
+    'Meeting ID' => 'نشست ID',
+    'Updated At' => 'به روز شده در',
 ];

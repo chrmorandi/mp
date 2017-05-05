@@ -17,19 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Persian' => 'persiano',
-    'Polish' => 'polacco',
-    'Arabic' => 'Arabo',
-    'Chinese' => 'Cinese',
-    'Dutch' => 'olandese',
-    'English' => 'Inglese',
-    'French' => 'francese',
-    'German' => 'Tedesco',
-    'Hindi' => 'hindi',
-    'Italian' => 'italiano',
-    'Japanese' => 'giapponese',
-    'Korean' => 'coreano',
-    'Portuguese' => 'portoghese',
-    'Russian' => 'russo',
-    'Spanish' => 'spagnolo',
+    'Note:' => 'توجه داشته باشید:',
+    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'مرورگر شما را پشتیبانی نمی کند {validation} . سعی کنید یک مرورگر جایگزین و یا جدید تر برای دسترسی به این ویژگی های.',
+    'file preview and multiple file upload' => 'پیش نمایش فایل ها و آپلود فایل های متعدد',
+    'multiple file upload' => 'آپلود فایل های متعدد',
 ];

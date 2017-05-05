@@ -17,6 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Persian' => 'persa',
+    'Polish' => 'polaco',
     'Arabic' => 'Arábica',
     'Chinese' => 'chino',
     'Dutch' => 'holandés',

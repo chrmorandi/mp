@@ -17,19 +17,5 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Persian' => 'persiano',
-    'Polish' => 'polacco',
-    'Arabic' => 'Arabo',
-    'Chinese' => 'Cinese',
-    'Dutch' => 'olandese',
-    'English' => 'Inglese',
-    'French' => 'francese',
-    'German' => 'Tedesco',
-    'Hindi' => 'hindi',
-    'Italian' => 'italiano',
-    'Japanese' => 'giapponese',
-    'Korean' => 'coreano',
-    'Portuguese' => 'portoghese',
-    'Russian' => 'russo',
-    'Spanish' => 'spagnolo',
+    'It is recommended you use an upgraded browser to display the {type} control properly.' => 'توصیه می شود که شما یک مرورگر به روز رسانی استفاده برای نمایش {type} کنترل درستی.',
 ];

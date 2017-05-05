@@ -17,19 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Persian' => 'persiano',
-    'Polish' => 'polacco',
-    'Arabic' => 'Arabo',
-    'Chinese' => 'Cinese',
-    'Dutch' => 'olandese',
-    'English' => 'Inglese',
-    'French' => 'francese',
-    'German' => 'Tedesco',
-    'Hindi' => 'hindi',
-    'Italian' => 'italiano',
-    'Japanese' => 'giapponese',
-    'Korean' => 'coreano',
-    'Portuguese' => 'portoghese',
-    'Russian' => 'russo',
-    'Spanish' => 'spagnolo',
+    'Note:' => 'Uwaga:',
+    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'Twoja przeglądarka nie obsługuje {validation} . Wypróbuj alternatywną lub nową przeglądarkę, aby uzyskać dostęp do tych funkcji.',
+    'file preview and multiple file upload' => 'Podgląd plików i przesyłanie wielu plików',
+    'multiple file upload' => 'Przesyłanie wielu plików',
 ];
