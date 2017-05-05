@@ -8,16 +8,16 @@ use frontend\models\Meeting;
   <div id="jumpActivity"></div>
   <div class="panel-heading" role="tab" >
     <div class="row">
-      <div class="col-lg-10 col-md-10 col-xs-10"><h4  class="meeting-view"><?= Yii::t('frontend','What')?></h4>
+      <div class="col-lg-10 col-md-10 col-xs-10"><h4  class="meeting-view"><?= Yii::t('frontend','Subject')?></h4>
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhat" aria-expanded="true" aria-controls="collapseWhat"></a> -->
         <?php
           if ($model->status >= Meeting::STATUS_CONFIRMED) {
-            $hint = Yii::t('frontend','the subject of your meeting');
+            $hint = Yii::t('frontend','the subject of your {meeting}',['meeting'=>strtolower(Yii::$app->params['site']['mtg_singular'])]);
           } else {
-            $hint = Yii::t('frontend','the reason for your meeting');
+            $hint = Yii::t('frontend','the reason for your {meeting}',['meeting'=>strtolower(Yii::$app->params['site']['mtg_singular'])]);
           }
         ?>
-        <span class="hint-text"><?= $hint; ?></span>
+        <span class="hint-text"><?= $hint; ?></span>          
       </div>
       <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;">
       <?php

@@ -45,7 +45,7 @@ use common\components\MiscHelpers;
 </div>
 <div class="meeting-time-form">
 <div class="calendarContainer">
-    <div id="dialog-form" title="<?= Yii::t('frontend','Select Dates and Times'); ?>">
+    <div id="dialog-form" title="<?= Yii::t('frontend','Select One or More Dates and Times'); ?>">
         <div class="calendarChooser">
         <table >
             <thead>
