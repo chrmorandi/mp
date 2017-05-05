@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => 'در حال جستجو برای رمز عبور خود را؟',
+    'Sorry, usernames cannot begin with a number' => 'با عرض پوزش، نام های کاربری را نمی توان با عدد شروع',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => 'با عرض پوزش، ما نام کاربری عددی اجازه نمی دهد. سعی کنید یک نامه.',
+    'Sorry, we do not allow spaces in your username.' => 'با عرض پوزش، ما فاصله ها را در نام کاربری خود را اجازه نمی دهد.',
+    'Sorry, we do not support your email address.' => 'با عرض پوزش، ما آدرس ایمیل خود را پشتیبانی نمی کند.',
+    'This email address has already been taken. ' => 'این آدرس ایمیل در حال حاضر گرفته شده است.',
+    'This username has already been taken.' => 'این نام کاربری قبلا گرفته شده است.',
     ' accepted the request: ' => 'درخواست پذیرفته شده است:',
     ' and ' => 'و',
     ' asked to meet at ' => 'خواسته برای دیدار در',

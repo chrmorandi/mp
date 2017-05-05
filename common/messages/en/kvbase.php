@@ -17,19 +17,5 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Arabic' => 'عربى',
-    'Chinese' => 'صينى',
-    'Dutch' => 'هولندي',
-    'English' => 'الإنجليزية',
-    'French' => 'الفرنسية',
-    'German' => 'ألمانية',
-    'Hindi' => 'الهندية',
-    'Italian' => 'الإيطالية',
-    'Japanese' => 'اليابانية',
-    'Korean' => 'الكورية',
-    'Persian' => 'اللغة الفارسية',
-    'Polish' => 'البولندي',
-    'Portuguese' => 'البرتغالية',
-    'Russian' => 'الروسية',
-    'Spanish' => 'الأسبانية',
+    'It is recommended you use an upgraded browser to display the {type} control properly.' => 'It is recommended you use an upgraded browser to display the {type} control properly.',
 ];

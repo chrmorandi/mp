@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => 'Ищете свой пароль?',
+    'Sorry, usernames cannot begin with a number' => 'К сожалению, имена пользователей не могут начинаться с номера',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => 'К сожалению, мы не допускаем числовые имена пользователей. Попробуйте добавить письмо.',
+    'Sorry, we do not allow spaces in your username.' => 'К сожалению, в вашем имени пользователя не указаны пробелы.',
+    'Sorry, we do not support your email address.' => 'К сожалению, мы не поддерживаем ваш адрес электронной почты.',
+    'This email address has already been taken. ' => 'Этот адрес электронной почты уже занят.',
+    'This username has already been taken.' => 'Это имя пользователя уже занято.',
     '1. Getting Started' => '@@1. Начало работы@@',
     '10. Delivering the Meeting Announcement' => '@@10. Объявление о проведении собрания@@',
     '11. Meeting Commands' => '@@11. Команды совещаний@@',

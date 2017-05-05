@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => 'Cerca la tua password?',
+    'Sorry, usernames cannot begin with a number' => 'Spiacenti, i nomi utente non possono iniziare con un numero',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => 'Spiacenti, non consentiti i nomi utente numerici. Prova ad aggiungere una lettera.',
+    'Sorry, we do not allow spaces in your username.' => 'Spiacenti, non lasciamo spazio nei tuoi username.',
+    'Sorry, we do not support your email address.' => 'Spiacenti, non supportiamo il tuo indirizzo email.',
+    'This email address has already been taken. ' => 'Questo indirizzo email è già stato preso.',
+    'This username has already been taken.' => 'Questo nome utente è già stato preso.',
     'A new app to make scheduling as simple as it should be.' => '@@Una nuova app per fare la pianificazione semplice come dovrebbe essere .@@',
     'Building Places' => '@@Costruire Places@@',
     'Coming Soon' => '@@Prossimamente@@',

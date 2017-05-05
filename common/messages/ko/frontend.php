@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => '비밀번호를 찾으십니까?',
+    'Sorry, usernames cannot begin with a number' => '죄송합니다. 사용자 이름은 숫자로 시작할 수 없습니다.',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => '죄송합니다. 숫자로 된 사용자 이름을 허용하지 않습니다. 편지를 추가해보십시오.',
+    'Sorry, we do not allow spaces in your username.' => '죄송합니다. 사용자 이름에 공백을 사용할 수 없습니다.',
+    'Sorry, we do not support your email address.' => '죄송합니다. 이메일 주소를 지원하지 않습니다.',
+    'This email address has already been taken. ' => '이 이메일 주소는 이미 사용되었습니다.',
+    'This username has already been taken.' => '이 사용자 이름은 이미 사용되었습니다.',
     '1. Getting Started' => '@@1. 시작하기@@',
     '10. Delivering the Meeting Announcement' => '@@10. 회의 발표 전달@@',
     '11. Meeting Commands' => '@@11. 회의 명령@@',

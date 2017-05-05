@@ -17,19 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Arabic' => 'عربى',
-    'Chinese' => 'صينى',
-    'Dutch' => 'هولندي',
-    'English' => 'الإنجليزية',
-    'French' => 'الفرنسية',
-    'German' => 'ألمانية',
-    'Hindi' => 'الهندية',
-    'Italian' => 'الإيطالية',
-    'Japanese' => 'اليابانية',
-    'Korean' => 'الكورية',
-    'Persian' => 'اللغة الفارسية',
-    'Polish' => 'البولندي',
-    'Portuguese' => 'البرتغالية',
-    'Russian' => 'الروسية',
-    'Spanish' => 'الأسبانية',
+    'Note:' => 'Note:',
+    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'Your browser does not support {validation} . Try an alternative or more recent browser to access these features.',
+    'file preview and multiple file upload' => 'file preview and multiple file upload',
+    'multiple file upload' => 'multiple file upload',
 ];

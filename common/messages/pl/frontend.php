@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => 'Szukasz hasła?',
+    'Sorry, usernames cannot begin with a number' => 'Przepraszamy, nazwy użytkowników nie mogą zaczynać się liczbą',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => 'Niestety, nie zezwalamy na numeryczne nazwy użytkowników. Spróbuj dodać list.',
+    'Sorry, we do not allow spaces in your username.' => 'Niestety, nie zezwalamy na spacje w swojej nazwie użytkownika.',
+    'Sorry, we do not support your email address.' => 'Niestety, nie obsługujemy Twojego adresu e-mail.',
+    'This email address has already been taken. ' => 'Ten adres e-mail został już zrobiony.',
+    'This username has already been taken.' => 'Ta nazwa użytkownika została już podjęta.',
     ' accepted the request: ' => 'Zaakceptował wniosek:',
     ' and ' => 'i',
     ' asked to meet at ' => 'Poproszony o spotkanie w',

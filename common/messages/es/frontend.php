@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => '¿Está buscando su contraseña?',
+    'Sorry, usernames cannot begin with a number' => 'Lo sentimos, los nombres de usuario no pueden comenzar con un número',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => 'Lo sentimos, no permitimos nombres de usuario numéricos. Trate de añadir una letra.',
+    'Sorry, we do not allow spaces in your username.' => 'Lo sentimos, no permitimos espacios en tu nombre de usuario.',
+    'Sorry, we do not support your email address.' => 'Lo sentimos, no aceptamos su dirección de correo electrónico.',
+    'This email address has already been taken. ' => 'Esta dirección de correo electrónico ya se ha tomado.',
+    'This username has already been taken.' => 'Este nombre de usuario ya se ha tomado.',
     '1. Getting Started' => '@@1. Introducción@@',
     '10. Delivering the Meeting Announcement' => '@@10. Entrega del anuncio de la reunión@@',
     '11. Meeting Commands' => '@@11. Comandos de reunión@@',

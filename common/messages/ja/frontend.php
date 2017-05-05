@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => 'あなたのパスワードをお探しですか？',
+    'Sorry, usernames cannot begin with a number' => '申し訳ありませんが、ユーザー名は数字で始めることはできません',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => '申し訳ありませんが、数値のユーザー名は許可されません。手紙を追加してみてください。',
+    'Sorry, we do not allow spaces in your username.' => '申し訳ありませんが、ユーザー名にスペースは使用できません。',
+    'Sorry, we do not support your email address.' => '申し訳ありませんが、お客様のメールアドレスはサポートされていません。',
+    'This email address has already been taken. ' => 'このメールアドレスはすでに取得済みです。',
+    'This username has already been taken.' => 'このユーザー名は既に使用されています。',
     '1. Getting Started' => '@@1.はじめに@@',
     '10. Delivering the Meeting Announcement' => '@@10.会議アナウンスの配信@@',
     '11. Meeting Commands' => '@@11.会議コマンド@@',

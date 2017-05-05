@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => 'अपना पासवर्ड खोज रहे हैं?',
+    'Sorry, usernames cannot begin with a number' => 'क्षमा करें, उपयोगकर्ता नाम संख्या से शुरू नहीं हो सकते',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => 'क्षमा करें, हम संख्यात्मक उपयोगकर्ता नामों की अनुमति नहीं देते एक पत्र जोड़ने का प्रयास करें',
+    'Sorry, we do not allow spaces in your username.' => 'क्षमा करें, हम आपके उपयोगकर्ता नाम में रिक्त स्थान की अनुमति नहीं देते हैं।',
+    'Sorry, we do not support your email address.' => 'क्षमा करें, हम आपके ईमेल पते का समर्थन नहीं करते हैं',
+    'This email address has already been taken. ' => 'यह ईमेल पता पहले से ही लिया गया है',
+    'This username has already been taken.' => 'यह उपयोगकर्ता नाम पहले से ही लिया गया है',
     '1. Getting Started' => '@@1. प्रारंभ करना@@',
     '10. Delivering the Meeting Announcement' => '@@10. बैठक की घोषणा देते हुए@@',
     '11. Meeting Commands' => '@@11. बैठक कमांड@@',

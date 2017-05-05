@@ -18,6 +18,13 @@
 */
 return [
     '' => '',
+    'Looking for your password?' => '寻找你的密码？',
+    'Sorry, usernames cannot begin with a number' => '对不起，用户名不能以数字开头',
+    'Sorry, we do not allow numeric usernames. Try adding a letter.' => '对不起，我们不允许使用数字用户名。尝试添加一封信。',
+    'Sorry, we do not allow spaces in your username.' => '对不起，我们不允许您的用户名中的空格。',
+    'Sorry, we do not support your email address.' => '对不起，我们不支持您的电子邮件地址。',
+    'This email address has already been taken. ' => '此电子邮件地址已被占用。',
+    'This username has already been taken.' => '此用户名已被占用。',
     '1. Getting Started' => '@@入门@@',
     '10. Delivering the Meeting Announcement' => '@@10.发布会议公告@@',
     '11. Meeting Commands' => '@@会议命令@@',
