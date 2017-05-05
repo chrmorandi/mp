@@ -17,8 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Persian' => 'perski',
-    'Polish' => 'Polskie',
     'Arabic' => 'arabski',
     'Chinese' => 'chiński',
     'Dutch' => 'holenderski',
@@ -29,6 +27,8 @@ return [
     'Italian' => 'Włoski',
     'Japanese' => 'język japoński',
     'Korean' => 'koreański',
+    'Persian' => 'perski',
+    'Polish' => 'Polskie',
     'Portuguese' => 'portugalski',
     'Russian' => 'Rosyjski',
     'Spanish' => 'język hiszpański',

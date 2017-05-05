@@ -1336,12 +1336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/newscloud/yii2-language-switcher.git",
-                "reference": "c08137d051ae3262284a4afdf5ee2d35f8851038"
+                "reference": "b62678e05a74fdb0a27e6d89f465875277a44f73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/newscloud/yii2-language-switcher/zipball/c08137d051ae3262284a4afdf5ee2d35f8851038",
-                "reference": "c08137d051ae3262284a4afdf5ee2d35f8851038",
+                "url": "https://api.github.com/repos/newscloud/yii2-language-switcher/zipball/b62678e05a74fdb0a27e6d89f465875277a44f73",
+                "reference": "b62678e05a74fdb0a27e6d89f465875277a44f73",
                 "shasum": ""
             },
             "require": {
@@ -1374,7 +1374,7 @@
             "support": {
                 "source": "https://github.com/newscloud/yii2-language-switcher/tree/master"
             },
-            "time": "2017-05-05 00:00:12"
+            "time": "2017-05-05 00:49:05"
         },
         {
             "name": "mailgun/mailgun-php",
