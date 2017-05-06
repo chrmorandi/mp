@@ -75,6 +75,7 @@ class MeetingActivity extends \yii\db\ActiveRecord
     public static function defaultActivityList() {
       $activities = [
         Yii::t('frontend','Bachelor party'),
+        Yii::t('frontend','Bachelorette party'),
         Yii::t('frontend','Birthday party'),
         Yii::t('frontend','Breakfast'),
         Yii::t('frontend','Brunch'),

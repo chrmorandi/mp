@@ -81,11 +81,10 @@ use \kartik\switchinput\SwitchInput;
            'activityStatus'=>$activityStatus,
          ],
        ]) ?>
-  <?php endif;
-    echo Html::hiddenInput('number_activities',$activityProvider->getTotalCount(),['id'=>'number_activities']);
-  ?>
+  <?php endif; ?>
   </table>
   </div> <!-- end possible-activites -->
+  <?= Html::hiddenInput('number_activities',$activityProvider->count,['id'=>'number_activities']); ?>
 </div> <!-- end panel activity -->
 </div>
 </div> <!-- end panel -->

@@ -17,8 +17,6 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Russian' => 'الروسية',
-    'Spanish' => 'الأسبانية',
     'Arabic' => 'عربى',
     'Chinese' => 'صينى',
     'Dutch' => 'هولندي',
@@ -32,4 +30,6 @@ return [
     'Persian' => 'اللغة الفارسية',
     'Polish' => 'البولندي',
     'Portuguese' => 'البرتغالية',
+    'Russian' => 'الروسية',
+    'Spanish' => 'الأسبانية',
 ];
