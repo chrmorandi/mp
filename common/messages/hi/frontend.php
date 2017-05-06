@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'से कोई जवाब नहीं',
     '1. Getting Started' => '@@1. प्रारंभ करना@@',
     '10. Delivering the Meeting Announcement' => '@@10. बैठक की घोषणा देते हुए@@',
     '11. Meeting Commands' => '@@11. बैठक कमांड@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => 'कोई संपर्क जानकारी उपलब्ध नहीं है',
     'No messages yet.' => 'अभी तक कोई संदेश नहीं',
     'No newsletters' => 'कोई न्यूज़लेटर नहीं',
+    'No response from' => 'से कोई जवाब नहीं',
     'No updates' => 'कोई अपडेट नहीं',
     'No, keep' => 'नहीं, रखिए',
     'No, keep the same place' => 'नहीं, एक ही जगह रखें',

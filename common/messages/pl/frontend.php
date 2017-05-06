@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'Brak odpowiedzi',
     'Finalize the Activity' => '@@Zakończ działanie@@',
     'Finalize the Place' => '@@Zakończ miejsce@@',
     'Finalize the Time' => '@@Ukończenie Czasu@@',
@@ -384,6 +383,7 @@ return [
     'No contact information available.' => 'Brak dostępnych informacji kontaktowych.',
     'No messages yet.' => 'Brak wiadomości.',
     'No newsletters' => 'Brak biuletynów',
+    'No response from' => 'Brak odpowiedzi',
     'No updates' => 'Brak aktualizacji',
     'No, keep' => 'Nie, zachowaj się',
     'No, keep the same place' => 'Nie, trzymaj to samo miejsce',

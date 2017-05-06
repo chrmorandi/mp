@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'لا رد من',
     '1. Getting Started' => '@@1. الشروع في العمل@@',
     '10. Delivering the Meeting Announcement' => '@@10 - تقديم إعلان الاجتماع@@',
     '11. Meeting Commands' => '@@11 - قرارات الاجتماع@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => 'لا تتوفر معلومات الاتصال.',
     'No messages yet.' => 'لا توجد رسائل حتى الآن.',
     'No newsletters' => 'لا توجد نشرات إخبارية',
+    'No response from' => 'لا رد من',
     'No updates' => 'لا توجد تحديثات',
     'No, keep' => 'لا، تبقي',
     'No, keep the same place' => 'لا، حافظ على نفس المكان',

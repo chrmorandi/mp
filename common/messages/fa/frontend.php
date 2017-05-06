@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'هیچ پاسخی از',
     'Finalize the Activity' => '@@نهایی فعالیت@@',
     'Finalize the Place' => '@@نهایی کردن محل@@',
     'Finalize the Time' => '@@نهایی کردن زمان@@',
@@ -384,6 +383,7 @@ return [
     'No contact information available.' => 'اطلاعات در دسترس نیست.',
     'No messages yet.' => 'هیچ پیام است.',
     'No newsletters' => 'بدون خبرنامه',
+    'No response from' => 'هیچ پاسخی از',
     'No updates' => 'بدون به روز رسانی',
     'No, keep' => 'خیر،',
     'No, keep the same place' => 'خیر، همان محل',

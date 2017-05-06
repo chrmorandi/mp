@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => '没有回应',
     '1. Getting Started' => '@@入门@@',
     '10. Delivering the Meeting Announcement' => '@@10.发布会议公告@@',
     '11. Meeting Commands' => '@@会议命令@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => '没有联系方式。',
     'No messages yet.' => '还没有消息',
     'No newsletters' => '没有通讯',
+    'No response from' => '没有回应',
     'No updates' => '没有更新',
     'No, keep' => '不，保持',
     'No, keep the same place' => '不，保持一样的地方',

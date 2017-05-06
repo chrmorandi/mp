@@ -16,7 +16,7 @@ if ($mode =='upcoming' || $mode =='past') {
           'layout'=>'{items}'.$pagerTemplate,
           'columns' => [
           [
-            'contentOptions' => ['class' => 'col-lg-10 col-md-10 col-xs-8'],
+            'contentOptions' => ['class' => 'col-lg-10 col-md-10 col-xs-11'],
             'label'=>'Details',
               'attribute' => 'meeting_type',
               'format' => 'raw',
@@ -31,17 +31,17 @@ if ($mode =='upcoming' || $mode =='past') {
                     }
                   },
           ],
-              ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view}  {download}  {decline}  {cancel}',
+              ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{download}  {decline}  {cancel}', //{view}
               'headerOptions' => ['class' => 'itemHide'],
-              'contentOptions' => ['class' => 'itemHide col-lg-2 col-md-2 col-xs-4'],
+              'contentOptions' => ['class' => 'itemHide col-lg-2 col-md-2 col-xs-1'],
               'buttons'=>[
-                  'view' => function ($url, $model) {
+                  /*'view' => function ($url, $model) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url,
                     [
                             'title' => Yii::t('frontend', 'view'),
                             'class' => 'icon-pad',
                     ]);
-                  },
+                  },*/
                   'download' => function ($url, $model) {
                     return ($model->status==$model::STATUS_CONFIRMED ) ? Html::a('<span class="glyphicon glyphicon-calendar"></span>', $url,
                     [
@@ -60,7 +60,7 @@ if ($mode =='upcoming' || $mode =='past') {
                     return ($model->status==$model::STATUS_SENT || $model->status==$model::STATUS_CONFIRMED ) ? Html::a('<span class="glyphicon glyphicon-remove-circle"></span>', $url, [
                             'title' => Yii::t('frontend', 'cancel'),
                             'data-confirm' => Yii::t('frontend', 'Are you sure you want to cancel this meeting?'),
-                            'class' => 'icon-pad',
+                            'class' => 'icon-pad itemHide',
                     ]) : '';
                   },
                 ]
@@ -76,8 +76,7 @@ if ($mode =='upcoming' || $mode =='past') {
       'headerRowOptions' => ['class'=>'hidden'],
       'columns' => [
       [
-        'contentOptions' => ['class' => 'col-lg-10 col-md-10 col-xs-8'],
-
+        'contentOptions' => ['class' => 'col-lg-10 col-md-10 col-xs-12'],
         'label'=>Yii::t('frontend','Subject'),
           'attribute' => 'meeting_type',
           'format' => 'raw',
@@ -90,16 +89,16 @@ if ($mode =='upcoming' || $mode =='past') {
                 }
               },
       ],
-          ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{view} {settings} {trash}',
+          ['class' => 'yii\grid\ActionColumn','header'=>'Options','template'=>'{settings} {trash}', // {view}
           'headerOptions' => ['class' => 'itemHide'],
-          'contentOptions' => ['class' => 'itemHide col-lg-2 col-md-2 col-xs-4'],
+          'contentOptions' => ['class' => 'itemHide col-lg-2 col-md-2 hidden-xs'],
           'buttons'=>[
-              'view' => function ($url, $model) {
+              /*'view' => function ($url, $model) {
                 return $model->status<=$model::STATUS_SENT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                         'title' => Yii::t('frontend', 'view'),
                         'class' => 'icon-pad',
                 ]):'' ;
-              },
+              },*/
               'settings' => function ($url, $model) {
                 return $model->status<=$model::STATUS_CONFIRMED ? Html::a('<span class="glyphicon glyphicon-cog"></span>', Url::to(['meeting-setting/update', 'id' => $model->id]), [
                         'title' => Yii::t('frontend', 'settings'),
@@ -110,7 +109,7 @@ if ($mode =='upcoming' || $mode =='past') {
                 return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                         'title' => Yii::t('frontend', 'delete'),
                         'data-confirm' => Yii::t('frontend', 'Are you sure you want to delete this meeting?'),
-                        'class' => 'icon-pad',
+                        'class' => 'icon-pad itemHide',
                 ]);
               },
             ]

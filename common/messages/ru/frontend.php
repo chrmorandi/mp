@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'Нет ответа от пользователя',
     '1. Getting Started' => '@@1. Начало работы@@',
     '10. Delivering the Meeting Announcement' => '@@10. Объявление о проведении собрания@@',
     '11. Meeting Commands' => '@@11. Команды совещаний@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => 'Контактная информация недоступна.',
     'No messages yet.' => 'Сообщений нет.',
     'No newsletters' => 'Нет новостей',
+    'No response from' => 'Нет ответа от пользователя',
     'No updates' => 'Нет обновлений',
     'No, keep' => 'Нет, сохранить',
     'No, keep the same place' => 'Нет, держись в том же месте',

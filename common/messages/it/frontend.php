@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'Nessuna risposta da',
     'A new app to make scheduling as simple as it should be.' => '@@Una nuova app per fare la pianificazione semplice come dovrebbe essere .@@',
     'Building Places' => '@@Costruire Places@@',
     'Coming Soon' => '@@Prossimamente@@',
@@ -400,6 +399,7 @@ return [
     'No contact information available.' => 'Nessuna informazione di contatto disponibile.',
     'No messages yet.' => 'Nessun messaggio ancora.',
     'No newsletters' => 'Nessuna bollettini',
+    'No response from' => 'Nessuna risposta da',
     'No updates' => 'Nessun aggiornamento',
     'No, keep' => 'No, continui',
     'No, keep the same place' => 'No, mantenga lo stesso posto',

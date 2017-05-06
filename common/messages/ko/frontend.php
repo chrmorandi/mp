@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => '응답 없음',
     '1. Getting Started' => '@@1. 시작하기@@',
     '10. Delivering the Meeting Announcement' => '@@10. 회의 발표 전달@@',
     '11. Meeting Commands' => '@@11. 회의 명령@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => '연락 가능한 정보가 없습니다.',
     'No messages yet.' => '아직 메시지가 없습니다.',
     'No newsletters' => '뉴스 레터 없음',
+    'No response from' => '응답 없음',
     'No updates' => '업데이트 없음',
     'No, keep' => '아니, 계속',
     'No, keep the same place' => '아니, 같은 장소에있어.',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'からの応答なし',
     '1. Getting Started' => '@@1.はじめに@@',
     '10. Delivering the Meeting Announcement' => '@@10.会議アナウンスの配信@@',
     '11. Meeting Commands' => '@@11.会議コマンド@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => '連絡先情報はありません。',
     'No messages yet.' => 'まだメッセージはありません。',
     'No newsletters' => 'ニュースレターなし',
+    'No response from' => 'からの応答なし',
     'No updates' => '更新はありません',
     'No, keep' => 'いいえ、保管してください',
     'No, keep the same place' => 'いいえ、同じ場所を維持する',

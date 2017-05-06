@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <ul class="nav nav-tabs" role="tablist">
   <li class="<?= ($tab=='planning'?'active':'inactive') ?>"><a href="#planning" role="tab" data-toggle="tab"><?= Yii::t('frontend','Planning') ?></a></li>
   <li class="<?= ($tab=='upcoming'?'active':'inactive') ?>"><a href="#upcoming" role="tab" data-toggle="tab"><?= Yii::t('frontend','Confirmed') ?></a></li>
-  <li class=" <?= ($tab=='past'?'active':'inactive') ?>"><a href="#past" role="tab" data-toggle="tab" ><?= Yii::t('frontend','Past') ?></a></li>
-  <li class="tabHide <?= ($tab=='canceled'?'active':'inactive') ?>"><a href="#canceled" role="tab" data-toggle="tab"><?= Yii::t('frontend','Canceled') ?></a></li>
+  <li class="<?= ($tab=='past'?'active':'inactive') ?>"><a href="#past" role="tab" data-toggle="tab" ><?= Yii::t('frontend','Past') ?></a></li>
+  <li class="<?= ($tab=='canceled'?'active':'inactive') ?>"><a href="#canceled" role="tab" data-toggle="tab"><?= Yii::t('frontend','Canceled') ?></a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
       </div> <!-- end of upcoming meetings tab -->
   </div>
   <div class="tab-pane <?= ($tab=='past'?'active':'') ?>" id="past">
-
     <?= $this->render('_grid', [
         'mode'=>'past',
         'dataProvider' => $pastProvider,

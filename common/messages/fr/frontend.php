@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'Aucune réponse de',
     '1. Getting Started' => '@@1. Mise en route@@',
     '10. Delivering the Meeting Announcement' => '@@10. Présentation de l\'annonce de la réunion@@',
     '11. Meeting Commands' => '@@11. Commandes de réunions@@',
@@ -437,6 +436,7 @@ return [
     'No contact information available.' => 'Aucune information de contact disponible.',
     'No messages yet.' => 'Pas encore de messages.',
     'No newsletters' => 'Pas de newsletters',
+    'No response from' => 'Aucune réponse de',
     'No updates' => 'Pas de mises à jour',
     'No, keep' => 'Non, conservez',
     'No, keep the same place' => 'Non, gardez le même endroit',

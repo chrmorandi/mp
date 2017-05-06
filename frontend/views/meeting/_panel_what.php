@@ -12,12 +12,12 @@ use frontend\models\Meeting;
         <!-- <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWhat" aria-expanded="true" aria-controls="collapseWhat"></a> -->
         <?php
           if ($model->status >= Meeting::STATUS_CONFIRMED) {
-            $hint = Yii::t('frontend','the subject of your {meeting}',['meeting'=>strtolower(Yii::$app->params['site']['mtg_singular'])]);
+            $hint = Yii::t('frontend','the subject of your {meeting}',['meeting'=>strtolower(Yii::t('frontend',Yii::$app->params['site']['mtg_singular']))]);
           } else {
-            $hint = Yii::t('frontend','the reason for your {meeting}',['meeting'=>strtolower(Yii::$app->params['site']['mtg_singular'])]);
+            $hint = Yii::t('frontend','the reason for your {meeting}',['meeting'=>strtolower(Yii::t('frontend',Yii::$app->params['site']['mtg_singular']))]);
           }
         ?>
-        <span class="hint-text"><?= $hint; ?></span>          
+        <span class="hint-text"><?= $hint; ?></span>
       </div>
       <div class="col-lg-2 col-md-2 col-xs-2" ><div style="float:right;">
       <?php

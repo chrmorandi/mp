@@ -132,17 +132,9 @@ $this->title = Yii::$app->params['site']['title'];
                       <td></td>
                       <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
-                  </tr>
-                  <tr>
-                      <td><?= Yii::t('frontend','Large group meetings (25+)') ?></td>
-                      <td></td>
-                      <td></td>
-                      <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
-                  </tr>
-
+                  </tr>                  
               </tbody></table>
           </div>
       </div>
     </div>
   </div>
-  

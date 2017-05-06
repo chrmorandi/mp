@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'No response from' => 'No response from',
     'Finalize the Activity' => '@@Finalize the Activity@@',
     'Finalize the Place' => '@@Finalize the Place@@',
     'Finalize the Time' => '@@Finalize the Time@@',
@@ -384,6 +383,7 @@ return [
     'No contact information available.' => 'No contact information available.',
     'No messages yet.' => 'No messages yet.',
     'No newsletters' => 'No newsletters',
+    'No response from' => 'No response from',
     'No updates' => 'No updates',
     'No, keep' => 'No, keep',
     'No, keep the same place' => 'No, keep the same place',

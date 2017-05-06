@@ -11,7 +11,6 @@ use yii\widgets\DetailView;
 $this->title = $place->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Meetings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['breadcrumbs'][] = $place->name;
 ?>
 <h1><?php echo Html::encode($this->title) ?></h1>
 
@@ -26,7 +25,6 @@ $this->params['breadcrumbs'][] = $place->name;
             ['label' => Yii::t('frontend','Website'),
      'value' => Html::a($place->website, $place->website),
      'format' => 'raw'],
-            //'place_type',
             'full_address',
         ],
     ]) ?>
@@ -54,11 +52,11 @@ $this->params['breadcrumbs'][] = $place->name;
     echo 'No location coordinates for this place could be found.';
   }
   ?>
-
 </div> <!-- end second col -->
+
 <p>
-  <?php echo Html::a(Yii::t('frontend', 'Return to Meeting'), ['view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-  <?php echo Html::a(Yii::t('frontend', 'Remove Place'), ['removeplace', 'meeting_id'=>$model->id,'place_id' => $place->id], ['class' => 'btn btn-danger',
+  <?= Html::a(Yii::t('frontend', 'Return to Meeting'), ['view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+  <?= Html::a(Yii::t('frontend', 'Remove Place'), ['removeplace', 'meeting_id'=>$model->id,'place_id' => $place->id], ['class' => 'btn btn-danger',
   'data' => [
       'confirm' => Yii::t('frontend', 'Are you sure you want to delete this item?'),
       'method' => 'post',
