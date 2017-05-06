@@ -219,7 +219,7 @@ class MeetingPlace extends \yii\db\ActiveRecord
           $whereStatus['style'][$mp->place_id]='danger';
         }
         if (count($unknownChoice)>0) {
-          $temp.='No response from '.MiscHelpers::listNames($unknownChoice,true,$cntP,true).'.';
+          $temp.=Yii::t('frontend','No response from').'&nbsp;'.MiscHelpers::listNames($unknownChoice,true,$cntP,true).'.';
           $whereStatus['style'][$mp->place_id]='warning';
         }
         $whereStatus['text'][$mp->place_id]=$temp;

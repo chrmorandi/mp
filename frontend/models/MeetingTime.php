@@ -199,7 +199,7 @@ class MeetingTime extends \yii\db\ActiveRecord
           $whenStatus['style'][$mt->id]='danger';
         }
         if (count($unknownChoice)>0) {
-          $temp.='No response from ';
+          $temp.=Yii::t('frontend','No response from').'&nbsp;';
           $temp.=MiscHelpers::listNames($unknownChoice,true,$cntP,true).'. ';
           $whenStatus['style'][$mt->id]='warning';
         }

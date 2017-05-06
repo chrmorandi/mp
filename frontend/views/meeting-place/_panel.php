@@ -39,6 +39,9 @@ use \common\components\MiscHelpers;
               case 'ru':
                 $handleWidth = 91;
               break;
+              case 'fa':
+                $handleWidth = 95;
+              break;
               default:
                 $handleWidth = 75;
               break;

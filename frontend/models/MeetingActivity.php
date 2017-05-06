@@ -96,7 +96,7 @@ class MeetingActivity extends \yii\db\ActiveRecord
         Yii::t('frontend','Netflix and chill'),
         Yii::t('frontend','Party'),
         Yii::t('frontend','Protest'),
-        Yii::t('frontend','Theater'),        
+        Yii::t('frontend','Theater'),
         Yii::t('frontend','Play board games'),
         Yii::t('frontend','Play scrabble'),
         Yii::t('frontend','Play video games'),
@@ -198,7 +198,7 @@ class MeetingActivity extends \yii\db\ActiveRecord
           $activityStatus['style'][$ma->id]='danger';
         }
         if (count($unknownChoice)>0) {
-          $temp.='No response from '.MiscHelpers::listNames($unknownChoice,true,$cntP,true).'.';
+          $temp.=Yii::t('frontend','No response from').'&nbsp;'.MiscHelpers::listNames($unknownChoice,true,$cntP,true).'.';
           $activityStatus['style'][$ma->id]='warning';
         }
         $activityStatus['text'][$ma->id]=$temp;
