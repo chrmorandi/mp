@@ -135,10 +135,9 @@ use \common\components\MiscHelpers;
              'itemView' => '_list',
              'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
          ]) ?>
-       <?php endif;
-         echo Html::hiddenInput('number_places',$placeProvider->getTotalCount(),['id'=>'number_places']);
-         ?>
+       <?php endif; ?>
     </table>
+    <?= Html::hiddenInput('number_places',$placeProvider->count,['id'=>'number_places']); ?>
   </div> <!-- end possible-places -->
   </div> <!-- end meeting-place-list -->
   </div> <!-- end class panel-where -->

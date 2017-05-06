@@ -89,7 +89,7 @@ use \kartik\switchinput\SwitchInput;
         $duration=60;
       }
       echo Html::hiddenInput('meeting_duration',$duration,['id'=>'meeting_duration']);
-      echo Html::hiddenInput('number_times',$timeProvider->getTotalCount(),['id'=>'number_times']);
+      echo Html::hiddenInput('number_times',$timeProvider->count,['id'=>'number_times']);
     ?>
   </div> <!-- end possible-times -->
 </div> <!-- end panel-when -->
