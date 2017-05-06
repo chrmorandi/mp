@@ -81,7 +81,7 @@ class UserSetting extends \yii\db\ActiveRecord
         return [
             [['user_id', ], 'required'],
             [['user_id', ], 'unique'],
-            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change','schedule_with_me','guide'], 'integer'],
+            [['user_id', 'reminder_eve', 'reminder_hours', 'contact_share', 'no_email', 'created_at', 'updated_at','participant_add_place', 'participant_add_date_time','participant_add_activity','participant_choose_place', 'participant_choose_date_time','participant_choose_activity', 'participant_finalize','no_newsletter','no_updates','has_updated_timezone','participant_reopen', 'participant_request_change','schedule_with_me','guide'], 'integer'],
         ];
     }
 
@@ -102,8 +102,10 @@ class UserSetting extends \yii\db\ActiveRecord
            'contact_share' => Yii::t('frontend', 'Contact Share'),
             'participant_add_place' => Yii::t('frontend', 'Add place options'),
              'participant_add_date_time' => Yii::t('frontend', 'Add date & time options'),
+             'participant_add_activity' => Yii::t('frontend', 'Add activity options'),
              'participant_choose_place' => Yii::t('frontend', 'Choose the place'),
              'participant_choose_date_time' => Yii::t('frontend', 'Choose the date & time'),
+             'participant_choose_activity' => Yii::t('frontend', 'Choose the activity'),
              'participant_finalize' => Yii::t('frontend', 'Finalize meetings'),
              'participant_reopen' => Yii::t('frontend', 'Make changes after it\'s been finalized'),
              'participant_request_change' => Yii::t('frontend', 'Request changes after it\'s been finalized'),
@@ -154,8 +156,10 @@ class UserSetting extends \yii\db\ActiveRecord
         $us->no_updates = self::SETTING_NO;
         $us->participant_add_place = self::SETTING_ON;
         $us->participant_add_date_time = self::SETTING_ON;
+        $us->participant_add_activity = self::SETTING_ON;
         $us->participant_choose_place = self::SETTING_OFF;
         $us->participant_choose_date_time = self::SETTING_OFF;
+        $us->participant_choose_activity = self::SETTING_OFF;
         $us->participant_finalize = self::SETTING_OFF;
         $us->participant_request_change= self::SETTING_ON;
         $us->participant_reopen= self::SETTING_OFF;

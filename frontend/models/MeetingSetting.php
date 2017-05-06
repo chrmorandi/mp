@@ -56,7 +56,7 @@ class MeetingSetting extends \yii\db\ActiveRecord
     {
         return [
             [['meeting_id'], 'required'],
-            [['meeting_id', 'participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_finalize', 'participant_reopen', 'participant_request_change','created_at', 'updated_at'], 'integer']
+            [['meeting_id', 'participant_add_place', 'participant_add_date_time', 'participant_choose_place', 'participant_choose_date_time', 'participant_add_activity','participant_choose_activity','participant_finalize', 'participant_reopen', 'participant_request_change','created_at', 'updated_at'], 'integer']
         ];
     }
 
@@ -70,8 +70,10 @@ class MeetingSetting extends \yii\db\ActiveRecord
             'meeting_id' => Yii::t('app', 'Meeting ID'),
             'participant_add_place' => Yii::t('frontend', 'Add place options'),
              'participant_add_date_time' => Yii::t('frontend', 'Add date & time options'),
+             'participant_add_activity' => Yii::t('frontend', 'Add activity options'),
              'participant_choose_place' => Yii::t('frontend', 'Choose the place'),
              'participant_choose_date_time' => Yii::t('frontend', 'Choose the date & time'),
+             'participant_choose_activity' => Yii::t('frontend', 'Choose the activity'),
              'participant_finalize' => Yii::t('frontend', 'Finalize meetings'),
              'participant_reopen' => Yii::t('frontend', 'Make changes after it\'s been finalized'),
              'participant_request_change' => Yii::t('frontend', 'Request changes after it\'s been finalized'),
