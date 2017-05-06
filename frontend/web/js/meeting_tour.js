@@ -32,7 +32,7 @@ switch (mode) {
           scrollTo: true,
         }
       });
-      steps.push(['.nav-tabs top','Welcome','You\'ve been invited to a '+title+'. Let me show you how you can respond. <p>If you prefer, you can <a href="javascript::return false;" onclick="turnOffGuide();">turn off this guide</a>.<br /><br />']);
+      steps.push(['.nav-tabs top','Welcome','You\'ve been invited to a '+title+'. Let me show you how you can respond. <p>If you prefer, <a href="javascript::return false;" onclick="turnOffGuide();">permanently turn off this guide</a>.<br /><br />']);
       steps.push(['#tourDiscussion top','Share messages with participants ','You can write back and forth with participants on the <strong>Discussion</strong> tab. <p>Messages are delivered via email.</p>']);
       steps.push(['#headingWho top','Who would you like to invite?','You can add one person or a group of people to your '+title+'. <p>Click the person button to add participants.</p>']);
       steps.push(['#invitation-url top','Inviting by email','Alternately, you can copy the planning link and email it to your participant(s)']);
