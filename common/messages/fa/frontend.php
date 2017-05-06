@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'میهمانی مجردی قبل ازدواج',
     'Finalize the Activity' => '@@نهایی فعالیت@@',
     'Finalize the Place' => '@@نهایی کردن محل@@',
     'Finalize the Time' => '@@نهایی کردن زمان@@',
@@ -131,6 +130,7 @@ return [
     'Awaiting staff response' => 'در انتظار پاسخ کارکنان',
     'Awaiting your response' => 'منتظر جواب شما',
     'Bachelor party' => 'پارتی مجردی',
+    'Bachelorette party' => 'میهمانی مجردی قبل ازدواج',
     'Back' => 'بازگشت',
     'Bar' => 'بار',
     'Birthday party' => 'جشن تولد',

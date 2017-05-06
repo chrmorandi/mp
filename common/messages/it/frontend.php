@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'addio al nubilato',
     'A new app to make scheduling as simple as it should be.' => '@@Una nuova app per fare la pianificazione semplice come dovrebbe essere .@@',
     'Building Places' => '@@Costruire Places@@',
     'Coming Soon' => '@@Prossimamente@@',
@@ -147,6 +146,7 @@ return [
     'Awaiting staff response' => 'In attesa della risposta del personale',
     'Awaiting your response' => 'Aspettando la tua risposta',
     'Bachelor party' => 'Addio al celibato',
+    'Bachelorette party' => 'addio al nubilato',
     'Back' => 'Indietro',
     'Bar' => 'Bar',
     'Birthday party' => 'Festa di compleanno',

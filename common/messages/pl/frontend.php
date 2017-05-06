@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'Impreza Bachelorette',
     'Finalize the Activity' => '@@Zakończ działanie@@',
     'Finalize the Place' => '@@Zakończ miejsce@@',
     'Finalize the Time' => '@@Ukończenie Czasu@@',
@@ -131,6 +130,7 @@ return [
     'Awaiting staff response' => 'Oczekiwanie na reakcję personelu',
     'Awaiting your response' => 'Czekam na Twoją odpowiedź',
     'Bachelor party' => 'Wieczór kawalerski',
+    'Bachelorette party' => 'Impreza Bachelorette',
     'Back' => 'Plecy',
     'Bar' => 'Bar',
     'Birthday party' => 'Przyjęcie urodzinowe',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'حفلة توديع العزوبية',
     '1. Getting Started' => '@@1. الشروع في العمل@@',
     '10. Delivering the Meeting Announcement' => '@@10 - تقديم إعلان الاجتماع@@',
     '11. Meeting Commands' => '@@11 - قرارات الاجتماع@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => 'في انتظار رد الموظفين',
     'Awaiting your response' => 'في انتظار ردكم',
     'Bachelor party' => 'حفلة توديع العزوبية',
+    'Bachelorette party' => 'حفلة توديع العزوبية',
     'Back' => 'الى الخلف',
     'Bar' => 'شريط',
     'Birthday party' => 'حفلة عيد ميلاد',

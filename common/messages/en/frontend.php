@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'Bachelorette party',
     'Finalize the Activity' => '@@Finalize the Activity@@',
     'Finalize the Place' => '@@Finalize the Place@@',
     'Finalize the Time' => '@@Finalize the Time@@',
@@ -131,6 +130,7 @@ return [
     'Awaiting staff response' => 'Awaiting staff response',
     'Awaiting your response' => 'Awaiting your response',
     'Bachelor party' => 'Bachelor party',
+    'Bachelorette party' => 'Bachelorette party',
     'Back' => 'Back',
     'Bar' => 'Bar',
     'Birthday party' => 'Birthday party',

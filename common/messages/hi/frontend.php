@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'बेचेलरेट पार्टी',
     '1. Getting Started' => '@@1. प्रारंभ करना@@',
     '10. Delivering the Meeting Announcement' => '@@10. बैठक की घोषणा देते हुए@@',
     '11. Meeting Commands' => '@@11. बैठक कमांड@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => 'स्टाफ प्रतिक्रिया की प्रतीक्षा कर रहा है',
     'Awaiting your response' => 'आपकी प्रतिक्रिया का इंतजार',
     'Bachelor party' => 'बैचलर पार्टी',
+    'Bachelorette party' => 'बेचेलरेट पार्टी',
     'Back' => 'वापस',
     'Bar' => 'बार',
     'Birthday party' => 'जन्मदिन उत्सव',

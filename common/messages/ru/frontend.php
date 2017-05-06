@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'Праздничная вечеринка',
     '1. Getting Started' => '@@1. Начало работы@@',
     '10. Delivering the Meeting Announcement' => '@@10. Объявление о проведении собрания@@',
     '11. Meeting Commands' => '@@11. Команды совещаний@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => 'Ожидание ответа персонала',
     'Awaiting your response' => 'В ожидании вашего ответа',
     'Bachelor party' => 'Мальчишник',
+    'Bachelorette party' => 'Праздничная вечеринка',
     'Back' => 'Вернуться назад',
     'Bar' => 'Бар',
     'Birthday party' => 'Вечеринка в честь дня рождения',

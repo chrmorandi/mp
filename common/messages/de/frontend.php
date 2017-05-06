@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'Junggesellinnenparty',
     '1. Getting Started' => '@@1. Erste Schritte@@',
     '10. Delivering the Meeting Announcement' => '@@10. Bereitstellung der Besprechungsmitteilung@@',
     '11. Meeting Commands' => '@@11. Besprechungsbefehle@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => 'Erwartete Antwort des Personals',
     'Awaiting your response' => 'Erwarte deine Antwort',
     'Bachelor party' => 'Junggesellenabschied',
+    'Bachelorette party' => 'Junggesellinnenparty',
     'Back' => 'Zurück',
     'Bar' => 'Bar',
     'Birthday party' => 'Geburtstagsfeier',

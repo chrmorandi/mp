@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => '单身聚会',
     '1. Getting Started' => '@@入门@@',
     '10. Delivering the Meeting Announcement' => '@@10.发布会议公告@@',
     '11. Meeting Commands' => '@@会议命令@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => '等待工作人员的回应',
     'Awaiting your response' => '等待你的回复',
     'Bachelor party' => '单身派对',
+    'Bachelorette party' => '单身聚会',
     'Back' => '背部',
     'Bar' => '酒吧',
     'Birthday party' => '生日聚会',

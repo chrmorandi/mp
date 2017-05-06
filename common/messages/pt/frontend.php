@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => 'despedida de solteira',
     '1. Getting Started' => '@@1. Começando@@',
     '10. Delivering the Meeting Announcement' => '@@10. Entrega do Anúncio da Reunião@@',
     '11. Meeting Commands' => '@@11. Comandos de Reunião@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => 'Aguardando resposta do pessoal',
     'Awaiting your response' => 'Aguardando sua resposta',
     'Bachelor party' => 'Despedida de solteiro',
+    'Bachelorette party' => 'despedida de solteira',
     'Back' => 'Costas',
     'Bar' => 'Barra',
     'Birthday party' => 'Festa de aniversário',

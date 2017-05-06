@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => '独身パーティー',
     '1. Getting Started' => '@@1.はじめに@@',
     '10. Delivering the Meeting Announcement' => '@@10.会議アナウンスの配信@@',
     '11. Meeting Commands' => '@@11.会議コマンド@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => 'スタッフの反応を待っている',
     'Awaiting your response' => 'あなたの応答を待っています',
     'Bachelor party' => 'バチェラー・パーティー',
+    'Bachelorette party' => '独身パーティー',
     'Back' => 'バック',
     'Bar' => 'バー',
     'Birthday party' => '誕生日会',

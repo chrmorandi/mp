@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Bachelorette party' => '처녀 파티',
     '1. Getting Started' => '@@1. 시작하기@@',
     '10. Delivering the Meeting Announcement' => '@@10. 회의 발표 전달@@',
     '11. Meeting Commands' => '@@11. 회의 명령@@',
@@ -184,6 +183,7 @@ return [
     'Awaiting staff response' => '직원의 응답을 기다리고 있습니다.',
     'Awaiting your response' => '당신의 응답을 기다리고',
     'Bachelor party' => '총각 파티',
+    'Bachelorette party' => '처녀 파티',
     'Back' => '뒤로',
     'Bar' => '바',
     'Birthday party' => '생일 파티',
