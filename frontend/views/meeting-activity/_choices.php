@@ -4,22 +4,20 @@ use \common\components\MiscHelpers;
 use \frontend\models\Meeting;
 use \frontend\models\MeetingActivity;
 ?>
-<div class="choiceHead">
-  <div class="row">
-    <div class="col-lg-10 col-md-10 col-xs-10" >
-      <h5 ><?= Yii::t('frontend','Finalize the Activity') ?></h5>
-      <div class="hint-text">
-        <?= Yii::t('frontend','you\'re allowed to make the choice') ?>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="panel-body">
+<div class="panel-body selection-panel">
   <div class="row">
     <div class="col-xs-12" >
-      <div id="notifierChooseActivity" class="alert-info alert fade in" style="display:none;">
+      <h5 ><?= Yii::t('frontend','Decide the Activity for your {mtg_singular}',['mtg_singular'=>Yii::$app->params['site']['mtg_singular']]) ?></h5>
+      <p class="hint-text">
+            <?= Yii::t('frontend','As an organizer, you\'re allowed to make the final choice') ?>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12" >
+      <div id="notifierChooseActivity" class="alert-info alert fade in" >
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
+        <?php echo Yii::t('frontend',"We'll automatically notify the others when you're done making changes."); ?>
       </div>
   <?php
   foreach ($model->meetingActivities as $ma) {
@@ -39,4 +37,4 @@ use \frontend\models\MeetingActivity;
    ?>
     </div>
   </div>
-</div>
+</div> <!-- end panel -->

@@ -3,8 +3,8 @@
   use frontend\models\Meeting;
   use \kartik\switchinput\SwitchInput;
 ?>
-<tr > <!-- panel row -->
-  <td >
+<tr> <!-- panel row -->
+  <td class="parent-td-table-list">
     <table class="table-list"> <!-- list of times -->
       <tr>
         <td class="table-list-first" id="t_id_<?= $model->id ?>_<?= $model->start ?>"> <!-- time & status -->

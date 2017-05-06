@@ -142,7 +142,7 @@ a.icon-pad {
   padding-left:5px;
 }
 .mini-button-pad {
-  padding: 2px 5px 0px 5px !important;
+  padding: 3px 5px 3px 5px !important;
 }
 .comment-bubble {
   vertical-align: text-top;
@@ -235,12 +235,12 @@ table.table-list td.table-switches {
 }
 
 .panel-where, .panel-when, .panel_activity {
-  padding: 0 3px 0 3px;
+  padding: 0px;
   margin:0px;
 }
 
 .where-form, .when-form, .activity-form {
-  padding: 10px;
+  padding: 10px 10px 5px 10px;
 }
 
 .panel hr {
@@ -250,6 +250,11 @@ table.table-list td.table-switches {
 
 .panel .table {
   margin-bottom:0px;
+}
+
+.selection-panel {
+  padding:3px 10px 10px 10px;
+  border-bottom:1px solid #f0f0f0;
 }
 
 #placeTable {
@@ -262,6 +267,23 @@ table.table-list td.table-switches {
   border-bottom: 1px solid #ddd;
   padding: 0 0 10px 10px;
   color: #337ab7;
+}
+
+#available-times-msg,#available-places-msg,#available-activities-msg {
+  border-bottom: 1px solid #ddd;
+  padding-bottom:5px;
+}
+#notifierTime,#notifierChooseTime,#notifierPlace,#notifierChoosePlace,#notifierActivity,#notifierChooseActivity {
+  display:none;
+}
+#possible-times,#possible-places,#possible-activities {
+  padding:3px 10px 10px 10px;
+}
+td.parent-td-table-list {
+  padding-bottom:0px !important;
+}
+tr:first-child .parent-td-table-list {
+  border-top:none;
 }
 
 /* centered columns styles */
@@ -342,7 +364,7 @@ color:#a0a0a0;
 }
 
 .mini-button {
-  display: inline;color:white;padding:1px 3px;border-radius: 2px;
+  display: inline;color:white;padding:1px 3px;border-radius:4px;
 }
 
 .ui-icon,
@@ -381,11 +403,11 @@ color:#a0a0a0;
 
 #virtualThingBox {
   float:right;
+  height:35px;
 }
 #invitation-url {
   float:right;
 }
-
 /* iphone 5 and small as */
 @media only screen
   and (max-device-width: 320px)

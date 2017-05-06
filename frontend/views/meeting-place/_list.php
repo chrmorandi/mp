@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use \kartik\switchinput\SwitchInput;
 ?>
 <tr > <!-- panel row -->
-  <td >
+  <td class="parent-td-table-list">
     <table class="table-list"> <!-- list of places -->
       <tr>
         <td class="table-list-first"> <!-- place name & status -->

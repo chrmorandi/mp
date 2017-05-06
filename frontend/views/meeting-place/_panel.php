@@ -4,9 +4,9 @@ use yii\widgets\ListView;
 use \kartik\switchinput\SwitchInput;
 use \common\components\MiscHelpers;
 ?>
-<div id="notifierPlace" class="alert-info alert fade in" style="display:none;">
+<div id="notifierPlace" class="alert-info alert fade in">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  <?php echo Yii::t('frontend',"We'll automatically notify the organizer when you're done making changes."); ?>
+  <?php echo Yii::t('frontend',"We'll automatically notify others when you're done making changes."); ?>
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -73,16 +73,19 @@ use \common\components\MiscHelpers;
   <div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12" >
   <div class="hint-text heading-pad">
-  <?php if ($placeProvider->count<=1) { ?>
-    <?= Yii::t('frontend','add possible meeting places or switch to \'virtual\'') ?>
-<?php } elseif ($placeProvider->count>1) { ?>
-    <?= Yii::t('frontend','are these places acceptable?') ?>
-    <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
-      <?= Yii::t('frontend','you can also select the place below') ?>
-    <?php }?>
-  <?php
+    <?php if ($model->isOrganizer() || $model->meetingSettings['participant_choose_place']) {
+        if ($placeProvider->count==0) {
+          echo Yii::t('frontend','add possible meeting places or switch to \'virtual\'');
+        } else if ($placeProvider->count==1)  {
+          echo Yii::t('frontend','add possible meeting places or switch to \'virtual\'');
+        } else if ($placeProvider->count>1) {
+          echo Yii::t('frontend','add more places or decide the place');
+        }
+      } else {
+        // not an organizer
+        echo Yii::t('frontend','are these places acceptable?');
     }
-  ?>
+    ?>
 </div>
 </div>
 </div>
@@ -104,10 +107,24 @@ use \common\components\MiscHelpers;
         </div>
       </div>
         <?php
-      $dclass = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'hidden':'');
-     ?>
+        $dclass = ($model->switchVirtual==$model::SWITCH_VIRTUAL?'hidden':'');
+        ?>
     <div id ="meeting-place-list" class="<?= $dclass; ?>">
-    <table class="table" id="placeTable" class="hidden">
+      <div id="where-choices">
+      <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+        <?= $this->render('../meeting-place/_choices', [
+              'model'=>$model,
+          ]);
+           ?>
+      <?php }?>
+      </div> <!-- end where choices -->
+    <div id="possible-places" class="panel-body <?= ($placeProvider->count>0?'':'hidden') ?>" >
+          <div class="row">
+            <div class="col-xs-12" >
+              <h5 id="available-places-msg" class="<?= ($placeProvider->count>1?'':'hidden') ?>"><?= Yii::t('frontend','Show Others Which Places You Prefer') ?></h5>
+            </div>
+          </div>
+      <table class="table" id="placeTable" class="hidden">
       <?php
        if ($placeProvider->count>0):
       ?>
@@ -118,17 +135,12 @@ use \common\components\MiscHelpers;
              'itemView' => '_list',
              'viewParams' => ['placeCount'=>$placeProvider->count,'isOwner'=>$isOwner,'participant_choose_place'=>$model->meetingSettings['participant_choose_place'],'whereStatus'=>$whereStatus],
          ]) ?>
-       <?php endif; ?>
+       <?php endif;
+         echo Html::hiddenInput('number_places',$placeProvider->getTotalCount(),['id'=>'number_places']);
+         ?>
     </table>
-    </div> <!-- end meeting-place-list -->
+  </div> <!-- end possible-places -->
+  </div> <!-- end meeting-place-list -->
   </div> <!-- end class panel-where -->
-  <div id="where-choices">
-  <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
-    <?= $this->render('../meeting-place/_choices', [
-          'model'=>$model,
-      ]);
-       ?>
-  <?php }?>
-  </div>
 </div> <!-- end collapse panel where -->
 </div> <!-- end panel -->

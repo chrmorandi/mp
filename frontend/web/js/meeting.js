@@ -122,7 +122,7 @@ $(document).ready(function(){
       } else if (mode == 'chooseactivity') {
          $('#notifierChooseActivity').show();
      } else {
-        alert("We\'ll automatically notify the organizer when you're done making changes.");
+        alert("We\'ll automatically notify the others when you're done making changes.");
       }
       notifierOkay=false;
     }
@@ -390,11 +390,16 @@ function addActivity(id) {
       },
       type: 'GET',
      success: function(data) {
+       $("#possible-activities").removeClass('hidden');
+       $("#number_activities").get(0).value++;
+       if ($("#number_activities").val()>1) {
+          $("#available-activities-msg").removeClass('hidden');
+       }
       $("#meeting-activity-list").html(data).removeClass('hidden');
         $("input[name='meeting-activity-choice']").map(function(){
           //$(this).bootstrapSwitch();
           $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
-          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());          
+          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());
           $(this).bootstrapSwitch('onColor','success');
           $(this).bootstrapSwitch('offColor','danger');
           $(this).bootstrapSwitch('handleWidth',50);
@@ -587,7 +592,12 @@ function addTime(id) {
       },
       type: 'GET',
      success: function(data) {
-      $("#meeting-time-list").html(data).removeClass('hidden');
+       $("#possible-times").removeClass('hidden');
+       $("#number_times").get(0).value++;
+       if ($("#number_times").val()>1) {
+          $("#available-times-msg").removeClass('hidden');
+       }
+       $("#meeting-time-list").html(data).removeClass('hidden');
        $("input[name='time-chooser']").map(function(){
           //$(this).bootstrapSwitch();
           $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-ok"></i>&nbsp;choose');
@@ -830,6 +840,11 @@ function insertPlace(id) {
     },
     type: 'GET',
    success: function(data) {
+    $("#possible-places").removeClass('hidden');
+    $("#number_places").get(0).value++;
+    if ($("#number_places").val()>1) {
+       $("#available-places-msg").removeClass('hidden');
+    }
     $("#placeTable").html(data).removeClass('hidden');
      $("input[name='place-chooser']").map(function(){
         //$(this).bootstrapSwitch();

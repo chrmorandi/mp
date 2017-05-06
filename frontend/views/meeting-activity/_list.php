@@ -5,7 +5,7 @@ use frontend\models\Meeting;
 use \kartik\switchinput\SwitchInput;
 ?>
 <tr > <!-- panel row -->
-  <td >
+  <td class="parent-td-table-list">
     <table class="table-list"> <!-- list of activitys -->
       <tr>
         <td class="table-list-first"> <!-- activity & status -->

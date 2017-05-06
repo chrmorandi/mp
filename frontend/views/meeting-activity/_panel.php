@@ -6,7 +6,7 @@ use \kartik\switchinput\SwitchInput;
 ?>
 <div id="notifierActivity" class="alert-info alert fade in" style="display:none;">
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<?php echo Yii::t('frontend',"We'll automatically notify the organizer activity you're done making changes."); ?>
+<?php echo Yii::t('frontend',"We'll automatically notify others you're done making changes."); ?>
 </div>
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -52,6 +52,20 @@ use \kartik\switchinput\SwitchInput;
           ]) ?>
         </div>
       </div>
+      <div id="activity-choices">
+      <?php if ($activityProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_activity'])) { ?>
+        <?= $this->render('../meeting-activity/_choices', [
+              'model'=>$model,
+          ]);
+           ?>
+      <?php }?>
+      </div>
+      <div id="possible-activities" class="panel-body <?= ($activityProvider->count>0?'':'hidden') ?>" >
+            <div class="row">
+              <div class="col-xs-12" >
+                <h5 id="available-activities-msg" class="<?= ($activityProvider->count>1?'':'hidden') ?>"><?= Yii::t('frontend','Which Activities Do You Prefer?') ?></h5>
+              </div>
+            </div>
     <table class="table" id="meeting-activity-list" class="hidden">
   <?php
    if ($activityProvider->count>0):
@@ -67,16 +81,11 @@ use \kartik\switchinput\SwitchInput;
            'activityStatus'=>$activityStatus,
          ],
        ]) ?>
-  <?php endif; ?>
+  <?php endif;
+    echo Html::hiddenInput('number_activities',$activityProvider->getTotalCount(),['id'=>'number_activities']);
+  ?>
   </table>
-  </div>
-  <div id="activity-choices">
-  <?php if ($activityProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_activity'])) { ?>
-    <?= $this->render('../meeting-activity/_choices', [
-          'model'=>$model,
-      ]);
-       ?>
-  <?php }?>
-  </div>
+  </div> <!-- end possible-activites -->
+</div> <!-- end panel activity -->
 </div>
-</div>
+</div> <!-- end panel -->

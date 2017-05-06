@@ -20,7 +20,7 @@ $tour=[
 [
   '.nav-tabs top',
   Yii::t('frontend','Welcome'),
-  Yii::t('frontend','Allow me to show you how to plan your {mlabel}.',$args).'<br /><br />'.Yii::t('frontend','If you prefer, you can').'&nbsp;'.Html::a(Yii::t('frontend','turn off this guide'),'javascript::return false;',['onclick'=>'turnOffGuide();'])],
+  Yii::t('frontend','Allow me to show you how to plan your {mlabel}.',$args).'<br /><br />'.Yii::t('frontend','If you prefer,').'&nbsp;'.Html::a(Yii::t('frontend','permanently turn off this guide').'.','javascript::return false;',['onclick'=>'turnOffGuide();'])],
 [
   '#headingWho top',
   Yii::t('frontend','Who would you like to invite?'),
@@ -85,7 +85,7 @@ $tour[]=
 [
   '.container ',
   Yii::t('frontend','Ask a question'),
-  Yii::t('frontend','Need help?').'&nbsp;'.Html::a(Yii::t('frontend','Ask a question'),['ticket/create']).'&nbsp;'.Yii::t('frontend','and we\'ll respond as quickly as we can.').'<br /><br />'.Yii::t('frontend','If you prefer, you can').'&nbsp;'.Html::a(Yii::t('frontend','turn off this guide'),['user-setting/index','tab'=>'guide']),
+  Yii::t('frontend','Need help?').'&nbsp;'.Html::a(Yii::t('frontend','Ask a question'),['ticket/create']).'&nbsp;'.Yii::t('frontend','and we\'ll respond as quickly as we can.').'<br /><br />'.Yii::t('frontend','If you prefer,').'&nbsp;'.Html::a(Yii::t('frontend','permanently turn off this guide').'.',['user-setting/index','tab'=>'guide']),
 ];
 ?>
 <div id="tourButtons" class="hidden"><?= json_encode($tourButtons); ?></div>
