@@ -17,6 +17,10 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Czech' => 'चेक',
+    'Greek' => 'यूनानी',
+    'Indonesian' => 'इन्डोनेशियाई',
+    'Swedish' => 'स्वीडिश',
     'Arabic' => 'अरबी',
     'Chinese' => 'चीनी',
     'Dutch' => 'डच',

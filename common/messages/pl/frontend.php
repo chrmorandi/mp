@@ -18,14 +18,14 @@
 */
 return [
     '' => '',
-    'Facebook' => 'Facebook',
-    'Google' => 'Google',
-    'LinkedIn' => 'LinkedIn',
+    'Facebook' => '@@Facebook@@',
     'Finalize the Activity' => '@@Zakończ działanie@@',
     'Finalize the Place' => '@@Zakończ miejsce@@',
     'Finalize the Time' => '@@Ukończenie Czasu@@',
+    'Google' => '@@Google@@',
     'If you prefer, you can' => '@@Jeśli wolisz, możesz@@',
     'Large group meetings (25+)' => '@@Wielkie spotkania grupowe (25+)@@',
+    'LinkedIn' => '@@LinkedIn@@',
     'No response from ' => '@@Brak odpowiedzi@@',
     'Select Dates and Times' => '@@Wybierz datę i godzinę@@',
     'We\'ll automatically notify the organizer activity you\'re done making changes.' => '@@Automatycznie powiadamiamy o aktywności organizatora wprowadzonej przez Ciebie zmian.@@',

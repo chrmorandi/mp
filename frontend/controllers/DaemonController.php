@@ -140,7 +140,7 @@ public function actionQuarter() {
     {
       //\frontend\models\Fix::checkUserDataCalc();
       //Daemon::reset();
-      \frontend\models\Fix::fixUserSettings();
+      //\frontend\models\Fix::fixUserSettings();
       // \frontend\models\Fix::cleanupReminders();
       // \frontend\models\Fix::cleanupEmails();
       echo 'complete';
