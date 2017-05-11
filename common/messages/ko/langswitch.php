@@ -17,6 +17,7 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Vietnamese' => '베트남 사람',
     'Arabic' => '아라비아 말',
     'Chinese' => '중국말',
     'Dutch' => '네덜란드 사람',

@@ -1336,12 +1336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/newscloud/yii2-language-switcher.git",
-                "reference": "9627e35dc8e6b996e49a0c52b46131c32cc39ec2"
+                "reference": "093fff6c60137e09abb93b52d27b84f07473f491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/newscloud/yii2-language-switcher/zipball/9627e35dc8e6b996e49a0c52b46131c32cc39ec2",
-                "reference": "9627e35dc8e6b996e49a0c52b46131c32cc39ec2",
+                "url": "https://api.github.com/repos/newscloud/yii2-language-switcher/zipball/093fff6c60137e09abb93b52d27b84f07473f491",
+                "reference": "093fff6c60137e09abb93b52d27b84f07473f491",
                 "shasum": ""
             },
             "require": {
@@ -1374,7 +1374,7 @@
             "support": {
                 "source": "https://github.com/newscloud/yii2-language-switcher/tree/master"
             },
-            "time": "2017-05-05 02:07:02"
+            "time": "2017-05-11 00:55:21"
         },
         {
             "name": "mailgun/mailgun-php",
@@ -2399,16 +2399,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.7",
+            "version": "v5.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
+                "reference": "9a06dc570a0367850280eefd3f1dc2da45aef517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
-                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/9a06dc570a0367850280eefd3f1dc2da45aef517",
+                "reference": "9a06dc570a0367850280eefd3f1dc2da45aef517",
                 "shasum": ""
             },
             "require": {
@@ -2449,7 +2449,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-04-20T17:32:18+00:00"
+            "time": "2017-05-01T15:54:03+00:00"
         },
         {
             "name": "symfony/css-selector",

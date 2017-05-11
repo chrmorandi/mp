@@ -17,20 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Vietnamese' => 'Vietnamese',
-    'Arabic' => 'Arabic',
-    'Chinese' => 'Chinese',
-    'Dutch' => 'Dutch',
-    'English' => 'English',
-    'French' => 'French',
-    'German' => 'German',
-    'Hindi' => 'Hindi',
-    'Italian' => 'Italian',
-    'Japanese' => 'Japanese',
-    'Korean' => 'Korean',
-    'Persian' => 'Persian',
-    'Polish' => 'Polish',
-    'Portuguese' => 'Portuguese',
-    'Russian' => 'Russian',
-    'Spanish' => 'Spanish',
+    'Note:' => 'Chú thích:',
+    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'Trình duyệt của bạn không hỗ trợ {validation} . Hãy thử một trình duyệt khác hoặc mới hơn để truy cập các tính năng này.',
+    'file preview and multiple file upload' => 'Xem trước tập tin và tải lên nhiều file',
+    'multiple file upload' => 'Tải lên nhiều tệp tin',
 ];

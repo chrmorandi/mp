@@ -17,6 +17,7 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
+    'Vietnamese' => 'вьетнамский',
     'Arabic' => 'арабский',
     'Chinese' => 'Китайский',
     'Dutch' => 'Голландский',

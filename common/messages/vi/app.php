@@ -17,20 +17,8 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Vietnamese' => 'Vietnamese',
-    'Arabic' => 'Arabic',
-    'Chinese' => 'Chinese',
-    'Dutch' => 'Dutch',
-    'English' => 'English',
-    'French' => 'French',
-    'German' => 'German',
-    'Hindi' => 'Hindi',
-    'Italian' => 'Italian',
-    'Japanese' => 'Japanese',
-    'Korean' => 'Korean',
-    'Persian' => 'Persian',
-    'Polish' => 'Polish',
-    'Portuguese' => 'Portuguese',
-    'Russian' => 'Russian',
-    'Spanish' => 'Spanish',
+    'Created At' => 'Tạo ra',
+    'ID' => 'ID',
+    'Meeting ID' => 'ID cuộc họp',
+    'Updated At' => 'Cập nhật tại',
 ];

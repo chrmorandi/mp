@@ -17,20 +17,5 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Vietnamese' => 'Vietnamese',
-    'Arabic' => 'Arabic',
-    'Chinese' => 'Chinese',
-    'Dutch' => 'Dutch',
-    'English' => 'English',
-    'French' => 'French',
-    'German' => 'German',
-    'Hindi' => 'Hindi',
-    'Italian' => 'Italian',
-    'Japanese' => 'Japanese',
-    'Korean' => 'Korean',
-    'Persian' => 'Persian',
-    'Polish' => 'Polish',
-    'Portuguese' => 'Portuguese',
-    'Russian' => 'Russian',
-    'Spanish' => 'Spanish',
+    'It is recommended you use an upgraded browser to display the {type} control properly.' => 'Bạn nên sử dụng trình duyệt được nâng cấp để hiển thị {type} Kiểm soát đúng.',
 ];
