@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Facebook' => 'Facebook',
+    'Google' => 'Google',
+    'LinkedIn' => 'LinkedIn',
     ' accepted the request: ' => 'Aanvaard het verzoek:',
     ' and ' => 'en',
     ' asked to meet at ' => 'Gevraagd om te ontmoeten bij',

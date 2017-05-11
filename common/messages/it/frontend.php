@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Facebook' => 'Facebook',
+    'Google' => 'Google',
+    'LinkedIn' => 'LinkedIn',
     'A new app to make scheduling as simple as it should be.' => '@@Una nuova app per fare la pianificazione semplice come dovrebbe essere .@@',
     'Building Places' => '@@Costruire Places@@',
     'Coming Soon' => '@@Prossimamente@@',

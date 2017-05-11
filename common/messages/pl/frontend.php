@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Facebook' => 'Facebook',
+    'Google' => 'Google',
+    'LinkedIn' => 'LinkedIn',
     'Finalize the Activity' => '@@Zakończ działanie@@',
     'Finalize the Place' => '@@Zakończ miejsce@@',
     'Finalize the Time' => '@@Ukończenie Czasu@@',

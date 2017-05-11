@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Facebook' => 'Facebook',
+    'Google' => 'Google',
+    'LinkedIn' => 'LinkedIn',
     ' accepted the request: ' => 'Chấp nhận yêu cầu:',
     ' and ' => 'Và',
     ' asked to meet at ' => 'Được yêu cầu gặp nhau tại',
