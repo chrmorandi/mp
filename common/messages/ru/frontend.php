@@ -939,7 +939,7 @@ return [
     'optional' => 'необязательный',
     'or' => 'или',
     'permanently turn off this guide' => 'Навсегда отключить это руководство',
-    'preview' => 'Предварительный просмотр',
+    'preview' => 'бета',
     'privacy' => 'Конфиденциальность',
     'provides the ability to collaborate with participants to suggest and choose the best time and place to meet up. It also allows participants to communicate during planning and after scheduling. Reminders are delivered with maps and contact information for participants.' => 'Предоставляет возможность сотрудничать с участниками, предлагая им выбрать лучшее время и место встречи. Он также позволяет участникам общаться во время планирования и после планирования. Напоминания доставляются с картами и контактной информацией для участников.',
     'rejected ACTIVITY' => 'Отклонено: ACTIVITY',
