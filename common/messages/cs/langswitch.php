@@ -36,5 +36,6 @@ return [
     'Russian' => 'ruština',
     'Spanish' => 'španělština',
     'Swedish' => 'švédský',
+    'Thailand' => 'Thajsko',
     'Vietnamese' => 'vietnamština',
 ];

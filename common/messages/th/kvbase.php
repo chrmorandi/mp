@@ -17,25 +17,5 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Arabic' => 'arabski',
-    'Chinese' => 'chiński',
-    'Czech' => 'Czech',
-    'Dutch' => 'holenderski',
-    'English' => 'język angielski',
-    'French' => 'Francuski',
-    'German' => 'Niemiecki',
-    'Greek' => 'grecki',
-    'Hindi' => 'hinduski',
-    'Indonesian' => 'indonezyjski',
-    'Italian' => 'Włoski',
-    'Japanese' => 'język japoński',
-    'Korean' => 'koreański',
-    'Persian' => 'perski',
-    'Polish' => 'Polskie',
-    'Portuguese' => 'portugalski',
-    'Russian' => 'Rosyjski',
-    'Spanish' => 'język hiszpański',
-    'Swedish' => 'szwedzki',
-    'Thailand' => 'Tajlandia',
-    'Vietnamese' => 'wietnamski',
+    'It is recommended you use an upgraded browser to display the {type} control properly.' => 'ขอแนะนำให้คุณใช้เบราว์เซอร์ที่อัปเกรดเพื่อแสดง {type} ควบคุมได้อย่างถูกต้อง',
 ];

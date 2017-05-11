@@ -17,17 +17,16 @@
 * NOTE: this file must be saved in UTF-8 encoding.
 */
 return [
-    'Czech' => 'Tsjechisch',
-    'Greek' => 'Grieks',
-    'Indonesian' => 'Indonesisch',
-    'Swedish' => 'Zweeds',
     'Arabic' => 'Arabisch',
     'Chinese' => 'Chinese',
+    'Czech' => 'Tsjechisch',
     'Dutch' => 'Nederlands',
     'English' => 'Engels',
     'French' => 'Frans',
     'German' => 'Duits',
+    'Greek' => 'Grieks',
     'Hindi' => 'Hindi',
+    'Indonesian' => 'Indonesisch',
     'Italian' => 'Italiaans',
     'Japanese' => 'Japans',
     'Korean' => 'Koreaans',
@@ -36,5 +35,7 @@ return [
     'Portuguese' => 'Portugees',
     'Russian' => 'Russisch',
     'Spanish' => 'Spaans',
+    'Swedish' => 'Zweeds',
+    'Thailand' => 'Thailand',
     'Vietnamese' => 'Vietnamees',
 ];

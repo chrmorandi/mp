@@ -1336,12 +1336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/newscloud/yii2-language-switcher.git",
-                "reference": "093fff6c60137e09abb93b52d27b84f07473f491"
+                "reference": "6a86518d484ed4238fb69055901c8155e5936a99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/newscloud/yii2-language-switcher/zipball/093fff6c60137e09abb93b52d27b84f07473f491",
-                "reference": "093fff6c60137e09abb93b52d27b84f07473f491",
+                "url": "https://api.github.com/repos/newscloud/yii2-language-switcher/zipball/6a86518d484ed4238fb69055901c8155e5936a99",
+                "reference": "6a86518d484ed4238fb69055901c8155e5936a99",
                 "shasum": ""
             },
             "require": {
@@ -1374,20 +1374,20 @@
             "support": {
                 "source": "https://github.com/newscloud/yii2-language-switcher/tree/master"
             },
-            "time": "2017-05-11 00:55:21"
+            "time": "2017-05-11 19:39:03"
         },
         {
             "name": "mailgun/mailgun-php",
-            "version": "v2.3.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mailgun/mailgun-php.git",
-                "reference": "5df14eb6aab16367ae75b0d1f19868e3c5bddf53"
+                "reference": "089f32d74634fe84e39a4e31b658939a5d17032e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/5df14eb6aab16367ae75b0d1f19868e3c5bddf53",
-                "reference": "5df14eb6aab16367ae75b0d1f19868e3c5bddf53",
+                "url": "https://api.github.com/repos/mailgun/mailgun-php/zipball/089f32d74634fe84e39a4e31b658939a5d17032e",
+                "reference": "089f32d74634fe84e39a4e31b658939a5d17032e",
                 "shasum": ""
             },
             "require": {
@@ -1421,7 +1421,7 @@
                 }
             ],
             "description": "The Mailgun SDK provides methods for all API functions.",
-            "time": "2017-04-14T09:15:08+00:00"
+            "time": "2017-05-11T15:52:04+00:00"
         },
         {
             "name": "mikevanriel/text-to-latex",
