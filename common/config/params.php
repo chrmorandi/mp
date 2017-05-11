@@ -8,5 +8,5 @@ return [
     'maximumTimes'=>12,
     'maximumNotes'=>100,
     'maximumReminders'=>5,
-    'languages'=>['en','es','fr','de','nl','pt','it','pl','hi','ru','ar','fa','ja','ko','vi','zh-CN'],
+    'languages'=>['en','es','fr','de','nl','pt','it','pl','sv','el','cs','id','hi','ru','ar','fa','ja','ko','vi','zh-CN'],
 ];
