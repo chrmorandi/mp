@@ -23,8 +23,8 @@ $this->title = Yii::t('frontend','Impeachment Estimates');
       <p><?= Yii::t('frontend','You predict that Trump will be impeached on:')?></p>
         <h3><?= Yii::$app->formatter->asDatetime($model->estimate,'E MMM d\' at \'h:mm a z') ?></h3>
         <div class="centered">
-        <div class="text-center" style="margin-left:5em;float:left;"><?= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' => ['href' =>$shareUrl,'size'=>'large', 'layout'=>'button_count', 'mobile_iframe'=>'false']]);// ?></div>
-        <div style="padding-left:5px;margin-top:0px;float:left;"><?= TwitterPlugin::widget(['type'=>TwitterPlugin::SHARE, 'settings' => ['href' => $shareUrl,'size'=>'large',]]); ?></div>
+        <div class="text-center share-fb"><?= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' => ['href' =>$shareUrl,'size'=>'large', 'layout'=>'button_count', 'mobile_iframe'=>'false']]);// ?></div>
+        <div class="share-twitter"><?= TwitterPlugin::widget(['type'=>TwitterPlugin::SHARE, 'settings' => ['href' => $shareUrl,'size'=>'large',]]); ?></div>
       </div>
     </div>
   </div>

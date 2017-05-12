@@ -15,3 +15,9 @@ a.ui-state-active {
   filter: grayscale(3);
   margin-left:3px;
 }
+.share-fb {
+  margin-left:5em;float:left;
+}
+.share-twitter {
+  padding-left:5px;margin-top:0px;float:left;
+}
