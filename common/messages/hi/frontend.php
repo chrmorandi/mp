@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) साबित करो कि आप ट्रोल नहीं हैं',
+    '2) Choose the date and time' => '2) तिथि और समय चुनें',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'आकलन',
+    'Month' => 'महीना',
+    'Referral ID' => 'परामर्श पहचान पत्र',
+    'Schedule Your Impeachment Party' => 'अपने महाभियोग पार्टी की अनुसूची करें',
+    'Submit Your Choice' => 'अपनी पसंद सबमिट करें',
+    'am' => 'कर रहा हूँ',
+    'pm' => 'बजे',
     '1. Getting Started' => '@@1. प्रारंभ करना@@',
     '10. Delivering the Meeting Announcement' => '@@10. बैठक की घोषणा देते हुए@@',
     '11. Meeting Commands' => '@@11. बैठक कमांड@@',

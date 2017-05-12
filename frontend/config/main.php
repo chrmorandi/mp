@@ -97,6 +97,7 @@ return [
                 'friend' => 'friend',
                 'reminder' => 'reminder',
                 'ticket' => 'ticket',
+                'impeachment' => 'impeachment',
                 'user-contact' => 'user-contact',
                 'user-profile' => 'user-profile',
                 'user-setting' => 'user-setting',

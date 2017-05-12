@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Udowodnij, że nie jesteś trollem',
+    '2) Choose the date and time' => '2) Wybierz datę i godzinę',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Oszacowanie',
+    'Month' => 'Miesiąc',
+    'Referral ID' => 'Identyfikator przekazania',
+    'Schedule Your Impeachment Party' => 'Zaplanuj swoją imprezę przywódczą',
+    'Submit Your Choice' => 'Wyślij swój wybór',
+    'am' => 'rano',
+    'pm' => 'po południu',
     'Facebook' => '@@Facebook@@',
     'Finalize the Activity' => '@@Zakończ działanie@@',
     'Finalize the Place' => '@@Zakończ miejsce@@',

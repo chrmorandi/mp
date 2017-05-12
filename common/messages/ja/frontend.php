@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1）あなたがトロールでないことを証明する',
+    '2) Choose the date and time' => '2）日付と時刻を選択する',
+    'Daystamp' => 'デイスタンプ',
+    'Estimate' => '見積もり',
+    'Month' => '月',
+    'Referral ID' => '紹介ID',
+    'Schedule Your Impeachment Party' => 'あなたの弾劾党の予定',
+    'Submit Your Choice' => 'あなたの選択を提出する',
+    'am' => '午前',
+    'pm' => '午後',
     '1. Getting Started' => '@@1.はじめに@@',
     '10. Delivering the Meeting Announcement' => '@@10.会議アナウンスの配信@@',
     '11. Meeting Commands' => '@@11.会議コマンド@@',

@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Αποδείξτε ότι δεν είστε συγγραφέας',
+    '2) Choose the date and time' => '2) Επιλέξτε την ημερομηνία και την ώρα',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Εκτίμηση',
+    'Month' => 'Μήνας',
+    'Referral ID' => 'Αναγνωριστικό παραπομπής',
+    'Schedule Your Impeachment Party' => 'Προγραμματίστε το συμβαλλόμενο μέρος σας',
+    'Submit Your Choice' => 'Υποβάλετε την επιλογή σας',
+    'am' => 'είμαι',
+    'pm' => 'μετα μεσημβριας',
     ' accepted the request: ' => 'Αποδέχθηκε το αίτημα:',
     ' and ' => 'και',
     ' asked to meet at ' => 'Ζήτησε να συναντηθεί στο',

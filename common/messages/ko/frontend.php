@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) 당신이 트롤이 아닌 것을 증명하십시오.',
+    '2) Choose the date and time' => '2) 날짜와 시간을 선택하십시오.',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => '견적',
+    'Month' => '달',
+    'Referral ID' => '추천 아이디',
+    'Schedule Your Impeachment Party' => '당신의 탄압 파티 일정 잡기',
+    'Submit Your Choice' => '선택 제출',
+    'am' => '오전',
+    'pm' => '오후',
     '1. Getting Started' => '@@1. 시작하기@@',
     '10. Delivering the Meeting Announcement' => '@@10. 회의 발표 전달@@',
     '11. Meeting Commands' => '@@11. 회의 명령@@',

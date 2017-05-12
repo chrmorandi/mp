@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Prove you\'re not a troll',
+    '2) Choose the date and time' => '2) Choose the date and time',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Estimate',
+    'Month' => 'Month',
+    'Referral ID' => 'Referral ID',
+    'Schedule Your Impeachment Party' => 'Schedule Your Impeachment Party',
+    'Submit Your Choice' => 'Submit Your Choice',
+    'am' => 'am',
+    'pm' => 'pm',
     'Facebook' => '@@Facebook@@',
     'Finalize the Activity' => '@@Finalize the Activity@@',
     'Finalize the Place' => '@@Finalize the Place@@',

@@ -273,12 +273,12 @@ class SiteController extends Controller
             $firstname = $attributes['last-name'];
             $fullname = $firstname.' '.$lastname;
           break;
-          case 'twitter':
+          /*case 'twitter':
             $username = $attributes['screen_name'];
             $fullname = $attributes['name'];
             // to do - fix social helpers
             $email = $serviceId.'@twitter.com';
-          break;
+          break;*/
         }
         // to do - split names into first and last with parser
         // lookup social auth result to see if we know it

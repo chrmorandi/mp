@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) إثبات أنك لست القزم',
+    '2) Choose the date and time' => '2) اختيار التاريخ والوقت',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'تقدير',
+    'Month' => 'شهر',
+    'Referral ID' => 'معرف الإحالة',
+    'Schedule Your Impeachment Party' => 'جدولة حزب الإقالة',
+    'Submit Your Choice' => 'إرسال اختيارك',
+    'am' => 'صباحا',
+    'pm' => 'مساء',
     '1. Getting Started' => '@@1. الشروع في العمل@@',
     '10. Delivering the Meeting Announcement' => '@@10 - تقديم إعلان الاجتماع@@',
     '11. Meeting Commands' => '@@11 - قرارات الاجتماع@@',

@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Bevis att du inte är en troll',
+    '2) Choose the date and time' => '2) Välj datum och tid',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Uppskatta',
+    'Month' => 'Månad',
+    'Referral ID' => 'Hänvisnings ID',
+    'Schedule Your Impeachment Party' => 'Planera din förseelseparti',
+    'Submit Your Choice' => 'Skicka ditt val',
+    'am' => 'är',
+    'pm' => 'e.m',
     ' accepted the request: ' => 'Accepterade begäran:',
     ' and ' => 'och',
     ' asked to meet at ' => 'Bad att träffas vid',

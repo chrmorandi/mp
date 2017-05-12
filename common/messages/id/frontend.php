@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Buktikan bahwa Anda bukan troll',
+    '2) Choose the date and time' => '2) Pilih tanggal dan waktu',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Memperkirakan',
+    'Month' => 'Bulan',
+    'Referral ID' => 'ID rujukan',
+    'Schedule Your Impeachment Party' => 'Jadwalkan Partai Impeachment Anda',
+    'Submit Your Choice' => 'Kirimkan Pilihan Anda',
+    'am' => 'saya',
+    'pm' => 'sore',
     ' accepted the request: ' => 'Menerima permintaan tersebut:',
     ' and ' => 'dan',
     ' asked to meet at ' => 'Diminta untuk bertemu di',

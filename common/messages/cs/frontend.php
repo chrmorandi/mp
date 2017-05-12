@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Dokažte, že nejste trol',
+    '2) Choose the date and time' => '2) Zvolte datum a čas',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Odhad',
+    'Month' => 'Měsíc',
+    'Referral ID' => 'ID odkazu',
+    'Schedule Your Impeachment Party' => 'Naplánujte svoji stranu s podvodem',
+    'Submit Your Choice' => 'Odeslat Váš výběr',
+    'am' => 'dopoledne',
+    'pm' => 'odpoledne',
     ' accepted the request: ' => 'Žádost přijala:',
     ' and ' => 'a',
     ' asked to meet at ' => 'Požádal, aby se setkal',

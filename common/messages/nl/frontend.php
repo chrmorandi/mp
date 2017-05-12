@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Bewijs dat je geen troll bent',
+    '2) Choose the date and time' => '2) Kies de datum en tijd',
+    'Daystamp' => 'DAYSTAMP',
+    'Estimate' => 'Schatting',
+    'Month' => 'Maand',
+    'Referral ID' => 'Verwijzings-ID',
+    'Schedule Your Impeachment Party' => 'Schedule Your Impeachment Party',
+    'Submit Your Choice' => 'Verstuur uw keuze',
+    'am' => 'ben',
+    'pm' => 'p.m',
     'Facebook' => '@@Facebook@@',
     'Google' => '@@Google@@',
     'LinkedIn' => '@@LinkedIn@@',

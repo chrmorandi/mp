@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) พิสูจน์ว่าคุณไม่ใช่คนหมุนรอบ',
+    '2) Choose the date and time' => '2) เลือกวันที่และเวลา',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'ประมาณการ',
+    'Month' => 'เดือน',
+    'Referral ID' => 'รหัสอ้างอิง',
+    'Schedule Your Impeachment Party' => 'นัดหมายการฟ้องร้องของคุณ',
+    'Submit Your Choice' => 'ส่งทางเลือกของคุณ',
+    'am' => 'am',
+    'pm' => 'น',
     ' accepted the request: ' => 'ยอมรับคำขอ:',
     ' and ' => 'และ',
     ' asked to meet at ' => 'ขอให้พบกันที่',

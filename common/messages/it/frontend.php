@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Prova che non sei un troll',
+    '2) Choose the date and time' => '2) Scegli la data e l\'ora',
+    'Daystamp' => 'DAYSTAMP',
+    'Estimate' => 'Stima',
+    'Month' => 'Mese',
+    'Referral ID' => 'ID di referral',
+    'Schedule Your Impeachment Party' => 'Pianifica la tua parte di impegno',
+    'Submit Your Choice' => 'Invia la tua scelta',
+    'am' => 'sono',
+    'pm' => 'pm',
     'A new app to make scheduling as simple as it should be.' => '@@Una nuova app per fare la pianificazione semplice come dovrebbe essere .@@',
     'Building Places' => '@@Costruire Places@@',
     'Coming Soon' => '@@Prossimamente@@',

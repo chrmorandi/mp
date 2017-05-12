@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1）证明你不是巨魔',
+    '2) Choose the date and time' => '2）选择日期和时间',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => '估计',
+    'Month' => '月',
+    'Referral ID' => '推荐ID',
+    'Schedule Your Impeachment Party' => '安排你的弹奏派对',
+    'Submit Your Choice' => '提交你的选择',
+    'am' => '上午',
+    'pm' => '下午',
     '1. Getting Started' => '@@入门@@',
     '10. Delivering the Meeting Announcement' => '@@10.发布会议公告@@',
     '11. Meeting Commands' => '@@会议命令@@',

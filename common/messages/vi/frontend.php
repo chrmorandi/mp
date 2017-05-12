@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Chứng minh bạn không phải là một troll',
+    '2) Choose the date and time' => '2) Chọn ngày giờ',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'Ước tính',
+    'Month' => 'tháng',
+    'Referral ID' => 'Id giới thiệu',
+    'Schedule Your Impeachment Party' => 'Lên kế hoạch tấn công của bạn',
+    'Submit Your Choice' => 'Gửi sự lựa chọn của bạn',
+    'am' => 'là',
+    'pm' => 'PM',
     'Facebook' => '@@Facebook@@',
     'Google' => '@@Google@@',
     'LinkedIn' => '@@LinkedIn@@',

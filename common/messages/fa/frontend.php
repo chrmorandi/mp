@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) ثابت کنید که دایره وار حرکت کردن نیست',
+    '2) Choose the date and time' => '2) تاریخ و زمان را انتخاب کنید',
+    'Daystamp' => 'Daystamp',
+    'Estimate' => 'تخمین زدن',
+    'Month' => 'ماه',
+    'Referral ID' => 'ID ارجاع',
+    'Schedule Your Impeachment Party' => 'برنامه حزب استیضاح شما',
+    'Submit Your Choice' => 'ثبت کردن انتخاب شما',
+    'am' => 'صبح',
+    'pm' => 'ساعت',
     'Facebook' => '@@فیس بوک@@',
     'Finalize the Activity' => '@@نهایی فعالیت@@',
     'Finalize the Place' => '@@نهایی کردن محل@@',

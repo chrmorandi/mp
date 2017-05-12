@@ -18,6 +18,16 @@
 */
 return [
     '' => '',
+    '1) Prove you\'re not a troll' => '1) Probar que no eres un troll',
+    '2) Choose the date and time' => '2) Elija la fecha y la hora',
+    'Daystamp' => 'Horario de días',
+    'Estimate' => 'Estimar',
+    'Month' => 'Mes',
+    'Referral ID' => 'ID de referencia',
+    'Schedule Your Impeachment Party' => 'Programe su partido de impugnación',
+    'Submit Your Choice' => 'Enviar su elección',
+    'am' => 'a.m',
+    'pm' => 'pm',
     '1. Getting Started' => '@@1. Introducción@@',
     '10. Delivering the Meeting Announcement' => '@@10. Entrega del anuncio de la reunión@@',
     '11. Meeting Commands' => '@@11. Comandos de reunión@@',
