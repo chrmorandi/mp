@@ -21,9 +21,10 @@ class ImpeachmentAsset extends AssetBundle
         'css/site.css',
         'css/impeachment.css',
     ];
-    public $autoGenerate =true;
+    //public $autoGenerate =true;
     public $js = [
-
+      'js/jstz.min.js',
+      'js/impeachment.js',
     ];
 
       public $depends = [
@@ -32,9 +33,9 @@ class ImpeachmentAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
     ];
 
-    public function init()
+/*    public function init()
    {
        //$this->js[] = 'jquery.ui.datepicker-' . Yii::$app->language . '.js';
        parent::init();
-   }
+   }*/
 }

@@ -12,7 +12,7 @@ $this->title = Yii::t('frontend','Schedule Your Impeachment Party');
 //$this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="site-login">
+<div class="impeachment-index">
   <div class="row ">
     <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2">
       <h2><?= Html::encode($this->title) ?></h2>
@@ -40,9 +40,12 @@ if (Yii::$app->user->isGuest) {
 <?php
 } else {
 ?>
+<?= $this->render('_timezone_alerts'); ?>
         <?= $this->render('_form', [
             'model' => $model,
             'hoursArray'=>$hoursArray,
         ]);
 } ?>
+<?= Html::hiddenInput('tz_dynamic','',['id'=>'tz_dynamic']); ?>
+<?= Html::hiddenInput('tz_current',$timezone,['id'=>'tz_current']); ?>
 </div>

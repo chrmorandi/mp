@@ -51,7 +51,7 @@ class Impeachment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'estimate', 'month', 'daystamp','year', 'monthyear',  ], 'required'],
+            [['user_id', 'estimate', 'month', 'daystamp','year', 'monthyear' ], 'required'],
             [['user_id', 'referral_id',  'month', 'daystamp', 'year',], 'integer'],
             [['monthyear'], 'string', 'max' => 10],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -91,6 +91,15 @@ class Impeachment extends \yii\db\ActiveRecord
     {
         return new ImpeachmentQuery(get_called_class());
     }
+
+  public static function alreadyGuessed($user_id) {
+    $estimate = Impeachment::find()->where(['user_id'=>$user_id])->one();
+    if (is_null($estimate)) {
+      return false;
+    } else {
+     return true;
+    }
+  }
 
   public static function hoursArray() {
     $hour =5;
