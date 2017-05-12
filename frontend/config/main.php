@@ -85,6 +85,10 @@ return [
                 'place/view/<id:\d+>' => 'place/view',
                 'place/update/<id:\d+>' => 'place/update',
                 'place/<slug>' => 'place/slug',
+                'impeachment' => 'impeachment',
+                'impeachment/index' => 'impeachment/index',
+                'impeachment/result' => 'impeachment/result',
+                'impeachment/<referred_by>' => 'impeachment',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 'daemon/<action>' => 'daemon/<action>', // incl eight char action
@@ -143,6 +147,19 @@ return [
             'account_sid' => $config['twilio_sid'],
             'auth_key' => $config['twilio_token'],
           ],
+    ],
+    'modules' => [
+      'social' => [
+          // the module class
+          'class' => 'kartik\social\Module',
+          'facebook' => [
+              'appId' => $config['oauth_fb_id'],
+              'secret' => $config['oauth_fb_secret'],
+          ],
+          'twitter' => [
+              'screenName' => 'meeting_io'
+          ],
+        ],
     ],
     'params' => $params,
     'defaultRoute' => '/site/index',

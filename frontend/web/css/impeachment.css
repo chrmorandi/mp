@@ -1,0 +1,17 @@
+.control-label, p  {
+  font-size:125%;
+}
+p.normal { font-size:100%;padding-left:1.25em;}
+
+a.ui-state-active {
+  border: 1px solid orange !important;
+  background: orange !important;
+}
+.impeach-width {
+  width:262px;
+}
+#impeachment-image {
+  /*filter: brightness(125%);*/
+  filter: grayscale(3);
+  margin-left:3px;
+}

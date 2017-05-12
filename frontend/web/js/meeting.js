@@ -78,7 +78,6 @@ $(document).ready(function(){
       $('#tz_new').html('<a onclick="setTimezoneInMtg(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
       $('#tz_alert').show();
     }
-
     $('input[type="text"]').on('focus',function(){
       $(this).get(0).selectionStart=0;
       $(this).get(0).selectionEnd=999;
