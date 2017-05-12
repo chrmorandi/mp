@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
             //'dateFormat' => 'yyyy-MM-dd',
             'clientOptions'=>['changeYear'=>true,'changeMonth'=>true,'maxDate'=>'+8y -110d','minDate'=>1],
         ]) ?>
+        
         <select class="combobox input-large form-control impeach-width" id="impeachment-hour" name="Impeachment[hour]">
         <?php
         $cnt=5;
@@ -32,6 +33,7 @@ use yii\widgets\ActiveForm;
           <div class="form-group">
               <?= Html::submitButton(Yii::t('frontend', 'Submit Your Choice'), ['class' => 'btn btn-primary btn-lg impeach-width']) ?>
           </div>
+          <div class="hint-block"><?= Yii::t('frontend','If a friend referred you, they may be able to see your guess, but otherwise it will be displayed anonymously.')?></div>
         <?php ActiveForm::end(); ?>
 
     </div><!-- impeachment-form -->

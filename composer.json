@@ -43,6 +43,8 @@
         "notamedia/yii2-sentry": "*",
         "yiisoft/yii2-apidoc": "~2.0.0",
         "codemix/yii2-localeurls": "^1.4",
+        "yii2mod/yii2-c3-chart": "*",
+        "kartik-v/yii2-social": "dev-master",
         "kmergen/yii2-language-switcher": "dev-master"
             },
     "require-dev": {

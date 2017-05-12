@@ -15,7 +15,8 @@ class m170511_214528_create_impeachment_table extends Migration
       $this->createTable('{{%impeachment}}', [
           'id' => Schema::TYPE_PK,
           'user_id' => Schema::TYPE_BIGINT.' NOT NULL',
-          'referral_id' => Schema::TYPE_BIGINT.' NOT NULL',
+          'referrer_id' => Schema::TYPE_STRING .'(12) NOT NULL',
+          'referred_by' => Schema::TYPE_STRING.'(12) NOT NULL',
           'estimate' => Schema::TYPE_INTEGER.' NOT NULL',
           'month' => Schema::TYPE_SMALLINT.' NOT NULL',
           'year' => Schema::TYPE_SMALLINT.' NOT NULL',

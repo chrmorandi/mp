@@ -42,8 +42,8 @@ class ImpeachmentController extends \yii\web\Controller
       ];
   }
 
-  public function actionIndex()
-  {
+  public function actionIndex($referred_by='')
+  {    
     $model = new Impeachment();
     if (!Yii::$app->user->isGuest) {
       if (Impeachment::alreadyGuessed(Yii::$app->user->getId())) {
@@ -52,17 +52,25 @@ class ImpeachmentController extends \yii\web\Controller
       }
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       $model->user_id = Yii::$app->user->getId();
-      $model->referral_id=0;
+      $model->referrer_id= Yii::$app->security->generateRandomString(12);
+      $model->referred_by='';
+      if ($referred_by<>'') {
+        $refby=Impeachment::find()->where(['referred_by'=>$referred_by])->one();
+        if (!is_null($refby)) {
+          $model->referred_by=$referred_by;
+        }
+      }
     } else {
       // not authenticated == guest
-        Yii::$app->user->setReturnUrl(Url::to(['impeachment/index']));
+        Yii::$app->user->setReturnUrl(Yii::$app->request->url);
         $timezone = 'America/Los_Angeles';
     }
     if ($model->load(Yii::$app->request->post())) {
-      $hour = Yii::$app->request->post()['Impeachment']['hour'];
-      $estimate = strtotime(Yii::$app->request->post()['Impeachment']['estimate']);
-      $model->estimate = $model->daystamp = $estimate;
-      $model->estimate + ($hour*3600);
+
+      $hour = intval(Yii::$app->request->post()['Impeachment']['hour']);
+      $estimate = strtotime(Yii::$app->request->post()['Impeachment']['estimate'].' 00:00:00 '.$timezone);
+      $model->estimate = $model->daystamp = intval($estimate);
+      $model->estimate += ($hour*3600);
       $model->month = date('n',$model->estimate);
       $model->year = date('Y',$model->estimate);
       $model->monthyear = date('n',$model->estimate).'/'.date('Y',$model->estimate);
@@ -71,8 +79,9 @@ class ImpeachmentController extends \yii\web\Controller
         $model->save();
         return $this->redirect(['impeachment/result']);
       } else {
+        //var_dump($model->getErrors());exit;
         // to do set flash
-        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','There was a problem with your planning day.'));
+        Yii::$app->getSession()->setFlash('error', Yii::t('frontend','There was a problem with your estimate.'));
       }
     } else {
       return $this->render('index', [
@@ -86,9 +95,15 @@ class ImpeachmentController extends \yii\web\Controller
     public function actionResult()
     {
       if (Yii::$app->user->isGuest) {
-            return $this->redirect(['impeachment/index']);
-        }
-        return $this->render('result');
+        return $this->redirect(['impeachment/index']);
+      }
+      $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
+      Yii::$app->formatter->timeZone=$timezone;
+      $model = Impeachment::find()
+        ->where(['user_id'=>Yii::$app->user->getId()])
+        ->one();
+      $shareUrl = Yii::$app->params['site']['url'].'impeachment/'.$model->referrer_id;
+      return $this->render('result',['model'=>$model, 'shareUrl'=> $shareUrl]);
     }
 
 }

@@ -10,7 +10,8 @@ use common\models\User;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $referral_id
+ * @property string $referrer_id
+ * @property string $referred_by
  * @property integer $estimate
  * @property integer $month
  * @property integer $daystamp
@@ -52,8 +53,9 @@ class Impeachment extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'estimate', 'month', 'daystamp','year', 'monthyear' ], 'required'],
-            [['user_id', 'referral_id',  'month', 'daystamp', 'year',], 'integer'],
+            [['user_id',  'month', 'daystamp', 'year',], 'integer'],
             [['monthyear'], 'string', 'max' => 10],
+            [['referrer_id', 'referred_by'], 'string', 'max' => 12],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -66,7 +68,8 @@ class Impeachment extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('frontend', 'ID'),
             'user_id' => Yii::t('frontend', 'User ID'),
-            'referral_id' => Yii::t('frontend', 'Referral ID'),
+            'referrer_id' => Yii::t('frontend', 'Referrer ID'),
+            'referred_by' => Yii::t('frontend', 'Referred By'),
             'estimate' => Yii::t('frontend', 'Estimate'),
             'month' => Yii::t('frontend', 'Month'),
             'daystamp' => Yii::t('frontend', 'Daystamp'),
