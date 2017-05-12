@@ -39,7 +39,7 @@ if (Yii::$app->user->isGuest) {
   <div class="row">
     <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
 
-        <?= Html::img('http://localhost:8888/mp/img/impeachment.gif', ['id'=>'impeachment-image']); // https://meetingplanner.io?>
+        <?= Html::img(Yii::$app->params['site']['url'].'/img/impeachment.gif', ['id'=>'impeachment-image']); ?>
 
     </div>
   </div>
