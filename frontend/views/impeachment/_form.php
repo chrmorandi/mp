@@ -10,6 +10,7 @@ use yii\widgets\ActiveForm;
 <div class="row">
   <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
     <div class="impeachment-form">
+      <h4><?= Yii::t('frontend','Choose the date and time'); ?></h4>
         <?php $form = ActiveForm::begin(); ?>
         <?= $form->field($model, 'estimate',['options'=>['id'=>'datepicker']])->label('')->widget(\yii\jui\DatePicker::classname(), [
             //'language' => 'ru',
