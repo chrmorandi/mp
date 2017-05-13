@@ -110,7 +110,7 @@ class ImpeachmentController extends \yii\web\Controller
       $avg = Impeachment::getAverage();
       $monthyearStats = Impeachment::getMonthStats();
       $dayStats = Impeachment::getDayStats();
-      return $this->render('result',['model'=>$model,'avg'=>$avg,'monthyearStats'=>$monthyearStats]);
+      return $this->render('result',['model'=>$model,'avg'=>$avg,'monthyearStats'=>$monthyearStats,'dayStats'=>$dayStats]);
     }
 
 }

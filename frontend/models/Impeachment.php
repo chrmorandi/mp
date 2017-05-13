@@ -114,11 +114,14 @@ class Impeachment extends \yii\db\ActiveRecord
   }
 
   public static function getDayStats() {
-    $dayCount = Impeachment::find()
+    $dcq = Impeachment::find()
       ->select(['daystamp, COUNT(daystamp) AS cnt'])
       ->groupBy(['daystamp'])
       ->createCommand()->queryAll();
-    
+      $dayCount=[];
+      foreach ($dcq as $q) {
+        $dayCount[$q['daystamp']]=$q['cnt'];
+      }
     return $dayCount;
   }
 

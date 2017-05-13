@@ -3,10 +3,7 @@ $columns=[];
 foreach ($monthyearStats as $key => $val) {
   $columns[]=[$key,intval($val)];
 }
- //$columns[]=['apple', 74];
- //$columns[]=['beta', 10];
-
-  $chart =[
+   $chart =[
     'options' => [
             'id' => 'popularity_chart'
     ],
