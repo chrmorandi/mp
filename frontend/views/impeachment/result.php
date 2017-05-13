@@ -12,14 +12,14 @@ ImpeachmentAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
-$this->title = Yii::t('frontend','Impeachment Estimates');
+$this->title = Yii::t('frontend','When Do You Think Trump Will Be Impeached?');
 //$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="impeachment-results">
   <div class="row ">
-    <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2 text-center">
-      <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col-xs-12 col-md-8 col-md-offset-2 text-center">
+      <h1><?= Yii::t('frontend','Impeachment Estimates'); ?></h1>
       <p><?= Yii::t('frontend','You predict that Trump will be impeached on:')?></p>
         <h3><?= Yii::$app->formatter->asDatetime($model->estimate,'E MMM d, Y\' at \'h:mm a z') ?></h3>
         <div class="centered">

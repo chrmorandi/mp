@@ -14,7 +14,7 @@ $this->title = Yii::t('frontend','When Do You Think Trump Will Be Impeached?');
 ?>
 <div class="impeachment-index">
   <div class="row ">
-    <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
       <h2 style="font-size:185%;"><?= Html::encode($this->title) ?></h2>
       <p class="lead"><?= Yii::t('frontend','We\'re asking people and charting everyone\'s guesses.')?> <?= Yii::t('frontend','When Congress finally acts, we\'ll help you plan your celebration.');?></p>
     </div>
@@ -23,12 +23,12 @@ $this->title = Yii::t('frontend','When Do You Think Trump Will Be Impeached?');
 if (Yii::$app->user->isGuest) {
 ?>
   <div class="row">
-    <div class="col-xs-10 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="col-xs-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
       <p><strong><?= Yii::t('frontend','1) Sign up using one of these services:'); ?></strong></p><p class="normal"><?= Yii::t('frontend','It allows you to schedule future meetings and events with us (and it helps keep the trolls out).') ?></p>
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-10 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="col-xs-12  col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
       <?= yii\authclient\widgets\AuthChoice::widget([
            'baseAuthUrl' => ['site/auth','mode'=>'login'],
            'popupMode' => false,
@@ -36,7 +36,7 @@ if (Yii::$app->user->isGuest) {
     </div> <!-- end col-xs-6 -->
   </div> <!-- end row -->
   <div class="row">
-    <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="col-xs-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
       <p><strong><?= Yii::t('frontend','2) Choose your date and time:'); ?></strong></p>
       <div class="img_wrap">
         <?= Html::img(Yii::$app->params['site']['url'].'/img/impeachment.gif', ['id'=>'impeachment-image']); ?>
