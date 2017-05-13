@@ -24,12 +24,11 @@ if (Yii::$app->user->isGuest) {
 ?>
   <div class="row">
     <div class="col-xs-10 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-      <p><strong><?= Yii::t('frontend','1) Sign up using one of these services:'); ?></strong></p><p class="normal"><?= Yii::t('frontend','It will help us keep the trolls out and allows you to schedule future social and business events using our collaborative planning service.') ?></p>
+      <p><strong><?= Yii::t('frontend','1) Sign up using one of these services:'); ?></strong></p><p class="normal"><?= Yii::t('frontend','It allows you to schedule future meetings and events with us (and it helps keep the trolls out).') ?></p>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-10 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-
       <?= yii\authclient\widgets\AuthChoice::widget([
            'baseAuthUrl' => ['site/auth','mode'=>'login'],
            'popupMode' => false,
@@ -38,9 +37,13 @@ if (Yii::$app->user->isGuest) {
   </div> <!-- end row -->
   <div class="row">
     <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-
+      <p><strong><?= Yii::t('frontend','2) Choose your date and time:'); ?></strong></p>
+      <div class="img_wrap">
         <?= Html::img(Yii::$app->params['site']['url'].'/img/impeachment.gif', ['id'=>'impeachment-image']); ?>
-
+        <div class="img_description center-text">
+          <h2><?= Yii::t('frontend','...please sign up above...')?></h2>
+        </div>
+      </div>
     </div>
   </div>
 <?php

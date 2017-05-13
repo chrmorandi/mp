@@ -11,13 +11,13 @@ use yii\widgets\ActiveForm;
   <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
     <div class="impeachment-form">
         <?php $form = ActiveForm::begin(); ?>
-        <?= $form->field($model, 'estimate',['options'=>['id'=>'datepicker']])->label(Yii::t('frontend','Choose the date and time'))->widget(\yii\jui\DatePicker::classname(), [
+        <?= $form->field($model, 'estimate',['options'=>['id'=>'datepicker']])->label('')->widget(\yii\jui\DatePicker::classname(), [
             //'language' => 'ru',
             'inline'=>true,
             //'dateFormat' => 'yyyy-MM-dd',
             'clientOptions'=>['changeYear'=>true,'changeMonth'=>true,'maxDate'=>'+8y -110d','minDate'=>1],
         ]) ?>
-        
+
         <select class="combobox input-large form-control impeach-width" id="impeachment-hour" name="Impeachment[hour]">
         <?php
         $cnt=5;

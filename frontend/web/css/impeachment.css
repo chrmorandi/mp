@@ -1,7 +1,7 @@
 .control-label, p  {
   font-size:125%;
 }
-p.normal { font-size:100%;padding-left:1.25em;}
+p.normal { font-size:100%;padding-left:1.25em;margin-right:100px;}
 
 a.ui-state-active {
   border: 1px solid orange !important;
@@ -12,8 +12,28 @@ a.ui-state-active {
 }
 #impeachment-image {
   /*filter: brightness(125%);*/
-  filter: grayscale(3);
+  filter: grayscale(.9);
   margin-left:3px;
+}
+.img_description {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top:100px;
+  padding-left:20px;
+  width:400px;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+}
+.img_wrap:hover .img_description {
+  visibility: visible;
+  opacity: 1;
 }
 .share-fb {
   margin-left:5em;float:left;

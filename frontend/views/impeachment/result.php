@@ -21,10 +21,10 @@ $this->title = Yii::t('frontend','Impeachment Estimates');
     <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2 text-center">
       <h1><?= Html::encode($this->title) ?></h1>
       <p><?= Yii::t('frontend','You predict that Trump will be impeached on:')?></p>
-        <h3><?= Yii::$app->formatter->asDatetime($model->estimate,'E MMM d\' at \'h:mm a z') ?></h3>
+        <h3><?= Yii::$app->formatter->asDatetime($model->estimate,'E MMM d, Y\' at \'h:mm a z') ?></h3>
         <div class="centered">
-        <div class="text-center share-fb"><?= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' => ['href' =>$shareUrl,'size'=>'large', 'layout'=>'button_count', 'mobile_iframe'=>'false']]);// ?></div>
-        <div class="share-twitter"><?= TwitterPlugin::widget(['type'=>TwitterPlugin::SHARE, 'settings' => ['href' => $shareUrl,'size'=>'large',]]); ?></div>
+        <div class="text-center share-fb"><?= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' => ['size'=>'large', 'layout'=>'button_count', 'mobile_iframe'=>'false']]);// ?></div>
+        <div class="share-twitter"><?= TwitterPlugin::widget(['type'=>TwitterPlugin::SHARE, 'settings' => ['size'=>'large',]]); ?></div>
       </div>
     </div>
   </div>

@@ -43,7 +43,7 @@ class ImpeachmentController extends \yii\web\Controller
   }
 
   public function actionIndex($referred_by='')
-  {    
+  {
     $model = new Impeachment();
     if (!Yii::$app->user->isGuest) {
       if (Impeachment::alreadyGuessed(Yii::$app->user->getId())) {
@@ -77,7 +77,7 @@ class ImpeachmentController extends \yii\web\Controller
       if ($model->validate()) {
         Yii::$app->getSession()->setFlash('success', Yii::t('frontend','We will let you know when it\'s time to plan your party!'));
         $model->save();
-        return $this->redirect(['impeachment/result']);
+        return $this->redirect(['impeachment/result',['referrer_id'=>$model->referrer_id]]);
       } else {
         //var_dump($model->getErrors());exit;
         // to do set flash
@@ -94,16 +94,20 @@ class ImpeachmentController extends \yii\web\Controller
 
     public function actionResult()
     {
-      if (Yii::$app->user->isGuest) {
-        return $this->redirect(['impeachment/index']);
+      if (!is_null( Yii::$app->getRequest()->getQueryParam('referrer_id'))) {
+        $referrer_id =  Yii::$app->getRequest()->getQueryParam('referrer_id');
+      } else {
+        $referrer_id ='';
+      }
+      if (Yii::$app->user->isGuest || (!Impeachment::alreadyGuessed(Yii::$app->user->getId()))) {
+        return $this->redirect(Yii::$app->params['site']['url'].'impeachment/'.$referrer_id);
       }
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       Yii::$app->formatter->timeZone=$timezone;
       $model = Impeachment::find()
         ->where(['user_id'=>Yii::$app->user->getId()])
         ->one();
-      $shareUrl = Yii::$app->params['site']['url'].'impeachment/'.$model->referrer_id;
-      return $this->render('result',['model'=>$model, 'shareUrl'=> $shareUrl]);
+      return $this->render('result',['model'=>$model]);
     }
 
 }
