@@ -108,9 +108,10 @@ class ImpeachmentController extends \yii\web\Controller
         ->where(['user_id'=>Yii::$app->user->getId()])
         ->one();
       $avg = Impeachment::getAverage();
+      $daysUntil = (($avg-time())/(24*3600));
       $monthyearStats = Impeachment::getMonthStats();
       $dayStats = Impeachment::getDayStats();
-      return $this->render('result',['model'=>$model,'avg'=>$avg,'monthyearStats'=>$monthyearStats,'dayStats'=>$dayStats]);
+      return $this->render('result',['model'=>$model,'avg'=>$avg,'daysUntil'=>$daysUntil,'monthyearStats'=>$monthyearStats,'dayStats'=>$dayStats]);
     }
 
 }
