@@ -113,6 +113,28 @@ class Impeachment extends \yii\db\ActiveRecord
     return $average;
   }
 
+  public static function getDayStats() {
+    $dayCount = Impeachment::find()
+      ->select(['daystamp, COUNT(daystamp) AS cnt'])
+      ->groupBy(['daystamp'])
+      ->createCommand()->queryAll();
+    
+    return $dayCount;
+  }
+
+  public static function getMonthStats() {
+    $mcq = Impeachment::find()
+      ->select(['monthyear, COUNT(monthyear) AS cnt'])
+      //->where('approved = 1')
+      ->groupBy(['monthyear'])
+      ->createCommand()->queryAll();
+    $monthCount=[];
+    foreach ($mcq as $q) {
+      $monthCount[$q['monthyear']]=$q['cnt'];
+    }
+    return $monthCount;
+  }
+
   public static function hoursArray() {
     $hour =5;
     while ($hour <24) {

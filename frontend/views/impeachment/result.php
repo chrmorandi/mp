@@ -44,6 +44,9 @@ $this->title = Yii::t('frontend','Impeachment Estimates');
 <div class="row ">
   <div class="col-xs-12 col-md-8 col-md-offset-2 text-center">
     <h3><?= Yii::t('frontend','Estimates by Month');?></h3>
-    <p><?= Yii::t('frontend','...coming soon...')?></p>
+    <p><?= $this->render('_piechart', [
+        'monthyearStats' => $monthyearStats,
+      ]);?>
+      </p>
   </div>
 </div>
