@@ -107,7 +107,8 @@ class ImpeachmentController extends \yii\web\Controller
       $model = Impeachment::find()
         ->where(['user_id'=>Yii::$app->user->getId()])
         ->one();
-      return $this->render('result',['model'=>$model]);
+      $avg = Impeachment::getAverage();
+      return $this->render('result',['model'=>$model,'avg'=>$avg]);
     }
 
 }

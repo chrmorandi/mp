@@ -32,7 +32,7 @@ $this->title = Yii::t('frontend','Impeachment Estimates');
 <div class="row ">
   <div class="col-xs-12 col-md-8 col-md-offset-2 text-center">
     <h3><?= Yii::t('frontend','Average Estimate');?></h3>
-    <p><?= Yii::t('frontend','...coming soon...')?></p>
+    <p><?= Yii::$app->formatter->asDatetime($avg,'E MMM d, Y\' at \'h:mm a z') ?></p>
   </div>
 </div>
 <div class="row ">

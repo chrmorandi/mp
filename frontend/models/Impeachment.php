@@ -4,6 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Query;
+
 use common\models\User;
 /**
  * This is the model class for table "{{%impeachment}}".
@@ -102,6 +104,13 @@ class Impeachment extends \yii\db\ActiveRecord
     } else {
      return true;
     }
+  }
+
+  public static function getAverage() {
+    $query = new Query;
+    $query->from('impeachment');
+    $average = $query->average('estimate');
+    return $average;
   }
 
   public static function hoursArray() {
