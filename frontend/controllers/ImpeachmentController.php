@@ -100,7 +100,7 @@ class ImpeachmentController extends \yii\web\Controller
         $referrer_id ='';
       }
       if (Yii::$app->user->isGuest || (!Impeachment::alreadyGuessed(Yii::$app->user->getId()))) {
-        return $this->redirect(Yii::$app->params['site']['url'].'impeachment/'.$referrer_id);
+        return $this->redirect(Yii::$app->params['site']['url'].'/impeachment/'.$referrer_id);
       }
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       Yii::$app->formatter->timeZone=$timezone;
