@@ -157,7 +157,7 @@ return [
               'secret' => $config['oauth_fb_secret'],
           ],
           'twitter' => [
-              'screenName' => 'meeting_io'
+              'screenName' => 'meetingio'
           ],
         ],
     ],
