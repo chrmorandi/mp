@@ -1,7 +1,6 @@
 <?php
   use yii\helpers\Html;
   use frontend\models\Meeting;
-  use \kartik\switchinput\SwitchInput;
 ?>
 <tr> <!-- panel row -->
   <td class="parent-td-table-list">
@@ -25,43 +24,36 @@
               <td >
                 <?php
                    if ($isOwner) {
+                     // show thumbs for owner
                      foreach ($model->meetingTimeChoices as $mtc) {
                        if ($mtc->user_id == $model->meeting->owner_id) {
-                           if ($mtc->status == $mtc::STATUS_YES)
-                             $value = 1;
-                           else
-                             $value =0;
-                             echo SwitchInput::widget([
-                             'type' => SwitchInput::CHECKBOX,
-                             'name' => 'meeting-time-choice',
-                             'id'=>'mtc-'.$mtc->id,
-                             'value' => $value,
-                             'disabled' => !$isOwner,
-                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','yes'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
-                             ]);
+                          ?>
+                         <div class="thumb-choices btn-group" id="mtc-<?= $mtc->id?>" data-toggle="buttons">
+                            <label class="btn btn-default <?= ($mtc->status == $mtc::STATUS_YES?'active':'')?>">
+                              <input type="radio" name="options"  autocomplete="off"  value="10"><span class="glyphicon glyphicon-thumbs-up" title="<?= Yii::t('frontend','available');?>"></span>
+                            </label>
+                            <label class="btn btn-default <?= ($mtc->status == $mtc::STATUS_NO?'active':'')?>">
+                              <input type="radio" name="options" autocomplete="off"  value="0"><span class="glyphicon glyphicon-thumbs-down" title="<?= Yii::t('frontend','not available');?>"></span>
+                            </label>
+                          </div>
+                          <?php
                        }
                      }
                    } else {
+                     // show thumbs for participants
                      foreach ($model->meetingTimeChoices as $mtc) {
                        if (count($model->meeting->participants)==0) break;
                        if ($mtc->user_id == Yii::$app->user->getId())  {
-                           if ($mtc->status == $mtc::STATUS_YES)
-                             $value = 1;
-                           else if ($mtc->status == $mtc::STATUS_NO)
-                             $value =0;
-                           else if ($mtc->status == $mtc::STATUS_UNKNOWN)
-                             $value =-1;
-                           echo SwitchInput::widget([
-                             'type' => SwitchInput::CHECKBOX,
-                             'name' => 'meeting-time-choice',
-                             'id'=>'mtc-'.$mtc->id,
-                             'tristate'=>true,
-                             'indeterminateValue'=>-1,
-                             'indeterminateToggle'=>false,
-                             'disabled'=>$isOwner,
-                             'value' => $value,
-                             'pluginOptions' => ['size' => 'small','labelWidth'=>1,'handleWidth'=>50,'onText' => '<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'.Yii::t('frontend','yes'),'offText'=>'<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'.Yii::t('frontend','no'),'onColor' => 'success','offColor' => 'danger',],
-                         ]);
+                           ?>
+                           <div class="thumb-choices btn-group" id="mtc-<?= $mtc->id?>" data-toggle="buttons">
+                              <label class="btn btn-default <?= ($mtc->status == $mtc::STATUS_YES?'active':'')?>">
+                                <input type="radio" name="options"  autocomplete="off"  value="10"><span class="glyphicon glyphicon-thumbs-up" title="<?= Yii::t('frontend','available');?>"></span>
+                              </label>
+                              <label class="btn btn-default <?= ($mtc->status == $mtc::STATUS_NO?'active':'')?>">
+                                <input type="radio" name="options" autocomplete="off"  value="0"><span class="glyphicon glyphicon-thumbs-down" title="<?= Yii::t('frontend','not available');?>"></span>
+                              </label>
+                            </div>
+                           <?php
                        }
                      }
                    }

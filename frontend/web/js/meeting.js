@@ -15,6 +15,35 @@ $(document).ready(function(){
   })
 });
 
+// notifier code
+var notifierOkay; // meeting sent already and no page change session flash
+if  ($('#notifierOkay').val() == 'on') {
+  notifierOkay = true;
+} else {
+  notifierOkay = false;
+}
+
+function displayNotifier(mode) {
+  if (notifierOkay) {
+    if (mode == 'time') {
+      $('#notifierTime').show();
+    } else if (mode == 'place') {
+       $('#notifierPlace').show();
+     } else if (mode == 'chooseplace') {
+        $('#notifierChoosePlace').show();
+      } else if (mode == 'choosetime') {
+         $('#notifierChooseTime').show();
+   } else if (mode == 'activity') {
+      $('#notifierPlace').show();
+    } else if (mode == 'chooseactivity') {
+       $('#notifierChooseActivity').show();
+   } else {
+      alert("We\'ll automatically notify the others when you're done making changes.");
+    }
+    notifierOkay=false;
+  }
+}
+
 // automatic timezones
 function setTimezoneInMtg(timezone) {
   // function suffix inMtg to distinguish from meeting_time.js
@@ -28,6 +57,81 @@ function setTimezoneInMtg(timezone) {
      }
   });
 }
+
+// refresh Send and Finalize
+function refreshSend() {
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting/cansend',
+     data: {id: $('#meeting_id').val(), 'viewer_id':$('#viewer').val() },
+     success: function(data) {
+       if (data)
+         $('#actionSend').removeClass("disabled");
+        else
+        $('#actionSend').addClass("disabled");
+       return true;
+     }
+  });
+}
+
+function refreshFinalize() {
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting/canfinalize',
+     data: {id: $('#meeting_id').val(), 'viewer_id': $('#viewer').val()},
+     success: function(data) {
+       if (data)
+         $('#actionFinalize').removeClass("disabled");
+        else
+        $('#actionFinalize').addClass("disabled");
+       return true;
+     }
+  });
+}
+
+// changing meeting-time-choice / availability
+$(document).on("change", '[id^="mtc-"]', function (e) {
+  //console.log(e.currentTarget.id+' '+e.target.value);
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-time-choice/set',
+     data: {id: e.currentTarget.id, 'state': e.target.value},
+     // e.target.value is selected MeetingPlaceChoice model
+     success: function(data) {
+       displayNotifier('time');
+       refreshSend();
+       refreshFinalize();
+       return true;
+     }
+  });
+});
+
+// changing meeting-place-choice / availability
+$(document).on("change", '[id^="mpc-"]', function (e) {
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-place-choice/set',
+     data: {id: e.currentTarget.id, 'state': e.target.value},
+     success: function(data) {
+       displayNotifier('place');
+       refreshSend();
+       refreshFinalize();
+       return true;
+     }
+  });
+});
+
+// changing meeting-activity-choice / availability
+$(document).on("change", '[id^="mac-"]', function (e) {
+  $.ajax({
+     url: $('#url_prefix').val()+'/meeting-activity-choice/set',
+     data: {id: e.currentTarget.id, 'state': e.target.value},
+     success: function(data) {
+       displayNotifier('activity');
+       refreshSend();
+       refreshFinalize();
+       return true;
+     }
+  });
+});
+
+// organizer making choices
 
 // respond to change in meeting_place
 $(document).on("click", '[id^=btn_mp_]', function(event) {
@@ -98,67 +202,7 @@ $(document).on("click", '[id^=btn_ma_]', function(event) {
   });
 });
 
-// notifier code
-  var notifierOkay; // meeting sent already and no page change session flash
-  if  ($('#notifierOkay').val() == 'on') {
-    notifierOkay = true;
-  } else {
-    notifierOkay = false;
-  }
-
-  function displayNotifier(mode) {
-    if (notifierOkay) {
-      if (mode == 'time') {
-        $('#notifierTime').show();
-      } else if (mode == 'place') {
-         $('#notifierPlace').show();
-       } else if (mode == 'chooseplace') {
-          $('#notifierChoosePlace').show();
-        } else if (mode == 'choosetime') {
-           $('#notifierChooseTime').show();
-     } else if (mode == 'activity') {
-        $('#notifierPlace').show();
-      } else if (mode == 'chooseactivity') {
-         $('#notifierChooseActivity').show();
-     } else {
-        alert("We\'ll automatically notify the others when you're done making changes.");
-      }
-      notifierOkay=false;
-    }
-  }
-
-// refresh Send and Finalize
-
-  function refreshSend() {
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting/cansend',
-       data: {id: $('#meeting_id').val(), 'viewer_id':$('#viewer').val() },
-       success: function(data) {
-         if (data)
-           $('#actionSend').removeClass("disabled");
-          else
-          $('#actionSend').addClass("disabled");
-         return true;
-       }
-    });
-  }
-
-  function refreshFinalize() {
-    $.ajax({
-       url: $('#url_prefix').val()+'/meeting/canfinalize',
-       data: {id: $('#meeting_id').val(), 'viewer_id': $('#viewer').val()},
-       success: function(data) {
-         if (data)
-           $('#actionFinalize').removeClass("disabled");
-          else
-          $('#actionFinalize').addClass("disabled");
-         return true;
-       }
-    });
-  }
-
 // meeting places
-
 // switch virtual or in person
 // users can say if a place is an option for them
 $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', function(e, s) {
@@ -202,70 +246,6 @@ $('input[name="meeting-switch-virtual"]').on('switchChange.bootstrapSwitch', fun
      }
   });
 });
-
-// delegated events
-  $(document).on('switchChange.bootstrapSwitch', function(e, s) {
-    // console.log(e.target.value); // true | false
-    if (e.target.id.match("^mpc-") ) {
-      // turn on mpc for user
-      // mpc- prefix is for meeting place choices
-      if (s) {
-        state = 1;
-      } else
-      {
-        state =0;
-      }
-      $.ajax({
-         url: $('#url_prefix').val()+'/meeting-place-choice/set',
-         data: {id: e.target.id, 'state': state},
-         // e.target.value is selected MeetingPlaceChoice model
-         success: function(data) {
-           displayNotifier('place');
-           refreshSend();
-           refreshFinalize();
-           return true;
-         }
-      });
-    } else if (e.target.id.match("^mtc-") ) {
-      if (s) {
-        state = 1;
-      } else
-      {
-        state =0;
-      }
-      // mtc- prefix is for meeting time choices
-      $.ajax({
-         url: $('#url_prefix').val()+'/meeting-time-choice/set',
-         data: {id: e.target.id, 'state': state},
-         // e.target.value is selected MeetingPlaceChoice model
-         success: function(data) {
-           displayNotifier('time');
-           refreshSend();
-           refreshFinalize();
-           return true;
-         }
-      });
-    } else if (e.target.id.match("^mac-") ) {
-      if (s) {
-        state = 1;
-      } else
-      {
-        state =0;
-      }
-      // mac- prefix is for meeting activity choices
-      $.ajax({
-         url: $('#url_prefix').val()+'/meeting-activity-choice/set',
-         data: {id: e.target.id, 'state': state},
-         // e.target.value is selected MeetingActivityChoice model
-         success: function(data) {
-           displayNotifier('activity');
-           refreshSend();
-           refreshFinalize();
-           return true;
-         }
-      });
-    }
-  });
 
 // participant button commands
 
@@ -395,16 +375,6 @@ function addActivity(id) {
           $("#available-activities-msg").removeClass('hidden');
        }
       $("#meeting-activity-list").html(data).removeClass('hidden');
-        $("input[name='meeting-activity-choice']").map(function(){
-          //$(this).bootstrapSwitch();
-          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
-          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());
-          $(this).bootstrapSwitch('onColor','success');
-          $(this).bootstrapSwitch('offColor','danger');
-          $(this).bootstrapSwitch('handleWidth',50);
-          $(this).bootstrapSwitch('labelWidth',1);
-          $(this).bootstrapSwitch('size','small');
-        });
      },
    });
    refreshSend();
@@ -597,26 +567,6 @@ function addTime(id) {
           $("#available-times-msg").removeClass('hidden');
        }
        $("#meeting-time-list").html(data).removeClass('hidden');
-       $("input[name='time-chooser']").map(function(){
-          //$(this).bootstrapSwitch();
-          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-ok"></i>&nbsp;choose');
-          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
-          $(this).bootstrapSwitch('onColor','success');
-          $(this).bootstrapSwitch('offColor','danger');
-          $(this).bootstrapSwitch('handleWidth',70);
-          $(this).bootstrapSwitch('labelWidth',1);
-          $(this).bootstrapSwitch('size','small');
-        });
-        $("input[name='meeting-time-choice']").map(function(){
-          //$(this).bootstrapSwitch();
-          $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
-          $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());
-          $(this).bootstrapSwitch('onColor','success');
-          $(this).bootstrapSwitch('offColor','danger');
-          $(this).bootstrapSwitch('handleWidth',50);
-          $(this).bootstrapSwitch('labelWidth',1);
-          $(this).bootstrapSwitch('size','small');
-        });
      },
    });
    refreshSend();
@@ -713,7 +663,8 @@ function loadActivityChoices(id) {
  });
 }
 
-// meeting place panel
+// *** meeting place panel ***
+
 // show place panel
 function showWherePlaces() {
   if ($('#addPlace').hasClass( "hidden")) {
@@ -845,43 +796,10 @@ function insertPlace(id) {
        $("#available-places-msg").removeClass('hidden');
     }
     $("#placeTable").html(data).removeClass('hidden');
-     $("input[name='place-chooser']").map(function(){
-        //$(this).bootstrapSwitch();
-        $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-ok"></i>&nbsp;choose');
-        $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-remove"></i>');
-        $(this).bootstrapSwitch('onColor','success');
-        $(this).bootstrapSwitch('handleWidth',70);
-        $(this).bootstrapSwitch('labelWidth',1);
-        $(this).bootstrapSwitch('size','small');
-      });
-      $("input[name='meeting-place-choice']").map(function(){
-        //$(this).bootstrapSwitch();
-        $(this).bootstrapSwitch('onText','<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;'+$('#textYes').val());
-        $(this).bootstrapSwitch('offText','<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp;'+$('#textNo').val());
-        $(this).bootstrapSwitch('onColor','success');
-        $(this).bootstrapSwitch('offColor','danger');
-        $(this).bootstrapSwitch('handleWidth',50);
-        $(this).bootstrapSwitch('labelWidth',1);
-        $(this).bootstrapSwitch('size','small');
-      });
    },
  });
  refreshSend();
  refreshFinalize();
-}
-
-// meeting notes
-// add panel
-function showNote() {
-  if ($('#editNote').hasClass( "hidden")) {
-    $('#editNote').removeClass("hidden");
-  }else {
-    $('#editNote').addClass("hidden");
-  }
-};
-
-function cancelNote() {
-  $('#editNote').addClass("hidden");
 }
 
 // meeting subject panel
@@ -907,6 +825,21 @@ function updateWhat(id) {
 $('#showWhat span').click(function() {
   showWhat();
 });
+
+// *** meeting notes ***
+
+// add panel
+function showNote() {
+  if ($('#editNote').hasClass( "hidden")) {
+    $('#editNote').removeClass("hidden");
+  }else {
+    $('#editNote').addClass("hidden");
+  }
+};
+
+function cancelNote() {
+  $('#editNote').addClass("hidden");
+}
 
 function updateNote(id) {
   note = $('#meeting-note').val();
@@ -954,97 +887,98 @@ function clearParticipantMessage(clearParent=false) {
   $('#participantMessageOnlyOne').addClass("hidden");
   $('#participantMessageNoEmail').addClass("hidden");
 }
-  function displayAlert(alert_id,msg_id) {
-    // which alert box i.e. which panel alert
-    switch (alert_id) {
-      case 'noteMessage':
-        // which msg to display
-        switch (msg_id) {
-          case 'noteMessage1':
-          $('#noteMessage1').removeClass('hidden');
-          $('#noteMessage2').addClass('hidden');
-          $('#noteMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
-          break;
-          case 'noteMessage2':
-          $('#noteMessage1').addClass('hidden');
-          $('#noteMessage2').removeClass('hidden'); // no note
-          $('#noteMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
-          break;
-        }
-      break;
-      case 'participantMessage':
-        clearParticipantMessage();
-        // which msg to display
-        switch (msg_id) {
-          case 'participantMessageStatus':
-            $('#participantMessageStatus').removeClass('hidden');
-            $('#participantMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger alert-success');
-          break;
-          case 'participantMessageTell':
-          $('#participantMessageTell').removeClass('hidden');
-          $('#participantMessage').removeClass('hidden').addClass('alert-success').removeClass('alert-info alert-danger');
-          break;
-          case 'participantMessageError':
-          $('#participantMessageError').removeClass("hidden");
-          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
-          break;
-          case 'participantMessageNoEmail':
-          $('#participantMessageNoEmail').removeClass("hidden");
-          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
-          break;
-          case 'participantMessageOnlyOne':
-          $('#participantMessageOnlyOne').removeClass("hidden");
-          $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
-          break;
-        }
-      break;
-      case 'placeMessage':
-        // which msg to display
-        $('#placeMsg1').addClass('hidden');
-        $('#placeMsg2').addClass('hidden');
-        $('#placeMsg3').addClass('hidden');
-        switch (msg_id) {
-          case 'placeMsg1':
-            $('#placeMsg1').removeClass('hidden');
-            $('#placeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
-          break;
-          case 'placeMsg2':
-            $('#placeMsg2').removeClass('hidden');
-            $('#placeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
-          break;
-        }
-      break;
-      case 'timeMessage':
-        // which msg to display
-        $('#timeMsg1').addClass('hidden');
-        $('#timeMsg2').addClass('hidden');
-        //$('#timeMsg3').addClass('hidden');
-        switch (msg_id) {
-          case 'timeMsg1':
-            $('#timeMsg1').removeClass('hidden');
-            $('#timeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
-          break;
-          case 'timeMsg2':
-            $('#timeMsg2').removeClass('hidden');
-            $('#timeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
-          break;
-        }
-      break;
-      case 'activityMessage':
-        // which msg to display
-        $('#activityMsg1').addClass('hidden');
-        $('#activityMsg2').addClass('hidden');
-        $('#activityMsg3').addClass('hidden');
-        switch (msg_id) {
-          case 'activityMsg1':
-            $('#activityMsg1').removeClass('hidden');
-            $('#activityMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
-          break;
-          case 'activityMsg2':
-            $('#activityMsg2').removeClass('hidden');
-            $('#activityMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
-          break;
-        }
-      break;
-    }
+
+function displayAlert(alert_id,msg_id) {
+  // which alert box i.e. which panel alert
+  switch (alert_id) {
+    case 'noteMessage':
+      // which msg to display
+      switch (msg_id) {
+        case 'noteMessage1':
+        $('#noteMessage1').removeClass('hidden');
+        $('#noteMessage2').addClass('hidden');
+        $('#noteMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+        break;
+        case 'noteMessage2':
+        $('#noteMessage1').addClass('hidden');
+        $('#noteMessage2').removeClass('hidden'); // no note
+        $('#noteMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+        break;
+      }
+    break;
+    case 'participantMessage':
+      clearParticipantMessage();
+      // which msg to display
+      switch (msg_id) {
+        case 'participantMessageStatus':
+          $('#participantMessageStatus').removeClass('hidden');
+          $('#participantMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger alert-success');
+        break;
+        case 'participantMessageTell':
+        $('#participantMessageTell').removeClass('hidden');
+        $('#participantMessage').removeClass('hidden').addClass('alert-success').removeClass('alert-info alert-danger');
+        break;
+        case 'participantMessageError':
+        $('#participantMessageError').removeClass("hidden");
+        $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
+        break;
+        case 'participantMessageNoEmail':
+        $('#participantMessageNoEmail').removeClass("hidden");
+        $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
+        break;
+        case 'participantMessageOnlyOne':
+        $('#participantMessageOnlyOne').removeClass("hidden");
+        $('#participantMessage').removeClass("hidden").removeClass('alert-info').addClass('alert-danger alert-success');
+        break;
+      }
+    break;
+    case 'placeMessage':
+      // which msg to display
+      $('#placeMsg1').addClass('hidden');
+      $('#placeMsg2').addClass('hidden');
+      $('#placeMsg3').addClass('hidden');
+      switch (msg_id) {
+        case 'placeMsg1':
+          $('#placeMsg1').removeClass('hidden');
+          $('#placeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+        break;
+        case 'placeMsg2':
+          $('#placeMsg2').removeClass('hidden');
+          $('#placeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+        break;
+      }
+    break;
+    case 'timeMessage':
+      // which msg to display
+      $('#timeMsg1').addClass('hidden');
+      $('#timeMsg2').addClass('hidden');
+      //$('#timeMsg3').addClass('hidden');
+      switch (msg_id) {
+        case 'timeMsg1':
+          $('#timeMsg1').removeClass('hidden');
+          $('#timeMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+        break;
+        case 'timeMsg2':
+          $('#timeMsg2').removeClass('hidden');
+          $('#timeMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+        break;
+      }
+    break;
+    case 'activityMessage':
+      // which msg to display
+      $('#activityMsg1').addClass('hidden');
+      $('#activityMsg2').addClass('hidden');
+      $('#activityMsg3').addClass('hidden');
+      switch (msg_id) {
+        case 'activityMsg1':
+          $('#activityMsg1').removeClass('hidden');
+          $('#activityMessage').removeClass('hidden').addClass('alert-info').removeClass('alert-danger');
+        break;
+        case 'activityMsg2':
+          $('#activityMsg2').removeClass('hidden');
+          $('#activityMessage').removeClass('hidden').removeClass('alert-info').addClass('alert-danger');
+        break;
+      }
+    break;
   }
+}

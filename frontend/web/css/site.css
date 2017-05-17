@@ -170,7 +170,6 @@ table.table-list td.table-switches {
     width: auto;
     float: right;
     display: inline;
-    padding-top: 10px;
   }
 
 #headingNote
@@ -284,6 +283,7 @@ td.parent-td-table-list {
 }
 tr:first-child .parent-td-table-list {
   border-top:none;
+  padding-top:0px !important;
 }
 
 /* centered columns styles */
@@ -421,6 +421,9 @@ color:#a0a0a0;
 @media (min-width: 992px) {
   .container {
       width: 970px !important;
+  }
+  .thumb-choices .btn {
+    width:100px;
   }
 }
 
