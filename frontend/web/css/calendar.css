@@ -193,8 +193,8 @@ a.ui-button:active,
   and (max-device-width: 667px)
   and (-webkit-min-device-pixel-ratio: 2) {
 
-  .ui-icon.ui-dialog-titlebar-close .ui-icon {
-    margin-left: -15px;
-  }
+    .ui-dialog-titlebar-close {
+      margin-left:-5px !important;
+    }
 
 }
