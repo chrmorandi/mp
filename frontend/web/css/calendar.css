@@ -194,7 +194,7 @@ a.ui-button:active,
   and (-webkit-min-device-pixel-ratio: 2) {
 
   .ui-icon.ui-dialog-titlebar-close .ui-icon {
-    margin-left: -5px;
+    margin-left: -15px;
   }
 
 }
