@@ -1,3 +1,34 @@
+$(document).ready(function(){
+    // detect user timezone
+    var tz = jstz.determine(); // Determines the time zone of the browser client
+    var timezone = tz.name(); //e.g. 'Asia/Kolhata'
+    $('#tz_dynamic').val(timezone);
+    // compare to current setting
+    if (timezone != $('#tz_current').val()) {
+      // set the text span alert
+      $('#tz_new').html('<a onclick="setTimezoneInMtg(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
+      $('#tz_alert').show();
+    }
+    $('input[type="text"]').on('focus',function(){
+      $(this).get(0).selectionStart=0;
+      $(this).get(0).selectionEnd=999;
+  })
+});
+
+// automatic timezones
+function setTimezoneInMtg(timezone) {
+  // function suffix inMtg to distinguish from meeting_time.js
+  $.ajax({
+     url: $('#url_prefix').val()+'/user-setting/timezone/',
+     data: {'timezone': timezone},
+     success: function(data) {
+       $('#tz_alert').hide();
+       $('#tz_success').show();
+       return true;
+     }
+  });
+}
+
 // respond to change in meeting_place
 $(document).on("click", '[id^=btn_mp_]', function(event) {
   current_id = $(this).attr('id');
@@ -66,37 +97,6 @@ $(document).on("click", '[id^=btn_ma_]', function(event) {
      }
   });
 });
-
-$(document).ready(function(){
-    // detect user timezone
-    var tz = jstz.determine(); // Determines the time zone of the browser client
-    var timezone = tz.name(); //e.g. 'Asia/Kolhata'
-    $('#tz_dynamic').val(timezone);
-    // compare to current setting
-    if (timezone != $('#tz_current').val()) {
-      // set the text span alert
-      $('#tz_new').html('<a onclick="setTimezoneInMtg(\''+timezone+'\')" href="javascript:void(0);">'+timezone+'</a>');
-      $('#tz_alert').show();
-    }
-    $('input[type="text"]').on('focus',function(){
-      $(this).get(0).selectionStart=0;
-      $(this).get(0).selectionEnd=999;
-  })
-});
-
-  // automatic timezones
-  function setTimezoneInMtg(timezone) {
-    // function suffix inMtg to distinguish from meeting_time.js
-    $.ajax({
-       url: $('#url_prefix').val()+'/user-setting/timezone/',
-       data: {'timezone': timezone},
-       success: function(data) {
-         $('#tz_alert').hide();
-         $('#tz_success').show();
-         return true;
-       }
-    });
-  }
 
 // notifier code
   var notifierOkay; // meeting sent already and no page change session flash
