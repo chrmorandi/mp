@@ -186,3 +186,15 @@ a.ui-button:active,
 .ui-dialog-titlebar-close .ui-icon {
   margin-top:-.3em !important;
 }
+
+/* ----------- mobile displays ----------- */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+  .ui-icon.ui-dialog-titlebar-close .ui-icon {
+    margin-left: -5px;
+  }
+
+}
