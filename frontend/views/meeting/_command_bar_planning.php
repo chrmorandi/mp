@@ -68,7 +68,7 @@ use frontend\models\Participant;
     echo Html::a('<i class="glyphicon glyphicon-send"></i>&nbsp;'.Yii::t('frontend', 'Send Request'),
      ['send', 'id' => $model->id], ['id'=>'actionSend',
      'title'=>Yii::t('frontend','emails the preliminary invitation to participant(s)'),
-     'class' => 'btn btn-primary '.(!$model->isReadyToSend?'disabled':'')]);
+     'class' => 'btn btn-default '.(!$model->isReadyToSend?'disabled':'')]);
     }
   ?>
     </span>
@@ -78,7 +78,7 @@ use frontend\models\Participant;
           echo Html::a('<i class="glyphicon glyphicon-calendar"></i>&nbsp;'.Yii::t('frontend', 'Finalize'),
             ['finalize', 'id' => $model->id], ['id'=>'actionFinalize',
             'title'=>($model->is_activity==Meeting::NOT_ACTIVITY?'finalize the schedule only after time and place are chosen':'finalize the schedule only after activity, time and place are chosen'),
-            'class' => 'btn btn-success '.(!$model->isReadyToFinalize?'disabled':'')]);
+            'class' => 'btn btn-primary '.(!$model->isReadyToFinalize?'disabled':'')]);
         }
          ?>
          </span>

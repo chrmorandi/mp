@@ -23,7 +23,7 @@ use \frontend\models\MeetingPlace;
         if ($mp->status == MeetingPlace::STATUS_REMOVED) continue;
         $btn_color = 'btn-default';
         if ($mp->status == MeetingPlace::STATUS_SELECTED) {
-          $btn_color = 'btn-primary';
+          $btn_color = 'btn-success';
         }
       ?>
       <div class="btn-group btn-meetingplace">

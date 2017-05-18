@@ -24,7 +24,7 @@ use \frontend\models\MeetingTime;
         if ($mt->status == MeetingTime::STATUS_REMOVED) continue;
         $btn_color = 'btn-default';
         if ($mt->status == MeetingTime::STATUS_SELECTED) {
-          $btn_color = 'btn-primary';
+          $btn_color = 'btn-success';
         }
       ?>
       <div class="btn-group btn-meetingtime">

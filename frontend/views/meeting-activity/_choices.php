@@ -24,7 +24,7 @@ use \frontend\models\MeetingActivity;
     if ($ma->status == MeetingActivity::STATUS_REMOVED) continue;
       $btn_color = 'btn-default';
     if ($ma->status == MeetingActivity::STATUS_SELECTED) {
-      $btn_color = 'btn-primary';
+      $btn_color = 'btn-success';
     }
   ?>
   <div class="btn-group btn-meetingactivity">

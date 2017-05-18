@@ -410,6 +410,12 @@ color:#a0a0a0;
   float:right;
 }
 
+.glyphicon-thumbs-up {
+  color:green;
+}
+.glyphicon-thumbs-down {
+  color:red;
+}
 .thumb-choices {
   margin: 0px 0 5px 0;
 }

@@ -136,12 +136,12 @@ $(document).on("change", '[id^="mac-"]', function (e) {
 // respond to change in meeting_place
 $(document).on("click", '[id^=btn_mp_]', function(event) {
   current_id = $(this).attr('id');
-  $(this).addClass("btn-primary");
+  $(this).addClass("btn-success");
   $(this).removeClass("btn-default");
   $('[id^=btn_mp_]').each(function(index) {
     if ($(this).attr('id')!=current_id) {
       $(this).addClass("btn-default");
-      $(this).removeClass("btn-primary");
+      $(this).removeClass("btn-success");
     }
   });
   $.ajax({
@@ -159,12 +159,12 @@ $(document).on("click", '[id^=btn_mp_]', function(event) {
 // respond to change in meeting_time
 $(document).on("click", '[id^=btn_mt_]', function(event) {
   current_id = $(this).attr('id');
-  $(this).addClass("btn-primary");
+  $(this).addClass("btn-success");
   $(this).removeClass("btn-default");
   $('[id^=btn_mt_]').each(function(index) {
     if ($(this).attr('id')!=current_id) {
       $(this).addClass("btn-default");
-      $(this).removeClass("btn-primary");
+      $(this).removeClass("btn-success");
     }
   });
   $.ajax({
@@ -182,12 +182,12 @@ $(document).on("click", '[id^=btn_mt_]', function(event) {
 // respond to change in meeting_activity
 $(document).on("click", '[id^=btn_ma_]', function(event) {
   current_id = $(this).attr('id');
-  $(this).addClass("btn-primary");
+  $(this).addClass("btn-success");
   $(this).removeClass("btn-default");
   $('[id^=btn_ma_]').each(function(index) {
     if ($(this).attr('id')!=current_id) {
       $(this).addClass("btn-default");
-      $(this).removeClass("btn-primary");
+      $(this).removeClass("btn-success");
     }
   });
   $.ajax({
