@@ -4,13 +4,13 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
-$this->title = 'Signup';
+$this->title = 'Register';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
   <div class="row ">
     <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <h2><?= Yii::t('frontend','Signup') ?></h2>
+      <h2><?= Yii::t('frontend','Register') ?></h2>
       <p><?= Yii::t('frontend','It\'s easiest to join using one of these services:'); ?></p>
     </div>
   </div>
@@ -35,7 +35,7 @@ $this->title = 'Signup';
                       // configure additional widget properties here
                   ])->label(Yii::t('frontend','Captcha')) ?>
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('frontend','Signup now'), ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton(Yii::t('frontend','Submit'), ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
     </div>

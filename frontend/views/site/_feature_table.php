@@ -40,7 +40,7 @@ $this->title = Yii::$app->params['site']['title'];
                   <tr>
                       <td></td>
                       <td class="action-header">
-                              <?= Html::a(Yii::t('frontend','Sign Up'),['site/signup'],['class'=>'btn btn-info']) ?>
+                              <?= Html::a(Yii::t('frontend','Register'),['site/signup'],['class'=>'btn btn-info']) ?>
                       </td>
                       <td class="action-header">
                           <!--<a class="btn btn-info">
@@ -132,7 +132,7 @@ $this->title = Yii::$app->params['site']['title'];
                       <td></td>
                       <td></td>
                       <td><span class="icon-yes glyphicon glyphicon-ok-circle"></span></td>
-                  </tr>                  
+                  </tr>
               </tbody></table>
           </div>
       </div>

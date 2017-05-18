@@ -58,7 +58,7 @@ $this->title = Yii::t('frontend',Yii::$app->params['site']['title']);
    <div class="row  ">
      <div class="col-md-12 text-center">
        <p></p>
-       <?= Html::a(Yii::t('frontend','Sign Up Now'),['site/signup'],['class'=>'btn btn-lg btn-success']); ?>
+       <?= Html::a(Yii::t('frontend','Register'),['site/signup'],['class'=>'btn btn-lg btn-success']); ?>
        <?= Html::a(Yii::t('frontend','Questions?'),['ticket/create'],['class'=>'btn btn-lg btn-primary']); ?>
      </div>
    </div>
