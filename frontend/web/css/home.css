@@ -50,6 +50,16 @@ ul.auth-clients {
   margin-bottom:0;
 }
 
+.firstpanel {
+  padding-top:100px;
+}
+.firstpanel h1 {
+  color:white;
+}
+.howitworks {
+  padding:10% 20%;
+}
+
 @media only screen
 and (max-width: 992px)
 and (-webkit-min-device-pixel-ratio: 2) {

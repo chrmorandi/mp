@@ -40,7 +40,7 @@ $this->title = Yii::$app->params['site']['title'];
                   Or, <?= HTML::a(Yii::t('frontend','sign up using your email address'),['site/signup']); ?>
                 </div>
           </div>
-
       </div>
   </div>
 </div>
+<?= $this->render('newworks') ?>

@@ -112,5 +112,5 @@ use common\components\MiscHelpers;
         </div>
 </div> <!-- calendarContainer -->
 </div> <!-- end container -->
-<?= Html::hiddenInput('buttonSave',Yii::t('frontend','Save Times'),['id'=>'buttonSave']); ?>
+<?= Html::hiddenInput('buttonSave',Yii::t('frontend','Save times'),['id'=>'buttonSave']); ?>
 <?= Html::hiddenInput('buttonCancel',Yii::t('frontend','Cancel'),['id'=>'buttonCancel']); ?>

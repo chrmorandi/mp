@@ -7,7 +7,7 @@ use \frontend\models\MeetingTime;
 <div class="panel-body selection-panel">
   <div class="row">
     <div class="col-xs-12" >
-      <h5 ><?= Yii::t('frontend','Decide the Date and Time for your {mtg_singular}',['mtg_singular'=>Yii::t('frontend',Yii::$app->params['site']['mtg_singular'])]) ?></h5>
+      <h5 ><?= Yii::t('frontend','Decide the date and time for your {mtg_singular}',['mtg_singular'=>Yii::t('frontend',Yii::$app->params['site']['mtg_singular'])]) ?></h5>
       <p class="hint-text">
             <?= Yii::t('frontend','As an organizer, you\'re allowed to make the final choice') ?>
       </p>

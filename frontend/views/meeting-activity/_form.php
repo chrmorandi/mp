@@ -32,7 +32,7 @@ echo $form->field($model, 'activity')->label(Yii::t('frontend','Suggest an activ
       <div class="col-xs-12 col-md-12 col-lg-12">
      <div class="form-group">
        <span class="button-pad">
-         <?= Html::a(Yii::t('frontend','Add Meeting Activity'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addActivity('.$model->meeting_id.');'])  ?>
+         <?= Html::a(Yii::t('frontend','Add an activity'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addActivity('.$model->meeting_id.');'])  ?>
        </span><span class="button-pad">
          <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelActivity();'])  ?>
       </span>

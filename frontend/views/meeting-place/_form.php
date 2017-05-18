@@ -58,7 +58,7 @@ use \kartik\typeahead\Typeahead;
       <div class="col-xs-12 col-lg-6">
         <div class="form-group">
           <span class="button-pad">
-            <?= Html::a(Yii::t('frontend','Add Meeting Place'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addPlace('.$model->meeting_id.');'])  ?>
+            <?= Html::a(Yii::t('frontend','Add a place'), 'javascript:void(0);', ['class' => 'btn btn-success','onclick'=>'addPlace('.$model->meeting_id.');'])  ?>
           </span><span class="button-pad">
             <?= Html::a(Yii::t('frontend','Cancel'), 'javascript:void(0);', ['class' => 'btn btn-danger','onclick'=>'cancelPlace();'])  ?>
          </span>
