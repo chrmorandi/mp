@@ -25,6 +25,7 @@ use frontend\models\Meeting;
           <tr>
               <td >
                 <?php
+                if ($activityCount>1) {
                    if ($isOwner) {
                      foreach ($model->meetingActivityChoices as $mac) {
                        if ($mac->user_id == $model->meeting->owner_id) {
@@ -57,6 +58,7 @@ use frontend\models\Meeting;
                        }
                      }
                    }
+                 }
                 ?>
               </td>
             </tr>

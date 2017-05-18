@@ -982,3 +982,12 @@ function displayAlert(alert_id,msg_id) {
     break;
   }
 }
+
+function showPossible(id) {
+  if ($("#"+id).hasClass('hidden')) {
+    $("#"+id).removeClass('hidden');
+  } else {
+      $("#"+id).addClass('hidden');
+  }
+
+}

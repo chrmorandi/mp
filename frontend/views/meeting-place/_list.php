@@ -26,6 +26,7 @@ use yii\helpers\Url;
               <td>
                 <?php
                 // show meeting owner in first column
+                if ($placeCount>1) {
                    if ($isOwner) {
                      foreach ($model->meetingPlaceChoices as $mpc) {
                        if ($mpc->user_id == $model->meeting->owner_id) {
@@ -58,6 +59,7 @@ use yii\helpers\Url;
                        }
                    }
                  }
+               }
                 ?>
               </td>
               </tr>

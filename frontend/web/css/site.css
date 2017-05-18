@@ -272,6 +272,7 @@ table.table-list td.table-switches {
   border-bottom: 1px solid #ddd;
   padding-bottom:5px;
 }
+
 #notifierTime,#notifierChooseTime,#notifierPlace,#notifierChoosePlace,#notifierActivity,#notifierChooseActivity {
   display:none;
 }
@@ -407,6 +408,10 @@ color:#a0a0a0;
 }
 #invitation-url {
   float:right;
+}
+
+.thumb-choices {
+  margin: 0px 0 5px 0;
 }
 /* iphone 5 and small as */
 @media only screen

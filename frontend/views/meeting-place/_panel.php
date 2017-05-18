@@ -121,12 +121,12 @@ use \common\components\MiscHelpers;
            ?>
       <?php }?>
       </div> <!-- end where choices -->
-    <div id="possible-places" class="panel-body <?= ($placeProvider->count>0?'':'hidden') ?>" >
-          <div class="row">
-            <div class="col-xs-12" >
-              <h5 id="available-places-msg" class="<?= ($placeProvider->count>1?'':'hidden') ?>"><?= Yii::t('frontend','Show Others Which Places You Prefer') ?></h5>
-            </div>
-          </div>
+    <div id="possible-places" class="panel-body <?= (($placeProvider->count==0 || $model->isOrganizer() )?'hidden':'') ?>" >
+      <div class="row">
+        <div class="col-xs-12" >
+            <h5 id="available-places-msg" class="<?= ($placeProvider->count>1?'':'hidden') ?>"><?= Yii::t('frontend','Show Others Which Places You Prefer') ?></h5>
+        </div>
+      </div>
       <table class="table" id="placeTable" class="hidden">
       <?php
        if ($placeProvider->count>0):

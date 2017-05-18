@@ -34,6 +34,15 @@ use \frontend\models\MeetingPlace;
       <?php
         }
          ?>
+         <?php
+          if ($model->status > $model::STATUS_PLANNING && $model->isOrganizer()) {
+          ?>
+      <div class="reviewAvailability">
+        <a href="javascript::return false;" onclick="showPossible('possible-places');"><?= Yii::t('frontend','review shared preferences');?></a>
+      </div>
+      <?php
+    }
+    ?>
     </div>
   </div> <!-- end row -->
 </div> <!-- end panel -->

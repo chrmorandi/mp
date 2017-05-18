@@ -62,7 +62,7 @@ use \kartik\switchinput\SwitchInput;
            ?>
       <?php }?>
     </div> <!-- end when-choices-->
-    <div id="possible-times" class="panel-body <?= ($timeProvider->count>0?'':'hidden') ?>">
+    <div id="possible-times" class="panel-body <?= ($timeProvider->count==0 || $model->isOrganizer() ?'hidden':'') ?>">
           <div class="row">
             <div class="col-xs-12" >
               <h5 id="available-times-msg" class="<?= ($timeProvider->count>1?'':'hidden') ?>"><?= Yii::t('frontend','Show Others When You\'re Available') ?></h5>

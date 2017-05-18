@@ -35,6 +35,15 @@ use \frontend\models\MeetingTime;
       <?php
       }
        ?>
+       <?php
+        if ($model->status > $model::STATUS_PLANNING && $model->isOrganizer()) {
+        ?>
+        <div class="reviewAvailability">
+          <a href="javascript::return false;" onclick="showPossible('possible-times');"><?= Yii::t('frontend','review shared availability');?></a>
+        </div>
+        <?php
+        }
+        ?>
     </div>
   </div>
 </div>

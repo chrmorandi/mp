@@ -60,7 +60,7 @@ use \kartik\switchinput\SwitchInput;
            ?>
       <?php }?>
       </div>
-      <div id="possible-activities" class="panel-body <?= ($activityProvider->count>0?'':'hidden') ?>" >
+      <div id="possible-activities" class="panel-body <?= ($activityProvider->count==0 || $model->isOrganizer() ?'hidden':'') ?>" >
             <div class="row">
               <div class="col-xs-12" >
                 <h5 id="available-activities-msg" class="<?= ($activityProvider->count>1?'':'hidden') ?>"><?= Yii::t('frontend','Which Activities Do You Prefer?') ?></h5>

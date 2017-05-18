@@ -34,7 +34,15 @@ use \frontend\models\MeetingActivity;
   </div>
 <?php
   }
-   ?>
+   ?><?php
+    if ($model->status > $model::STATUS_PLANNING && $model->isOrganizer()) {
+    ?>
+<div class="reviewAvailability">
+  <a href="javascript::return false;" onclick="showPossible('possible-activities');"><?= Yii::t('frontend','review shared preferences');?></a>
+</div>
+<?php
+}
+?>
     </div>
   </div>
 </div> <!-- end panel -->
