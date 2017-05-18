@@ -43,4 +43,4 @@ $this->title = Yii::$app->params['site']['title'];
       </div>
   </div>
 </div>
-<?= $this->render('newworks') ?>
+<?php //= $this->render('newworks') ?>
