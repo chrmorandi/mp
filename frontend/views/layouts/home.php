@@ -40,7 +40,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
             Yii::$app->params['site']['mtg'] = $meetingLabel = Yii::t('frontend', 'Meetups');
           }
               NavBar::begin([
-                'brandLabel' =>  $siteTitle.'&nbsp;<span class="badge">'.Yii::t('frontend','preview').'</span>', //
+                'brandLabel' =>  $siteTitle, // '&nbsp;<span class="badge">'.Yii::t('frontend','preview').'</span>',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => Yii::$app->params['site']['navbar'].' navbar-fixed-top',

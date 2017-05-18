@@ -11,24 +11,24 @@ $this->title = Yii::$app->params['site']['title'];
   <div class="row home-top">
       <div class="col-md-6 col-md-offset-1">
         <div class="jumbotron">
-            <h1><?= Yii::t('frontend','Simpler Scheduling'); ?></h1>
-                <p class="lead"><?= Yii::t('frontend','Choose times and places together. Make planning easy.'); ?></p>
+            <h1><?= Yii::t('frontend','Simple Scheduling'); ?></h1>
+                <p class="lead"><?= Yii::t('frontend','Choose times and places without all the emails.'); ?></p>
                 <div class="centered">
-                  <p><a class="btn btn-lg btn-success" href="features"><?= Yii::t('frontend','Learn more') ?></a></p>
+                  <p><?= Html::a(Yii::t('frontend','Get Started'),['site/signup'], ['class' => 'btn btn-lg btn-success','title'=>Yii::t('frontend','schedule your first meeting')]); ?></p>
                 </div>
           </div> <!-- end jumbo -->
       </div>
       <div class="col-md-3 ">
           <div class="panel panel-default">
-              <div class="panel-heading">
-                <strong><?php echo Yii::t('frontend','Schedule Your First Meeting'); ?></strong>
+              <div class="panel-heading" style="font-size:1.33em;">
+                <strong><?php echo Yii::t('frontend','Schedule a meeting'); ?></strong>
               </div>
               <div class="panel-body panel-auth-clients">
                   <?php $authAuthChoice = AuthChoice::begin([
                     'baseAuthUrl' => ['site/auth','mode'=>'signup'],
                     'popupMode' => false,
                 ]); ?>
-                <?= Yii::t('frontend','Connect with the following services:'); ?><br /><br />
+                <?= Yii::t('frontend','Start instantly with any of these services:'); ?><br /><br />
                 <ul class="auth-clients" >
                 <?php foreach ($authAuthChoice->getClients() as $client): ?>
                     <li class="auth-client"><?php $authAuthChoice->clientLink($client) ?></li>
@@ -40,14 +40,7 @@ $this->title = Yii::$app->params['site']['title'];
                   Or, <?= HTML::a(Yii::t('frontend','sign up using your email address'),['site/signup']); ?>
                 </div>
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <strong><?php echo Yii::t('frontend','Wait for the Official Launch'); ?></strong>
-            </div>
-            <div class="panel-body">
-              <?= $this->render('launch');?>
-            </div>
-          </div>
+
       </div>
   </div>
 </div>

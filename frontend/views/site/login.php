@@ -5,18 +5,18 @@ use yii\authclient\widgets\AuthChoice;
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
-$this->title = Yii::t('frontend','Login');
+$this->title = Yii::t('frontend','Login to your account');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
   <div class="row ">
-    <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
+    <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 col-lg-6 col-lg-offset-3 text-center">
       <h2><?= Html::encode($this->title) ?></h2>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-10 col-xs-offset-2 col-md-4 col-md-offset-4">
-      <p><?= Yii::t('frontend','It\'s easiest using any of the following services:'); ?></p>
+      <p><?= Yii::t('frontend','It\'s fastest using these services:'); ?></p>
       <?= yii\authclient\widgets\AuthChoice::widget([
            'baseAuthUrl' => ['site/auth','mode'=>'login'],
            'popupMode' => false,
@@ -34,7 +34,7 @@ $this->title = Yii::t('frontend','Login');
                   <?= Html::a(Yii::t('frontend','Don\'t have a password or wish to change yours?'), ['site/request-password-reset']) ?>
               </div>
               <div class="form-group">
-                  <?= Html::submitButton(Yii::t('frontend','Login Now'), ['class' => 'btn btn-lg btn-primary', 'name' => 'login-button']) ?>
+                  <?= Html::submitButton(Yii::t('frontend','Login'), ['class' => 'btn btn-lg btn-primary', 'name' => 'login-button']) ?>
               </div>
           <?php ActiveForm::end(); ?>
         </div> <!-- end col-lg-5 -->
