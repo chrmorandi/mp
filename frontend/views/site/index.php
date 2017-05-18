@@ -23,7 +23,7 @@ $this->title = Yii::$app->params['site']['title'];
               <div class="panel-heading" style="font-size:1.33em;">
                 <strong><?php echo Yii::t('frontend','Schedule a meeting'); ?></strong>
               </div>
-              <div class="panel-body panel-auth-clients">
+              <div class="panel-body panel-auth-clients centered">
                   <?php $authAuthChoice = AuthChoice::begin([
                     'baseAuthUrl' => ['site/auth','mode'=>'signup'],
                     'popupMode' => false,
