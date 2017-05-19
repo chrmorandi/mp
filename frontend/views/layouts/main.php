@@ -144,7 +144,7 @@ AppAsset::register($this);
             ]);?>
           </div>
         <div class="pull-right">
-        <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
+        <?= Html::a(Html::img(Url::to('/img/social_twitter_sm.gif'), ['class'=>'bird']).'@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
         <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io'))); ?>
         <?php
         if (!Yii::$app->user->isGuest) {
