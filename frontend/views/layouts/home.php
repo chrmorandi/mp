@@ -151,8 +151,8 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
               echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
             ?>
         <p class="pull-right">
-        <?= Html::a(Html::img(Url::to('/img/social_twitter_sm.gif'), ['class'=>'bird']).'@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
-        <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io'))); ?>
+        <?= Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io')); ?>
+        <?= Html::tag('span',' . '.Html::a(Html::img(Url::to('/img/social_twitter_sm.gif'), ['class'=>'bird']),'https://twitter.com/intent/user?screen_name=meetingio')) ?>
         <?php
         if (!Yii::$app->user->isGuest) {
           echo Html::tag('span',' . '.Html::a(Yii::t('frontend','features'),Url::to(['/features'])),['class'=>'itemHide']);

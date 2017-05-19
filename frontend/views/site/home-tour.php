@@ -19,8 +19,8 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6">
       <div class="row1-right pull-left" >
-        <h3><?=Yii::t('frontend','We deliver the invitations');?></h3>
-        <p><?=Yii::t('frontend','Whether you are meeting with one, several or many people, {site-title} make it easy. You can also share the invitation link via email or post on Facebook.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
+        <h3><?=Yii::t('frontend','We\'ll email your invitations');?></h3>
+        <p><?=Yii::t('frontend','You can also share the invitation link via email or post on Facebook. Whether you are meeting with one, several or many people, {site-title} makes it easy. ',['site-title'=>Yii::$app->params['site']['title']]);?></p>
       </div>
     </div>
   </div>
@@ -33,8 +33,8 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 hiw-text-first">
       <div class="row2-left" >
-        <h3><?=Yii::t('frontend','Suggest dates and times');?></h3>
-        <p><?=Yii::t('frontend','No more emails about which times will work best. Suggest one or more that work for your schedule in seconds and we\'ll ask participants about their availability.');?></p>
+        <h3><?=Yii::t('frontend','Easily suggest times');?></h3>
+        <p><?=Yii::t('frontend','No more emails about which times will work best. Suggest one or more times that work for your schedule in seconds and we\'ll ask participants about their availability.');?></p>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
       <div class="row3-right pull-left" >
-        <h3><?=Yii::t('frontend','Suggest places');?></h3>
+        <h3><?=Yii::t('frontend','Easily suggest places');?></h3>
         <p><?=Yii::t('frontend','No more emails about which places might work. Suggest one or more via Google Places and we\'ll ask participants which they prefer. ');?></p>
       </div>
     </div>
@@ -62,7 +62,7 @@ use yii\helpers\Url;
     <div class="col-xs-12 col-md-6 col-md-pull-6 col-lg-6 col-lg-pull-6  hiw-text-first">
       <div class="row4-left" >
         <h3><?=Yii::t('frontend','We check availability');?></h3>
-        <p><?=Yii::t('frontend','{site-title} will invite participants to share their availability and preferences time and place options so you don\'t have to.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
+        <p><?=Yii::t('frontend','{site-title} will invite participants to share their availability and preferences for times and places so you don\'t have to.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
       </div>
     </div>
   </div>
@@ -75,8 +75,8 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6">
       <div class="row5-right pull-left" >
-        <h3><?=Yii::t('frontend','Easily choose time and place');?></h3>
-        <p><?=Yii::t('frontend','When you\'re ready, finalize the time and location in seconds. You can also allow invitees to make the choices or designate additional organizers.');?></p>
+        <h3><?=Yii::t('frontend','We publish the schedule');?></h3>
+        <p><?=Yii::t('frontend','When you\'re ready, finalize the time and location and we\'ll email details to everyone. You can also allow participants or designate additional organizers to make the final decisions.');?></p>
       </div>
     </div>
   </div>
@@ -89,7 +89,7 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 col-lg-6 col-lg-pull-6  hiw-text-first">
       <div class="row6-left" >
-        <h3><?=Yii::t('frontend','Automatically added to your calendar');?></h3>
+        <h3><?=Yii::t('frontend','Automatically add to your calendar');?></h3>
         <p><?=Yii::t('frontend','Once you\'ve finalized the schedule, it\'s easy to add the event to your calendar, complete with links and a map.');?></p>
       </div>
     </div>
