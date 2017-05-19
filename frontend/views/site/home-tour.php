@@ -14,7 +14,7 @@ use yii\helpers\Url;
   <div class="row">
     <div class="col-xs-12 col-md-6">
       <div class="row1-left" >
-        <?= Html::img(Url::to('/mp/img/home/people.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/people.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6">
@@ -28,7 +28,7 @@ use yii\helpers\Url;
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-push-6">
       <div class="row2-right pull-left" >
-        <?= Html::img(Url::to('/mp/img/home/calendar.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/calendar.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 hiw-text-first">
@@ -42,7 +42,7 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-lg-6 ">
       <div class="row3-left " >
-        <?= Html::img(Url::to('/mp/img/home/place.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/place.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
@@ -56,7 +56,7 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-md-push-6 col-lg-6 col-lg-push-6 ">
       <div class="row4-right pull-left" >
-        <?= Html::img(Url::to('/mp/img/home/availability.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/availability.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 col-lg-6 col-lg-pull-6  hiw-text-first">
@@ -70,7 +70,7 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-lg-6 ">
       <div class="row5-left " >
-        <?= Html::img(Url::to('/mp/img/home/choose.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/choose.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6">
@@ -84,7 +84,7 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-md-push-6 col-lg-6 col-lg-push-6 ">
       <div class="row6-right pull-left" >
-        <?= Html::img(Url::to('/mp/img/home/exportcal.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/exportcal.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 col-lg-6 col-lg-pull-6  hiw-text-first">
@@ -98,7 +98,7 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-lg-6 ">
       <div class="row7-left " >
-        <?= Html::img(Url::to('/mp/img/home/reminder.gif'), ['class'=>'img-responsive centered']) ?>
+        <?= Html::img(Url::to('/img/home/reminder.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
