@@ -50,14 +50,23 @@ ul.auth-clients {
   margin-bottom:0;
 }
 
-.firstpanel {
-  padding-top:100px;
+.howitworks .row {
+  padding:25px 25px;
 }
+
 .firstpanel h1 {
-  color:white;
+  font-family: sans-serif;
 }
-.howitworks {
-  padding:10% 20%;
+.howitworks p {
+  color: #717f86;
+}
+.hiw-text-first, .hiw-text-second {
+  display:inline-block;
+  vertical-align: middle;
+  width:500px;
+}
+img.hiw-visual-first,img.hiw-visual-second {
+  width:600px;
 }
 
 @media only screen
@@ -65,6 +74,9 @@ and (max-width: 992px)
 and (-webkit-min-device-pixel-ratio: 2) {
   .jumbotron p.lead {
     font-size: 28px;
+  }
+  .hiw-visual-first,.hiw-visual-second img {
+    padding:0 10% 0 10%;
   }
 }
 @media only screen
@@ -86,6 +98,14 @@ and (-webkit-min-device-pixel-ratio: 2) {
   .panel-auth-clients {
     padding: 25px 15px;
   }
+  .firstpanel {
+    margin-top:300px;
+  }
+  .hiw-visual-first,.hiw-visual-second img {
+    padding:0 5% 0 5%;
+
+  }
+
 }
 @media only screen
 and (min-width: 1028px)
@@ -104,11 +124,44 @@ and (-webkit-min-device-pixel-ratio: 2) {
   .panel-auth-clients {
     padding: 25px 15px;
   }
+  .firstpanel {
+    margin-top:300px;
+  }
+
 }
 @media only screen
 and (min-width: 1200px)
 and (-webkit-min-device-pixel-ratio: 2) {
+  .firstpanel {
+    margin-top:300px;
+  }
+
   li.auth-client {
     padding-right:10px !important;
   }
+}
+
+@media only screen
+and (min-width: 920px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  .hiw-visual-first {
+    float:left;
+    padding-left:33%;
+  }
+  .hiw-visual-second {
+    float:right;
+    padding-right:33%;
+  }
+
+  .hiw-text-first {
+    padding-left:15%;
+    float:left;
+
+  }
+
+.hiw-text-second {
+    padding-right:15%;
+
+  }
+
 }
