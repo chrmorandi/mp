@@ -15,7 +15,7 @@ $this->title = Yii::t('frontend','Login to your account');
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-10 col-xs-offset-2 col-md-4 col-md-offset-4">
+    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4 col-lg-6 col-lg-offset-3 text-center">
       <p><?= Yii::t('frontend','It\'s fastest using these services:'); ?></p>
       <?= yii\authclient\widgets\AuthChoice::widget([
            'baseAuthUrl' => ['site/auth','mode'=>'login'],

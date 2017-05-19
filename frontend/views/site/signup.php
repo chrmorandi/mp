@@ -15,7 +15,7 @@ $this->title = Yii::t('frontend','Register with us');
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 col-lg-6 col-lg-offset-4 text-center">
+    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4 col-lg-6 col-lg-offset-3 text-center">
         <?= yii\authclient\widgets\AuthChoice::widget([
              'baseAuthUrl' => ['site/auth','mode'=>'signup'],
              'popupMode' => false,
