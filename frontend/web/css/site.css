@@ -20,6 +20,10 @@ body {
     padding-top: 20px;
 }
 
+.footer .bird {
+    padding-right:3px;
+}
+
 .not-set {
     color: #c55;
     font-style: italic;

@@ -145,13 +145,13 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
         <div class="container">
           <p class="pull-left">
             <?php
-              echo Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']);
+              echo Html::a('&copy; Lookahead '.date('Y'),'https://lookahead.io',['class'=>'itemHide']);
               echo Html::tag('span',' . ',['class'=>'itemHide']);
               echo Html::a(Yii::t('frontend','privacy'),Url::to(['/site/privacy']));
               echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
             ?>
         <p class="pull-right">
-        <?= Html::a('@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
+        <?= Html::a(Html::img(Url::to('/img/social-twitter.gif'), ['class'=>'bird']).'@meetingio','https://twitter.com/intent/user?screen_name=meetingio') ?>
         <?= Html::tag('span',' . '.Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io'))); ?>
         <?php
         if (!Yii::$app->user->isGuest) {
