@@ -11,8 +11,8 @@ $this->title = Yii::$app->params['site']['title'];
   <div class="row home-top">
       <div class="col-md-6 col-md-offset-1">
         <div class="jumbotron">
-            <h1><?= Yii::t('frontend','Simple Scheduling'); ?></h1>
-                <p class="lead"><?= Yii::t('frontend','Choose times and places without all the emails.'); ?></p>
+            <h1><?= Yii::t('frontend','We\'ve made planning easy'); ?></h1>
+                <p class="lead"><?= Yii::t('frontend','choose times and places without all the emails'); ?></p>
                 <div class="centered">
                   <p><?= Html::a(Yii::t('frontend','Get Started'),['site/signup'], ['class' => 'btn btn-lg btn-success','title'=>Yii::t('frontend','schedule your first meeting')]); ?></p>
                 </div>
@@ -43,4 +43,4 @@ $this->title = Yii::$app->params['site']['title'];
       </div>
   </div>
 </div>
-<?php // = $this->render('newworks') ?>
+<?= $this->render('home-tour') ?>

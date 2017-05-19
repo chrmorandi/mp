@@ -31,9 +31,9 @@ $this->title = Yii::t('frontend','Register with us');
                 <?=
                 $form->field($model, 'email', ['errorOptions' => ['class' => 'help-block' ,'encode' => false]])->label(Yii::t('frontend','Email'))->textInput(['placeholder' => 'you@youremail.com']) ?>
                 <?= $form->field($model, 'password')->passwordInput(['placeholder' => '********'])->label(Yii::t('frontend','Password')) ?>
-                <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::className(), [
+                <?php /*= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::className(), [
                       // configure additional widget properties here
-                  ])->label(Yii::t('frontend','Captcha')) ?>
+                  ])->label(Yii::t('frontend','Captcha')) */ ?>
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('frontend','Sign Up'), ['class' => 'btn btn-lg btn-primary', 'name' => 'signup-button']) ?>
                 </div>

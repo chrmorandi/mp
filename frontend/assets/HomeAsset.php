@@ -20,6 +20,7 @@ class HomeAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/home.css',
+        'css/home-tour.css',
         'css/flags.css',
     ];
     public $js = [

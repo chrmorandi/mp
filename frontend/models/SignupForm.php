@@ -38,8 +38,8 @@ class SignupForm extends Model
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => Yii::t('frontend','This email address has already been taken. ').Html::a(Yii::t('frontend','Looking for your password?'), ['site/request-password-reset'])],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
-            ['captcha', 'required'],
-            ['captcha', 'captcha'],
+            //['captcha', 'required'],
+            //['captcha', 'captcha'],
         ];
     }
 
