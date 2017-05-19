@@ -4,21 +4,23 @@ use yii\helpers\Url;
 ?>
 <div class="home-tour">
   <div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-12 text-center firstpanel">
-      <h1><?=Yii::t('frontend','How planning works');?></h1>
+    <div class="col-xs-12 col-md-12 col-lg-12 firstpanel">
+      <div class="centered">
+      <h1><?=Yii::t('frontend','How it works');?></h1>
+    </div>
     </div>
   </div>
   <!-- row 1 invite people -->
   <div class="row">
-    <div class="col-xs-12 col-md-6 ">
-      <div class="row1-left pull-right" >
-        <?= Html::img(Url::to('/mp/img/home/people.gif'), ['class'=>'img-responsive'])//  hiw-visual-first ?>
+    <div class="col-xs-12 col-md-6">
+      <div class="row1-left" >
+        <?= Html::img(Url::to('/mp/img/home/people.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
-    <div class="col-xs-12 col-md-6 hiw-text-second">
+    <div class="col-xs-12 col-md-6">
       <div class="row1-right pull-left" >
-        <h3><?=Yii::t('frontend','Invite participants');?></h3>
-        <p><?=Yii::t('frontend','Just one person or groups. You can also share the invitation link via email or Facebook.');?></p>
+        <h3><?=Yii::t('frontend','We deliver the invitations');?></h3>
+        <p><?=Yii::t('frontend','Whether you are meeting with one, several or many people, {site-title} make it easy. You can also share the invitation link via email or post on Facebook.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
       </div>
     </div>
   </div>
@@ -26,27 +28,27 @@ use yii\helpers\Url;
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-push-6">
       <div class="row2-right pull-left" >
-        <?= Html::img(Url::to('/mp/img/home/calendar.gif'), ['class'=>'img-responsive'])// hiw-visual-second ?>
+        <?= Html::img(Url::to('/mp/img/home/calendar.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 hiw-text-first">
-      <div class="row2-left pull-left" >
+      <div class="row2-left" >
         <h3><?=Yii::t('frontend','Suggest dates and times');?></h3>
-        <p><?=Yii::t('frontend','Just one person or groups. You can also share the invitation link via email or Facebook.');?></p>
+        <p><?=Yii::t('frontend','No more emails about which times will work best. Suggest one or more that work for your schedule in seconds and we\'ll ask participants about their availability.');?></p>
       </div>
     </div>
   </div>
   <!-- row 3 suggest places -->
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-lg-6 ">
-      <div class="row3-left pull-right" >
-        <?= Html::img(Url::to('/mp/img/home/place.gif'), ['class'=>'img-responsive'])// hiw-visual-first ?>
+      <div class="row3-left " >
+        <?= Html::img(Url::to('/mp/img/home/place.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
       <div class="row3-right pull-left" >
         <h3><?=Yii::t('frontend','Suggest places');?></h3>
-        <p><?=Yii::t('frontend','Adding one or more places.');?></p>
+        <p><?=Yii::t('frontend','No more emails about which places might work. Suggest one or more via Google Places and we\'ll ask participants which they prefer. ');?></p>
       </div>
     </div>
   </div>
@@ -54,27 +56,27 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-md-push-6 col-lg-6 col-lg-push-6 ">
       <div class="row4-right pull-left" >
-        <?= Html::img(Url::to('/mp/img/home/availability.gif'), ['class'=>'img-responsive']) //  hiw-visual-second ?>
+        <?= Html::img(Url::to('/mp/img/home/availability.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 col-lg-6 col-lg-pull-6  hiw-text-first">
-      <div class="row4-left pull-left" >
-        <h3><?=Yii::t('frontend','Sharing availability');?></h3>
-        <p><?=Yii::t('frontend','Everyone shares their availability and preferences for each date time and place');?></p>
+      <div class="row4-left" >
+        <h3><?=Yii::t('frontend','We check availability');?></h3>
+        <p><?=Yii::t('frontend','{site-title} will invite participants to share their availability and preferences time and place options so you don\'t have to.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
       </div>
     </div>
   </div>
   <!-- row 5 choosing date time and place -->
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-lg-6 ">
-      <div class="row5-left pull-right" >
-        <?= Html::img(Url::to('/mp/img/home/choose.gif'), ['class'=>'img-responsive ']) ?>
+      <div class="row5-left " >
+        <?= Html::img(Url::to('/mp/img/home/choose.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
-    <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
+    <div class="col-xs-12 col-md-6 col-lg-6">
       <div class="row5-right pull-left" >
-        <h3><?=Yii::t('frontend','Choosing the Time and Place');?></h3>
-        <p><?=Yii::t('frontend','Organizers choose the final time and place.');?></p>
+        <h3><?=Yii::t('frontend','Easily choose time and place');?></h3>
+        <p><?=Yii::t('frontend','When you\'re ready, finalize the time and location in seconds. You can also allow invitees to make the choices or designate additional organizers.');?></p>
       </div>
     </div>
   </div>
@@ -82,27 +84,27 @@ use yii\helpers\Url;
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-md-push-6 col-lg-6 col-lg-push-6 ">
       <div class="row6-right pull-left" >
-        <?= Html::img(Url::to('/mp/img/home/exportcal.gif'), ['class'=>'img-responsive']) ?>
+        <?= Html::img(Url::to('/mp/img/home/exportcal.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 col-lg-6 col-lg-pull-6  hiw-text-first">
-      <div class="row6-left pull-left" >
-        <h3><?=Yii::t('frontend','Add to Calendar');?></h3>
-        <p><?=Yii::t('frontend','Exporting the event to your calendar is fast and easy.');?></p>
+      <div class="row6-left" >
+        <h3><?=Yii::t('frontend','Automatically added to your calendar');?></h3>
+        <p><?=Yii::t('frontend','Once you\'ve finalized the schedule, it\'s easy to add the event to your calendar, complete with links and a map.');?></p>
       </div>
     </div>
   </div>
   <!-- row 7 - reminders-->
   <div class="row ">
     <div class="col-xs-12 col-md-6 col-lg-6 ">
-      <div class="row7-left pull-right" >
-        <?= Html::img(Url::to('/mp/img/home/reminder.gif'), ['class'=>'img-responsive hiw-visual-first']) ?>
+      <div class="row7-left " >
+        <?= Html::img(Url::to('/mp/img/home/reminder.gif'), ['class'=>'img-responsive centered']) ?>
       </div>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
       <div class="row7-right pull-left" >
         <h3><?=Yii::t('frontend','Reminders');?></h3>
-        <p><?=Yii::t('frontend','As the event nears, participants receive regular reminders via email.');?></p>
+        <p><?=Yii::t('frontend','As the event nears, participants receive regular reminders via email or text message. Reminders are fully customizable.');?></p>
       </div>
     </div>
   </div>
