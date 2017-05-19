@@ -108,4 +108,7 @@ use yii\helpers\Url;
       </div>
     </div>
   </div>
+  <div class="centered">
+    <p><?= Html::a(Yii::t('frontend','Get Started'),['site/signup'], ['class' => 'btn btn-lg btn-success','title'=>Yii::t('frontend','schedule your first meeting')]); ?></p>
+  </div>
 </div>
