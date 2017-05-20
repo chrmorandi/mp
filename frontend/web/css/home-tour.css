@@ -1,6 +1,9 @@
 .home-tour p {
   color: #717f86;
 }
+.home-tour h3 {
+  color:#666a73;
+}
 .home-tour img {
   max-width:500px;
 }
@@ -100,7 +103,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     float:left;
     margin:0;
   }
-  .row1-right,.row3-right,.row5-right,.row7-right {    
+  .row1-right,.row3-right,.row5-right,.row7-right {
   }
 
   .row2-left, .row4-left, .row6-left {
@@ -115,7 +118,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
   .firstpanel h1 {
     font-size:32px;
     margin: 25px 0 0 0;
-
+    color:#666a73;
   }
 }
 
