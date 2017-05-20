@@ -25,6 +25,29 @@ body {
     margin-top:-3px;
 }
 
+.footer {
+    color: #666a73;
+    font-size: 14px;
+    height:auto;
+    padding: 25px 0;
+}
+
+.footer p {
+  color: #666a73;
+}
+.footer .heading {
+  font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #666a73;
+    font-size:16px;
+}
+
+.footer .logo {
+  font-size: 1.5em;
+  color: #666a73;
+  vertical-align: top;
+}
 .not-set {
     color: #c55;
     font-style: italic;

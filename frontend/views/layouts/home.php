@@ -143,23 +143,25 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     </div>
     <footer class="footer">
         <div class="container">
-          <p class="pull-left">
-            <?php
-              echo Html::a('&copy; Lookahead '.date('Y'),'https://lookahead.io',['class'=>'itemHide']);
-              echo Html::tag('span',' . ',['class'=>'itemHide']);
-              echo Html::a(Yii::t('frontend','privacy'),Url::to(['/site/privacy']));
-              echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
-            ?>
-        <p class="pull-right">
-        <?= Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io')); ?>
-        <?= Html::tag('span',' . '.Html::a(Html::img(Url::to('/img/social_twitter_sm.gif'), ['class'=>'bird']),'https://twitter.com/intent/user?screen_name=meetingio')) ?>
-        <?php
-        if (!Yii::$app->user->isGuest) {
-          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','features'),Url::to(['/features'])),['class'=>'itemHide']);
-          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/about'])),['class'=>'itemHide']);
-        }
-         ?>
-        </p>
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+              <p><span class="glyphicon glyphicon-time logo"></span> <span class="heading"><?= Yii::$app->params['site']['title'] ?></span></p>
+              <p><?= Yii::t('frontend','{site-title} makes scheduling meetings easy',['site-title'=> Yii::$app->params['site']['title']])?></p>
+              <p><?= Html::a('&copy; '.date('Y').' Lookahead Consulting','https://lookahead.io',['class'=>'itemHide']);?>
+            </div>
+            <div class="col-xs-6 col-md-3">
+              <p class="heading"><?= Yii::t('frontend','Our Service')?></p>
+              <p><?= Html::a(Yii::t('frontend','Questions?'), ['/ticket'])?></p>
+              <p><?= Html::a(Yii::t('frontend','Features'),Url::to(['/features'])) ?></p>
+              <p><?= Html::a(Yii::t('frontend','Privacy'),Url::to(['/site/privacy'])); ?></p>
+              <p><?= Html::a(Yii::t('frontend','Terms of service'),Url::to(['/site/tos'])); ?></p>
+            </div>
+            <div class="col-xs-6 col-md-3">
+              <p class="heading"><?= Yii::t('frontend','Company')?></p>
+              <p><?= Html::a(Yii::t('frontend','About'),Url::to(['/about']));?></p>
+              <p><?= Html::a(Yii::t('frontend','Startup series'),'https://code.tutsplus.com/series/building-your-startup-with-php--cms-742') ?></p>
+            </div>
+          </div>
         </div>
     </footer>
     <?= Html::hiddenInput('url_prefix',\common\components\MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
