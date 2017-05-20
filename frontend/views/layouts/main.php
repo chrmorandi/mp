@@ -127,34 +127,7 @@ AppAsset::register($this);
         <?= $content ?>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container">
-          <div class="pull-left">
-            <?php
-              echo Html::a('&copy; Lookahead '.date('Y'),'http://lookahead.io',['class'=>'itemHide']);
-              echo Html::tag('span',' . ',['class'=>'itemHide']);
-              echo Html::a(Yii::t('frontend','privacy'),Url::to(['/site/privacy']));
-              echo Html::tag('span',' . '.Html::a(Yii::t('frontend','terms'),Url::to(['/site/tos'])));
-              echo Html::tag('span',' . ',['class'=>'']);
-            ?>
-            <?= \kmergen\LanguageSwitcher::widget([
-                   'parentTemplate' => '<div class="btn-group" id="flagTarget">{activeItem}<ul class="dropdown-menu drop-up flags" role="menu">{items}</ul></div>',
-                 'activeItemTemplate' => '<div class="dropdown-toggle" data-toggle="dropdown"><i class="flag flag-{language}"></i><span class="caret caret-up"></span></div>',
-                 'itemTemplate' => '<li><a id="{language}" href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
-            ]);?>
-          </div>
-        <div class="pull-right">
-          <?= Html::a(Yii::t('frontend','blog'),Url::to('https://blog.meetingplanner.io')); ?>
-          <?= Html::tag('span',' . '.Html::a(Html::img(Url::to('/img/social_twitter_sm.gif'), ['class'=>'bird']),'https://twitter.com/intent/user?screen_name=meetingio')) ?>        
-        <?php
-        if (!Yii::$app->user->isGuest) {
-          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','features'),Url::to(['/features'])),['class'=>'itemHide']);
-          echo Html::tag('span',' . '.Html::a(Yii::t('frontend','about'),Url::to(['/about'])),['class'=>'itemHide']);
-        }
-         ?>
-       </div>
-        </div>
-    </footer>
+    <?= $this->render('_footer',  ['includeLanguage'=>true ]) ?>
     <?= Html::hiddenInput('url_prefix',\common\components\MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

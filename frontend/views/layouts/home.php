@@ -67,7 +67,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
       			if (Yii::$app->user->isGuest) {
               $menuItems[]=['label' => Yii::t('frontend','Help'),
                 'items' => [
-                  ['label' => Yii::t('frontend','Questions?'), 'url' => ['/ticket']],
+                  ['label' => Yii::t('frontend','Contact us'), 'url' => ['/ticket']],
                   ['label' => Yii::t('frontend','Blog'), 'url' => 'https://blog.meetingplanner.io'],
                   ['label' => Yii::t('frontend','About'), 'url' => ['/about']],
                 ],
@@ -141,29 +141,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
         <?= $content ?>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <p><span class="glyphicon glyphicon-time logo"></span> <span class="heading"><?= Yii::$app->params['site']['title'] ?></span></p>
-              <p><?= Yii::t('frontend','{site-title} makes scheduling meetings easy',['site-title'=> Yii::$app->params['site']['title']])?></p>
-              <p><?= Html::a('&copy; '.date('Y').' Lookahead Consulting','https://lookahead.io',['class'=>'itemHide']);?>
-            </div>
-            <div class="col-xs-6 col-md-3">
-              <p class="heading"><?= Yii::t('frontend','Our Service')?></p>
-              <p><?= Html::a(Yii::t('frontend','Questions?'), ['/ticket'])?></p>
-              <p><?= Html::a(Yii::t('frontend','Features'),Url::to(['/features'])) ?></p>
-              <p><?= Html::a(Yii::t('frontend','Privacy'),Url::to(['/site/privacy'])); ?></p>
-              <p><?= Html::a(Yii::t('frontend','Terms of service'),Url::to(['/site/tos'])); ?></p>
-            </div>
-            <div class="col-xs-6 col-md-3">
-              <p class="heading"><?= Yii::t('frontend','Company')?></p>
-              <p><?= Html::a(Yii::t('frontend','About'),Url::to(['/about']));?></p>
-              <p><?= Html::a(Yii::t('frontend','Startup series'),'https://code.tutsplus.com/series/building-your-startup-with-php--cms-742') ?></p>
-            </div>
-          </div>
-        </div>
-    </footer>
+    <?= $this->render('_footer',  ['includeLanguage'=>true ]) ?>
     <?= Html::hiddenInput('url_prefix',\common\components\MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
