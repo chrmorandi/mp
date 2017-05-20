@@ -5,7 +5,7 @@ use yii\helpers\Url;
 <footer class="footer">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 col-md-6">
+        <div class="col-xs-12 col-md-6 add-bottom-margin">
           <span class="glyphicon glyphicon-time logo"></span> <span class="heading"><?= Yii::$app->params['site']['title'] ?></span>
           <?php if ($includeLanguage) { ?>
             <div class="language">
@@ -20,7 +20,7 @@ use yii\helpers\Url;
           ?>
             <?= Html::a(Html::img(Url::to('/img/social_twitter_sm.gif'), ['class'=>'bird']),'https://twitter.com/intent/user?screen_name=meetingio') ?>
           <p><?= Yii::t('frontend','{site-title} makes scheduling meetings easy',['site-title'=> Yii::$app->params['site']['title']])?></p>
-          <p><?= Html::a('&copy; '.date('Y').' Lookahead Consulting','https://lookahead.io');?>
+          <p><?= Html::a('&copy; '.date('Y').' Lookahead Consulting','https://lookahead.io');?></p>
         </div>
         <div class="col-xs-6 col-md-3">
           <p class="heading"><?= Yii::t('frontend','Scheduling')?></p>

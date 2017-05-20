@@ -38,8 +38,10 @@ body {
 
 .footer p {
   color: #666a73;
+  margin-bottom:5px;
 }
 .footer .heading {
+  margin-bottom:10px;
   font-family: inherit;
     font-weight: 500;
     line-height: 1.1;
@@ -51,6 +53,7 @@ body {
   font-size: 1.5em;
   color: #666a73;
   vertical-align: top;
+  margin-bottom:5px;
 }
 .not-set {
     color: #c55;
@@ -528,5 +531,8 @@ color:#a0a0a0;
 
     .horizontal-pad {
       margin:5px 7px 5px 0px;
+    }
+    .footer .add-bottom-margin {
+      margin-bottom:10px;
     }
   }
