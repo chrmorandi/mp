@@ -20,7 +20,7 @@ use yii\helpers\Url;
     <div class="col-xs-12 col-md-6">
       <div class="row1-right pull-left" >
         <h3><?=Yii::t('frontend','Provide participant emails');?></h3>
-        <p><?=Yii::t('frontend','Type or paste in the email address of people to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
+        <p><?=Yii::t('frontend','Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
       </div>
     </div>
   </div>
