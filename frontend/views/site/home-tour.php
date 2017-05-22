@@ -19,8 +19,8 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6">
       <div class="row1-right pull-left" >
-        <h3><?=Yii::t('frontend','We\'ll email your invitations');?></h3>
-        <p><?=Yii::t('frontend','You can also share the invitation link via email or post on Facebook. Whether you are meeting with one, several or many people, {site-title} makes it easy. ',['site-title'=>Yii::$app->params['site']['title']]);?></p>
+        <h3><?=Yii::t('frontend','Provide participant emails');?></h3>
+        <p><?=Yii::t('frontend','Type or paste in the email address of people to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.',['site-title'=>Yii::$app->params['site']['title']]);?></p>
       </div>
     </div>
   </div>
@@ -109,6 +109,6 @@ use yii\helpers\Url;
     </div>
   </div>
   <div class="centered">
-    <p><?= Html::a(Yii::t('frontend','Get Started'),['site/signup'], ['class' => 'btn btn-lg btn-success','title'=>Yii::t('frontend','schedule your first meeting')]); ?></p>
+    <p><?= Html::a(Yii::t('frontend','Schedule your first meeting'),['site/signup'], ['class' => 'btn btn-lg btn-success','title'=>Yii::t('frontend','schedule your first meeting')]); ?></p>
   </div>
 </div>
