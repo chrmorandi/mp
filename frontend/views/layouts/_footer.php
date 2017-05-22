@@ -10,7 +10,7 @@ use yii\helpers\Url;
           <?php if ($includeLanguage) { ?>
             <div class="language">
               <?= \kmergen\LanguageSwitcher::widget([
-                     'parentTemplate' => '<div class="btn-group" id="flagTarget">{activeItem}<ul class="dropdown-menu drop-up flags" role="menu">{items}</ul></div>',
+                     'parentTemplate' => '<div class="btn-group" id="flagTarget_footer">{activeItem}<ul class="dropdown-menu drop-up flags" role="menu">{items}</ul></div>',
                    'activeItemTemplate' => '<div class="dropdown-toggle" data-toggle="dropdown"><i class="flag flag-{language}"></i><span class="caret caret-up"></span></div>',
                    'itemTemplate' => '<li><a id="{language}" href="{url}"><i class="flag flag-{language}"></i> {label}</a></li>'
               ]);?>
