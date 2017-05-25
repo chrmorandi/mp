@@ -143,7 +143,7 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
         <?= $content ?>
         </div>
     </div>
-    <?= $this->render('_footer',  ['includeLanguage'=>true ]) ?>
+    <?= $this->render('_footer',  ['includeLanguage'=>false ]) ?>
     <?= Html::hiddenInput('url_prefix',\common\components\MiscHelpers::getUrlPrefix(),['id'=>'url_prefix']); ?>
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
