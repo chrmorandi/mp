@@ -139,6 +139,7 @@ AppAsset::register($this);
   ga('create', '<?php echo Yii::$app->params['site']['ga']; ?>', 'auto');
   ga('send', 'pageview');
 </script>
+<?= $this->render('_statcounter') ?>
 <?php $this->endBody() ?>
 </body>
 </html>
