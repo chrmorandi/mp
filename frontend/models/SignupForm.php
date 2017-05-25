@@ -68,8 +68,8 @@ class SignupForm extends Model
     }
 
     public function notNumericFirst($attribute, $params)
-    {      
-      if (is_numeric(substr($this->$attribute[0],0,1))) {
+    {
+      if (is_numeric(substr($this->$attribute,0,1))) {
         $this->addError($attribute, Yii::t('frontend','Sorry, usernames cannot begin with a number'));
       }
     }
