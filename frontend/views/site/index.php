@@ -11,7 +11,7 @@ $this->title = Yii::$app->params['site']['title'];
   <div class="row home-top">
       <div class="col-md-6 col-md-offset-1">
         <div class="jumbotron">
-            <h1><?= Yii::t('frontend','Scheduling made easy'); ?></h1>
+            <h1><?= Yii::t('frontend','Scheduling made&nbsp;easy'); ?></h1>
                 <p class="lead"><?= Yii::t('frontend','choose times and places without all the emails'); ?></p>
                 <div class="centered">
                   <p><?= Html::a(Yii::t('frontend','Get Started'),['site/signup'], ['class' => 'btn btn-lg btn-success','title'=>Yii::t('frontend','schedule your first meeting')]); ?></p>

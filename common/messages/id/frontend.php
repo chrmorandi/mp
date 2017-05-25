@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Ketik atau tempel di alamat email orang yang ingin Anda undang. Anda juga dapat berbagi tautan undangan melalui email atau pos di Facebook. Saat Anda siap mengirim undangan, kami akan mengirimkannya untuk Anda.',
+    'Scheduling made&nbsp;easy' => 'Penjadwalan dibuat & nbsp; mudah',
     '...coming soon...' => '@@...segera akan datang...@@',
     '1) Connect with a social account' => '@@1) Terhubung dengan akun sosial@@',
     '1) Prove you\'re not a troll' => '@@1) Buktikan bahwa Anda bukan troll@@',
@@ -49,6 +49,7 @@ return [
     'Save Times' => '@@Simpan Times@@',
     'Schedule Your First Meeting' => '@@Jadwalkan Pertemuan Pertama Anda@@',
     'Schedule Your Impeachment Party' => '@@Jadwalkan Partai Impeachment Anda@@',
+    'Scheduling made easy' => '@@Penjadwalan menjadi mudah@@',
     'Send a message to other participants.' => '@@Kirim pesan ke peserta lainnya.@@',
     'Sign Up Now' => '@@Daftar sekarang@@',
     'Signup' => '@@Daftar@@',
@@ -597,7 +598,6 @@ return [
     'Schedule your first meeting' => 'Jadwalkan pertemuan pertamamu',
     'Scheduling' => 'Penjadwalan',
     'Scheduling Should Be Easy' => 'Penjadwalan Harus Mudah',
-    'Scheduling made easy' => 'Penjadwalan menjadi mudah',
     'Search' => 'Pencarian',
     'Select One or More Dates and Times' => 'Pilih satu atau lebih tanggal dan waktu',
     'Select an alternate time below' => 'Pilih waktu alternatif di bawah ini',
@@ -748,6 +748,7 @@ return [
     'Type of Contact' => 'Jenis Kontak',
     'Type of Meeting' => 'Jenis Rapat',
     'Type of Place' => 'Jenis Tempat',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Ketik atau tempel di alamat email orang yang ingin Anda undang. Anda juga dapat berbagi tautan undangan melalui email atau pos di Facebook. Saat Anda siap mengirim undangan, kami akan mengirimkannya untuk Anda.',
     'Unblock' => 'Unblock',
     'Unit' => 'Satuan',
     'Unknown' => 'Tidak diketahui',

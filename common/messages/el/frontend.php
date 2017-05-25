@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Πληκτρολογήστε ή επικολλήστε τις διευθύνσεις ηλεκτρονικού ταχυδρομείου των ατόμων που θέλετε να προσκαλέσετε. Μπορείτε επίσης να μοιραστείτε τον σύνδεσμο πρόσκλησης μέσω ηλεκτρονικού ταχυδρομείου ή ταχυδρομείου στο Facebook. Όταν είστε έτοιμοι να στείλετε την πρόσκληση, θα σας το παραδώσουμε.',
+    'Scheduling made&nbsp;easy' => 'Ο προγραμματισμός γίνεται & nbsp; εύκολος',
     '...coming soon...' => '@@...Ερχομαι συντομα...@@',
     '1) Connect with a social account' => '@@1) Συνδεθείτε με έναν κοινωνικό λογαριασμό@@',
     '1) Prove you\'re not a troll' => '@@1) Αποδείξτε ότι δεν είστε συγγραφέας@@',
@@ -49,6 +49,7 @@ return [
     'Save Times' => '@@Αποθηκεύστε τους χρόνους@@',
     'Schedule Your First Meeting' => '@@Προγραμματίστε την πρώτη σας συνάντηση@@',
     'Schedule Your Impeachment Party' => '@@Προγραμματίστε το συμβαλλόμενο μέρος σας@@',
+    'Scheduling made easy' => '@@Ο προγραμματισμός έγινε εύκολος@@',
     'Send a message to other participants.' => '@@Στείλτε ένα μήνυμα σε άλλους συμμετέχοντες.@@',
     'Sign Up Now' => '@@Εγγραφείτε τώρα@@',
     'Signup' => '@@Εγγραφείτε@@',
@@ -597,7 +598,6 @@ return [
     'Schedule your first meeting' => 'Προγραμματίστε την πρώτη σας συνάντηση',
     'Scheduling' => 'Χρονοδρομολόγηση',
     'Scheduling Should Be Easy' => 'Ο προγραμματισμός πρέπει να είναι εύκολος',
-    'Scheduling made easy' => 'Ο προγραμματισμός έγινε εύκολος',
     'Search' => 'Ψάξιμο',
     'Select One or More Dates and Times' => 'Επιλέξτε μία ή περισσότερες ημερομηνίες και ώρες',
     'Select an alternate time below' => 'Επιλέξτε έναν εναλλακτικό χρόνο παρακάτω',
@@ -748,6 +748,7 @@ return [
     'Type of Contact' => 'Είδος επαφής',
     'Type of Meeting' => 'Τύπος συνεδρίασης',
     'Type of Place' => 'Τύπος χώρου',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Πληκτρολογήστε ή επικολλήστε τις διευθύνσεις ηλεκτρονικού ταχυδρομείου των ατόμων που θέλετε να προσκαλέσετε. Μπορείτε επίσης να μοιραστείτε τον σύνδεσμο πρόσκλησης μέσω ηλεκτρονικού ταχυδρομείου ή ταχυδρομείου στο Facebook. Όταν είστε έτοιμοι να στείλετε την πρόσκληση, θα σας το παραδώσουμε.',
     'Unblock' => 'Ξεβουλώνω',
     'Unit' => 'Μονάδα',
     'Unknown' => 'Αγνωστος',

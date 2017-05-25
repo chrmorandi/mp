@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Typ of plak in de e-mailadressen van mensen die u wilt uitnodigen. U kunt ook de uitnodigingslink via e-mail of post op Facebook delen. Wanneer u klaar bent met de uitnodiging, leveren we het voor u.',
+    'Scheduling made&nbsp;easy' => 'Schedulering gemaakt & nbsp; makkelijk',
     '...coming soon...' => '@@...binnenkort beschikbaar...@@',
     '1) Connect with a social account' => '@@1) Verbinden met een sociaal account@@',
     '1) Prove you\'re not a troll' => '@@1) Bewijs dat je geen troll bent@@',
@@ -52,6 +52,7 @@ return [
     'Save Times' => '@@Opslaan tijden@@',
     'Schedule Your First Meeting' => '@@Plan uw eerste vergadering@@',
     'Schedule Your Impeachment Party' => '@@Schedule Your Impeachment Party@@',
+    'Scheduling made easy' => '@@Scheduleren makkelijk gemaakt@@',
     'Send a message to other participants.' => '@@Stuur een bericht naar andere deelnemers.@@',
     'Sign Up Now' => '@@Schrijf je nu in@@',
     'Signup' => '@@Aanmelden@@',
@@ -600,7 +601,6 @@ return [
     'Schedule your first meeting' => 'Plan uw eerste vergadering',
     'Scheduling' => 'scheduling',
     'Scheduling Should Be Easy' => 'Scheduleren moet gemakkelijk zijn',
-    'Scheduling made easy' => 'Scheduleren makkelijk gemaakt',
     'Search' => 'Zoeken',
     'Select One or More Dates and Times' => 'Selecteer een of meer data en tijden',
     'Select an alternate time below' => 'Selecteer een alternatieve tijd hieronder',
@@ -751,6 +751,7 @@ return [
     'Type of Contact' => 'Soort contact',
     'Type of Meeting' => 'Type vergadering',
     'Type of Place' => 'Type Plaats',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Typ of plak in de e-mailadressen van mensen die u wilt uitnodigen. U kunt ook de uitnodigingslink via e-mail of post op Facebook delen. Wanneer u klaar bent met de uitnodiging, leveren we het voor u.',
     'Unblock' => 'deblokkeren',
     'Unit' => 'Eenheid',
     'Unknown' => 'Onbekend',

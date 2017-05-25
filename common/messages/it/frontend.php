@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Digita o incolla gli indirizzi di posta elettronica delle persone che desideri invitare. Puoi anche condividere il link dell\'invito via email o inviare su Facebook. Quando sei pronto a inviare l\'invito, lo consegneremo per te.',
+    'Scheduling made&nbsp;easy' => 'La pianificazione è semplice',
     '...coming soon...' => '@@...Prossimamente...@@',
     '1) Connect with a social account' => '@@1) Connetti con un account sociale@@',
     '1) Prove you\'re not a troll' => '@@1) Prova che non sei un troll@@',
@@ -74,6 +74,7 @@ return [
     'Save Times' => '@@Risparmi i tempi@@',
     'Schedule Your First Meeting' => '@@Pianifica il tuo primo incontro@@',
     'Schedule Your Impeachment Party' => '@@Pianifica la tua parte di impegno@@',
+    'Scheduling made easy' => '@@Pianificazione facile@@',
     'Select Dates and Times' => '@@Selezionare Date e orari@@',
     'Send a message to other participants.' => '@@Invia un messaggio a altri partecipanti.@@',
     'Sign Up Now' => '@@Iscriviti ora@@',
@@ -637,7 +638,6 @@ return [
     'Schedule your first meeting' => 'Pianifica la tua prima riunione',
     'Scheduling' => 'programmazione',
     'Scheduling Should Be Easy' => 'Pianificazione dovrebbe essere facile',
-    'Scheduling made easy' => 'Pianificazione facile',
     'Search' => 'ricerca',
     'Select One or More Dates and Times' => 'Seleziona una o più date e tempi',
     'Select an alternate time below' => 'Seleziona un tempo alternativo qui sotto',
@@ -788,6 +788,7 @@ return [
     'Type of Contact' => 'Tipo di contatto',
     'Type of Meeting' => 'Tipo di riunione',
     'Type of Place' => 'Tipo di posto',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Digita o incolla gli indirizzi di posta elettronica delle persone che desideri invitare. Puoi anche condividere il link dell\'invito via email o inviare su Facebook. Quando sei pronto a inviare l\'invito, lo consegneremo per te.',
     'Unblock' => 'Sbloccare',
     'Unit' => 'Unità',
     'Unknown' => 'Sconosciuto',

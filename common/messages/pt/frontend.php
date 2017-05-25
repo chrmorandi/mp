@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Digite ou cole os endereços de e-mail das pessoas que você deseja convidar. Você também pode compartilhar o link de convite por e-mail ou postar no Facebook. Quando estiver pronto para enviar o convite, entregamo-lo para você.',
+    'Scheduling made&nbsp;easy' => 'Agendamento feito & nbsp; fácil',
     '...coming soon...' => '@@...em breve...@@',
     '1) Connect with a social account' => '@@1) Conectar-se com uma conta social@@',
     '1) Prove you\'re not a troll' => '@@1) Prove que você não é um troll@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@Economize Tempos@@',
     'Schedule Your First Meeting' => '@@Agende sua primeira reunião@@',
     'Schedule Your Impeachment Party' => '@@Agende sua festa de impeachment@@',
+    'Scheduling made easy' => '@@Programação facilitada@@',
     'Select Dates and Times' => '@@Selecione Datas e Horários@@',
     'Send a message to other participants.' => '@@Envie uma mensagem para outros participantes.@@',
     'Sign Up Now' => '@@Inscreva-se agora@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => 'Agende sua primeira reunião',
     'Scheduling' => 'Agendamento',
     'Scheduling Should Be Easy' => 'Programação deve ser fácil',
-    'Scheduling made easy' => 'Programação facilitada',
     'Search' => 'Pesquisa',
     'Select One or More Dates and Times' => 'Selecione uma ou mais datas e horas',
     'Select an alternate time below' => 'Selecione um horário alternativo abaixo',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => 'Tipo de Contato',
     'Type of Meeting' => 'Tipo de Encontro',
     'Type of Place' => 'Tipo de Lugar',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Digite ou cole os endereços de e-mail das pessoas que você deseja convidar. Você também pode compartilhar o link de convite por e-mail ou postar no Facebook. Quando estiver pronto para enviar o convite, entregamo-lo para você.',
     'Unblock' => 'Desbloquear',
     'Unit' => 'Unidade',
     'Unknown' => 'Desconhecido',

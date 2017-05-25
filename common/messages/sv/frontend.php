@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Skriv eller klistra in i e-postadresserna till personer du vill bjuda in. Du kan också dela inbjudningslänken via e-post eller posta på Facebook. När du är redo att skicka inbjudan levererar vi den till dig.',
+    'Scheduling made&nbsp;easy' => 'Schemaläggning gjort & nbsp; lätt',
     '...coming soon...' => '@@...kommer snart...@@',
     '1) Connect with a social account' => '@@1) Anslut till ett socialt konto@@',
     '1) Prove you\'re not a troll' => '@@1) Bevis att du inte är en troll@@',
@@ -49,6 +49,7 @@ return [
     'Save Times' => '@@Spara tider@@',
     'Schedule Your First Meeting' => '@@Planera ditt första möte@@',
     'Schedule Your Impeachment Party' => '@@Planera din förseelseparti@@',
+    'Scheduling made easy' => '@@Schemaläggning gjorde det enkelt@@',
     'Send a message to other participants.' => '@@Skicka ett meddelande till andra deltagare.@@',
     'Sign Up Now' => '@@Anmäl dig nu@@',
     'Signup' => '@@Bli Medlem@@',
@@ -597,7 +598,6 @@ return [
     'Schedule your first meeting' => 'Planera ditt första möte',
     'Scheduling' => 'schemaläggning',
     'Scheduling Should Be Easy' => 'Schemaläggning ska vara lätt',
-    'Scheduling made easy' => 'Schemaläggning gjorde det enkelt',
     'Search' => 'Sök',
     'Select One or More Dates and Times' => 'Välj en eller flera datum och tider',
     'Select an alternate time below' => 'Välj en alternativ tid nedan',
@@ -748,6 +748,7 @@ return [
     'Type of Contact' => 'Typ av kontakt',
     'Type of Meeting' => 'Typ av möte',
     'Type of Place' => 'Typ av plats',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Skriv eller klistra in i e-postadresserna till personer du vill bjuda in. Du kan också dela inbjudningslänken via e-post eller posta på Facebook. När du är redo att skicka inbjudan levererar vi den till dig.',
     'Unblock' => 'avblockera',
     'Unit' => 'Enhet',
     'Unknown' => 'Okänd',

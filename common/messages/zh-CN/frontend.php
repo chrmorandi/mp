@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => '在您要邀请的人的电子邮件地址中输入或粘贴。您还可以通过电子邮件分享邀请链接或在Facebook上发布。当您准备好发送邀请时，我们会为您提供。',
+    'Scheduling made&nbsp;easy' => '安排时间很简单',
     '...coming soon...' => '@@...快来了...@@',
     '1) Connect with a social account' => '@@1）与社会账户联系@@',
     '1) Prove you\'re not a troll' => '@@1）证明你不是巨魔@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@节省时间@@',
     'Schedule Your First Meeting' => '@@安排你的第一次会议@@',
     'Schedule Your Impeachment Party' => '@@安排你的弹奏派对@@',
+    'Scheduling made easy' => '@@调度变得容易@@',
     'Select Dates and Times' => '@@选择日期和时间@@',
     'Send a message to other participants.' => '@@向其他参与者发送消息。@@',
     'Sign Up Now' => '@@立即注册@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => '安排第一次会议',
     'Scheduling' => '计划',
     'Scheduling Should Be Easy' => '计划应该容易',
-    'Scheduling made easy' => '调度变得容易',
     'Search' => '搜索',
     'Select One or More Dates and Times' => '选择一个或多个日期和时间',
     'Select an alternate time below' => '选择下面的替代时间',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => '联系人类型',
     'Type of Meeting' => '会议类型',
     'Type of Place' => '地点类型',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => '在您要邀请的人的电子邮件地址中输入或粘贴。您还可以通过电子邮件分享邀请链接或在Facebook上发布。当您准备好发送邀请时，我们会为您提供。',
     'Unblock' => '解除封锁',
     'Unit' => '单元',
     'Unknown' => '未知',

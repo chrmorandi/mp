@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Zadejte nebo vložte e-mailové adresy lidí, které chcete pozvat. Odkaz na pozvánky můžete také sdílet prostřednictvím e-mailu nebo příspěvku na Facebooku. Když jste připraveni odeslat pozvánku, předáme vám ji.',
+    'Scheduling made&nbsp;easy' => 'Plánování provedeno & nbsp; snadné',
     '...coming soon...' => '@@...Brzy...@@',
     '1) Connect with a social account' => '@@1) Připojte se ke společenskému účtu@@',
     '1) Prove you\'re not a troll' => '@@1) Dokažte, že nejste trol@@',
@@ -49,6 +49,7 @@ return [
     'Save Times' => '@@Ušetřete čas@@',
     'Schedule Your First Meeting' => '@@Naplánujte své první setkání@@',
     'Schedule Your Impeachment Party' => '@@Naplánujte svoji stranu s podvodem@@',
+    'Scheduling made easy' => '@@Plánování bylo snadné@@',
     'Send a message to other participants.' => '@@Odeslat zprávu ostatním účastníkům.@@',
     'Sign Up Now' => '@@Zaregistrujte se nyní@@',
     'Signup' => '@@Přihlásit se@@',
@@ -597,7 +598,6 @@ return [
     'Schedule your first meeting' => 'Naplánujte první schůzku',
     'Scheduling' => 'Plánování',
     'Scheduling Should Be Easy' => 'Plánování by mělo být snadné',
-    'Scheduling made easy' => 'Plánování bylo snadné',
     'Search' => 'Vyhledávání',
     'Select One or More Dates and Times' => 'Vyberte jeden nebo více dat a časů',
     'Select an alternate time below' => 'Vyberte níže uvedený alternativní čas',
@@ -748,6 +748,7 @@ return [
     'Type of Contact' => 'Typ kontaktu',
     'Type of Meeting' => 'Typ schůze',
     'Type of Place' => 'Typ místa',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Zadejte nebo vložte e-mailové adresy lidí, které chcete pozvat. Odkaz na pozvánky můžete také sdílet prostřednictvím e-mailu nebo příspěvku na Facebooku. Když jste připraveni odeslat pozvánku, předáme vám ji.',
     'Unblock' => 'Odblokovat',
     'Unit' => 'Jednotka',
     'Unknown' => 'Neznámý',

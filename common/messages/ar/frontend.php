@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'اكتب أو الصق عناوين البريد الإلكتروني للأشخاص الذين تريد دعوتهم. يمكنك أيضا مشاركة رابط الدعوة عبر البريد الإلكتروني أو المشاركة في الفيسبوك. عندما تكون مستعدا لإرسال الدعوة، سنقدمها لك.',
+    'Scheduling made&nbsp;easy' => 'جعلت الجدولة & نبسب؛ سهلة',
     '...coming soon...' => '@@...قريبا...@@',
     '1) Connect with a social account' => '@@1) التواصل مع حساب اجتماعي@@',
     '1) Prove you\'re not a troll' => '@@1) إثبات أنك لست القزم@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@حفظ تايمز@@',
     'Schedule Your First Meeting' => '@@جدولة الاجتماع الأول@@',
     'Schedule Your Impeachment Party' => '@@جدولة حزب الإقالة@@',
+    'Scheduling made easy' => '@@جعلت من السهل جدولة@@',
     'Select Dates and Times' => '@@حدد التواريخ والأوقات@@',
     'Send a message to other participants.' => '@@إرسال رسالة إلى المشاركين الآخرين.@@',
     'Sign Up Now' => '@@أفتح حساب الأن@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => 'جدولة الاجتماع الأول',
     'Scheduling' => 'جدولة',
     'Scheduling Should Be Easy' => 'جدولة يجب أن تكون سهلة',
-    'Scheduling made easy' => 'جعلت من السهل جدولة',
     'Search' => 'بحث',
     'Select One or More Dates and Times' => 'حدد واحد أو أكثر من التواريخ والأوقات',
     'Select an alternate time below' => 'حدد وقت بديل أدناه',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => 'نوع جهة الاتصال',
     'Type of Meeting' => 'نوع الاجتماع',
     'Type of Place' => 'نوع المكان',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'اكتب أو الصق عناوين البريد الإلكتروني للأشخاص الذين تريد دعوتهم. يمكنك أيضا مشاركة رابط الدعوة عبر البريد الإلكتروني أو المشاركة في الفيسبوك. عندما تكون مستعدا لإرسال الدعوة، سنقدمها لك.',
     'Unblock' => 'رفع الحظر',
     'Unit' => 'وحدة',
     'Unknown' => 'غير معروف',

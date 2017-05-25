@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'जिन लोगों को आप आमंत्रित करना चाहते हैं उनके ईमेल पते टाइप या पेस्ट करें आप ईमेल के जरिए निमंत्रण लिंक साझा कर सकते हैं या फेसबुक पर पोस्ट कर सकते हैं। जब आप आमंत्रण भेजने के लिए तैयार हों, तो हम इसे आपके लिए वितरित करेंगे।',
+    'Scheduling made&nbsp;easy' => 'शेड्यूलिंग & nbsp; आसान बना दिया',
     '...coming soon...' => '@@...जल्द आ रहा है...@@',
     '1) Connect with a social account' => '@@1) एक सामाजिक खाते से कनेक्ट करें@@',
     '1) Prove you\'re not a troll' => '@@1) साबित करो कि आप ट्रोल नहीं हैं@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@सहेजें टाइम्स@@',
     'Schedule Your First Meeting' => '@@अपनी पहली बैठक का समय निर्धारित करें@@',
     'Schedule Your Impeachment Party' => '@@अपने महाभियोग पार्टी की अनुसूची करें@@',
+    'Scheduling made easy' => '@@निर्धारण आसान बना दिया@@',
     'Select Dates and Times' => '@@तिथियां और समय चुनें@@',
     'Send a message to other participants.' => '@@अन्य प्रतिभागियों को एक संदेश भेजें@@',
     'Sign Up Now' => '@@अभी साइनअप करें@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => 'अपनी पहली बैठक को शेड्यूल करें',
     'Scheduling' => 'शेड्यूलिंग',
     'Scheduling Should Be Easy' => 'निर्धारण करना आसान होना चाहिए',
-    'Scheduling made easy' => 'निर्धारण आसान बना दिया',
     'Search' => 'खोज',
     'Select One or More Dates and Times' => 'एक या अधिक दिनांक और समय चुनें',
     'Select an alternate time below' => 'नीचे एक वैकल्पिक समय चुनें',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => 'संपर्क का प्रकार',
     'Type of Meeting' => 'बैठक का प्रकार',
     'Type of Place' => 'स्थान का प्रकार',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'जिन लोगों को आप आमंत्रित करना चाहते हैं उनके ईमेल पते टाइप या पेस्ट करें आप ईमेल के जरिए निमंत्रण लिंक साझा कर सकते हैं या फेसबुक पर पोस्ट कर सकते हैं। जब आप आमंत्रण भेजने के लिए तैयार हों, तो हम इसे आपके लिए वितरित करेंगे।',
     'Unblock' => 'अनब्लॉक करें',
     'Unit' => 'यूनिट',
     'Unknown' => 'अनजान',

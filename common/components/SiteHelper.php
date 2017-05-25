@@ -29,6 +29,8 @@ class SiteHelper extends \yii\base\Component{
         // default meetingplanner.io
         $this->commonMeetingPlanner();
       }
+      Yii::$app->params['site']['description']='Scheduling app and meeting planner for one on one or group meetings. Choose dates, times and places together without all the emails.';
+      Yii::$app->params['site']['keywords']='scheduling app,meeting planner,schedule planner,schedule a meeting,event planner,doodle survey';
       parent::init();
     }
 

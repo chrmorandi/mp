@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => '招待するユーザーのメールアドレスを入力するか貼り付けます。招待状のリンクをメールで送信したり、Facebookに投稿したりすることもできます。あなたが招待状を送る準備ができたら、私たちはあなたのためにそれを配達します。',
+    'Scheduling made&nbsp;easy' => 'スケジュール設定が簡単＆nbsp;簡単',
     '...coming soon...' => '@@...近日公開...@@',
     '1) Connect with a social account' => '@@1）ソーシャルアカウントに接続する@@',
     '1) Prove you\'re not a troll' => '@@1）あなたがトロールでないことを証明する@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@時間を節約する@@',
     'Schedule Your First Meeting' => '@@最初の会議をスケジュールする@@',
     'Schedule Your Impeachment Party' => '@@あなたの弾劾党の予定@@',
+    'Scheduling made easy' => '@@スケジューリングが簡単に@@',
     'Select Dates and Times' => '@@日付と時刻を選択@@',
     'Send a message to other participants.' => '@@他の参加者にメッセージを送信します。@@',
     'Sign Up Now' => '@@今すぐ申し込む@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => '最初の会議をスケジュールする',
     'Scheduling' => 'スケジューリング',
     'Scheduling Should Be Easy' => 'スケジュールを簡単にする',
-    'Scheduling made easy' => 'スケジューリングが簡単に',
     'Search' => '検索',
     'Select One or More Dates and Times' => '1つ以上の日付と時刻を選択',
     'Select an alternate time below' => '下の代替時間を選択してください',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => '連絡先のタイプ',
     'Type of Meeting' => '会議のタイプ',
     'Type of Place' => '場所のタイプ',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => '招待するユーザーのメールアドレスを入力するか貼り付けます。招待状のリンクをメールで送信したり、Facebookに投稿したりすることもできます。あなたが招待状を送る準備ができたら、私たちはあなたのためにそれを配達します。',
     'Unblock' => 'ブロック解除する',
     'Unit' => '単位',
     'Unknown' => '未知の',

@@ -18,8 +18,8 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
 <head>
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <meta name="description" content="schedule one on one and group meetings faster and easier without all the back and forth emails. Choose dates, times and places collaboratively.">
-    <meta name="keywords" content="scheduling,meetings,schedule a meeting,plan group meetings,doodle,reminders,calendars">
+    <meta name="description" content="<?= Yii::$app->params['site']['description'] ?>">
+    <meta name="keywords" content="<?= Yii::$app->params['site']['keywords'] ?>">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?= \common\components\MiscHelpers::buildHreflang(); ?>

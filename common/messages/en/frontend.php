@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.',
+    'Scheduling made&nbsp;easy' => 'Scheduling made&nbsp;easy',
     '...coming soon...' => '@@...coming soon...@@',
     '1) Connect with a social account' => '@@1) Connect with a social account@@',
     '1) Prove you\'re not a troll' => '@@1) Prove you\'re not a troll@@',
@@ -58,6 +58,7 @@ return [
     'Save Times' => '@@Save Times@@',
     'Schedule Your First Meeting' => '@@Schedule Your First Meeting@@',
     'Schedule Your Impeachment Party' => '@@Schedule Your Impeachment Party@@',
+    'Scheduling made easy' => '@@Scheduling made easy@@',
     'Select Dates and Times' => '@@Select Dates and Times@@',
     'Send a message to other participants.' => '@@Send a message to other participants.@@',
     'Sign Up Now' => '@@Sign Up Now@@',
@@ -621,7 +622,6 @@ return [
     'Schedule your first meeting' => 'Schedule your first meeting',
     'Scheduling' => 'Scheduling',
     'Scheduling Should Be Easy' => 'Scheduling Should Be Easy',
-    'Scheduling made easy' => 'Scheduling made easy',
     'Search' => 'Search',
     'Select One or More Dates and Times' => 'Select One or More Dates and Times',
     'Select an alternate time below' => 'Select an alternate time below',
@@ -772,6 +772,7 @@ return [
     'Type of Contact' => 'Type of Contact',
     'Type of Meeting' => 'Type of Meeting',
     'Type of Place' => 'Type of Place',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.',
     'Unblock' => 'Unblock',
     'Unit' => 'Unit',
     'Unknown' => 'Unknown',

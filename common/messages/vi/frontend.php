@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Nhập hoặc dán vào địa chỉ email của những người bạn muốn mời. Bạn cũng có thể chia sẻ liên kết lời mời qua email hoặc đăng lên Facebook. Khi bạn đã sẵn sàng gửi lời mời, chúng tôi sẽ cung cấp cho bạn.',
+    'Scheduling made&nbsp;easy' => 'Lập kế hoạch được thực hiện & nbsp; dễ dàng',
     '...coming soon...' => '@@... sắp tới ...@@',
     '1) Connect with a social account' => '@@1) Kết nối với một tài khoản xã hội@@',
     '1) Prove you\'re not a troll' => '@@1) Chứng minh bạn không phải là một troll@@',
@@ -52,6 +52,7 @@ return [
     'Save Times' => '@@Lưu lần@@',
     'Schedule Your First Meeting' => '@@Sắp xếp cuộc họp đầu tiên của bạn@@',
     'Schedule Your Impeachment Party' => '@@Lên kế hoạch tấn công của bạn@@',
+    'Scheduling made easy' => '@@Lập kế hoạch được thực hiện dễ dàng@@',
     'Send a message to other participants.' => '@@Gửi tin nhắn cho người tham gia khác.@@',
     'Sign Up Now' => '@@Đăng ký ngay bây giờ@@',
     'Signup' => '@@Đăng ký@@',
@@ -600,7 +601,6 @@ return [
     'Schedule your first meeting' => 'Lập lịch cuộc họp đầu tiên của bạn',
     'Scheduling' => 'Lập kế hoạch',
     'Scheduling Should Be Easy' => 'Lập kế hoạch nên được Dễ dàng',
-    'Scheduling made easy' => 'Lập kế hoạch được thực hiện dễ dàng',
     'Search' => 'Tìm kiếm',
     'Select One or More Dates and Times' => 'Chọn Một hoặc nhiều Ngày và Giờ',
     'Select an alternate time below' => 'Chọn thời gian thay thế dưới đây',
@@ -751,6 +751,7 @@ return [
     'Type of Contact' => 'Loại liên hệ',
     'Type of Meeting' => 'Loại cuộc họp',
     'Type of Place' => 'Loại địa điểm',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Nhập hoặc dán vào địa chỉ email của những người bạn muốn mời. Bạn cũng có thể chia sẻ liên kết lời mời qua email hoặc đăng lên Facebook. Khi bạn đã sẵn sàng gửi lời mời, chúng tôi sẽ cung cấp cho bạn.',
     'Unblock' => 'Mở khóa',
     'Unit' => 'Đơn vị',
     'Unknown' => 'không xác định',

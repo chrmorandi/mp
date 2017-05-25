@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => '초대 할 사람의 이메일 주소를 입력하거나 붙여 넣으십시오. 이메일을 통해 초대 링크를 공유하거나 Facebook에 게시 할 수도 있습니다. 초대장을 보낼 준비가되면 귀하를 위해 보내 드리겠습니다.',
+    'Scheduling made&nbsp;easy' => '일정 잡기가 쉽다 & nbsp; 쉽습니다.',
     '...coming soon...' => '@@곧 올거야.@@',
     '1) Connect with a social account' => '@@1) 소셜 계정으로 연결@@',
     '1) Prove you\'re not a troll' => '@@1) 당신이 트롤이 아닌 것을 증명하십시오.@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@시간 절약@@',
     'Schedule Your First Meeting' => '@@첫 번째 모임 예약@@',
     'Schedule Your Impeachment Party' => '@@당신의 탄압 파티 일정 잡기@@',
+    'Scheduling made easy' => '@@일정 잡기가 쉬워졌습니다.@@',
     'Select Dates and Times' => '@@날짜 및 시간 선택@@',
     'Send a message to other participants.' => '@@다른 참가자에게 메시지 보내기@@',
     'Sign Up Now' => '@@지금 등록하세요@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => '첫 번째 모임 예약',
     'Scheduling' => '스케줄링',
     'Scheduling Should Be Easy' => '스케줄링은 쉬워야한다.',
-    'Scheduling made easy' => '일정 잡기가 쉬워졌습니다.',
     'Search' => '수색',
     'Select One or More Dates and Times' => '하나 이상의 날짜 및 시간 선택',
     'Select an alternate time below' => '아래 대체 시간을 선택하십시오.',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => '연락처 유형',
     'Type of Meeting' => '회의 유형',
     'Type of Place' => '장소 유형',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => '초대 할 사람의 이메일 주소를 입력하거나 붙여 넣으십시오. 이메일을 통해 초대 링크를 공유하거나 Facebook에 게시 할 수도 있습니다. 초대장을 보낼 준비가되면 귀하를 위해 보내 드리겠습니다.',
     'Unblock' => '차단 해제',
     'Unit' => '단위',
     'Unknown' => '알 수 없는',

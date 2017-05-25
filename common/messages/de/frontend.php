@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Geben Sie ein oder fügen Sie in die E-Mail-Adressen der Personen ein, die Sie einladen möchten. Sie können auch den Einladungslink per E-Mail oder Post auf Facebook teilen. Wenn du bereit bist, die Einladung zu schicken, werden wir es für dich liefern.',
+    'Scheduling made&nbsp;easy' => 'Scheduling gemacht & nbsp; einfach',
     '...coming soon...' => '@@...demnächst...@@',
     '1) Connect with a social account' => '@@1) Verbinden Sie sich mit einem sozialen Konto@@',
     '1) Prove you\'re not a troll' => '@@1) beweisen Sie, dass Sie kein Troll sind@@',
@@ -103,6 +103,7 @@ return [
     'Save Times' => '@@Zeit sparen@@',
     'Schedule Your First Meeting' => '@@Planen Sie Ihre erste Besprechung@@',
     'Schedule Your Impeachment Party' => '@@Planen Sie Ihre Impeachment Party@@',
+    'Scheduling made easy' => '@@Terminierung leicht gemacht@@',
     'Select Dates and Times' => '@@Wählen Sie Datum und Uhrzeit@@',
     'Send a message to other participants.' => '@@Senden Sie eine Nachricht an andere Teilnehmer.@@',
     'Sign Up Now' => '@@Jetzt anmelden@@',
@@ -671,7 +672,6 @@ return [
     'Schedule your first meeting' => 'Planen Sie Ihre erste Besprechung',
     'Scheduling' => 'Terminierung',
     'Scheduling Should Be Easy' => 'Scheduling sollte einfach sein',
-    'Scheduling made easy' => 'Terminierung leicht gemacht',
     'Search' => 'Suche',
     'Select One or More Dates and Times' => 'Wählen Sie eine oder mehrere Termine und Zeiten aus',
     'Select an alternate time below' => 'Wählen Sie eine alternative Zeit unten',
@@ -822,6 +822,7 @@ return [
     'Type of Contact' => 'Art der Kontaktaufnahme',
     'Type of Meeting' => 'Art der Sitzung',
     'Type of Place' => 'Art des Ortes',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'Geben Sie ein oder fügen Sie in die E-Mail-Adressen der Personen ein, die Sie einladen möchten. Sie können auch den Einladungslink per E-Mail oder Post auf Facebook teilen. Wenn du bereit bist, die Einladung zu schicken, werden wir es für dich liefern.',
     'Unblock' => 'Entblocken',
     'Unit' => 'Einheit',
     'Unknown' => 'Unbekannt',

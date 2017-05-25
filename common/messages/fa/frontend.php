@@ -18,7 +18,7 @@
 */
 return [
     '' => '',
-    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'تایپ یا پیست در آدرس ایمیل افرادی را که می خواهید به دعوت. شما همچنین می توانید از لینک دعوت نامه از طریق ایمیل و یا ارسال در فیس بوک به اشتراک بگذارید. وقتی که شما آماده برای ارسال دعوت نامه، ما آن را برای شما ارائه کرده است.',
+    'Scheduling made&nbsp;easy' => 'برنامهریزی و nbsp؛ آسان',
     '...coming soon...' => '@@...به زودی...@@',
     '1) Connect with a social account' => '@@1) اتصال با یک حساب اجتماعی@@',
     '1) Prove you\'re not a troll' => '@@1) ثابت کنید که دایره وار حرکت کردن نیست@@',
@@ -58,6 +58,7 @@ return [
     'Save Times' => '@@صرفه جویی در زمان@@',
     'Schedule Your First Meeting' => '@@برنامه زمانبندی نشست اول شما@@',
     'Schedule Your Impeachment Party' => '@@برنامه حزب استیضاح شما@@',
+    'Scheduling made easy' => '@@برنامه ریزی آسان ساخته شده است@@',
     'Select Dates and Times' => '@@خرما و بار را انتخاب کنید@@',
     'Send a message to other participants.' => '@@ارسال یک پیام به دیگر شرکت کنندگان.@@',
     'Sign Up Now' => '@@همین حالا ثبت نام@@',
@@ -621,7 +622,6 @@ return [
     'Schedule your first meeting' => 'برنامه اولین جلسه خود را',
     'Scheduling' => 'زمان بندی',
     'Scheduling Should Be Easy' => 'برنامه ریزی باید آسان باشد',
-    'Scheduling made easy' => 'برنامه ریزی آسان ساخته شده است',
     'Search' => 'جستجو کردن',
     'Select One or More Dates and Times' => 'انتخاب یک یا چند خرما و بار',
     'Select an alternate time below' => 'انتخاب یک زمان جایگزین زیر را',
@@ -772,6 +772,7 @@ return [
     'Type of Contact' => 'نوع تماس',
     'Type of Meeting' => 'نوع نشست',
     'Type of Place' => 'نوع محل',
+    'Type or paste in the email addresses of people you wish to invite. You can also share the invitation link via email or post on Facebook. When you\'re ready to send the invitation, we\'ll deliver it for you.' => 'تایپ یا پیست در آدرس ایمیل افرادی را که می خواهید به دعوت. شما همچنین می توانید از لینک دعوت نامه از طریق ایمیل و یا ارسال در فیس بوک به اشتراک بگذارید. وقتی که شما آماده برای ارسال دعوت نامه، ما آن را برای شما ارائه کرده است.',
     'Unblock' => 'خار چیدن',
     'Unit' => 'واحد',
     'Unknown' => 'ناشناخته',
