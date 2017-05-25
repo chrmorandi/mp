@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Scheduling made&nbsp;easy',
     '...coming soon...' => '@@...coming soon...@@',
     '1) Connect with a social account' => '@@1) Connect with a social account@@',
     '1) Prove you\'re not a troll' => '@@1) Prove you\'re not a troll@@',
@@ -58,7 +57,8 @@ return [
     'Save Times' => '@@Save Times@@',
     'Schedule Your First Meeting' => '@@Schedule Your First Meeting@@',
     'Schedule Your Impeachment Party' => '@@Schedule Your Impeachment Party@@',
-    'Scheduling made easy' => '@@Scheduling made easy@@',
+    'Scheduling made&nbsp;easy' => '@@Scheduling made&nbsp;easy@@',
+    'Scheduling made{spacer}easy' => '@@Scheduling made {spacer} easy@@',
     'Select Dates and Times' => '@@Select Dates and Times@@',
     'Send a message to other participants.' => '@@Send a message to other participants.@@',
     'Sign Up Now' => '@@Sign Up Now@@',
@@ -622,6 +622,7 @@ return [
     'Schedule your first meeting' => 'Schedule your first meeting',
     'Scheduling' => 'Scheduling',
     'Scheduling Should Be Easy' => 'Scheduling Should Be Easy',
+    'Scheduling made easy' => '@@Scheduling made easy@@',
     'Search' => 'Search',
     'Select One or More Dates and Times' => 'Select One or More Dates and Times',
     'Select an alternate time below' => 'Select an alternate time below',

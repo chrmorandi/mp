@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'शेड्यूलिंग & nbsp; आसान बना दिया',
     '...coming soon...' => '@@...जल्द आ रहा है...@@',
     '1) Connect with a social account' => '@@1) एक सामाजिक खाते से कनेक्ट करें@@',
     '1) Prove you\'re not a troll' => '@@1) साबित करो कि आप ट्रोल नहीं हैं@@',
@@ -103,7 +102,8 @@ return [
     'Save Times' => '@@सहेजें टाइम्स@@',
     'Schedule Your First Meeting' => '@@अपनी पहली बैठक का समय निर्धारित करें@@',
     'Schedule Your Impeachment Party' => '@@अपने महाभियोग पार्टी की अनुसूची करें@@',
-    'Scheduling made easy' => '@@निर्धारण आसान बना दिया@@',
+    'Scheduling made&nbsp;easy' => '@@शेड्यूलिंग & nbsp; आसान बना दिया@@',
+    'Scheduling made{spacer}easy' => '@@निर्धारण किया गया {spacer} आसान@@',
     'Select Dates and Times' => '@@तिथियां और समय चुनें@@',
     'Send a message to other participants.' => '@@अन्य प्रतिभागियों को एक संदेश भेजें@@',
     'Sign Up Now' => '@@अभी साइनअप करें@@',
@@ -672,6 +672,7 @@ return [
     'Schedule your first meeting' => 'अपनी पहली बैठक को शेड्यूल करें',
     'Scheduling' => 'शेड्यूलिंग',
     'Scheduling Should Be Easy' => 'निर्धारण करना आसान होना चाहिए',
+    'Scheduling made easy' => '@@निर्धारण आसान बना दिया@@',
     'Search' => 'खोज',
     'Select One or More Dates and Times' => 'एक या अधिक दिनांक और समय चुनें',
     'Select an alternate time below' => 'नीचे एक वैकल्पिक समय चुनें',

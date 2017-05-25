@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Penjadwalan dibuat & nbsp; mudah',
     '...coming soon...' => '@@...segera akan datang...@@',
     '1) Connect with a social account' => '@@1) Terhubung dengan akun sosial@@',
     '1) Prove you\'re not a troll' => '@@1) Buktikan bahwa Anda bukan troll@@',
@@ -49,7 +48,8 @@ return [
     'Save Times' => '@@Simpan Times@@',
     'Schedule Your First Meeting' => '@@Jadwalkan Pertemuan Pertama Anda@@',
     'Schedule Your Impeachment Party' => '@@Jadwalkan Partai Impeachment Anda@@',
-    'Scheduling made easy' => '@@Penjadwalan menjadi mudah@@',
+    'Scheduling made&nbsp;easy' => '@@Penjadwalan dibuat & nbsp; mudah@@',
+    'Scheduling made{spacer}easy' => '@@Penjadwalan dibuat {spacer} mudah@@',
     'Send a message to other participants.' => '@@Kirim pesan ke peserta lainnya.@@',
     'Sign Up Now' => '@@Daftar sekarang@@',
     'Signup' => '@@Daftar@@',
@@ -598,6 +598,7 @@ return [
     'Schedule your first meeting' => 'Jadwalkan pertemuan pertamamu',
     'Scheduling' => 'Penjadwalan',
     'Scheduling Should Be Easy' => 'Penjadwalan Harus Mudah',
+    'Scheduling made easy' => '@@Penjadwalan menjadi mudah@@',
     'Search' => 'Pencarian',
     'Select One or More Dates and Times' => 'Pilih satu atau lebih tanggal dan waktu',
     'Select an alternate time below' => 'Pilih waktu alternatif di bawah ini',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'جعلت الجدولة & نبسب؛ سهلة',
     '...coming soon...' => '@@...قريبا...@@',
     '1) Connect with a social account' => '@@1) التواصل مع حساب اجتماعي@@',
     '1) Prove you\'re not a troll' => '@@1) إثبات أنك لست القزم@@',
@@ -103,7 +102,8 @@ return [
     'Save Times' => '@@حفظ تايمز@@',
     'Schedule Your First Meeting' => '@@جدولة الاجتماع الأول@@',
     'Schedule Your Impeachment Party' => '@@جدولة حزب الإقالة@@',
-    'Scheduling made easy' => '@@جعلت من السهل جدولة@@',
+    'Scheduling made&nbsp;easy' => '@@جعلت الجدولة & نبسب؛ سهلة@@',
+    'Scheduling made{spacer}easy' => '@@جدولة {spacer} سهل@@',
     'Select Dates and Times' => '@@حدد التواريخ والأوقات@@',
     'Send a message to other participants.' => '@@إرسال رسالة إلى المشاركين الآخرين.@@',
     'Sign Up Now' => '@@أفتح حساب الأن@@',
@@ -672,6 +672,7 @@ return [
     'Schedule your first meeting' => 'جدولة الاجتماع الأول',
     'Scheduling' => 'جدولة',
     'Scheduling Should Be Easy' => 'جدولة يجب أن تكون سهلة',
+    'Scheduling made easy' => '@@جعلت من السهل جدولة@@',
     'Search' => 'بحث',
     'Select One or More Dates and Times' => 'حدد واحد أو أكثر من التواريخ والأوقات',
     'Select an alternate time below' => 'حدد وقت بديل أدناه',

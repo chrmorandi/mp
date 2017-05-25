@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'スケジュール設定が簡単＆nbsp;簡単',
     '...coming soon...' => '@@...近日公開...@@',
     '1) Connect with a social account' => '@@1）ソーシャルアカウントに接続する@@',
     '1) Prove you\'re not a troll' => '@@1）あなたがトロールでないことを証明する@@',
@@ -103,7 +102,8 @@ return [
     'Save Times' => '@@時間を節約する@@',
     'Schedule Your First Meeting' => '@@最初の会議をスケジュールする@@',
     'Schedule Your Impeachment Party' => '@@あなたの弾劾党の予定@@',
-    'Scheduling made easy' => '@@スケジューリングが簡単に@@',
+    'Scheduling made&nbsp;easy' => '@@スケジュール設定が簡単＆nbsp;簡単@@',
+    'Scheduling made{spacer}easy' => '@@スケジューリング {spacer} 簡単@@',
     'Select Dates and Times' => '@@日付と時刻を選択@@',
     'Send a message to other participants.' => '@@他の参加者にメッセージを送信します。@@',
     'Sign Up Now' => '@@今すぐ申し込む@@',
@@ -672,6 +672,7 @@ return [
     'Schedule your first meeting' => '最初の会議をスケジュールする',
     'Scheduling' => 'スケジューリング',
     'Scheduling Should Be Easy' => 'スケジュールを簡単にする',
+    'Scheduling made easy' => '@@スケジューリングが簡単に@@',
     'Search' => '検索',
     'Select One or More Dates and Times' => '1つ以上の日付と時刻を選択',
     'Select an alternate time below' => '下の代替時間を選択してください',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Ο προγραμματισμός γίνεται & nbsp; εύκολος',
     '...coming soon...' => '@@...Ερχομαι συντομα...@@',
     '1) Connect with a social account' => '@@1) Συνδεθείτε με έναν κοινωνικό λογαριασμό@@',
     '1) Prove you\'re not a troll' => '@@1) Αποδείξτε ότι δεν είστε συγγραφέας@@',
@@ -49,7 +48,8 @@ return [
     'Save Times' => '@@Αποθηκεύστε τους χρόνους@@',
     'Schedule Your First Meeting' => '@@Προγραμματίστε την πρώτη σας συνάντηση@@',
     'Schedule Your Impeachment Party' => '@@Προγραμματίστε το συμβαλλόμενο μέρος σας@@',
-    'Scheduling made easy' => '@@Ο προγραμματισμός έγινε εύκολος@@',
+    'Scheduling made&nbsp;easy' => '@@Ο προγραμματισμός γίνεται & nbsp; εύκολος@@',
+    'Scheduling made{spacer}easy' => '@@Ο προγραμματισμός έγινε {spacer} εύκολος@@',
     'Send a message to other participants.' => '@@Στείλτε ένα μήνυμα σε άλλους συμμετέχοντες.@@',
     'Sign Up Now' => '@@Εγγραφείτε τώρα@@',
     'Signup' => '@@Εγγραφείτε@@',
@@ -598,6 +598,7 @@ return [
     'Schedule your first meeting' => 'Προγραμματίστε την πρώτη σας συνάντηση',
     'Scheduling' => 'Χρονοδρομολόγηση',
     'Scheduling Should Be Easy' => 'Ο προγραμματισμός πρέπει να είναι εύκολος',
+    'Scheduling made easy' => '@@Ο προγραμματισμός έγινε εύκολος@@',
     'Search' => 'Ψάξιμο',
     'Select One or More Dates and Times' => 'Επιλέξτε μία ή περισσότερες ημερομηνίες και ώρες',
     'Select an alternate time below' => 'Επιλέξτε έναν εναλλακτικό χρόνο παρακάτω',

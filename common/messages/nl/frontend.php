@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Schedulering gemaakt & nbsp; makkelijk',
     '...coming soon...' => '@@...binnenkort beschikbaar...@@',
     '1) Connect with a social account' => '@@1) Verbinden met een sociaal account@@',
     '1) Prove you\'re not a troll' => '@@1) Bewijs dat je geen troll bent@@',
@@ -52,7 +51,8 @@ return [
     'Save Times' => '@@Opslaan tijden@@',
     'Schedule Your First Meeting' => '@@Plan uw eerste vergadering@@',
     'Schedule Your Impeachment Party' => '@@Schedule Your Impeachment Party@@',
-    'Scheduling made easy' => '@@Scheduleren makkelijk gemaakt@@',
+    'Scheduling made&nbsp;easy' => '@@Schedulering gemaakt & nbsp; makkelijk@@',
+    'Scheduling made{spacer}easy' => '@@Schedulering gemaakt {spacer} gemakkelijk@@',
     'Send a message to other participants.' => '@@Stuur een bericht naar andere deelnemers.@@',
     'Sign Up Now' => '@@Schrijf je nu in@@',
     'Signup' => '@@Aanmelden@@',
@@ -601,6 +601,7 @@ return [
     'Schedule your first meeting' => 'Plan uw eerste vergadering',
     'Scheduling' => 'scheduling',
     'Scheduling Should Be Easy' => 'Scheduleren moet gemakkelijk zijn',
+    'Scheduling made easy' => '@@Scheduleren makkelijk gemaakt@@',
     'Search' => 'Zoeken',
     'Select One or More Dates and Times' => 'Selecteer een of meer data en tijden',
     'Select an alternate time below' => 'Selecteer een alternatieve tijd hieronder',

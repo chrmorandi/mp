@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => '安排时间很简单',
     '...coming soon...' => '@@...快来了...@@',
     '1) Connect with a social account' => '@@1）与社会账户联系@@',
     '1) Prove you\'re not a troll' => '@@1）证明你不是巨魔@@',
@@ -103,7 +102,8 @@ return [
     'Save Times' => '@@节省时间@@',
     'Schedule Your First Meeting' => '@@安排你的第一次会议@@',
     'Schedule Your Impeachment Party' => '@@安排你的弹奏派对@@',
-    'Scheduling made easy' => '@@调度变得容易@@',
+    'Scheduling made&nbsp;easy' => '@@安排时间很简单@@',
+    'Scheduling made{spacer}easy' => '@@计划制作 {spacer} 简单@@',
     'Select Dates and Times' => '@@选择日期和时间@@',
     'Send a message to other participants.' => '@@向其他参与者发送消息。@@',
     'Sign Up Now' => '@@立即注册@@',
@@ -672,6 +672,7 @@ return [
     'Schedule your first meeting' => '安排第一次会议',
     'Scheduling' => '计划',
     'Scheduling Should Be Easy' => '计划应该容易',
+    'Scheduling made easy' => '@@调度变得容易@@',
     'Search' => '搜索',
     'Select One or More Dates and Times' => '选择一个或多个日期和时间',
     'Select an alternate time below' => '选择下面的替代时间',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Harmonogram robił & nbsp; łatwy',
     '...coming soon...' => '@@...wkrótce...@@',
     '1) Connect with a social account' => '@@1) Połącz się z kontem społecznościowym@@',
     '1) Prove you\'re not a troll' => '@@1) Udowodnij, że nie jesteś trollem@@',
@@ -58,7 +57,8 @@ return [
     'Save Times' => '@@Zapisz czasy@@',
     'Schedule Your First Meeting' => '@@Zorganizuj pierwsze spotkanie@@',
     'Schedule Your Impeachment Party' => '@@Zaplanuj swoją imprezę przywódczą@@',
-    'Scheduling made easy' => '@@Harmonowanie było łatwe@@',
+    'Scheduling made&nbsp;easy' => '@@Harmonogram robił & nbsp; łatwy@@',
+    'Scheduling made{spacer}easy' => '@@Dokonano harmonogramu {spacer} łatwo@@',
     'Select Dates and Times' => '@@Wybierz datę i godzinę@@',
     'Send a message to other participants.' => '@@Wyślij wiadomość do innych uczestników.@@',
     'Sign Up Now' => '@@Zapisz się teraz@@',
@@ -622,6 +622,7 @@ return [
     'Schedule your first meeting' => 'Zorganizuj pierwsze spotkanie',
     'Scheduling' => 'Planowanie',
     'Scheduling Should Be Easy' => 'Planowanie powinno być łatwe',
+    'Scheduling made easy' => '@@Harmonowanie było łatwe@@',
     'Search' => 'Szukanie',
     'Select One or More Dates and Times' => 'Wybierz jedną lub więcej dat i godzin',
     'Select an alternate time below' => 'Wybierz inny czas poniżej',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'برنامهریزی و nbsp؛ آسان',
     '...coming soon...' => '@@...به زودی...@@',
     '1) Connect with a social account' => '@@1) اتصال با یک حساب اجتماعی@@',
     '1) Prove you\'re not a troll' => '@@1) ثابت کنید که دایره وار حرکت کردن نیست@@',
@@ -58,7 +57,8 @@ return [
     'Save Times' => '@@صرفه جویی در زمان@@',
     'Schedule Your First Meeting' => '@@برنامه زمانبندی نشست اول شما@@',
     'Schedule Your Impeachment Party' => '@@برنامه حزب استیضاح شما@@',
-    'Scheduling made easy' => '@@برنامه ریزی آسان ساخته شده است@@',
+    'Scheduling made&nbsp;easy' => '@@برنامهریزی و nbsp؛ آسان@@',
+    'Scheduling made{spacer}easy' => '@@برنامهریزی {spacer} ساده@@',
     'Select Dates and Times' => '@@خرما و بار را انتخاب کنید@@',
     'Send a message to other participants.' => '@@ارسال یک پیام به دیگر شرکت کنندگان.@@',
     'Sign Up Now' => '@@همین حالا ثبت نام@@',
@@ -622,6 +622,7 @@ return [
     'Schedule your first meeting' => 'برنامه اولین جلسه خود را',
     'Scheduling' => 'زمان بندی',
     'Scheduling Should Be Easy' => 'برنامه ریزی باید آسان باشد',
+    'Scheduling made easy' => '@@برنامه ریزی آسان ساخته شده است@@',
     'Search' => 'جستجو کردن',
     'Select One or More Dates and Times' => 'انتخاب یک یا چند خرما و بار',
     'Select an alternate time below' => 'انتخاب یک زمان جایگزین زیر را',

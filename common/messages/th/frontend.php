@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'การจัดตารางเวลาทำได้ง่าย',
     '...coming soon...' => '@@...เร็ว ๆ นี้...@@',
     '1) Connect with a social account' => '@@1) เชื่อมต่อกับบัญชีโซเชียล@@',
     '1) Prove you\'re not a troll' => '@@1) พิสูจน์ว่าคุณไม่ใช่คนหมุนรอบ@@',
@@ -49,7 +48,8 @@ return [
     'Save Times' => '@@ประหยัดเวลา@@',
     'Schedule Your First Meeting' => '@@กำหนดการประชุมครั้งแรกของคุณ@@',
     'Schedule Your Impeachment Party' => '@@นัดหมายการฟ้องร้องของคุณ@@',
-    'Scheduling made easy' => '@@การจัดตารางเวลาทำได้ง่าย@@',
+    'Scheduling made&nbsp;easy' => '@@การจัดตารางเวลาทำได้ง่าย@@',
+    'Scheduling made{spacer}easy' => '@@สร้างตารางเวลาแล้ว {spacer} ง่าย@@',
     'Send a message to other participants.' => '@@ส่งข้อความไปยังผู้เข้าร่วมรายอื่น ๆ@@',
     'Sign Up Now' => '@@สมัครตอนนี้เลย@@',
     'Signup' => '@@ลงชื่อ@@',
@@ -598,6 +598,7 @@ return [
     'Schedule your first meeting' => 'กำหนดการประชุมครั้งแรกของคุณ',
     'Scheduling' => 'การกำหนด',
     'Scheduling Should Be Easy' => 'การจัดตารางเวลาควรเป็นเรื่องง่าย',
+    'Scheduling made easy' => '@@การจัดตารางเวลาทำได้ง่าย@@',
     'Search' => 'ค้นหา',
     'Select One or More Dates and Times' => 'เลือกวันและเวลาอย่างน้อยหนึ่งวัน',
     'Select an alternate time below' => 'เลือกเวลาอื่นด้านล่าง',

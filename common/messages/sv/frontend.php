@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Schemaläggning gjort & nbsp; lätt',
     '...coming soon...' => '@@...kommer snart...@@',
     '1) Connect with a social account' => '@@1) Anslut till ett socialt konto@@',
     '1) Prove you\'re not a troll' => '@@1) Bevis att du inte är en troll@@',
@@ -49,7 +48,8 @@ return [
     'Save Times' => '@@Spara tider@@',
     'Schedule Your First Meeting' => '@@Planera ditt första möte@@',
     'Schedule Your Impeachment Party' => '@@Planera din förseelseparti@@',
-    'Scheduling made easy' => '@@Schemaläggning gjorde det enkelt@@',
+    'Scheduling made&nbsp;easy' => '@@Schemaläggning gjort & nbsp; lätt@@',
+    'Scheduling made{spacer}easy' => '@@Schemaläggning gjord {spacer} lätt@@',
     'Send a message to other participants.' => '@@Skicka ett meddelande till andra deltagare.@@',
     'Sign Up Now' => '@@Anmäl dig nu@@',
     'Signup' => '@@Bli Medlem@@',
@@ -598,6 +598,7 @@ return [
     'Schedule your first meeting' => 'Planera ditt första möte',
     'Scheduling' => 'schemaläggning',
     'Scheduling Should Be Easy' => 'Schemaläggning ska vara lätt',
+    'Scheduling made easy' => '@@Schemaläggning gjorde det enkelt@@',
     'Search' => 'Sök',
     'Select One or More Dates and Times' => 'Välj en eller flera datum och tider',
     'Select an alternate time below' => 'Välj en alternativ tid nedan',

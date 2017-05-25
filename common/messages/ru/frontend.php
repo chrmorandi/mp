@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Планирование выполнено & nbsp; легко',
     '...coming soon...' => '@@...скоро...@@',
     '1) Connect with a social account' => '@@1) Подключение к социальной учетной записи@@',
     '1) Prove you\'re not a troll' => '@@1) Докажите, что вы не тролль@@',
@@ -103,7 +102,8 @@ return [
     'Save Times' => '@@Сохранить время@@',
     'Schedule Your First Meeting' => '@@Запланируйте свою первую встречу@@',
     'Schedule Your Impeachment Party' => '@@Запланируйте свою вечеринку импичмента@@',
-    'Scheduling made easy' => '@@Планирование просто@@',
+    'Scheduling made&nbsp;easy' => '@@Планирование выполнено & nbsp; легко@@',
+    'Scheduling made{spacer}easy' => '@@Планирование выполнено {spacer} легко@@',
     'Select Dates and Times' => '@@Выберите даты и время@@',
     'Send a message to other participants.' => '@@Отправьте сообщение другим участникам.@@',
     'Sign Up Now' => '@@Зарегистрироваться сейчас@@',
@@ -672,6 +672,7 @@ return [
     'Schedule your first meeting' => 'Запланируйте свою первую встречу',
     'Scheduling' => 'Планирование',
     'Scheduling Should Be Easy' => 'Планирование должно быть легким',
+    'Scheduling made easy' => '@@Планирование просто@@',
     'Search' => 'Поиск',
     'Select One or More Dates and Times' => 'Выберите один или несколько дат и времен',
     'Select an alternate time below' => 'Выберите альтернативное время ниже',

@@ -18,7 +18,6 @@
 */
 return [
     '' => '',
-    'Scheduling made&nbsp;easy' => 'Plánování provedeno & nbsp; snadné',
     '...coming soon...' => '@@...Brzy...@@',
     '1) Connect with a social account' => '@@1) Připojte se ke společenskému účtu@@',
     '1) Prove you\'re not a troll' => '@@1) Dokažte, že nejste trol@@',
@@ -49,7 +48,8 @@ return [
     'Save Times' => '@@Ušetřete čas@@',
     'Schedule Your First Meeting' => '@@Naplánujte své první setkání@@',
     'Schedule Your Impeachment Party' => '@@Naplánujte svoji stranu s podvodem@@',
-    'Scheduling made easy' => '@@Plánování bylo snadné@@',
+    'Scheduling made&nbsp;easy' => '@@Plánování provedeno & nbsp; snadné@@',
+    'Scheduling made{spacer}easy' => '@@Plánování provedeno {spacer} snadný@@',
     'Send a message to other participants.' => '@@Odeslat zprávu ostatním účastníkům.@@',
     'Sign Up Now' => '@@Zaregistrujte se nyní@@',
     'Signup' => '@@Přihlásit se@@',
@@ -598,6 +598,7 @@ return [
     'Schedule your first meeting' => 'Naplánujte první schůzku',
     'Scheduling' => 'Plánování',
     'Scheduling Should Be Easy' => 'Plánování by mělo být snadné',
+    'Scheduling made easy' => '@@Plánování bylo snadné@@',
     'Search' => 'Vyhledávání',
     'Select One or More Dates and Times' => 'Vyberte jeden nebo více dat a časů',
     'Select an alternate time below' => 'Vyberte níže uvedený alternativní čas',
