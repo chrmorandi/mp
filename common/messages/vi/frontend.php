@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'Rất tiếc, chúng tôi yêu cầu địa chỉ email của bạn từ Facebook. Hoặc',
+    'and try again, or register using a different method below.' => 'Và thử lại, hoặc đăng ký sử dụng một phương pháp khác dưới đây.',
+    'remove us from your Facebook apps' => 'Xóa chúng tôi khỏi các ứng dụng Facebook của bạn',
     '...coming soon...' => '@@... sắp tới ...@@',
     '1) Connect with a social account' => '@@1) Kết nối với một tài khoản xã hội@@',
     '1) Prove you\'re not a troll' => '@@1) Chứng minh bạn không phải là một troll@@',

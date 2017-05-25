@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'Λυπούμαστε, χρειαζόμαστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας από το Facebook. Είτε',
+    'and try again, or register using a different method below.' => 'Και προσπαθήστε ξανά ή εγγραφείτε χρησιμοποιώντας μια διαφορετική μέθοδο παρακάτω.',
+    'remove us from your Facebook apps' => 'Αφαιρέστε μας από τις εφαρμογές σας στο Facebook',
     '...coming soon...' => '@@...Ερχομαι συντομα...@@',
     '1) Connect with a social account' => '@@1) Συνδεθείτε με έναν κοινωνικό λογαριασμό@@',
     '1) Prove you\'re not a troll' => '@@1) Αποδείξτε ότι δεν είστε συγγραφέας@@',

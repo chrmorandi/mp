@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'क्षमा करें, हमें फेसबुक से अपना ईमेल पता आवश्यक है भी',
+    'and try again, or register using a different method below.' => 'और फिर से प्रयास करें, या नीचे एक अलग विधि का उपयोग कर रजिस्टर करें।',
+    'remove us from your Facebook apps' => 'अपने फेसबुक एप्लिकेशन से हमें निकालें',
     '...coming soon...' => '@@...जल्द आ रहा है...@@',
     '1) Connect with a social account' => '@@1) एक सामाजिक खाते से कनेक्ट करें@@',
     '1) Prove you\'re not a troll' => '@@1) साबित करो कि आप ट्रोल नहीं हैं@@',

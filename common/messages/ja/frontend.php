@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => '申し訳ありませんが、Facebookからのメールアドレスが必要です。いずれか',
+    'and try again, or register using a different method below.' => 'もう一度やり直すか、以下の別の方法で登録してください。',
+    'remove us from your Facebook apps' => 'あなたのFacebookアプリから私たちを取り除く',
     '...coming soon...' => '@@...近日公開...@@',
     '1) Connect with a social account' => '@@1）ソーシャルアカウントに接続する@@',
     '1) Prove you\'re not a troll' => '@@1）あなたがトロールでないことを証明する@@',

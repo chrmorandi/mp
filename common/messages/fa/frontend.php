@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'با عرض پوزش، ما نشانی پست الکترونیکی خود از فیس بوک است. در هر دو صورت',
+    'and try again, or register using a different method below.' => 'و دوباره امتحان کنید، یا ثبت نام با استفاده از روش های مختلف در زیر.',
+    'remove us from your Facebook apps' => 'ما را از برنامه های فیس بوک خود را',
     '...coming soon...' => '@@...به زودی...@@',
     '1) Connect with a social account' => '@@1) اتصال با یک حساب اجتماعی@@',
     '1) Prove you\'re not a troll' => '@@1) ثابت کنید که دایره وار حرکت کردن نیست@@',

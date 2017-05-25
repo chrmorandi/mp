@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'Tyvärr, vi kräver din e-postadress från Facebook. Antingen',
+    'and try again, or register using a different method below.' => 'Och försök igen, eller registrera dig med en annan metod nedan.',
+    'remove us from your Facebook apps' => 'Ta bort oss från dina Facebook-appar',
     '...coming soon...' => '@@...kommer snart...@@',
     '1) Connect with a social account' => '@@1) Anslut till ett socialt konto@@',
     '1) Prove you\'re not a troll' => '@@1) Bevis att du inte är en troll@@',

@@ -16,6 +16,7 @@ use yii\filters\AccessControl;
 use frontend\models\Auth;
 use yii\authclient\ClientInterface;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use common\models\User;
 
 /**
@@ -254,6 +255,11 @@ class SiteController extends Controller
         $fullname ='';
         switch ($serviceProvider) {
           case 'facebook':
+            if (!array_key_exists('email',$attributes)) {
+              $fb_app_str = Html::a(Yii::t('frontend','remove us from your Facebook apps'),'https://www.facebook.com/settings?tab=applications');
+              Yii::$app->getSession()->setFlash('error', Yii::t('frontend','Sorry, we do require your email address from Facebook. Either').' '.$fb_app_str.' '.Yii::t('frontend','and try again, or register using a different method below.'));
+              return $this->goHome();
+            }
             $username = $email = $attributes['email'];
             $fullname = $attributes['name'];
             break;

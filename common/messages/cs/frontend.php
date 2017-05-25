@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'Omlouváme se, požadujeme vaši e-mailovou adresu z Facebooku. Buď',
+    'and try again, or register using a different method below.' => 'A zkuste to znovu, nebo se zaregistrujte pomocí jiné metody níže.',
+    'remove us from your Facebook apps' => 'Odeberte nás z vašich Facebook aplikací',
     '...coming soon...' => '@@...Brzy...@@',
     '1) Connect with a social account' => '@@1) Připojte se ke společenskému účtu@@',
     '1) Prove you\'re not a troll' => '@@1) Dokažte, že nejste trol@@',

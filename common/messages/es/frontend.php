@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'Lo sentimos, necesitamos su dirección de correo electrónico de Facebook. Ya sea',
+    'and try again, or register using a different method below.' => 'E inténtelo de nuevo, o regístrese utilizando un método diferente a continuación.',
+    'remove us from your Facebook apps' => 'Quítenos de sus aplicaciones de Facebook',
     '...coming soon...' => '@@...próximamente...@@',
     '1) Connect with a social account' => '@@1) Conectarse con una cuenta social@@',
     '1) Prove you\'re not a troll' => '@@1) Probar que no eres un troll@@',

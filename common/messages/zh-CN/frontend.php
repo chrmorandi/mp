@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => '对不起，我们确实需要您从Facebook的电子邮件地址。或',
+    'and try again, or register using a different method below.' => '然后再试一次，或使用下面的不同方法进行注册。',
+    'remove us from your Facebook apps' => '从我们的Facebook应用程序中删除我们',
     '...coming soon...' => '@@...快来了...@@',
     '1) Connect with a social account' => '@@1）与社会账户联系@@',
     '1) Prove you\'re not a troll' => '@@1）证明你不是巨魔@@',

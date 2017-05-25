@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'ขออภัยเราต้องการที่อยู่อีเมลของคุณจาก Facebook ทั้ง',
+    'and try again, or register using a different method below.' => 'และลองอีกครั้งหรือลงทะเบียนโดยใช้วิธีอื่นด้านล่าง',
+    'remove us from your Facebook apps' => 'ลบเราออกจากแอพ Facebook ของคุณ',
     '...coming soon...' => '@@...เร็ว ๆ นี้...@@',
     '1) Connect with a social account' => '@@1) เชื่อมต่อกับบัญชีโซเชียล@@',
     '1) Prove you\'re not a troll' => '@@1) พิสูจน์ว่าคุณไม่ใช่คนหมุนรอบ@@',

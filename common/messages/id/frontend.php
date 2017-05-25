@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'Maaf, kami membutuhkan alamat email anda dari Facebook. Antara',
+    'and try again, or register using a different method below.' => 'Dan coba lagi, atau daftarkan dengan menggunakan metode yang berbeda di bawah ini.',
+    'remove us from your Facebook apps' => 'Lepaskan kami dari aplikasi Facebook Anda',
     '...coming soon...' => '@@...segera akan datang...@@',
     '1) Connect with a social account' => '@@1) Terhubung dengan akun sosial@@',
     '1) Prove you\'re not a troll' => '@@1) Buktikan bahwa Anda bukan troll@@',

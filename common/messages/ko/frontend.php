@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => '죄송합니다. Facebook의 이메일 주소가 필요합니다. 어느 한 쪽',
+    'and try again, or register using a different method below.' => '다시 시도하거나 아래의 다른 방법을 사용하여 등록하십시오.',
+    'remove us from your Facebook apps' => 'Facebook 앱에서 우리를 제외하십시오.',
     '...coming soon...' => '@@곧 올거야.@@',
     '1) Connect with a social account' => '@@1) 소셜 계정으로 연결@@',
     '1) Prove you\'re not a troll' => '@@1) 당신이 트롤이 아닌 것을 증명하십시오.@@',

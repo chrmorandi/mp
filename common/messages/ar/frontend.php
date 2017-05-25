@@ -18,6 +18,9 @@
 */
 return [
     '' => '',
+    'Sorry, we do require your email address from Facebook. Either' => 'عذرا، نحن لا تتطلب عنوان البريد الإلكتروني الخاص بك من الفيسبوك. إما',
+    'and try again, or register using a different method below.' => 'ثم حاول مرة أخرى، أو سجل باستخدام طريقة مختلفة أدناه.',
+    'remove us from your Facebook apps' => 'وإزالة لنا من تطبيقات الفيسبوك الخاص بك',
     '...coming soon...' => '@@...قريبا...@@',
     '1) Connect with a social account' => '@@1) التواصل مع حساب اجتماعي@@',
     '1) Prove you\'re not a troll' => '@@1) إثبات أنك لست القزم@@',
