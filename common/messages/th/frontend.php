@@ -598,7 +598,7 @@ return [
     'Schedule your first meeting' => 'กำหนดการประชุมครั้งแรกของคุณ',
     'Scheduling' => 'การกำหนด',
     'Scheduling Should Be Easy' => 'การจัดตารางเวลาควรเป็นเรื่องง่าย',
-    'Scheduling made easy' => '@@การจัดตารางเวลาทำได้ง่าย@@',
+    'Scheduling made easy' => 'การจัดตารางเวลาทำได้ง่าย',
     'Search' => 'ค้นหา',
     'Select One or More Dates and Times' => 'เลือกวันและเวลาอย่างน้อยหนึ่งวัน',
     'Select an alternate time below' => 'เลือกเวลาอื่นด้านล่าง',

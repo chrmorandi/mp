@@ -638,7 +638,7 @@ return [
     'Schedule your first meeting' => 'Pianifica la tua prima riunione',
     'Scheduling' => 'programmazione',
     'Scheduling Should Be Easy' => 'Pianificazione dovrebbe essere facile',
-    'Scheduling made easy' => '@@Pianificazione facile@@',
+    'Scheduling made easy' => 'Pianificazione facile',
     'Search' => 'ricerca',
     'Select One or More Dates and Times' => 'Seleziona una o più date e tempi',
     'Select an alternate time below' => 'Seleziona un tempo alternativo qui sotto',

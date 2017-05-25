@@ -672,7 +672,7 @@ return [
     'Schedule your first meeting' => '첫 번째 모임 예약',
     'Scheduling' => '스케줄링',
     'Scheduling Should Be Easy' => '스케줄링은 쉬워야한다.',
-    'Scheduling made easy' => '@@일정 잡기가 쉬워졌습니다.@@',
+    'Scheduling made easy' => '일정 잡기가 쉬워졌습니다.',
     'Search' => '수색',
     'Select One or More Dates and Times' => '하나 이상의 날짜 및 시간 선택',
     'Select an alternate time below' => '아래 대체 시간을 선택하십시오.',

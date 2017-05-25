@@ -672,7 +672,7 @@ return [
     'Schedule your first meeting' => '最初の会議をスケジュールする',
     'Scheduling' => 'スケジューリング',
     'Scheduling Should Be Easy' => 'スケジュールを簡単にする',
-    'Scheduling made easy' => '@@スケジューリングが簡単に@@',
+    'Scheduling made easy' => 'スケジューリングが簡単に',
     'Search' => '検索',
     'Select One or More Dates and Times' => '1つ以上の日付と時刻を選択',
     'Select an alternate time below' => '下の代替時間を選択してください',

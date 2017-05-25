@@ -672,7 +672,7 @@ return [
     'Schedule your first meeting' => 'جدولة الاجتماع الأول',
     'Scheduling' => 'جدولة',
     'Scheduling Should Be Easy' => 'جدولة يجب أن تكون سهلة',
-    'Scheduling made easy' => '@@جعلت من السهل جدولة@@',
+    'Scheduling made easy' => 'جعلت من السهل جدولة',
     'Search' => 'بحث',
     'Select One or More Dates and Times' => 'حدد واحد أو أكثر من التواريخ والأوقات',
     'Select an alternate time below' => 'حدد وقت بديل أدناه',

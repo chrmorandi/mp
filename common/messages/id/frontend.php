@@ -598,7 +598,7 @@ return [
     'Schedule your first meeting' => 'Jadwalkan pertemuan pertamamu',
     'Scheduling' => 'Penjadwalan',
     'Scheduling Should Be Easy' => 'Penjadwalan Harus Mudah',
-    'Scheduling made easy' => '@@Penjadwalan menjadi mudah@@',
+    'Scheduling made easy' => 'Penjadwalan menjadi mudah',
     'Search' => 'Pencarian',
     'Select One or More Dates and Times' => 'Pilih satu atau lebih tanggal dan waktu',
     'Select an alternate time below' => 'Pilih waktu alternatif di bawah ini',

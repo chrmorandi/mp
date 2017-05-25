@@ -672,7 +672,7 @@ return [
     'Schedule your first meeting' => 'अपनी पहली बैठक को शेड्यूल करें',
     'Scheduling' => 'शेड्यूलिंग',
     'Scheduling Should Be Easy' => 'निर्धारण करना आसान होना चाहिए',
-    'Scheduling made easy' => '@@निर्धारण आसान बना दिया@@',
+    'Scheduling made easy' => 'निर्धारण आसान बना दिया',
     'Search' => 'खोज',
     'Select One or More Dates and Times' => 'एक या अधिक दिनांक और समय चुनें',
     'Select an alternate time below' => 'नीचे एक वैकल्पिक समय चुनें',

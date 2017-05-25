@@ -672,7 +672,7 @@ return [
     'Schedule your first meeting' => 'Запланируйте свою первую встречу',
     'Scheduling' => 'Планирование',
     'Scheduling Should Be Easy' => 'Планирование должно быть легким',
-    'Scheduling made easy' => '@@Планирование просто@@',
+    'Scheduling made easy' => 'Планирование просто',
     'Search' => 'Поиск',
     'Select One or More Dates and Times' => 'Выберите один или несколько дат и времен',
     'Select an alternate time below' => 'Выберите альтернативное время ниже',

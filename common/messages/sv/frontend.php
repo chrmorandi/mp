@@ -598,7 +598,7 @@ return [
     'Schedule your first meeting' => 'Planera ditt första möte',
     'Scheduling' => 'schemaläggning',
     'Scheduling Should Be Easy' => 'Schemaläggning ska vara lätt',
-    'Scheduling made easy' => '@@Schemaläggning gjorde det enkelt@@',
+    'Scheduling made easy' => 'Schemaläggning gjorde det enkelt',
     'Search' => 'Sök',
     'Select One or More Dates and Times' => 'Välj en eller flera datum och tider',
     'Select an alternate time below' => 'Välj en alternativ tid nedan',

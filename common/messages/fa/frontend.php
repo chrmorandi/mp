@@ -622,7 +622,7 @@ return [
     'Schedule your first meeting' => 'برنامه اولین جلسه خود را',
     'Scheduling' => 'زمان بندی',
     'Scheduling Should Be Easy' => 'برنامه ریزی باید آسان باشد',
-    'Scheduling made easy' => '@@برنامه ریزی آسان ساخته شده است@@',
+    'Scheduling made easy' => 'برنامه ریزی آسان ساخته شده است',
     'Search' => 'جستجو کردن',
     'Select One or More Dates and Times' => 'انتخاب یک یا چند خرما و بار',
     'Select an alternate time below' => 'انتخاب یک زمان جایگزین زیر را',

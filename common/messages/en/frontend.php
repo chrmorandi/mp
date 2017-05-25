@@ -622,7 +622,7 @@ return [
     'Schedule your first meeting' => 'Schedule your first meeting',
     'Scheduling' => 'Scheduling',
     'Scheduling Should Be Easy' => 'Scheduling Should Be Easy',
-    'Scheduling made easy' => '@@Scheduling made easy@@',
+    'Scheduling made easy' => 'Scheduling made easy',
     'Search' => 'Search',
     'Select One or More Dates and Times' => 'Select One or More Dates and Times',
     'Select an alternate time below' => 'Select an alternate time below',

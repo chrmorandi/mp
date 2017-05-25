@@ -672,7 +672,7 @@ return [
     'Schedule your first meeting' => '安排第一次会议',
     'Scheduling' => '计划',
     'Scheduling Should Be Easy' => '计划应该容易',
-    'Scheduling made easy' => '@@调度变得容易@@',
+    'Scheduling made easy' => '调度变得容易',
     'Search' => '搜索',
     'Select One or More Dates and Times' => '选择一个或多个日期和时间',
     'Select an alternate time below' => '选择下面的替代时间',

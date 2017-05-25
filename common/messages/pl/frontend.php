@@ -622,7 +622,7 @@ return [
     'Schedule your first meeting' => 'Zorganizuj pierwsze spotkanie',
     'Scheduling' => 'Planowanie',
     'Scheduling Should Be Easy' => 'Planowanie powinno być łatwe',
-    'Scheduling made easy' => '@@Harmonowanie było łatwe@@',
+    'Scheduling made easy' => 'Harmonowanie było łatwe',
     'Search' => 'Szukanie',
     'Select One or More Dates and Times' => 'Wybierz jedną lub więcej dat i godzin',
     'Select an alternate time below' => 'Wybierz inny czas poniżej',

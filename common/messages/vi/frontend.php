@@ -601,7 +601,7 @@ return [
     'Schedule your first meeting' => 'Lập lịch cuộc họp đầu tiên của bạn',
     'Scheduling' => 'Lập kế hoạch',
     'Scheduling Should Be Easy' => 'Lập kế hoạch nên được Dễ dàng',
-    'Scheduling made easy' => '@@Lập kế hoạch được thực hiện dễ dàng@@',
+    'Scheduling made easy' => 'Lập kế hoạch được thực hiện dễ dàng',
     'Search' => 'Tìm kiếm',
     'Select One or More Dates and Times' => 'Chọn Một hoặc nhiều Ngày và Giờ',
     'Select an alternate time below' => 'Chọn thời gian thay thế dưới đây',

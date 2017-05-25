@@ -601,7 +601,7 @@ return [
     'Schedule your first meeting' => 'Plan uw eerste vergadering',
     'Scheduling' => 'scheduling',
     'Scheduling Should Be Easy' => 'Scheduleren moet gemakkelijk zijn',
-    'Scheduling made easy' => '@@Scheduleren makkelijk gemaakt@@',
+    'Scheduling made easy' => 'Scheduleren makkelijk gemaakt',
     'Search' => 'Zoeken',
     'Select One or More Dates and Times' => 'Selecteer een of meer data en tijden',
     'Select an alternate time below' => 'Selecteer een alternatieve tijd hieronder',

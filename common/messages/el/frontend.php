@@ -598,7 +598,7 @@ return [
     'Schedule your first meeting' => 'Προγραμματίστε την πρώτη σας συνάντηση',
     'Scheduling' => 'Χρονοδρομολόγηση',
     'Scheduling Should Be Easy' => 'Ο προγραμματισμός πρέπει να είναι εύκολος',
-    'Scheduling made easy' => '@@Ο προγραμματισμός έγινε εύκολος@@',
+    'Scheduling made easy' => 'Ο προγραμματισμός έγινε εύκολος',
     'Search' => 'Ψάξιμο',
     'Select One or More Dates and Times' => 'Επιλέξτε μία ή περισσότερες ημερομηνίες και ώρες',
     'Select an alternate time below' => 'Επιλέξτε έναν εναλλακτικό χρόνο παρακάτω',

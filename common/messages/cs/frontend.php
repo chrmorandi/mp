@@ -598,7 +598,7 @@ return [
     'Schedule your first meeting' => 'Naplánujte první schůzku',
     'Scheduling' => 'Plánování',
     'Scheduling Should Be Easy' => 'Plánování by mělo být snadné',
-    'Scheduling made easy' => '@@Plánování bylo snadné@@',
+    'Scheduling made easy' => 'Plánování bylo snadné',
     'Search' => 'Vyhledávání',
     'Select One or More Dates and Times' => 'Vyberte jeden nebo více dat a časů',
     'Select an alternate time below' => 'Vyberte níže uvedený alternativní čas',
