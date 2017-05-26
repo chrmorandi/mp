@@ -33,7 +33,7 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6 col-md-pull-6 hiw-text-first">
       <div class="row2-left" >
-        <h3><?=Yii::t('frontend','Easily suggest times');?></h3>
+        <h3><?=Yii::t('frontend','Suggest meeting times');?></h3>
         <p><?=Yii::t('frontend','No more emails about which times will work best. Suggest one or more times that work for your schedule in seconds and we\'ll ask participants about their availability.');?></p>
       </div>
     </div>
@@ -47,7 +47,7 @@ use yii\helpers\Url;
     </div>
     <div class="col-xs-12 col-md-6 col-lg-6 hiw-text-second">
       <div class="row3-right pull-left" >
-        <h3><?=Yii::t('frontend','Easily suggest places');?></h3>
+        <h3><?=Yii::t('frontend','Suggest meeting places');?></h3>
         <p><?=Yii::t('frontend','No more emails about which places might work. Suggest one or more via Google Places and we\'ll ask participants which they prefer. ');?></p>
       </div>
     </div>
