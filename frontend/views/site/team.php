@@ -15,12 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3><?= Yii::t('frontend','Jeff Reifman') ?>, <?= Yii::t('frontend','Founder') ?></h3>
     <p ><?= Yii::t('frontend','Jeff helped lead the technology launch of MSNBC.com as part of an eight year career at Microsoft. He left Microsoft to found GiftSpot, later acquired by GiftCertificates.com. He’s a three time grantee of the John S. and James L. Knight Foundation. In 2009, he led the capture of missing writer Evan Ratliff in ')?>
     <?= Html::a(Yii::t('frontend','Wired magazine’s Vanish contest'),'http://www.seattleweekly.com/home/928794-129/technology')?>.
-    <?= Yii::t('frontend','He\'s also written the')?>&nbsp;<?= Html::a(Yii::t('frontend','Envato Tuts+ Building a Startup series','https://code.tutsplus.com/series/building-your-startup-with-php--cms-742'))?>
-    <?= Yii::t('frontend','about building Meeting Planner')?>.
+  </p>
+  <p><?= Yii::t('frontend','He pitched the idea of a ');?><?= Html::a(Yii::t('frontend','building your own startup series'),'https://code.tutsplus.com/series/building-your-startup-with-php--cms-742')?>&nbsp;
+    <?= Yii::t('frontend','to Envato Tuts+ in August 2014. After ');?>
+    <?= Html::a(Yii::t('frontend','diagnosis of a brain tumor'),'http://jeffreifman.com/2015/11/24/the-gift-of-brain-surgery/')?>&nbsp;
+    <?= Yii::t('frontend','in 2015, he put the project on hold indefinitely. By 2016, he had resumed development. He\'s built Meeting Planner as a solo startup with ');?>
+    <?= Html::a(Yii::t('frontend','broad assistance from the open source development community'),'https://code.tutsplus.com/tutorials/building-your-startup-the-open-source-foundation-behind-meeting-planner--cms-26664')?>&nbsp;
+    <?= Yii::t('frontend','and his advisors Alex Knight and Alex Makarov.')?>
   </p>
   <p>
-    <?= Html::a(Yii::t('frontend','Learn more about Jeff here'),'http://jeffreifman.com');?>.
-    <?= Html::a(Yii::t('frontend','Send him a message'),['/ticket/create']); ?>.
+    <?= Html::a(Yii::t('frontend','Learn more about Jeff here'),'http://jeffreifman.com');?>&nbsp;<?= Yii::t('frontend','or'); ?>&nbsp;<?= Html::a(Yii::t('frontend','send him a message'),['/ticket/create']); ?>.
       </div>
     </div>
     <br />
