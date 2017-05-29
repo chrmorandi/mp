@@ -8,7 +8,7 @@ use \common\components\MiscHelpers;
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   <?php echo Yii::t('frontend',"We'll automatically notify others when you're done making changes."); ?>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-meeting">
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingWhere">
     <div class="row">

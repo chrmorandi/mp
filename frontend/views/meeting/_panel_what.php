@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Collapse;
 use frontend\models\Meeting;
 ?>
-<div class="panel panel-default" id="headingWhat">
+<div class="panel panel-meeting" id="headingWhat">
   <!-- Default panel contents -->
   <div id="jumpActivity"></div>
   <div class="panel-heading" role="tab" >

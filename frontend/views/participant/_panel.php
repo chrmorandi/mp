@@ -4,7 +4,7 @@ use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
 ?>
 <div id="jumpTime"></div>
-<div class="panel panel-default">
+<div class="panel panel-meeting">
   <!-- Default panel contents -->
   <div class="panel-heading"  role="tab" id="headingWho">
     <div class="row">

@@ -8,7 +8,7 @@ use \kartik\switchinput\SwitchInput;
 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 <?php echo Yii::t('frontend',"We'll automatically notify others you're done making changes."); ?>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-meeting">
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingActivity">
     <div class="row"><div class="col-lg-10 col-md-10 col-xs-10"><h4 class="meeting-view">

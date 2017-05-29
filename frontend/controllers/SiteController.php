@@ -160,6 +160,11 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+    public function actionTeam()
+    {
+        return $this->render('team');
+    }
+
     public function actionPrivacy()
     {
         return $this->render('privacy');

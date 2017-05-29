@@ -7,7 +7,7 @@ use yii\bootstrap\Collapse;
 <span id="noteMessage1"><?= Yii::t('frontend',"Thanks for your note. We'll automatically share it with other participants.")?></span>
 <span id="noteMessage2"><?= Yii::t('frontend','Please be sure to type a note.')?></span>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-meeting">
   <!-- Default panel contents -->
   <div class="panel-heading" role="tab" id="headingNote" >
     <div class="row">

@@ -207,11 +207,6 @@ table.table-list td.table-switches {
     display: inline;
   }
 
-#headingNote
-{
-    border: 0px;
-}
-
 .switch-pad {
     padding-left:7px;
   }
@@ -454,6 +449,42 @@ color:#a0a0a0;
 .thumb-choices {
   margin: 0px 0 5px 0;
 }
+
+.panel-meeting h4 {
+
+}
+.panel-meeting{
+/*border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+          border: 1px solid transparent;
+          border:none;
+          border: 1px solid #ddd;
+*/
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.panel-meeting .panel-heading{
+  border-bottom:1px solid #ddd;
+  background-color: #fafafa;
+}
+.panel-meeting .panel-body{
+
+}
+.panel-meeting .panel-footer {
+
+  background-color: #fafafa;
+}
+
+.site-team img {
+  border:1px solid;
+  margin-top:30px;
+}
 /* iphone 5 and small as */
 @media only screen
   and (max-device-width: 320px)
@@ -535,4 +566,8 @@ color:#a0a0a0;
     .footer .add-bottom-margin {
       margin-bottom:10px;
     }
+    .site-team img.alex  {
+      margin-top:60px;
+    }
+
   }
