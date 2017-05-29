@@ -32,8 +32,8 @@ use yii\helpers\Url;
         <div class="col-xs-6 col-md-3">
           <p class="heading"><?= Yii::t('frontend','Company')?></p>
           <p><?= Html::a(Yii::t('frontend','Blog'),Url::to('https://blog.meetingplanner.io')); ?></p>
-          <p><?= Html::a(Yii::t('frontend','Team'),Url::to(['site/team']));?></p>          
           <p><?= Html::a(Yii::t('frontend','About'),Url::to(['/about']));?></p>
+          <p><?= Html::a(Yii::t('frontend','Team'),Url::to(['site/team']));?></p>
           <p><?= Html::a(Yii::t('frontend','Startup series'),'https://code.tutsplus.com/series/building-your-startup-with-php--cms-742') ?></p>
         </div>
       </div>

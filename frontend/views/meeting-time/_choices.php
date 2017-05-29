@@ -7,10 +7,23 @@ use \frontend\models\MeetingTime;
 <div class="panel-body selection-panel">
   <div class="row">
     <div class="col-xs-12" >
+      <?php
+        if (count($model->meetingTimes)>1) {
+      ?>
       <h5 ><?= Yii::t('frontend','Decide the date and time') ?></h5>
       <p class="hint-text">
             <?= Yii::t('frontend','As an organizer, you\'re allowed to make the final choice') ?>
       </p>
+      <?php
+      } else { // just one mtg time
+      ?>
+      <h5 ><?= Yii::t('frontend','Your current choice') ?></h5>
+      <p class="hint-text">
+          <?= Yii::t('frontend','As an organizer, you\'re allowed to suggest additional times') ?>
+      </p>
+      <?php
+        }
+      ?>
     </div>
   </div>
   <div class="row">

@@ -6,10 +6,23 @@ use \frontend\models\MeetingPlace;
 <div class="panel-body selection-panel">
   <div class="row">
     <div class="col-xs-12" >
+      <?php
+        if (count($model->meetingPlaces)>1) {
+      ?>
       <h5 ><?= Yii::t('frontend','Decide the place') ?></h5>
       <p class="hint-text">
           <?= Yii::t('frontend','As an organizer, you\'re allowed to make the final choice') ?>
       </p>
+      <?php
+        } else { // just one place
+      ?>
+      <h5 ><?= Yii::t('frontend','Your current choice') ?></h5>
+      <p class="hint-text">
+          <?= Yii::t('frontend','As an organizer, you\'re allowed to suggest additional places') ?>
+      </p>
+      <?php
+        }
+      ?>
     </div>
   </div>
   <div class="row">

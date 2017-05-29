@@ -7,10 +7,22 @@ use \frontend\models\MeetingActivity;
 <div class="panel-body selection-panel">
   <div class="row">
     <div class="col-xs-12" >
+      <?php
+        if (count($model->meetingActivities)>1) {
+      ?>
       <h5 ><?= Yii::t('frontend','Decide the Activity for your {mtg_singular}',['mtg_singular'=>Yii::$app->params['site']['mtg_singular']]) ?></h5>
       <p class="hint-text">
             <?= Yii::t('frontend','As an organizer, you\'re allowed to make the final choice') ?>
+      </p><?php
+        } else { // just one activity
+      ?>
+      <h5 ><?= Yii::t('frontend','Your current choice') ?></h5>
+      <p class="hint-text">
+          <?= Yii::t('frontend','As an organizer, you\'re allowed to suggest additional activities') ?>
       </p>
+      <?php
+        }
+      ?>
     </div>
   </div>
   <div class="row">

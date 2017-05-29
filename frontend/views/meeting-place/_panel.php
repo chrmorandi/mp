@@ -114,7 +114,7 @@ use \common\components\MiscHelpers;
         ?>
     <div id ="meeting-place-list" class="<?= $dclass; ?>">
       <div id="where-choices">
-      <?php if ($placeProvider->count>1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
+      <?php if ($placeProvider->count>=1 && ($model->isOrganizer() || $model->meetingSettings['participant_choose_place'])) { ?>
         <?= $this->render('../meeting-place/_choices', [
               'model'=>$model,
           ]);
