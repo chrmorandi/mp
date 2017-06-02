@@ -119,6 +119,11 @@ class Request extends \yii\db\ActiveRecord
 
     public static function buildSubject($request_id,$include_requestor = true) {
       $r = Request::findOne($request_id);
+      if (is_null($r)) {
+        // sentry item 285101406
+        // bug: meeting being accepted but this breaks
+        return Yii::t('frontend','Accepted Requested Change to Meeting');
+      }
       $requestor = MiscHelpers::getDisplayName($r->requestor_id);
       $timezone = MiscHelpers::fetchUserTimezone(Yii::$app->user->getId());
       $rtime ='';
