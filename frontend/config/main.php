@@ -85,6 +85,7 @@ return [
                 'place/view/<id:\d+>' => 'place/view',
                 'place/update/<id:\d+>' => 'place/update',
                 'place/<slug>' => 'place/slug',
+                'dating/<action>' => 'meeting/<action>',
                 'impeachment' => 'impeachment',
                 'impeachment/index' => 'impeachment/index',
                 'impeachment/result' => 'impeachment/result',

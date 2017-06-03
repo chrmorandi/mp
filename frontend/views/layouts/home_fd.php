@@ -34,16 +34,9 @@ $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->par
     <?php $this->beginBody() ?>
         <div class="wrap">
         <?php
-          if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_MP) {
-            Yii::$app->params['site']['title'] = $siteTitle = Yii::t('frontend', 'Meeting Planner');
-            Yii::$app->params['site']['mtg'] = $meetingLabel = Yii::t('frontend', 'Meetings');
-          } else if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_SP) {
-            Yii::$app->params['site']['title'] = $siteTitle = Yii::t('frontend', 'Simple Planner');
-            Yii::$app->params['site']['mtg'] = $meetingLabel = Yii::t('frontend', 'Meetings');
-          } else if (Yii::$app->params['site']['id'] == \common\components\SiteHelper::SITE_FD) {
+
             Yii::$app->params['site']['title'] = $siteTitle = Yii::t('frontend', 'First Date');
             Yii::$app->params['site']['mtg'] = $meetingLabel = Yii::t('frontend', 'Dates');
-          }
               NavBar::begin([
                 'brandLabel' =>  $siteTitle, // '&nbsp;<span class="badge">'.Yii::t('frontend','preview').'</span>',
                 'brandUrl' => Yii::$app->homeUrl,

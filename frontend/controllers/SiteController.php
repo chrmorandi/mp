@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
+use common\components\SiteHelper;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -90,13 +91,25 @@ class SiteController extends Controller
     {
       if (Yii::$app->user->isGuest) {
         $urlPrefix = (isset(Yii::$app->params['urlPrefix'])? $urlPrefix = Yii::$app->params['urlPrefix'] : '');
+        if (Yii::$app->params['site']['id'] == SiteHelper::SITE_FD) {
+          $this->layout = 'home_fd';
+          return $this->render('index_fd',[
+            'urlPrefix'=>'fd',
+          ]);
+        } else {
           $this->layout = 'home';
           return $this->render('index',[
             'urlPrefix'=>$urlPrefix,
           ]);
+        }
+
       } else {
         // user is logged in
-        $this->redirect('meeting');
+          if (Yii::$app->params['site']['id'] == SiteHelper::SITE_FD) {
+            $this->redirect('dating');
+          } else {
+            $this->redirect('meeting');
+          }
       }
     }
 
